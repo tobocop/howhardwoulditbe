@@ -1,0 +1,7 @@
+development:
+  adapter: sqlserver
+  dsn: Provider=SQLOLEDB;Data Source=SCADA\SQLEXPRESS;UID=adminuser;password;Initial Catalog=plink;
+  database: plink_dev
+  host: host
+  username:
+  password:

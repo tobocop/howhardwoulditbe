@@ -1,4 +1,3 @@
-*.rbc
 *.sassc
 .sass-cache
 capybara-*.html
@@ -13,4 +12,4 @@ capybara-*.html
 /spec/tmp/*
 **.orig
 rerun.txt
-pickle-email-*.html
+config/database.yml
