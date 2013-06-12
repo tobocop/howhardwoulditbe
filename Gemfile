@@ -5,6 +5,8 @@ gem 'sqlite3'
 gem 'tiny_tds', '0.5.1'
 gem 'activerecord-sqlserver-adapter', '3.2.10'
 
+gem 'haml-rails', '~> 0.4'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'

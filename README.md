@@ -8,7 +8,7 @@ Getting Started
 
 * install freetds
 
-    brew install freedtds
+    brew install freetds
 
 	- If issues with tiny TDS gem libiconv missing
 		brew install libiconv
