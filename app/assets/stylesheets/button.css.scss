@@ -1,20 +1,80 @@
-@mixin green-gradient{
-  background: #d9e245; /* Old browsers */
-  background: -moz-linear-gradient(top,  #d9e245 0%, #c3ca23 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9e245), color-stop(100%,#c3ca23)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #d9e245 0%,#c3ca23 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9e245', endColorstr='#c3ca23',GradientType=0 ); /* IE6-9 */
-}
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+$state-range:10%;
+$disabled:#c9c9c9;
 
 .button {
+
+  cursor:pointer;
+  border:none;
+  display:inline-block;
+  width:100%;
+
   &.primary-action {
     border: 1px solid #e6ea9a;
-    @include green-gradient
+    padding: 0 42px;
+    height: 34px;
+    text-align: center;
+    line-height: 33px;
+    font-weight: 700;
+    font-size: .9em;
+    letter-spacing: 1.5px;
+    color:$slate;
+    @include vertical-bg-gradient(#d9e245, #c3ca23);
+    @include round-corners(5px);
 
+    &.hover, &:hover{
+      background: #c3ca23;
+    }
 
-    //#d9e245;
+    &.active, &:active{
+      background: #d9e245;
+    }
+
+    &.disabled, &:disabled{
+      background: $disabled;
+    }
   }
+
+  &.social-action {
+    height: 34px;
+    text-align: left;
+    font-weight: 400;
+    font-size: .9em;
+    letter-spacing: 1.5px;
+    color:#FFFFFF;
+    padding-left:40px;
+    @include round-corners(5px);
+
+    &.facebook {
+      $bg-facebook:#5c78b7;
+      background-image: url('/assets/temp_for_style_guide/fb_f.png');
+      background-repeat: no-repeat;
+      background-position: left center ;
+      background-color:$bg-facebook;
+
+        &.hover, &:hover{
+          background-color: darken($bg-facebook, $state-range);
+        }
+
+        &.active, &:active{
+          background-color: lighten($bg-facebook, $state-range);
+        }
+
+        &.disabled, &:disabled{
+          background-color: $disabled;
+        }
+
+    }
+
+    &.twitter {
+      //background-image: url('/assets/temp_for_style_guide/fb_f.png');
+      background-repeat: no-repeat;
+      background-position: left center ;
+      background-color:#32ccfe;
+    }
+
+  }
+
 }

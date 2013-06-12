@@ -1,0 +1,36 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.form-field {
+  width:100%;
+  outline:none;
+  &.input{
+    border: 1px solid #d9d9d9;
+    height:34px;
+    @include round-corners(5px);
+    font-weight: 200;
+    font-size: .9em;
+    letter-spacing: .1em;
+    padding: 0 10px;
+    color:#b3b3b3;
+
+    &.focus, &:focus{
+      border: 1px solid $cyan;
+      font-weight: 400;
+      color: $slate;
+    }
+
+    &.error{
+       border: 1px solid $red;
+       color: $red;
+       font-weight: 700;
+
+       &.focus,&:focus{
+         font-weight: 400;
+         color: $slate;
+       }
+    }
+
+
+  }
+}
