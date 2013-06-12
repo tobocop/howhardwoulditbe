@@ -7,10 +7,28 @@ describe User do
     subject.should be_valid
   end
 
+  it "must have a first name" do
+    subject.first_name = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:first_name)
+  end
+
   it "must have an email address" do
     subject.email = nil
     subject.should_not be_valid
     subject.should have(1).error_on(:email)
+  end
+
+  it "must have a password" do
+    subject.password = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:password)
+  end
+
+  it "must have a salt" do
+    subject.salt = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:salt)
   end
 
   it_should_behave_like(:legacy_timestamps)

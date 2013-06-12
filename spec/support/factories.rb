@@ -10,7 +10,7 @@ module FactoryTestHelpers
   end
 
   def new_user
-    User.new(email: "test@example.com")
+    User.new(email: "test@example.com", first_name: "Joe", password: "1234567890sdfghjkl", salt: "my-uuid")
   end
 
   def create_user

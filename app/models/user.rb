@@ -1,13 +1,21 @@
 class User < ActiveRecord::Base
   self.primary_key = "userID"
 
-  attr_accessible :email
+  attr_accessible :email, :first_name, :password, :salt
 
   belongs_to :primary_virtual_currency, class_name: "VirtualCurrency", foreign_key: "primaryVirtualCurrencyID"
 
-  validates :email, presence: true
+  validates :email, :first_name, :password, :salt, presence: true
 
   before_create :set_default_virtual_currency
+
+  def first_name=(first_name)
+    self.firstName = first_name
+  end
+
+  def first_name
+    firstName
+  end
 
   def email=(email)
     self.emailAddress = email
@@ -15,6 +23,14 @@ class User < ActiveRecord::Base
 
   def email
     emailAddress
+  end
+
+  def salt=(salt)
+    self.passwordSalt = salt
+  end
+
+  def salt
+    passwordSalt
   end
 
   def created_at

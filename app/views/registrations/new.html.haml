@@ -1,11 +1,10 @@
-%form
-  = label_tag "first_name", "First name"
-  =text_field_tag "first_name"
-  = label_tag "email", "Email"
-  = text_field_tag "email"
-  = label_tag "password", "Password"
-  = password_field_tag "password"
-  = label_tag "verify_password", "Verify password"
-  = password_field_tag "verify_password"
-  = submit_tag "Register"
-
+= form_for(@user_registration_form, url: registrations_path) do |f|
+  = f.label :first_name
+  = f.text_field :first_name
+  = f.label :email
+  = f.text_field :email
+  = f.label :unhashed_password, "Password"
+  = f.password_field :unhashed_password
+  = f.label :unhashed_password_confirmation, "Verify password"
+  = f.password_field :unhashed_password_confirmation
+  = f.submit "Register"

@@ -5,7 +5,7 @@ describe 'User signup workflow' do
     User.find_by_email("test@example.com").should_not be
     visit '/'
 
-    click_on 'Sign in'
+    click_on 'Sign up'
     fill_in "First name", with: "Joe"
     fill_in "Email", with: "test@example.com"
     fill_in "Password", with: "test123"
@@ -14,6 +14,6 @@ describe 'User signup workflow' do
 
     User.find_by_email("test@example.com").should be
 
-    request.should redirect_to("/esgseflks")
+    current_path.should == dashboard_path
   end
 end
