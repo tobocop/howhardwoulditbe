@@ -1,0 +1,20 @@
+@mixin green-gradient{
+  background: #d9e245; /* Old browsers */
+  background: -moz-linear-gradient(top,  #d9e245 0%, #c3ca23 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9e245), color-stop(100%,#c3ca23)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #d9e245 0%,#c3ca23 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #d9e245 0%,#c3ca23 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9e245', endColorstr='#c3ca23',GradientType=0 ); /* IE6-9 */
+}
+
+.button {
+  &.primary-action {
+    border: 1px solid #e6ea9a;
+    @include green-gradient
+
+
+    //#d9e245;
+  }
+}
