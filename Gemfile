@@ -17,3 +17,7 @@ group :development, :test do
   gem 'capybara', '~> 2.1.0'
   gem 'license_finder', git: 'git://github.com/pivotal/LicenseFinder.git'
 end
+
+group :test do
+  gem 'capybara', '~> 2.1.0'
+end
