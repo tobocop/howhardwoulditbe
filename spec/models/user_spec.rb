@@ -28,6 +28,4 @@ describe User do
 
     subject.primary_virtual_currency.should == plink_point_currency
   end
-
-
 end
