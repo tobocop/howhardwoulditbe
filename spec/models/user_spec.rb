@@ -22,10 +22,18 @@ describe User do
     subject.primary_virtual_currency.should be
   end
 
-  pending "sets the virtual currency to the default Plink Points currency" do
-    plink_point_currency = stub
+  it "sets the virtual currency to the default Plink Points currency" do
+    plink_point_currency = create_virtual_currency
+    VirtualCurrency.stub(:default) { plink_point_currency }
     subject.save!
 
     subject.primary_virtual_currency.should == plink_point_currency
+  end
+
+  describe "class methods" do
+    it "finds a user by their email address" do
+      user = create_user
+      User.find_by_email(user.email).should == user
+    end
   end
 end

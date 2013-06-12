@@ -40,4 +40,10 @@ describe VirtualCurrency do
     subject.should have(1).error_on(:site_name)
   end
 
+  it "has a default currency" do
+    default_virtual_currency = stub
+    VirtualCurrency.should_receive(:find_by_subdomain).with("www") { default_virtual_currency }
+    VirtualCurrency.default.should == default_virtual_currency
+  end
+
 end

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
 
   validates :email, presence: true
 
+  before_create :set_default_virtual_currency
+
   def email=(email)
     self.emailAddress = email
   end
@@ -23,6 +25,10 @@ class User < ActiveRecord::Base
     self.modified
   end
 
+  def self.find_by_email(email)
+    where(:emailAddress => email).first
+  end
+
   private
 
   def timestamp_attributes_for_create
@@ -31,5 +37,9 @@ class User < ActiveRecord::Base
 
   def timestamp_attributes_for_update
     super << :modified
+  end
+
+  def set_default_virtual_currency
+    self.primary_virtual_currency = VirtualCurrency.default
   end
 end

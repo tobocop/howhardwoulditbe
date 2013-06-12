@@ -6,6 +6,10 @@ class VirtualCurrency < ActiveRecord::Base
 
   validates :name, :subdomain, :exchange_rate, :site_name, :singular_name, presence: true
 
+  def self.default
+    self.find_by_subdomain("www")
+  end
+
   def name=(name)
     self.currencyName = name
   end

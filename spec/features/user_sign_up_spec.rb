@@ -9,7 +9,7 @@ describe 'User signup workflow' do
     fill_in "First name", with: "Joe"
     fill_in "Email", with: "test@example.com"
     fill_in "Password", with: "test123"
-    fill_in "Verify Password", with: "test123"
+    fill_in "Verify password", with: "test123"
     click_on "Register"
 
     User.find_by_email("test@example.com").should be
