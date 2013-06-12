@@ -14,5 +14,9 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
 
-  config.before(:each)
+  config.include(FactoryTestHelpers)
+
+  config.before(:each) do
+    ActiveRecord::Base.connection.execute("DELETE FROM users;")
+  end
 end
