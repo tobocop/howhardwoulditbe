@@ -10,6 +10,10 @@ Getting Started
 
     brew install freedtds
 
+	- If issues with tiny TDS gem libiconv missing
+		brew install libiconv
+		gem install tiny_tds -- --with-freetds-include=/usr/local/include --with-freetds-lib=/usr/local/lib --with-iconv-include=/usr/local/Cellar/libiconv/1.14/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.14/lib
+
 * database.yml
 
 * whitelist IP in RDS
