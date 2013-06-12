@@ -14,8 +14,6 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '2.13.2'
-end
-
-group :development do
+  gem 'capybara', '~> 2.1.0'
   gem 'license_finder', git: 'git://github.com/pivotal/LicenseFinder.git'
 end

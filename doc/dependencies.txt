@@ -8,6 +8,7 @@ activesupport, 3.2.13, MIT
 arel, 3.0.2, MIT
 builder, 3.0.4, MIT
 bundler, 1.3.5, MIT
+capybara, 2.1.0, MIT
 coffee-rails, 3.2.2, MIT
 coffee-script, 2.2.0, MIT
 coffee-script-source, 1.6.2, MIT
@@ -23,7 +24,9 @@ json, 1.8.0, Ruby
 license_finder, 0.8.1, MIT
 mail, 2.5.4, MIT
 mime-types, 1.23, MIT
+mini_portile, 0.5.0, MIT
 multi_json, 1.7.6, MIT
+nokogiri, 1.6.0, MIT
 polyglot, 0.3.3, MIT
 rack, 1.4.5, MIT
 rack-cache, 1.2, MIT
@@ -48,3 +51,4 @@ tiny_tds, 0.5.1, MIT
 treetop, 1.4.14, MIT
 tzinfo, 0.3.37, MIT
 uglifier, 2.1.1, MIT
+xpath, 2.0.0, MIT

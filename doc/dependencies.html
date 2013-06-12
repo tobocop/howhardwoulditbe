@@ -19,15 +19,15 @@
   <div class="summary hero-unit">
     <h1>Dependencies</h1>
 
-    <p>As of June 12, 2013  1:03pm</p>
+    <p>As of June 12, 2013  4:58pm</p>
 
     <h4>
-      50 total
+      54 total
 
           </h4>
 
     <ul>
-              <li>46 MIT</li>
+              <li>50 MIT</li>
               <li>3 other</li>
               <li>1 Ruby</li>
           </ul>
@@ -394,6 +394,45 @@ simple to do.  Currently the following builder objects are supported:
                           <dd>uglifier</dd>
                       </dl>
                       </div>
+          <div id="capybara" class="approved">
+        <h2>
+                      <a href="http://github.com/jnicklas/capybara">capybara</a>
+                    v2.1.0
+                      (development, test)
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Capybara aims to simplify the process of integration testing Rack applications, such as Rails, Sinatra or Merb</td>
+            <td>Capybara is an integration testing tool for rack based web applications. It simulates how a user would interact with a website</td>
+            <td>
+                              <a href="http://opensource.org/licenses/mit-license">MIT</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>license_finder</dd>
+                          <dd>rspec-rails</dd>
+                      </dl>
+                          <dl>
+            <dt>Children</dt>
+                          <dd>nokogiri</dd>
+                          <dd>mime-types</dd>
+                          <dd>rack</dd>
+                          <dd>rack-test</dd>
+                          <dd>xpath</dd>
+                          <dd>rake</dd>
+                      </dl>
+              </div>
           <div id="coffee-rails" class="approved">
         <h2>
                       coffee-rails
@@ -651,6 +690,7 @@ but it can function as a stand-alone templating engine.
             <dt>Children</dt>
                           <dd>tilt</dd>
                           <dd>rails</dd>
+                          <dd>nokogiri</dd>
                       </dl>
               </div>
           <div id="haml-rails" class="approved">
@@ -822,7 +862,7 @@ but it can function as a stand-alone templating engine.
         <h2>
                       <a href="https://github.com/pivotal/LicenseFinder">license_finder</a>
                     v0.8.1
-                      (development)
+                      (development, test)
                   </h2>
         <table class="table table-striped table-bordered">
           <thead>
@@ -854,6 +894,8 @@ but it can function as a stand-alone templating engine.
                           <dd>thor</dd>
                           <dd>sqlite3</dd>
                           <dd>rake</dd>
+                          <dd>xpath</dd>
+                          <dd>capybara</dd>
                           <dd>rails</dd>
                       </dl>
               </div>
@@ -940,13 +982,44 @@ added from the the {LTSW collection}[http://www.ltsw.se/knbase/internet/mime.htp
                   <dl>
             <dt>Parents</dt>
                           <dd>mail</dd>
+                          <dd>capybara</dd>
                       </dl>
                           <dl>
             <dt>Children</dt>
                           <dd>rdoc</dd>
+                          <dd>nokogiri</dd>
                           <dd>rake</dd>
                       </dl>
               </div>
+          <div id="mini_portile" class="approved">
+        <h2>
+                      <a href="http://github.com/luislavena/mini_portile">mini_portile</a>
+                    v0.5.0
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Simplistic port-like solution for developers</td>
+            <td>Simplistic port-like solution for developers. It provides a standard and simplified way to compile against dependency libraries without messing up your system.</td>
+            <td>
+                              <a href="http://opensource.org/licenses/mit-license">MIT</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>nokogiri</dd>
+                          <dd>sqlite3</dd>
+                      </dl>
+                      </div>
           <div id="multi_json" class="approved">
         <h2>
                       <a href="http://github.com/intridea/multi_json">multi_json</a>
@@ -980,6 +1053,49 @@ added from the the {LTSW collection}[http://www.ltsw.se/knbase/internet/mime.htp
                           <dl>
             <dt>Children</dt>
                           <dd>bundler</dd>
+                      </dl>
+              </div>
+          <div id="nokogiri" class="approved">
+        <h2>
+                      <a href="http://nokogiri.org">nokogiri</a>
+                    v1.6.0
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Nokogiri (鋸) is an HTML, XML, SAX, and Reader parser</td>
+            <td>Nokogiri (鋸) is an HTML, XML, SAX, and Reader parser.  Among Nokogiri's
+many features is the ability to search documents via XPath or CSS3 selectors.
+
+XML is like violence - if it doesn’t solve your problems, you are not using
+enough of it.</td>
+            <td>
+                              <a href="http://opensource.org/licenses/mit-license">MIT</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>tilt</dd>
+                          <dd>mime-types</dd>
+                          <dd>xpath</dd>
+                          <dd>capybara</dd>
+                          <dd>haml</dd>
+                          <dd>rspec-core</dd>
+                      </dl>
+                          <dl>
+            <dt>Children</dt>
+                          <dd>mini_portile</dd>
+                          <dd>rake</dd>
+                          <dd>rdoc</dd>
                       </dl>
               </div>
           <div id="polyglot" class="approved">
@@ -1050,6 +1166,7 @@ Also see http://rack.github.com/.
                           <dd>rack-test</dd>
                           <dd>sprockets</dd>
                           <dd>actionpack</dd>
+                          <dd>capybara</dd>
                           <dd>rack-ssl</dd>
                       </dl>
                           <dl>
@@ -1152,6 +1269,7 @@ request helpers feature.</td>
             <dt>Parents</dt>
                           <dd>sprockets</dd>
                           <dd>actionpack</dd>
+                          <dd>capybara</dd>
                       </dl>
                           <dl>
             <dt>Children</dt>
@@ -1271,6 +1389,9 @@ request helpers feature.</td>
                           <dd>mime-types</dd>
                           <dd>treetop</dd>
                           <dd>mail</dd>
+                          <dd>nokogiri</dd>
+                          <dd>xpath</dd>
+                          <dd>capybara</dd>
                           <dd>execjs</dd>
                           <dd>railties</dd>
                           <dd>diff-lcs</dd>
@@ -1318,6 +1439,7 @@ See RDoc for a description of RDoc's markup and basic use.</td>
                           <dd>mime-types</dd>
                           <dd>mail</dd>
                           <dd>arel</dd>
+                          <dd>nokogiri</dd>
                           <dd>rdoc</dd>
                           <dd>railties</dd>
                           <dd>diff-lcs</dd>
@@ -1360,6 +1482,7 @@ See RDoc for a description of RDoc's markup and basic use.</td>
                           <dl>
             <dt>Children</dt>
                           <dd>rake</dd>
+                          <dd>nokogiri</dd>
                       </dl>
               </div>
           <div id="rspec-expectations" class="approved">
@@ -1460,6 +1583,7 @@ See RDoc for a description of RDoc's markup and basic use.</td>
                           <dd>rspec-expectations</dd>
                           <dd>rspec-mocks</dd>
                           <dd>rake</dd>
+                          <dd>capybara</dd>
                       </dl>
               </div>
           <div id="sass" class="approved">
@@ -1631,6 +1755,7 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.</td>
                           <dl>
             <dt>Children</dt>
                           <dd>rdoc</dd>
+                          <dd>mini_portile</dd>
                       </dl>
               </div>
           <div id="thor" class="approved">
@@ -1701,6 +1826,7 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.</td>
                           <dd>coffee-script</dd>
                           <dd>erubis</dd>
                           <dd>haml</dd>
+                          <dd>nokogiri</dd>
                           <dd>rdoc</dd>
                           <dd>sass</dd>
                           <dd>rdoc</dd>
@@ -1826,6 +1952,40 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.</td>
                           <dd>multi_json</dd>
                           <dd>bundler</dd>
                           <dd>rdoc</dd>
+                      </dl>
+              </div>
+          <div id="xpath" class="approved">
+        <h2>
+                      <a href="http://github.com/jnicklas/xpath">xpath</a>
+                    v2.0.0
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Generate XPath expressions from Ruby</td>
+            <td>XPath is a Ruby DSL for generating XPath expressions</td>
+            <td>
+                              <a href="http://opensource.org/licenses/mit-license">MIT</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>capybara</dd>
+                          <dd>license_finder</dd>
+                      </dl>
+                          <dl>
+            <dt>Children</dt>
+                          <dd>nokogiri</dd>
+                          <dd>rake</dd>
                       </dl>
               </div>
       </div>
