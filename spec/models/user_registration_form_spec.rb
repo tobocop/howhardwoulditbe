@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "user_registration_form" do
 
-  subject { UserRegistrationForm.new(unhashed_password: "goodpassword", password_confirmation: "goodpassword", first_name: "Bobo", email: "bobo@example.com") }
+  subject { UserRegistrationForm.new(password: "goodpassword", confirmation: "goodpassword", first_name: "Bobo", email: "bobo@example.com") }
 
   it "is not persisted" do
     subject.should_not be_persisted
@@ -14,17 +14,17 @@ describe "user_registration_form" do
     end
 
     it "expects a password to have at least 6 characters" do
-      subject.unhashed_password = 'foo12'
-      subject.unhashed_password_confirmation = 'foo12'
+      subject.password = 'foo12'
+      subject.password_confirmation = 'foo12'
       subject.should_not be_valid
-      subject.should have(1).error_on(:unhashed_password)
+      subject.should have(1).error_on(:password)
     end
 
     it "expects password confirmation field to match the entered unhashed password" do
-      subject.unhashed_password = 'goodpassword'
-      subject.unhashed_password_confirmation = 'wontmatch'
+      subject.password = 'goodpassword'
+      subject.password_confirmation = 'wontmatch'
       subject.should_not be_valid
-      subject.should have(1).error_on(:unhashed_password)
+      subject.should have(1).error_on(:password)
     end
 
     it "expects a first name to be entered" do
@@ -78,7 +78,7 @@ describe "user_registration_form" do
       Password.stub(:new).with(unhashed_password: "goodpassword") { password }
 
       user_mock = mock_model(User, save: true)
-      User.should_receive(:new).with(password: "1234790dfghjkl;", first_name: "Bobo", email: "bobo@example.com", salt: "qwer-qwer-qwer-qwer").and_return(user_mock)
+      User.should_receive(:new).with(password_hash: "1234790dfghjkl;", first_name: "Bobo", email: "bobo@example.com", salt: "qwer-qwer-qwer-qwer").and_return(user_mock)
       subject.save.should be_true
     end
 

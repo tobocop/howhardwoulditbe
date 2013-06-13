@@ -19,10 +19,10 @@ describe User do
     subject.should have(1).error_on(:email)
   end
 
-  it "must have a password" do
-    subject.password = nil
+  it "must have a password hash" do
+    subject.password_hash = nil
     subject.should_not be_valid
-    subject.should have(1).error_on(:password)
+    subject.should have(1).error_on(:password_hash)
   end
 
   it "must have a salt" do

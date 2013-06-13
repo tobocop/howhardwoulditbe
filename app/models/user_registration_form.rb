@@ -12,17 +12,17 @@ class UserRegistrationForm
     .+                 # One or more characters
     $/x
 
-  attr_accessor :unhashed_password, :unhashed_password_confirmation, :first_name, :email, :user
+  attr_accessor :password, :password_confirmation, :first_name, :email, :user
 
-  validates :unhashed_password, length: {minimum: 6}, confirmation: true
+  validates :password, length: {minimum: 6}, confirmation: true
   validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true} # presence validation occurs in User model
   validate :params_are_valid_for_user
 
   def initialize(options = {})
     self.first_name = options[:first_name]
     self.email = options[:email]
-    self.unhashed_password = options[:unhashed_password]
-    self.unhashed_password_confirmation = options[:unhashed_password_confirmation]
+    self.password = options[:password]
+    self.password_confirmation = options[:password_confirmation]
   end
 
   def save
@@ -50,12 +50,12 @@ class UserRegistrationForm
     {
         :first_name => first_name,
         :email => email,
-        :password => password.hashed_value,
+        :password_hash => password.hashed_value,
         :salt => password.salt
     }
   end
 
   def hashed_password
-    Password.new(unhashed_password: unhashed_password)
+    Password.new(unhashed_password: password)
   end
 end

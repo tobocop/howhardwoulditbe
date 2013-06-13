@@ -1,11 +1,11 @@
 class User < ActiveRecord::Base
   self.primary_key = "userID"
 
-  attr_accessible :email, :first_name, :password, :salt
+  attr_accessible :email, :first_name, :password_hash, :salt
 
   belongs_to :primary_virtual_currency, class_name: "VirtualCurrency", foreign_key: "primaryVirtualCurrencyID"
 
-  validates :email, :first_name, :password, :salt, presence: true
+  validates :email, :first_name, :password_hash, :salt, presence: true
 
   before_create :set_default_virtual_currency
 
@@ -23,6 +23,15 @@ class User < ActiveRecord::Base
 
   def email
     emailAddress
+  end
+
+  # Legacy naming for password_hash is password, which is kinda confusing.
+  def password_hash=(password_hash)
+    self.password = password_hash
+  end
+
+  def password_hash
+    password
   end
 
   def salt=(salt)
