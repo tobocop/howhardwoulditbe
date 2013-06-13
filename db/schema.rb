@@ -1136,7 +1136,7 @@ ActiveRecord::Schema.define(:version => 20130528184703) do
     t.boolean  "isSuccessful",                                                              :default => false, :null => false
     t.string   "postbackURL",                :limit => 1000
     t.integer  "lastHTTPStatus"
-    t.string   "lastReturn",                 :limit => 5000
+    t.string   "lastReturn",                 :limit => 4000
     t.integer  "partnerFreeAwardTypeID"
     t.datetime "created",                                                                                      :null => false
     t.datetime "modified",                                                                                     :null => false
@@ -1157,7 +1157,7 @@ ActiveRecord::Schema.define(:version => 20130528184703) do
     t.boolean  "isSuccessful",                                                           :default => false, :null => false
     t.string   "postbackURL",             :limit => 1000
     t.integer  "lastHTTPStatus"
-    t.string   "lastReturn",              :limit => 5000
+    t.string   "lastReturn",              :limit => 4000
     t.datetime "created",                                                                                   :null => false
     t.datetime "modified",                                                                                  :null => false
     t.boolean  "isActive",                                                               :default => true,  :null => false
@@ -1177,7 +1177,7 @@ ActiveRecord::Schema.define(:version => 20130528184703) do
     t.boolean  "isSuccessful",                                                           :default => false, :null => false
     t.string   "postbackURL",             :limit => 1000
     t.integer  "lastHTTPStatus"
-    t.string   "lastReturn",              :limit => 5000
+    t.string   "lastReturn",              :limit => 4000
     t.datetime "created",                                                                                   :null => false
     t.datetime "modified",                                                                                  :null => false
     t.boolean  "isActive",                                                               :default => true,  :null => false
