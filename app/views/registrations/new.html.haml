@@ -1,0 +1,14 @@
+- if @user_registration_form.errors.any?
+  - @user_registration_form.errors.full_messages.each do |error|
+    %p= error
+
+= form_for(@user_registration_form, url: registrations_path) do |f|
+  = f.label :first_name
+  = f.text_field :first_name
+  = f.label :email
+  = f.text_field :email
+  = f.label :unhashed_password, "Password"
+  = f.password_field :unhashed_password
+  = f.label :unhashed_password_confirmation, "Verify password"
+  = f.password_field :unhashed_password_confirmation
+  = f.submit "Register"

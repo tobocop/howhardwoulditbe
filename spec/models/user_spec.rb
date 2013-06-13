@@ -7,10 +7,28 @@ describe User do
     subject.should be_valid
   end
 
+  it "must have a first name" do
+    subject.first_name = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:first_name)
+  end
+
   it "must have an email address" do
     subject.email = nil
     subject.should_not be_valid
     subject.should have(1).error_on(:email)
+  end
+
+  it "must have a password" do
+    subject.password = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:password)
+  end
+
+  it "must have a salt" do
+    subject.salt = nil
+    subject.should_not be_valid
+    subject.should have(1).error_on(:salt)
   end
 
   it_should_behave_like(:legacy_timestamps)
@@ -22,10 +40,18 @@ describe User do
     subject.primary_virtual_currency.should be
   end
 
-  pending "sets the virtual currency to the default Plink Points currency" do
-    plink_point_currency = stub
+  it "sets the virtual currency to the default Plink Points currency" do
+    plink_point_currency = create_virtual_currency
+    VirtualCurrency.stub(:default) { plink_point_currency }
     subject.save!
 
     subject.primary_virtual_currency.should == plink_point_currency
+  end
+
+  describe "class methods" do
+    it "finds a user by their email address" do
+      user = create_user
+      User.find_by_email(user.email).should == user
+    end
   end
 end
