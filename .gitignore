@@ -10,6 +10,8 @@ capybara-*.html
 /public/system/*
 /coverage/
 /spec/tmp/*
+doc/dependencies.db
+doc/dependencies.html
 **.orig
 rerun.txt
 config/database.yml
