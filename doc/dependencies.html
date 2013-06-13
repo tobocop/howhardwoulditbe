@@ -19,17 +19,17 @@
   <div class="summary hero-unit">
     <h1>Dependencies</h1>
 
-    <p>As of June 12, 2013  4:58pm</p>
+    <p>As of June 13, 2013  3:07pm</p>
 
     <h4>
-      54 total
+      57 total
 
           </h4>
 
     <ul>
-              <li>50 MIT</li>
-              <li>3 other</li>
-              <li>1 Ruby</li>
+              <li>51 MIT</li>
+              <li>4 other</li>
+              <li>2 Ruby</li>
           </ul>
   </div>
     <div class="dependencies">
@@ -533,6 +533,34 @@ simple to do.  Currently the following builder objects are supported:
                           <dd>coffee-script</dd>
                       </dl>
                       </div>
+          <div id="daemons" class="approved">
+        <h2>
+                      <a href="http://daemons.rubyforge.org">daemons</a>
+                    v1.1.9
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>A toolkit to create and control daemons in different ways</td>
+            <td>Daemons provides an easy way to wrap existing ruby scripts (for example a self-written server)  to be run as a daemon and to be controlled by simple start/stop/restart commands.  You can also call blocks as daemons and control them from the parent or just daemonize the current process.  Besides this basic functionality, daemons offers many advanced features like exception  backtracing and logging (in case your ruby script crashes) and monitoring and automatic restarting of your processes if they crash.</td>
+            <td>
+                              <a href="http://opensource.org/licenses/mit-license">MIT</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>thin</dd>
+                      </dl>
+                      </div>
           <div id="diff-lcs" class="approved">
         <h2>
                       <a href="http://diff-lcs.rubyforge.org/">diff-lcs</a>
@@ -616,6 +644,43 @@ We are happy to report that this issue has been resolved.</td>
             <dt>Parents</dt>
                           <dd>tilt</dd>
                           <dd>actionpack</dd>
+                      </dl>
+                      </div>
+          <div id="eventmachine" class="approved">
+        <h2>
+                      <a href="http://rubyeventmachine.com">eventmachine</a>
+                    v1.0.3
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Ruby/EventMachine library</td>
+            <td>EventMachine implements a fast, single-threaded engine for arbitrary network
+communications. It's extremely easy to use in Ruby. EventMachine wraps all
+interactions with IP sockets, allowing programs to concentrate on the
+implementation of network protocols. It can be used to create both network
+servers and clients. To create a server or client, a Ruby program only needs
+to specify the IP address and port, and provide a Module that implements the
+communications protocol. Implementations of several standard network protocols
+are provided with the package, primarily to serve as examples. The real goal
+of EventMachine is to enable programs to easily interface with other programs
+using TCP/IP, especially if custom protocols are required.</td>
+            <td>
+                              other
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>thin</dd>
                       </dl>
                       </div>
           <div id="execjs" class="approved">
@@ -1168,10 +1233,12 @@ Also see http://rack.github.com/.
                           <dd>actionpack</dd>
                           <dd>capybara</dd>
                           <dd>rack-ssl</dd>
+                          <dd>thin</dd>
                       </dl>
                           <dl>
             <dt>Children</dt>
                           <dd>rake</dd>
+                          <dd>thin</dd>
                       </dl>
               </div>
           <div id="rack-cache" class="approved">
@@ -1756,6 +1823,41 @@ Note that this module is only compatible with SQLite 3.6.16 or newer.</td>
             <dt>Children</dt>
                           <dd>rdoc</dd>
                           <dd>mini_portile</dd>
+                      </dl>
+              </div>
+          <div id="thin" class="approved">
+        <h2>
+                      <a href="http://code.macournoyer.com/thin/">thin</a>
+                    v1.5.1
+                      (default)
+                  </h2>
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th>Description</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>A thin and fast web server</td>
+            <td>A thin and fast web server</td>
+            <td>
+                              <a href="http://www.ruby-lang.org/en/LICENSE.txt">Ruby</a>
+                          </td>
+          </tr>
+          </tbody>
+        </table>
+                  <dl>
+            <dt>Parents</dt>
+                          <dd>rack</dd>
+                      </dl>
+                          <dl>
+            <dt>Children</dt>
+                          <dd>rack</dd>
+                          <dd>eventmachine</dd>
+                          <dd>daemons</dd>
                       </dl>
               </div>
           <div id="thor" class="approved">
