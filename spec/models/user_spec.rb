@@ -31,6 +31,15 @@ describe User do
     subject.should have(1).error_on(:salt)
   end
 
+  it "does not allow emails to be duplicates" do
+    other_user = new_user
+    other_user.email = subject.email
+    other_user.save!
+
+    subject.should_not be_valid
+    subject.should have(1).error_on(:email)
+  end
+
   it_should_behave_like(:legacy_timestamps)
 
   it "has a primary virtual currency" do

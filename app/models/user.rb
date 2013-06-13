@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :email, :first_name, :password_hash, :salt, presence: true
 
   before_create :set_default_virtual_currency
+  validate :email_is_not_in_database
 
   def first_name=(first_name)
     self.firstName = first_name
@@ -62,6 +63,12 @@ class User < ActiveRecord::Base
 
   def timestamp_attributes_for_update
     super << :modified
+  end
+
+  def email_is_not_in_database
+    if emailAddress_changed? && User.find_by_email(email)
+      errors.add(:email, "already has an account")
+    end
   end
 
   def set_default_virtual_currency

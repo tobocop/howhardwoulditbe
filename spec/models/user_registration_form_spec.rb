@@ -57,6 +57,14 @@ describe "user_registration_form" do
       subject.should have(1).error_on(:email)
     end
 
+    it "does not let you register with a email address already in the DB" do
+      user = create_user
+
+      subject.email = user.email
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
+    end
+
     it "is not valid if the options passed to User are invalid" do
       User.any_instance.stub(:valid?).and_return(false)
       User.any_instance.stub(:errors) { {:foo => "dummy error"} }
