@@ -57,10 +57,35 @@
 
         %h4 Hover
 
+        %button.button.social-action.twitter.hover Join with Twitter
 
         %h4 Active
 
+        %button.button.social-action.twitter.active Join with Twitter
+
         %h4 Disabled
+
+        %button.button.social-action.twitter.disabled Join with Twitter
+
+      %h3 Social Button - Email
+
+      %section
+
+        %h4 Default
+
+        %button.button.social-action.email Join with Email
+
+        %h4 Hover
+
+        %button.button.social-action.email.hover Join with Email
+
+        %h4 Active (this state will remain visible after click)
+
+        %button.button.social-action.email.active Join with Email
+
+        %h4 Disabled
+
+        %button.button.social-action.email.disabled Join with Email
 
   %section
     %h2 Forms
@@ -77,7 +102,7 @@
 
         %h4 Focus
 
-        %input.form-field.input.focus{:value => 'First Name'}
+        %input.form-field.input.focus{:value => ''}
 
         %h4 Error
 
@@ -106,6 +131,12 @@
   %section
     %h2 Skins
     %section
+
       %h3 Modal
+      .modal
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+        Bitch, I'ma modal. 
+        .bg-element I heard you like bg-element. 
+        Already have an account?
 
 

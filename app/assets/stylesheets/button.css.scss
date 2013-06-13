@@ -2,7 +2,7 @@
 @import "mixins.css.scss";
 
 $state-range:10%;
-$disabled:#c9c9c9;
+$disabled:#e6e6e6;
 
 .button {
 
@@ -49,7 +49,7 @@ $disabled:#c9c9c9;
 
     &.facebook {
       $bg-facebook:#5c78b7;
-      background-image: url('/assets/temp_for_style_guide/fb_f.png');
+      background-image: url('/assets/icon_fb.png');
       background-repeat: no-repeat;
       background-position: left center ;
       background-color:$bg-facebook;
@@ -69,10 +69,45 @@ $disabled:#c9c9c9;
     }
 
     &.twitter {
-      //background-image: url('/assets/temp_for_style_guide/fb_f.png');
+      $bg-twitter:#32ccfe;
+      background-image: url('/assets/icon_twitter.png');
       background-repeat: no-repeat;
       background-position: left center ;
-      background-color:#32ccfe;
+      background-color:$bg-twitter;
+
+        &.hover, &:hover{
+          background-color: darken($bg-twitter, $state-range);
+        }
+
+        &.active, &:active{
+          background-color: lighten($bg-twitter, $state-range);
+        }
+
+        &.disabled, &:disabled{
+          background-color: $disabled;
+        }
+
+    }
+
+    &.email {
+      $bg-email:#b3b3b3;
+      background-image: url('/assets/icon_email.png');
+      background-repeat: no-repeat;
+      background-position: left center ;
+      background-color:$bg-email;
+
+        &.hover, &:hover{
+          background-color: darken($bg-email, $state-range);
+        }
+
+        &.active, &:active{
+          background-color: $slate;
+        }
+
+        &.disabled, &:disabled{
+          background-color: $disabled;
+        }
+
     }
 
   }
