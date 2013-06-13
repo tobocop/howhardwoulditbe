@@ -15,5 +15,6 @@ describe 'User signup workflow' do
     User.find_by_email("test@example.com").should be
 
     current_path.should == dashboard_path
+    page.should have_content("Welcome, Joe.")
   end
 end

@@ -65,6 +65,11 @@ describe "user_registration_form" do
       subject.should have(1).error_on(:foo)
       subject.errors[:foo].first.should == "dummy error"
     end
+
+    it "provides a user object after validation" do
+      subject.valid?
+      subject.user.should be_a(User)
+    end
   end
 
   describe "saving" do

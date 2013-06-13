@@ -25,12 +25,22 @@ describe RegistrationsController do
       assigns(:user_registration_form).should == user_registration_form
     end
 
-    it "should redirect the user <somewhere> upon success" do
-      user_registration_form = stub(save: true)
+    it "should redirect to the dashboard upon success" do
+      user_registration_form = stub(save: true, user: stub)
       UserRegistrationForm.stub(:new) { user_registration_form }
+      controller.stub(:sign_in_user)
 
       post :create, {:user_registration_form => {:post => true}}
       response.location.should =~ /\/dashboard$/
+    end
+
+    it "should sign the user in upon success" do
+      user_stub = stub
+      user_registration_form = stub(save: true, user: user_stub)
+      UserRegistrationForm.stub(:new) { user_registration_form }
+
+      controller.should_receive(:sign_in_user).with(user_stub)
+      post :create
     end
 
     it "should re-render the registration form if there is an error" do

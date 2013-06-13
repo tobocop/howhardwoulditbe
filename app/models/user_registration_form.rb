@@ -12,7 +12,7 @@ class UserRegistrationForm
     .+                 # One or more characters
     $/x
 
-  attr_accessor :unhashed_password, :unhashed_password_confirmation, :first_name, :email
+  attr_accessor :unhashed_password, :unhashed_password_confirmation, :first_name, :email, :user
 
   validates :unhashed_password, length: {minimum: 6}, confirmation: true
   validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true} # presence validation occurs in User model
@@ -27,7 +27,7 @@ class UserRegistrationForm
 
   def save
     return unless valid?
-    @user.save
+    user.save
   end
 
   def persisted?
@@ -37,9 +37,9 @@ class UserRegistrationForm
   private
 
   def params_are_valid_for_user
-    @user = User.new(user_params)
-    if !@user.valid?
-      @user.errors.each do |attr, message|
+    self.user = User.new(user_params)
+    if !user.valid?
+      user.errors.each do |attr, message|
         errors.add(attr, message)
       end
     end
