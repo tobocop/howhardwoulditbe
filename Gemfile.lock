@@ -158,7 +158,6 @@ DEPENDENCIES
   rails (= 3.2.13)
   rspec-rails (= 2.13.2)
   sass-rails (~> 3.2.3)
-  sqlite3
   thin
   tiny_tds (= 0.5.1)
   uglifier (>= 1.0.3)

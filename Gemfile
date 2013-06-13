@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
-gem 'sqlite3'
 gem 'tiny_tds', '0.5.1'
 gem 'activerecord-sqlserver-adapter', '3.2.10'
 gem 'haml-rails', '~> 0.4'
