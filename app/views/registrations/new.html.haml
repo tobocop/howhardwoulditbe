@@ -1,3 +1,7 @@
+- if @user_registration_form.errors.any?
+  - @user_registration_form.errors.full_messages.each do |error|
+    %p= error
+
 = form_for(@user_registration_form, url: registrations_path) do |f|
   = f.label :first_name
   = f.text_field :first_name
