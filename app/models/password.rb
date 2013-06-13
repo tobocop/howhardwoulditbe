@@ -4,7 +4,7 @@ class Password
 
   def initialize(options = {})
     self.unhashed_password = options.fetch(:unhashed_password)
-    self.salt ||= SecureRandom.uuid
+    self.salt = options[:salt] || SecureRandom.uuid
   end
 
     def hashed_value

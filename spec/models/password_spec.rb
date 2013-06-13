@@ -7,6 +7,11 @@ describe Password do
     expect { Password.new({}) }.to raise_error(KeyError)
   end
 
+  it "can be initialized with a salt" do
+    password = Password.new(valid_options.merge({salt: 'valid-salt'}))
+    password.salt.should == 'valid-salt'
+  end
+
   it "has a UUID salt" do
     SecureRandom.stub(:uuid) { 'my-uuid' }
     password = Password.new(valid_options)
@@ -20,7 +25,6 @@ describe Password do
 
     cached_salt.should == password.salt
   end
-
 
   # TODO: Note that the current implementation matches the current ColdFusion implementation
   # which does not rehash a string multiple times. It *does* iterate 1000 times,
