@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'user signs in' do
-  it "lets a registered user sign in" do
+  it "a registered user can have an active session" do
     create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob')
 
     visit '/'
@@ -12,5 +12,9 @@ describe 'user signs in' do
 
     current_path.should == '/dashboard'
     page.should have_content('Welcome, Bob.')
+
+    click_on 'Log out'
+    current_path.should == '/'
+    page.should have_content('You have been successfully logged out.')
   end
 end

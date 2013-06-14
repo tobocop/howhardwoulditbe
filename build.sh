@@ -4,7 +4,7 @@ set -e
 
 ./approve_gems.sh
 
-license_finder
+bundle exec license_finder rescan
 STATUS=$?
 
 rspec spec

@@ -2,7 +2,7 @@
   - @user_session.errors.full_messages.each do |error|
     %p= error
 
-= form_for(@user_session, url: sessions_path) do |f|
+= form_for(@user_session, url: session_path) do |f|
   = f.label :email
   = f.text_field :email
   = f.label :password
