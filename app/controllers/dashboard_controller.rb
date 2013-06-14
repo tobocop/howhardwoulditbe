@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
-  def show
+  before_filter :require_authentication
 
+  def show
   end
 end
