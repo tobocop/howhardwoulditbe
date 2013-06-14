@@ -2,6 +2,8 @@
 
 set -e
 
+./approve_gems.sh
+
 license_finder
 STATUS=$?
 
