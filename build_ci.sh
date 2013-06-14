@@ -9,7 +9,7 @@ echo -e "test:\n adapter: sqlserver\n database: plink_test\n host: qa-plinkdb1-r
 
 ./approve_gems.sh
 
-license_finder
+bundle exec license_finder rescan
 STATUS=$?
 
 RAILS_ENV=test bundle exec rake db:test:prepare
