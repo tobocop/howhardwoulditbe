@@ -6,9 +6,9 @@ gem 'activerecord-sqlserver-adapter', '3.2.10'
 gem 'haml-rails', '~> 0.4'
 
 gem 'thin'
+gem 'jquery-rails', '~> 3.0.1'
 
 group :assets do
-  gem 'jquery-rails', '~> 3.0.1'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
