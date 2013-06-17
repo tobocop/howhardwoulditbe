@@ -24,6 +24,7 @@ $(function () {
         test: Modernizr.input.placeholder,
         nope: '/assets/jquery.placeholder.js',
         callback: function () {
+            alert("DOING THIS");
             $('input, textarea').placeholder();
         }
     });
