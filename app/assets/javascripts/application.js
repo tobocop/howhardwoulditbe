@@ -15,7 +15,6 @@
 //= require bjqs-1.3
 //= require foundation/foundation
 //= require foundation/foundation.reveal
-//= require jquery.placeholder
 //= require custom.modernizr
 //= require_tree .
 
