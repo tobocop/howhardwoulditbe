@@ -1,0 +1,17 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+$state-range:10%;
+
+.text-link{
+  color: $cyan;
+
+  &.hover, &:hover{
+    color: darken($cyan, $state-range);
+  }
+
+  &.active, &:active{
+    color: lighten($cyan, $state-range);
+  }
+
+}

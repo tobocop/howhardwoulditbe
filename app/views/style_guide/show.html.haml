@@ -2,6 +2,15 @@
   %h1 Style Guide
 
   %section
+    %h2 Links
+
+    %section
+      %h3 Text Links
+
+      %section
+        %a.text-link This is a text link.
+
+  %section
     %h2 Header
 
     %section
@@ -10,6 +19,13 @@
         %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
         /* %span.header-text Welcome, Kris! "<br/>" You have 999,999 Plink points. */
         %span.header-text Welcome, Kris! You have 999,999 Plink points.
+        %ul.header-navtext
+          &li Dashboard
+          %li Wallet
+          %li Rewards
+          %li My Account
+          %li Log Out
+
 
       %h3 Guests
       %header.header.guests 
