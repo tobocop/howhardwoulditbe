@@ -37,6 +37,45 @@ $disabled:#e6e6e6;
     }
   }
 
+  &.nav {
+    font-weight: 700;
+    font-size: .9em;
+    height: 34px;
+    letter-spacing: 1.5px;
+    line-height: 33px;
+    padding: 0 15px;
+    text-align: center;
+    @include round-corners(5px);
+    
+    &.sign-in { 
+      border: 1px solid #00c6ef;
+      color:#FFFFFF;
+      @include vertical-bg-gradient(#00aeef, #0071bc);
+
+      &.hover, &:hover{
+        background: #0071bc;
+      }
+
+      &.active, &:active{
+        background: #00c6ef;
+      }
+    }
+
+    &.join {
+      border: 1px solid #e6ea9a;
+      color:$slate;
+      @include vertical-bg-gradient(#d9e245, #c3ca23);
+
+      &.hover, &:hover{
+        background: #c3ca23;
+      }
+
+      &.active, &:active{
+        background: #d9e245;
+      }
+    }
+  }
+
   &.social-action {
     height: 34px;
     text-align: left;
