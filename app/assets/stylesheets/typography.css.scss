@@ -7,10 +7,25 @@
     font-weight:400;
   }
 
-  &.h2{
+  &.modal-h1 {
     color:$cyan;
     font-weight:900;
     font-size:3.2em;
+    letter-spacing:1px;
+    margin-bottom: 10px;
+  }
+
+  &.modal-h2 {
+    color:$lightgray;
+    font-weight:400;
+    font-size:1.1em;
+    letter-spacing:1px;
+  }
+
+  &.modal-h3 {
+    color:$lightgray;
+    font-weight:300;
+    font-size:.9em;
     letter-spacing:1px;
   }
 

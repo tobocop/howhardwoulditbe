@@ -5,6 +5,7 @@ $state-range:10%;
 
 .text-link{
   color: $cyan;
+  text-decoration: underline;
 
   &.hover, &:hover{
     color: darken($cyan, $state-range);
