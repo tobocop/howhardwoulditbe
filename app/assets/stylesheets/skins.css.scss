@@ -1,35 +1,40 @@
 @import "colors.css.scss";
 @import "mixins.css.scss";
 
-
 .modal {
-
-  width:100%;
-  position:relative; /* this must be set to relative for the close-btn to be positioned absolutely */
-  display:inline-block; 
+  position: relative; /* this must be set to relative for the close-btn to be positioned absolutely */
+  display: inline-block;
   border: 20px solid rgb(0, 0, 0);
   border: 20px solid rgba(0, 0, 0, .7);
   -webkit-background-clip: padding-box; /* for Safari */
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-  background-color:#FFFFFF;
-  padding:20px;
-  text-align:center;
-  @include round-corners(14px); 
-}
+  background-color: #FFFFFF;
+  padding: 20px;
+  text-align: center;
+  @include round-corners(14px);
 
-.bg-element {
+  input[type='text'], input[type='password'] {
+    margin-bottom: 15px;
+  }
 
-  width:100%;
-  display:inline-block; 
-  background-color:#f2f2f2;
-  padding:15px;
-  margin: 10px 0px;
-  text-align:center;
-  @include round-corners(8px); 
-}
+  .bg-element {
+    width: 100%;
+    display: inline-block;
+    background-color: #f2f2f2;
+    padding: 15px;
+    margin: 10px 0px;
+    text-align: center;
+    @include round-corners(8px);
+  }
 
-.close-btn {
-  position:absolute;
-  top: -8px;
-  right: -8px;
+  .close-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+  }
+
+  &.reveal-modal.sign-in-modal {
+    width: 382px;
+    margin-left: -191px;
+  }
 }

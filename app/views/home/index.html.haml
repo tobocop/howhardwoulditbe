@@ -1,4 +1,20 @@
 %p= flash[:notice]
 
-= link_to "Sign up", new_registration_path
-= link_to "Log in", new_session_path
+= link_to 'Sign up', '#', id: 'fooz', data: {"reveal-id" => "registration-form"}
+= link_to 'Log in', new_session_path
+
+#registration-form.modal.sign-in-modal.reveal-modal{style: "display: none;"}
+  %img{ :class => "close-btn close-reveal-modal", :src => "/assets/btn_close.png", :alt => "Close" }
+  %h1.font.modal-h1 Join Plink
+  %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
+  .bg-element
+    = form_for(@user_registration_form, url: registrations_path) do |f|
+      = f.text_field :first_name, class: 'form-field input', placeholder: 'First Name'
+      = f.text_field :email, class: 'form-field input', placeholder: 'Email'
+      = f.password_field :password, class: 'form-field input', placeholder: 'Password'
+      = f.password_field :password_confirmation, class: 'form-field input', placeholder: 'Verify Password'
+      = f.button 'Start Earning Rewards', class: 'button primary-action narrow'
+
+  %h3.font.modal-h3
+    Already have an account?
+    %a.text-link{href: new_session_path} Sign In
