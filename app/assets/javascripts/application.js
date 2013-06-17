@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bjqs-1.3
 //= require foundation/foundation.js
 //= require foundation/foundation.reveal.js
 //= require custom.modernizr
