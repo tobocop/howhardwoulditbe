@@ -16,3 +16,4 @@ doc/dependencies.html
 **.orig
 rerun.txt
 config/database.yml
+config/gigya_keys.yml
