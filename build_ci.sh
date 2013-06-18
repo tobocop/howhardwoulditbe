@@ -7,7 +7,7 @@ bundle install --deployment --path vendor/bundle
 
 ./approve_gems.sh
 
-bundle exec license_finder -q rescan
+bundle exec license_finder rescan -q
 STATUS=$?
 
 RAILS_ENV=test bundle exec rake spec
