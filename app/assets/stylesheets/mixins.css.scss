@@ -15,3 +15,14 @@
   -moz-border-radius: $amount;
   -webkit-border-radius: $amount;
 }
+
+// Text shadow by horizontal distance, vertical distance, blur, and color
+@mixin txt-shadow($h, $v, $blur, $hex){
+  -moz-text-shadow: $h $v $blur $hex;
+  -webkit-text-shadow: $h $v $blur $hex;
+  text-shadow: $h $v $blur $hex;
+  /* For IE 8 */ 
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+  /* For IE 5.5 - 7 */
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+}

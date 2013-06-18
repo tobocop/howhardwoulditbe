@@ -33,12 +33,12 @@
             automatic       : true,     // enable/disable automatic slide rotation
 
             // control and marker configuration
-            showcontrols    : true,     // enable/disable next + previous UI elements
+            showcontrols    : false,     // enable/disable next + previous UI elements
             centercontrols  : true,     // vertically center controls
             nexttext        : 'Next',   // text/html inside next UI element
             prevtext        : 'Prev',   // text/html inside previous UI element
             showmarkers     : true,     // enable/disable individual slide UI markers
-            centermarkers   : true,     // horizontally center markers
+            centermarkers   : false,     // horizontally center markers
 
             // interaction values
             keyboardnav     : true,     // enable/disable keyboard navigation
@@ -47,7 +47,7 @@
             // presentational options
             usecaptions     : true,     // enable/disable captions using img title attribute
             randomstart     : false,     // start from a random slide
-            responsive      : false     // enable responsive behaviour
+            responsive      : true    // enable responsive behaviour
 
         };
 

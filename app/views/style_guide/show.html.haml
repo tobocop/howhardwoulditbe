@@ -17,7 +17,8 @@
       %h3 Members   **line break needed after 'Welcome Kris'**
       %header.header 
         %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
-        %span.header-text Welcome, Kris! You have 999,999 Plink points.
+        %span.header-text Welcome, Kris! 
+        %span.header-text You have 999,999 Plink points.
         %ul.nav-ul
           %li.nav-li.selected Dashboard
           %li.nav-li Wallet
@@ -44,12 +45,21 @@
     %section
       .hero-gallery
         %ul.bjqs
-          %li
-            %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Automatically generated caption"}
-          %li
-            %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "Automatically generated caption"}
-          %li
-            %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "Automatically generated caption"}       
+          %li.bjqs-slide
+            %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
+          %li.bjqs-slide
+            %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
+          %li.bjqs-slide
+            %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}    
+
+  :javascript
+    jQuery(function () {
+      $('.hero-gallery').bjqs({
+            width       : 1800,
+            height      : 380,
+            responsive  : true
+          });
+    });   
 
 
   %section
@@ -180,7 +190,7 @@
         %span.font.modal-h1 Join Plink
 
         %h4 H2
-        %span.font.modal-h2 Your days of not earning ... 
+        %span.font.modal-h2 Your days of not earning unlimited rewards are over. 
 
         %h4 H3
         %span.font.modal-h3 Already a member? ... 
@@ -197,7 +207,7 @@
       .modal
         %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
         %p.font.modal-h1 Join Plink
-        %p.font.modal-h2 Your days of not earning... 
+        %p.font.modal-h2 Your days of not earning unlimited rewards are over.
         .bg-element I heard you like bg-element. 
         %p.font.modal-h3 Already have an account?
 
