@@ -13,7 +13,7 @@ STATUS=$?
 RAILS_ENV=test bundle exec rake spec
 STATUS=$((STATUS + $?))
 
-cd gems/gigya && rspec spec
+cd gems/gigya && bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
