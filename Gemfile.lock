@@ -8,6 +8,11 @@ GIT
       sqlite3
       thor
 
+PATH
+  remote: gems/gigya
+  specs:
+    gigya (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -171,6 +176,7 @@ DEPENDENCIES
   capybara (~> 2.1.0)
   coffee-rails (~> 3.2.1)
   database_cleaner (~> 1.0.1)
+  gigya!
   haml-rails (~> 0.4)
   jquery-rails (~> 3.0.1)
   launchy (= 2.3.0)

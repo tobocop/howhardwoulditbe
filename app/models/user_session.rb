@@ -13,6 +13,14 @@ class UserSession
     self.password = options[:password]
   end
 
+  def user_id
+    user.id
+  end
+
+  def first_name
+    user.first_name
+  end
+
   def valid?
     is_valid = super
 

@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bjqs-1.3
-//= require foundation/foundation.js
-//= require foundation/foundation.reveal.js
+//= require foundation/foundation
+//= require foundation/foundation.reveal
 //= require custom.modernizr
 //= require_tree .
 
@@ -25,7 +25,6 @@ $(function () {
         test: Modernizr.input.placeholder,
         nope: '/assets/jquery.placeholder.js',
         callback: function () {
-            alert("DOING THIS");
             $('input, textarea').placeholder();
         }
     });

@@ -34,6 +34,10 @@ class UserRegistrationForm
     false
   end
 
+  def user_id
+    user.id
+  end
+
   private
 
   def params_are_valid_for_user

@@ -25,31 +25,56 @@ describe RegistrationsController do
       assigns(:user_registration_form).should == user_registration_form
     end
 
-    it "should redirect to the dashboard upon success" do
-      user_registration_form = stub(save: true, user: stub)
-      UserRegistrationForm.stub(:new) { user_registration_form }
-      controller.stub(:sign_in_user)
+    describe "on save" do
+      let(:gigya) { mock }
 
-      post :create, {:user_registration_form => {:post => true}}
-      response.location.should =~ /\/dashboard$/
+      before do
+        controller.stub(:gigya_connection) { gigya }
+      end
+
+      it "should redirect to the dashboard upon success" do
+        gigya.stub(:notify_login)
+
+        user_registration_form = stub(save: true, user: stub, user_id: 123, email:'test@example.com', first_name:'bob')
+        UserRegistrationForm.stub(:new) { user_registration_form }
+        controller.stub(:sign_in_user)
+
+        post :create, {:user_registration_form => {:post => true}}
+        response.location.should =~ /\/dashboard$/
+      end
+
+      it "should sign the user in upon success" do
+        gigya.stub(:notify_login)
+
+        user_stub = stub
+        user_registration_form = stub(save: true, user: user_stub, user_id: 123, email:'test@example.com', first_name:'bob')
+        UserRegistrationForm.stub(:new) { user_registration_form }
+
+        controller.should_receive(:sign_in_user).with(user_stub)
+        post :create
+      end
+
+      it "notifies Gigya of a new user log in" do
+        user_stub = stub
+        user_registration_form = stub(save: true, user: user_stub, user_id: 123, email:'bob@example.com', first_name:'Bob')
+        UserRegistrationForm.stub(:new) { user_registration_form }
+        controller.stub(:sign_in_user)
+
+        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'Bob', email: 'bob@example.com', new_user: true)
+
+        post :create
+      end
     end
 
-    it "should sign the user in upon success" do
-      user_stub = stub
-      user_registration_form = stub(save: true, user: user_stub)
-      UserRegistrationForm.stub(:new) { user_registration_form }
+    describe "when registration has errors" do
+      it "should re-render the registration form" do
+        user_registration_form = stub(save: false)
+        UserRegistrationForm.stub(:new) { user_registration_form }
 
-      controller.should_receive(:sign_in_user).with(user_stub)
-      post :create
-    end
-
-    it "should re-render the registration form if there is an error" do
-      user_registration_form = stub(save: false)
-      UserRegistrationForm.stub(:new) { user_registration_form }
-
-      post :create, {:user_registration_form => {:post => true}}
-      response.should be_success
-      response.should render_template("registrations/new")
+        post :create, {:user_registration_form => {:post => true}}
+        response.should be_success
+        response.should render_template("registrations/new")
+      end
     end
   end
 end

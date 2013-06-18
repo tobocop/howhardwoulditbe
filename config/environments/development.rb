@@ -34,4 +34,8 @@ PlinkPivotal::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
+  ENV['GIGYA_API_KEY'] = keys['gigya_api_key']
+  ENV['GIGYA_SECRET'] = keys['gigya_secret']
 end

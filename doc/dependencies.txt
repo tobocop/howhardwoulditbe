@@ -21,6 +21,7 @@ erubis, 2.7.0, MIT
 eventmachine, 1.0.3, other
 execjs, 1.4.0, MIT
 ffi, 1.9.0, LGPL-3
+gigya, 0.0.1, MIT
 haml, 4.0.3, MIT
 haml-rails, 0.4, MIT
 hike, 1.2.3, MIT

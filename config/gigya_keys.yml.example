@@ -1,0 +1,7 @@
+development:
+  gigya_api_key: [Gigya API key - dev]
+  gigya_secret: [Gigya secret - dev]
+
+test:
+  gigya_api_key: [Gigya API key - test]
+  gigya_secret: [Gigya secret - test]

@@ -21,15 +21,31 @@ describe SessionsController do
       assigns(:user_session).should == user_session
     end
 
+
     describe 'happy path' do
+
       it 'sets the session current user id if UserSession is valid and redirects' do
         user = stub(id: 123)
-        user_session = stub(valid?: true, user: user)
+        user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
         UserSession.should_receive(:new).with(email: 'bob@example.com', password: 'test123') { user_session }
+        Gigya.stub(:new) { stub(:notify_login => true)}
         post :create, {user_session: {email: 'bob@example.com', password: 'test123'}}
 
         session[:current_user_id].should == 123
         response.should be_redirect
+      end
+
+      it 'notifies gigya that an existing user has logged in' do
+        gigya = mock
+        controller.stub(:gigya_connection) { gigya }
+
+        user = stub(id:123)
+        user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
+        UserSession.stub(:new) { user_session }
+
+        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'Bob', email: 'bob@example.com')
+
+        post :create, {user_session: {}}
       end
     end
 

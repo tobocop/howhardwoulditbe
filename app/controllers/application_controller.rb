@@ -19,4 +19,9 @@ class ApplicationController < ActionController::Base
   def user_logged_in?
     current_user.present?
   end
+
+  def gigya_connection
+    @_gigya_connection ||= Gigya.new(api_key: ENV['GIGYA_API_KEY'], secret: ENV['GIGYA_SECRET'])
+  end
+
 end
