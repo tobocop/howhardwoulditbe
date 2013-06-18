@@ -10,7 +10,7 @@ bundle install --deployment --path vendor/bundle
 bundle exec license_finder rescan
 STATUS=$?
 
-RAILS_ENV=test bundle exec rake db:test:prepare
+RAILS_ENV=test bundle exec rake spec
 
 STATUS=$((STATUS + $?))
 
