@@ -26,6 +26,22 @@ describe UserSession do
     user_session.password.should == 'test123'
   end
 
+  it 'should return the user_id' do
+    user = stub(id: 456)
+    user_session = UserSession.new
+    user_session.stub(:user) { user }
+
+    user_session.user_id.should == 456
+  end
+
+  it 'should return the first_name' do
+    user = stub(first_name: 'bob')
+    user_session = UserSession.new
+    user_session.stub(:user) { user }
+    user_session.first_name.should == 'bob'
+  end
+
+
   describe '#valid?' do
 
     before do
