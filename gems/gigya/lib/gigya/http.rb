@@ -1,11 +1,10 @@
 class Gigya
   class Http
 
-    attr_accessor :api_key, :secret, :api_method, :url_params
+    attr_accessor :configuration, :api_method, :url_params
 
-    def initialize (options ={})
-      self.api_key = options.fetch(:api_key)
-      self.secret = options.fetch(:secret)
+    def initialize (configuration, options ={})
+      self.configuration = configuration
       self.api_method = options.fetch(:api_method)
       self.url_params = options.fetch(:url_params)
     end
@@ -13,7 +12,7 @@ class Gigya
     def perform_request
       uri = URI('https://socialize-api.gigya.com/' + api_method)
 
-      uri.query = URI.encode_www_form({apiKey: api_key, secret: secret}.merge(url_params))
+      uri.query = URI.encode_www_form({apiKey: configuration.api_key, secret: configuration.secret}.merge(url_params))
 
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true

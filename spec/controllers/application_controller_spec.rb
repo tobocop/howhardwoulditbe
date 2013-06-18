@@ -46,4 +46,15 @@ describe ApplicationController do
     end
   end
 
+  describe '#gigya_connection' do
+    it 'initializes and returns a Gigya object with the right credentials' do
+      ENV['GIGYA_API_KEY'] = 'my-api-key'
+      ENV['GIGYA_SECRET'] = 'secret'
+      gigya_stub = stub
+      Gigya.should_receive(:new).with(api_key: 'my-api-key', secret: 'secret') { gigya_stub }
+
+      controller.gigya_connection.should == gigya_stub
+    end
+  end
+
 end

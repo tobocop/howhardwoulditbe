@@ -11,5 +11,6 @@ describe Gigya do
     response.should be_successful
 
     # Test that the user actually wound up in Gigya's DB
+    # Make sure the e-mail address is populated when returned. We saw it not populate once, no idea how.
   end
 end

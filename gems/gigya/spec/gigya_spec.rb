@@ -3,29 +3,38 @@ require 'spec_helper'
 describe Gigya do
   describe 'initialization' do
     it 'raises when no api_key is specified' do
-
       expect {
         Gigya.new(secret: 'mocked')
       }.to raise_error(KeyError, 'key not found: :api_key')
     end
 
-    it 'raises when no secret is specified' do
+    it 'raises when api_key is blank' do
+      expect {
+        Gigya.new(api_key: nil, secret: 'fake')
+      }.to raise_error(ArgumentError, 'api_key must be specified')
+    end
 
+    it 'raises when no secret is specified' do
       expect {
         Gigya.new(api_key: 'mocked')
       }.to raise_error(KeyError, 'key not found: :secret')
     end
 
-    it 'stores the api_key' do
+    it 'raises when secret is blank' do
+      expect {
+        Gigya.new(api_key: 'mocked', secret: nil)
+      }.to raise_error(ArgumentError, 'secret must be specified')
+    end
 
+    it 'stores the api_key' do
       gigya = Gigya.new(api_key: 'mocked_api_key', secret: 'mocked')
-      gigya.api_key.should == 'mocked_api_key'
+      gigya.configuration.api_key.should == 'mocked_api_key'
 
      end
 
     it 'stores the secret' do
       gigya = Gigya.new(api_key: 'mocked_api_key', secret: 'mocked_secret')
-      gigya.secret.should == 'mocked_secret'
+      gigya.configuration.secret.should == 'mocked_secret'
     end
   end
 
@@ -52,19 +61,22 @@ describe Gigya do
       }.to raise_error(KeyError, 'key not found: :first_name')
     end
 
-    it 'calls gigya to notify of a login of a new user' do
-      response = gigya.notify_login(mock_params)
-      response.should be_a(Gigya::NotifyLoginResponse)
+    it 'calls gigya to notify of a login of an existing user' do
+      http_mock = mock
+      Gigya::Http.stub(:new).with(gigya.configuration, api_method: 'socialize.notifyLogin', url_params: { siteUID: 12334, format: 'json', userInfo: { firstName: "bob", email: "bob@example.com"}.to_json }) { http_mock }
+      http_mock.stub(:perform_request) { stub(body: 'somejson') }
 
-      response.status_code.should == 200
-      response.should be_successful
-      response.cookie_name.should_not be_blank
-      response.cookie_value.should_not be_blank
-      response.cookie_path.should == "/"
-      response.cookie_domain.should_not be_blank
+      response_stub = stub
+      Gigya::NotifyLoginResponse.stub(:from_json).with('somejson') { response_stub }
+
+      response = gigya.notify_login(mock_params)
+      response.should == response_stub
     end
 
-    it "includes the new_user flag in the request when specified"
-    it "does not include the new_user flag in the request if it is falsy"
+    it "includes the new_user flag in the request when specified" do
+      http_stub = mock(perform_request: stub(body: '{}'))
+      Gigya::Http.should_receive(:new).with(gigya.configuration, api_method: 'socialize.notifyLogin', url_params: { siteUID: 12334, newUser: true, format: 'json', userInfo: { firstName: "bob", email: "bob@example.com"}.to_json }) { http_stub }
+      gigya.notify_login(mock_params.merge(new_user: true))
+    end
   end
 end
