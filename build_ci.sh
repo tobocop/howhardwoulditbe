@@ -11,7 +11,9 @@ bundle exec license_finder rescan
 STATUS=$?
 
 RAILS_ENV=test bundle exec rake spec
+STATUS=$((STATUS + $?))
 
+cd gems/gigya && rspec spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"

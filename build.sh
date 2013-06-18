@@ -7,7 +7,10 @@ set -e
 bundle exec license_finder rescan
 STATUS=$?
 
-rspec spec
+rake spec
+STATUS=$((STATUS + $?))
+
+cd gems/gigya && rspec spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
