@@ -2,7 +2,7 @@ class Gigya::User
   attr_accessor :email, :first_name, :id, :is_site_user
 
   def self.from_redirect_params(params)
-    if Gigya::Request.valid_signature?(params)
+    if Gigya::Signature.new(params).valid?
       new(params)
     end
   end

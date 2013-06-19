@@ -1,5 +1,5 @@
 class Gigya
-  class Request
+  class Signature
     attr_accessor :signature_timestamp, :uid, :uid_signature
 
     def initialize(params)
@@ -8,7 +8,7 @@ class Gigya
       self.uid_signature = params[:UIDSignature]
     end
 
-    def valid_signature?
+    def valid?
       has_recent_timestamp? && (computed_signature == uid_signature)
     end
 

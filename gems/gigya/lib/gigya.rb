@@ -9,7 +9,7 @@ require 'openssl'
 require 'gigya/config'
 require 'gigya/http'
 require 'gigya/notify_login_response'
-require 'gigya/request'
+require 'gigya/signature'
 require 'gigya/user'
 require 'gigya/version'
 
