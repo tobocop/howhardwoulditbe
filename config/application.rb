@@ -18,7 +18,6 @@ module PlinkPivotal
     config.assets.enabled = true
     config.assets.version = '1.0'
     config.assets.precompile += ['jquery.placeholder.js']
-    config.active_record.schema_format = :sql
 
     # Heroku deployment requirement
     config.assets.initialize_on_precompile = false

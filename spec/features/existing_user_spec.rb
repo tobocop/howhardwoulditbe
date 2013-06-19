@@ -11,9 +11,7 @@ describe 'user signs in' do
     click_on 'Log in'
 
     current_path.should == '/dashboard'
-    page.should have_content('Welcome, Bob!')
-
-    page.should have_content('You have 0 Plink Points')
+    page.should have_content('Welcome, Bob.')
 
     click_on 'Log out'
     current_path.should == '/'
