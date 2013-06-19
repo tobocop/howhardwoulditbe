@@ -37,3 +37,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+Capybara.app_host = "http://plink.test:58891"
+Capybara.server_port = 58891

@@ -5,6 +5,7 @@
   %h1.font.modal-h1 Join Plink
   %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
   .bg-element
+    #social-login
     = form_for(@user_registration_form, url: registrations_path) do |f|
       = f.text_field :first_name, class: 'form-field input', placeholder: 'First Name'
       = f.text_field :email, class: 'form-field input', placeholder: 'Email'
@@ -15,3 +16,15 @@
   %h3.font.modal-h3
     Already have an account?
     %a.text-link{href: new_session_path} Sign In
+
+:javascript
+  gigya.socialize.showLoginUI({
+  'buttonsStyle':'signInWith',
+  'enabledProviders':'facebook,twitter',
+  'showTermsLink':false,
+  'hideGigyaLink':true,
+  'containerID': "social-login",
+  'redirectURL': "http://plink.test:58891/handle_gigya_login",
+  'width':224,
+  'height':70
+  });

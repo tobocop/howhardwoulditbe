@@ -19,6 +19,9 @@ bundle exec rake db:create_views
 bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
+RAILS_ENV=test bundle exec rake integration_spec
+STATUS=$((STATUS + $?))
+
 cd gems/gigya && bundle install --deployment --path vendor/bundle && bundle exec rspec spec
 STATUS=$((STATUS + $?))
 

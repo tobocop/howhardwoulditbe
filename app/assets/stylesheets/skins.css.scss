@@ -40,11 +40,19 @@
   }
 
   &.reveal-modal.sign-in-modal {
-    width: 382px;
+    width: 334px;
     margin-left: -191px;
   }
 
   &.offer-details {
     width: 500px;
+  }
+
+  #social-login {
+    margin-bottom: 15px;
+
+    [gigid] {
+      margin-bottom: 7px;
+    }
   }
 }

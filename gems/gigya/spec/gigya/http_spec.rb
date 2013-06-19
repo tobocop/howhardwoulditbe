@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Gigya::Http do
-  let(:configuration) { stub(api_key: 'mocked_api_key', secret: 'secret') }
+  let(:configuration) { Gigya::Config.instance }
   let(:valid_params) { { api_method: 'socialize.fake', url_params: {userInfo: {firstName: 'Bob'}} } }
 
   it 'initializes with an configuration' do
@@ -41,12 +41,11 @@ describe Gigya::Http do
       http_mock.should_receive(:verify_mode=).with(OpenSSL::SSL::VERIFY_NONE)
 
       request_mock = mock
-      Net::HTTP::Get.should_receive(:new).with('/socialize.fake?apiKey=mocked_api_key&secret=secret&userInfo=%7B%3AfirstName%3D%3E%22Bob%22%7D') { request_mock }
+      Net::HTTP::Get.should_receive(:new).with('/socialize.fake?apiKey=1234&secret=my-secret&userInfo=%7B%3AfirstName%3D%3E%22Bob%22%7D') { request_mock }
 
       http_mock.should_receive(:request).with(request_mock)
 
       gigya_http.perform_request
     end
-
   end
 end

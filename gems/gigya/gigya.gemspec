@@ -5,13 +5,9 @@ require 'gigya/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "gigya"
+  spec.authors       = 'Plink Inc., LLC'
   spec.version       = Gigya::VERSION
-  spec.authors       = ["Brian Rose and Toby Rumans"]
-  spec.email         = ["pair+brose+trumans@pivotallabs.com"]
-  spec.description   = %q{Gem to handle Gigya integration}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.summary       = %q{Gem to handle Gigya integration}
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

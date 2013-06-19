@@ -1,8 +1,8 @@
-require 'spec_helper'
+require 'integration_spec_helper'
 require 'securerandom'
 
 describe Gigya do
-  let(:gigya) { Gigya.new(api_key: GIGYA_KEYS['api_key'], secret: GIGYA_KEYS['secret']) }
+  let(:gigya) { Gigya.new(Gigya::Config.instance) }
 
   it 'notifies that an existing user is logging in' do
     uuid = SecureRandom.uuid

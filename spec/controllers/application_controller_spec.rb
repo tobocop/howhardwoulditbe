@@ -67,7 +67,7 @@ describe ApplicationController do
       ENV['GIGYA_API_KEY'] = 'my-api-key'
       ENV['GIGYA_SECRET'] = 'secret'
       gigya_stub = stub
-      Gigya.should_receive(:new).with(api_key: 'my-api-key', secret: 'secret') { gigya_stub }
+      Gigya.should_receive(:new).with(Gigya::Config.instance) { gigya_stub }
 
       controller.gigya_connection.should == gigya_stub
     end
