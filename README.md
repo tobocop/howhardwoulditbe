@@ -24,4 +24,6 @@ We use a local Windows VM with SQL Server Express in development.
 
 * rake db:create_views
 
+* rake db:seed
+
 * open a Rails console and `User.first`. If you see a user, you did it.

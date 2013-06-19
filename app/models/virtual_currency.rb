@@ -5,6 +5,7 @@ class VirtualCurrency < ActiveRecord::Base
   attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name
 
   validates :name, :subdomain, :exchange_rate, :site_name, :singular_name, presence: true
+  validates :subdomain, uniqueness: true
 
   def self.default
     self.find_by_subdomain("www")
