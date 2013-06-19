@@ -1,0 +1,28 @@
+!!!
+%html
+  %head
+    %title Plink
+    = stylesheet_link_tag    'application', :media => 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+
+  %body
+    %header.header
+      = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
+
+      %span.header-text Welcome, #{current_user.first_name}!
+      %span.header-text You have #{current_virtual_currency.user_balance} #{current_virtual_currency.currency_name}.
+
+      %ul.nav-ul
+        %li.nav-li.selected
+          = link_to 'Dashboard', dashboard_path, class:'link'
+        %li.nav-li
+          = link_to 'Wallet', '#', class:'link'
+        %li.nav-li
+          = link_to 'Rewards', '#', class:'link'
+        %li.nav-li
+          = link_to 'My Account', '#', class:'link'
+        %li.nav-li
+          = link_to 'Log Out', session_path, method: :delete, class:'link logout'
+
+    = yield

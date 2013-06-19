@@ -1,10 +1,14 @@
 require 'spec_helper'
 
 describe 'User signup workflow' do
+  before do
+    create_virtual_currency
+  end
+
   it 'should create an account and drop the user on the dashboard', js: true do
     visit '/'
 
-    click_on 'Sign up'
+    click_link 'Join'
 
     within '.modal' do
       fill_in 'First Name', with: 'Joe'
@@ -16,6 +20,6 @@ describe 'User signup workflow' do
     end
 
     current_path.should == dashboard_path
-    page.should have_content('Welcome, Joe.')
+    page.should have_content('Welcome, Joe!')
   end
 end

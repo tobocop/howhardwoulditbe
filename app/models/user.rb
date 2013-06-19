@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
-  self.primary_key = "userID"
+  self.primary_key = 'userID'
 
   attr_accessible :email, :first_name, :password_hash, :salt
 
-  belongs_to :primary_virtual_currency, class_name: "VirtualCurrency", foreign_key: "primaryVirtualCurrencyID"
+  belongs_to :primary_virtual_currency, class_name: 'VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
+
+  has_one :user_balance, class_name: 'UserBalance', foreign_key:'userID'
 
   validates :email, :first_name, :password_hash, :salt, presence: true
 
@@ -53,6 +55,14 @@ class User < ActiveRecord::Base
 
   def self.find_by_email(email)
     where(:emailAddress => email).first
+  end
+
+  def current_balance
+    user_balance.current_balance
+  end
+
+  def primary_virtual_currency_id
+    primaryVirtualCurrencyID
   end
 
   private

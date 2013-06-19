@@ -46,7 +46,12 @@ $disabled:#e6e6e6;
     padding: 0 15px;
     text-align: center;
     @include round-corners(5px);
-    
+
+    &.link {
+      text-decoration: none;
+      color:inherit;
+    }
+
     &.sign-in { 
       border: 1px solid #00c6ef;
       color:#FFFFFF;
@@ -73,6 +78,7 @@ $disabled:#e6e6e6;
       &.active, &:active{
         background: #d9e245;
       }
+
     }
   }
 

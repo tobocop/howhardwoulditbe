@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe ApplicationController do
-  describe "#sign_in_user" do
-    it "sets the current_user_id cookie" do
+  describe '#sign_in_user' do
+    it 'sets the current_user_id cookie' do
       user = mock_model(User, id: 123)
       controller.sign_in_user(user)
       session[:current_user_id].should == 123
     end
   end
 
-  describe "#current_user" do
-    it "returns the current user" do
+  describe '#current_user' do
+    it 'returns the current user' do
       session[:current_user_id] = 3
       user = stub
       User.should_receive(:find).with(3) { user }
@@ -19,14 +19,30 @@ describe ApplicationController do
     end
   end
 
+  describe '#current_virtual_currency' do
+    it 'returns the correct virtual currency' do
+      currency = create_virtual_currency(name: 'Plonk Points')
+      current_user = create_user
+      current_user.primary_virtual_currency = currency
+      current_user.save!
+
+      session[:current_user_id] = current_user.id
+
+      presented_currency = controller.current_virtual_currency
+
+      presented_currency.currency_name.should == 'Plonk Points'
+      presented_currency.user_balance.should == '0'
+    end
+  end
+
   describe '#require_authentication' do
-    it "does not redirect if the user is logged in" do
+    it 'does not redirect if the user is logged in' do
       controller.stub(:user_logged_in?) { true }
       controller.should_not_receive(:redirect_to)
       controller.require_authentication
     end
 
-    it "it redirects to the home page if the user is not logged in" do
+    it 'it redirects to the home page if the user is not logged in' do
       controller.stub(:user_logged_in?) { false }
       controller.should_receive(:redirect_to).with(root_path)
       controller.require_authentication
@@ -56,5 +72,4 @@ describe ApplicationController do
       controller.gigya_connection.should == gigya_stub
     end
   end
-
 end

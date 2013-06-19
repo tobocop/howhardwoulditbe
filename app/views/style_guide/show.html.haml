@@ -20,20 +20,26 @@
         %span.header-text Welcome, Kris! 
         %span.header-text You have 999,999 Plink points.
         %ul.nav-ul
-          %li.nav-li.selected Dashboard
-          %li.nav-li Wallet
-          %li.nav-li Rewards
-          %li.nav-li My Account
-          %li.nav-li.logout Log Out
+          %li.nav-li.selected
+            = link_to 'Dashboard', '#', class:'link'
+          %li.nav-li
+            = link_to 'Wallet', '#', class:'link'
+          %li.nav-li
+            = link_to 'Rewards', '#', class:'link'
+          %li.nav-li
+            = link_to 'My Account', '#', class:'link'
+          %li.nav-li
+            = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
 
       %h3 Guests
       %header.header
         %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
         .header-button
-          %button.button.nav.join Join
+
+          = link_to 'Join', '#', class:'link button nav join'
         .header-button
-          %button.button.nav.sign-in Sign In
+          = link_to 'Sign In', '#', class:'link button nav sign-in'
         .header-button-social
           %span.header-text Let's be friends.
           %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
