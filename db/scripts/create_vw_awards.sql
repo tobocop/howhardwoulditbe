@@ -1,4 +1,3 @@
-
 CREATE VIEW [dbo].[vw_awards]
 AS
 SELECT

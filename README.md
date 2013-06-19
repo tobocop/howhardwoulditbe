@@ -6,7 +6,9 @@ www rewrite in rails with pivotal labs.
 Getting Started
 ---
 
-* install freetds
+We use a local Windows VM with SQL Server Express in development.
+
+* install freetds on host
 
     brew install freetds
 
@@ -14,10 +16,12 @@ Getting Started
 		brew install libiconv
 		gem install tiny_tds -- --with-freetds-include=/usr/local/include --with-freetds-lib=/usr/local/lib --with-iconv-include=/usr/local/Cellar/libiconv/1.14/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.14/lib
 
-* database.yml
-
-* whitelist IP in RDS
+* point database.yml at the SQL Server running on Windows VM
 
 * bundle
+
+* rake db:schema:load
+
+* rake db:create_views
 
 * open a Rails console and `User.first`. If you see a user, you did it.
