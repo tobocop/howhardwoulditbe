@@ -31,6 +31,8 @@ describe User do
     subject.should have(1).error_on(:salt)
   end
 
+  it 'must have a current_vc_balance'
+
   it "does not allow emails to be duplicates" do
     other_user = new_user
     other_user.email = subject.email
