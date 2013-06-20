@@ -1,74 +1,71 @@
 @import "colors.css.scss";
 @import "mixins.css.scss";
 
+
+.hero-gallery{
+  margin: 0 auto;
+  width:100%;
+}
+
 /* Basic jQuery Slider essential styles */
 
-.hero-gallery {
+ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
+li.bjqs-slide{position:absolute; display:none;}
+ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
+ul.bjqs-controls.v-centered li a{position:absolute;}
+ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
+ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
+/*ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
+ol.bjqs-markers.h-centered{text-align: center;}
+ol.bjqs-markers li{display:inline;}
+ol.bjqs-markers li a{display:inline-block;}*/
 
-  background-color: $slate;
-  width:100%;
-  min-width: 1024px;
+ol.bjqs-markers{
+  position:absolute;
+  bottom:20px;
+  right:48%;
+}
 
-  .hero-gallery-inner{
-    margin:0 auto;
-    padding:0;
-  }
+ ol.bjqs-markers li{
+  float:left;
+  margin:0 6px;
+}
 
-  ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
-  li.bjqs-slide{position:absolute; display:none;}
-  ul.bjqs-controls{list-style:none;margin:0;padding:0;z-index:9999;}
-  ul.bjqs-controls.v-centered li a{position:absolute;}
-  ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
-  ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
+ ol.bjqs-markers li a{
+  display:block;
+  height:12px;
+  width:12px;
+  overflow:hidden;
+  text-indent:-9999px;
+  background:#FFFFFF;
+  @include round-corners(6px);
+}
 
-  ol.bjqs-markers{
-    position:absolute;
-    bottom:20px;
-    right:48%;
-  }
-
-  ol.bjqs-markers li{
-    float:left;
-    margin:0 6px;
-  }
-
-  ol.bjqs-markers li a{
-    display:block;
-    height:12px;
-    width:12px;
-    overflow:hidden;
-    text-indent:-9999px;
-    background:#FFFFFF;
-    @include round-corners(6px);
-  }
-
-  ol.bjqs-markers li.active-marker a{
-    background:$cyan;
-  }
+ol.bjqs-markers li.active-marker a{
+  background:$cyan;
+}
 
 
-  p.bjqs-caption{
-    display:block;
-    width:100%;
-    margin:0;
-    padding:2%;
-    position:absolute;
-    bottom:40%;
-    text-align:center;
-    font-size:3.3em;
-    color:#FFFFFF;
-    font-weight:900;
-    /* Text Shadow - REPLACE WITH MIXIN */
-    /*@mixin txt-shadow(3px 3px 3px #000000);*/
+p.bjqs-caption{
+	display:block;
+	width:100%;
+	margin:0;
+	padding:2%;
+	position:absolute;
+	bottom:40%;
+	text-align:center;
+	font-size:4em;
+	color:#FFFFFF;
+	font-weight:900;
+	/* Text Shadow - REPLACE WITH MIXIN */
+	/*@mixin txt-shadow(3px 3px 3px #000000);*/
 
-    -moz-text-shadow: 1px 1px 4px #000000;
+	-moz-text-shadow: 1px 1px 4px #000000;
     -webkit-text-shadow: 1px 1px 4px #000000;
     text-shadow: 1px 1px 4px #000000;
-    /* For IE 8 */
+    /* For IE 8 */ 
     -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
     /* For IE 5.5 - 7 */
     filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
-  }
-
-
 }
+

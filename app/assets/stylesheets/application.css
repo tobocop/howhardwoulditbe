@@ -11,6 +11,7 @@
  *= require reset
  *= require foundation
  *= require raleway
+ *= require opensans
  *= require_tree .
  *= require_self
  *= require hero_gallery

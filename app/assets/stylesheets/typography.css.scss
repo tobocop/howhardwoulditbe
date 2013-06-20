@@ -7,6 +7,16 @@
     font-weight:400;
   }
 
+  &.legal{
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color:#c9c9c9;
+    font-size:.7em;
+    font-weight:200;
+    letter-spacing:1px;
+    margin:20px 0px 0px 0px;
+    text-align: left;
+  }
+
   &.modal-h1 {
     color:$cyan;
     font-weight:900;
@@ -23,6 +33,21 @@
   }
 
   &.modal-h3 {
+    color:$cyan;
+    /*font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    font-size:1.1em;
+    font-weight:400;
+    letter-spacing:1px;
+    margin-bottom:8px;
+
+    &.bold{
+      color:$lightgray;
+      font-weight:600;
+      margin-bottom:10px;
+    }
+  }
+
+  &.modal-h4 {
     color:$lightgray;
     font-weight:200;
     font-size:.9em;

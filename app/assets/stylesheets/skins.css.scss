@@ -9,7 +9,7 @@
   -webkit-background-clip: padding-box; /* for Safari */
   background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
   background-color: #FFFFFF;
-  padding: 20px;
+  padding: 15px;
   text-align: center;
   @include round-corners(14px);
 
@@ -22,7 +22,7 @@
     display: inline-block;
     background-color: #f2f2f2;
     padding: 15px;
-    margin: 10px 0px;
+    margin: 15px 0px;
     text-align: center;
     @include round-corners(8px);
   }
@@ -33,8 +33,18 @@
     right: -8px;
   }
 
+  .ribbon {
+    left: -9px;
+    position: absolute;
+    top: -11px;
+  }
+
   &.reveal-modal.sign-in-modal {
     width: 382px;
     margin-left: -191px;
+  }
+
+  &.offer-details {
+    width: 500px;
   }
 }
