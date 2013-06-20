@@ -14,12 +14,12 @@
     %h2 Header
 
     %section
-      %h3 Members   **line break needed after 'Welcome Kris'**
+      %h3 Members
       %header.header 
         .header-inner
           %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
           .welcome-text
-            %span.header-text Welcome, Kris!
+            %span.header-text.bold Welcome, Kris!
             %br
             %span.header-text You have 999,999 Plink points.
           %ul.nav-ul
@@ -44,10 +44,13 @@
             = link_to 'Join', '#', class:'link button nav join'
           .header-button
             = link_to 'Sign In', '#', class:'link button nav sign-in'
+          .header-button-social.last  
+            %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
+          .header-button-social  
+            %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
           .header-button-social
             %span.header-text Let's be friends.
-            %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
-            %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
+
       .hero-gallery
         .hero-gallery-inner
           %ul.bjqs

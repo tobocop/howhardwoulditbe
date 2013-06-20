@@ -5,11 +5,13 @@
 
 .hero-gallery {
 
-  background-color: $cyan;
+  background-color: $slate;
   width:100%;
+  min-width: 1024px;
 
   .hero-gallery-inner{
     margin:0 auto;
+    padding:0;
   }
 
   ul.bjqs{position:relative; list-style:none;padding:0;margin:0;overflow:hidden; display:none;}
@@ -18,10 +20,6 @@
   ul.bjqs-controls.v-centered li a{position:absolute;}
   ul.bjqs-controls.v-centered li.bjqs-next a{right:0;}
   ul.bjqs-controls.v-centered li.bjqs-prev a{left:0;}
-  /*ol.bjqs-markers{list-style: none; padding: 0; margin: 0; width:100%;}
-  ol.bjqs-markers.h-centered{text-align: center;}
-  ol.bjqs-markers li{display:inline;}
-  ol.bjqs-markers li a{display:inline-block;}*/
 
   ol.bjqs-markers{
     position:absolute;
@@ -57,7 +55,7 @@
     position:absolute;
     bottom:40%;
     text-align:center;
-    font-size:3.2em;
+    font-size:3.3em;
     color:#FFFFFF;
     font-weight:900;
     /* Text Shadow - REPLACE WITH MIXIN */
