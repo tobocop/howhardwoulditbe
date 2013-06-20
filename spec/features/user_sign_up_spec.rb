@@ -24,6 +24,18 @@ describe 'User signup workflow' do
       current_path.should == dashboard_path
       page.should have_content('Welcome, Joe!')
     end
+
+    it 'should show error messages when form validation fails', js: true do
+      visit '/'
+
+      click_link 'Join'
+
+      within '.modal' do
+        click_on 'Start Earning Rewards'
+      end
+
+      page.should have_text('Password is too short (minimum is 6 characters)')
+    end
   end
 
   context 'registering with facebook' do
@@ -39,7 +51,6 @@ describe 'User signup workflow' do
       end
 
       within_window page.driver.browser.window_handles.last do
-        page.should have_content 'Email or Phone'
         fill_in 'Email or Phone:', with: "matt.hamrick@plink.com"
         fill_in 'Password:', with: 'test123'
 
