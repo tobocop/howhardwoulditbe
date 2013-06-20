@@ -15,5 +15,5 @@ doc/dependencies.db
 doc/dependencies.html
 **.orig
 rerun.txt
-config/database.yml
-config/gigya_keys.yml
+database.yml
+gigya_keys.yml
