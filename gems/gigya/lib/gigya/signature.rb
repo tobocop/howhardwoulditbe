@@ -3,7 +3,7 @@ class Gigya
     attr_accessor :signature_timestamp, :uid, :uid_signature
 
     def initialize(params)
-      self.signature_timestamp = params[:signatureTimestamp]
+      self.signature_timestamp = params[:signatureTimestamp].to_i
       self.uid = params[:UID]
       self.uid_signature = params[:UIDSignature]
     end

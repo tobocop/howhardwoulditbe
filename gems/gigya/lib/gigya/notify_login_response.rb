@@ -32,6 +32,5 @@ class Gigya
     def successful?
       (error_code == 0) && (status_code == 200)
     end
-
   end
 end

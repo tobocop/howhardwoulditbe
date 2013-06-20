@@ -40,7 +40,7 @@ describe 'User signup workflow' do
 
       within_window page.driver.browser.window_handles.last do
         page.should have_content 'Email or Phone'
-        fill_in 'Email or Phone:', with: 'matt.hamrick@plink.com'
+        fill_in 'Email or Phone:', with: "matt.hamrick@plink.com"
         fill_in 'Password:', with: 'test123'
 
         click_button 'Log In'

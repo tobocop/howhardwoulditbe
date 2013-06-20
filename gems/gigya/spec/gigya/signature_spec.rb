@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Gigya::Signature do
   let(:uid) { '_guid_LVzJyCySlXIIYbb0Yjw897NKsqvVas8HUhpmStc7zKE=' }
   let(:uid_signature) { '7HA9q0rSzfsz16ox53Wc7z4XasA=' }
-  let(:known_timestamp) { 1371659634 }
+  let(:known_timestamp) { '1371659634' }
   let(:valid_options) { {UID: uid, UIDSignature: uid_signature, signatureTimestamp: known_timestamp} }
 
   before do
-    sixty_seconds_after_timestamp = Time.at(known_timestamp + 60)
+    sixty_seconds_after_timestamp = Time.at(known_timestamp.to_i + 60)
     Time.stub(:now) { sixty_seconds_after_timestamp }
   end
 
@@ -23,7 +23,7 @@ describe Gigya::Signature do
     end
 
     it 'has a signature timestamp' do
-      subject.signature_timestamp.should == known_timestamp
+      subject.signature_timestamp.should == known_timestamp.to_i
     end
 
     it 'has a uid_signature' do
@@ -40,7 +40,7 @@ describe Gigya::Signature do
   end
 
   context 'with valid parameters' do
-    let(:less_than_three_minutes_ago) { Time.now.to_i - 179 }
+    let(:less_than_three_minutes_ago) { (Time.now.to_i - 179).to_s }
 
     it 'has a valid signature when timestamp is less than three minutes old' do
       Gigya::Signature.new(valid_options.merge(signatureTimestamp: less_than_three_minutes_ago)).should have_recent_timestamp

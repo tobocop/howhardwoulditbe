@@ -1,13 +1,14 @@
 class GigyaLoginHandlerController < ApplicationController
   def create
-    gigya_user = Gigya::User.from_redirect_params(params.except(:controller, :action)) # handles signature verification
+    gigya_login_service = GigyaSocialLoginService.new(params_for_service)
 
-    user = User.find_or_create_gigya_user(gigya_user)
-    if user.persisted?
-      sign_in_user(user)
-      redirect_to dashboard_path
-    else
-      raise ActiveRecord::RecordNotFound
-    end
+    sign_in_user(gigya_login_service.user)
+    redirect_to dashboard_path
+  end
+
+  private
+
+  def params_for_service
+    params.merge(gigya_connection: gigya_connection).except(:controller, :action)
   end
 end
