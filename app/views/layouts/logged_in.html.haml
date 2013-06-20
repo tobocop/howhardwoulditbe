@@ -11,7 +11,7 @@
       = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
 
       %span.header-text Welcome, #{current_user.first_name}!
-      %span.header-text You have #{current_virtual_currency.user_balance} #{current_virtual_currency.currency_name}.
+      %span.header-text You have #{current_virtual_currency.user_balance_currency} #{current_virtual_currency.currency_name}.
 
       %ul.nav-ul
         %li.nav-li.selected

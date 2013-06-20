@@ -16,10 +16,10 @@ describe VirtualCurrencyPresenter do
     end
   end
 
-  describe '#users_balance' do
-    it 'returns the balance passed in' do
-      presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub)
-      presenter.user_balance.should === '1'
+  describe '#user_balance_currency' do
+    it 'returns the balance passed in * the currencies exchange rate' do
+      presenter = VirtualCurrencyPresenter.new(user_balance: 1.35, virtual_currency: stub(exchange_rate: 100))
+      presenter.user_balance_currency.should === '135'
     end
   end
 

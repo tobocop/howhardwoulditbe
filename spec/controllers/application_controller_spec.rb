@@ -31,7 +31,7 @@ describe ApplicationController do
       presented_currency = controller.current_virtual_currency
 
       presented_currency.currency_name.should == 'Plonk Points'
-      presented_currency.user_balance.should == '0'
+      presented_currency.user_balance_currency.should == '0'
     end
   end
 
