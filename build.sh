@@ -1,16 +1,15 @@
 #! /bin/bash
 
+export RAILS_ENV=test
+
 set -e
 
-./approve_gems.sh
-
-bundle exec license_finder rescan
-STATUS=$?
-
-rake spec
+rake db:test:prepare
+rake db:create_views
+bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
-cd gems/gigya && rspec spec
+cd gems/gigya && bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
