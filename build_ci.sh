@@ -13,6 +13,7 @@ bundle install --deployment --path vendor/bundle
 bundle exec license_finder rescan -q
 STATUS=$?
 
+bundle exec rake db:migrate
 bundle exec rake db:test:prepare
 bundle exec rake db:create_views
 bundle exec rspec spec
