@@ -1,0 +1,18 @@
+.hero-gallery
+  .hero-gallery-inner
+    %ul.bjqs
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}
+
+:javascript
+    jQuery(function () {
+      $('.hero-gallery-inner').bjqs({
+            width       : 1800,
+            height      : 380,
+            responsive  : true
+          });
+    });

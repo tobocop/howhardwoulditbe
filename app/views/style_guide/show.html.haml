@@ -16,51 +16,64 @@
     %section
       %h3 Members   **line break needed after 'Welcome Kris'**
       %header.header 
-        %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
-        %span.header-text Welcome, Kris! 
-        %span.header-text You have 999,999 Plink points.
-        %ul.nav-ul
-          %li.nav-li.selected
-            = link_to 'Dashboard', '#', class:'link'
-          %li.nav-li
-            = link_to 'Wallet', '#', class:'link'
-          %li.nav-li
-            = link_to 'Rewards', '#', class:'link'
-          %li.nav-li
-            = link_to 'My Account', '#', class:'link'
-          %li.nav-li
-            = link_to 'Log Out', '#', method: :delete, class:'link logout'
+        .header-inner
+          %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+          .welcome-text
+            %span.header-text Welcome, Kris!
+            %br
+            %span.header-text You have 999,999 Plink points.
+          %ul.nav-ul
+            %li.nav-li.selected
+              = link_to 'Dashboard', '#', class:'link'
+            %li.nav-li
+              = link_to 'Wallet', '#', class:'link'
+            %li.nav-li
+              = link_to 'Rewards', '#', class:'link'
+            %li.nav-li
+              = link_to 'My Account', '#', class:'link'
+            %li.nav-li
+              = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
 
       %h3 Guests
       %header.header
-        %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
-        .header-button
+        .header-inner
+          %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+          .header-button
 
-          = link_to 'Join', '#', class:'link button nav join'
-        .header-button
-          = link_to 'Sign In', '#', class:'link button nav sign-in'
-        .header-button-social
-          %span.header-text Let's be friends.
-          %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
-          %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
-          
+            = link_to 'Join', '#', class:'link button nav join'
+          .header-button
+            = link_to 'Sign In', '#', class:'link button nav sign-in'
+          .header-button-social
+            %span.header-text Let's be friends.
+            %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
+            %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
+      .hero-gallery
+        .hero-gallery-inner
+          %ul.bjqs
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}
   %section 
     %h2 Hero Gallery
 
     %section
       .hero-gallery
-        %ul.bjqs
-          %li.bjqs-slide
-            %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
-          %li.bjqs-slide
-            %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
-          %li.bjqs-slide
-            %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}    
+        .hero-gallery-inner
+          %ul.bjqs
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
+            %li.bjqs-slide
+              %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}
 
   :javascript
     jQuery(function () {
-      $('.hero-gallery').bjqs({
+      $('.hero-gallery-inner').bjqs({
             width       : 1800,
             height      : 380,
             responsive  : true
