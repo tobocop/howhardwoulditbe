@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "user_registration_form" do
 
-  subject { UserRegistrationForm.new(password: "goodpassword", confirmation: "goodpassword", first_name: "Bobo", email: "bobo@example.com") }
+  subject { UserRegistrationForm.new(password: "goodpassword", password_confirmation: "goodpassword", first_name: "Bobo", email: "bobo@example.com") }
 
   it "is not persisted" do
     subject.should_not be_persisted

@@ -5,4 +5,6 @@ describe "Contact Page" do
     visit "/contact.html"
     page.should have_content "Contact us..."
   end
+
+
 end
