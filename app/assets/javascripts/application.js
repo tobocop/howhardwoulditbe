@@ -19,13 +19,41 @@
 //= require_tree .
 
 $(function () {
-    $(document).foundation();
+  $(document).foundation();
 
-    Modernizr.load({
-        test: Modernizr.input.placeholder,
-        nope: '/assets/jquery.placeholder.js',
-        callback: function () {
-            $('input, textarea').placeholder();
-        }
-    });
+  Modernizr.load({
+    test: Modernizr.input.placeholder,
+    nope: '/assets/jquery.placeholder.js',
+    callback: function () {
+      $('input, textarea').placeholder();
+    }
+  });
 });
+
+
+var GigyaPostLoginHandler = {
+  handleLogin: function (data) {
+    if (data.user.loginProvider == 'twitter') {
+      console.log('should redirect');
+
+      var email = encodeURIComponent(data.user.email);
+      var uid = encodeURIComponent(data.user.UID);
+      var firstName = encodeURIComponent(data.user.firstName);
+
+      var url = "/handle_gigya_login?email=" + email + '&UID=' + uid + '&firstName=' + firstName;
+
+      console.log(url);
+
+      Plink.redirect(url);
+    } else {
+      console.log('used facebook');
+    }
+  }
+}
+
+var Plink = {
+  redirect: function (path) {
+    window.location.href = path;
+  }
+};
+

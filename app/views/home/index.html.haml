@@ -28,3 +28,9 @@
   'width':224,
   'height':70
   });
+
+  gigya.socialize.addEventHandlers({
+    'onLogin': function (data) {
+      GigyaPostLoginHandler.handleLogin(data);
+    }
+  })

@@ -36,6 +36,12 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.include(FeatureSpecHelper, type: :feature)
+
+  config.after(:each, type: :feature) do
+    delete_users_from_gigya
+  end
 end
 
 Capybara.app_host = "http://plink.test:58891"
