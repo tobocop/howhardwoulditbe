@@ -24,7 +24,7 @@
   'showTermsLink':false,
   'hideGigyaLink':true,
   'containerID': "social-login",
-  'redirectURL': "http://plink.test:58891/handle_gigya_login",
+  'redirectURL': '#{Gigya::Config.instance.registration_redirect_base_url}/handle_gigya_login',
   'width':224,
   'height':70
   });

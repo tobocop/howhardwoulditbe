@@ -1,7 +1,9 @@
 development:
   gigya_api_key: Gigya API key - dev
   gigya_secret: Gigya secret - dev
+  registration_redirect_base_url: url
 
 test:
   gigya_api_key: Gigya API key - test
   gigya_secret: Gigya secret - test
+  registration_redirect_base_url: url

@@ -3,11 +3,19 @@ class Gigya
 
     include Singleton
 
+    CONFIGURABLE_OPTIONS = [
+        :api_key,
+        :secret,
+        :registration_redirect_base_url
+    ]
+
+    attr_reader *CONFIGURABLE_OPTIONS
+
     def self.configure(&block)
       raise "Gigya::Config#configure: cannot be called more than once" if instance.configured?
       raise "Gigya::Config#configure: no block given" unless block_given?
 
-      config_class = Struct.new(:api_key, :secret)
+      config_class = Struct.new(*CONFIGURABLE_OPTIONS)
       config = config_class.new
 
       yield config
@@ -23,14 +31,6 @@ class Gigya
       @configured
     end
 
-    def api_key
-      @api_key
-    end
-
-    def secret
-      @secret
-    end
-
     private
 
     def api_key=(key)
@@ -39,6 +39,10 @@ class Gigya
 
     def secret=(secret)
       @secret = secret
+    end
+
+    def registration_redirect_base_url=(url)
+      @registration_redirect_base_url = url
     end
   end
 end
