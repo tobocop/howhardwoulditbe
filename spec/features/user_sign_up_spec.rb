@@ -41,7 +41,6 @@ describe 'User signup workflow' do
   context 'registering with facebook' do
     it 'allows a user to register with their facebook account', js: true do
       visit '/'
-      page.execute_script('$.fx.off = true;')
 
       click_on 'Join'
 
@@ -52,7 +51,8 @@ describe 'User signup workflow' do
       end
 
       within_window page.driver.browser.window_handles.last do
-        fill_in 'Email', with: "matt.hamrick@plink.com"
+        page.should have_content 'Email'
+        fill_in 'Email', with: 'matt.hamrick@plink.com'
         fill_in 'Password:', with: 'test123'
 
         click_button 'Log In'
