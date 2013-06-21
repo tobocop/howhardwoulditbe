@@ -19,20 +19,24 @@
 //= require_tree .
 
 $(function () {
-  $(document).foundation();
-
-  Modernizr.load({
-    test: Modernizr.input.placeholder,
-    nope: '/assets/jquery.placeholder.js',
-    callback: function () {
-      $('input, textarea').placeholder();
-    }
-  });
+  Plink.boot();
 });
 
 var Plink = {
   redirect: function (path) {
     window.location.href = path;
+  },
+
+  boot: function () {
+    $(document).foundation();
+
+    Modernizr.load({
+      test: Modernizr.input.placeholder,
+      nope: '/assets/jquery.placeholder.js',
+      callback: function () {
+        $('input, textarea').placeholder();
+      }
+    });
   }
 };
 
