@@ -58,8 +58,27 @@ describe 'User signup workflow' do
         click_button 'Log In'
       end
 
-      current_path.should == dashboard_path
       page.should have_content('Welcome, Matt!')
+      current_path.should == dashboard_path
+
+      begin
+        click_on 'Log Out'
+
+        click_on 'Join'
+
+        page.execute_script('$.fx.off = true;')
+
+        within '.modal' do
+          page.find('[gigid="facebook"]').click
+        end
+
+        page.should have_content('Welcome, Matt!')
+        current_path.should == dashboard_path
+      rescue Exception => e
+        delete_users_from_gigya
+        raise e
+      end
+
 
       delete_users_from_gigya
     end

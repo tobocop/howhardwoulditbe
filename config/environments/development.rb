@@ -38,4 +38,5 @@ PlinkPivotal::Application.configure do
   keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
   ENV['GIGYA_API_KEY'] = keys['gigya_api_key']
   ENV['GIGYA_SECRET'] = keys['gigya_secret']
+  #ENV['GIGYA_REGISTRATION_REDIRECT_BASE_URL'] = keys['registration_redirect_base_url']
 end
