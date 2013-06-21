@@ -5,8 +5,7 @@ class Gigya
 
     CONFIGURABLE_OPTIONS = [
         :api_key,
-        :secret,
-        :registration_redirect_base_url
+        :secret
     ]
 
     attr_reader *CONFIGURABLE_OPTIONS
@@ -39,10 +38,6 @@ class Gigya
 
     def secret=(secret)
       @secret = secret
-    end
-
-    def registration_redirect_base_url=(url)
-      @registration_redirect_base_url = url
     end
   end
 end

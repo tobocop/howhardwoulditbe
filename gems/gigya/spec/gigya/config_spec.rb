@@ -24,12 +24,10 @@ describe Gigya::Config do
       Gigya::Config.configure do |config|
         config.api_key = '1234'
         config.secret = 'my-secret'
-        config.registration_redirect_base_url = 'http://example.com:9000'
       end
 
       Gigya::Config.instance.api_key.should == '1234'
       Gigya::Config.instance.secret.should == 'my-secret'
-      Gigya::Config.instance.registration_redirect_base_url.should == 'http://example.com:9000'
     end
   end
 end
