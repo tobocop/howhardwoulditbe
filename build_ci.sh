@@ -25,7 +25,7 @@ bundle exec rake db:create_views
 bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
-bundle exec rake integration_spec
+bundle exec rspec integration_spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
