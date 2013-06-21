@@ -1,4 +1,4 @@
-describe('GigyaPostLoginHandler', function () {
+describe('Plink.GigyaPostLoginHandler', function () {
 
   var callbackData;
 
@@ -57,7 +57,7 @@ describe('GigyaPostLoginHandler', function () {
     it('redirects when the user is from twitter and contains an encoded URI', function () {
       spyOn(Plink, 'redirect');
 
-      GigyaPostLoginHandler.handleLogin(callbackData);
+      Plink.GigyaPostLoginHandler.handleLogin(callbackData);
 
       expect(Plink.redirect).toHaveBeenCalledWith("/handle_gigya_login?email=hunter%40example.com&UID=_guid_dQpfkMXjALrer1JlrFZjOf0apvTncgs4PMjKXn1JdgI%3D&firstName=Matt");
     });
@@ -67,7 +67,7 @@ describe('GigyaPostLoginHandler', function () {
 
       callbackData.user.loginProvider = 'facebook';
 
-      GigyaPostLoginHandler.handleLogin(callbackData);
+      Plink.GigyaPostLoginHandler.handleLogin(callbackData);
 
       expect(Plink.redirect).not.toHaveBeenCalled();
     });

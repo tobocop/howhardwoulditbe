@@ -16,6 +16,7 @@
 //= require foundation/foundation
 //= require foundation/foundation.reveal
 //= require custom.modernizr
+//= require_self
 //= require_tree .
 
 $(function () {
@@ -39,4 +40,3 @@ var Plink = {
     });
   }
 };
-

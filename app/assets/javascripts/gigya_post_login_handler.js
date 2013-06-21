@@ -1,4 +1,4 @@
-var GigyaPostLoginHandler = {
+Plink.GigyaPostLoginHandler = {
   handleLogin: function (data) {
     if (data.user.loginProvider == 'twitter') {
       var email = encodeURIComponent(data.user.email);
