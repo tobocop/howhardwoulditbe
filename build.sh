@@ -1,5 +1,6 @@
 #! /bin/bash
 
+
 export RAILS_ENV=test
 
 set -e

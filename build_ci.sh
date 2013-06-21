@@ -13,7 +13,7 @@ bundle install --deployment --path vendor/bundle
 bundle exec license_finder rescan -q
 STATUS=$?
 
-cd gems/gigya && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
+cd gems/gigya && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
 bundle exec rake jasmine:ci
@@ -23,9 +23,6 @@ bundle exec rake db:migrate
 bundle exec rake db:test:prepare
 bundle exec rake db:create_views
 bundle exec rspec spec
-STATUS=$((STATUS + $?))
-
-bundle exec rspec integration_spec
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
