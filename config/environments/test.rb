@@ -1,4 +1,6 @@
 PlinkPivotal::Application.configure do
+
+  config.coldfusion_card_add_url = 'http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution'
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
