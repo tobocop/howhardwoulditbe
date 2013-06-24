@@ -24,6 +24,8 @@ describe 'user signs in' do
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
 
+    page.should have_css('#social-links[gigid="showAddConnectionsUI"]')
+
     click_on 'Log Out'
 
     current_path.should == '/'
