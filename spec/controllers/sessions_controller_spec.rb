@@ -50,13 +50,14 @@ describe SessionsController do
         gigya = mock
         controller.stub(:gigya_connection) { gigya }
 
-        user = stub(id:123)
+        user = stub(id:123).as_null_object
         user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
         UserSession.stub(:new) { user_session }
 
         gigya.stub(:notify_login) { stub(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
 
-        controller.send(:cookies).should_receive(:[]=).with('plink_gigya', { value: 'myvalue123', path: '/', domain: 'gigya.com'}).and_call_original
+        cookies.stub(:[]=)
+        cookies.should_receive(:[]=).with('plink_gigya', { value: 'myvalue123', path: '/', domain: 'gigya.com'}).and_call_original
         post :create, {user_session: {}}
 
         cookies['plink_gigya'].should == 'myvalue123'
