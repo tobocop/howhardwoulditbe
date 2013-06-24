@@ -16,42 +16,89 @@
     margin:20px 0px 0px 0px;
     text-align: left;
   }
+  
+  &.modal-text{
 
-  &.modal-h1 {
-    color:$cyan;
-    font-weight:900;
-    font-size:3.2em;
-    letter-spacing:1px;
-    margin-bottom: 7px;
-  }
+    &.h1 {
+      color:$cyan;
+      font-weight:900;
+      font-size:3.2em;
+      letter-spacing:1px;
+      margin-bottom: 7px;
+    }
 
-  &.modal-h2 {
-    color:$lightgray;
-    font-weight:400;
-    font-size:1.0em;
-    letter-spacing:1px;
-  }
-
-  &.modal-h3 {
-    color:$cyan;
-    /*font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-    font-size:1.1em;
-    font-weight:400;
-    letter-spacing:1px;
-    margin-bottom:8px;
-
-    &.bold{
+    &.h2 {
       color:$lightgray;
-      font-weight:600;
-      margin-bottom:10px;
+      font-weight:400;
+      font-size:1.0em;
+      letter-spacing:1px;
+    }
+
+    &.h3 {
+      color:$cyan;
+      /*font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+      font-size:1.1em;
+      font-weight:400;
+      letter-spacing:1px;
+      margin-bottom:8px;
+
+      &.bold{
+        color:$lightgray;
+        font-weight:600;
+        margin-bottom:10px;
+      }
+    }
+
+    &.h4 {
+      color:$lightgray;
+      font-weight:200;
+      font-size:.9em;
+      letter-spacing:1px;
     }
   }
 
-  &.modal-h4 {
-    color:$lightgray;
-    font-weight:200;
-    font-size:.9em;
-    letter-spacing:1px;
-  }
+  &.dashboard-text {
+    &.h1 {
+      font-size: 1.8em;
+      font-weight:700;
+      text-transform: uppercase;
+      vertical-align: top;
 
+      &.cyan {
+        color: $cyan;
+      }
+
+      &.slate {
+        color:$slate;
+      }
+    }
+
+    &.h2 {
+      font-size: 1.4em;
+      font-weight:400;
+
+      &.cyan {
+        color:$cyan;
+        font-weight:700;
+      }
+
+      &.white {
+        color:#FFFFFF;
+        font-weight:700;
+      }
+
+      &.slate {
+        color:$slate;
+      }
+
+      &.slate-bold {
+        font-weight:700;
+      }
+    }
+
+    &.h3 {
+      font-size:1em;
+      font-weight:400;
+    }
+  }
 }

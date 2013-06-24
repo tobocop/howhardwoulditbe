@@ -1,12 +1,22 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
 .dashboard {
-
-  .
   
-  %.left-column {
+  &.left-column {
     background-color: #e9eef2;
+    width:340px;
 
-    &.profile {
-      
+    &.module-bg{
+   	  background-color:#666666;
+      height:54px;
+      padding:20px 20px 0px 20px;
+      vertical-align: text-top;
+
+      &.profile {
+        background-color:$cyan;
+        color:#FFFFFF;
+      }
     }
 
   }

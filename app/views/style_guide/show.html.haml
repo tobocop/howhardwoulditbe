@@ -75,6 +75,18 @@
           });
     });   
 
+  %section
+    %h2 Dashboard
+
+    %section
+      %h3 Left Column
+      
+      .dashboard.left-column
+
+        .dashboard.left-column.module-bg.profile 
+          %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
+          %span.font.dashboard-text.h1 kris
+
 
   %section
     %h2 Buttons
@@ -201,24 +213,44 @@
       %section
 
         %h4 H1
-        %span.font.modal-h1 Join Plink
+        %span.font.modal-text.h1 Join Plink
 
         %h4 H2
-        %span.font.modal-h2 Your days of not earning unlimited rewards are over. 
+        %span.font.modal-text.h2 Your days of not earning unlimited rewards are over. 
         
         %h4 H3
-        %span.font.modal-h3 Offer details
+        %span.font.modal-text.h3 Offer details
 
         %h4 H3 Bold
-        %span.font.modal-h3.bold CURRENT OFFERS 
+        %span.font.modal-text.h3.bold CURRENT OFFERS 
 
         %h4 H4
-        %span.font.modal-h4 Already a member? ... 
+        %span.font.modal-text.h4 Already a member? ... 
 
       %h3 Error
       %section
         
         %span.font.error First name is not valid - DO NOT USE YET
+
+      %h3 Dashboard
+      %section
+        %h4 H1
+        %span.font.dashboard-text.h1.cyan  Cyan (first name) 
+        %br
+        %span.font.dashboard-text.h1.slate  Slate (module title)
+
+        %h4 H2
+        %span.font.dashboard-text.h2  Default
+        %br
+        %span.font.dashboard-text.h2.cyan  Cyan
+        %br
+        %span.font.dashboard-text.h2.slate  Slate
+        %br
+        %span.font.dashboard-text.h2.slate-bold  Slate-Bold
+
+        %h4 H3
+        %span.font.dashboard-text.h3  Default
+
       
       %h3 Legal
       %section
@@ -234,10 +266,10 @@
       %h3 Modal
       .modal
         %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
-        %p.font.modal-h1 Join Plink
-        %p.font.modal-h2 Your days of not earning unlimited rewards are over.
+        %p.font.modal-text.h1 Join Plink
+        %p.font.modal-text.h2 Your days of not earning unlimited rewards are over.
         .bg-element
-        %p.font.modal-h4 Already have an account?
+        %p.font.modal-text.h4 Already have an account?
 
       %h3 Offer Details
       .modal.offer-details
@@ -245,10 +277,10 @@
         %img{ :class => "ribbon", :src => "/assets/ribbon_2x.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
         %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/oldnavy.png", :alt => "Old Navy"}
         .bg-element
-          %p.font.modal-h3.bold CURRENT OFFERS
-          %p.font.modal-h3 Spend $50 or more, get 500 Plink points.
-          %p.font.modal-h3 Spend $30 or more, get 300 Plink points.
-          %p.font.modal-h3 Spend $10 or more, get 100 Plink points.
+          %p.font.modal-text.h3.bold CURRENT OFFERS
+          %p.font.modal-text.h3 Spend $50 or more, get 500 Plink points.
+          %p.font.modal-text.h3 Spend $30 or more, get 300 Plink points.
+          %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
         %button.button.primary-action.narrow ADD TO MY WALLET  
         %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing. 
 
