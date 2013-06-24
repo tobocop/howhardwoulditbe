@@ -1,13 +1,16 @@
-Plink.GigyaPostLoginHandler = {
-  handleLogin: function (data) {
-    if (data.user.loginProvider == 'twitter') {
-      var email = encodeURIComponent(data.user.email);
-      var uid = encodeURIComponent(data.user.UID);
-      var firstName = encodeURIComponent(data.user.firstName);
+(function (exports) {
 
-      var url = "/handle_gigya_login?email=" + email + '&UID=' + uid + '&firstName=' + firstName;
+  exports.Plink.GigyaPostLoginHandler = {
+    handleLogin: function (data) {
+      if (data.user.loginProvider == 'twitter') {
+        var email = encodeURIComponent(data.user.email);
+        var uid = encodeURIComponent(data.user.UID);
+        var firstName = encodeURIComponent(data.user.firstName);
 
-      Plink.redirect(url);
+        var url = "/handle_gigya_login?email=" + email + '&UID=' + uid + '&firstName=' + firstName;
+
+        Plink.redirect(url);
+      }
     }
   }
-}
+})(window);
