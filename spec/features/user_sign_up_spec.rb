@@ -78,6 +78,8 @@ describe 'User signup workflow' do
           page.find('[gigid="facebook"]').click
         end
 
+        page.should_not have_content 'Join Plink'
+
         page.should have_content('Welcome, Matt!')
         current_path.should == dashboard_path
       end
