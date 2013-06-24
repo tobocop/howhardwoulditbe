@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_virtual_currency
 
   def sign_in_user(user)
-    session[:current_user_id] = user.id
+    set_user_session(user.id)
+    set_coldfusion_login_cookie(user.password_hash)
   end
 
   def current_user
@@ -29,5 +30,21 @@ class ApplicationController < ActionController::Base
 
   def gigya_connection
     @_gigya_connection ||= Gigya.new(Gigya::Config.instance)
+  end
+
+  private
+
+  def set_user_session(user_id)
+    session[:current_user_id] = user_id
+  end
+
+  def set_coldfusion_login_cookie(password_hash)
+    encoded_hash = Base64.encode64(password_hash)
+
+    cookies[:PLINKUID] = {
+        value: encoded_hash,
+        domain: :all,
+        path: '/'
+    }
   end
 end

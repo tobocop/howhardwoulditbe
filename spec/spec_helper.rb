@@ -14,6 +14,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include(FactoryTestHelpers)
+  config.include(FeatureSpecHelper, type: :feature)
 
   config.use_transactional_fixtures = false
 
@@ -36,8 +37,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-
-  config.include(FeatureSpecHelper, type: :feature)
 
   config.after(:each, type: :feature) do
     delete_users_from_gigya

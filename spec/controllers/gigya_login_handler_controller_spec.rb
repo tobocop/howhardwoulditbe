@@ -4,6 +4,7 @@ describe GigyaLoginHandlerController do
   describe '#create' do
     let(:user_stub) { stub }
     let(:gigya_connection) { stub }
+
     before do
       controller.stub(:gigya_connection) { gigya_connection }
       GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }

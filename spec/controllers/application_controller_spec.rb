@@ -2,10 +2,16 @@ require 'spec_helper'
 
 describe ApplicationController do
   describe '#sign_in_user' do
-    it 'sets the current_user_id cookie' do
-      user = mock_model(User, id: 123)
+    let(:user) { mock_model(User, id: 123, password_hash: 'hashypassy') }
+
+    it 'sets current_user_id in the session' do
       controller.sign_in_user(user)
       session[:current_user_id].should == 123
+    end
+
+    it 'sets the plinkUID cookie for coldfusion to the base64 encoded version of the hashed password' do
+      controller.sign_in_user(user)
+      cookies[:PLINKUID].should == "aGFzaHlwYXNzeQ==\n"
     end
   end
 

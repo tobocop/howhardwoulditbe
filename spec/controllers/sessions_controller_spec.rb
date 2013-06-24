@@ -14,18 +14,17 @@ describe SessionsController do
   end
 
   describe '#create' do
-    it "sets a user_session object" do
+    it 'sets a user_session object' do
       user_session = stub(valid?: nil)
       UserSession.stub(:new) { user_session }
       post :create, {user_session: {}}
       assigns(:user_session).should == user_session
     end
 
-
     describe 'happy path' do
 
       it 'sets the session current user id if UserSession is valid and redirects' do
-        user = stub(id: 123)
+        user = stub(id: 123).as_null_object
         user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
         UserSession.should_receive(:new).with(email: 'bob@example.com', password: 'test123') { user_session }
         Gigya.stub(:new) { stub(:notify_login => true)}
@@ -39,7 +38,7 @@ describe SessionsController do
         gigya = mock
         controller.stub(:gigya_connection) { gigya }
 
-        user = stub(id:123)
+        user = stub(id:123).as_null_object
         user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
         UserSession.stub(:new) { user_session }
 
