@@ -74,6 +74,7 @@ describe 'Signing up', js: true do
 
     page.should have_text('Please enter a valid email address')
   end
+
   it 'tells the user the email field is invalid format' do
     visit '/'
     click_on 'Join'
@@ -85,6 +86,7 @@ describe 'Signing up', js: true do
 
     page.should have_text('Please enter a valid email address')
   end
+  
   it 'tells the user that an email already exists in the database' do
     create_user(email: 'bob@example.com')
     visit '/'

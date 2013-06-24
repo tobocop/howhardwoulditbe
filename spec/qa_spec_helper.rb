@@ -15,6 +15,8 @@ RSpec.configure do |config|
 
   config.include(FactoryTestHelpers)
 
+  config.include(FeatureSpecHelper)
+
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
