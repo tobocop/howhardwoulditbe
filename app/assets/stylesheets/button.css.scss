@@ -157,4 +157,31 @@ $disabled:#e6e6e6;
 
   }
 
+  &.wallet {
+    border: 1px solid #e6ea9a;
+    padding: 0 0;
+    margin-top:10px;
+    height: 20px;
+    text-align: center;
+    line-height:1.7em;
+    font-weight: 400;
+    font-size: .7em;
+    letter-spacing: 0px;
+    color:$slate;
+    @include vertical-bg-gradient(#d9e245, #c3ca23);
+    @include round-corners(10px);
+
+    &.hover, &:hover{
+      background: #c3ca23;
+    }
+
+    &.active, &:active{
+      background: #d9e245;
+    }
+
+    &.disabled, &:disabled{
+      background: $disabled;
+    }
+  }
+
 }

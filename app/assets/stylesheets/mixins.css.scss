@@ -16,6 +16,14 @@
   -webkit-border-radius: $amount;
 }
 
+// Round only the right corners by amount
+@mixin round-corners-right($amount){
+  border-radius: 0px $amount $amount 0px;
+  -moz-border-radius: 0px $amount $amount 0px;
+  -webkit-border-radius: 0px $amount $amount 0px;
+}
+
+
 // Text shadow by horizontal distance, vertical distance, blur, and color
 @mixin txt-shadow($h, $v, $blur, $hex){
   -moz-text-shadow: $h $v $blur $hex;

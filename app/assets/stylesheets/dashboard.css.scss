@@ -5,17 +5,26 @@
   
   &.left-column {
     background-color: #e9eef2;
+    height:100%;
     width:340px;
 
-    &.module-bg{
+
+    .profile-img {
+    	margin-right:10px;
+    	float:left;
+    }
+
+    &.module{
    	  background-color:#666666;
       height:54px;
       padding:20px 20px 0px 20px;
-      vertical-align: text-top;
+      width:340px;
 
       &.profile {
         background-color:$cyan;
         color:#FFFFFF;
+
+
       }
     }
 

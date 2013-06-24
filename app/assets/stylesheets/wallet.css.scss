@@ -1,0 +1,71 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.wallet{
+
+  &.offer{
+  	border: 1px solid #999999;
+  	display: inline-block;
+  	height:105px;
+  	margin: 14px 0px 14px 35px;
+  	position:relative;
+  	width:305px;
+    @include round-corners(8px);
+
+    .offer-wrapper {
+      border: 0px;
+      margin: 0px;
+      position:relative;
+    }
+
+    .logo {
+      border: 0px;
+      margin: 0px;
+      width: 187px;
+
+    }
+
+    .info {
+      border: 0px;
+      color:#FFFFFF;
+      height:104px;
+      line-height:.8em;
+      margin:0px;
+      padding:10px 5px 5px 5px;
+      position:absolute;
+      right:0px;
+      text-align: center;
+      top:0px;
+      width:118px;
+      @include round-corners-right(8px);
+      @include vertical-bg-gradient(#1dafec, #1073b9);
+    }
+
+  }
+
+  &.slot {
+  	border: 1px solid #999999;
+  	height:105px;
+  	margin: 5px 17px;
+  	position:relative;
+  	width:305px;
+    @include round-corners(8px);
+
+  }
+
+  .wallet-logo {
+  	display:block;
+  	margin: 8px 5px;
+  }
+
+  .wallet-emptyslot {
+  	margin: 8px 12px;
+  }
+
+  .offer-ribbon {
+    left: -7px;
+    position: absolute;
+    top: -7px;
+  }
+
+}

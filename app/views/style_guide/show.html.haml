@@ -75,18 +75,6 @@
           });
     });   
 
-  %section
-    %h2 Dashboard
-
-    %section
-      %h3 Left Column
-      
-      .dashboard.left-column
-
-        .dashboard.left-column.module-bg.profile 
-          %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
-          %span.font.dashboard-text.h1 kris
-
 
   %section
     %h2 Buttons
@@ -274,8 +262,8 @@
       %h3 Offer Details
       .modal.offer-details
         %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
-        %img{ :class => "ribbon", :src => "/assets/ribbon_2x.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
-        %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/oldnavy.png", :alt => "Old Navy"}
+        %img{ :class => "modal-ribbon", :src => "/assets/ribbon_2x.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+        %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Old Navy"}
         .bg-element
           %p.font.modal-text.h3.bold CURRENT OFFERS
           %p.font.modal-text.h3 Spend $50 or more, get 500 Plink points.
@@ -283,5 +271,88 @@
           %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
         %button.button.primary-action.narrow ADD TO MY WALLET  
         %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing. 
+
+  %section
+    %h2 Wallet
+
+    %section
+      %h3 Offer - Logged Out
+
+      .wallet.offer
+        .wallet.offer.offer-wrapper
+          .wallet.offer.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/oldnavy.png", :alt => "Old Navy"}
+          .wallet.offer.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 1200
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet DETAILS         
+
+      .wallet.offer
+        .wallet.offer.offer-wrapper
+          .wallet.offer.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Burger King"}
+          .wallet.offer.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 150
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet DETAILS   
+
+      .wallet.offer
+        .wallet.offer.offer-wrapper
+          .wallet.offer.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/gap.png", :alt => "Gap"}
+          .wallet.offer.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 1200
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet DETAILS        
+
+      %h3 Offer - Logged In
+
+      .wallet.offer
+        .wallet.offer.offer-wrapper
+          .wallet.offer.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .wallet.offer.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 150
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet ADD TO WALLET  
+
+      %h3 Offer - Promo Flag
+
+      .wallet.offer
+        %img{ :class => "offer-ribbon", :src => "/assets/ribbon_2x_offer.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+        .wallet.offer.offer-wrapper
+          .wallet.offer.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/arbys.png", :alt => "Arby's"}
+          .wallet.offer.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 300
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet ADD TO WALLET   
+
+      %h3 Wallet Slot - Empty
+
+      .wallet.slot
+        %img{ :class => "wallet-emptyslot", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+        %span.font.dashboard-text.h3.slate Select an offer to start earning Plink points.                       
+
+  
+  %section
+    %h2 Dashboard
+
+    %section
+      %h3 Left Column
+      
+      .dashboard.left-column
+
+        .dashboard.left-column.module.profile 
+          %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
+          %p.font.dashboard-text.h1 kris
+        %p.font.dashboard-text.h2.cyan Level 3
+        %p.font.dashboard-text.h2.slate 9,999,999 EBs
+        %button.button.social-action.facebook Join with Facebook
 
 
