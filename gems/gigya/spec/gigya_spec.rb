@@ -37,7 +37,7 @@ describe Gigya do
       response.should == response_stub
     end
 
-    it "includes the new_user flag in the request when specified" do
+    it 'includes the new_user flag in the request when specified' do
       http_stub = mock(perform_request: stub(body: '{}'))
       Gigya::Http.should_receive(:new).with(gigya.config, api_method: 'socialize.notifyLogin', url_params: {siteUID: 12334, newUser: true, format: 'json', userInfo: {firstName: "bob", email: "bob@example.com"}.to_json}) { http_stub }
       gigya.notify_login(mock_params.merge(new_user: true))

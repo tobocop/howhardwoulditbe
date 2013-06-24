@@ -27,14 +27,14 @@ describe RegistrationsController do
 
     describe "on save" do
       let(:gigya) { mock }
+      let(:cookie_stub) { stub(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
 
       before do
         controller.stub(:gigya_connection) { gigya }
+        gigya.stub(:notify_login) { cookie_stub }
       end
 
       it "should redirect to the dashboard upon success" do
-        gigya.stub(:notify_login)
-
         user_registration_form = stub(save: true, user: stub, user_id: 123, email:'test@example.com', first_name:'bob')
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
@@ -44,8 +44,6 @@ describe RegistrationsController do
       end
 
       it "should sign the user in upon success" do
-        gigya.stub(:notify_login)
-
         user_stub = stub
         user_registration_form = stub(save: true, user: user_stub, user_id: 123, email:'test@example.com', first_name:'bob')
         UserRegistrationForm.stub(:new) { user_registration_form }
@@ -60,7 +58,7 @@ describe RegistrationsController do
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
 
-        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'Bob', email: 'bob@example.com', new_user: true)
+        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'Bob', email: 'bob@example.com', new_user: true) { cookie_stub }
 
         post :create
       end
