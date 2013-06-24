@@ -105,6 +105,8 @@ describe 'User signup workflow' do
           click_button 'Authorize app'
         end
 
+        page.should have_content 'Email'
+
         fill_in 'profile.email', with: 'matt@example.com'
         click_button 'Submit'
 
