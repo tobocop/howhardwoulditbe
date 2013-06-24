@@ -11,6 +11,6 @@ describe 'Managing account' do
 
     click_link 'My Account'
 
-    click_link 'Link Card'
+    page.should have_link 'Link Card'
   end
 end
