@@ -1,4 +1,7 @@
+
 = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
+
+%p Card Linked?: #{@user_has_account}
 
 #card-add-modal.reveal-modal.cf-modal
   %iframe{src: Rails.application.config.coldfusion_card_add_url, style: 'height: 1000px; width: 100%;'}

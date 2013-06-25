@@ -12,5 +12,13 @@ describe AccountsController do
       get :show
       assigns(:current_tab).should == 'account'
     end
+
+    it 'assigns @user_has_account' do
+      ActiveIntuitAccount.count.should == 0
+
+      get :show
+
+      assigns(:user_has_account).should == false
+    end
   end
 end

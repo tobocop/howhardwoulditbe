@@ -12,5 +12,6 @@ describe 'Managing account' do
     click_link 'My Account'
 
     page.should have_link 'Link Card'
+    page.should have_content 'Card Linked?: false'
   end
 end
