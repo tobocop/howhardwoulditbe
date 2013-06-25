@@ -1,8 +1,11 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
+
 require File.expand_path("../../config/environment", __FILE__)
+
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'plink/test_helpers/object_creation_methods'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -15,6 +18,7 @@ RSpec.configure do |config|
 
   config.include(FactoryTestHelpers)
   config.include(FeatureSpecHelper, type: :feature)
+  config.include(Plink::ObjectCreationMethods)
 
   config.use_transactional_fixtures = false
 

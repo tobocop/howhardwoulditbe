@@ -1,5 +1,5 @@
 p 'Creating VirtualCurrency'
-VirtualCurrency.create(name: "Plink Points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
+VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url:'/assets/hero-gallery/bk_2.jpg', title:'Get Double Points at Burger King', display_order:1)

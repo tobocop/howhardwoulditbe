@@ -2,13 +2,15 @@ class VirtualCurrency < ActiveRecord::Base
   self.table_name = "virtualCurrencies"
   self.primary_key = "virtualCurrencyID"
 
+  DEFAULT_SUBDOMAIN = 'www'
+
   attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name
 
   validates :name, :subdomain, :exchange_rate, :site_name, :singular_name, presence: true
   validates :subdomain, uniqueness: true
 
   def self.default
-    self.find_by_subdomain("www")
+    self.find_by_subdomain(DEFAULT_SUBDOMAIN)
   end
 
   def name=(name)

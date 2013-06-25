@@ -1,11 +1,11 @@
 module FactoryTestHelpers
   def new_virtual_currency(options = {})
     defaults = {
-        name: 'Plink Points',
-        subdomain: 'www',
+        name: 'Plink points',
+        subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN,
         exchange_rate: 100,
         site_name: 'Plink',
-        singular_name: 'Plink Point'
+        singular_name: 'Plink point'
     }
 
     VirtualCurrency.new(defaults.merge(options))
@@ -58,5 +58,6 @@ module FactoryTestHelpers
     hero_promotion.save!
     hero_promotion
   end
+
 
 end

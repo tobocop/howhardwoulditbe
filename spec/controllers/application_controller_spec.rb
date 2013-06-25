@@ -26,7 +26,7 @@ describe ApplicationController do
   end
 
   describe '#current_virtual_currency' do
-    it 'returns the correct virtual currency' do
+    it 'returns the correct virtual currency when we have a current_user' do
       currency = create_virtual_currency(name: 'Plonk Points')
       current_user = create_user
       current_user.primary_virtual_currency = currency
@@ -39,6 +39,16 @@ describe ApplicationController do
       presented_currency.currency_name.should == 'Plonk Points'
       presented_currency.user_balance_currency.should == '0'
     end
+
+    it 'returns the default virtual currency when we do not have a current_user' do
+      create_virtual_currency(name: 'Plonk Points', subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
+
+      presented_currency = controller.current_virtual_currency
+
+      presented_currency.currency_name.should == 'Plonk Points'
+      presented_currency.user_balance_currency.should == '0'
+    end
+
   end
 
   describe '#require_authentication' do

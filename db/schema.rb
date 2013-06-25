@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620161232) do
+ActiveRecord::Schema.define(:version => 20130625183404) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1097,20 +1097,19 @@ ActiveRecord::Schema.define(:version => 20130620161232) do
   end
 
   create_table "offers", :primary_key => "offerID", :force => true do |t|
-    t.integer  "advertiserID",                                                                                               :null => false
-    t.datetime "startDate",                                                                                                  :null => false
-    t.datetime "endDate",                                                                 :default => '2999-12-31 00:00:00', :null => false
-    t.integer  "daysInAwardPeriod",                                                       :default => 0,                     :null => false
-    t.decimal  "advertisersRevShare",                      :precision => 12, :scale => 6,                                    :null => false
-    t.text     "detailText",                                                                                                 :null => false
-    t.decimal  "minimumPurchaseAmount_old",                :precision => 12, :scale => 6,                                    :null => false
-    t.datetime "created",                                                                                                    :null => false
-    t.datetime "modified",                                                                                                   :null => false
-    t.boolean  "isActive",                                                                :default => true,                  :null => false
-    t.string   "advertiserName",            :limit => 250
-    t.string   "logoURL",                   :limit => 500
-    t.boolean  "isEligibleForFreeAwards",                                                 :default => true,                  :null => false
-    t.boolean  "showOnWall",                                                              :default => true,                  :null => false
+    t.integer  "advertiserID",                                                                                             :null => false
+    t.datetime "startDate",                                                                                                :null => false
+    t.datetime "endDate",                                                               :default => '2999-12-31 00:00:00', :null => false
+    t.integer  "daysInAwardPeriod",                                                     :default => 0,                     :null => false
+    t.decimal  "advertisersRevShare",                    :precision => 12, :scale => 6,                                    :null => false
+    t.text     "detailText",                                                                                               :null => false
+    t.datetime "created",                                                                                                  :null => false
+    t.datetime "modified",                                                                                                 :null => false
+    t.boolean  "isActive",                                                              :default => true,                  :null => false
+    t.string   "advertiserName",          :limit => 250
+    t.string   "logoURL",                 :limit => 500
+    t.boolean  "isEligibleForFreeAwards",                                               :default => true,                  :null => false
+    t.boolean  "showOnWall",                                                            :default => true,                  :null => false
   end
 
   create_table "offersVirtualCurrencies", :primary_key => "offersVirtualCurrencyID", :force => true do |t|

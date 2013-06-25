@@ -13,6 +13,14 @@ PATH
   specs:
     gigya (0.0.1)
 
+PATH
+  remote: gems/plink
+  specs:
+    plink (0.0.1)
+      activerecord-sqlserver-adapter (= 3.2.10)
+      rails (~> 3.2.13)
+      tiny_tds (= 0.5.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -192,6 +200,7 @@ DEPENDENCIES
   jquery-rails (~> 3.0.1)
   launchy (= 2.3.0)
   license_finder!
+  plink!
   rails (= 3.2.13)
   rspec-rails (= 2.13.2)
   sass-rails (~> 3.2.3)

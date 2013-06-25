@@ -3,10 +3,9 @@ require 'spec_helper'
 describe VirtualCurrencyPresenter do
 
   describe '.new' do
-    it 'raises when a user_balance is not provided' do
-      expect {
-        presenter = VirtualCurrencyPresenter.new(virtual_currency: stub)
-      }.to raise_error(KeyError, 'key not found: :user_balance')
+    it 'defaults a user_balance is not provided' do
+      presenter = VirtualCurrencyPresenter.new(virtual_currency: stub)
+      presenter.user_balance.should == 0
     end
 
     it 'raises when a virtual currency is not provided' do

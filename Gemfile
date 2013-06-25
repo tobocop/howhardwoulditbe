@@ -9,6 +9,7 @@ gem 'thin'
 gem 'jquery-rails', '~> 3.0.1'
 
 gem 'gigya', path: 'gems/gigya'
+gem 'plink', path: 'gems/plink'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
