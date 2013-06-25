@@ -16,6 +16,9 @@ STATUS=$?
 cd gems/gigya && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
+cd gems/plink && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
+STATUS=$((STATUS + $?))
+
 bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 

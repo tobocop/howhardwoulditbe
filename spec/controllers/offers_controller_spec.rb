@@ -5,9 +5,9 @@ describe OffersController do
     let(:offer) { new_offer }
 
     before(:each) do
-      create_virtual_currency(subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
+      virtual_currency = create_virtual_currency(subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
 
-      fake_offer_service = Plink::FakeOfferService.new({VirtualCurrency::DEFAULT_SUBDOMAIN => [offer]})
+      fake_offer_service = Plink::FakeOfferService.new({virtual_currency.id => [offer]})
 
       controller.stub(:plink_offer_service) { fake_offer_service }
     end

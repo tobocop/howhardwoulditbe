@@ -2,10 +2,10 @@ module Plink
   class FakeOfferService
 
     DEFAULT_OFFERS = {
-        'www' => [
+        1 => [
             'www_offer'
         ],
-        'swagbucks' => [
+        2 => [
             'swag_offer'
         ]
     }
@@ -14,8 +14,8 @@ module Plink
       @offers_hash = offer_hash || DEFAULT_OFFERS
     end
 
-    def get_offers(subdomain)
-      @offers_hash[subdomain]
+    def get_offers(virtual_currency_id)
+      @offers_hash[virtual_currency_id]
     end
   end
 end

@@ -29,10 +29,10 @@ describe VirtualCurrencyPresenter do
     end
   end
 
-  describe '#subdomain' do
-    it 'returns the subdomain of the provided currency ' do
-      presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub(subdomain: 'wdw'))
-      presenter.subdomain.should == 'wdw'
+  describe '#id' do
+    it 'returns the id of the provided virtual currency' do
+      presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub(id: 143))
+      presenter.id.should == 143
     end
   end
 end
