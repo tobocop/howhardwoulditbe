@@ -66,22 +66,6 @@ describe 'User signup workflow' do
 
         page.should have_content('Welcome, Matt!')
         current_path.should == dashboard_path
-
-
-        click_on 'Log Out'
-
-        click_on 'Join'
-
-        page.should have_content 'Join Plink'
-
-        within '.modal' do
-          page.find('[gigid="facebook"]').click
-        end
-
-        page.should_not have_content 'Join Plink'
-
-        page.should have_content('Welcome, Matt!')
-        current_path.should == dashboard_path
       end
     end
 
