@@ -7,14 +7,7 @@
     _clickHandler: function (event) {
       event.preventDefault();
 
-      var $target = $(event.target);
-      var action = new gigya.socialize.UserAction();
-
-      action.setTitle($target.data('title'));
-      action.setLinkBack($target.attr('href'));
-      action.setDescription($target.data('description'));
-      action.addMediaItem({ type: 'image', src: $target.data('image'), href: $target.attr('href') });
-
+      var action = Plink.GigyaAction.create(event.target);
       gigya.socialize.showShareUI({  userAction: action, enabledProviders: Plink.Config.enabledProviders });
     }
   }

@@ -14,19 +14,5 @@
           });
     });
 
-#social-links
-
-:javascript
-  gigya.socialize.showAddConnectionsUI({
-                                         showTermsLink: 'false',
-                                         showEditLink: 'true',
-                                         hideGigyaLink: true,
-                                         enabledProviders: Plink.Config.enabledProviders,
-                                         height: 70,
-                                         width: 175,
-                                         containerID: 'social-links',
-                                         'width':224,
-                                         'height':70
-                                       });
-
+#social-link-widget
 = link_to 'Invite Friends', 'http://www.plink.com/fake-refer-url', class: 'invite-friend-widget', data: { title: 'Join Plink for free today and receive a $5 gift card', description: 'Join Plink for free and receive a $5 gift card of your choice.  Earn the rewards you deserve every time you shop or dine out at Plink locations. Your $5 Gift Card Invitation: <url-goes-here>', image: 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg' }

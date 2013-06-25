@@ -24,7 +24,7 @@ describe 'user signs in' do
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
 
-    page.should have_css('#social-links[gigid="showAddConnectionsUI"]')
+    page.should have_css('#social-link-widget[gigid="showAddConnectionsUI"]')
 
     click_on 'Invite Friends'
     page.should have_css('[gigid="showShareUI"]')
