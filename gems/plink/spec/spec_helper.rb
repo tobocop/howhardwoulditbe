@@ -14,6 +14,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  config.use_transactional_fixtures = true
 
   config.include Plink::ObjectCreationMethods
 

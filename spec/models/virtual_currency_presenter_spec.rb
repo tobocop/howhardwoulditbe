@@ -28,4 +28,11 @@ describe VirtualCurrencyPresenter do
       presenter.currency_name.should == 'Plonk Points'
     end
   end
+
+  describe '#subdomain' do
+    it 'returns the subdomain of the provided currency ' do
+      presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub(subdomain: 'wdw'))
+      presenter.subdomain.should == 'wdw'
+    end
+  end
 end

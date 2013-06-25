@@ -1,6 +1,6 @@
 class VirtualCurrencyPresenter
 
-  attr_reader :user_balance, :virtual_currency
+  attr_reader :user_balance, :virtual_currency, :subdomain
 
   def initialize(options = {})
     @virtual_currency = options.fetch(:virtual_currency)
@@ -9,6 +9,10 @@ class VirtualCurrencyPresenter
 
   def currency_name
     virtual_currency.name
+  end
+
+  def subdomain
+    virtual_currency.subdomain
   end
 
   def user_balance_currency
