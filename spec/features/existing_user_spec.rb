@@ -34,4 +34,5 @@ describe 'user signs in' do
     current_path.should == '/'
     page.should have_content('You have been successfully logged out.')
   end
+
 end

@@ -101,4 +101,13 @@ describe 'User signup workflow' do
       end
     end
   end
+
+  context 'referral' do
+    it 'lands the user on the homepage after being referred' do
+      referrer = create_user
+      visit "/refer/#{referrer.id}/aid/1264"
+
+      current_path.should == root_path
+    end
+  end
 end

@@ -20,5 +20,15 @@ describe AccountsController do
 
       assigns(:user_has_account).should == false
     end
+
+    it 'assigns a @card_link_url' do
+      session[:referrer_id] = 123
+      session[:affiliate_id] = 456
+      Plink::CardLinkUrlGenerator.stub(:create_url).with(referrer_id: 123, affiliate_id: 456) { 'http://www.mywebsite.com' }
+
+      get :show
+
+      assigns(:card_link_url).should == 'http://www.mywebsite.com'
+    end
   end
 end

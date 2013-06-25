@@ -21,5 +21,6 @@ module PlinkPivotal
 
     # Heroku deployment requirement
     config.assets.initialize_on_precompile = false
+    config.default_affiliate_id = 1264
   end
 end
