@@ -1,9 +1,40 @@
 namespace :db do
-  desc 'Creates the stored procs in the DB'
-  task :create_views => :environment do
-    ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_awards.sql')))
-    ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_allRewards.sql')))
-    ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_debitsCredits.sql')))
-    ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_userBalances.sql')))
+  namespace :views do
+
+    desc 'Creates the views in the DB'
+    task :create => :environment do
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_awards.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_allRewards.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_debitsCredits.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_userBalances.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_oauth_tokens.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_active_intuit_accounts.sql')))
+    end
+
+    desc 'drops the views in the DB'
+    task :drop => :environment do
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_awards')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_allRewards')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_debitsCredits')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_userBalances')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_oauth_tokens')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_active_intuit_accounts')
+    end
+  end
+
+  namespace :udfs do
+    desc 'create the user defined functions in the db'
+    task :create => :environment do
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_getFuzzyDateValue.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_calculateFuzzyDate.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_getDateOnly.sql')))
+    end
+
+    desc 'drop the user defined functions in the db'
+    task :drop => :environment do
+      ActiveRecord::Base.connection.execute('DROP FUNCTION udf_getFuzzyDateValue')
+      ActiveRecord::Base.connection.execute('DROP FUNCTION udf_calculateFuzzyDate')
+      ActiveRecord::Base.connection.execute('DROP FUNCTION udf_getDateOnly')
+    end
   end
 end

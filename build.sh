@@ -12,7 +12,8 @@ bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 
 rake db:test:prepare
-rake db:create_views
+rake db:udfs:create
+rake db:views:create
 bundle exec rspec spec
 STATUS=$((STATUS + $?))
 
