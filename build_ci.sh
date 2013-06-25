@@ -20,6 +20,7 @@ bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 
 bundle exec rake db:migrate
+bundle exec rake db:test:prepare
 bundle exec rake db:udfs:create
 bundle exec rake db:views:create
 bundle exec rspec spec
