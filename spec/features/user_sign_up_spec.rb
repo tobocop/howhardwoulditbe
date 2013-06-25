@@ -25,7 +25,7 @@ describe 'User signup workflow' do
       current_path.should == dashboard_path
     end
 
-    it 'should show error messages when form validation fails', js: true do
+    it 'should show error messages when form validation fail', js: true do
       visit '/'
 
       click_link 'Join'
