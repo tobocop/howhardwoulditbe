@@ -40,3 +40,7 @@ var Plink = {
     });
   }
 };
+
+Plink.Config = {
+  enabledProviders: 'facebook,twitter'
+}

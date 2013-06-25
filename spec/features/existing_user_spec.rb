@@ -26,6 +26,9 @@ describe 'user signs in' do
 
     page.should have_css('#social-links[gigid="showAddConnectionsUI"]')
 
+    click_on 'Invite Friends'
+    page.should have_css('[gigid="showShareUI"]')
+
     click_on 'Log Out'
 
     current_path.should == '/'
