@@ -152,13 +152,13 @@ $disabled:#e6e6e6;
         &.disabled, &:disabled{
           background-color: $disabled;
         }
-
     }
 
   }
 
-  &.wallet {
+  &.wallet-add {
     border: 1px solid #e6ea9a;
+    color:$slate;
     padding: 0 0;
     margin-top:10px;
     height: 20px;
@@ -167,12 +167,12 @@ $disabled:#e6e6e6;
     font-weight: 400;
     font-size: .7em;
     letter-spacing: 0px;
-    color:$slate;
+    @include round-corners(10px); 
     @include vertical-bg-gradient(#d9e245, #c3ca23);
-    @include round-corners(10px);
+
 
     &.hover, &:hover{
-      background: #c3ca23;
+       background: #c3ca23;
     }
 
     &.active, &:active{
@@ -184,4 +184,32 @@ $disabled:#e6e6e6;
     }
   }
 
+  &.wallet-remove {
+    border: 1px solid $lightblue;
+    color:#FFFFFF;
+    padding: 0 0;
+    margin-top:10px;
+    height: 20px;
+    text-align: center;
+    line-height:1.7em;
+    font-weight: 400;
+    font-size: .7em;
+    letter-spacing: 0px;
+    @include round-corners(10px); 
+    @include vertical-bg-gradient(#1dafec, #1073b9);
+
+
+    &.hover, &:hover{
+       background: #1073b9;
+    }
+
+    &.active, &:active{
+      background: #1dafec;
+    }
+
+    &.disabled, &:disabled{
+      background: $disabled;
+    }
+  }
 }
+

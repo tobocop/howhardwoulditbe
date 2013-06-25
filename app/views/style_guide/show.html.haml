@@ -265,17 +265,23 @@
         %img{ :class => "modal-ribbon", :src => "/assets/ribbon_2x.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
         %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Old Navy"}
         .bg-element
-          %p.font.modal-text.h3.bold CURRENT OFFERS
+          %p.font.modal-text.h3.bold BURGER KING OFFERS
           %p.font.modal-text.h3 Spend $50 or more, get 500 Plink points.
           %p.font.modal-text.h3 Spend $30 or more, get 300 Plink points.
           %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
-        %button.button.primary-action.narrow ADD TO MY WALLET  
+        %button.button.primary-action.narrow ADD TO MY WALLET   
+        .modal.offer-description
+          %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fisher.    
         %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing. 
 
   %section
     %h2 Wallet
 
     %section
+      %h3 Logged Out - Headline 
+
+      %p.font.dashboard-text.h2 Earn Plink points at these locations.
+
       %h3 Offer - Logged Out
 
       .wallet.offer
@@ -286,7 +292,7 @@
             %p.font.dashboard-text.h3 up to
             %p.font.dashboard-text.h1.numbers 1200
             %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet DETAILS         
+            %button.button.wallet-add DETAILS         
 
       .wallet.offer
         .wallet.offer.offer-wrapper
@@ -296,7 +302,7 @@
             %p.font.dashboard-text.h3 up to
             %p.font.dashboard-text.h1.numbers 150
             %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet DETAILS   
+            %button.button.wallet-add DETAILS   
 
       .wallet.offer
         .wallet.offer.offer-wrapper
@@ -304,9 +310,9 @@
             %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/gap.png", :alt => "Gap"}
           .wallet.offer.info 
             %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 1200
+            %p.font.dashboard-text.h1.numbers 2500
             %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet DETAILS        
+            %button.button.wallet-add DETAILS        
 
       %h3 Offer - Logged In
 
@@ -318,7 +324,7 @@
             %p.font.dashboard-text.h3 up to
             %p.font.dashboard-text.h1.numbers 150
             %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet ADD TO WALLET  
+            %button.button.wallet-add ADD TO WALLET  
 
       %h3 Offer - Promo Flag
 
@@ -331,13 +337,41 @@
             %p.font.dashboard-text.h3 up to
             %p.font.dashboard-text.h1.numbers 300
             %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet ADD TO WALLET   
+            %button.button.wallet-add ADD TO WALLET   
 
       %h3 Wallet Slot - Empty
 
       .wallet.slot
-        %img{ :class => "wallet-emptyslot", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
-        %span.font.dashboard-text.h3.slate Select an offer to start earning Plink points.                       
+        %img{ :class => "slot-img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+        .wallet.slot.slot-text
+          %p.font.dashboard-text.h3.bold This slot is empty.  
+          %p.font.dashboard-text.h3 Select an offer to start earning Plink points.  
+
+      %h3 Wallet Slot - Locked
+
+      .wallet.slot.locked
+        %img{ :class => "slot-img", :src =>"/assets/icon_lockedslot.png", :alt => "Empty Slot"} 
+        .wallet.slot.slot-text
+          %p.font.dashboard-text.h3.bold This slot is locked.  
+          %p.font.dashboard-text.h3 Refer a friend to unlock this slot.    
+
+      .wallet.slot.locked
+        %img{ :class => "slot-img", :src =>"/assets/icon_lockedslot.png", :alt => "Empty Slot"} 
+        .wallet.slot.slot-text
+          %p.font.dashboard-text.h3.bold This slot is locked.  
+          %p.font.dashboard-text.h3 Complete an offer to unlock this slot.  
+
+      %h3 Wallet Slot - Filled
+      
+      .wallet.slot
+        .wallet.slot.slot-wrapper
+          .wallet.slot.logo
+            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .wallet.slot.info 
+            %p.font.dashboard-text.h3 up to
+            %p.font.dashboard-text.h1.numbers 150
+            %p.font.dashboard-text.h3 Plink points
+            %button.button.wallet-remove REMOVE                            
 
   
   %section
@@ -348,11 +382,23 @@
       
       .dashboard.left-column
 
-        .dashboard.left-column.module.profile 
+        .dashboard.left-module-flag.profile 
           %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
           %p.font.dashboard-text.h1 kris
         %p.font.dashboard-text.h2.cyan Level 3
         %p.font.dashboard-text.h2.slate 9,999,999 EBs
-        %button.button.social-action.facebook Join with Facebook
+        .dashboard.left-module-content
+          %button.button.social-action.facebook Join with Facebook
+        .dashboard.left-module-flag
+          %p.font.dashboard-text.h2.white FRIENDS (XXX)
+        .dashboard.left-module-content
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
+          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
 
 

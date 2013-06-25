@@ -38,13 +38,14 @@
       color:$cyan;
       /*font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
       font-size:1.1em;
-      font-weight:400;
+      font-weight:700;
       letter-spacing:1px;
+      line-height:1.6em;
       margin-bottom:8px;
 
       &.bold{
         color:$lightgray;
-        font-weight:600;
+        font-weight:700;
         margin-bottom:10px;
       }
     }
@@ -91,7 +92,7 @@
 
       &.white {
         color:#FFFFFF;
-        font-weight:700;
+        font-weight:400;
       }
 
       &.slate {
@@ -106,6 +107,12 @@
     &.h3 {
       font-size:1em;
       font-weight:200;
+      letter-spacing: 1px;
+
+      &.bold {
+        font-weight:400;
+      }
+
     }
   }
 }

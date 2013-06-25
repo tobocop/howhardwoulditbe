@@ -12,28 +12,28 @@
   	width:305px;
     @include round-corners(8px);
 
-    .offer-wrapper {
+    &.offer-wrapper {
       border: 0px;
       margin: 0px;
       position:relative;
     }
 
-    .logo {
+    &.logo {
       border: 0px;
       margin: 0px;
       width: 187px;
 
     }
 
-    .info {
+    &.info {
       border: 0px;
       color:#FFFFFF;
-      height:104px;
+      height:103px;
       line-height:.8em;
       margin:0px;
       padding:10px 5px 5px 5px;
       position:absolute;
-      right:0px;
+      right:2px;
       text-align: center;
       top:0px;
       width:118px;
@@ -41,6 +41,17 @@
       @include vertical-bg-gradient(#1dafec, #1073b9);
     }
 
+  }
+
+  .wallet-logo {
+      display:block;
+      margin: 8px 5px;
+  }
+
+  .offer-ribbon {
+      left: -7px;
+      position: absolute;
+      top: -7px;
   }
 
   &.slot {
@@ -51,21 +62,52 @@
   	width:305px;
     @include round-corners(8px);
 
-  }
+    .slot-img {
+      float:left;
+      margin:8px 12px;
+    }
 
-  .wallet-logo {
-  	display:block;
-  	margin: 8px 5px;
-  }
+    &.slot-text {
+      border: 0px;
+      line-height:1.2em;
+      height:70px;
+      margin-top: 24px;
+      width:275px;
+    }
 
-  .wallet-emptyslot {
-  	margin: 8px 12px;
-  }
+    &.locked {
+      background-color:#e6e6e6;
+    }
 
-  .offer-ribbon {
-    left: -7px;
-    position: absolute;
-    top: -7px;
-  }
+    &.slot-wrapper {
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      position:absolute;  
+    }
 
+    &.logo {
+      border: 0px;
+      margin: 0px;
+      width: 187px;
+
+    }
+
+    &.info {
+      background-color:$grayblue;
+      border: 0px;
+      color:$slate;
+      height:103px;
+      line-height:.8em;
+      margin:0px;
+      padding:10px 5px 5px 5px;
+      position:absolute;
+      right:2px;
+      text-align: center;
+      top:0px;
+      width:118px;
+      @include round-corners-right(8px);
+      /*@include vertical-bg-gradient(#1dafec, #1073b9);*/
+    }
+  }
 }

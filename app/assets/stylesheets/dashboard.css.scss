@@ -4,30 +4,36 @@
 .dashboard {
   
   &.left-column {
-    background-color: #e9eef2;
-    height:100%;
+    background-color: $grayblue;
     width:340px;
 
-
     .profile-img {
-    	margin-right:10px;
-    	float:left;
+      margin: 0px 10px 10px 0px;
+      float:left;
     }
+  }
+    
+  &.left-module-flag {
+   	background-color:#666666;
+    height:54px;
+    margin: 35px 0px 0px 0px;
+    padding: 15px 28px;
+    width:340px;
 
-    &.module{
-   	  background-color:#666666;
-      height:54px;
-      padding:20px 20px 0px 20px;
-      width:340px;
-
-      &.profile {
-        background-color:$cyan;
-        color:#FFFFFF;
-
-
-      }
+    &.profile {
+      background-color:$cyan;
+      color:#FFFFFF;
+      margin: 0px;
+      padding:20px 28px 0px 28px;
     }
-
   }
 
+  &.left-module-content {
+    padding: 10px 28px;
+    width:340px;
+  }
+
+  .friends-img{
+    margin-top: 3px;
+  }
 }
