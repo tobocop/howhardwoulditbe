@@ -223,9 +223,9 @@
       %h3 Dashboard
       %section
         %h4 H1
-        %span.font.dashboard-text.h1.cyan  Cyan (first name) 
+        %span.font.dashboard-text.h1.cyan  Cyan 
         %br
-        %span.font.dashboard-text.h1.slate  Slate (module title)
+        %span.font.dashboard-text.h1.slate  Slate
 
         %h4 H2
         %span.font.dashboard-text.h2  Default
@@ -280,98 +280,104 @@
     %section
       %h3 Logged Out - Headline 
 
-      %p.font.dashboard-text.h2 Earn Plink points at these locations.
+      .wallet
+        %h2 Earn Plink points at these locations.
 
       %h3 Offer - Logged Out
+      .wallet
+        .offer
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/oldnavy.png", :alt => "Old Navy"}
+            .info 
+              %h3 up to
+              %h1.numbers 1200
+              %h3 Plink points
+              %button.button.wallet-add DETAILS         
 
-      .wallet.offer
-        .wallet.offer.offer-wrapper
-          .wallet.offer.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/oldnavy.png", :alt => "Old Navy"}
-          .wallet.offer.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 1200
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-add DETAILS         
+        .offer
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/burgerking.png", :alt => "Burger King"}
+            .info 
+              %h3 up to
+              %h1.numbers 150
+              %h3 Plink points
+              %button.button.wallet-add DETAILS    
 
-      .wallet.offer
-        .wallet.offer.offer-wrapper
-          .wallet.offer.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Burger King"}
-          .wallet.offer.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 150
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-add DETAILS   
-
-      .wallet.offer
-        .wallet.offer.offer-wrapper
-          .wallet.offer.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/gap.png", :alt => "Gap"}
-          .wallet.offer.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 2500
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-add DETAILS        
+        .offer
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/gap.png", :alt => "Gap"}
+            .info 
+              %h3 up to
+              %h1.numbers 2500
+              %h3 Plink points
+              %button.button.wallet-add DETAILS        
 
       %h3 Offer - Logged In
 
-      .wallet.offer
-        .wallet.offer.offer-wrapper
-          .wallet.offer.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
-          .wallet.offer.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 150
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-add ADD TO WALLET  
+      .wallet
+        .offer
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+            .info 
+              %h3 up to
+              %h1.numbers 1200
+              %h3 Plink points
+              %button.button.wallet-add ADD TO WALLET      
 
       %h3 Offer - Promo Flag
 
-      .wallet.offer
-        %img{ :class => "offer-ribbon", :src => "/assets/ribbon_2x_offer.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
-        .wallet.offer.offer-wrapper
-          .wallet.offer.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/arbys.png", :alt => "Arby's"}
-          .wallet.offer.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 300
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-add ADD TO WALLET   
+      .wallet
+        .offer
+          %img{ :class => "ribbon", :src => "/assets/ribbon_2x_offer.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/arbys.png", :alt => "Arby's"}
+            .info 
+              %h3 up to
+              %h1.numbers 150
+              %h3 Plink points
+              %button.button.wallet-add ADD TO WALLET    
 
       %h3 Wallet Slot - Empty
 
-      .wallet.slot
-        %img{ :class => "slot-img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
-        .wallet.slot.slot-text
-          %p.font.dashboard-text.h3.bold This slot is empty.  
-          %p.font.dashboard-text.h3 Select an offer to start earning Plink points.  
+      .wallet
+        .slot
+          %img{ :class => "img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+          .text
+            %h3.bold This slot is empty.  
+            %h3 Select an offer to start earning Plink points.  
 
       %h3 Wallet Slot - Locked
 
-      .wallet.slot.locked
-        %img{ :class => "slot-img", :src =>"/assets/icon_lockedslot.png", :alt => "Empty Slot"} 
-        .wallet.slot.slot-text
-          %p.font.dashboard-text.h3.bold This slot is locked.  
-          %p.font.dashboard-text.h3 Refer a friend to unlock this slot.    
+      .wallet
+        .slot.locked
+          %img{ :class => "img", :src =>"/assets/icon_lockedslot.png", :alt => "Locked Slot"} 
+          .text
+            %h3.bold This slot is locked.  
+            %h3 Refer a friend to unlock this slot. 
 
-      .wallet.slot.locked
-        %img{ :class => "slot-img", :src =>"/assets/icon_lockedslot.png", :alt => "Empty Slot"} 
-        .wallet.slot.slot-text
-          %p.font.dashboard-text.h3.bold This slot is locked.  
-          %p.font.dashboard-text.h3 Complete an offer to unlock this slot.  
+        .slot.locked
+          %img{ :class => "img", :src =>"/assets/icon_lockedslot.png", :alt => "Locked Slot"} 
+          .text
+            %h3.bold This slot is locked.  
+            %h3 Complete an offer to unlock this slot.     
 
       %h3 Wallet Slot - Filled
       
-      .wallet.slot
-        .wallet.slot.slot-wrapper
-          .wallet.slot.logo
-            %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
-          .wallet.slot.info 
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers 150
-            %p.font.dashboard-text.h3 Plink points
-            %button.button.wallet-remove REMOVE                            
+      .wallet
+        .slot
+          .slot-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+            .info 
+              %h3 up to
+              %h1.numbers 150
+              %h3 Plink points
+              %button.button.wallet-remove REMOVE                            
 
   
   %section
@@ -380,31 +386,40 @@
     %section
       %h3 Left Column
       
-      .dashboard.left-column
-
-        .dashboard.left-module-flag.profile 
-          %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
-          %p.font.dashboard-text.h1 kris
-        %p.font.dashboard-text.h2.cyan Level 3
-        %p.font.dashboard-text.h2.slate 9,999,999 EBs
-        .dashboard.left-module-content
-          %button.button.social-action.facebook Connect Facebook
-        .dashboard.left-module-flag
-          %p.font.dashboard-text.h2.white FRIENDS (XXX)  
-        .dashboard.left-module-content
-          %a.dashboard.invite
-            %img{ :class => "invite-img", :src => "/assets/icon-addfriend-blue.jpg", :alt => "Add A Friend"}
-            %span.font.dashboard-text.h2 INVITE A FRIEND  
-          %a
-            %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-          %img{ :class => "friends-img", :src => "/assets/icon-addfriend-gray.jpg", :alt => "Add A Friend"}
-        .dashboard.left-module-flag  
-          %p.font.dashboard-text.h2.white RECENT ACTIVITY
+      .dashboard
+        .left-column
+          .flag.profile
+            %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
+            %h1 kris
+          %h2.cyan Level 3
+          %h2 9,999,999 EBs
+          .content
+            %button.button.social-action.facebook Connect Facebook
+          .flag
+            %h2.white FRIENDS (XXX)  
+          .content
+            %a.invite
+              %img{ :class => "invite-img", :src => "/assets/icon-addfriend-blue.jpg", :alt => "Add A Friend"}
+              %span.h2 INVITE A FRIEND  
+            .friends-img-wrapper
+              %a.friends-img Invite Friends
+            .friends-img-wrapper
+              %a.friends-img Invite Friends
+            .friends-img-wrapper
+              %a.friends-img Invite Friends
+            .friends-img-wrapper
+              %a.friends-img Invite Friends 
+            .friends-img-wrapper
+              %a.friends-img Invite Friends 
+            .friends-img-wrapper
+              %a.friends-img Invite Friends
+            .friends-img-wrapper
+              %a.friends-img Invite Friends 
+            .friends-img-wrapper
+              %a.friends-img Invite Friends          
+            
+          .flag  
+            %h2.white RECENT ACTIVITY
+          
 
 

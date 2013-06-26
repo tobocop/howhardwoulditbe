@@ -2,8 +2,65 @@
 @import "mixins.css.scss";
 
 .dashboard {
+
+  h1 {
+  	font-size: 1.8em;
+  	font-weight:700;
+  	text-transform: uppercase;
+  	vertical-align: top;
+
+  	&.cyan {
+  	  color: $cyan;
+  	}
+
+  	&.slate {
+  	  color:$slate;
+  	}
+
+  	&.numbers{
+  	  font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  	  font-weight:600;
+  	  line-height:1.2em;
+  	}
+  }
+
+  h2 {
+  	font-size: 1.4em;
+  	font-weight:400;
+  	line-height:1.1em;
+
+  	&.cyan {
+  		color:$cyan;
+  		font-weight:700;
+  	}
+
+  	&.white {
+  		color:#FFFFFF;
+  		letter-spacing:2px;
+  		font-weight:400;
+  	}
+
+  	&.slate {
+  		color:$slate;
+  	}
+
+  	&.bold {
+  		font-weight:700;
+  	}
+  }
+
+  h3 {
+  	font-size:1em;
+  	font-weight:200;
+  	letter-spacing: 1px;
+
+  	&.bold {
+  		font-weight:400;
+  	}
+
+  }
   
-  &.left-column {
+  .left-column {
     background-color: $grayblue;
     width:340px;
 
@@ -13,7 +70,7 @@
     }
   }
     
-  &.left-module-flag {
+  .flag {
    	background-color:#666666;
     height:54px;
     margin: 30px 0px 0px 0px;
@@ -28,16 +85,16 @@
     }
   }
 
-  &.left-module-content {
+  .content {
     padding: 10px 28px;
     width:340px;
   }
 
-  &.invite {
+  .invite {
   	background: #FFFFFF;
   	display: block;
   	height: 68px;
-  	margin: 5px 0px 25px 0px;
+  	margin: 15px 0px 25px 0px;
   	@include round-corners(8px);
 
   	&.hover, &:hover{
@@ -53,16 +110,21 @@
   	display: inline-block;
   	margin: 0px 15px 0px 0px;
   }
+  
+  .friends-img-wrapper{
+  	display:inline-block;
+  	margin: 0px -2px 2px 0px;
+  }
 
   .friends-img{
-  	/*display: inline-block;*/
-  	float:left;
-    margin: 0px 2px 2px 0px;
-    background-image: url('/assets/icon-addfriend-blue.jpg');
-    background-repeat: no-repeat;
+  	background: url('/assets/icon-addfriend.png') bottom;
+    display: block;
+  	height:68px;
+    text-indent: -99999px;
+    width:68px;
 
     &.hover, &:hover{
-       display: none;
+       background-position: 0 0;
     }
   }
 }

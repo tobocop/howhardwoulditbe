@@ -3,7 +3,64 @@
 
 .wallet{
 
-  &.offer{
+  h1 {
+    font-size: 1.8em;
+    font-weight:700;
+    text-transform: uppercase;
+    vertical-align: top;
+
+    &.cyan {
+      color: $cyan;
+    }
+
+    &.slate {
+      color:$slate;
+    }
+
+    &.numbers{
+      font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight:600;
+      line-height:1.2em;
+    }
+  }
+
+  h2 {
+    font-size: 1.4em;
+    font-weight:400;
+    line-height:1.1em;
+
+    &.cyan {
+      color:$cyan;
+      font-weight:700;
+    }
+
+    &.white {
+      color:#FFFFFF;
+      letter-spacing:2px;
+      font-weight:400;
+    }
+
+    &.slate {
+      color:$slate;
+    }
+
+    &.bold {
+      font-weight:700;
+    }
+  }
+
+  h3 {
+    font-size:1em;
+    font-weight:200;
+    letter-spacing: 1px;
+
+    &.bold {
+      font-weight:400;
+    }
+
+  }
+
+  .offer{
   	border: 1px solid #999999;
   	display: inline-block;
   	height:105px;
@@ -12,20 +69,17 @@
   	width:305px;
     @include round-corners(8px);
 
-    &.offer-wrapper {
-      border: 0px;
-      margin: 0px;
+    .offer-inner {
       position:relative;
     }
 
-    &.logo {
+    .brand {
       border: 0px;
-      margin: 0px;
+      padding:8px 5px;
       width: 187px;
-
     }
 
-    &.info {
+    .info {
       border: 0px;
       color:#FFFFFF;
       height:103px;
@@ -33,7 +87,7 @@
       margin:0px;
       padding:10px 5px 5px 5px;
       position:absolute;
-      right:2px;
+      right:0px;
       text-align: center;
       top:0px;
       width:118px;
@@ -43,18 +97,13 @@
 
   }
 
-  .wallet-logo {
-      display:block;
-      margin: 8px 5px;
+  .ribbon {
+    left: -7px;
+    position: absolute;
+    top: -7px;
   }
 
-  .offer-ribbon {
-      left: -7px;
-      position: absolute;
-      top: -7px;
-  }
-
-  &.slot {
+  .slot {
   	border: 1px solid #999999;
   	height:105px;
   	margin: 5px 17px;
@@ -62,39 +111,36 @@
   	width:305px;
     @include round-corners(8px);
 
-    .slot-img {
+    .img {
       float:left;
       margin:8px 12px;
     }
 
-    &.slot-text {
+    .text {
       border: 0px;
       line-height:1.2em;
       height:70px;
       margin-top: 24px;
-      width:275px;
+      width:95%;
     }
 
     &.locked {
-      background-color:#e6e6e6;
+      background:#e6e6e6;
     }
 
-    &.slot-wrapper {
-      border: 0px;
-      margin: 0px;
-      padding: 0px;
-      position:absolute;  
+    .slot-inner {
+      position:relative;  
     }
 
-    &.logo {
+    .brand {
       border: 0px;
-      margin: 0px;
+      padding: 8px 5px;
       width: 187px;
 
     }
 
-    &.info {
-      background-color:$grayblue;
+    .info {
+      background:$grayblue;
       border: 0px;
       color:$slate;
       height:103px;
@@ -102,7 +148,7 @@
       margin:0px;
       padding:10px 5px 5px 5px;
       position:absolute;
-      right:2px;
+      right:0px;
       text-align: center;
       top:0px;
       width:118px;
