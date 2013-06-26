@@ -2,11 +2,11 @@ module Plink
   class TierRecord < ActiveRecord::Base
     self.table_name = 'tiers'
 
-    attr_accessible :begin_date, :end_date, :dollar_award_amount, :minimum_purchase_amount, :offers_virtual_currency_id
+    alias_attribute :is_active, :isActive
+    alias_attribute :start_date, :beginDate
 
-    def begin_date=(date)
-      self.beginDate = date
-    end
+    attr_accessible :start_date, :end_date, :dollar_award_amount, :minimum_purchase_amount, :offers_virtual_currency_id
+
 
     def end_date=(date)
       self.endDate = date

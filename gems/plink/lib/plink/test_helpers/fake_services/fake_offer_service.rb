@@ -14,7 +14,7 @@ module Plink
       @offers_hash = offer_hash || DEFAULT_OFFERS
     end
 
-    def get_offers(virtual_currency_id)
+    def get_live_offers(virtual_currency_id)
       @offers_hash[virtual_currency_id]
     end
   end

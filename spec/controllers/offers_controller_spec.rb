@@ -17,9 +17,8 @@ describe OffersController do
       get :index
     end
 
-    it 'looks up offers based on subdomain' do
+    it 'looks up offers based on current_virtual_currency_id' do
       get :index
-
       assigns(:offers).should == [offer]
     end
 
