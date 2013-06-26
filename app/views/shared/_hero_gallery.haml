@@ -1,0 +1,15 @@
+.hero-gallery
+  .hero-gallery-inner
+    %ul.bjqs
+      - promotions.each do |hero_promotion|
+        %li.bjqs-slide
+          = image_tag hero_promotion.image_url, title: hero_promotion.title
+
+:javascript
+    jQuery(function () {
+      $('.hero-gallery-inner').bjqs({
+            width       : 1800,
+            height      : 380,
+            responsive  : true
+          });
+    });

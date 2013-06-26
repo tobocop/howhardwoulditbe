@@ -29,6 +29,11 @@ describe 'user signs in' do
     click_on 'Invite Friends'
     page.should have_css('[gigid="showShareUI"]')
 
+    click_on 'Wallet'
+    page.should have_content 'This is the wallet.'
+    page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
+    page.should have_content('You want this.')
+
     click_on 'Log Out'
 
     current_path.should == '/'

@@ -19,8 +19,8 @@
         %ul.nav-ul
           %li.nav-li{class: @current_tab == 'dashboard' ? 'selected' : ''}
             = link_to 'Dashboard', dashboard_path, class:'link'
-          %li.nav-li
-            = link_to 'Wallet', '#', class:'link'
+          %li.nav-li{class: @current_tab == 'wallet' ? 'selected' : ''}
+            = link_to 'Wallet', wallet_path, class:'link'
           %li.nav-li
             = link_to 'Rewards', '#', class:'link'
           %li.nav-li{class: @current_tab == 'account' ? 'selected' : ''}
