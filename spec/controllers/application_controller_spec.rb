@@ -37,7 +37,6 @@ describe ApplicationController do
       presented_currency = controller.current_virtual_currency
 
       presented_currency.currency_name.should == 'Plonk Points'
-      presented_currency.user_balance_currency.should == '0'
     end
 
     it 'returns the default virtual currency when we do not have a current_user' do
@@ -46,9 +45,7 @@ describe ApplicationController do
       presented_currency = controller.current_virtual_currency
 
       presented_currency.currency_name.should == 'Plonk Points'
-      presented_currency.user_balance_currency.should == '0'
     end
-
   end
 
   describe '#require_authentication' do

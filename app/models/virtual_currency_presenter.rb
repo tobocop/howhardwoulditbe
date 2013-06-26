@@ -18,4 +18,8 @@ class VirtualCurrencyPresenter
   def user_balance_currency
     (user_balance * virtual_currency.exchange_rate).to_i.to_s
   end
+
+  def amount_in_currency(amount)
+    (amount* virtual_currency.exchange_rate).to_i.to_s
+  end
 end

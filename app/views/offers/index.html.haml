@@ -1,4 +1,13 @@
-%p Earn #{current_virtual_currency.currency_name} at these locations.
+.layout-inner
+  %p Earn #{current_virtual_currency.currency_name} at these locations.
 
-- @offers.each do |offer|
-  %p= offer.advertiser_name
+  - @offers.each do |offer|
+    .wallet.offer
+      .wallet.offer.offer-wrapper
+        .wallet.offer.logo
+          = image_tag offer.image_url, class: 'wallet-logo', alt: offer.name
+        .wallet.offer.info
+          %p.font.dashboard-text.h3 up to
+          %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
+          %p.font.dashboard-text.h3= current_virtual_currency.currency_name
+          %button.button.wallet DETAILS

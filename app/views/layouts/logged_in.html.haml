@@ -8,13 +8,13 @@
     = csrf_meta_tags
 
   %body
-    %header.header
-      .header-inner
+    %header.header.layout-wrapper
+      .layout-inner
         = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
         .welcome-text
           %span.header-text Welcome, #{current_user.first_name}!
           %br
-          %span.header-text You have #{current_virtual_currency.user_balance_currency} #{current_virtual_currency.currency_name}.
+          %span.header-text You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
 
         %ul.nav-ul
           %li.nav-li{class: class_for_nav_tab(@current_tab, 'dashboard')}
@@ -28,4 +28,5 @@
           %li.nav-li
             = link_to 'Log Out', session_path, method: :delete, class:'link logout'
 
-    = yield
+    .layout-wrapper
+      = yield

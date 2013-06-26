@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def current_virtual_currency
     if current_user
       currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
-      VirtualCurrencyPresenter.new(virtual_currency: currency, user_balance: current_user.current_balance)
+      VirtualCurrencyPresenter.new(virtual_currency: currency)
     else
       VirtualCurrencyPresenter.new(virtual_currency: VirtualCurrency.default)
     end

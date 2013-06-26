@@ -8,8 +8,8 @@
     = csrf_meta_tags
 
   %body
-    %header.header
-      .header-inner
+    %header.header.layout-wrapper
+      .layout-inner
         = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
         .header-button
           = link_to 'Join', '#', data: {'reveal-id' => 'registration-form'}, class: 'link button nav join'
@@ -20,4 +20,5 @@
           = image_tag 'icon_fb.png', :alt => 'Like Plink on Facebook'
           = image_tag 'icon_twitter.png', :alt => 'Like Plink on Twitter'
 
-    = yield
+    .layout-wrapper
+      = yield

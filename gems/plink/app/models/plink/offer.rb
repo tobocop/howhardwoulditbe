@@ -1,50 +1,28 @@
 module Plink
-  class Offer < ActiveRecord::Base
+  class Offer
 
-    self.table_name = 'offers'
+    attr_reader :id, :tiers, :detail_text, :name, :image_url
 
-    attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text, :start_date
-
-    def advertiser_name=(name)
-      self.advertiserName = name
+    def initialize(offer_record)
+      @id = offer_record.id
+      @tiers = offer_tiers(offer_record)
+      @detail_text = detail_text_for_offer(offer_record)
+      @name = offer_record.advertiser.advertiser_name
+      @image_url = offer_record.advertiser.logo_url
     end
 
-    def advertiser_name
-      self.advertiserName
-    end
-
-    def advertiser_id=(id)
-      self.advertiserID = id
-    end
-
-    def advertisers_rev_share=(amount)
-      self.advertisersRevShare = amount
-    end
-
-    def detail_text=(text)
-      self.detailText = text
-    end
-
-    def start_date=(date)
-      self.startDate = date
-    end
-
-    def created_at
-      self.created
-    end
-
-    def updated_at
-      self.modified
+    def max_dollar_award_amount
+      tiers.max_by(&:dollar_award_amount).dollar_award_amount
     end
 
     private
 
-    def timestamp_attributes_for_create
-      super << :created
+    def offer_tiers(offer_record)
+      offer_record.tiers.map {|tier| Plink::Tier.new(tier)}
     end
 
-    def timestamp_attributes_for_update
-      super << :modified
+    def detail_text_for_offer(offer_record)
+      offer_record.offers_virtual_currencies.first.detail_text || offer_record.detail_text
     end
   end
 end

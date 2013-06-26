@@ -3,11 +3,6 @@ require 'spec_helper'
 describe VirtualCurrencyPresenter do
 
   describe '.new' do
-    it 'defaults a user_balance is not provided' do
-      presenter = VirtualCurrencyPresenter.new(virtual_currency: stub)
-      presenter.user_balance.should == 0
-    end
-
     it 'raises when a virtual currency is not provided' do
       expect {
         presenter = VirtualCurrencyPresenter.new(user_balance: 1.0)
@@ -15,10 +10,10 @@ describe VirtualCurrencyPresenter do
     end
   end
 
-  describe '#user_balance_currency' do
-    it 'returns the balance passed in * the currencies exchange rate' do
-      presenter = VirtualCurrencyPresenter.new(user_balance: 1.35, virtual_currency: stub(exchange_rate: 100))
-      presenter.user_balance_currency.should === '135'
+  describe '#amount_in_currency' do
+    it 'returns the given amount * the currencies exchange rate' do
+      presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(exchange_rate: 100))
+      presenter.amount_in_currency(1.35).should === '135'
     end
   end
 

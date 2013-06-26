@@ -5,14 +5,7 @@
   display:block;
   background-color:$cyan;
   height:60px;
-  width:100%;
-  min-width: 1024px;
 
-  .header-inner {
-    width:1024px;
-    margin:0 auto;
-    position: relative;
-  }
   .header-logo {
     top:8px;
     position: absolute;
@@ -24,8 +17,7 @@
     top: 15px;
   }
 
-
-  .header-text {	
+  .header-text {
     color:#FFFFFF;
     font-size: .9em;
     font-weight: 200;
