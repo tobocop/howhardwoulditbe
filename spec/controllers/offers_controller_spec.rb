@@ -22,5 +22,14 @@ describe OffersController do
 
       assigns(:offers).should == [offer]
     end
+
+    it 'should assign hero promotions' do
+      stub_collection = [stub]
+      HeroPromotion.stub(:by_display_order) { stub_collection }
+      get :index
+
+      assigns(:hero_promotions).should == stub_collection
+    end
+
   end
 end

@@ -3,10 +3,13 @@
 
 
 .hero-gallery{
-  margin: 0 auto;
   width:100%;
   background-color:$slate;
   min-width:1024px;
+}
+
+.hero-gallery-inner {
+  margin: 0 auto;
 }
 
 /* Basic jQuery Slider essential styles */
