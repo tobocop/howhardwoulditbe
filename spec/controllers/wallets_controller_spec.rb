@@ -14,12 +14,11 @@ describe WalletsController do
       end
 
       it 'should assign hero promotions' do
-        my_second_hero = create_hero_promotion(image_url: 'assets/my_image.jpg', title: 'for test', display_order: 3)
-        my_first_hero = create_hero_promotion(image_url: 'assets/my_image.jpg', title: 'for test', display_order: 1)
-
+        stub_collection = [stub]
+        HeroPromotion.stub(:by_display_order) { stub_collection }
         get :show
 
-        assigns(:hero_promotions).should == [my_first_hero, my_second_hero]
+        assigns(:hero_promotions).should == stub_collection
       end
 
       it 'should assign current tab to wallet' do

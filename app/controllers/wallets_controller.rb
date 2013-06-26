@@ -4,6 +4,6 @@ class WalletsController < ApplicationController
 
   def show
     @current_tab = 'wallet'
-    @hero_promotions = HeroPromotion.order(:display_order).all
+    @hero_promotions = HeroPromotion.by_display_order
   end
 end

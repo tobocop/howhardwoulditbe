@@ -3,6 +3,6 @@ class DashboardController < ApplicationController
 
   def show
     @current_tab = 'dashboard'
-    @hero_promotions = HeroPromotion.order(:display_order).all
+    @hero_promotions = HeroPromotion.by_display_order
   end
 end
