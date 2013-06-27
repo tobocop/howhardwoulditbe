@@ -4,7 +4,7 @@
   .dashboard
     .left-column
       .flag.profile
-        = image_tag 'silhouette.jpg', class: 'profile-img', alt: current_user.first_name
+        = image_tag current_user.avatar_thumbnail_url, class: 'profile-img', alt: current_user.first_name, width: 97, height: 97
         %h1= current_user.first_name
       %h2.cyan Level 5000
       %h2 9,999,999 EBs

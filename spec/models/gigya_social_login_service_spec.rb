@@ -34,7 +34,7 @@ describe GigyaSocialLoginService do
             user = mock(avatar_thumbnail_url?: false)
             user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
             User.stub(:find).with(123) { user }
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', thumbnailURL: 'http://www.example.com/avatar.jpg'})
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', photoURL: 'http://www.example.com/avatar.jpg'})
           end
         end
       end
@@ -72,7 +72,7 @@ describe GigyaSocialLoginService do
             user = mock(avatar_thumbnail_url?: false)
             user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
             User.stub(:find_by_email).with('bob@example.com') { user }
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', thumbnailURL: 'http://www.example.com/avatar.jpg'})
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', photoURL: 'http://www.example.com/avatar.jpg'})
           end
         end
       end
@@ -88,7 +88,7 @@ describe GigyaSocialLoginService do
           User.should_receive(:create!).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg') { user }
 
           gigya_connection.stub(:notify_registration) { stub(:successful? => true) }
-          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', thumbnailURL: 'http://www.example.com/my-avatar.jpg'})
+          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', photoURL: 'http://www.example.com/my-avatar.jpg'})
           gigya_social_login_service.user.should == user
         end
 

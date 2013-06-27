@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'user signs in' do
   before(:each) do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-    create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob')
+    create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
 
     advertiser = create_advertiser(logo_url: '/assets/test/oldnavy.png')
@@ -31,6 +31,7 @@ describe 'user signs in' do
     page.should have_content('You have 0 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
+    page.should have_css('img[src="http://www.example.com/test.png"]')
     page.should have_content('You want this.')
 
     page.should have_css('#social-link-widget[gigid="showAddConnectionsUI"]')

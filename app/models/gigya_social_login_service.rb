@@ -9,7 +9,7 @@ class GigyaSocialLoginService
     self.gigya_id = params[:UID]
     self.email = params[:email]
     self.first_name = params[:firstName]
-    self.avatar_thumbnail_url = params[:thumbnailURL]
+    self.avatar_thumbnail_url = params[:photoURL]
 
     if gigya_id_is_valid_primary_key
       self.user = User.find(gigya_id.to_i)
