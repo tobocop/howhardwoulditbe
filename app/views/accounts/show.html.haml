@@ -1,7 +1,10 @@
+.layout-inner
+  -#Remove me later
+  %div{style: 'padding-top: 20px;'}
 
-= link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
+  = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
 
-%p Card Linked?: #{@user_has_account}
+  %p Card Linked?: #{@user_has_account}
 
-#card-add-modal.reveal-modal.cf-modal
-  %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+  #card-add-modal.reveal-modal.cf-modal
+    %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}

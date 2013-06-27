@@ -1,0 +1,8 @@
+development:
+  image_base_url: ''
+
+test:
+  image_base_url: ''
+
+review:
+  image_base_url: https://plink-images.s3.amazonaws.com/
