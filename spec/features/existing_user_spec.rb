@@ -6,7 +6,7 @@ describe 'user signs in' do
     create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
 
-    advertiser = create_advertiser(logo_url: '/assets/test/oldnavy.png')
+    advertiser = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
 
     create_offer(advertiser_id: advertiser.id, start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
         create_offers_virtual_currency(
@@ -44,6 +44,14 @@ describe 'user signs in' do
     page.should have_content('You want this.')
     page.should have_content 'Select From These Offers'
     page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+
+    click_on 'Add to wallet'
+
+    within '.modal' do
+      page.should have_content('Old Navy Offers')
+    end
+
+
 
     click_on 'Log Out'
 

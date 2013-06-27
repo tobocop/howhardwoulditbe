@@ -8,3 +8,14 @@
         %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
         %p.font.dashboard-text.h3= current_virtual_currency.currency_name
         %button.button.wallet-add= button_label
+
+  .modal.offer-details
+    = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn'
+    = image_tag offer.image_url, alt: offer.name, class: 'wallet-logo'
+    .bg-element
+      %p.font.modal-text.h3.bold #{offer.name} Offers
+      %p.font.modal-text.h3 Spend $50 or more, get 500 Plink points.
+      %p.font.modal-text.h3 Spend $30 or more, get 300 Plink points.
+      %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
+    %button.button.primary-action.narrow ADD TO MY WALLET
+    .offer-description= raw offer.detail_text
