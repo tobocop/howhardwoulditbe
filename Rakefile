@@ -4,4 +4,9 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+desc 'Run specs (but don\'t use this, use build.sh)'
+task :spec do
+  raise 'Don\'t run me. Run ./build.sh instead.'
+end
+
 PlinkPivotal::Application.load_tasks
