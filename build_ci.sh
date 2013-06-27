@@ -4,7 +4,7 @@ export RAILS_ENV=test
 
 set -e
 
-sudo time apt-get install freetds-dev -y
+time sudo apt-get install freetds-dev -y
 
 
 time bundle install --deployment --path vendor/bundle
