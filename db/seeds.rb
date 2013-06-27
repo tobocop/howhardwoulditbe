@@ -29,7 +29,7 @@ create_offer(advertiser_id: old_navy.id, start_date: '1900-01-01', offers_virtua
     new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
         new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'),
         new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 10, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 10.5, minimum_purchase_amount: 100, end_date: '2999-12-31'),
+        new_tier(dollar_award_amount: 10.5, minimum_purchase_amount: 100, end_date: '2999-12-31')
     ]
     )
 ]
@@ -39,7 +39,7 @@ create_offer(advertiser_id: arbys.id, start_date: '1900-01-01', offers_virtual_c
     new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
         new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 4, end_date: '2999-12-31'),
         new_tier(dollar_award_amount: 1.2, minimum_purchase_amount: 12, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 11.5, minimum_purchase_amount: 130, end_date: '2999-12-31'),
+        new_tier(dollar_award_amount: 11.5, minimum_purchase_amount: 130, end_date: '2999-12-31')
     ]
     )
 ]
@@ -49,7 +49,7 @@ create_offer(advertiser_id: burger_king.id, start_date: '1900-01-01', offers_vir
     new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
         new_tier(dollar_award_amount: 0.2, minimum_purchase_amount: 1, end_date: '2999-12-31'),
         new_tier(dollar_award_amount: 1.1, minimum_purchase_amount: 14, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 14.5, minimum_purchase_amount: 120, end_date: '2999-12-31'),
+        new_tier(dollar_award_amount: 14.5, minimum_purchase_amount: 120, end_date: '2999-12-31')
     ]
     )
 ]
@@ -59,7 +59,7 @@ create_offer(advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_cur
     new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
         new_tier(dollar_award_amount: 0.8, minimum_purchase_amount: 1, end_date: '2999-12-31'),
         new_tier(dollar_award_amount: 9.5, minimum_purchase_amount: 19, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 12.5, minimum_purchase_amount: 141, end_date: '2999-12-31'),
+        new_tier(dollar_award_amount: 12.5, minimum_purchase_amount: 141, end_date: '2999-12-31')
     ]
     )
 ]

@@ -5,6 +5,7 @@ require File.expand_path("../../config/environment", __FILE__)
 
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'rspec/retry'
 require 'plink/test_helpers/object_creation_methods'
 require 'plink/test_helpers/fake_services/fake_offer_service'
 
@@ -16,6 +17,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.infer_base_class_for_anonymous_controllers = false
   config.order = "random"
+  config.verbose_retry = true
 
   config.include(FactoryTestHelpers)
   config.include(FeatureSpecHelper, type: :feature)

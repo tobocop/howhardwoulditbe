@@ -40,7 +40,7 @@ describe 'User signup workflow' do
     end
   end
 
-  context 'social registration' do
+  context 'social registration', retry: 3 do
     after(:each) do
       delete_users_from_gigya
     end
