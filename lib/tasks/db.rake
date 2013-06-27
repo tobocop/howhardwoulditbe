@@ -3,11 +3,19 @@ namespace :db do
 
     desc 'Creates the views in the DB'
     task :create => :environment do
+      #Rolls up freeAwards qualifyingAwards and nonQualifyingAwards
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_awards.sql')))
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_allRewards.sql')))
+      
+      #Rolls up all purchases and redemptions of a user
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_debitsCredits.sql')))
+
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_userBalances.sql')))
+     
+      #only returns active oauth tokens. They can expire periodically 
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_oauth_tokens.sql')))
+
+      #Returns everyone we currently consider to be active in intuit and in our system
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_active_intuit_accounts.sql')))
     end
 
@@ -25,6 +33,7 @@ namespace :db do
   namespace :udfs do
     desc 'create the user defined functions in the db'
     task :create => :environment do
+      #We need fuzzy dates for awarding. The vw_active_intuit_accounts view is also dependant on these udfs
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_getFuzzyDateValue.sql')))
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_calculateFuzzyDate.sql')))
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_udf_getDateOnly.sql')))

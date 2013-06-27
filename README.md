@@ -22,7 +22,9 @@ We use a local Windows VM with SQL Server Express in development.
 
 * rake db:schema:load
 
-* rake db:create_views
+* rake db:udfs:create
+
+* rake db:views:create
 
 * rake db:seed
 
