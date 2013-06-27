@@ -18,7 +18,7 @@ module Plink
     belongs_to :advertiser, class_name: 'Plink::AdvertiserRecord', foreign_key: 'advertiserID'
 
     def self.live_offers_for_currency(currency_id)
-      for_currency_id(currency_id).live.joins(:active_offers_virtual_currencies, :live_tiers)
+      joins(:active_offers_virtual_currencies).where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id)
     end
 
     def self.for_currency_id(currency_id)

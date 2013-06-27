@@ -10,6 +10,5 @@ module Plink
     def create_offers(offer_records)
       offer_records.map { |offer_record| Offer.new(offer_record) }
     end
-
   end
 end

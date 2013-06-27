@@ -62,7 +62,7 @@ describe Plink::OfferRecord do
       create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, show_on_wall: false))
       create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: false))
 
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      offer_with_other_virtual_currency = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 123,
               tiers: [new_tier]
@@ -77,7 +77,7 @@ describe Plink::OfferRecord do
           )
       ]))
 
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      @offer_with_no_active_tiers = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
               tiers: [new_tier(is_active:false)]
@@ -87,13 +87,13 @@ describe Plink::OfferRecord do
       @expected_offer = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
-              tiers: [new_tier]
+              tiers: [new_tier, new_tier]
           )
       ]))
     end
 
-    it 'returns offers only live offers for the given currency' do
-      Plink::OfferRecord.live_offers_for_currency(13).should == [@expected_offer]
+    it 'returns offers only live offers for the given currency and also offers with no active tiers (for simplicity)' do
+      Plink::OfferRecord.live_offers_for_currency(13).should =~ [@expected_offer, @offer_with_no_active_tiers]
     end
 
   end
