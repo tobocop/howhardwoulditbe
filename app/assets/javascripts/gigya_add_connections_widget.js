@@ -8,7 +8,7 @@
           hideGigyaLink: true,
           enabledProviders: Plink.Config.enabledProviders,
           containerID: 'social-link-widget',
-          width: 224,
+          width: 65,
           height: 70
         });
       }
