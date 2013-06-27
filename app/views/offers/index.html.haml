@@ -1,7 +1,8 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
 
 .layout-inner
-  %p Earn #{current_virtual_currency.currency_name} at these locations.
 
   .wallet
+    %h2 Earn #{current_virtual_currency.currency_name} at these locations.
+
     = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Details'}
