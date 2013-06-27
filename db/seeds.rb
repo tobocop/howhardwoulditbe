@@ -9,7 +9,6 @@ Plink::OfferRecord.destroy_all
 Plink::OffersVirtualCurrencyRecord.destroy_all
 Plink::TierRecord.destroy_all
 
-
 p 'Creating VirtualCurrency'
 virtual_currency = VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
 
@@ -21,7 +20,7 @@ HeroPromotion.create(image_url: '/assets/hero-gallery/7eleven_2.jpg', title: '7-
 p 'Creating Advertisers'
 old_navy = Plink::AdvertiserRecord.create(advertiser_name: 'Old Navy', logo_url: '/assets/wallet-logos/oldnavy.png')
 arbys = Plink::AdvertiserRecord.create(advertiser_name: 'Arbys', logo_url: '/assets/wallet-logos/arbys.png')
-burger_king = Plink::AdvertiserRecord.create(advertiser_name: 'Burger King', logo_url: '/assets/wallet-logos/burgerking.png')
+burger_king = Plink::AdvertiserRecord.create(advertiser_name: 'Burger King', logo_url: '/assets/wallet-logos/bk-cropped.png')
 gap = Plink::AdvertiserRecord.create(advertiser_name: 'Gap', logo_url: '/assets/wallet-logos/gap.png')
 
 p 'Creating Offers'
