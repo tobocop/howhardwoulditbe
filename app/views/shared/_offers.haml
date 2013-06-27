@@ -9,12 +9,12 @@
         %p.font.dashboard-text.h3= current_virtual_currency.currency_name
         %button.button.wallet-add= button_label
 
-  .modal.offer-details
+  .modal.offer-details.reveal-modal{style: 'display: none'}
     = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn'
     = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, alt: offer.name.to_s, class: 'wallet-logo'
     .bg-element
       %p.font.modal-text.h3.bold #{offer.name.to_s} Offers
-      %p.font.modal-text.h3 Spend $50 or more, get 500 Plink points.
+      %p.font.modal-text.h3 Spend $#{offer.tiers.first.minimum_purchase_amount} or more, get 500 Plink points.
       %p.font.modal-text.h3 Spend $30 or more, get 300 Plink points.
       %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
     %button.button.primary-action.narrow ADD TO MY WALLET
