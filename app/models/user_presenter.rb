@@ -11,6 +11,10 @@ class UserPresenter
     user.id
   end
 
+  def email
+    user.email
+  end
+
   def logged_in?
     true
   end

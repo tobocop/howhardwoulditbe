@@ -4,7 +4,17 @@
 
   = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
 
+  %br
+  %br
+    
   %p Card Linked?: #{@user_has_account}
+
+  %p Email: #{current_user.email}
+
+  %br
+  %br
+
+  %p Current User attributes: #{current_user.inspect}
 
   #card-add-modal.reveal-modal.cf-modal
     %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}

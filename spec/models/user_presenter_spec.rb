@@ -12,6 +12,11 @@ describe UserPresenter do
     presenter.id.should == 234
   end
 
+  it 'returns the user email' do
+    presenter = UserPresenter.new(user: stub(email: 'matt@plink.com'))
+    presenter.email.should == 'matt@plink.com'
+  end
+
   it 'returns the user primary_virtual_currency_id' do
     presenter = UserPresenter.new(user: stub(primary_virtual_currency_id: 456))
     presenter.primary_virtual_currency_id.should == 456
