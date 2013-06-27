@@ -15,10 +15,27 @@ describe GigyaSocialLoginService do
 
       context 'when we find a user by id' do
         it 'returns the user' do
-          user = stub
+          user = stub(avatar_thumbnail_url?: true)
           User.stub(:find).with(123) { user }
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'})
           gigya_social_login_service.user.should == user
+        end
+
+        context 'when the user already has a thumbnail url' do
+          it 'does not change the thumbnail' do
+            user = stub(avatar_thumbnail_url?: true)
+            User.stub(:find).with(123) { user }
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'})
+          end
+        end
+
+        context 'when the user does not have a thumbnail url' do
+          it 'copies the thumbnail url from the Gigya-provided info' do
+            user = mock(avatar_thumbnail_url?: false)
+            user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
+            User.stub(:find).with(123) { user }
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', thumbnailURL: 'http://www.example.com/avatar.jpg'})
+          end
         end
       end
 
@@ -35,12 +52,28 @@ describe GigyaSocialLoginService do
     context 'when gigya_user id is not an integer' do
       context 'when we find the user by email' do
         it 'returns that user' do
-          user = stub
+          user = stub(avatar_thumbnail_url?: true)
           User.stub(:find_by_email).with('bob@example.com') { user }
 
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com'})
           gigya_social_login_service.user.should == user
+        end
 
+        context 'when the user already has a thumbnail url' do
+          it 'does not change the thumbnail' do
+            user = stub(avatar_thumbnail_url?: true)
+            User.stub(:find_by_email).with('bob@example.com') { user }
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com'})
+          end
+        end
+
+        context 'when the user does not have a thumbnail url' do
+          it 'copies the thumbnail url from the Gigya-provided info' do
+            user = mock(avatar_thumbnail_url?: false)
+            user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
+            User.stub(:find_by_email).with('bob@example.com') { user }
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', thumbnailURL: 'http://www.example.com/avatar.jpg'})
+          end
         end
       end
 
@@ -51,24 +84,24 @@ describe GigyaSocialLoginService do
         end
 
         it 'creates a new user' do
-          user = stub(id: 123)
-          User.should_receive(:create!).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt') { user }
+          user = stub(id: 123, avatar_thumbnail_url?: true)
+          User.should_receive(:create!).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg') { user }
 
           gigya_connection.stub(:notify_registration) { stub(:successful? => true) }
-          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob'})
+          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', thumbnailURL: 'http://www.example.com/my-avatar.jpg'})
           gigya_social_login_service.user.should == user
         end
 
         it 'should raise when user creation fails' do
-          User.should_receive(:create!).with(email: 'bob@example.com', first_name: '', password_hash: 'my-hashed-password', salt: 'my-salt') { raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: []))) }
+          User.should_receive(:create!).with(email: 'bob@example.com', first_name: '', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: nil) { raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: []))) }
 
           expect {
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: ''})
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: '', avatar_thumbnail_url: nil})
           }.to raise_exception(ActiveRecord::RecordInvalid)
         end
 
         it 'notifies Gigya of a user registration' do
-          user = stub(id: 123)
+          user = stub(id: 123, avatar_thumbnail_url?: true)
           User.should_receive(:create!) { user }
 
           gigya_connection.should_receive(:notify_registration).with(site_user_id: 123, gigya_id: 'abc123') { stub(:successful? => true)}

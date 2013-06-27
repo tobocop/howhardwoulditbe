@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   self.primary_key = 'userID'
 
-  attr_accessible :email, :first_name, :password_hash, :salt
+  attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
 
   belongs_to :primary_virtual_currency, class_name: 'VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
 

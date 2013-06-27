@@ -19,9 +19,11 @@ describe ApplicationController do
     it 'returns the current user' do
       session[:current_user_id] = 3
       user = stub
+      user_presenter = stub
+      UserPresenter.stub(:new).with(user: user) { user_presenter }
       User.should_receive(:find).with(3) { user }
 
-      controller.current_user.should == user
+      controller.current_user.should == user_presenter
     end
   end
 

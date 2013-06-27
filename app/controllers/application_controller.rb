@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return nil if session[:current_user_id].blank?
-    @user ||= User.find(session[:current_user_id])
+    @user ||= UserPresenter.new(user: User.find(session[:current_user_id]))
   end
 
   def current_virtual_currency

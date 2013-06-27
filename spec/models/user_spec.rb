@@ -42,6 +42,11 @@ describe User do
     subject.should have(1).error_on(:email)
   end
 
+  it 'allows assignment of avatar_thumbnail_url' do
+    subject.update_attributes(avatar_thumbnail_url: 'test123')
+    subject.avatar_thumbnail_url.should == 'test123'
+  end
+
   it 'has a primary virtual currency' do
     subject.primary_virtual_currency = create_virtual_currency
     subject.save!
