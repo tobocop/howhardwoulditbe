@@ -16,8 +16,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_virtual_currency
-    currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
-    VirtualCurrencyPresenter.new(virtual_currency: currency)
+    @virtual_currency ||= begin
+      currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
+      VirtualCurrencyPresenter.new(virtual_currency: currency)
+    end
   end
 
   def require_authentication
