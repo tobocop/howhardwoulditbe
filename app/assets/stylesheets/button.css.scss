@@ -167,6 +167,7 @@ $disabled:#e6e6e6;
     font-weight: 400;
     font-size: .7em;
     letter-spacing: 0px;
+    text-transform: uppercase;
     @include round-corners(10px); 
     @include vertical-bg-gradient(#d9e245, #c3ca23);
 

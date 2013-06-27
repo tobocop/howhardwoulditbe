@@ -1,15 +1,7 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
+
 .layout-inner
   %p Earn #{current_virtual_currency.currency_name} at these locations.
 
   .wallet
-    - @offers.each do |offer|
-      .offer
-        .offer-inner
-          .brand
-            = image_tag offer.image_url, class: 'wallet-logo', alt: offer.name
-          .info
-            %p.font.dashboard-text.h3 up to
-            %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
-            %p.font.dashboard-text.h3= current_virtual_currency.currency_name
-            %button.button.wallet-add DETAILS
+    = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Details'}

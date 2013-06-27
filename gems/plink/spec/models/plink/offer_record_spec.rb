@@ -52,7 +52,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'for_currency_id' do
+  describe 'live_offers_for_currency' do
     before :each do
       create_offer(valid_attributes.merge(show_on_wall: false))
       create_offer(valid_attributes.merge(is_active: false))

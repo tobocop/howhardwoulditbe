@@ -1,2 +1,6 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
-This is the wallet.
+
+.layout-inner
+  .wallet
+    %h2 Select From These Offers
+    = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
