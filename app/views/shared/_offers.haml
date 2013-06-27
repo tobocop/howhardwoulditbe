@@ -2,7 +2,7 @@
   .offer
     .offer-inner
       .brand
-        = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, class: 'wallet-logo', alt: offer.name
+        = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, class: 'wallet-logo', alt: offer.name.to_s
       .info
         %p.font.dashboard-text.h3 up to
         %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
