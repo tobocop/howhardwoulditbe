@@ -11,6 +11,10 @@ class UserPresenter
     user.id
   end
 
+  def logged_in?
+    true
+  end
+
   def primary_virtual_currency_id
     user.primary_virtual_currency_id
   end

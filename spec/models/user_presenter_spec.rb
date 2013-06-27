@@ -44,4 +44,7 @@ describe UserPresenter do
     end
   end
 
+  it 'is logged in' do
+    UserPresenter.new(user: stub).should be_logged_in
+  end
 end

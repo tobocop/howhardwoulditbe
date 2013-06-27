@@ -16,7 +16,7 @@ describe DashboardController do
     end
 
     it 'should assign hero promotions' do
-      controller.stub(current_user: user)
+      controller.stub(:user_logged_in?) { true }
 
       stub_collection = [stub]
       HeroPromotion.stub(:by_display_order) { stub_collection }
@@ -26,7 +26,7 @@ describe DashboardController do
     end
 
     it 'assigns @current_tab' do
-      controller.stub(current_user: user)
+      controller.stub(:user_logged_in?) { true }
 
       get :show
 

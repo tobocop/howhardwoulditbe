@@ -11,17 +11,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    return nil if session[:current_user_id].blank?
+    return NullUserPresenter.new if session[:current_user_id].blank?
     @user ||= UserPresenter.new(user: User.find(session[:current_user_id]))
   end
 
   def current_virtual_currency
-    if current_user
-      currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
-      VirtualCurrencyPresenter.new(virtual_currency: currency)
-    else
-      VirtualCurrencyPresenter.new(virtual_currency: VirtualCurrency.default)
-    end
+    currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
+    VirtualCurrencyPresenter.new(virtual_currency: currency)
   end
 
   def require_authentication
@@ -29,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_logged_in?
-    current_user.present?
+    current_user.logged_in?
   end
 
   def gigya_connection

@@ -1,4 +1,6 @@
 class AccountsController < ApplicationController
+  before_filter :require_authentication
+
   def show
     @current_tab = 'account'
     @user_has_account = ActiveIntuitAccount.user_has_account?(current_user.id)

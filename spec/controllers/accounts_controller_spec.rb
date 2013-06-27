@@ -4,6 +4,7 @@ describe AccountsController do
   let(:user) { new_user }
 
   before(:each) do
+    controller.stub(user_logged_in?: true)
     controller.stub(current_user: user)
   end
 
@@ -29,6 +30,12 @@ describe AccountsController do
       get :show
 
       assigns(:card_link_url).should == 'http://www.mywebsite.com'
+    end
+
+    it 'redirects if the current user is not logged in' do
+      controller.stub(user_logged_in?: false)
+      get :show
+      response.should be_redirect
     end
   end
 end

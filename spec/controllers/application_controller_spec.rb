@@ -25,6 +25,11 @@ describe ApplicationController do
 
       controller.current_user.should == user_presenter
     end
+
+    it 'returns a NullUserPresenter if the current_user_id is nil' do
+      session[:current_user_id] = nil
+      controller.current_user.should be_a(NullUserPresenter)
+    end
   end
 
   describe '#current_virtual_currency' do
@@ -41,8 +46,9 @@ describe ApplicationController do
       presented_currency.currency_name.should == 'Plonk Points'
     end
 
-    it 'returns the default virtual currency when we do not have a current_user' do
+    it 'returns the default virtual currency when we have a null current user' do
       create_virtual_currency(name: 'Plonk Points', subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
+      NullUserPresenter.any_instance.stub(:primary_virtual_currency_id) { VirtualCurrency.default.id }
 
       presented_currency = controller.current_virtual_currency
 
@@ -66,13 +72,13 @@ describe ApplicationController do
 
   describe '#user_logged_in?' do
     it 'returns true if a current user is logged in' do
-      controller.stub(:current_user) { true }
+      controller.stub(:current_user) { stub(logged_in?: true) }
       controller.user_logged_in?.should == true
 
     end
 
-    it 'it returns false if there is no current user' do
-      controller.stub(:current_user) { nil }
+    it 'it returns false if the user is not logged in' do
+      controller.stub(:current_user) { stub(logged_in?: false) }
       controller.user_logged_in?.should == false
     end
   end

@@ -4,7 +4,6 @@ class VirtualCurrencyPresenter
 
   def initialize(options = {})
     @virtual_currency = options.fetch(:virtual_currency)
-    @user_balance = options.fetch(:user_balance, 0)
   end
 
   def currency_name
@@ -13,10 +12,6 @@ class VirtualCurrencyPresenter
 
   def id
     virtual_currency.id
-  end
-
-  def user_balance_currency
-    (user_balance * virtual_currency.exchange_rate).to_i.to_s
   end
 
   def amount_in_currency(amount)
