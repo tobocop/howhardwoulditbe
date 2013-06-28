@@ -19,6 +19,7 @@ class VirtualCurrencyPresenter
   end
 
   def amount_in_currency(amount)
+    return 0 if amount.nil?
     (amount* virtual_currency.exchange_rate).to_i.to_s
   end
 end

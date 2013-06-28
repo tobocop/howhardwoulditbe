@@ -15,6 +15,11 @@ describe VirtualCurrencyPresenter do
       presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(exchange_rate: 100))
       presenter.amount_in_currency(1.35).should === '135'
     end
+
+    it 'returns 0 if nil amount is given' do
+      presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(exchange_rate: 100))
+      presenter.amount_in_currency(nil).should === 0
+    end
   end
 
   describe '#currency_name' do
