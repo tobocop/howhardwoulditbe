@@ -8,9 +8,9 @@
     %br
     %br
 
-    %h1.cyan You have #{current_user.current_balance.to_i} #{current_virtual_currency.currency_name}.
+    %h1.cyan You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
 
-    %p Lifetime balance: #{current_user.lifetime_balance.to_i} #{current_virtual_currency.currency_name}
+    %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
 
     %p Card Linked?: #{@user_has_account}
 
