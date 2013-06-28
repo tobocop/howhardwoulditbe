@@ -21,5 +21,4 @@ describe Plink::OffersVirtualCurrencyRecord do
     ovc = new_offers_virtual_currency(valid_params.merge(detail_text: 'new text'))
     ovc.detail_text.should == 'new text'
   end
-
 end
