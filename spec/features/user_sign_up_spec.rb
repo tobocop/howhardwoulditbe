@@ -24,7 +24,7 @@ describe 'User signup workflow' do
       page.should have_content('Welcome, Joe!')
       current_path.should == dashboard_path
 
-      click_link 'Wallet'
+      click_on 'Wallet'
 
       page.should have_content 'My Wallet'
       page.should have_content 'This slot is empty.', count: 5
@@ -50,7 +50,7 @@ describe 'User signup workflow' do
       delete_users_from_gigya
     end
 
-    context 'with facebook', retry: 3 do
+    context 'with facebook' do
       it 'allows a user to register with their facebook account', js: true do
         visit '/'
 
@@ -71,6 +71,11 @@ describe 'User signup workflow' do
 
         page.should have_content('Welcome, Matt!')
         current_path.should == dashboard_path
+
+        click_on 'Wallet'
+
+        page.should have_content 'My Wallet'
+        page.should have_content 'This slot is empty.', count: 5
       end
     end
 
@@ -103,6 +108,11 @@ describe 'User signup workflow' do
 
         page.should have_content('Welcome, Matt!')
         current_path.should == dashboard_path
+
+        click_on 'Wallet'
+
+        page.should have_content 'My Wallet'
+        page.should have_content 'This slot is empty.', count: 5
       end
     end
   end

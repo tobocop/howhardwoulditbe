@@ -37,6 +37,11 @@ describe Password do
     password.hashed_value.should == 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192'
   end
 
+  it 'returns a blank hash for a blank password' do
+    password = Password.new(unhashed_password: nil)
+    password.hashed_value.should == ''
+  end
+
   describe 'class methods' do
     it 'autogenerates a password' do
       SecureRandom.stub(:uuid) { 'my-uuid' }

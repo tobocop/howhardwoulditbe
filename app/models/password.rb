@@ -12,6 +12,7 @@ class Password
   end
 
   def hashed_value
+    return '' unless @unhashed_password
     salted_password = ""
 
     # TODO: This is not hashing and rehashing the password 1000 times.

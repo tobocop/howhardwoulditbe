@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe RegistrationsController do
   describe "#new" do
+    before { UserRegistrationForm.stub(:new) }
+
     it "should assign @user_registration_form" do
       user_registration_form = stub
       UserRegistrationForm.stub(:new) { user_registration_form }
