@@ -15,10 +15,18 @@ module Plink
       tiers.max_by(&:dollar_award_amount).dollar_award_amount
     end
 
+    def tiers_by_minimum_purchase_amount
+      tiers.sort { |a, b| a.minimum_purchase_amount <=> b.minimum_purchase_amount }
+    end
+
+    def minimum_purchase_amount_tier
+      tiers.min_by(&:minimum_purchase_amount)
+    end
+
     private
 
     def offer_tiers(offer_record)
-      offer_record.tiers.map {|tier| Plink::Tier.new(tier)}
+      offer_record.tiers.map { |tier| Plink::Tier.new(tier) }
     end
 
     def detail_text_for_offer(offer_record)

@@ -14,10 +14,16 @@ describe Plink::Offer do
                   virtual_currency_id: 3,
                   tiers: [
                       new_tier(
-                          dollar_award_amount: 0.52
+                          dollar_award_amount: 0.52,
+                          minimum_purchase_amount: 1.00
                       ),
                       new_tier(
-                          dollar_award_amount: 1.43
+                          dollar_award_amount: 1.43,
+                          minimum_purchase_amount: 2.00
+                      ),
+                      new_tier(
+                          dollar_award_amount: 0.23,
+                          minimum_purchase_amount: 0.50
                       )
                   ]
               )
@@ -28,13 +34,26 @@ describe Plink::Offer do
     subject { Plink::Offer.new(plink_offer) }
 
     it 'uses info from an offer record to populate all fields' do
-      subject.tiers.count.should == 2
-      subject.tiers.map(&:class).should == [Plink::Tier, Plink::Tier]
+      subject.tiers.count.should == 3
+      subject.tiers.map(&:class).should == [Plink::Tier, Plink::Tier, Plink::Tier]
       subject.detail_text.should == 'one text'
       subject.name.should == 'cold wavy'
       subject.image_url.should == 'fake.jpg'
       subject.id.should == plink_offer.id
       subject.max_dollar_award_amount.should == 1.43
+    end
+
+    describe '#tiers_by_minimum_purchase_amount' do
+      it 'returns tiers sorted by their minimum purchase amount ascending' do
+        subject.tiers_by_minimum_purchase_amount.map(&:minimum_purchase_amount).should == [0.50, 1.00, 2.00]
+      end
+    end
+
+    describe '#minimum_purchase_amount_tier' do
+      it 'returns the tier with the lowest minimum purchase amount' do
+        minimum_purchase_tier = subject.minimum_purchase_amount_tier
+        minimum_purchase_tier.minimum_purchase_amount.should == 0.50
+      end
     end
   end
 

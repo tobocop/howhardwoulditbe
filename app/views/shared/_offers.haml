@@ -1,5 +1,5 @@
 - @offers.each do |offer|
-  .offer
+  .offer{ 'data-offer-id' => offer.id }
     .offer-inner
       .brand
         = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, class: 'wallet-logo', alt: offer.name.to_s
@@ -7,15 +7,19 @@
         %p.font.dashboard-text.h3 up to
         %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
         %p.font.dashboard-text.h3= current_virtual_currency.currency_name
-        %button.button.wallet-add= button_label
+        %button.button.wallet-add{data: {'reveal-id' => "offer-details-#{offer.id}"}}= button_label
 
-  .modal.offer-details.reveal-modal{style: 'display: none'}
-    = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn'
+- @offers.each do |offer|
+  .modal.offer-details.reveal-modal{style: 'display: none', id: "offer-details-#{offer.id}"}
+    = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
     = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, alt: offer.name.to_s, class: 'wallet-logo'
     .bg-element
       %p.font.modal-text.h3.bold #{offer.name.to_s} Offers
-      %p.font.modal-text.h3 Spend $#{offer.tiers.first.minimum_purchase_amount} or more, get 500 Plink points.
-      %p.font.modal-text.h3 Spend $30 or more, get 300 Plink points.
-      %p.font.modal-text.h3 Spend $10 or more, get 100 Plink points.
+
+      .tiers
+        -offer.tiers_by_minimum_purchase_amount.each do |tier|
+          %p.font.modal-text.h3
+            Spend #{number_to_currency(tier.minimum_purchase_amount)} or more, get #{current_virtual_currency.amount_in_currency(tier.dollar_award_amount)} #{current_virtual_currency.currency_name}.
+
     %button.button.primary-action.narrow ADD TO MY WALLET
-    .offer-description= raw offer.detail_text
+    .offer-description= raw Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, current_virtual_currency)

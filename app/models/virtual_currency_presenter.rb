@@ -6,12 +6,16 @@ class VirtualCurrencyPresenter
     @virtual_currency = options.fetch(:virtual_currency)
   end
 
+  def id
+    virtual_currency.id
+  end
+
   def currency_name
     virtual_currency.name
   end
 
-  def id
-    virtual_currency.id
+  def exchange_rate
+    virtual_currency.exchange_rate
   end
 
   def amount_in_currency(amount)

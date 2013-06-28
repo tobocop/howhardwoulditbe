@@ -34,14 +34,17 @@ create_offer(advertiser_id: old_navy.id, start_date: '1900-01-01', offers_virtua
 ]
 )
 
-create_offer(advertiser_id: arbys.id, start_date: '1900-01-01', offers_virtual_currencies: [
-    new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
-        new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 4, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 1.2, minimum_purchase_amount: 12, end_date: '2999-12-31'),
-        new_tier(dollar_award_amount: 11.5, minimum_purchase_amount: 130, end_date: '2999-12-31')
-    ]
-    )
-]
+create_offer(advertiser_id: arbys.id,
+             start_date: '1900-01-01',
+             detail_text: %Q{<p class="font13pt"> Arby's&reg; is the place for people hungering for a unique , better tasting alternative to traditional fast food.Serving one-of-a-kind menu items, Arby's is well known for slow-roasted and freshly sliced Roast Beef sandwiches, Curly Fries, and Jamocha Shakes.</p><p class="font13pt mvm"> Earn $vc_dollarAmount$ for any purchase at Arby's of $$minimumPurchaseAmount$ or higher.</p> <p class="font10pt">$$minimumPurchaseAmount$ minimum purchase required to qualify. $$minimumPurchaseAmount$ minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period.On average, you will receive notification of your $vc_currencyName$ award with 2-5 days of when the purchase occurred, due to bank and credit card processing.TM & &copy; 2012 Arby 's IP Holder Trust</p>},
+             offers_virtual_currencies: [
+                 new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
+                     new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 4, end_date: '2999-12-31'),
+                     new_tier(dollar_award_amount: 1.2, minimum_purchase_amount: 12, end_date: '2999-12-31'),
+                     new_tier(dollar_award_amount: 11.5, minimum_purchase_amount: 130, end_date: '2999-12-31')
+                 ]
+                 )
+             ]
 )
 
 create_offer(advertiser_id: burger_king.id, start_date: '1900-01-01', offers_virtual_currencies: [

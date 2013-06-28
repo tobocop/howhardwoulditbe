@@ -24,6 +24,13 @@ describe VirtualCurrencyPresenter do
     end
   end
 
+  describe '#exchange_rate' do
+    it 'returns the exchange rate of the provided currency' do
+      presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub(exchange_rate: 100, name: 'Plonk Points'))
+      presenter.exchange_rate.should == 100
+    end
+  end
+
   describe '#id' do
     it 'returns the id of the provided virtual currency' do
       presenter = VirtualCurrencyPresenter.new(user_balance: 1.0, virtual_currency: stub(id: 143))
