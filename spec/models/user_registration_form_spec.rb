@@ -81,6 +81,8 @@ describe UserRegistrationForm do
   end
 
   describe "saving" do
+    before { Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) } }
+
     it "creates a user object when valid" do
       password = stub(hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
       Password.stub(:new).with(unhashed_password: "goodpassword") { password }
@@ -88,6 +90,13 @@ describe UserRegistrationForm do
       user_mock = mock_model(Plink::User, save: true)
       Plink::User.should_receive(:new).with(password_hash: "1234790dfghjkl;", first_name: "Bobo", email: "bobo@example.com", salt: "qwer-qwer-qwer-qwer").and_return(user_mock)
       subject.save.should be_true
+    end
+
+    it 'creates a valid wallet when a user is saved' do
+      Plink::User.any_instance.stub(:save).and_return(true)
+      subject.stub(user_id:132)
+      Plink::WalletCreationService.should_receive(:new).with(user_id: 132)
+      subject.save
     end
 
     it "does not create a user object if validation fails" do

@@ -28,7 +28,12 @@ class UserRegistrationForm
 
   def save
     return unless valid?
-    user.save
+
+    Plink::User.transaction do
+      return_value = user.save
+      Plink::WalletCreationService.new(user_id: user_id).create_for_user_id
+    end
+    true
   end
 
   def persisted?

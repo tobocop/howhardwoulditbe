@@ -40,12 +40,12 @@ describe 'User signup workflow' do
     end
   end
 
-  context 'social registration', retry: 3 do
+  context 'social registration' do
     after(:each) do
       delete_users_from_gigya
     end
 
-    context 'with facebook' do
+    context 'with facebook', retry: 3 do
       it 'allows a user to register with their facebook account', js: true do
         visit '/'
 
