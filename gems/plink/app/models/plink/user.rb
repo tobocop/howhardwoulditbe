@@ -8,6 +8,8 @@ module Plink
     attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
 
     belongs_to :primary_virtual_currency, class_name: 'Plink::VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
+    has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
+    has_many :wallet_items, through: :wallet
 
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 

@@ -39,6 +39,10 @@ class UserPresenter
     user.first_name
   end
 
+  def wallet_items
+    user.wallet_items
+  end
+
   def avatar_thumbnail_url
     if user.avatar_thumbnail_url.blank?
       DEFAULT_AVATAR_THUMBNAIL_PATH

@@ -68,6 +68,10 @@ describe Plink::User do
     subject.primary_virtual_currency.should == plink_point_currency
   end
 
+  it 'has wallet items' do
+    subject.wallet_items.should == []
+  end
+
   describe 'class methods' do
     it 'finds a user by their email address' do
       user = create_user

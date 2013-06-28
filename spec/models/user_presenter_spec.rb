@@ -42,6 +42,12 @@ describe UserPresenter do
     presenter.first_name.should == 'Brian'
   end
 
+  it 'returns the wallet items' do
+    wallet_items = [stub]
+    presenter = UserPresenter.new(user: stub(wallet_items: wallet_items))
+    presenter.wallet_items.should == wallet_items
+  end
+
   describe '.avatar_thumbnail_url' do
     it 'returns a default avatar url if no profile image is in the user' do
       presenter = UserPresenter.new(user: stub(avatar_thumbnail_url: nil))

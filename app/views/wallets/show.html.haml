@@ -1,6 +1,18 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
 
 .layout-inner
+  .left-column
+    %h1 My Wallet
+
+    .wallet
+      - current_user.wallet_items.each do |item|
+        .slot
+          = image_tag 'icon_emptyslot.png', alt: 'Empty Slot', class: 'img'
+          .text
+            %h3.bold This slot is empty.
+            %h3= "Select an offer to start earning #{current_virtual_currency.currency_name}."
+
+
   .wallet
     %h2 Select From These Offers
     = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}

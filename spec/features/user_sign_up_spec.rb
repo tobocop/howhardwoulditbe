@@ -23,6 +23,11 @@ describe 'User signup workflow' do
 
       page.should have_content('Welcome, Joe!')
       current_path.should == dashboard_path
+
+      click_link 'Wallet'
+
+      page.should have_content 'My Wallet'
+      page.should have_content 'This slot is empty.', count: 5
     end
 
     it 'should show error messages when form validation fail', js: true do
