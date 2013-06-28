@@ -42,7 +42,7 @@ class UserRegistrationForm
   private
 
   def params_are_valid_for_user
-    self.user = User.new(user_params)
+    self.user = Plink::User.new(user_params)
     if !user.valid?
       user.errors.each do |attr, message|
         errors.add(attr, message)

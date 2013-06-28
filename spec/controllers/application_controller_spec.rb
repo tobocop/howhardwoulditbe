@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ApplicationController do
   describe '#sign_in_user' do
-    let(:user) { mock_model(User, id: 123, password_hash: 'hashypassy') }
+    let(:user) { mock_model(Plink::User, id: 123, password_hash: 'hashypassy') }
 
     it 'sets current_user_id in the session' do
       controller.sign_in_user(user)
@@ -21,7 +21,7 @@ describe ApplicationController do
       user = stub
       user_presenter = stub
       UserPresenter.stub(:new).with(user: user) { user_presenter }
-      User.should_receive(:find).with(3) { user }
+      Plink::User.should_receive(:find).with(3) { user }
 
       controller.current_user.should == user_presenter
     end
@@ -47,8 +47,8 @@ describe ApplicationController do
     end
 
     it 'returns the default virtual currency when we have a null current user' do
-      create_virtual_currency(name: 'Plonk Points', subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
-      NullUserPresenter.any_instance.stub(:primary_virtual_currency_id) { VirtualCurrency.default.id }
+      create_virtual_currency(name: 'Plonk Points', subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
+      NullUserPresenter.any_instance.stub(:primary_virtual_currency_id) { Plink::VirtualCurrency.default.id }
 
       presented_currency = controller.current_virtual_currency
 

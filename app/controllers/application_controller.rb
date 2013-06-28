@@ -12,12 +12,12 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return NullUserPresenter.new if session[:current_user_id].blank?
-    @user ||= UserPresenter.new(user: User.find(session[:current_user_id]))
+    @user ||= UserPresenter.new(user: Plink::User.find(session[:current_user_id]))
   end
 
   def current_virtual_currency
     @virtual_currency ||= begin
-      currency = VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
+      currency = Plink::VirtualCurrency.where(virtualCurrencyID: current_user.primary_virtual_currency_id).first
       VirtualCurrencyPresenter.new(virtual_currency: currency)
     end
   end

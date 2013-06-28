@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "user_registration_form" do
+describe UserRegistrationForm do
 
   subject { UserRegistrationForm.new(password: "goodpassword", password_confirmation: "goodpassword", first_name: "Bobo", email: "bobo@example.com") }
 
@@ -66,8 +66,8 @@ describe "user_registration_form" do
     end
 
     it "is not valid if the options passed to User are invalid" do
-      User.any_instance.stub(:valid?).and_return(false)
-      User.any_instance.stub(:errors) { {:foo => "dummy error"} }
+      Plink::User.any_instance.stub(:valid?).and_return(false)
+      Plink::User.any_instance.stub(:errors) { {:foo => "dummy error"} }
 
       subject.should_not be_valid
       subject.should have(1).error_on(:foo)
@@ -76,7 +76,7 @@ describe "user_registration_form" do
 
     it "provides a user object after validation" do
       subject.valid?
-      subject.user.should be_a(User)
+      subject.user.should be_a(Plink::User)
     end
   end
 
@@ -85,8 +85,8 @@ describe "user_registration_form" do
       password = stub(hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
       Password.stub(:new).with(unhashed_password: "goodpassword") { password }
 
-      user_mock = mock_model(User, save: true)
-      User.should_receive(:new).with(password_hash: "1234790dfghjkl;", first_name: "Bobo", email: "bobo@example.com", salt: "qwer-qwer-qwer-qwer").and_return(user_mock)
+      user_mock = mock_model(Plink::User, save: true)
+      Plink::User.should_receive(:new).with(password_hash: "1234790dfghjkl;", first_name: "Bobo", email: "bobo@example.com", salt: "qwer-qwer-qwer-qwer").and_return(user_mock)
       subject.save.should be_true
     end
 

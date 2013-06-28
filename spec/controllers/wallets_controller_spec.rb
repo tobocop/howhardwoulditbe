@@ -5,8 +5,8 @@ describe WalletsController do
   let(:offer) { new_offer }
 
   before(:each) do
-    virtual_currency = create_virtual_currency(subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
-    fake_offer_service = Plink::FakeOfferService.new({virtual_currency.id => [offer]})
+    controller.stub(:current_virtual_currency) { stub(id: 1) }
+    fake_offer_service = Plink::FakeOfferService.new({1 => [offer]})
     controller.stub(:plink_offer_service) { fake_offer_service }
   end
 

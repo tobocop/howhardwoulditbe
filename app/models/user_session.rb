@@ -25,7 +25,7 @@ class UserSession
     is_valid = super
 
     if is_valid
-      user = User.find_by_email(email)
+      user = Plink::User.find_by_email(email)
 
       if user.present?
         password_object = Password.new(unhashed_password: password, salt: user.salt)

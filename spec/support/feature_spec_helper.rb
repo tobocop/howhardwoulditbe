@@ -16,7 +16,7 @@ module FeatureSpecHelper
         secret: Gigya::Config.instance.secret
     )
 
-    User.all.each do |user|
+    Plink::User.all.each do |user|
       `/usr/bin/curl -s "https://socialize-api.gigya.com/socialize.deleteAccount?uid=#{user.id}&#{auth_params}"`
     end
   end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe NullUserPresenter do
 
   it 'returns the default virtual currency id as its primary virtual currency id' do
-    VirtualCurrency.stub(:default) { stub(id: 123) }
+    Plink::VirtualCurrency.stub(:default) { stub(id: 123) }
     NullUserPresenter.new.primary_virtual_currency_id.should == 123
   end
 

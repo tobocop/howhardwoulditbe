@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User do
+describe Plink::User do
   subject { new_user }
 
   it_should_behave_like(:legacy_timestamps)
@@ -62,7 +62,7 @@ describe User do
 
   it 'sets the virtual currency to the default Plink Points currency' do
     plink_point_currency = create_virtual_currency
-    VirtualCurrency.stub(:default) { plink_point_currency }
+    Plink::VirtualCurrency.stub(:default) { plink_point_currency }
     subject.save!
 
     subject.primary_virtual_currency.should == plink_point_currency
@@ -71,7 +71,7 @@ describe User do
   describe 'class methods' do
     it 'finds a user by their email address' do
       user = create_user
-      User.find_by_email(user.email).should == user
+      Plink::User.find_by_email(user.email).should == user
     end
   end
 

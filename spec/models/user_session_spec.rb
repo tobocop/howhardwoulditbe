@@ -46,7 +46,7 @@ describe UserSession do
 
     before do
       user = stub(id: 0, salt: 'my-salt', password_hash: 'my-hash')
-      User.stub(:find_by_email) { user }
+      Plink::User.stub(:find_by_email) { user }
     end
 
     let(:valid_options) { {email: 'test123@example.com', password: 'test123'} }
@@ -59,7 +59,7 @@ describe UserSession do
 
     it 'sets a user id when valid' do
       user = stub(salt: 'my-salt', password_hash: 'my-hash')
-      User.stub(:find_by_email).with('test123@example.com') { user }
+      Plink::User.stub(:find_by_email).with('test123@example.com') { user }
       Password.any_instance.stub(:hashed_value) { 'my-hash' }
       user_session = UserSession.new(valid_options)
       user_session.valid?
@@ -67,7 +67,7 @@ describe UserSession do
     end
 
     it 'returns false when an error occurs' do
-      User.stub(:find_by_email).with('test123@example.com') { nil }
+      Plink::User.stub(:find_by_email).with('test123@example.com') { nil }
       user_session = UserSession.new(valid_options)
       user_session.should_not be_valid
     end
@@ -86,7 +86,7 @@ describe UserSession do
     end
 
     it 'it does not set user when invalid' do
-      User.stub(:find_by_email).with('test123@example.com') { nil }
+      Plink::User.stub(:find_by_email).with('test123@example.com') { nil }
       user_session = UserSession.new(valid_options)
       user_session.valid?
       user_session.user.should_not be
@@ -95,7 +95,7 @@ describe UserSession do
     let(:invalid_user_message) { 'Email or password is invalid' }
 
     it 'sets an error if it can\'t find the user' do
-      User.stub(:find_by_email).with('test123@example.com') { nil }
+      Plink::User.stub(:find_by_email).with('test123@example.com') { nil }
       user_session = UserSession.new(valid_options)
       user_session.valid?
       user_session.errors.full_messages.join.should == invalid_user_message
@@ -103,7 +103,7 @@ describe UserSession do
 
     it 'sets an error for an invalid password' do
       user = stub(password_hash: 'my-hash', salt: 'salt')
-      User.stub(:find_by_email).with('test123@example.com') { user }
+      Plink::User.stub(:find_by_email).with('test123@example.com') { user }
       user_session = UserSession.new(valid_options.merge(password: 'unmatched-password'))
       user_session.valid?
       user_session.errors.full_messages.join.should == invalid_user_message

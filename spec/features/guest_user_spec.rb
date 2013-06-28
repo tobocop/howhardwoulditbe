@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'guest behavior' do
 
   before do
-    currency = create_virtual_currency(name: 'Plink Points', subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN)
+    currency = create_virtual_currency(name: 'Plink Points', subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
     advertiser = create_advertiser(advertiser_name: 'Old Nervy', logo_url:'/assets/test/oldnavy.png')
     create_offer(
         advertiser_id: advertiser.id,
