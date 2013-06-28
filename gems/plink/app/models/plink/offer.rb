@@ -12,6 +12,7 @@ module Plink
     end
 
     def max_dollar_award_amount
+      return if tiers.empty?
       tiers.max_by(&:dollar_award_amount).dollar_award_amount
     end
 

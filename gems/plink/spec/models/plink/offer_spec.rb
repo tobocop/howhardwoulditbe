@@ -5,7 +5,6 @@ describe Plink::Offer do
   context 'when the offers info is not overridden by associated objects' do
     let(:advertiser) { create_advertiser(advertiser_name: 'cold wavy', logo_url: 'fake.jpg') }
 
-
     before do
       @plink_offer = create_offer(
           detail_text: 'one text',
@@ -97,6 +96,30 @@ describe Plink::Offer do
     it 'takes an offer_record and structures it to be handed back' do
       subject.tiers.count.should == 2
       subject.detail_text.should == 'override text'
+    end
+  end
+
+  context 'when an offer has no tiers' do
+    let(:advertiser) { create_advertiser(advertiser_name: 'cold wavy', logo_url: 'fake.jpg') }
+
+    before do
+      @plink_offer = create_offer(
+          detail_text: 'one text',
+          advertiser_id: advertiser.id,
+          offers_virtual_currencies: [
+              new_offers_virtual_currency(
+                  virtual_currency_id: 3,
+                  tiers: []
+              )
+          ]
+      )
+    end
+
+    subject { Plink::Offer.new(@plink_offer, 3) }
+
+    it 'does not blow up when you ask for tier related data' do
+      subject.tiers.should == []
+      subject.max_dollar_award_amount.should == nil
     end
   end
 end
