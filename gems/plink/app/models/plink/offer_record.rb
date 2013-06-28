@@ -19,7 +19,12 @@ module Plink
     has_many :active_offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID', conditions: ["#{Plink::OffersVirtualCurrencyRecord.table_name}.isActive = ?", true]
 
     has_many :tiers, through: :offers_virtual_currencies
-    has_many :live_tiers, through: :offers_virtual_currencies
+
+    has_many :live_tiers, through: :offers_virtual_currencies do
+      def for_virtual_currency(virtual_currency_id)
+        where("virtualCurrencyID = ?", virtual_currency_id)
+      end
+    end
 
     belongs_to :advertiser, class_name: 'Plink::AdvertiserRecord', foreign_key: 'advertiserID'
 

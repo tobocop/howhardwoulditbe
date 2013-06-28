@@ -5,8 +5,9 @@ describe Plink::Offer do
   context 'when the offers info is not overridden by associated objects' do
     let(:advertiser) { create_advertiser(advertiser_name: 'cold wavy', logo_url: 'fake.jpg') }
 
-    let(:plink_offer) {
-      create_offer(
+
+    before do
+      @plink_offer = create_offer(
           detail_text: 'one text',
           advertiser_id: advertiser.id,
           offers_virtual_currencies: [
@@ -26,12 +27,22 @@ describe Plink::Offer do
                           minimum_purchase_amount: 0.50
                       )
                   ]
+              ),
+              new_offers_virtual_currency(
+                  virtual_currency_id: 4,
+                  tiers: [
+                      new_tier(
+                          dollar_award_amount: 2.50,
+                          minimum_purchase_amount: 1.15
+                      )
+                  ]
               )
           ]
       )
-    }
 
-    subject { Plink::Offer.new(plink_offer) }
+    end
+
+    subject { Plink::Offer.new(@plink_offer, 3) }
 
     it 'uses info from an offer record to populate all fields' do
       subject.tiers.count.should == 3
@@ -39,7 +50,7 @@ describe Plink::Offer do
       subject.detail_text.should == 'one text'
       subject.name.should == 'cold wavy'
       subject.image_url.should == 'fake.jpg'
-      subject.id.should == plink_offer.id
+      subject.id.should == @plink_offer.id
       subject.max_dollar_award_amount.should == 1.43
     end
 
@@ -81,7 +92,7 @@ describe Plink::Offer do
       )
     }
 
-    subject { Plink::Offer.new(offer) }
+    subject { Plink::Offer.new(offer, 3) }
 
     it 'takes an offer_record and structures it to be handed back' do
       subject.tiers.count.should == 2

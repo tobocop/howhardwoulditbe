@@ -44,15 +44,25 @@ describe Plink::OfferRecord do
   describe 'live_tiers' do
     before :each do
       @offer = create_offer(advertiser_id: 1)
+
       offers_virtual_currency = create_offers_virtual_currency(virtual_currency_id: 3, is_active: false, offer_id: @offer.id)
       create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: false)
       create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: Date.tomorrow)
       create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, end_date: Date.yesterday)
       @expected_tier = create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: Date.yesterday, end_date: Date.tomorrow)
+
+      second_offers_virtual_currency = create_offers_virtual_currency(virtual_currency_id: 6, is_active: false, offer_id: @offer.id)
+      @tier_for_other_virtual_currency = create_tier(offers_virtual_currency_id: second_offers_virtual_currency.id, is_active: true, start_date: Date.yesterday, end_date: Date.tomorrow)
     end
 
     it 'returns only the live tier records' do
-      @offer.live_tiers.should == [@expected_tier]
+      @offer.live_tiers.should == [@expected_tier, @tier_for_other_virtual_currency]
+    end
+
+    describe 'for a specific virtual currency' do
+      it 'returns only the tiers for that currency' do
+        @offer.live_tiers.for_virtual_currency(3).should == [@expected_tier]
+      end
     end
   end
 

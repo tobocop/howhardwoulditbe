@@ -3,9 +3,9 @@ module Plink
 
     attr_reader :id, :tiers, :detail_text, :name, :image_url
 
-    def initialize(offer_record)
+    def initialize(offer_record, virtual_currency_id)
       @id = offer_record.id
-      @tiers = offer_tiers(offer_record)
+      @tiers = offer_tiers(offer_record, virtual_currency_id)
       @detail_text = detail_text_for_offer(offer_record)
       @name = offer_record.advertiser.advertiser_name
       @image_url = offer_record.advertiser.logo_url
@@ -25,8 +25,8 @@ module Plink
 
     private
 
-    def offer_tiers(offer_record)
-      offer_record.tiers.map { |tier| Plink::Tier.new(tier) }
+    def offer_tiers(offer_record, virtual_currency_id)
+      offer_record.live_tiers.for_virtual_currency(virtual_currency_id).map { |tier| Plink::Tier.new(tier) }
     end
 
     def detail_text_for_offer(offer_record)
