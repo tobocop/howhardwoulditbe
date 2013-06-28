@@ -57,6 +57,14 @@ class User < ActiveRecord::Base
     user_balance.current_balance
   end
 
+  def lifetime_balance
+    user_balance.lifetime_balance
+  end
+
+  def can_redeem?
+    user_balance.can_redeem?
+  end
+
   def primary_virtual_currency_id
     primaryVirtualCurrencyID
   end

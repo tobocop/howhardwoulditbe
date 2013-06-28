@@ -27,6 +27,16 @@ describe UserPresenter do
     presenter.current_balance.should == 123.45
   end
 
+  it 'returns the user\'s lifetime balance' do
+    presenter = UserPresenter.new(user: stub(lifetime_balance: 2000.59))
+    presenter.lifetime_balance.should == 2000.59
+  end
+
+  it 'returns whether the user can redeem for an award' do
+    presenter = UserPresenter.new(user: stub(can_redeem?: true))
+    presenter.can_redeem?.should == true
+  end
+
   it 'returns a first_name of the provided user' do
     presenter = UserPresenter.new(user: stub(first_name: 'Brian'))
     presenter.first_name.should == 'Brian'

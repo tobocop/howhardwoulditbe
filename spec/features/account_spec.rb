@@ -13,5 +13,10 @@ describe 'Managing account' do
 
     page.should have_link 'Link Card'
     page.should have_content 'Card Linked?: false'
+
+    page.should have_content 'You have 0 Plink Points.'
+    page.should have_content 'Lifetime balance: 0 Plink Points'
+
+    page.should_not have_link 'Redeem'
   end
 end

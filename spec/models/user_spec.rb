@@ -81,4 +81,18 @@ describe User do
       user.current_balance.should == 0
     end
   end
+
+  describe '#lifetime_balance' do
+    it 'returns the users lifetime balance in dollars' do
+      user = create_user
+      user.lifetime_balance.should == 0
+    end
+  end
+
+  describe '#can_redeem?' do
+    it 'returns whether or not the user can redeem for a reward' do
+      user = create_user
+      user.can_redeem?.should == false
+    end
+  end
 end

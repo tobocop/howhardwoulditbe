@@ -27,6 +27,14 @@ class UserPresenter
     user.current_balance
   end
 
+  def lifetime_balance
+    user.lifetime_balance
+  end
+
+  def can_redeem?
+    user.can_redeem?
+  end
+
   def first_name
     user.first_name
   end
