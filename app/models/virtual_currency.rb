@@ -2,6 +2,8 @@ class VirtualCurrency < ActiveRecord::Base
   self.table_name = "virtualCurrencies"
   self.primary_key = "virtualCurrencyID"
 
+  include Plink::LegacyTimestamps
+
   DEFAULT_SUBDOMAIN = 'www'
 
   attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name
@@ -43,24 +45,6 @@ class VirtualCurrency < ActiveRecord::Base
 
   def singular_name
     singularCurrencyName
-  end
-
-  def created_at
-    self.created
-  end
-
-  def updated_at
-    self.modified
-  end
-
-  private
-
-  def timestamp_attributes_for_create
-    super << :created
-  end
-
-  def timestamp_attributes_for_update
-    super << :modified
   end
 
 end

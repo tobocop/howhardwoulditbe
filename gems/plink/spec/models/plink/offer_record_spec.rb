@@ -14,6 +14,10 @@ describe Plink::OfferRecord do
     }
   }
 
+  subject { new_offer(valid_attributes) }
+
+  it_should_behave_like(:legacy_timestamps)
+
   it 'can be valid' do
     new_offer(valid_attributes).should be_valid
   end

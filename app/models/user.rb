@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   self.primary_key = 'userID'
 
+  include Plink::LegacyTimestamps
+
   attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
 
   belongs_to :primary_virtual_currency, class_name: 'VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
@@ -47,14 +49,6 @@ class User < ActiveRecord::Base
     passwordSalt
   end
 
-  def created_at
-    self.created
-  end
-
-  def updated_at
-    self.modified
-  end
-
   def self.find_by_email(email)
     where(:emailAddress => email).first
   end
@@ -68,14 +62,6 @@ class User < ActiveRecord::Base
   end
 
   private
-
-  def timestamp_attributes_for_create
-    super << :created
-  end
-
-  def timestamp_attributes_for_update
-    super << :modified
-  end
 
   def email_is_not_in_database
     if emailAddress_changed? && User.find_by_email(email)

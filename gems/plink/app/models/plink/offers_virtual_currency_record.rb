@@ -2,6 +2,8 @@ module Plink
   class OffersVirtualCurrencyRecord < ActiveRecord::Base
     self.table_name = 'offersVirtualCurrencies'
 
+    include Plink::LegacyTimestamps
+
     alias_attribute :is_active, :isActive
 
     attr_accessible :offer_id, :virtual_currency_id, :detail_text
@@ -27,24 +29,6 @@ module Plink
 
     def detail_text
       self.detailText
-    end
-
-    def created_at
-      self.created
-    end
-
-    def updated_at
-      self.modified
-    end
-
-    private
-
-    def timestamp_attributes_for_create
-      super << :created
-    end
-
-    def timestamp_attributes_for_update
-      super << :modified
     end
   end
 end

@@ -9,6 +9,10 @@ describe Plink::AdvertiserRecord do
       }
   }
 
+  subject { Plink::AdvertiserRecord.new(valid_params) }
+
+  it_should_behave_like(:legacy_timestamps)
+
   it 'can be valid' do
     create_advertiser(valid_params).should be_valid
   end

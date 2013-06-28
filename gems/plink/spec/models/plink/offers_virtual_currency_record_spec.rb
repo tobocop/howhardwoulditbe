@@ -8,6 +8,11 @@ describe Plink::OffersVirtualCurrencyRecord do
         virtual_currency_id: 34
     }
   }
+
+  subject { Plink::OffersVirtualCurrencyRecord.new(valid_params) }
+
+  it_should_behave_like(:legacy_timestamps)
+
   it 'can be valid' do
     create_offers_virtual_currency(valid_params).should be_valid
   end

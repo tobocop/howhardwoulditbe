@@ -1,7 +1,8 @@
 module Plink
   class OfferRecord < ActiveRecord::Base
-
     self.table_name = 'offers'
+
+    include Plink::LegacyTimestamps
 
     alias_attribute :is_active, :isActive
     alias_attribute :show_on_wall, :showOnWall
@@ -68,24 +69,6 @@ module Plink
 
     def start_date=(date)
       self.startDate = date
-    end
-
-    def created_at
-      self.created
-    end
-
-    def updated_at
-      self.modified
-    end
-
-    private
-
-    def timestamp_attributes_for_create
-      super << :created
-    end
-
-    def timestamp_attributes_for_update
-      super << :modified
     end
   end
 end
