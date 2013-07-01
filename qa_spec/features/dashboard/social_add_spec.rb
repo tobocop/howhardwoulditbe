@@ -68,7 +68,7 @@ describe 'Social add icons', js: true do
 #       page.should have_text('Invalid')
 #     end
 #   end
-# end
+end
 
 describe "Invite Friends Link", js: true do
   before(:each) do
