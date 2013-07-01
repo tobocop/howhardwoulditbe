@@ -108,8 +108,8 @@ describe Plink::Offer do
           advertiser_id: advertiser.id,
           offers_virtual_currencies: [
               new_offers_virtual_currency(
-                  virtual_currency_id: 3,
-                  tiers: []
+                  virtual_currency_id: 3
+
               )
           ]
       )
@@ -120,6 +120,8 @@ describe Plink::Offer do
     it 'does not blow up when you ask for tier related data' do
       subject.tiers.should == []
       subject.max_dollar_award_amount.should == nil
+      subject.tiers_by_minimum_purchase_amount.should == []
+      subject.minimum_purchase_amount_tier.should == nil
     end
   end
 end

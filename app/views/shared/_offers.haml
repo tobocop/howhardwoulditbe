@@ -17,7 +17,7 @@
       %p.font.modal-text.h3.bold #{offer.name.to_s} Offers
 
       .tiers
-        -offer.tiers_by_minimum_purchase_amount.each do |tier|
+        - offer.tiers_by_minimum_purchase_amount.each do |tier|
           %p.font.modal-text.h3
             Spend #{number_to_currency(tier.minimum_purchase_amount)} or more, get #{current_virtual_currency.amount_in_currency(tier.dollar_award_amount)} #{current_virtual_currency.currency_name}.
 

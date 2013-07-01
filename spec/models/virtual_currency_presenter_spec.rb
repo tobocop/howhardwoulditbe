@@ -11,7 +11,7 @@ describe VirtualCurrencyPresenter do
   end
 
   describe '#amount_in_currency' do
-    it 'returns the given amount * the currencies exchange rate' do
+    it 'returns the given amount * the currency\'s exchange rate' do
       presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(exchange_rate: 100))
       presenter.amount_in_currency(1.35).should === '135'
     end

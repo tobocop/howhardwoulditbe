@@ -22,4 +22,9 @@ describe Plink::TierRecord do
     tier.dollar_award_amount.should == 100
     tier.minimum_purchase_amount.should == 199
   end
+
+  it 'defaults minimum_purchase_amount to 0' do
+    tier = new_tier(valid_attributes.merge(minimum_purchase_amount: nil))
+    tier.minimum_purchase_amount.should == 0
+  end
 end
