@@ -11,7 +11,7 @@
     locked : false,
 
     settings : {
-      animation: 'fadeAndPop',
+      animation: 'fade',
       animationSpeed: 250,
       closeOnBackgroundClick: true,
       closeOnEsc: true,
@@ -247,7 +247,8 @@
       if (css) {
         if (/pop/i.test(this.settings.animation)) {
           var end_css = {
-            top: - $(window).scrollTop() - el.data('offset') + 'px',
+//            top: - $(window).scrollTop() - el.data('offset') + 'px',
+            top: '100px',
             opacity: 0
           };
 
