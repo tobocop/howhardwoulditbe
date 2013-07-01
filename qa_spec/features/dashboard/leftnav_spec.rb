@@ -11,17 +11,19 @@ describe 'Lefthand nav bar', js: true do
 
     it { should have_text ('QA') }
     it { should have_text ('Level 5000') }      #Will change; currently hard coded
-    it { should have_text ('9,999,999 EBs') }   #Will change; currently hard coded
+    it { should have_text ('9,999,999 EBs') }
     it { should have_link ('Invite Friends') }
-    it { should have_link ('Edit') }
 
   it 'should show a blank silhouette before linking to a social network' do
-    page.should have_xpath("//img[@src=\"/assets/silhouette-80e60d219caf405f4723acf81e8bbe8e.jpg\"]")
+    page.should have_image "silhouette"
   end
 
   it 'should show the users picture after linking to FB' do
   end
 
-  it 'should show the users picture after linking to FB' do
-  end
+end
+
+
+def has_image?(src)
+  has_xpath?("//img[contains(@src,\"#{src}\")]")
 end
