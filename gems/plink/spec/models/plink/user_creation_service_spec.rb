@@ -10,7 +10,6 @@ describe Plink::UserCreationService do
   }}
 
   describe 'initialize' do
-
     it 'requires an email' do
       expect {
         Plink::UserCreationService.new(valid_params.except(:email))
@@ -44,36 +43,34 @@ describe Plink::UserCreationService do
       Plink::User.should_receive(:new).with(valid_params)
       service = Plink::UserCreationService.new(valid_params)
     end
-
-  end
-
-  describe 'save' do
-    it 'calls create_user' do
-
-    end
   end
 
   describe 'create_user' do
-    it 'saves a user record' do
-      Plink::User.should_receive(:new).with(valid_params) { stub(id:42, save:true) }
+    let(:user) { stub(id:42, save:true, primary_virtual_currency_id: 54) }
 
+    before do
+      Plink::User.stub(:new) { user }
       Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) }
+    end
+
+    it 'saves a user record' do
+      Plink::User.should_receive(:new).with(valid_params) { user }
       Plink::UserCreationService.new(valid_params).create_user
     end
 
     it 'creates the users wallet' do
-      user = stub(id:42, save:true)
-      Plink::User.stub(:new) { user }
       wallet_creation_service = stub
       Plink::WalletCreationService.should_receive(:new).with(user_id: user.id) { wallet_creation_service  }
       wallet_creation_service.should_receive(:create_for_user_id)
       Plink::UserCreationService.new(valid_params).create_user
     end
 
+    it 'creates a users virtual currency record' do
+      Plink::UsersVirtualCurrencyRecord.should_receive(:create).with(user_id: user.id, start_date: Date.today, virtual_currency_id: user.primary_virtual_currency_id)
+      Plink::UserCreationService.new(valid_params).create_user
+    end
+
     it 'returns the craeted user' do
-      user = stub(id:143, save:true)
-      Plink::User.stub(:new) { user }
-      Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) }
       created_user = Plink::UserCreationService.new(valid_params).create_user
       created_user.id.should == user.id
     end

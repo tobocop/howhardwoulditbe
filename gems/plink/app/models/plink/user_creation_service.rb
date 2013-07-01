@@ -17,6 +17,7 @@ module Plink
       Plink::User.transaction do
         user.save
         Plink::WalletCreationService.new(user_id: user_id).create_for_user_id
+        Plink::UsersVirtualCurrencyRecord.create(user_id: user.id, start_date: Date.today, virtual_currency_id: user.primary_virtual_currency_id)
         user
       end
     end
