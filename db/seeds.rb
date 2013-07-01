@@ -2,7 +2,7 @@ require 'plink/test_helpers/object_creation_methods'
 
 include Plink::ObjectCreationMethods
 
-VirtualCurrency.destroy_all
+Plink::VirtualCurrency.destroy_all
 HeroPromotion.destroy_all
 Plink::AdvertiserRecord.destroy_all
 Plink::OfferRecord.destroy_all
@@ -10,7 +10,7 @@ Plink::OffersVirtualCurrencyRecord.destroy_all
 Plink::TierRecord.destroy_all
 
 p 'Creating VirtualCurrency'
-virtual_currency = VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
+virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
