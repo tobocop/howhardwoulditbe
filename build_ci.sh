@@ -1,7 +1,5 @@
 #! /bin/bash
 
-export RAILS_ENV=test
-
 set -e
 
 time sudo apt-get install freetds-dev -y
