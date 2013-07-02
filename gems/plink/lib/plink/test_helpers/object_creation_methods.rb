@@ -1,12 +1,46 @@
 module Plink
   module ObjectCreationMethods
 
+    def new_oauth_token(options = {})
+      defaults = {
+          encrypted_oauth_token: 'derp',
+          encrypted_oauth_token_secret: 'derp_secret',
+          oauth_token_iv: 'derp_iv',
+          oauth_token_secret_iv: 'derp_secret_iv',
+          user_id: 1,
+          is_active: true
+      }
+      Plink::OauthToken.new {|oauth_token| apply(oauth_token, defaults, options)}
+    end
+
+    def create_oauth_token(options = {})
+      new_oauth_token(options).tap(&:save!)
+    end
+
+    def new_users_institution_account(options = {})
+      defaults = {
+          account_id: 1,
+          begin_date: Date.yesterday,
+          end_date: '2999-12-31',
+          user_id: 24,
+          users_institution_account_staging_id: 0,
+          users_institution_id: 0,
+          is_active: true,
+          in_intuit: true
+      }
+      Plink::UsersInstitutionAccount.new {|uia| apply(uia, defaults, options)}
+    end
+
+    def create_users_institution_account(options = {})
+      new_users_institution_account(options).tap(&:save!)
+    end
+
     def new_reward_amount(options = {})
       defaults = {
           dollar_award_amount: 143,
           is_active: true
       }
-      Plink::RewardAmountRecord.new {|amount| apply(amount, defaults, options)}
+      Plink::RewardAmountRecord.new { |amount| apply(amount, defaults, options) }
     end
 
     def create_reward_amount(options = {})
@@ -19,7 +53,7 @@ module Plink
           name: 'wolfmart'
       }
 
-      Plink::RewardRecord.new {|reward| apply(reward, defaults, options)}
+      Plink::RewardRecord.new { |reward| apply(reward, defaults, options) }
     end
 
     def create_reward(options = {})
