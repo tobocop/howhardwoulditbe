@@ -1,0 +1,10 @@
+.layout-inner{style: 'margin-top: 50px;'}
+
+  %p Redeem #{current_virtual_currency.currency_name} for these rewards
+
+  - @rewards.each do |reward|
+    %p= reward.name
+
+    %ul
+    - reward.amounts.each do |amount|
+      %li= number_to_currency(amount.dollar_award_amount)

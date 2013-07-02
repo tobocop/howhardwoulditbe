@@ -1,6 +1,31 @@
 module Plink
   module ObjectCreationMethods
 
+    def new_reward_amount(options = {})
+      defaults = {
+          dollar_award_amount: 143,
+          is_active: true
+      }
+      Plink::RewardAmountRecord.new {|amount| apply(amount, defaults, options)}
+    end
+
+    def create_reward_amount(options = {})
+      new_reward_amount(options).tap(&:save!)
+    end
+
+    def new_reward(options = {})
+      defaults = {
+          award_code: 'wolfmart-card',
+          name: 'wolfmart'
+      }
+
+      Plink::RewardRecord.new {|reward| apply(reward, defaults, options)}
+    end
+
+    def create_reward(options = {})
+      new_reward(options).tap(&:save!)
+    end
+
     def new_offer(options = {})
       defaults = {
           advertiser_id: 0,

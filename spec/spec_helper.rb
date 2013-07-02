@@ -7,7 +7,6 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'rspec/retry'
 require 'plink/test_helpers/object_creation_methods'
-require 'plink/test_helpers/fake_services/fake_offer_service'
 require 'plink/test_helpers/shared_example_groups'
 
 # Requires supporting ruby files with custom matchers and macros, etc,

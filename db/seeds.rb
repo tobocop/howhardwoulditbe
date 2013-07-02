@@ -8,6 +8,8 @@ Plink::AdvertiserRecord.destroy_all
 Plink::OfferRecord.destroy_all
 Plink::OffersVirtualCurrencyRecord.destroy_all
 Plink::TierRecord.destroy_all
+Plink::RewardRecord.destroy_all
+Plink::RewardAmountRecord.destroy_all
 
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
@@ -67,3 +69,9 @@ create_offer(advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_cur
 ]
 )
 
+p 'Creating Rewards'
+wolfmart_reward = create_reward(name: 'Wolfmart')
+
+create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 5)
+create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 10)
+create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 15)

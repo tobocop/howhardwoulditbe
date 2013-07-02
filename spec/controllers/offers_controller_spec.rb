@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'plink/test_helpers/fake_services/fake_offer_service'
 
 describe OffersController do
   describe 'GET index' do
