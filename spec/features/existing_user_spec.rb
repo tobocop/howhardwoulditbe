@@ -57,6 +57,9 @@ describe 'user signs in' do
     click_on 'Invite Friends'
     page.should have_css('[gigid="showShareUI"]')
 
+    click_on 'Rewards'
+    page.current_path.should == '/rewards'
+
     click_on 'Wallet'
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')

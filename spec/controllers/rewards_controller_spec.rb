@@ -20,6 +20,11 @@ describe RewardsController do
       get :index
       assigns(:rewards).should == [reward]
     end
+
+    it 'assigns current_tab' do
+      get :index
+      assigns(:current_tab).should == 'rewards'
+    end
   end
 
 end
