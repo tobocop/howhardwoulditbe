@@ -28,7 +28,14 @@ describe 'guest behavior' do
     create_reward(name: 'Walmart Gift Card', amounts:
         [
             new_reward_amount(dollar_award_amount: 5, is_active: true),
-            new_reward_amount(dollar_award_amount: 10, is_active: true)
+            new_reward_amount(dollar_award_amount: 10, is_active: true),
+            new_reward_amount(dollar_award_amount: 15, is_active: false)
+        ]
+    )
+
+    create_reward(name: 'Should Not Exist Gift Card', is_active: false, amounts:
+        [
+            new_reward_amount(dollar_award_amount: 5, is_active: true)
         ]
     )
   end
@@ -48,5 +55,8 @@ describe 'guest behavior' do
     page.should have_content 'Walmart Gift Card'
     page.should have_content '$5'
     page.should have_content '$10'
+    page.should_not have_content '$15'
+
+    page.should_not have_content 'Should Not Exist Gift Card'
   end
 end

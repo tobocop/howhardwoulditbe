@@ -3,7 +3,7 @@ class RewardsController < ApplicationController
   layout 'logged_out'
 
   def index
-    @rewards = plink_reward_service.get_rewards
+    @rewards = plink_reward_service.get_live_rewards
   end
 
   private

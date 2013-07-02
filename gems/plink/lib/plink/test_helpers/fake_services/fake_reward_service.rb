@@ -5,7 +5,7 @@ module Plink
       @rewards = rewards
     end
 
-    def get_rewards
+    def get_live_rewards
       @rewards
     end
 

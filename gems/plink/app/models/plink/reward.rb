@@ -3,15 +3,15 @@ module Plink
 
     attr_reader :name, :amounts
 
-    def initialize(reward_record)
+    def initialize(reward_record, amount_records)
       @name = reward_record.name
-      @amounts = award_amounts(reward_record)
+      @amounts = award_amounts(amount_records)
     end
 
     private
 
-    def award_amounts(reward_record)
-      reward_record.amounts.map {|amount_record| Plink::RewardAmount.new(amount_record)}
+    def award_amounts(amount_records)
+      amount_records.map {|amount_record| Plink::RewardAmount.new(amount_record)}
     end
   end
 end
