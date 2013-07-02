@@ -2,6 +2,7 @@ require 'plink/test_helpers/object_creation_methods'
 
 include Plink::ObjectCreationMethods
 
+Plink::User.destroy_all
 Plink::VirtualCurrency.destroy_all
 HeroPromotion.destroy_all
 Plink::AdvertiserRecord.destroy_all
@@ -11,8 +12,12 @@ Plink::TierRecord.destroy_all
 Plink::RewardRecord.destroy_all
 Plink::RewardAmountRecord.destroy_all
 
+
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
+
+p 'Creating Dev user'
+create_user(password:'password', email: 'pivotal@plink.com')
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
