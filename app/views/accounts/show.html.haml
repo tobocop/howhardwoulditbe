@@ -17,7 +17,7 @@
     %p Email: #{current_user.email}
 
     - if current_user.can_redeem?
-      = link_to 'Redeem', '#'
+      = link_to 'Redeem', rewards_path
 
     %br
     %br
