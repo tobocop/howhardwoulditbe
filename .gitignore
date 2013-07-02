@@ -19,3 +19,4 @@ rerun.txt
 database.yml
 gigya_keys.yml
 .DS_Store
+.idea
