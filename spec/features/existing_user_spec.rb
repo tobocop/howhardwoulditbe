@@ -3,8 +3,11 @@ require 'spec_helper'
 describe 'user signs in' do
   before(:each) do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
-    create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
+    user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
+
+    award_type = create_award_type
+    create_free_award(user_id: user.id, dollar_award_amount:1.43, currency_award_amount: 143, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
@@ -46,7 +49,7 @@ describe 'user signs in' do
 
     current_path.should == '/dashboard'
     page.should have_content('Welcome, Bob!')
-    page.should have_content('You have 0 Plink Points.')
+    page.should have_content('You have 143 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_css('img[src="http://www.example.com/test.png"]')

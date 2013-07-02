@@ -1,6 +1,41 @@
 module Plink
   module ObjectCreationMethods
 
+    def new_award_type(options = {})
+      defaults = {
+          award_code: 'ASD',
+          award_display_name: 'Awesome Award',
+          award_type: 'cool',
+          is_active: true
+      }
+
+      Plink::AwardType.new {|award_type| apply(award_type, defaults, options)}
+    end
+
+    def create_award_type(options = {})
+      new_award_type(options).tap(&:save!)
+    end
+
+    def new_free_award(options = {})
+      defaults = {
+          award_type_id: 1,
+          currency_award_amount: 100,
+          dollar_award_amount: 1,
+          user_id: 1,
+          is_active: true,
+          users_virtual_currency_id: 1,
+          virtual_currency_id: 1,
+          is_successful: true,
+          is_notification_successful: true
+      }
+
+      Plink::FreeAward.new {|free_award| apply(free_award, defaults, options)}
+    end
+
+    def create_free_award(options = {})
+      new_free_award(options).tap(&:save!)
+    end
+
     def new_oauth_token(options = {})
       defaults = {
           encrypted_oauth_token: 'derp',
@@ -10,7 +45,7 @@ module Plink
           user_id: 1,
           is_active: true
       }
-      Plink::OauthToken.new {|oauth_token| apply(oauth_token, defaults, options)}
+      Plink::OauthToken.new { |oauth_token| apply(oauth_token, defaults, options) }
     end
 
     def create_oauth_token(options = {})
@@ -28,7 +63,7 @@ module Plink
           is_active: true,
           in_intuit: true
       }
-      Plink::UsersInstitutionAccount.new {|uia| apply(uia, defaults, options)}
+      Plink::UsersInstitutionAccount.new { |uia| apply(uia, defaults, options) }
     end
 
     def create_users_institution_account(options = {})
