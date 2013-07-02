@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     @_gigya_connection ||= Gigya.new(Gigya::Config.instance)
   end
 
+  def user_must_be_linked
+    raise 'User account must be linked' unless ActiveIntuitAccount.user_has_account?(current_user.id)
+  end
+
   private
 
   def set_user_session(user_id)

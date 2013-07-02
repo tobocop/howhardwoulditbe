@@ -8,6 +8,8 @@ describe 'user signs in' do
     create_wallet_item(wallet_id: wallet.id)
     user.primary_virtual_currency = virtual_currency
     user.save!
+    create_oauth_token(user_id: user.id)
+    create_users_institution_account(user_id: user.id)
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
 
     award_type = create_award_type

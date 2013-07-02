@@ -93,4 +93,20 @@ describe ApplicationController do
       controller.gigya_connection.should == gigya_stub
     end
   end
+
+  describe '#user_must_be_linked' do
+    before do
+      controller.stub(:current_user) { stub(id: 1) }
+    end
+
+    it 'raises if the user is not linked' do
+      ActiveIntuitAccount.stub(:user_has_account?).with(1) { false }
+      expect { controller.user_must_be_linked }.to raise_error(Exception, 'User account must be linked')
+    end
+
+    it 'returns nil if the user is linked' do
+      ActiveIntuitAccount.stub(:user_has_account?).with(1) { true }
+      controller.user_must_be_linked.should be_nil
+    end
+  end
 end

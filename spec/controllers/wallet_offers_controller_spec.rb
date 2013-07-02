@@ -7,6 +7,12 @@ describe WalletOffersController do
     context 'when the user is logged in' do
       before do
         controller.stub(:user_logged_in?) { true }
+        controller.stub(:user_must_be_linked) { nil }
+      end
+
+      it 'raises an exception if user is not linked' do
+        controller.stub(:user_must_be_linked) { raise }
+        expect { post :create, offer_id: offer_id }.to raise_error
       end
 
       it 'adds the offer to the user wallet' do

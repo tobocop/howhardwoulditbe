@@ -1,5 +1,6 @@
 class WalletOffersController < ApplicationController
   before_filter :require_authentication
+  before_filter :user_must_be_linked
 
   def create
     offer = Plink::OfferRecord.live_only(params[:offer_id])
