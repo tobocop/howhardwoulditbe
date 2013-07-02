@@ -1,9 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  layout 'logged_in'
-
-  helper_method :current_user, :current_virtual_currency
+  helper_method :current_user, :current_virtual_currency, :user_logged_in?
 
   def sign_in_user(user)
     set_user_session(user.id)

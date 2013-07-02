@@ -1,0 +1,8 @@
+.header-button
+  = link_to 'Join', '#', data: {'reveal-id' => 'registration-form'}, class: 'link button nav join'
+.header-button
+  = link_to 'Sign In', new_session_path, class: 'link button nav sign-in'
+.header-button-social
+  %span.header-text Let's be friends.
+  = image_tag 'icon_fb.png', :alt => 'Like Plink on Facebook'
+  = image_tag 'icon_twitter.png', :alt => 'Like Plink on Twitter'

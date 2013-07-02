@@ -1,5 +1,4 @@
 class RegistrationsController < ApplicationController
-  layout 'logged_out'
 
   def new
     @user_registration_form = UserRegistrationForm.new

@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
 
-  layout 'logged_out'
-
   def index
     @user_registration_form = user_registration_form
   end

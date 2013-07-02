@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  layout 'logged_out'
 
   def new
     @user_session = UserSession.new

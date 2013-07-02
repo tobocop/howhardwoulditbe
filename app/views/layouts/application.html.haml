@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %title Plink
+    = stylesheet_link_tag    'application', :media => 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag "http://cdn.gigya.com/JS/socialize.js?apikey=#{Gigya::Config.instance.api_key}"
+    = csrf_meta_tags
+
+  %body
+    %header.header.layout-wrapper
+      .layout-inner
+        = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
+        - if user_logged_in?
+          = render partial: 'shared/logged_in_nav'
+        - else
+          = render partial: 'shared/logged_out_nav'
+
+    .layout-wrapper
+      = yield

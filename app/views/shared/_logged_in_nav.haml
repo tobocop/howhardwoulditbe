@@ -1,0 +1,16 @@
+.welcome-text
+  %span.header-text Welcome, #{current_user.first_name}!
+  %br
+  %span.header-text You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
+
+%ul.nav-ul
+  %li.nav-li{class: class_for_nav_tab(@current_tab, 'dashboard')}
+    = link_to 'Dashboard', dashboard_path, class:'link'
+  %li.nav-li{class: class_for_nav_tab(@current_tab, 'wallet')}
+    = link_to 'Wallet', wallet_path, class:'link'
+  %li.nav-li{class: class_for_nav_tab(@current_tab, 'rewards')}
+    = link_to 'Rewards', rewards_path, class:'link'
+  %li.nav-li{class: class_for_nav_tab(@current_tab, 'account')}
+    = link_to 'My Account', account_path, class:'link'
+  %li.nav-li
+    = link_to 'Log Out', session_path, method: :delete, class:'link logout'
