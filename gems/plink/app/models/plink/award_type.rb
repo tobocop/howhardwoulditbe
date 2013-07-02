@@ -2,8 +2,6 @@ module Plink
   class AwardType < ActiveRecord::Base
     self.table_name = 'awardTypes'
 
-    include Plink::LegacyTimestamps
-
     alias_attribute :award_code, :awardCode
     alias_attribute :award_display_name, :awardDisplayName
     alias_attribute :award_type, :awardType

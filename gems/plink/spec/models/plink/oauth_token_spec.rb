@@ -15,8 +15,6 @@ describe Plink::OauthToken do
 
   subject { Plink::OauthToken.new(valid_params) }
 
-  it_should_behave_like(:legacy_timestamps)
-
   it 'should be persisted' do
     Plink::OauthToken.create(valid_params).should be_persisted
   end
