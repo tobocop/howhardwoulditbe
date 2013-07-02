@@ -41,6 +41,19 @@ describe Plink::OfferRecord do
     end
   end
 
+  describe 'active_virtual_currencies' do
+    before :each do
+      @offer = create_offer(advertiser_id: 1)
+      @expected_virtual_currency = create_virtual_currency
+      create_offers_virtual_currency(virtual_currency_id: @expected_virtual_currency.id, is_active: false, offer_id: @offer.id)
+      create_offers_virtual_currency(virtual_currency_id: @expected_virtual_currency.id, is_active: true, offer_id: @offer.id)
+    end
+
+    it 'returns only active offers_virtual_currency records' do
+      @offer.active_virtual_currencies.should == [@expected_virtual_currency]
+    end
+  end
+
   describe 'live_tiers' do
     before :each do
       @offer = create_offer(advertiser_id: 1)
@@ -185,6 +198,33 @@ describe Plink::OfferRecord do
 
     it 'returns only offers that are active, visible on the wall and for today' do
       Plink::OfferRecord.live.should == [@expected_offer]
+    end
+  end
+
+  describe 'live_only' do
+    it 'returns an offer by id only if it is active, visible on the wall and for today' do
+      expected_offer = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true))
+      Plink::OfferRecord.live_only(expected_offer.id).should == expected_offer
+    end
+
+    it 'does not return an offer that is not shown on the wall' do
+      hidden_offer = create_offer(valid_attributes.merge(show_on_wall: false))
+      expect { Plink::OfferRecord.live_only(hidden_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not return an inactive offer' do
+      inactive_offer = create_offer(valid_attributes.merge(is_active: false))
+      expect { Plink::OfferRecord.live_only(inactive_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not return old offers' do
+      old_offer = create_offer(valid_attributes.merge(end_date: Date.yesterday))
+      expect { Plink::OfferRecord.live_only(old_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'does not return offers than have not started yet' do
+      unstarted_offer = create_offer(valid_attributes.merge(start_date: Date.tomorrow))
+      expect { Plink::OfferRecord.live_only(unstarted_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

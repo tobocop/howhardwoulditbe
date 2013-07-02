@@ -11,7 +11,5 @@ module Plink
     has_many :wallet_items, class_name: 'Plink::WalletItemRecord', foreign_key: 'walletID'
 
     validates :user_id, presence: true
-
-
   end
 end

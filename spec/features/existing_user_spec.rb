@@ -4,6 +4,10 @@ describe 'user signs in' do
   before(:each) do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
+    wallet = create_wallet(user_id: user.id)
+    create_wallet_item(wallet_id: wallet.id)
+    user.primary_virtual_currency = virtual_currency
+    user.save!
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
 
     award_type = create_award_type
@@ -67,6 +71,7 @@ describe 'user signs in' do
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
+    page.should_not have_css '.slot .brand'
 
     page.should have_content 'Select From These Offers'
 
@@ -100,7 +105,11 @@ describe 'user signs in' do
       end
 
       page.should have_content 'You have to spend 2.50 to get this'
+
+      click_on 'ADD TO MY WALLET'
     end
+
+    page.should have_css '.slot .brand'
 
     click_on 'Log Out'
 

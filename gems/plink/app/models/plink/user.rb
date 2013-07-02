@@ -10,6 +10,7 @@ module Plink
     belongs_to :primary_virtual_currency, class_name: 'Plink::VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
     has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
     has_many :wallet_items, through: :wallet
+    has_many :empty_wallet_items, through: :wallet
 
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 
@@ -71,6 +72,10 @@ module Plink
 
     def primary_virtual_currency_id
       primaryVirtualCurrencyID
+    end
+
+    def empty_wallet_item
+      wallet_items.empty.first
     end
 
     private

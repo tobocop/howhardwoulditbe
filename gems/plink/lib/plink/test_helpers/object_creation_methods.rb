@@ -190,6 +190,36 @@ module Plink
       VirtualCurrency.new(defaults.merge(options))
     end
 
+    def create_wallet_item(options = {})
+      wallet_item = new_wallet_item(options)
+      wallet_item.save!
+      wallet_item
+    end
+
+    def new_wallet_item(options = {})
+      defaults = {
+          wallet_id: 1,
+          wallet_slot_id: 1,
+          wallet_slot_type_id: 1
+      }
+
+      WalletItemRecord.new(defaults.merge(options))
+    end
+
+    def create_wallet(options = {})
+      wallet = new_wallet(options)
+      wallet.save!
+      wallet
+    end
+
+    def new_wallet(options = {})
+      defaults = {
+          user_id: 1
+      }
+
+      WalletRecord.new(defaults.merge(options))
+    end
+
     def create_virtual_currency(options = {})
       virtual_currency = new_virtual_currency(options)
       virtual_currency.save!

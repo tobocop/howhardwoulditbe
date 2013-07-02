@@ -17,6 +17,7 @@ module Plink
 
     has_many :offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID'
     has_many :active_offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID', conditions: ["#{Plink::OffersVirtualCurrencyRecord.table_name}.isActive = ?", true]
+    has_many :active_virtual_currencies, class_name: 'Plink::VirtualCurrency', through: :active_offers_virtual_currencies, source: :virtual_currency
 
     has_many :tiers, through: :offers_virtual_currencies
 
@@ -39,6 +40,10 @@ module Plink
 
     def self.live
       active.visible_on_wall.for_today
+    end
+
+    def self.live_only(id)
+      live.find(id)
     end
 
     def self.active

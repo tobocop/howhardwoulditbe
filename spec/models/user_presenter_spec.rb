@@ -43,9 +43,17 @@ describe UserPresenter do
   end
 
   it 'returns the wallet items' do
-    wallet_items = [stub]
-    presenter = UserPresenter.new(user: stub(wallet_items: wallet_items))
-    presenter.wallet_items.should == wallet_items
+    wallet_item = stub
+    wallet_item_presenter = stub
+    Plink::WalletItem.should_receive(:new).with(wallet_item) { wallet_item_presenter }
+    presenter = UserPresenter.new(user: stub(wallet_items: [wallet_item]))
+    presenter.wallet_items.should == [wallet_item_presenter]
+  end
+
+  it 'returns the next empty wallet item' do
+    wallet_item = stub
+    presenter = UserPresenter.new(user: stub(empty_wallet_item: wallet_item))
+    presenter.empty_wallet_item.should == wallet_item
   end
 
   describe '.avatar_thumbnail_url' do
