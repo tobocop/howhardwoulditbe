@@ -18,6 +18,6 @@ select u.userID,
 	END as canRedeem
 FROM users u
 LEFT OUTER join vw_debitsCredits vdc on u.userID = vdc.userID
-	and vdc.virtualCurrencyID = u.primaryVirtualCurrencyID
+	and isNull(vdc.virtualCurrencyID,  u.primaryVirtualCurrencyID) = u.primaryVirtualCurrencyID
 group by u.userID;
 ;
