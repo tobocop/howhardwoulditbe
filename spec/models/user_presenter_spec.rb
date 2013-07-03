@@ -42,6 +42,14 @@ describe UserPresenter do
     presenter.first_name.should == 'Brian'
   end
 
+  it 'returns the user wallet' do
+    wallet_record = stub
+    wallet = stub
+    Plink::Wallet.should_receive(:new).with(wallet_record) { wallet }
+    presenter = UserPresenter.new(user: stub(wallet: wallet_record))
+    presenter.wallet.should == wallet
+  end
+
   it 'returns the wallet items' do
     wallet_item = stub
     wallet_item_presenter = stub

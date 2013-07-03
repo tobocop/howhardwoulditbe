@@ -79,4 +79,15 @@ describe Plink::WalletItemRecord do
       subject.should_not be_changed
     end
   end
+
+  describe 'unassign_offer' do
+    it 'clears the assigned offer' do
+      subject.offers_virtual_currency_id = 123
+      subject.save!
+
+      subject.unassign_offer
+      subject.offers_virtual_currency_id.should be_nil
+      subject.should_not be_changed
+    end
+  end
 end

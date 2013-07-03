@@ -23,5 +23,10 @@ module Plink
       self.offers_virtual_currency_id = offers_virtual_currency.id
       self.save
     end
+
+    def unassign_offer
+      self.offers_virtual_currency_id = nil
+      self.save
+    end
   end
 end

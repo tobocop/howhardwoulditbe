@@ -39,8 +39,16 @@ class UserPresenter
     user.first_name
   end
 
+  def wallet
+    Plink::Wallet.new(user.wallet)
+  end
+
   def wallet_items
     user.wallet_items.map { |item| Plink::WalletItem.new(item) }
+  end
+
+  def empty_wallet_item
+    user.empty_wallet_item
   end
 
   def avatar_thumbnail_url
@@ -49,9 +57,5 @@ class UserPresenter
     else
       user.avatar_thumbnail_url
     end
-  end
-
-  def empty_wallet_item
-    user.empty_wallet_item
   end
 end

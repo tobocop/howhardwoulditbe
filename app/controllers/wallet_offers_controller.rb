@@ -12,4 +12,10 @@ class WalletOffersController < ApplicationController
       render nothing: true, status: :internal_server_error
     end
   end
+
+  def destroy
+    offer = Plink::OfferRecord.find(params[:id])
+    Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer).remove_offer
+    redirect_to wallet_path
+  end
 end

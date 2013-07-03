@@ -124,6 +124,9 @@ describe 'user signs in' do
 
     page.should have_css '.slot .brand'
 
+    click_on 'REMOVE'
+    page.should_not have_css '.slot .brand'
+
     click_on 'Log Out'
 
     current_path.should == '/'

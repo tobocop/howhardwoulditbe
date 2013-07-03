@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe WalletOffersController do
-  describe '#create' do
-    let(:offer_id) { '1' }
+  let(:offer_id) { '1' }
 
+  describe '#create' do
     context 'when the user is logged in' do
       before do
         controller.stub(:user_logged_in?) { true }
@@ -53,6 +53,34 @@ describe WalletOffersController do
     it 'redirects the user if they are not logged in' do
       controller.stub(:user_logged_in?) { false }
       post :create, offer_id: offer_id
+      response.should be_redirect
+    end
+  end
+
+  describe '#destroy' do
+    before do
+      controller.stub(:user_logged_in?) { true }
+      controller.stub(:user_must_be_linked)
+    end
+
+    it 'deletes the offer from the user wallet' do
+      user = stub
+      controller.stub(:current_user) { user }
+
+      offer = stub
+      Plink::OfferRecord.stub(:find).with(offer_id) { offer }
+
+      service = stub
+      Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: offer) { service }
+
+      service.should_receive(:remove_offer)
+
+      delete :destroy, id: offer_id
+    end
+
+    it 'redirects the user if they are not logged in' do
+      controller.stub(:user_logged_in?) { false }
+      delete :destroy, id: 1
       response.should be_redirect
     end
   end

@@ -22,6 +22,8 @@ virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain
 
 p 'Creating Dev user'
 user = create_user(password:'password', email: 'pivotal@plink.com')
+wallet = create_wallet(user_id: user.id)
+3.times { |i| create_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 
 p 'Linking Dev User'
 create_oauth_token(user_id: user.id)
