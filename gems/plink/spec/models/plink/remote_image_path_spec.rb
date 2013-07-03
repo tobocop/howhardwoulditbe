@@ -15,4 +15,9 @@ describe Plink::RemoteImagePath do
     Plink::Config.any_instance.stub(:image_base_url) { 'http://www.example.com' }
     Plink::RemoteImagePath.url_for('images/dunkin_donuts.png').should == 'http://www.example.com/images/dunkin_donuts.png'
   end
+
+  it 'does not blow up if image is nil' do
+    Plink::Config.any_instance.stub(:image_base_url) { 'http://www.example.com' }
+    Plink::RemoteImagePath.url_for(nil).should == 'http://www.example.com/'
+  end
 end
