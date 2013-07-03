@@ -39,10 +39,6 @@ PlinkPivotal::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
-  ENV['GIGYA_API_KEY'] = keys['gigya_api_key']
-  ENV['GIGYA_SECRET'] = keys['gigya_secret']
-  #ENV['GIGYA_REGISTRATION_REDIRECT_BASE_URL'] = keys['registration_redirect_base_url']
 
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
@@ -55,4 +51,13 @@ PlinkPivotal::Application.configure do
   }
 
   config.contact_email_address = 'pivotal@plink.com'
+
+  gigya_keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
+  ENV['GIGYA_API_KEY'] = gigya_keys['gigya_api_key']
+  ENV['GIGYA_SECRET'] = gigya_keys['gigya_secret']
+
+  tango_keys = YAML.load_file(Rails.root.join('config', 'tango.yml'))[Rails.env]
+  ENV['TANGO_BASE_URL'] = tango_keys['base_url']
+  ENV['TANGO_USERNAME'] = tango_keys['username']
+  ENV['TANGO_PASSWORD'] = tango_keys['password']
 end

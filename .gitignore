@@ -19,5 +19,6 @@ rerun.txt
 database.yml
 sendgrid.yml
 gigya_keys.yml
+tango.yml
 .DS_Store
 .idea

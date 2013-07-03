@@ -21,6 +21,12 @@ PATH
       rails (~> 3.2.13)
       tiny_tds (= 0.5.1)
 
+PATH
+  remote: gems/tango
+  specs:
+    tango (0.0.1)
+      faraday (~> 0.8.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -78,6 +84,8 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    faraday (0.8.7)
+      multipart-post (~> 1.1)
     ffi (1.9.0)
     haml (4.0.3)
       tilt
@@ -107,6 +115,7 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.0)
     multi_json (1.7.6)
+    multipart-post (1.2.0)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     polyglot (0.3.3)
@@ -208,6 +217,7 @@ DEPENDENCIES
   rspec-retry
   sass-rails (~> 3.2.3)
   selenium-webdriver (= 2.33.0)
+  tango!
   thin
   tiny_tds (= 0.5.1)
   uglifier (>= 1.0.3)
