@@ -10,12 +10,12 @@
           .slot
             .slot-inner
               .brand
-                = image_tag item.offer.image_url, alt: item.offer.name
+                = image_tag Plink::RemoteImagePath.url_for(item.offer.image_url), alt: item.offer.name
               .info
                 %h3 up to
                 %h1.numbers= current_virtual_currency.amount_in_currency(item.offer.max_dollar_award_amount)
                 %h3= current_virtual_currency.currency_name
-                %button.button.wallet-remove REMOVE
+                = button_to 'REMOVE', wallet_offer_path(item.offer), class: 'button wallet-remove', method: :delete
         - else
           .slot
             = image_tag 'icon_emptyslot.png', alt: 'Empty Slot', class: 'img'
