@@ -35,7 +35,7 @@ describe RedemptionsController do
     end
 
     it 'redirect to the rewards page when a redemption is successfully created' do
-      fake_redemption_service.should_receive(:create_pending).with(user_id: 134, reward_amount_id: '5', user_balance: 987)
+      fake_redemption_service.should_receive(:create).with(user_id: 134, reward_amount_id: '5', user_balance: 987)
       post :create, reward_amount_id: 5
       response.should redirect_to rewards_path
     end

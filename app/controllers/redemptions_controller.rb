@@ -4,7 +4,7 @@ class RedemptionsController < ApplicationController
 
   def create
     if ActiveIntuitAccount.user_has_account?(current_user.id)
-      redemption = plink_redemption_service.create_pending(
+      redemption = plink_redemption_service.create(
           user_id: current_user.id,
           reward_amount_id: params[:reward_amount_id],
           user_balance: current_user.current_balance

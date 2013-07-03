@@ -1,7 +1,7 @@
 module Plink
   class RedemptionService
 
-    def create_pending(args)
+    def create(args)
       user_id = args.fetch(:user_id)
       reward_amount_id = args.fetch(:reward_amount_id)
       user_balance = args.fetch(:user_balance)

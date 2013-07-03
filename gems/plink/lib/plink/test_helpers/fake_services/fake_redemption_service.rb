@@ -1,11 +1,7 @@
-require 'plink/test_helpers/object_creation_methods'
-
 module Plink
   class FakeRedemptionService
 
-    include ObjectCreationMethods
-
-    def create_pending(args = {})
+    def create(args = {})
       if @fail
         false
       else
