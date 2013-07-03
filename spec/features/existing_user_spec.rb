@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'user signs in' do
   before(:each) do
+    create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     wallet = create_wallet(user_id: user.id)
@@ -10,10 +11,8 @@ describe 'user signs in' do
     user.save!
     create_oauth_token(user_id: user.id)
     create_users_institution_account(user_id: user.id)
-    create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
-
     award_type = create_award_type
-    create_free_award(user_id: user.id, dollar_award_amount:1.43, currency_award_amount: 143, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+    create_free_award(user_id: user.id, dollar_award_amount:5.43, currency_award_amount: 543, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
@@ -41,6 +40,14 @@ describe 'user signs in' do
                                               ]
                                           )
                                       ])
+
+    create_reward(name: 'Walmart Gift Card', amounts:
+        [
+            new_reward_amount(dollar_award_amount: 5, is_active: true),
+            new_reward_amount(dollar_award_amount: 10, is_active: true),
+            new_reward_amount(dollar_award_amount: 15, is_active: false)
+        ]
+    )
   end
 
   it 'a registered user can have an active session', js: true do
@@ -55,7 +62,7 @@ describe 'user signs in' do
 
     current_path.should == '/dashboard'
     page.should have_content('Welcome, Bob!')
-    page.should have_content('You have 143 Plink Points.')
+    page.should have_content('You have 543 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_css('img[src="http://www.example.com/test.png"]')
@@ -68,6 +75,10 @@ describe 'user signs in' do
 
     click_on 'Rewards'
     page.current_path.should == '/rewards'
+    click_on '$5.00'
+    page.should have_content('You have 43 Plink Points.')
+    click_on '$5.00'
+    page.should have_content('You do not have enough points to redeem.')
 
     click_on 'Wallet'
 

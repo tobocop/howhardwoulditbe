@@ -3,6 +3,10 @@ require 'plink/test_helpers/object_creation_methods'
 include Plink::ObjectCreationMethods
 
 Plink::User.destroy_all
+Plink::OauthToken.destroy_all
+Plink::UsersInstitutionAccount.destroy_all
+Plink::AwardType.destroy_all
+Plink::FreeAward.destroy_all
 Plink::VirtualCurrency.destroy_all
 HeroPromotion.destroy_all
 Plink::AdvertiserRecord.destroy_all
@@ -17,7 +21,18 @@ p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
 
 p 'Creating Dev user'
-create_user(password:'password', email: 'pivotal@plink.com')
+user = create_user(password:'password', email: 'pivotal@plink.com')
+
+p 'Linking Dev User'
+create_oauth_token(user_id: user.id)
+create_users_institution_account(user_id: user.id)
+
+p 'Creating award type'
+award_type = create_award_type
+
+p 'Creating Free Award'
+create_free_award(user_id: user.id, dollar_award_amount:5.43, currency_award_amount: 543, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)

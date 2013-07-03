@@ -1,5 +1,7 @@
 .layout-inner{style: 'margin-top: 50px;'}
 
+  %p= flash[:error]
+
   %p Redeem #{current_virtual_currency.currency_name} for these rewards
 
   - @rewards.each do |reward|
@@ -7,4 +9,4 @@
 
     %ul
     - reward.amounts.each do |amount|
-      %li= number_to_currency(amount.dollar_award_amount)
+      %li= link_to number_to_currency(amount.dollar_award_amount), redemptions_path(reward_amount_id: amount.id), method: 'post'
