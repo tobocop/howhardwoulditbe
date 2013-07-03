@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130703202913) do
+ActiveRecord::Schema.define(:version => 20130703214100) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1853,22 +1853,22 @@ ActiveRecord::Schema.define(:version => 20130703202913) do
   end
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|
-    t.integer  "userID",                    :limit => 8,                                                  :null => false
-    t.decimal  "revShare_old",                           :precision => 12, :scale => 6
-    t.datetime "beginDate",                                                                               :null => false
-    t.datetime "endDate",                                                                                 :null => false
-    t.datetime "created",                                                                                 :null => false
-    t.datetime "modified",                                                                                :null => false
-    t.boolean  "isActive",                                                              :default => true, :null => false
-    t.decimal  "cpaAmount_old",                          :precision => 12, :scale => 6
-    t.integer  "eventID",                   :limit => 8
-    t.decimal  "dollarAwardAmount_old",                  :precision => 12, :scale => 6
-    t.decimal  "minimumPurchaseAmount_old",              :precision => 12, :scale => 6
-    t.decimal  "advertisersRevShare",                    :precision => 12, :scale => 6,                   :null => false
-    t.integer  "wallet_item_id",            :limit => 8
+    t.integer  "userID",                     :limit => 8,                                                  :null => false
+    t.decimal  "revShare_old",                            :precision => 12, :scale => 6
+    t.datetime "beginDate",                                                                                :null => false
+    t.datetime "endDate",                                                                                  :null => false
+    t.datetime "created",                                                                                  :null => false
+    t.datetime "modified",                                                                                 :null => false
+    t.boolean  "isActive",                                                               :default => true, :null => false
+    t.decimal  "cpaAmount_old",                           :precision => 12, :scale => 6
+    t.integer  "eventID",                    :limit => 8
+    t.decimal  "dollarAwardAmount_old",                   :precision => 12, :scale => 6
+    t.decimal  "minimumPurchaseAmount_old",               :precision => 12, :scale => 6
+    t.decimal  "advertisersRevShare",                     :precision => 12, :scale => 6,                   :null => false
+    t.integer  "offers_virtual_currency_id", :limit => 8
   end
 
-  add_index "usersAwardPeriods", ["wallet_item_id"], :name => "index_usersAwardPeriods_on_wallet_item_id"
+  add_index "usersAwardPeriods", ["offers_virtual_currency_id"], :name => "index_usersAwardPeriods_on_offers_virtual_currency_id"
 
   create_table "usersBankProductAccounts", :primary_key => "usersBankProductAccountID", :force => true do |t|
     t.integer  "userID",             :limit => 8,                     :null => false

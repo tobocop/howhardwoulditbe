@@ -21,7 +21,20 @@ describe Plink::RemoveOfferFromWalletService do
     context 'when a user has the offer virtual currency in their wallet' do
       it 'nils out offers_virtual_currency_id on wallet_item' do
         wallet_item = stub
+        Plink::WalletItemHistoryRecord.stub(:clone_from_wallet_item)
         wallet_item.should_receive(:unassign_offer)
+        subject.stub(:wallet_item_for_offer) { wallet_item }
+
+        subject.remove_offer
+      end
+
+      class Plink::WalletItemHistoryRecord
+      end
+
+      it 'clones itself to a WalletItemHistoryRecord' do
+        wallet_item = stub
+        wallet_item.stub(:unassign_offer)
+        Plink::WalletItemHistoryRecord.should_receive(:clone_from_wallet_item).with(wallet_item)
         subject.stub(:wallet_item_for_offer) { wallet_item }
 
         subject.remove_offer

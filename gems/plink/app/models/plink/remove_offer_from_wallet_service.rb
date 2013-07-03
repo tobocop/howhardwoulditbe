@@ -10,6 +10,7 @@ module Plink
     def remove_offer
       item = wallet_item_for_offer
       if item
+        WalletItemHistoryRecord.clone_from_wallet_item(item)
         item.unassign_offer
       else
         true
