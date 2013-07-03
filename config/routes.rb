@@ -5,7 +5,7 @@ PlinkPivotal::Application.routes.draw do
   resources :rewards, only: [:index]
 
   resource :wallet, only: [:show] do
-    resources :offers, only: :create, controller: 'wallet_offers'
+    resources :offers, only: [:create, :destroy], controller: 'wallet_offers'
   end
 
   resources :redemptions, only: [:create]
