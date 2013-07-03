@@ -12,7 +12,7 @@
 - @offers.each do |offer|
   .modal.offer-details.reveal-modal{style: 'display: none', id: "offer-details-#{offer.id}"}
     = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-    = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, alt: offer.name.to_s, class: 'wallet-logo'
+    = image_tag Plink::RemoteImagePath.url_for(offer.image_url), alt: offer.name.to_s, class: 'wallet-logo'
     .bg-element
       %p.font.modal-text.h3.bold #{offer.name.to_s} Offers
 
