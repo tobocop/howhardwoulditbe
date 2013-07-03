@@ -27,7 +27,7 @@ STATUS=$((STATUS + $?))
 bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 
-bundle exec rspec spec
+bundle exec rspec spec --tag ~flaky
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
