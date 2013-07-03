@@ -484,9 +484,9 @@
             .date
               %h3 12/29
             .description
-              %h3 Lorem ipsum dolar sit ament
+              %h3 Transaction lorem ipsum dolar
             .amount
-              %h3.cyan 500 Plink points
+              %h3.cyan.bold 500 Plink points
             .icon
               %img{ :src => "/assets/history/icon_purchase.png", :alt => "Purchase"}
 
@@ -496,7 +496,7 @@
             .description
               %h3 Redemption orem ipsum dolar sit ament
             .amount
-              %h3.chart -90000 Plink points
+              %h3.chart.bold -90000 Plink points
             .icon
               %img{ :src => "/assets/history/icon_redeem.png", :alt => "Redemption"}
 
@@ -506,7 +506,7 @@
             .description
               %h3 Bonus lorem ipsum dolar sit ament
             .amount
-              %h3.cyan 20 Plink points
+              %h3.cyan.bold 20 Plink points
             .icon
               %img{ :src => "/assets/history/icon_bonus.png", :alt => "Bonus"}
 
@@ -516,7 +516,7 @@
             .description
               %h3 Adjustment ipsum dolar sit ament
             .amount
-              %h3.cyan 100 Plink points 
+              %h3.cyan.bold 100 Plink points 
             .icon
               %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"} 
 
@@ -524,13 +524,51 @@
             .date
               %h3 11/23
             .description
-              %h3 Bonus lorem ipsum dolar sit ament
+              %h3 Adjustment down lorem ipsum dolar 
             .amount
-              %h3.pink -1000 Plink points
+              %h3.pink.bold -1000 Plink points
             .icon
               %img{ :src => "/assets/history/icon_adjustment_down.png", :alt => "Point Adjustment"}
 
 
-          
+  %section
+    %h2 Rewards
 
+    %section
+
+      .rewards
+        %h1 CHOOSE YOUR REWARD.
+        %h3.gray You're 280 Plink Points from your next reward.
+        %br
+        %br
+        .reward
+          .img
+            %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"}
+          .description
+            %h2.bold Amazon Gift Card
+            %h4 Use your Amazon.com Gift Card* to shop from a huge selection of Books, Music, Electronics, Movies, Software, Apparel, Toys, and more.
+          .denomination.locked 
+            $100
+            .flag-locked
+              %img{ :src => "/assets/icon_lock.png"}
+          .denomination.locked 
+            $50
+            .flag-locked
+              %img{ :src => "/assets/icon_lock.png"}
+          .denomination.locked 
+            $25
+            .flag-locked
+              %img{ :src => "/assets/icon_lock.png"}
+          .denomination.locked 
+            $15
+            .flag-locked
+              %img{ :src => "/assets/icon_lock.png"}
+          .denomination.unavailable 
+            $10
+            .denom-value
+              %h4 1,000    
+          %a.denomination.available 
+            $5
+            .denom-value
+              %h4 500
 

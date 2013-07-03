@@ -4,9 +4,9 @@
 .account{
   
   h1 {
-  	font-size: 1.8em;
-  	font-weight:700;
-  	vertical-align: top;
+  	font-size: 2em;
+  	font-weight:900;
+    margin-bottom:5px;
 
   	&.cyan {
   	  color: $cyan;
@@ -17,7 +17,6 @@
   	}
 
   	&.numbers{
-  	  font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   	  font-weight:600;
   	  line-height:1.2em;
   	}
@@ -46,32 +45,29 @@
 
   h3 {
   	font-size:1em;
-  	font-weight:200;
+  	font-weight:100;
   	letter-spacing: 1px;
 
   	&.bold {
-  		font-weight:700;
+  		font-weight:400;
   	}
 
   	&.green {
   		color:$green;
-  		font-weight:700;
+      font-weight:500;
   		margin-top:13px;
   	}
 
   	&.cyan {
   		color:$cyan;
-  		font-weight:400;
   	}
 
   	&.chart {
   		color:$chart;
-  		font-weight:400;
   	}
 
   	&.pink {
   		color:$pink;
-  		font-weight:400;
   	}
   }
 
@@ -118,8 +114,9 @@
   }
 
   a {
-  	font-size:.9em;
   	color:$cyan;
+    font-size:.9em;
+    font-weight:300;
   	text-decoration: underline;
 
   	&.hover, &:hover{
