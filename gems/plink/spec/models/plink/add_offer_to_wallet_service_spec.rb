@@ -14,28 +14,29 @@ describe Plink::AddOfferToWalletService do
   describe '#add_offer' do
     let(:user) { stub(id: 1) }
     let(:offer) { stub(advertisers_rev_share: 0.05) }
-    let(:offer_virtual_currency_for_user) { stub }
+    let(:offer_virtual_currency_for_user) { stub(id: 123) }
 
     subject { Plink::AddOfferToWalletService.new(user: user, offer: offer) }
 
     context 'when user has an empty wallet item' do
       context 'when the offer has a valid offers virtual currency for this user' do
         it 'updates the first available wallet item in the user wallet to set this offer and returns true' do
-          Plink::UsersAwardPeriodRecord.stub(:create)
+          award_period = stub
+          Plink::UsersAwardPeriodRecord.stub(:create) { award_period }
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
-          wallet_item = stub(id: 2)
+          wallet_item = stub
           user.stub(:empty_wallet_item) { wallet_item }
-          wallet_item.should_receive(:assign_offer).with(offer_virtual_currency_for_user) { true }
+          wallet_item.should_receive(:assign_offer).with(offer_virtual_currency_for_user, award_period) { true }
           subject.add_offer.should == true
         end
 
         it 'creates an users award period for the wallet item' do
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
-          wallet_item = stub(id: 2)
+          wallet_item = stub
           user.stub(:empty_wallet_item) { wallet_item }
           wallet_item.stub(:assign_offer)
 
-          Plink::UsersAwardPeriodRecord.should_receive(:create).with(user_id: 1, begin_date: Date.today, advertisers_rev_share: 0.05, wallet_item_id: 2)
+          Plink::UsersAwardPeriodRecord.should_receive(:create).with(user_id: 1, begin_date: Date.today, advertisers_rev_share: 0.05, offers_virtual_currency_id: 123)
           subject.add_offer
         end
       end

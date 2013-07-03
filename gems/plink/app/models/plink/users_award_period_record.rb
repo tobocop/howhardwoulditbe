@@ -9,7 +9,7 @@ module Plink
     alias_attribute :advertisers_rev_share, :advertisersRevShare
     alias_attribute :end_date, :endDate
 
-    attr_accessible :user_id, :wallet_item_id, :begin_date, :advertisers_rev_share
+    attr_accessible :user_id, :begin_date, :advertisers_rev_share, :offers_virtual_currency_id
 
     def initialize(attributes = nil, options = {})
       super

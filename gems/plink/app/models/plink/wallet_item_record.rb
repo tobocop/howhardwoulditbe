@@ -9,6 +9,7 @@ module Plink
     alias_attribute :wallet_slot_id, :walletSlotID
     alias_attribute :wallet_slot_type_id, :walletSlotTypeID
     alias_attribute :offers_virtual_currency_id, :offersVirtualCurrencyID
+    alias_attribute :users_award_period_id, :usersAwardPeriodID
 
     attr_accessible :wallet_id, :wallet_slot_id, :wallet_slot_type_id, :offers_virtual_currency_id
 
@@ -19,13 +20,15 @@ module Plink
 
     scope :empty, -> { where(offersVirtualCurrencyID: nil) }
 
-    def assign_offer(offers_virtual_currency)
+    def assign_offer(offers_virtual_currency, award_period)
       self.offers_virtual_currency_id = offers_virtual_currency.id
+      self.users_award_period_id = award_period.id
       self.save
     end
 
     def unassign_offer
       self.offers_virtual_currency_id = nil
+      self.users_award_period_id = nil
       self.save
     end
   end

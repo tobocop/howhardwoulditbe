@@ -74,8 +74,14 @@ describe Plink::WalletItemRecord do
 
   describe 'assign_offer' do
     it 'assigns the offer to itself' do
-      subject.assign_offer(stub(id: 123))
+      subject.assign_offer(stub(id: 123), stub(id: 456))
       subject.offers_virtual_currency_id.should == 123
+      subject.should_not be_changed
+    end
+
+    it 'assigns the award_period to itself' do
+      subject.assign_offer(stub(id: 123), stub(id: 456))
+      subject.users_award_period_id.should == 456
       subject.should_not be_changed
     end
   end
@@ -87,6 +93,15 @@ describe Plink::WalletItemRecord do
 
       subject.unassign_offer
       subject.offers_virtual_currency_id.should be_nil
+      subject.should_not be_changed
+    end
+
+    it 'clears the assigned award period' do
+      subject.users_award_period_id = 123
+      subject.save!
+
+      subject.unassign_offer
+      subject.users_award_period_id.should be_nil
       subject.should_not be_changed
     end
   end
