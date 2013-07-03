@@ -5,7 +5,7 @@ describe Plink::OfferRecord do
     {
         advertiser_name: 'Gap',
         advertiser_id: 0,
-        advertisers_rev_share: 0,
+        advertisers_rev_share: 0.5,
         detail_text: 'awesome text',
         start_date: '1900-01-01',
         end_date: '2999-12-31',
@@ -27,6 +27,10 @@ describe Plink::OfferRecord do
 
     offer.advertiser_name.should == 'Gap'
     offer.detail_text.should == 'awesome text'
+  end
+
+  it 'returns the advertisers_rev_share' do
+    subject.advertisers_rev_share.should == 0.5
   end
 
   describe 'active_offers_virtual_currencies' do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626223838) do
+ActiveRecord::Schema.define(:version => 20130703202913) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1865,7 +1865,10 @@ ActiveRecord::Schema.define(:version => 20130626223838) do
     t.decimal  "dollarAwardAmount_old",                  :precision => 12, :scale => 6
     t.decimal  "minimumPurchaseAmount_old",              :precision => 12, :scale => 6
     t.decimal  "advertisersRevShare",                    :precision => 12, :scale => 6,                   :null => false
+    t.integer  "wallet_item_id",            :limit => 8
   end
+
+  add_index "usersAwardPeriods", ["wallet_item_id"], :name => "index_usersAwardPeriods_on_wallet_item_id"
 
   create_table "usersBankProductAccounts", :primary_key => "usersBankProductAccountID", :force => true do |t|
     t.integer  "userID",             :limit => 8,                     :null => false

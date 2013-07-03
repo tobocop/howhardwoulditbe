@@ -10,7 +10,7 @@ module Plink
     alias_attribute :detail_text, :detailText
     alias_attribute :advertiser_name, :advertiserName
     alias_attribute :advertiser_id=, :advertiserID=
-    alias_attribute :advertisers_rev_share=, :advertisersRevShare=
+    alias_attribute :advertisers_rev_share, :advertisersRevShare
     alias_attribute :start_date=, :startDate=
 
     attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text, :start_date, :is_active
