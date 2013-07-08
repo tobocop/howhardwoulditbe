@@ -4,11 +4,7 @@ class RedemptionsController < ApplicationController
 
   def create
     if ActiveIntuitAccount.user_has_account?(current_user.id)
-      redemption = plink_redemption_service.create(
-          user_id: current_user.id,
-          reward_amount_id: params[:reward_amount_id],
-          user_balance: current_user.current_balance
-      )
+      redemption = plink_redemption_service.redeem
       flash[:error] = 'You do not have enough points to redeem.' unless redemption
     else
       flash[:error] = 'You must have a linked card to redeem an award.'
@@ -20,6 +16,12 @@ class RedemptionsController < ApplicationController
   private
 
   def plink_redemption_service
-    Plink::RedemptionService.new
+    Plink::RewardRedemptionService.new(
+        user_id: current_user.id,
+        reward_amount_id: params[:reward_amount_id],
+        user_balance: current_user.current_balance,
+        first_name: current_user.first_name,
+        email: current_user.email
+    )
   end
 end

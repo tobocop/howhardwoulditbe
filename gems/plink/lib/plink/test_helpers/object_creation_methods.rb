@@ -85,7 +85,8 @@ module Plink
     def new_reward(options = {})
       defaults = {
           award_code: 'wolfmart-card',
-          name: 'wolfmart'
+          name: 'wolfmart',
+          is_tango:false
       }
 
       Plink::RewardRecord.new { |reward| apply(reward, defaults, options) }

@@ -6,7 +6,8 @@ describe Plink::RewardRecord do
     {
       award_code: 'walmart-gift-card',
       name: 'wally world',
-      is_active: true
+      is_active: true,
+      is_tango: false
     }
   }
 

@@ -8,7 +8,8 @@ describe Plink::RedemptionRecord do
       reward_id: 2,
       user_id: 1,
       is_pending: true,
-      is_active: true
+      is_active: true,
+      sent_on: nil
     }
   }
 
@@ -17,7 +18,10 @@ describe Plink::RedemptionRecord do
   it_should_behave_like(:legacy_timestamps)
 
   it 'should be persisted' do
-    Plink::RedemptionRecord.create(valid_params).should be_persisted
+    redemption = Plink::RedemptionRecord.create(valid_params)
+    redemption.should be_persisted
+    redemption.is_pending.should be_true
   end
+
 end
 

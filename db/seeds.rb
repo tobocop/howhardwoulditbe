@@ -33,7 +33,7 @@ p 'Creating award type'
 award_type = create_award_type
 
 p 'Creating Free Award'
-create_free_award(user_id: user.id, dollar_award_amount:5.43, currency_award_amount: 543, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+create_free_award(user_id: user.id, dollar_award_amount:5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
 
 
 p 'Creating HeroPromotions'
@@ -97,3 +97,12 @@ wolfmart_reward = create_reward(name: 'Wolfmart')
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 5)
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 10)
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 15)
+
+
+create_reward(name: 'Tango Card', award_code: 'tango-card', is_tango: true, amounts:
+  [
+    new_reward_amount(dollar_award_amount: 5, is_active: true),
+    new_reward_amount(dollar_award_amount: 10, is_active: true),
+    new_reward_amount(dollar_award_amount: 15, is_active: false)
+  ]
+)

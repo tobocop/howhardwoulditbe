@@ -9,8 +9,9 @@ module Plink
     alias_attribute :user_id, :userID
     alias_attribute :is_pending, :isPending
     alias_attribute :is_active, :isActive
+    alias_attribute :sent_on, :sentOn
 
 
-    attr_accessible :dollar_award_amount, :reward_id, :user_id, :is_pending, :is_active
+    attr_accessible :dollar_award_amount, :reward_id, :user_id, :is_pending, :is_active, :sent_on
   end
 end
