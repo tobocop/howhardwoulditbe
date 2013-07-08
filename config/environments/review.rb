@@ -79,4 +79,6 @@ PlinkPivotal::Application.configure do
       :user_name      => ENV['SENDGRID_USERNAME'],
       :password       => ENV['SENDGRID_PASSWORD']
   }
+
+  config.contact_email_address = 'matt+review@plink.com'
 end

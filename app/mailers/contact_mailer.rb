@@ -1,6 +1,6 @@
 class ContactMailer < ActionMailer::Base
 
-  default to: 'contactus@plink.com'
+  default to: Rails.application.config.contact_email_address
 
   def contact_email(args)
 

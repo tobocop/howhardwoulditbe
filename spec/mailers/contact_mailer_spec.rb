@@ -15,7 +15,7 @@ describe ContactMailer do
 
       ActionMailer::Base.deliveries.count.should == 1
 
-      email.to.should == ['contactus@plink.com']
+      email.to.should == [Rails.application.config.contact_email_address]
       email.from.should == ['bob@example.com']
       email.subject.should == 'Contact Form: [sorcery]'
 

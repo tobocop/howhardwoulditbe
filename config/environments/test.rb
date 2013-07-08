@@ -47,4 +47,6 @@ PlinkPivotal::Application.configure do
       :user_name      => sendgrid_keys['username'],
       :password       => sendgrid_keys['password']
   }
+
+  config.contact_email_address = 'contactus@example.com'
 end
