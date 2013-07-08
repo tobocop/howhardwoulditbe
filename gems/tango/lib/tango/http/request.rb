@@ -10,10 +10,9 @@ module Tango
 
       def post(path, body)
         connection = Faraday.new(url: config.base_url)
-
         connection.post do |req|
           req.url path
-          req.body = body
+          req.body = body.to_json
         end
       end
     end

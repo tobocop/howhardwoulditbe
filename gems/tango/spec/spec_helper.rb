@@ -6,6 +6,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'tango'
+require 'artifice'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -17,4 +18,11 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  Tango::Config.configure do |c|
+    c.base_url = 'https://int.tangocard.com'
+    c.username = 'third_party_int@tangocard.com'
+    c.password = 'integrateme'
+  end
+
 end
