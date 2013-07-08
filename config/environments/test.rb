@@ -26,9 +26,6 @@ PlinkPivotal::Application.configure do
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
 
-  # Tell Action Mailer not to deliver emails to the real world.
-  # The :test delivery method accumulates sent emails in the
-  # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
   # Raise exception on mass assignment protection for Active Record models
@@ -40,4 +37,14 @@ PlinkPivotal::Application.configure do
   keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
   ENV['GIGYA_API_KEY'] = keys['gigya_api_key']
   ENV['GIGYA_SECRET'] = keys['gigya_secret']
+
+  sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
+  config.action_mailer.smtp_settings = {
+      :address        => 'smtp.sendgrid.net',
+      :port           => 25,
+      :domain         => 'plink.com',
+      :authentication => :plain,
+      :user_name      => sendgrid_keys['username'],
+      :password       => sendgrid_keys['password']
+  }
 end

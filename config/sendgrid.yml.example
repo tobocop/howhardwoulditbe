@@ -1,0 +1,7 @@
+development:
+  username: user
+  password: pass
+
+test:
+  username: user
+  password: pass

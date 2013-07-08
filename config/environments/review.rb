@@ -70,4 +70,13 @@ PlinkPivotal::Application.configure do
   config.middleware.use(::Rack::Auth::Basic, "Plink.com Review") do |user, password|
     [user, password] == [ENV['HTTP_USER'], ENV['HTTP_PASSWORD']]
   end
+
+  config.action_mailer.smtp_settings = {
+      :address        => 'smtp.sendgrid.net',
+      :port           => 25,
+      :domain         => 'plink.com',
+      :authentication => :plain,
+      :user_name      => ENV['SENDGRID_USERNAME'],
+      :password       => ENV['SENDGRID_PASSWORD']
+  }
 end

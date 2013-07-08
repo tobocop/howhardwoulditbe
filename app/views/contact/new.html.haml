@@ -1,0 +1,27 @@
+%h1 Contact Us
+
+= form_for(@contact_form, url: contact_path) do |f|
+
+  = f.text_field :first_name, placeholder: 'First Name'
+  = f.text_field :last_name, placeholder: 'Last Name'
+  = f.text_field :email, placeholder: 'Email'
+
+  = label_tag do
+    = f.radio_button :category, 'Customer Support', checked: true
+    Customer Support
+
+  = label_tag do
+    = f.radio_button :category, 'Close my account'
+    Close my account
+
+  = label_tag do
+    = f.radio_button :category, 'Advertising and Business Development'
+    Advertising and Business Development
+
+  = label_tag do
+    = f.radio_button :category, 'Investor Relations'
+    Investor Relations
+
+  = f.text_area :message_text
+
+  = f.submit 'Contact Us'

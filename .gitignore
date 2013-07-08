@@ -17,6 +17,7 @@ doc/dependencies.html
 **.orig
 rerun.txt
 database.yml
+sendgrid.yml
 gigya_keys.yml
 .DS_Store
 .idea
