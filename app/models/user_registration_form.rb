@@ -16,7 +16,7 @@ class UserRegistrationForm
 
   validates :password, length: {minimum: 6, message: 'Please enter a password at least 6 characters long'}, confirmation: {message: 'Confirmation password doesn\'t match', if: Proc.new { password_confirmation.present? }}
   validates :password_confirmation, presence: {message: 'Please confirm your password'}
-  validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true, message: 'Please enter a valid email address'} # presence validation occurs in User model
+  validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true, message: 'Please enter a valid email address'}
   validate :params_are_valid_for_user
 
   def initialize(options = {})
