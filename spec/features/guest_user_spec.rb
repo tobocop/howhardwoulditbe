@@ -69,6 +69,12 @@ describe 'guest behavior' do
 
     click_on 'Contact Us'
 
+    click_button 'Contact Us'
+
+    page.should have_content 'First name can\'t be blank'
+    page.should have_content 'Last name can\'t be blank'
+    page.should have_content 'Email can\'t be blank'
+
     fill_in 'First Name', with: 'Bob'
     fill_in 'Last Name', with: 'Jones'
     fill_in 'Email', with: 'bob@example.com'

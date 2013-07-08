@@ -1,27 +1,39 @@
-%h1 Contact Us
+.layout-inner
 
-= form_for(@contact_form, url: contact_path) do |f|
+  %div{style: 'padding-top: 30px;'}
 
-  = f.text_field :first_name, placeholder: 'First Name'
-  = f.text_field :last_name, placeholder: 'Last Name'
-  = f.text_field :email, placeholder: 'Email'
+  %h1 Contact Us
 
-  = label_tag do
-    = f.radio_button :category, 'Customer Support', checked: true
-    Customer Support
+  = form_for(@contact_form, url: contact_path) do |f|
 
-  = label_tag do
-    = f.radio_button :category, 'Close my account'
-    Close my account
+    %ul
+    - @contact_form.errors.full_messages.each do |message|
+      %li= message
 
-  = label_tag do
-    = f.radio_button :category, 'Advertising and Business Development'
-    Advertising and Business Development
+    = f.text_field :first_name, placeholder: 'First Name', class: ['form-field', 'input']
+    = f.text_field :last_name, placeholder: 'Last Name', class: ['form-field', 'input']
+    = f.text_field :email, placeholder: 'Email', class: ['form-field', 'input']
 
-  = label_tag do
-    = f.radio_button :category, 'Investor Relations'
-    Investor Relations
+    %p Why Are You Contacting Plink?
 
-  = f.text_area :message_text
+    = label_tag do
+      = f.radio_button :category, 'Customer Support', checked: true
+      Customer Support
 
-  = f.submit 'Contact Us'
+    = label_tag do
+      = f.radio_button :category, 'Close my account'
+      Close my account
+
+    = label_tag do
+      = f.radio_button :category, 'Advertising and Business Development'
+      Advertising and Business Development
+
+    = label_tag do
+      = f.radio_button :category, 'Investor Relations'
+      Investor Relations
+
+    %p What Is Your Message For Plink?
+
+    = f.text_area :message_text, class: ['form-field', 'input']
+
+    = f.submit 'Contact Us'
