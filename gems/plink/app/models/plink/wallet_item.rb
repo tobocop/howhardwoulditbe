@@ -10,6 +10,10 @@ module Plink
       wallet_item_record.offers_virtual_currency_id.present?
     end
 
+    def locked?
+      wallet_item_record.locked?
+    end
+
     def offer
       Plink::Offer.new(wallet_item_record.offer, wallet_item_record.offers_virtual_currency.virtual_currency_id)
     end

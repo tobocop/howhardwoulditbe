@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130703214100) do
+ActiveRecord::Schema.define(:version => 20130709160320) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -2095,6 +2095,7 @@ ActiveRecord::Schema.define(:version => 20130703214100) do
     t.integer  "walletSlotID",                                           :null => false
     t.integer  "walletSlotTypeID",                                       :null => false
     t.integer  "offersVirtualCurrencyID"
+    t.string   "type"
   end
 
   create_table "walletItemsHistory", :primary_key => "walletItemHistoryID", :force => true do |t|

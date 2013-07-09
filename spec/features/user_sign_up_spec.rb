@@ -27,7 +27,8 @@ describe 'User signup workflow' do
       click_on 'Wallet'
 
       page.should have_content 'My Wallet'
-      page.should have_content 'This slot is empty.', count: 5
+      page.should have_content 'This slot is empty.', count: 3
+      page.should have_content 'This slot is locked.', count: 1
     end
 
     it 'should show error messages when form validation fail', js: true do
@@ -75,7 +76,8 @@ describe 'User signup workflow' do
         click_on 'Wallet'
 
         page.should have_content 'My Wallet'
-        page.should have_content 'This slot is empty.', count: 5
+        page.should have_content 'This slot is empty.', count: 3
+        page.should have_content 'This slot is locked.', count: 1
       end
     end
 
@@ -112,7 +114,8 @@ describe 'User signup workflow' do
         click_on 'Wallet'
 
         page.should have_content 'My Wallet'
-        page.should have_content 'This slot is empty.', count: 5
+        page.should have_content 'This slot is empty.', count: 3
+        page.should have_content 'This slot is locked.', count: 1
       end
     end
   end

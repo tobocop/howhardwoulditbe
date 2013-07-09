@@ -16,6 +16,12 @@
                 %h1.numbers= current_virtual_currency.amount_in_currency(item.offer.max_dollar_award_amount)
                 %h3= current_virtual_currency.currency_name
                 = button_to 'REMOVE', wallet_offer_path(item.offer.id), class: 'button wallet-remove', method: :delete
+        - elsif item.locked?
+          .slot.locked
+            = image_tag '/assets/icon_lockedslot.png', class:'img', alt:'Locked Slot'
+            .text
+              %h3.bold This slot is locked.
+              %h3 Complete an offer to unlock this slot.
         - else
           .slot
             = image_tag 'icon_emptyslot.png', alt: 'Empty Slot', class: 'img'

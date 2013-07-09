@@ -9,6 +9,8 @@ describe 'user signs in' do
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     wallet = create_wallet(user_id: user.id)
     create_wallet_item(wallet_id: wallet.id)
+    create_locked_wallet_item(wallet_id: wallet.id)
+
     user.primary_virtual_currency = virtual_currency
     user.save!
 
@@ -109,6 +111,11 @@ describe 'user signs in' do
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
+
+    page.should have_content 'My Wallet'
+    page.should have_content 'This slot is locked.'
+    page.should have_content 'Complete an offer to unlock this slot.'
+
 
     page.should have_content 'Select From These Offers'
 

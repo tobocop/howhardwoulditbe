@@ -31,5 +31,9 @@ module Plink
       self.users_award_period_id = nil
       self.save
     end
+
+    def locked?
+      false
+    end
   end
 end
