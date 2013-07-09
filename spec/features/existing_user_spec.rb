@@ -13,9 +13,8 @@ describe 'user signs in' do
     user.save!
     create_oauth_token(user_id: user.id)
     create_users_institution_account(user_id: user.id)
-    award_type = create_award_type
 
-    create_free_award(user_id: user.id, dollar_award_amount:10.43, currency_award_amount: 543, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+    award_points_to_user(user_id: user.id, dollar_award_amount: 10.43, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')

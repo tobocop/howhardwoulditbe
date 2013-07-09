@@ -10,6 +10,11 @@ module FeatureSpecHelper
     click_on 'Log in'
   end
 
+  def award_points_to_user(args)
+    award_type = create_award_type
+    create_free_award(user_id: args[:user_id], dollar_award_amount: args[:dollar_award_amount], currency_award_amount: args[:currency_award_amount], award_type_id: award_type.id, virtual_currency_id: args[:virtual_currency_id])
+  end
+
   def delete_users_from_gigya
     auth_params = URI.encode_www_form(
         apiKey: Gigya::Config.instance.api_key,
