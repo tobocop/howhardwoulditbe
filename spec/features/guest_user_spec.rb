@@ -42,7 +42,7 @@ describe 'guest behavior' do
       )
     end
 
-    it 'allows a user to see them' do
+    it 'allows a user to see them and sign up from the details modal', js: true do
       visit '/'
 
       click_on 'view offers'
@@ -60,6 +60,28 @@ describe 'guest behavior' do
       page.should_not have_content '$15'
 
       page.should_not have_content 'Should Not Exist Gift Card'
+
+      visit '/offers'
+
+      within '.offer' do
+        click_button 'Details'
+      end
+
+      click_on 'Join Plink Today'
+
+      page.current_path.should == '/'
+
+      within '.sign-in-modal' do
+        fill_in 'First Name', with: 'Frud'
+        fill_in 'Email', with: 'furd@example.com'
+        fill_in 'Password', with: 'pass1word'
+        fill_in 'Verify Password', with: 'pass1word'
+
+        click_on 'Start Earning Rewards'
+      end
+
+      page.should have_content 'Welcome, Frud!'
+      page.current_path.should == '/dashboard'
     end
   end
 

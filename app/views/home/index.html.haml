@@ -37,3 +37,12 @@
       Plink.GigyaPostLoginHandler.handleLogin(data);
     }
   })
+
+  $(function() {
+    Plink.conditionalCallback(
+      window.location.search.match(/sign_up=true/),
+      function () {
+      $('[data-reveal-id="registration-form"]').click();
+      }
+    )
+  });

@@ -23,7 +23,9 @@
 
     - if @user_has_account
       = button_to 'Add To My Wallet', wallet_offers_path(offer_id: offer.id), class: 'button primary-action narrow'
-    - else
+    - elsif current_user.logged_in?
       = link_to 'Link Your Card', account_path(link_card: true), class: 'button primary-action narrow'
+    - else
+      = link_to 'Join Plink Today', root_path(sign_up: true), class: 'button primary-action narrow'
 
     .offer-description= raw Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, current_virtual_currency)
