@@ -11,8 +11,8 @@ describe 'user signs in' do
     create_wallet_item(wallet_id: wallet.id)
     user.primary_virtual_currency = virtual_currency
     user.save!
-    create_oauth_token(user_id: user.id)
-    create_users_institution_account(user_id: user.id)
+
+    link_card_for_user(user.id)
 
     award_points_to_user(user_id: user.id, dollar_award_amount: 10.43, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
 
