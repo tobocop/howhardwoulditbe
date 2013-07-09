@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe AccountsController do
-  let(:user) { new_user }
+  let(:user) { new_user(id: 10) }
+
+  let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({10 => false}) }
 
   before(:each) do
     controller.stub(user_logged_in?: true)
@@ -15,8 +17,6 @@ describe AccountsController do
     end
 
     it 'assigns @user_has_account' do
-      ActiveIntuitAccount.count.should == 0
-
       get :show
 
       assigns(:user_has_account).should == false

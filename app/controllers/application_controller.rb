@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_must_be_linked
-    raise 'User account must be linked' unless ActiveIntuitAccount.user_has_account?(current_user.id)
+    raise 'User account must be linked' unless Plink::IntuitAccountService.new.user_has_account?(current_user.id)
   end
 
   private

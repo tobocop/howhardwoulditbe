@@ -100,13 +100,16 @@ describe ApplicationController do
     end
 
     it 'raises if the user is not linked' do
-      ActiveIntuitAccount.stub(:user_has_account?).with(1) { false }
+      Plink::IntuitAccountService.any_instance.stub(:user_has_account?).with(1) { false }
       expect { controller.user_must_be_linked }.to raise_error(Exception, 'User account must be linked')
     end
 
-    it 'returns nil if the user is linked' do
-      ActiveIntuitAccount.stub(:user_has_account?).with(1) { true }
-      controller.user_must_be_linked.should be_nil
+    it 'does not raise if the user is linked' do
+      Plink::IntuitAccountService.any_instance.stub(:user_has_account?).with(1) { true }
+
+      expect {
+        controller.user_must_be_linked.should be_nil
+      }.to_not raise_exception
     end
   end
 end

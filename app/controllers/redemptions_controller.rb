@@ -3,7 +3,7 @@ class RedemptionsController < ApplicationController
   before_filter :require_authentication
 
   def create
-    if ActiveIntuitAccount.user_has_account?(current_user.id)
+    if plink_intuit_account_service.user_has_account?(current_user.id)
       redemption = plink_redemption_service.redeem
       flash[:error] = 'You do not have enough points to redeem.' unless redemption
     else
@@ -23,5 +23,9 @@ class RedemptionsController < ApplicationController
         first_name: current_user.first_name,
         email: current_user.email
     )
+  end
+
+  def plink_intuit_account_service
+    Plink::IntuitAccountService.new
   end
 end

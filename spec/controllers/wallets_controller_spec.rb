@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_offer_service'
+require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe WalletsController do
 
@@ -8,8 +9,12 @@ describe WalletsController do
 
   before(:each) do
     controller.stub(:current_virtual_currency) { stub(id: 1) }
+
     fake_offer_service = Plink::FakeOfferService.new({1 => [offer]})
     controller.stub(:plink_offer_service) { fake_offer_service }
+
+    fake_account_service = Plink::FakeIntuitAccountService.new({5 => true})
+    controller.stub(:plink_intuit_account_service) { fake_account_service }
   end
 
   describe '#show' do
@@ -38,8 +43,6 @@ describe WalletsController do
       end
 
       it 'assigns @user_has_account' do
-        ActiveIntuitAccount.should_receive(:user_has_account?).with(5).and_return(true)
-
         get :show
 
         assigns(:user_has_account).should == true
