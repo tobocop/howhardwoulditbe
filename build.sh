@@ -7,6 +7,9 @@ set -e
 cd gems/gigya && rspec spec && rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
+cd gems/tango && rspec spec && rspec integration_spec && cd ../..
+STATUS=$((STATUS + $?))
+
 cd gems/plink && rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 

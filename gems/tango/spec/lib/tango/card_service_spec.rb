@@ -12,7 +12,6 @@ describe Tango::CardService do
         options[:password].should == 'integrateme'
         options[:cardSku].should == 'walmart-gift-card'
         options[:cardValue].to_s.should == '500'
-        #options[:cardValue].should be type_of
         options[:tcSend].should == true
         options[:recipientName].should == 'aname'
         options[:recipientEmail].should == 'hunter@example.com'

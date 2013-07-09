@@ -26,9 +26,6 @@ module Tango
             card_number: response['response']['cardNumber']
         )
       else
-        puts '*'*80
-        puts response.inspect
-        puts '*'*80
         FailureResponse.new(response_type: response['responseType'], error_message: response['response']['invalid']['body'])
       end
     end
