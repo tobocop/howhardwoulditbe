@@ -122,7 +122,10 @@ describe 'user signs in' do
       click_on 'Add to wallet'
     end
 
+    page.should have_content('Burger King Offers')
+
     within '.modal' do
+
       page.should have_content('Burger King Offers')
 
       within '.tiers' do
