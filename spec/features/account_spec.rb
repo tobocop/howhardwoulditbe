@@ -20,5 +20,7 @@ describe 'Managing account' do
     page.should have_content 'Lifetime balance: 0 Plink Points'
 
     page.should_not have_link 'Redeem'
+
+    page.should have_css '#social-link-widget'
   end
 end

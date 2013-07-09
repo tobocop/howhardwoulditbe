@@ -9,7 +9,5 @@
       %h2.cyan Level 5000
       %h2 9,999,999 EBs
       .content
-        -#%button.button.social-action.facebook Connect Facebook
         #social-link-widget
-        %p{ style: 'margin-top: 10px;'}
-          = link_to 'Invite Friends', referrer_url(user_id: current_user.id, affiliate_id: Rails.application.config.default_affiliate_id), class: 'invite-friend-widget', data: { title: 'Join Plink for free today and receive a $5 gift card', description: 'Join Plink for free and receive a $5 gift card of your choice when you link a card.  Earn the rewards you deserve every time you shop or dine out at Plink locations.', image: 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg' }
+        = render partial: 'shared/social/invite_friends_widget'
