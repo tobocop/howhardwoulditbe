@@ -21,5 +21,9 @@
           %p.font.modal-text.h3
             Spend #{number_to_currency(tier.minimum_purchase_amount)} or more, get #{current_virtual_currency.amount_in_currency(tier.dollar_award_amount)} #{current_virtual_currency.currency_name}.
 
-    = button_to 'Add To My Wallet', wallet_offers_path(offer_id: offer.id), class: 'button primary-action narrow'
+    - if @user_has_account
+      = button_to 'Add To My Wallet', wallet_offers_path(offer_id: offer.id), class: 'button primary-action narrow'
+    - else
+      = link_to 'Link Your Card', account_path(link_card: true), class: 'button primary-action narrow'
+
     .offer-description= raw Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, current_virtual_currency)

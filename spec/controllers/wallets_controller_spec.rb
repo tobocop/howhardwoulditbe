@@ -1,8 +1,10 @@
 require 'spec_helper'
+require 'plink/test_helpers/fake_services/fake_offer_service'
 
 describe WalletsController do
 
   let(:offer) { new_offer }
+  let(:user) { mock(Plink::User, id: 5) }
 
   before(:each) do
     controller.stub(:current_virtual_currency) { stub(id: 1) }
@@ -18,6 +20,7 @@ describe WalletsController do
 
     context 'logged in' do
       before do
+        controller.stub(:current_user) { user }
         controller.stub(:require_authentication) { true }
       end
 
@@ -32,6 +35,14 @@ describe WalletsController do
       it 'should assign current tab to wallet' do
         get :show
         assigns(:current_tab).should == 'wallet'
+      end
+
+      it 'assigns @user_has_account' do
+        ActiveIntuitAccount.should_receive(:user_has_account?).with(5).and_return(true)
+
+        get :show
+
+        assigns(:user_has_account).should == true
       end
 
       it 'should display offers' do

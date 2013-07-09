@@ -24,3 +24,13 @@
 
     #card-add-modal.reveal-modal.cf-modal
       %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+
+:javascript
+  $(function() {
+    Plink.conditionalCallback(
+      window.location.search.match(/link_card=true/),
+      function () {
+      $('[data-reveal-id="card-add-modal"]').click();
+      }
+    )
+  });

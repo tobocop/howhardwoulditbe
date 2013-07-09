@@ -38,6 +38,12 @@ var Plink = {
         $('input, textarea').placeholder();
       }
     });
+  },
+
+  conditionalCallback: function (flag, callback) {
+    if (flag) {
+      callback();
+    }
   }
 };
 
