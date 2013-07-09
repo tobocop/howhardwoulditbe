@@ -79,7 +79,7 @@ module Plink
     end
 
     def empty_wallet_item
-      wallet_items.empty.first
+      empty_wallet_items.first
     end
 
     private

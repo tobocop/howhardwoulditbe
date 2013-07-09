@@ -207,6 +207,22 @@ module Plink
       WalletItemRecord.new(defaults.merge(options))
     end
 
+    def create_empty_wallet_item(options = {})
+      wallet_item = new_empty_wallet_item(options)
+      wallet_item.save!
+      wallet_item
+    end
+
+    def new_empty_wallet_item(options = {})
+      defaults = {
+          wallet_id: 1,
+          wallet_slot_id: 1,
+          wallet_slot_type_id: 1
+      }
+
+      EmptyWalletItemRecord.new(defaults.merge(options))
+    end
+
     def create_locked_wallet_item(options = {})
       wallet_item = new_locked_wallet_item(options)
       wallet_item.save!
@@ -222,6 +238,24 @@ module Plink
 
       LockedWalletItemRecord.new(defaults.merge(options))
     end
+
+
+    def create_populated_wallet_item(options = {})
+      wallet_item = new_populated_wallet_item(options)
+      wallet_item.save!
+      wallet_item
+    end
+
+    def new_populated_wallet_item(options = {})
+      defaults = {
+        wallet_id: 1,
+        wallet_slot_id: 1,
+        wallet_slot_type_id: 1
+      }
+
+      PopulatedWalletItemRecord.new(defaults.merge(options))
+    end
+
 
     def create_wallet(options = {})
       wallet = new_wallet(options)
