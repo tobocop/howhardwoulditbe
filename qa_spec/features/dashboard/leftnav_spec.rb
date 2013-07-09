@@ -17,13 +17,5 @@ describe 'Lefthand nav bar', js: true do
   it 'should show a blank silhouette before linking to a social network' do
     page.should have_image "silhouette"
   end
-
-  it 'should show the users picture after linking to FB' do
-  end
-
 end
 
-
-def has_image?(src)
-  has_xpath?("//img[contains(@src,\"#{src}\")]")
-end
