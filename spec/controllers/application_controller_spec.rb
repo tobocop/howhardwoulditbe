@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'plink/test_helpers/fake_services/fake_user_service'
 
 describe ApplicationController do
   describe '#sign_in_user' do
@@ -20,8 +21,10 @@ describe ApplicationController do
       session[:current_user_id] = 3
       user = stub
       user_presenter = stub
+
+      controller.stub(:plink_user_service) { Plink::FakeUserService.new(3 => user) }
+
       UserPresenter.stub(:new).with(user: user) { user_presenter }
-      Plink::User.should_receive(:find).with(3) { user }
 
       controller.current_user.should == user_presenter
     end

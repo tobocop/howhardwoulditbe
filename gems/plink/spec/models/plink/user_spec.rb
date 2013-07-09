@@ -104,6 +104,18 @@ describe Plink::User do
     end
   end
 
+  describe '.find_by_id' do
+    it 'returns the user with the given id' do
+      user = create_user
+
+      Plink::User.find_by_id(user.id).should == user
+    end
+
+    it 'returns nil if no user present' do
+      Plink::User.find_by_id(333).should == nil
+    end
+  end
+
   describe '#lifetime_balance' do
     it 'returns the users lifetime balance in dollars' do
       user = create_user

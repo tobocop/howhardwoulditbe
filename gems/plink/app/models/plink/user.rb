@@ -25,6 +25,10 @@ module Plink
       where(:emailAddress => email).first
     end
 
+    def self.find_by_id(id)
+      find_by_userID(id)
+    end
+
     def first_name=(first_name)
       self.firstName = first_name
     end

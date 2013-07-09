@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return NullUserPresenter.new if session[:current_user_id].blank?
-    @user ||= UserPresenter.new(user: Plink::User.find(session[:current_user_id]))
+    @user ||= UserPresenter.new(user: plink_user_service.find_by_id(session[:current_user_id]))
   end
 
   def current_virtual_currency
@@ -40,6 +40,10 @@ class ApplicationController < ActionController::Base
 
   def set_user_session(user_id)
     session[:current_user_id] = user_id
+  end
+
+  def plink_user_service
+    Plink::UserService.new
   end
 
   def set_coldfusion_login_cookie(password_hash)
