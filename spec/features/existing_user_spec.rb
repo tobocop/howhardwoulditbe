@@ -144,7 +144,7 @@ describe 'user signs in' do
 
       page.should have_content 'You have to spend 2.50 to get this'
 
-      click_on 'ADD TO MY WALLET'
+      click_on 'Add To My Wallet'
     end
 
     page.should have_css '.slot .brand'
