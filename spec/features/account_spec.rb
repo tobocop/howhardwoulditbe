@@ -8,7 +8,7 @@ describe 'Managing account' do
     create_users_institution_account(user_id: user.id)
   end
 
-  it 'allows a user to manage their account', js: true do
+  it 'allows a user to manage their account', js: true, driver: :selenium do
     sign_in('user@example.com', 'pass1word')
 
     click_link 'My Account'
