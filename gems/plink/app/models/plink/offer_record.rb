@@ -33,6 +33,10 @@ module Plink
       joins(:active_offers_virtual_currencies).where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id)
     end
 
+    def self.in_wallet(wallet_id)
+      Plink::WalletRecord.find(wallet_id).offers
+    end
+
     def self.for_currency_id(currency_id)
       joins(:offers_virtual_currencies).
           where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id)

@@ -1,51 +1,51 @@
 require 'spec_helper'
 
 describe Plink::OfferService do
+  let(:advertiser) { create_advertiser(advertiser_name: 'cold wavy', logo_url: 'fake.jpg') }
+
+  let(:plink_offer) {
+    new_offer(
+        id: 146,
+        detail_text: 'one text',
+        advertiser_id: advertiser.id,
+        offers_virtual_currencies: [
+            new_offers_virtual_currency(
+                virtual_currency_id: 3,
+                tiers: [
+                    new_tier(
+                        dollar_award_amount: 0.52
+                    ),
+                    new_tier(
+                        dollar_award_amount: 1.43
+                    )
+                ]
+            )
+        ]
+    )
+  }
+
+  let!(:other_plink_offer) {
+    new_offer(
+        id: 123,
+        detail_text: 'another offer',
+        advertiser_id: advertiser.id,
+        offers_virtual_currencies: [
+            new_offers_virtual_currency(
+                virtual_currency_id: 3,
+                tiers: [
+                    new_tier(
+                        dollar_award_amount: 0.52
+                    ),
+                    new_tier(
+                        dollar_award_amount: 1.43
+                    )
+                ]
+            )
+        ]
+    )
+  }
+
   describe 'get_live_offers' do
-    let(:advertiser) { create_advertiser(advertiser_name: 'cold wavy', logo_url: 'fake.jpg') }
-
-    let(:plink_offer) {
-      new_offer(
-          id: 146,
-          detail_text: 'one text',
-          advertiser_id: advertiser.id,
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: 3,
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 0.52
-                      ),
-                      new_tier(
-                          dollar_award_amount: 1.43
-                      )
-                  ]
-              )
-          ]
-      )
-    }
-
-    let!(:other_plink_offer) {
-      new_offer(
-          id: 146,
-          detail_text: 'one text',
-          advertiser_id: advertiser.id,
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: 3,
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 0.52
-                      ),
-                      new_tier(
-                          dollar_award_amount: 1.43
-                      )
-                  ]
-              )
-          ]
-      )
-    }
-
     it 'returns offers by virtual_currency_id' do
       Plink::OfferRecord.stub(:live_offers_for_currency).with(3).and_return([plink_offer])
 
@@ -57,16 +57,16 @@ describe Plink::OfferService do
     end
   end
 
-  describe 'get_live_offers_for_user' do
-    let(:user) { create_user }
+  describe 'get_available_offers_for' do
+    it 'returns offers for the given wallet' do
+      Plink::OfferRecord.stub(:live_offers_for_currency).with(3).and_return([plink_offer, other_plink_offer])
+      Plink::OfferRecord.stub(:in_wallet).with(7).and_return([plink_offer])
 
-    before do
-      wallet = create_wallet(user_id: user.id)
-      create_open_wallet_item(wallet_id: wallet.id)
-    end
+      offers = Plink::OfferService.new.get_available_offers_for(7, 3)
 
-    it 'returns only offers that are valid and that a user does not have in their wallet' do
+      offers.map(&:id).should == [123]
 
+      offers.map(&:class).should == [Plink::Offer]
     end
   end
 end
