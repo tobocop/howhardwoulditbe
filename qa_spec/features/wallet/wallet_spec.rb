@@ -6,10 +6,8 @@ describe "Wallet page", js: true do
     add_five_offers_to_page
 
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
-    visit '/wallet'
 
     @user = Plink::User.where(emailAddress: "email@Plink.com").first
-    puts @user.userID
   end
 
   subject { page }
@@ -19,16 +17,19 @@ describe "Wallet page", js: true do
 
   context 'upon a users first visit' do
     it 'should have three open slots initially' do
+      visit '/wallet'
       page.should have_css('h3', text: 'This slot is empty', count: 3)
     end
 
     it 'should have one locked slot before an offer is completed' do
+      visit '/wallet'
       page.should have_css('h3', text: 'This slot is locked.')
       page.should have_css('h3', text: 'Complete an offer to unlock this slot.')
     end
 
     it 'should have one locked slot before a friend is referred' do
       pending 'Awaiting Implementation' do
+        visit '/wallet'
         page.should have_css('h3', text: 'This slot is locked.')
         page.should have_css('h3', text: 'Refer a friend to unlock this slot.')
       end
@@ -38,6 +39,8 @@ describe "Wallet page", js: true do
 
   context 'before a user has linked a card' do
     it 'should prompt the user to link a card on the offer details modal' do
+      visit '/wallet'  
+      
       # within '.modal' do
       #   click_on 'Link Your Card'
       # end
@@ -46,6 +49,7 @@ describe "Wallet page", js: true do
     end
 
     it 'should not allow the user to add an offer to the wallet' do
+      visit '/wallet'
     end
   end
 
@@ -53,12 +57,13 @@ describe "Wallet page", js: true do
   context 'after a user has linked a card' do
     before(:each) do
       link_card_for_user(@user.userID)
-
+      visit '/wallet'
     end
+
     it 'should allow the user to add an offer to the wallet' do
       click_on('Add to wallet', match: :first)
       within '.modal' do
-        page.should have_link 'Add to wallet'
+        page.should have_link 'Add To My Wallet'
       end
     end
 
