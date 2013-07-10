@@ -52,8 +52,8 @@ describe UserPresenter do
 
   it 'returns the next empty wallet item' do
     wallet_item = stub
-    presenter = UserPresenter.new(user: stub(empty_wallet_item: wallet_item))
-    presenter.empty_wallet_item.should == wallet_item
+    presenter = UserPresenter.new(user: stub(open_wallet_item: wallet_item))
+    presenter.open_wallet_item.should == wallet_item
   end
 
   describe '.avatar_thumbnail_url' do

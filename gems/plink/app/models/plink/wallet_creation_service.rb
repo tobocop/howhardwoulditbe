@@ -16,7 +16,7 @@ module Plink
 
     def create_for_user_id
       wallet = create_wallet
-      create_empty_wallet_items(wallet)
+      create_open_wallet_items(wallet)
       create_locked_wallet_items(wallet)
     end
 
@@ -26,9 +26,9 @@ module Plink
       Plink::WalletRecord.create(user_id: self.user_id)
     end
 
-    def create_empty_wallet_items(wallet)
+    def create_open_wallet_items(wallet)
       1.upto(self.class.default_creation_slot_count) do |i|
-        Plink::EmptyWalletItemRecord.create(wallet_id: wallet.id, wallet_slot_id: i, wallet_slot_type_id: self.class.default_wallet_slot_type_id)
+        Plink::OpenWalletItemRecord.create(wallet_id: wallet.id, wallet_slot_id: i, wallet_slot_type_id: self.class.default_wallet_slot_type_id)
       end
     end
 

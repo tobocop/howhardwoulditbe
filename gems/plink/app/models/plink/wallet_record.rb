@@ -9,7 +9,7 @@ module Plink
     attr_accessible :user_id
 
     has_many :wallet_items, class_name: 'Plink::WalletItemRecord', foreign_key: 'walletID'
-    has_many :empty_wallet_items, class_name: 'Plink::EmptyWalletItemRecord', foreign_key: 'walletID'
+    has_many :open_wallet_items, class_name: 'Plink::OpenWalletItemRecord', foreign_key: 'walletID'
 
     validates :user_id, presence: true
   end

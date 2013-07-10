@@ -8,7 +8,7 @@ describe 'user signs in' do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     wallet = create_wallet(user_id: user.id)
-    create_empty_wallet_item(wallet_id: wallet.id)
+    create_open_wallet_item(wallet_id: wallet.id)
     create_locked_wallet_item(wallet_id: wallet.id)
 
     user.primary_virtual_currency = virtual_currency

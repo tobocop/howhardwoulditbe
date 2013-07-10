@@ -7,7 +7,7 @@ module Plink
     def unassign_offer
       self.offers_virtual_currency_id = nil
       self.users_award_period_id = nil
-      self.convert_to 'Plink::EmptyWalletItemRecord'
+      self.convert_to 'Plink::OpenWalletItemRecord'
       self.save
     end
 

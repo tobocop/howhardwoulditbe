@@ -8,7 +8,7 @@ module Plink
     end
 
     def add_offer
-      wallet_item = user.empty_wallet_item
+      wallet_item = user.open_wallet_item
       offer_virtual_currency = offer_virtual_currency_for_user
 
       if wallet_item.present? && offer_virtual_currency.present?

@@ -7,7 +7,7 @@ describe Plink::WalletItemService do
     let(:wallet) {create_wallet(user_id:user.id)}
 
     before do
-      create_empty_wallet_item(wallet_id: wallet.id)
+      create_open_wallet_item(wallet_id: wallet.id)
       create_locked_wallet_item(wallet_id: wallet.id)
     end
 

@@ -62,7 +62,7 @@ describe Plink::OfferService do
 
     before do
       wallet = create_wallet(user_id: user.id)
-      create_wallet_item(wallet_id: wallet.id)
+      create_open_wallet_item(wallet_id: wallet.id)
     end
 
     it 'returns only offers that are valid and that a user does not have in their wallet' do

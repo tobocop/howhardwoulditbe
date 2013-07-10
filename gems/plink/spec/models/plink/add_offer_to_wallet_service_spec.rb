@@ -25,7 +25,7 @@ describe Plink::AddOfferToWalletService do
           Plink::UsersAwardPeriodRecord.stub(:create) { award_period }
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
           wallet_item = stub
-          user.stub(:empty_wallet_item) { wallet_item }
+          user.stub(:open_wallet_item) { wallet_item }
           wallet_item.should_receive(:assign_offer).with(offer_virtual_currency_for_user, award_period) { true }
           subject.add_offer.should == true
         end
@@ -33,7 +33,7 @@ describe Plink::AddOfferToWalletService do
         it 'creates an users award period for the wallet item' do
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
           wallet_item = stub
-          user.stub(:empty_wallet_item) { wallet_item }
+          user.stub(:open_wallet_item) { wallet_item }
           wallet_item.stub(:assign_offer)
 
           Plink::UsersAwardPeriodRecord.should_receive(:create).with(user_id: 1, begin_date: Date.today, advertisers_rev_share: 0.05, offers_virtual_currency_id: 123)
@@ -43,7 +43,7 @@ describe Plink::AddOfferToWalletService do
 
       context 'when there is no valid offer virtual currency for the user' do
         it 'returns false' do
-          user.stub(:empty_wallet_item) { stub }
+          user.stub(:open_wallet_item) { stub }
           subject.stub(:offer_virtual_currency_for_user) { nil }
           subject.add_offer.should == false
         end
@@ -52,7 +52,7 @@ describe Plink::AddOfferToWalletService do
 
     context 'when user does not have an empty wallet item' do
       it 'returns false' do
-        user.stub(:empty_wallet_item) { nil }
+        user.stub(:open_wallet_item) { nil }
         subject.stub(:offer_virtual_currency_for_user)
         subject.add_offer.should == false
       end

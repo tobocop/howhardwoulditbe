@@ -43,8 +43,8 @@ describe WalletItemPresenter do
   end
 
   context 'empty wallet item' do
-    let(:empty_wallet_item) { Plink::WalletItem.new(new_empty_wallet_item) }
-    let(:presenter) { WalletItemPresenter.get(empty_wallet_item, virtual_currency: virtual_currency_presenter) }
+    let(:open_wallet_item) { Plink::WalletItem.new(new_open_wallet_item) }
+    let(:presenter) { WalletItemPresenter.get(open_wallet_item, virtual_currency: virtual_currency_presenter) }
 
     it 'uses the open partial for empty wallet items' do
       presenter.partial.should == 'open_wallet_item'

@@ -12,8 +12,8 @@ describe Plink::WalletItem do
     item.locked?.should be_true
   end
 
-  it 'returns open = true when its instantiated with a EmptyWalletItemRecord' do
-    item = Plink::WalletItem.new(new_empty_wallet_item)
+  it 'returns open = true when its instantiated with a OpenWalletItemRecord' do
+    item = Plink::WalletItem.new(new_open_wallet_item)
     item.open?.should be_true
   end
 

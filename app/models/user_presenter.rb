@@ -43,8 +43,8 @@ class UserPresenter
     Plink::Wallet.new(user.wallet)
   end
 
-  def empty_wallet_item
-    user.empty_wallet_item
+  def open_wallet_item
+    user.open_wallet_item
   end
 
   def avatar_thumbnail_url

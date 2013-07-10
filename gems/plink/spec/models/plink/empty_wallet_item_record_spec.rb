@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Plink::EmptyWalletItemRecord do
+describe Plink::OpenWalletItemRecord do
 
   let(:valid_params) {
     {
@@ -10,7 +10,7 @@ describe Plink::EmptyWalletItemRecord do
     }
   }
 
-  subject { Plink::EmptyWalletItemRecord.new(valid_params) }
+  subject { Plink::OpenWalletItemRecord.new(valid_params) }
 
   it 'is open' do
     subject.open?.should == true

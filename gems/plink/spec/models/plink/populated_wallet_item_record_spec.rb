@@ -59,12 +59,12 @@ describe Plink::PopulatedWalletItemRecord do
       subject.should_not be_changed
     end
 
-    it 'becomes an EmptyWalletItemRecord' do
+    it 'becomes an OpenWalletItemRecord' do
       subject.users_award_period_id = 123
       subject.save!
 
       subject.unassign_offer
-      Plink::EmptyWalletItemRecord.last.id.should == subject.id
+      Plink::OpenWalletItemRecord.last.id.should == subject.id
     end
   end
 end

@@ -207,20 +207,20 @@ module Plink
       WalletItemRecord.new(defaults.merge(options))
     end
 
-    def create_empty_wallet_item(options = {})
-      wallet_item = new_empty_wallet_item(options)
+    def create_open_wallet_item(options = {})
+      wallet_item = new_open_wallet_item(options)
       wallet_item.save!
       wallet_item
     end
 
-    def new_empty_wallet_item(options = {})
+    def new_open_wallet_item(options = {})
       defaults = {
           wallet_id: 1,
           wallet_slot_id: 1,
           wallet_slot_type_id: 1
       }
 
-      EmptyWalletItemRecord.new(defaults.merge(options))
+      OpenWalletItemRecord.new(defaults.merge(options))
     end
 
     def create_locked_wallet_item(options = {})

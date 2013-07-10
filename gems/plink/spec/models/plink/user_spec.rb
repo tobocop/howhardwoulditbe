@@ -79,15 +79,15 @@ describe Plink::User do
   it 'has an empty wallet item' do
     subject.save!
     wallet = create_wallet(user_id: subject.id)
-    wallet_item = create_empty_wallet_item(wallet_id: wallet.id)
-    subject.empty_wallet_item.should == wallet_item
+    wallet_item = create_open_wallet_item(wallet_id: wallet.id)
+    subject.open_wallet_item.should == wallet_item
   end
 
   it 'returns nil when no wallet items are empty' do
     subject.save!
     wallet = create_wallet(user_id: subject.id)
     wallet_item = create_locked_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 123)
-    subject.empty_wallet_item.should == nil
+    subject.open_wallet_item.should == nil
   end
 
   describe 'class methods' do
