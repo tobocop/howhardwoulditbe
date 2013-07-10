@@ -82,7 +82,7 @@ describe 'User signup workflow' do
     end
 
     context 'with twitter' do
-      it 'allows a user to register with their twitter account', js: true, flaky: true do
+      it 'allows a user to register with their twitter account', js: true, flaky: true, driver: :selenium do
         visit '/'
 
         click_on 'Join'
