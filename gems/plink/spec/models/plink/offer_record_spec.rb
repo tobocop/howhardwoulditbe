@@ -59,12 +59,12 @@ describe Plink::OfferRecord do
       swag_bucks = create_offers_virtual_currency(offer_id: swag_bucks_offer.id)
 
       different_wallet_different_offer_vc_different_offer = create_populated_wallet_item(wallet_id: create_wallet.id, offers_virtual_currency_id: swag_bucks.id)
-      different_wallet_same_offer_vc_same_offer = create_populated_wallet_item(wallet_id: create_wallet.id, offers_virtual_currency_id: plink_points_offer_currency.id)
+      different_wallet_same_offer_vc_same_offer = create_populated_wallet_item(wallet_id: create_wallet.id, offers_virtual_currency_id: unselected_offer.id)
       same_wallet_different_offer_vc_different_offer = create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: plink_points_second_offer_currency.id)
+      same_wallet_same_offer_vc_same_offer      = create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: plink_points_offer_currency.id)
 
-      same_wallet_same_offer_vc_same_offer = create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: plink_points_offer_currency.id)
 
-      Plink::OfferRecord.in_wallet(wallet).should =~ [plink_points_offer, another_plink_points_offer]
+      Plink::OfferRecord.in_wallet(wallet.id).should =~ [plink_points_offer, another_plink_points_offer]
     end
   end
 

@@ -34,7 +34,9 @@ module Plink
     end
 
     def self.in_wallet(wallet_id)
-      Plink::WalletRecord.find(wallet_id).offers
+      joins(:offers_virtual_currencies)
+      .joins("JOIN #{WalletItemRecord.table_name} ON #{OffersVirtualCurrencyRecord.table_name}.offersVirtualCurrencyID = #{WalletItemRecord.table_name}.offersVirtualCurrencyID")
+      .where("#{WalletItemRecord.table_name}.walletID = ?", wallet_id)
     end
 
     def self.for_currency_id(currency_id)
