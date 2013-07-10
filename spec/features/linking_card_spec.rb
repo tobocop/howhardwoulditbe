@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Linking a card' do
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-    create_user(email: 'user@example.com', password: 'pass1word')
-
+    user = create_user(email: 'user@example.com', password: 'pass1word')
+    create_wallet(user_id: user.id)
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
 
     @old_navy_offer = create_offer(advertiser_id: old_navy.id, start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [

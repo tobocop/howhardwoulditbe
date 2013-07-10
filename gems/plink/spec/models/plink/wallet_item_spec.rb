@@ -1,31 +1,20 @@
 require 'spec_helper'
 
 describe Plink::WalletItem do
-  describe 'in_use?' do
-    it 'returns true if wallet item record has a offers_virtual_currency_id' do
-      Plink::WalletItem.new(stub(offers_virtual_currency_id: 123)).should be_in_use
-    end
 
-    it 'returns false if wallet item record does not have a offers_virtual_currency_id' do
-      Plink::WalletItem.new(stub(offers_virtual_currency_id: nil)).should_not be_in_use
-    end
+  it 'returns populated = true when its instantiated with a PopulatedWalletItemRecord' do
+    item = Plink::WalletItem.new(new_populated_wallet_item)
+    item.populated?.should be_true
   end
 
-  describe 'locked?' do
-    it 'returns true if the item is locked' do
-      locked_wallet_item_record = new_locked_wallet_item
-      Plink::WalletItem.new(locked_wallet_item_record).should be_locked
-    end
+  it 'returns locked = true when its instantiated with a LockedWalletItemRecord' do
+    item = Plink::WalletItem.new(new_locked_wallet_item)
+    item.locked?.should be_true
+  end
 
-    it 'returns false if the item is populated' do
-      populated_wallet_item_record = new_wallet_item(offers_virtual_currency_id: 12)
-      Plink::WalletItem.new(populated_wallet_item_record).should_not be_locked
-    end
-
-    it 'returns false if the item is empty' do
-      empty_wallet_item = new_wallet_item()
-      Plink::WalletItem.new(empty_wallet_item).should_not be_locked
-    end
+  it 'returns open = true when its instantiated with a EmptyWalletItemRecord' do
+    item = Plink::WalletItem.new(new_empty_wallet_item)
+    item.open?.should be_true
   end
 
   it 'returns its associated offer' do

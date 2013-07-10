@@ -6,13 +6,7 @@ module Plink
       self.wallet_item_record = wallet_item_record
     end
 
-    def in_use?
-      wallet_item_record.offers_virtual_currency_id.present?
-    end
-
-    def locked?
-      wallet_item_record.locked?
-    end
+    delegate :populated?, :locked?, :open?, to: :wallet_item_record
 
     def offer
       Plink::Offer.new(wallet_item_record.offer, wallet_item_record.offers_virtual_currency.virtual_currency_id)

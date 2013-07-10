@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::Wallet do
-  let(:wallet_record) { stub }
+  let(:wallet_record) { stub(id:123) }
   subject { Plink::Wallet.new(wallet_record) }
 
   describe 'wallet_item_for_offer' do
@@ -20,4 +20,9 @@ describe Plink::Wallet do
       subject.wallet_item_for_offer(offers_virtual_currency).should be_nil
     end
   end
+
+  it 'returns the id of the wallet record it was initialized with' do
+    subject.id.should == 123
+  end
+
 end

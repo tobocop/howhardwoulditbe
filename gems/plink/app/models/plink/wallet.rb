@@ -6,6 +6,10 @@ module Plink
       self.wallet_record = wallet_record
     end
 
+    def id
+      self.wallet_record.id
+    end
+
     def wallet_item_for_offer(offers_virtual_currency)
       wallet_record.wallet_items.detect { |item| item.offers_virtual_currency_id == offers_virtual_currency.id }
     end

@@ -5,30 +5,8 @@
     %h1 My Wallet
 
     .wallet
-      - current_user.wallet_items.each do |item|
-        - if item.in_use?
-          .slot
-            .slot-inner
-              .brand
-                = image_tag Plink::RemoteImagePath.url_for(item.offer.image_url), alt: item.offer.name
-              .info
-                %h3 up to
-                %h1.numbers= current_virtual_currency.amount_in_currency(item.offer.max_dollar_award_amount)
-                %h3= current_virtual_currency.currency_name
-                = button_to 'REMOVE', wallet_offer_path(item.offer.id), class: 'button wallet-remove', method: :delete
-        - elsif item.locked?
-          .slot.locked
-            = image_tag '/assets/icon_lockedslot.png', class:'img', alt:'Locked Slot'
-            .text
-              %h3.bold This slot is locked.
-              %h3 Complete an offer to unlock this slot.
-        - else
-          .slot
-            = image_tag 'icon_emptyslot.png', alt: 'Empty Slot', class: 'img'
-            .text
-              %h3.bold This slot is empty.
-              %h3= "Select an offer to start earning #{current_virtual_currency.currency_name}."
-
+      - @wallet_items.each do |presented_item|
+        = render partial: "#{presented_item.partial}", locals: { presenter: presented_item }
 
   .wallet
     %h2 Select From These Offers
