@@ -65,6 +65,16 @@ describe 'Contact Us page', js: true do
     end
   end
 
-
+  it 'should submit successfully if all fields are filled out' do
+    visit '/contact'
+    fill_in 'First Name', with: 'First'
+    fill_in 'Last Name', with: 'Last'
+    fill_in 'Email', with: 'test@plink.com'
+    within '.new_contact_form' do
+      click_on 'Contact Us'
+    end
+    current_path.should == '/contact/thank_you'
+    page.should have_text 'Thank you for contacting us.'
+  end
 end
 
