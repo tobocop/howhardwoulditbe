@@ -191,22 +191,6 @@ module Plink
       VirtualCurrency.new(defaults.merge(options))
     end
 
-    def create_wallet_item(options = {})
-      wallet_item = new_wallet_item(options)
-      wallet_item.save!
-      wallet_item
-    end
-
-    def new_wallet_item(options = {})
-      defaults = {
-          wallet_id: 1,
-          wallet_slot_id: 1,
-          wallet_slot_type_id: 1
-      }
-
-      WalletItemRecord.new(defaults.merge(options))
-    end
-
     def create_open_wallet_item(options = {})
       wallet_item = new_open_wallet_item(options)
       wallet_item.save!
