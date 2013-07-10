@@ -15,5 +15,9 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 SharedRSpecConfig.setup(RSpec.configuration)
 
+RSpec.configuration.before(:each, type: :feature) do
+  page.driver.browser.manage.window.resize_to(1000, 1000)
+end
+
 Capybara.app_host = "http://plink.test:58891"
 Capybara.server_port = 58891
