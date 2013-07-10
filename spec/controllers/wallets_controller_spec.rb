@@ -6,7 +6,7 @@ describe WalletsController do
 
   let(:offer) { new_offer }
   let(:wallet_item) { new_locked_wallet_item }
-  let(:wallet) { stub(id:2, wallet_items: [wallet_item]) }
+  let(:wallet) { stub(id:2, wallet_item_records: [wallet_item]) }
 
   let(:user) { mock(Plink::User, id: 5, wallet: wallet, logged_in?:true) }
 

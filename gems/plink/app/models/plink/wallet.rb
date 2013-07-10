@@ -11,7 +11,7 @@ module Plink
     end
 
     def wallet_item_for_offer(offers_virtual_currency)
-      wallet_record.wallet_items.detect { |item| item.offers_virtual_currency_id == offers_virtual_currency.id }
+      wallet_record.wallet_item_records.detect { |item| item.offers_virtual_currency_id == offers_virtual_currency.id }
     end
   end
 end

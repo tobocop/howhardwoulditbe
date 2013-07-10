@@ -70,10 +70,10 @@ describe Plink::User do
 
   it 'has wallet items' do
     subject.save!
-    subject.wallet_items.length.should == 0
+    subject.wallet_item_records.length.should == 0
     wallet = create_wallet(user_id: subject.id)
     wallet_item = create_locked_wallet_item(wallet_id: wallet.id)
-    subject.wallet_items(true).length == 1
+    subject.wallet_item_records(true).length == 1
   end
 
   it 'has an empty wallet item' do
