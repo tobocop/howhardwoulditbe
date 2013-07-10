@@ -5,6 +5,7 @@ module FeatureSpecHelper
   end
 
   def link_card_for_user(user_id)
+    puts user_id
     create_oauth_token(user_id: user_id)
     create_users_institution_account(user_id: user_id)
   end

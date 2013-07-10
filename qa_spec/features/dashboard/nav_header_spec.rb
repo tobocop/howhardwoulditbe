@@ -1,6 +1,6 @@
 require 'qa_spec_helper'
 
-describe 'Nav Header', js: true do
+describe 'Nav Header' do #, js: true do
   before do
     login_new_user
   end

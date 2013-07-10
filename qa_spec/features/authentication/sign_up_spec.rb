@@ -99,32 +99,6 @@ describe 'Signing up', js: true do
 
     page.should have_text(%q{You've entered an email address that is already registered with Plink. If you believe there is an error, please contact support@plink.com.})
   end
-
-  it 'lets the user sign up with Facebook' do
-    id = (User.last.try(:id) || 0) + 1
-    delete_user_from_gigya(id)
-
-    visit '/'
-    page.execute_script('$.fx.off = true;')
-    click_on 'Join'
-
-    within '.modal' do
-      page.find('[gigid="facebook"]', visible: true).click
-    end
-
-    within_window page.driver.browser.window_handles.last do
-      fill_in 'Email', with: "matt.hamrick@plink.com"
-      fill_in 'Password:', with: 'test123'
-
-      click_button 'Log In'
-      page.execute_script "window.close();"
-    end
-
-    current_path.should == dashboard_path
-    page.should have_content('Welcome, Matt!')
-
-    delete_users_from_gigya
-  end
 end
 
 def delete_user_from_gigya(user_id)
