@@ -1,5 +1,5 @@
 module Plink
-  class FreeAward < ActiveRecord::Base
+  class FreeAwardRecord < ActiveRecord::Base
     self.table_name = 'freeAwards'
 
     include Plink::LegacyTimestamps

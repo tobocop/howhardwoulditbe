@@ -6,7 +6,7 @@ Plink::User.destroy_all
 Plink::OauthToken.destroy_all
 Plink::UsersInstitutionAccount.destroy_all
 Plink::AwardType.destroy_all
-Plink::FreeAward.destroy_all
+Plink::FreeAwardRecord.destroy_all
 Plink::VirtualCurrency.destroy_all
 HeroPromotion.destroy_all
 Plink::AdvertiserRecord.destroy_all
@@ -15,7 +15,6 @@ Plink::OffersVirtualCurrencyRecord.destroy_all
 Plink::TierRecord.destroy_all
 Plink::RewardRecord.destroy_all
 Plink::RewardAmountRecord.destroy_all
-
 
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")

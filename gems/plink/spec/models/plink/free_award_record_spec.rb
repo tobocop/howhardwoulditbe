@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Plink::FreeAward do
+describe Plink::FreeAwardRecord do
   let(:valid_params) {
     {
         award_type_id: 1,
@@ -15,12 +15,12 @@ describe Plink::FreeAward do
     }
   }
 
-  subject { Plink::FreeAward.new(valid_params) }
+  subject { Plink::FreeAwardRecord.new(valid_params) }
 
   it_should_behave_like(:legacy_timestamps)
 
   it 'can be persisted' do
-    Plink::FreeAward.create(valid_params).should be_persisted
+    Plink::FreeAwardRecord.create(valid_params).should be_persisted
   end
 
 end

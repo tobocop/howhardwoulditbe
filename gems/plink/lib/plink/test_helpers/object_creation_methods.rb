@@ -29,7 +29,7 @@ module Plink
           is_notification_successful: true
       }
 
-      Plink::FreeAward.new {|free_award| apply(free_award, defaults, options)}
+      Plink::FreeAwardRecord.new {|free_award| apply(free_award, defaults, options)}
     end
 
     def create_free_award(options = {})
