@@ -24,10 +24,6 @@ module WalletItemPresenter
       'populated_wallet_item'
     end
 
-    def slot_css_class
-      ''
-    end
-
     def icon_path
       Plink::RemoteImagePath.url_for(wallet_item.offer.image_url)
     end
@@ -63,11 +59,7 @@ module WalletItemPresenter
     end
 
     def partial
-      'generic_wallet_item'
-    end
-
-    def slot_css_class
-      'locked'
+      'locked_wallet_item'
     end
 
     def icon_path
@@ -97,11 +89,7 @@ module WalletItemPresenter
     end
 
     def partial
-      'generic_wallet_item'
-    end
-
-    def slot_css_class
-      ''
+      'open_wallet_item'
     end
 
     def icon_path

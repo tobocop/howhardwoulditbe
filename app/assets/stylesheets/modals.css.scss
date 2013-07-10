@@ -2,7 +2,7 @@
 @import "mixins.css.scss";
 
 .modal {
-  position: relative; /* this must be set to relative for the close-btn to be positioned absolutely */
+  position: fixed; /* this must be set to relative for the close-btn to be positioned absolutely */
   display: inline-block;
   border: 20px solid rgb(0, 0, 0);
   border: 20px solid rgba(0, 0, 0, .7);
@@ -46,6 +46,19 @@
 
   &.offer-details {
     width: 500px;
+    margin-left: -250px;
+
+    .button {
+      text-transform: uppercase;
+    }
+  }
+
+  .offer-description{
+    border: 0px;
+    line-height:1.2em;
+    margin: 15px 0px 0px 0px;
+    padding: 5px;
+    text-align: left;
   }
 
   #social-login {

@@ -112,11 +112,6 @@ describe 'user signs in' do
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
 
-    page.should have_content 'My Wallet'
-    page.should have_content 'This slot is locked.'
-    page.should have_content 'Complete an offer to unlock this slot.'
-
-
     page.should have_content 'Select From These Offers'
 
     within "[data-offer-id='#{@old_navy_offer.id}']" do
@@ -127,8 +122,6 @@ describe 'user signs in' do
       page.should have_css 'img[src="/assets/test/burgerking.png"]'
       click_on 'Add to wallet'
     end
-
-    page.should have_content('Burger King Offers')
 
     within '.modal' do
 
@@ -160,6 +153,19 @@ describe 'user signs in' do
 
     click_on 'Remove'
     page.should_not have_css '.slot .brand'
+
+    page.should have_content 'My Wallet'
+    page.should have_content 'This slot is locked.'
+    page.should have_content 'Complete an offer to unlock this slot.'
+
+    page.execute_script('$.fx.off = true;')
+
+    page.find('.slot.locked').click
+
+    within '.modal' do
+      page.should have_content 'Complete your first Plink offer and Expand your Plink Wallet'
+      page.find('.close-btn').click
+    end
 
     click_on 'Log Out'
 

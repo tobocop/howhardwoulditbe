@@ -46,8 +46,8 @@ describe WalletItemPresenter do
     let(:empty_wallet_item) { Plink::WalletItem.new(new_empty_wallet_item) }
     let(:presenter) { WalletItemPresenter.get(empty_wallet_item, virtual_currency: virtual_currency_presenter) }
 
-    it 'uses the generic partial for empty wallet items' do
-      presenter.partial.should == 'generic_wallet_item'
+    it 'uses the open partial for empty wallet items' do
+      presenter.partial.should == 'open_wallet_item'
     end
 
 
@@ -66,18 +66,14 @@ describe WalletItemPresenter do
     it 'has a description that can hold the virtual currency name' do
       presenter.description.should == "Select an offer to start earning Plink points."
     end
-
-    it 'does not have any additional slot css classes' do
-      presenter.slot_css_class.should be_blank
-    end
   end
 
   context 'locked wallet item' do
     let(:locked_wallet_item) { Plink::WalletItem.new(new_locked_wallet_item) }
     let(:presenter) { WalletItemPresenter.get(locked_wallet_item) }
 
-    it 'uses the generic partial for locked wallet items' do
-      presenter.partial.should == 'generic_wallet_item'
+    it 'uses the locked partial for locked wallet items' do
+      presenter.partial.should == 'locked_wallet_item'
     end
 
     it 'has an icon_path' do
@@ -94,10 +90,6 @@ describe WalletItemPresenter do
 
     it 'has a description' do
       presenter.description.should == 'Complete an offer to unlock this slot.'
-    end
-
-    it 'has the locked slot css class' do
-      presenter.slot_css_class.should == 'locked'
     end
   end
 end

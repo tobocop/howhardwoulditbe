@@ -1,0 +1,10 @@
+.slot.locked{data: {'reveal-id' => "locked-slot-modal"}}
+  = image_tag wallet_item.icon_path, class:'img', alt: wallet_item.icon_description
+  .text
+    %h3.bold= wallet_item.title
+    %h3= wallet_item.description
+
+#locked-slot-modal.reveal-modal.modal
+  = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
+  %p Complete your first Plink offer and Expand your Plink Wallet
+  %p To unlock this wallet slot, complete your first offer by dining or shopping at a location in your Plink Wallet and meeting the minimum purchase requirement.  When the transaction is tracked by Plink, this slot will unlock and you can add another Plink location to your wallet.
