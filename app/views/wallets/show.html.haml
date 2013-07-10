@@ -5,8 +5,8 @@
     %h1 My Wallet
 
     .wallet
-      - @wallet_items.each do |presented_item|
-        = render partial: "#{presented_item.partial}", locals: { presenter: presented_item }
+      - @wallet_items.each do |wallet_item|
+        = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
 
   .wallet
     %h2 Select From These Offers

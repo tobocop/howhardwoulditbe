@@ -15,8 +15,6 @@ module Plink
 
     validates :wallet_id, :wallet_slot_id, :wallet_slot_type_id, presence: true
 
-    #scope :empty, -> { where(offersVirtualCurrencyID: nil) }
-
     def convert_to(klass_name)
       self.type = klass_name
     end

@@ -1,9 +1,9 @@
 .slot
   .slot-inner
     .brand
-      = image_tag presenter.icon_path, alt: presenter.icon_description
+      = image_tag wallet_item.icon_path, alt: wallet_item.icon_description
     .info
       %h3 up to
-      %h1.numbers= presenter.max_currency_award_amount
-      %h3= presenter.currency_name
-      = button_to 'REMOVE', wallet_offer_path(presenter.offer_id), class: 'button wallet-remove', method: :delete
+      %h1.numbers= wallet_item.max_currency_award_amount
+      %h3= wallet_item.currency_name
+      = button_to 'Remove', wallet_offer_path(wallet_item.offer_id), class: 'button wallet-remove', method: :delete

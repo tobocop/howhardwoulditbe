@@ -158,7 +158,7 @@ describe 'user signs in' do
 
     page.should have_css '.slot .brand'
 
-    click_on 'REMOVE'
+    click_on 'Remove'
     page.should_not have_css '.slot .brand'
 
     click_on 'Log Out'

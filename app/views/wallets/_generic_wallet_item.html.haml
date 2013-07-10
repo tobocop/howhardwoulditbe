@@ -1,8 +1,8 @@
-.slot{class: presenter.slot_css_class}
+.slot{class: wallet_item.slot_css_class}
   -#= image_tag '/assets/icon_lockedslot.png', class:'img', alt:'Locked Slot'
-  = image_tag presenter.icon_path, class:'img', alt: presenter.icon_description
+  = image_tag wallet_item.icon_path, class:'img', alt: wallet_item.icon_description
   .text
-    %h3.bold= presenter.title
-    %h3= presenter.description
+    %h3.bold= wallet_item.title
+    %h3= wallet_item.description
     -#%h3.bold This slot is locked.
     -#%h3 Complete an offer to unlock this slot.

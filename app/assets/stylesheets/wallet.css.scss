@@ -159,6 +159,10 @@
       width:118px;
       @include round-corners-right(8px);
       /*@include vertical-bg-gradient(#1dafec, #1073b9);*/
+
+      .button {
+        text-transform: uppercase;
+      }
     }
   }
 }
