@@ -1,6 +1,6 @@
 require 'qa_spec_helper'
 
-describe 'Lefthand nav bar' do #, js: true do
+describe 'Lefthand nav bar', js: true do
     before(:each) do
       create_virtual_currency(name: 'Plink Points', subdomain: 'www')
       create_user(email: 'qa_spec_test@example.com', password: 'test123', first_name: 'QA')

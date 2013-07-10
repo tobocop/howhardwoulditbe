@@ -1,6 +1,6 @@
 require 'qa_spec_helper'
 
-describe 'Logged out Home page' do
+describe 'Logged out Home page', js: true do
   before(:each) do
     create_virtual_currency(name: 'Plink Points', subdomain: 'www')
     visit '/'
