@@ -1,0 +1,22 @@
+.activity
+  %h2 Recent Activity
+  .event
+    .date
+      %h4 Date
+    .description
+      %h4 Description
+    .amount
+      %h4 Amount
+    .icon.title
+      icon
+
+  - @currency_activity.each do |activity|
+    .event{class: cycle('', 'alt')}
+      .date
+        %h3= activity.display_date
+      .description
+        %h3= activity.award_display_name
+      .amount
+        %h3.bold{class: activity.amount_css_class}= "#{activity.currency_award_amount} #{activity.display_currency_name}"
+      .icon
+        =image_tag activity.icon_path, alt: activity.icon_description

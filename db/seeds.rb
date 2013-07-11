@@ -21,6 +21,7 @@ virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain
 
 p 'Creating Dev user'
 user = create_user(password:'password', email: 'pivotal@plink.com')
+users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
 wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
@@ -28,13 +29,6 @@ create_locked_wallet_item(wallet_id: wallet.id)
 p 'Linking Dev User'
 create_oauth_token(user_id: user.id)
 create_users_institution_account(user_id: user.id)
-
-p 'Creating award type'
-award_type = create_award_type
-
-p 'Creating Free Award'
-create_free_award(user_id: user.id, dollar_award_amount:5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
-
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
@@ -106,3 +100,19 @@ create_reward(name: 'Tango Card', award_code: 'tango-card', is_tango: true, amou
     new_reward_amount(dollar_award_amount: 15, is_active: false)
   ]
 )
+
+p 'Creating award type'
+award_type = create_award_type(email_message: 'All the points!!!')
+
+p 'Creating Free Award'
+create_free_award(user_id: user.id, dollar_award_amount:5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+
+p 'Creating Qualifying Award'
+create_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
+
+p 'Creating Non-Qualifying Award'
+create_non_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
+
+p 'Creating Redemption'
+create_redemption(reward_id: wolfmart_reward.id, user_id: user.id, dollar_award_amount:3.00)
+

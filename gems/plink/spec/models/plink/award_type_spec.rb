@@ -7,7 +7,8 @@ describe Plink::AwardType do
       award_code: 'ASD',
       award_display_name: 'Awesome Award',
       award_type: 'cool',
-      is_active: true
+      is_active: true,
+      email_message: 'message'
     }
   }
 

@@ -3,13 +3,13 @@ module Plink
 
     def new_award_type(options = {})
       defaults = {
-          award_code: 'ASD',
-          award_display_name: 'Awesome Award',
-          award_type: 'cool',
-          is_active: true
+        award_code: 'ASD',
+        award_display_name: 'Awesome Award',
+        award_type: 'cool',
+        is_active: true
       }
 
-      Plink::AwardType.new {|award_type| apply(award_type, defaults, options)}
+      Plink::AwardType.new { |award_type| apply(award_type, defaults, options) }
     end
 
     def create_award_type(options = {})
@@ -18,34 +18,86 @@ module Plink
 
     def new_free_award(options = {})
       defaults = {
-          award_type_id: 1,
-          currency_award_amount: 100,
-          dollar_award_amount: 1,
-          user_id: 1,
-          is_active: true,
-          users_virtual_currency_id: 1,
-          virtual_currency_id: 1,
-          is_successful: true,
-          is_notification_successful: true
+        award_type_id: 1,
+        currency_award_amount: 100,
+        dollar_award_amount: 1,
+        user_id: 1,
+        is_active: true,
+        users_virtual_currency_id: 1,
+        virtual_currency_id: 1,
+        is_successful: true,
+        is_notification_successful: true
       }
 
-      Plink::FreeAwardRecord.new {|free_award| apply(free_award, defaults, options)}
+      Plink::FreeAwardRecord.new { |free_award| apply(free_award, defaults, options) }
     end
 
     def create_free_award(options = {})
       new_free_award(options).tap(&:save!)
     end
 
+    def new_qualifying_award(options = {})
+      defaults = {
+        currency_award_amount: 13,
+        dollar_award_amount: 0.13,
+        user_id: 13,
+        users_virtual_currency_id: 2,
+        virtual_currency_id: 2,
+        is_successful: true,
+        is_notification_successful: true
+      }
+
+      Plink::QualifyingAwardRecord.new { |award| apply(award, defaults, options) }
+    end
+
+    def create_qualifying_award(options = {})
+      new_qualifying_award(options).tap(&:save!)
+      end
+
+    def new_non_qualifying_award(options = {})
+      defaults = {
+        currency_award_amount: 13,
+        dollar_award_amount: 0.13,
+        user_id: 13,
+        users_virtual_currency_id: 2,
+        virtual_currency_id: 2,
+        is_successful: true,
+        is_notification_successful: true
+      }
+
+      Plink::NonQualifyingAwardRecord.new { |award| apply(award, defaults, options) }
+    end
+
+    def create_non_qualifying_award(options = {})
+      new_non_qualifying_award(options).tap(&:save!)
+    end
+
     def new_oauth_token(options = {})
       defaults = {
-          encrypted_oauth_token: 'derp',
-          encrypted_oauth_token_secret: 'derp_secret',
-          oauth_token_iv: 'derp_iv',
-          oauth_token_secret_iv: 'derp_secret_iv',
-          user_id: 1,
-          is_active: true
+        encrypted_oauth_token: 'derp',
+        encrypted_oauth_token_secret: 'derp_secret',
+        oauth_token_iv: 'derp_iv',
+        oauth_token_secret_iv: 'derp_secret_iv',
+        user_id: 1,
+        is_active: true
       }
       Plink::OauthToken.new { |oauth_token| apply(oauth_token, defaults, options) }
+    end
+
+    def create_redemption(options = {})
+      new_redemption(options).tap(&:save!)
+    end
+
+    def new_redemption(options = {})
+      defaults = {
+        dollar_award_amount: 2.3,
+        reward_id: 2,
+        user_id: 1,
+        is_pending: true,
+        is_active: true,
+        sent_on: nil
+      }
+      Plink::RedemptionRecord.new { |redemption| apply(redemption, defaults, options) }
     end
 
     def create_oauth_token(options = {})
@@ -54,15 +106,16 @@ module Plink
 
     def new_users_institution_account(options = {})
       defaults = {
-          account_id: 1,
-          begin_date: Date.yesterday,
-          end_date: '2999-12-31',
-          user_id: 24,
-          users_institution_account_staging_id: 0,
-          users_institution_id: 0,
-          is_active: true,
-          in_intuit: true
+        account_id: 1,
+        begin_date: Date.yesterday,
+        end_date: '2999-12-31',
+        user_id: 24,
+        users_institution_account_staging_id: 0,
+        users_institution_id: 0,
+        is_active: true,
+        in_intuit: true
       }
+
       Plink::UsersInstitutionAccount.new { |uia| apply(uia, defaults, options) }
     end
 
@@ -72,8 +125,8 @@ module Plink
 
     def new_reward_amount(options = {})
       defaults = {
-          dollar_award_amount: 143,
-          is_active: true
+        dollar_award_amount: 143,
+        is_active: true
       }
       Plink::RewardAmountRecord.new { |amount| apply(amount, defaults, options) }
     end
@@ -84,9 +137,9 @@ module Plink
 
     def new_reward(options = {})
       defaults = {
-          award_code: 'wolfmart-card',
-          name: 'wolfmart',
-          is_tango:false
+        award_code: 'wolfmart-card',
+        name: 'wolfmart',
+        is_tango: false
       }
 
       Plink::RewardRecord.new { |reward| apply(reward, defaults, options) }
@@ -98,10 +151,10 @@ module Plink
 
     def new_offer(options = {})
       defaults = {
-          advertiser_id: 0,
-          advertisers_rev_share: 0,
-          detail_text: 'awesome text',
-          start_date: '1900-01-01'
+        advertiser_id: 0,
+        advertisers_rev_share: 0,
+        detail_text: 'awesome text',
+        start_date: '1900-01-01'
       }
 
       Plink::OfferRecord.new { |offer| apply(offer, defaults, options) }
@@ -113,8 +166,8 @@ module Plink
 
     def new_offers_virtual_currency(options = {})
       defaults = {
-          offer_id: 143,
-          virtual_currency_id: 34
+        offer_id: 143,
+        virtual_currency_id: 34
       }
 
       Plink::OffersVirtualCurrencyRecord.new { |ovc| apply(ovc, defaults, options) }
@@ -126,11 +179,11 @@ module Plink
 
     def new_tier(options = {})
       defaults= {
-          start_date: Date.yesterday,
-          end_date: Date.tomorrow,
-          dollar_award_amount: 100,
-          minimum_purchase_amount: 199,
-          offers_virtual_currency_id: 2
+        start_date: Date.yesterday,
+        end_date: Date.tomorrow,
+        dollar_award_amount: 100,
+        minimum_purchase_amount: 199,
+        offers_virtual_currency_id: 2
       }
 
       Plink::TierRecord.new { |tier| apply(tier, defaults, options) }
@@ -142,7 +195,7 @@ module Plink
 
     def new_advertiser(options = {})
       defaults = {
-          advertiser_name: 'Old Nervy'
+        advertiser_name: 'Old Nervy'
       }
 
       AdvertiserRecord.new { |advertiser| apply(advertiser, defaults, options) }
@@ -164,32 +217,50 @@ module Plink
 
 
       defaults = {
-          email: 'test@example.com',
-          first_name: 'Joe',
-          password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
-          salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5'
+        email: 'test@example.com',
+        first_name: 'Joe',
+        password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
+        salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5'
       }
 
-      User.new(defaults.merge(options))
+      Plink::User.new { |user| apply(user, defaults, options) }
     end
 
     def create_user(options = {})
-      user = new_user(options)
-      user.save!
-      user
+      new_user(options).tap(&:save!)
     end
 
     def new_virtual_currency(options = {})
       defaults = {
-          name: 'Plink points',
-          subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN,
-          exchange_rate: 100,
-          site_name: 'Plink',
-          singular_name: 'Plink point'
+        name: 'Plink points',
+        subdomain: VirtualCurrency::DEFAULT_SUBDOMAIN,
+        exchange_rate: 100,
+        site_name: 'Plink',
+        singular_name: 'Plink point'
       }
 
       VirtualCurrency.new(defaults.merge(options))
     end
+
+    def create_virtual_currency(options = {})
+      virtual_currency = new_virtual_currency(options)
+      virtual_currency.save!
+      virtual_currency
+    end
+
+    def new_users_virtual_currency(options = {})
+      defaults = {
+        start_date: '1900-01-01',
+        user_id: 1,
+        virtual_currency_id: 2
+      }
+      UsersVirtualCurrencyRecord.new { |uvc| apply(uvc, defaults, options) }
+    end
+
+    def create_users_virtual_currency(options = {})
+      new_users_virtual_currency(options).tap(&:save!)
+    end
+
 
     def create_open_wallet_item(options = {})
       wallet_item = new_open_wallet_item(options)
@@ -199,9 +270,9 @@ module Plink
 
     def new_open_wallet_item(options = {})
       defaults = {
-          wallet_id: 1,
-          wallet_slot_id: 1,
-          wallet_slot_type_id: 1
+        wallet_id: 1,
+        wallet_slot_id: 1,
+        wallet_slot_type_id: 1
       }
 
       OpenWalletItemRecord.new(defaults.merge(options))
@@ -249,16 +320,10 @@ module Plink
 
     def new_wallet(options = {})
       defaults = {
-          user_id: 1
+        user_id: 1
       }
 
       WalletRecord.new(defaults.merge(options))
-    end
-
-    def create_virtual_currency(options = {})
-      virtual_currency = new_virtual_currency(options)
-      virtual_currency.save!
-      virtual_currency
     end
 
     def apply(object, defaults, overrides)

@@ -6,7 +6,8 @@ module Plink
     alias_attribute :award_display_name, :awardDisplayName
     alias_attribute :award_type, :awardType
     alias_attribute :is_active, :isActive
+    alias_attribute :email_message, :emailMessage
 
-    attr_accessible :award_code, :award_display_name, :award_type, :is_active
+    attr_accessible :award_code, :award_display_name, :award_type, :is_active, :email_message
   end
 end

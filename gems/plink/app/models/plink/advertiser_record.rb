@@ -4,22 +4,10 @@ module Plink
 
     include Plink::LegacyTimestamps
 
+    alias_attribute :advertiser_name, :advertiserName
+    alias_attribute :logo_url, :logoURL
+
     attr_accessible :advertiser_name, :logo_url
 
-    def advertiser_name=(name)
-      self.advertiserName = name
-    end
-
-    def advertiser_name
-      self.advertiserName
-    end
-
-    def logo_url=(url)
-      self.logoURL = url
-    end
-
-    def logo_url
-      self.logoURL
-    end
   end
 end

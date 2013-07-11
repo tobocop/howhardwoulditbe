@@ -5,9 +5,6 @@
 
     = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
 
-    %br
-    %br
-
     %h1.cyan You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
 
     %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
@@ -21,8 +18,7 @@
 
     #social-link-widget
 
-    %br
-    %br
+    = render partial: 'accounts/recent_activity'
 
     #card-add-modal.reveal-modal.cf-modal
       %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
