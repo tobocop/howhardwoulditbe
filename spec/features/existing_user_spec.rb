@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'user signs in' do
   before(:each) do
-    Tango::CardService.stub(:new).and_return(stub(:fake_card_service, purchase: stub(successful?:true)))
+    Tango::CardService.stub(:new).and_return(stub(:fake_card_service, purchase: stub(successful?: true)))
 
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
@@ -54,11 +54,11 @@ describe 'user signs in' do
     )
 
     create_reward(name: 'Tango Card', award_code: 'tango-card', is_tango: true, amounts:
-      [
-        new_reward_amount(dollar_award_amount: 5, is_active: true),
-        new_reward_amount(dollar_award_amount: 10, is_active: true),
-        new_reward_amount(dollar_award_amount: 15, is_active: false)
-      ]
+        [
+            new_reward_amount(dollar_award_amount: 5, is_active: true),
+            new_reward_amount(dollar_award_amount: 10, is_active: true),
+            new_reward_amount(dollar_award_amount: 15, is_active: false)
+        ]
     )
   end
 
@@ -112,15 +112,20 @@ describe 'user signs in' do
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
 
-    page.should have_content 'Select From These Offers'
 
-    within "[data-offer-id='#{@old_navy_offer.id}']" do
-      page.should have_css 'img[src="/assets/test/oldnavy.png"]'
-    end
+    within '.wallet', text: 'Select From These Offers' do
+      page.should have_content 'Select From These Offers'
 
-    within "[data-offer-id='#{@burger_king_offer.id}']" do
-      page.should have_css 'img[src="/assets/test/burgerking.png"]'
-      click_on 'Add to wallet'
+      page.should have_css("[data-offer-id]", count: 2)
+
+      within "[data-offer-id='#{@old_navy_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+      end
+
+      within "[data-offer-id='#{@burger_king_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/burgerking.png"]'
+        click_on 'Add to wallet'
+      end
     end
 
     within '.modal' do
@@ -151,7 +156,31 @@ describe 'user signs in' do
 
     page.should have_css '.slot .brand'
 
+    within '.wallet', text: 'Select From These Offers' do
+      page.should have_css("[data-offer-id]", count: 1)
+
+      within "[data-offer-id='#{@old_navy_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+      end
+    end
+
     click_on 'Remove'
+
+    within '.wallet', text: 'Select From These Offers' do
+      page.should have_content 'Select From These Offers'
+
+      page.should have_css("[data-offer-id]", count: 2)
+
+      within "[data-offer-id='#{@old_navy_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+      end
+
+      within "[data-offer-id='#{@burger_king_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/burgerking.png"]'
+        click_on 'Add to wallet'
+      end
+    end
+
     page.should_not have_css '.slot .brand'
 
     page.should have_content 'My Wallet'

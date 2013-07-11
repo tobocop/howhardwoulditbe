@@ -4,7 +4,7 @@ class WalletsController < ApplicationController
   def show
     @current_tab = 'wallet'
     @hero_promotions = HeroPromotion.by_display_order
-    @offers = plink_offer_service.get_live_offers(current_virtual_currency.id)
+    @offers = plink_offer_service.get_available_offers_for(wallet_id, current_virtual_currency.id)
     @user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
     @wallet_items = wrap_wallet_items(wallet_items)
   end
@@ -16,7 +16,11 @@ class WalletsController < ApplicationController
   end
 
   def wallet_items
-    plink_wallet_item_service.get_for_wallet_id(current_user.wallet.id)
+    plink_wallet_item_service.get_for_wallet_id(wallet_id)
+  end
+
+  def wallet_id
+    current_user.wallet.id
   end
 
   def plink_wallet_item_service

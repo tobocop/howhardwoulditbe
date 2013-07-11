@@ -17,5 +17,9 @@ module Plink
     def get_live_offers(virtual_currency_id)
       @offers_hash[virtual_currency_id]
     end
+
+    def get_available_offers_for(wallet_id, virtual_currency_id)
+      @offers_hash[virtual_currency_id]
+    end
   end
 end
