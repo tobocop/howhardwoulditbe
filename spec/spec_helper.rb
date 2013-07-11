@@ -17,10 +17,11 @@ SharedRSpecConfig.setup(RSpec.configuration)
 
 Capybara.app_host = "http://plink.test:58891"
 Capybara.server_port = 58891
-Capybara.javascript_driver = :webkit
 
 if ENV['CI']
   RSpec.configuration.before(:each, type: :feature) do
     page.driver.browser.manage.window.resize_to(1400, 1400)
   end
+else
+  Capybara.javascript_driver = :webkit
 end
