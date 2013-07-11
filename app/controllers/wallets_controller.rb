@@ -12,7 +12,7 @@ class WalletsController < ApplicationController
   private
 
   def wrap_wallet_items(items)
-    items.map { |item| WalletItemPresenter.get(item, virtual_currency: current_virtual_currency) }
+    items.map { |item| WalletItemPresenter.get(item, virtual_currency: current_virtual_currency, view_context: view_context) }
   end
 
   def wallet_items
