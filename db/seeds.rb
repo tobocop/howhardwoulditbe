@@ -4,8 +4,8 @@ include Plink::ObjectCreationMethods
 
 Plink::User.destroy_all
 Plink::OauthToken.destroy_all
-Plink::UsersInstitutionAccount.destroy_all
-Plink::AwardType.destroy_all
+Plink::UsersInstitutionAccountRecord.destroy_all
+Plink::AwardTypeRecord.destroy_all
 Plink::FreeAwardRecord.destroy_all
 Plink::VirtualCurrency.destroy_all
 HeroPromotion.destroy_all
@@ -15,6 +15,12 @@ Plink::OffersVirtualCurrencyRecord.destroy_all
 Plink::TierRecord.destroy_all
 Plink::RewardRecord.destroy_all
 Plink::RewardAmountRecord.destroy_all
+Plink::FreeAwardRecord.destroy_all
+Plink::QualifyingAwardRecord.destroy_all
+Plink::NonQualifyingAwardRecord.destroy_all
+Plink::RedemptionRecord.destroy_all
+Plink::InstitutionRecord.destroy_all
+Plink::UsersInstitutionRecord.destroy_all
 
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
@@ -26,9 +32,13 @@ wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
 
+p 'Creating institution'
+institution = create_institution(name: 'Bank of AMERRRICA!')
+users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
+
 p 'Linking Dev User'
 create_oauth_token(user_id: user.id)
-create_users_institution_account(user_id: user.id)
+create_users_institution_account(user_id: user.id, users_institution_id: users_institution.id, name: 'Tiny checking account', account_number_last_four: 2341)
 
 p 'Creating HeroPromotions'
 HeroPromotion.create(image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)

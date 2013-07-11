@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Plink::AwardType do
+describe Plink::AwardTypeRecord do
 
   let(:valid_params) {
     {
@@ -12,9 +12,9 @@ describe Plink::AwardType do
     }
   }
 
-  subject { Plink::AwardType.new(valid_params) }
+  subject { Plink::AwardTypeRecord.new(valid_params) }
 
   it 'can be persisted' do
-    Plink::AwardType.create(valid_params).should be_persisted
+    Plink::AwardTypeRecord.create(valid_params).should be_persisted
   end
 end

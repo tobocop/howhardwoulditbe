@@ -1,5 +1,5 @@
 module Plink
-  class AwardType < ActiveRecord::Base
+  class AwardTypeRecord < ActiveRecord::Base
     self.table_name = 'awardTypes'
 
     alias_attribute :award_code, :awardCode

@@ -5,7 +5,12 @@ describe AccountsController do
 
   let(:user) { stub(id: 10) }
 
-  let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({10 => false}) }
+  let(:intuit_account) {
+    Plink::ActiveIntuitAccount.new(account_name: 'account', bank_name: 'bank', account_number_last_four: 1234)
+  }
+
+  let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({10 => intuit_account}) }
+
   let(:debits_credit) {
     Plink::DebitsCredit.new(
       mock('Plink::DebitCreditRecord', {
@@ -38,7 +43,7 @@ describe AccountsController do
     it 'assigns @user_has_account' do
       get :show
 
-      assigns(:user_has_account).should == false
+      assigns(:user_has_account).should == true
     end
 
     it 'assigns a @card_link_url' do
@@ -49,6 +54,11 @@ describe AccountsController do
       get :show
 
       assigns(:card_link_url).should == 'http://www.mywebsite.com'
+    end
+
+    it 'assigns an @bank_account' do
+      get :show
+      assigns(:bank_account).should == intuit_account
     end
 
     it 'assigns a @currency_activity' do

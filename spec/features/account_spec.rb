@@ -6,6 +6,10 @@ describe 'Managing account' do
     user = create_user(email: 'user@example.com', password: 'pass1word')
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
 
+    institution = create_institution(name: 'Bank of representin')
+    users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
+    create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
+
     advertiser = create_advertiser(advertiser_name: 'Pop Caps inc')
 
     award_points_to_user(
@@ -52,6 +56,10 @@ describe 'Managing account' do
 
     page.should have_link 'Link Card'
     page.should have_content 'Card Linked?: true'
+    page.should have_content 'Your Bank'
+    page.should have_content 'Bank of representin'
+    page.should have_content 'Your Card'
+    page.should have_content 'representing checks 4321'
 
     page.should have_content 'You have 580 Plink Points.'
     page.should have_content 'Lifetime balance: 880 Plink Points'

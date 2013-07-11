@@ -11,6 +11,10 @@
 
     %p Card Linked?: #{@user_has_account}
 
+    - if @user_has_account
+      %p Your Bank: #{@bank_account.bank_name}
+      %p Your Card: #{@bank_account.account_name}
+
     %p Email: #{current_user.email}
 
     - if current_user.can_redeem?

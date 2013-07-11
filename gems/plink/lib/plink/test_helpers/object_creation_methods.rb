@@ -9,7 +9,7 @@ module Plink
         is_active: true
       }
 
-      Plink::AwardType.new { |award_type| apply(award_type, defaults, options) }
+      Plink::AwardTypeRecord.new { |award_type| apply(award_type, defaults, options) }
     end
 
     def create_award_type(options = {})
@@ -32,6 +32,35 @@ module Plink
       Plink::FreeAwardRecord.new { |free_award| apply(free_award, defaults, options) }
     end
 
+    def create_institution(options = {})
+      new_institution(options).tap(&:save!)
+    end
+
+    def new_institution(options = {})
+      defaults = {
+        hash_value: 'val',
+        name: 'freds',
+        intuit_institution_id: 3
+      }
+
+      Plink::InstitutionRecord.new { |institution| apply(institution, defaults, options) }
+    end
+
+    def create_users_institution(options = {})
+      new_users_institution(options).tap(&:save!)
+    end
+
+    def new_users_institution(options = {})
+      defaults = {
+        institution_id: 3,
+        intuit_institution_login_id: 23,
+        hash_check: 'my unique hash',
+        user_id: 3
+      }
+
+      Plink::UsersInstitutionRecord.new { |ui| apply(ui, defaults, options) }
+    end
+
     def create_free_award(options = {})
       new_free_award(options).tap(&:save!)
     end
@@ -52,7 +81,7 @@ module Plink
 
     def create_qualifying_award(options = {})
       new_qualifying_award(options).tap(&:save!)
-      end
+    end
 
     def new_non_qualifying_award(options = {})
       defaults = {
@@ -72,18 +101,6 @@ module Plink
       new_non_qualifying_award(options).tap(&:save!)
     end
 
-    def new_oauth_token(options = {})
-      defaults = {
-        encrypted_oauth_token: 'derp',
-        encrypted_oauth_token_secret: 'derp_secret',
-        oauth_token_iv: 'derp_iv',
-        oauth_token_secret_iv: 'derp_secret_iv',
-        user_id: 1,
-        is_active: true
-      }
-      Plink::OauthToken.new { |oauth_token| apply(oauth_token, defaults, options) }
-    end
-
     def create_redemption(options = {})
       new_redemption(options).tap(&:save!)
     end
@@ -98,6 +115,18 @@ module Plink
         sent_on: nil
       }
       Plink::RedemptionRecord.new { |redemption| apply(redemption, defaults, options) }
+    end
+
+    def new_oauth_token(options = {})
+      defaults = {
+        encrypted_oauth_token: 'derp',
+        encrypted_oauth_token_secret: 'derp_secret',
+        oauth_token_iv: 'derp_iv',
+        oauth_token_secret_iv: 'derp_secret_iv',
+        user_id: 1,
+        is_active: true
+      }
+      Plink::OauthToken.new { |oauth_token| apply(oauth_token, defaults, options) }
     end
 
     def create_oauth_token(options = {})
@@ -116,7 +145,7 @@ module Plink
         in_intuit: true
       }
 
-      Plink::UsersInstitutionAccount.new { |uia| apply(uia, defaults, options) }
+      Plink::UsersInstitutionAccountRecord.new { |uia| apply(uia, defaults, options) }
     end
 
     def create_users_institution_account(options = {})

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Plink::UsersInstitutionAccount do
+describe Plink::UsersInstitutionAccountRecord do
 
   let (:valid_params) {
     {
@@ -11,16 +11,20 @@ describe Plink::UsersInstitutionAccount do
       users_institution_account_staging_id: 0,
       users_institution_id: 0,
       is_active: true,
-      in_intuit: true
+      in_intuit: true,
+      name: 'account name',
+      account_number_last_four: 2354
     }
   }
 
-  subject { Plink::UsersInstitutionAccount.new(valid_params) }
+  subject { Plink::UsersInstitutionAccountRecord.new(valid_params) }
 
   it_should_behave_like(:legacy_timestamps)
 
   it 'can be persisted' do
-    Plink::UsersInstitutionAccount.create(valid_params).should be_persisted
+    record = Plink::UsersInstitutionAccountRecord.create(valid_params)
+    record.should be_persisted
+    record.name.should == 'account name'
   end
 
 
