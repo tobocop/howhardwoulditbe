@@ -23,12 +23,9 @@ describe Plink::CurrencyActivityService do
     end
 
     it 'only returns the amount of records specified by NUMBER_OF_ITEMS' do
-      num_items = Plink::CurrencyActivityService::NUMBER_OF_ITEMS
-      Plink::CurrencyActivityService::NUMBER_OF_ITEMS = 1
+      subject.stub(number_of_records_to_return: 1)
 
       subject.get_for_user_id(user.id).length.should == 1
-
-      Plink::CurrencyActivityService::NUMBER_OF_ITEMS = num_items
     end
   end
 end

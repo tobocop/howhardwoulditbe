@@ -62,7 +62,7 @@ describe 'user signs in' do
     )
   end
 
-  it 'a registered user can have an active session', js: true do
+  it 'a registered user can have an active session', js: true, driver: :selenium do
     visit '/'
 
     click_on 'Sign In'
