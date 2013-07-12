@@ -1,0 +1,22 @@
+.offer{ 'data-offer-id' => presenter.id, id: presenter.dom_id }
+  .offer-inner
+    .brand
+      = image_tag presenter.image_url, class: 'wallet-logo', alt: presenter.image_description
+    .info
+      %p.font.dashboard-text.h3 up to
+      %p.font.dashboard-text.h1.numbers= presenter.max_award_amount
+      %p.font.dashboard-text.h3= presenter.currency_name
+      %button.button.wallet-add{data: {'reveal-id' => presenter.modal_dom_id}}= button_label
+.modal.offer-details.reveal-modal{style: 'display: none', id: presenter.modal_dom_id}
+  = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
+  = image_tag presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'
+  .bg-element
+    %p.font.modal-text.h3.bold #{presenter.name} Offers
+
+    .tiers
+      - presenter.tier_descriptions.each do |description|
+        %p.font.modal-text.h3= description
+
+  = presenter.call_to_action_link(@user_has_account, current_user.logged_in?)
+
+  .offer-description= raw presenter.description

@@ -1,31 +1,5 @@
 - @offers.each do |offer|
-  .offer{ 'data-offer-id' => offer.id }
-    .offer-inner
-      .brand
-        = image_tag Plink::Config.instance.image_base_url + offer.image_url.to_s, class: 'wallet-logo', alt: offer.name.to_s
-      .info
-        %p.font.dashboard-text.h3 up to
-        %p.font.dashboard-text.h1.numbers= current_virtual_currency.amount_in_currency(offer.max_dollar_award_amount)
-        %p.font.dashboard-text.h3= current_virtual_currency.currency_name
-        %button.button.wallet-add{data: {'reveal-id' => "offer-details-#{offer.id}"}}= button_label
+  = render :partial => 'shared/offer_item', locals: {presenter: OfferItemPresenter.new(offer, virtual_currency: current_virtual_currency, view_context: self), button_label: button_label}
 
-- @offers.each do |offer|
-  .modal.offer-details.reveal-modal{style: 'display: none', id: "offer-details-#{offer.id}"}
-    = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-    = image_tag Plink::RemoteImagePath.url_for(offer.image_url), alt: offer.name.to_s, class: 'wallet-logo'
-    .bg-element
-      %p.font.modal-text.h3.bold #{offer.name.to_s} Offers
 
-      .tiers
-        - offer.tiers_by_minimum_purchase_amount.each do |tier|
-          %p.font.modal-text.h3
-            Spend #{number_to_currency(tier.minimum_purchase_amount)} or more, get #{current_virtual_currency.amount_in_currency(tier.dollar_award_amount)} #{current_virtual_currency.currency_name}.
 
-    - if @user_has_account
-      = button_to 'Add To My Wallet', wallet_offers_path(offer_id: offer.id), class: 'button primary-action narrow'
-    - elsif current_user.logged_in?
-      = link_to 'Link Your Card', account_path(link_card: true), class: 'button primary-action narrow'
-    - else
-      = link_to 'Join Plink Today', root_path(sign_up: true), class: 'button primary-action narrow'
-
-    .offer-description= raw Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, current_virtual_currency)
