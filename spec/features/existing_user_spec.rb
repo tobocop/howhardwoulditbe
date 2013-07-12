@@ -45,7 +45,7 @@ describe 'user signs in' do
                                           )
                                       ])
 
-    create_reward(name: 'Walmart Gift Card', amounts:
+    create_reward(name: 'Walmart Gift Card', description: 'wally mart', amounts:
         [
             new_reward_amount(dollar_award_amount: 5, is_active: true),
             new_reward_amount(dollar_award_amount: 10, is_active: true),
@@ -53,7 +53,7 @@ describe 'user signs in' do
         ]
     )
 
-    create_reward(name: 'Tango Card', award_code: 'tango-card', is_tango: true, amounts:
+    create_reward(name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, amounts:
         [
             new_reward_amount(dollar_award_amount: 5, is_active: true),
             new_reward_amount(dollar_award_amount: 10, is_active: true),
@@ -95,12 +95,14 @@ describe 'user signs in' do
     page.should have_content('You have 543 Plink Points.')
 
     within '.reward', text: 'Tango Card' do
+      page.should have_content 'it takes two'
       click_on '$5.00'
     end
 
     page.should have_content('You have 43 Plink Points.')
 
     within '.reward', text: 'Walmart Gift Card' do
+      page.should have_content 'wally mart'
       click_on '$5.00'
     end
 

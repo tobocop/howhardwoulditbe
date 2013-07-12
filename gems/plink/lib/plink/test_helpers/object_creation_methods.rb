@@ -169,6 +169,7 @@ module Plink
         award_code: 'wolfmart-card',
         name: 'wolfmart',
         is_tango: false
+        logo_url: '/assets/test/amazon.png'
       }
 
       Plink::RewardRecord.new { |reward| apply(reward, defaults, options) }

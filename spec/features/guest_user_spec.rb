@@ -53,7 +53,6 @@ describe 'guest behavior' do
 
       visit '/rewards'
 
-      page.should have_content 'Redeem Plink Points for these rewards'
       page.should have_content 'Walmart Gift Card'
       page.should have_content '$5'
       page.should have_content '$10'
