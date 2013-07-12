@@ -17,32 +17,9 @@
           %h4= reward.description
 
         - reward.amounts.reverse.each do |amount|
-
-          = link_to redemptions_path(reward_amount_id: amount.id), method: 'post', class: 'denomination available' do
-            = number_to_currency(amount.dollar_award_amount)
-
-        -#.denomination.locked
-        -#  $100
-        -#  .flag-locked
-        -#    %img{ :src => "/assets/icon_lock.png"}
-        -#.denomination.locked
-        -#  $50
-        -#  .flag-locked
-        -#    %img{ :src => "/assets/icon_lock.png"}
-        -#.denomination.locked
-        -#  $25
-        -#  .flag-locked
-        -#    %img{ :src => "/assets/icon_lock.png"}
-        -#.denomination.locked
-        -#  $15
-        -#  .flag-locked
-        -#    %img{ :src => "/assets/icon_lock.png"}
-        -#.denomination.unavailable
-        -#  $10
-        -#  .denom-value
-        -#    %h4 1,000
-        -#%a.denomination.available
-        -#  $5
-        -#  .denom-value
-        -#    %h4 500
-
+          - if amount.dollar_award_amount < current_user.current_balance
+            = link_to redemptions_path(reward_amount_id: amount.id), method: 'post', class: 'denomination available' do
+              = plink_currency_format(amount.dollar_award_amount)
+          - else
+            .denomination.unavailable
+              = plink_currency_format(amount.dollar_award_amount)

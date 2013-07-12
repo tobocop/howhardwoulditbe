@@ -12,4 +12,14 @@ describe ApplicationHelper do
       helper.class_for_nav_tab(@current_tab, 'wallet').should == 'selected'
     end
   end
+
+  describe '#plink_currency_format' do
+    it 'returns the entire string when there is a decimal that is not .00' do
+      helper.plink_currency_format(1.23).should == "$1.23"
+    end
+
+    it 'returns the amount with the decimal truncated when it is .00' do
+      helper.plink_currency_format(1.00).should == "$1"
+    end
+  end
 end
