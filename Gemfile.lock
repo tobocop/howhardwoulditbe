@@ -12,6 +12,7 @@ PATH
   remote: gems/admin
   specs:
     admin (0.0.1)
+      haml-rails (~> 0.4)
       rails (~> 3.2.13)
 
 PATH

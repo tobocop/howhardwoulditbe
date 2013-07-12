@@ -1,4 +1,7 @@
 PlinkPivotal::Application.routes.draw do
+
+  mount Admin::Engine, at: '/admin'
+
   resources :registrations, only: [:new, :create]
   resources :offers, only: :index
   resource :session, only: [:new, :create, :destroy]
