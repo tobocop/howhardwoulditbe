@@ -48,5 +48,6 @@ var Plink = {
 };
 
 Plink.Config = {
-  enabledProviders: 'facebook,twitter'
+  enabledProviders: 'facebook,twitter',
+  enabledShareMethods: 'facebook-like,twitter-tweet'
 }

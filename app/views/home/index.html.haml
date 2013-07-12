@@ -1,48 +1,52 @@
-%p= flash[:notice]
+.layout-inner
+  %div{style: 'padding-top: 20px;'}
+  %p= flash[:notice]
 
-#registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
-  = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
-  %h1.font.modal-h1 Join Plink
-  %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
-  .bg-element
-    #social-login
-    = form_for(@user_registration_form, url: registrations_path) do |f|
-      = f.text_field :first_name, class: 'form-field input', placeholder: 'First Name'
-      = f.text_field :email, class: 'form-field input', placeholder: 'Email'
-      = f.password_field :password, class: 'form-field input', placeholder: 'Password'
-      = f.password_field :password_confirmation, class: 'form-field input', placeholder: 'Verify Password'
-      = f.button 'Start Earning Rewards', class: 'button primary-action narrow'
+  #registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
+    = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
+    %h1.font.modal-h1 Join Plink
+    %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
+    .bg-element
+      #social-login
+      = form_for(@user_registration_form, url: registrations_path) do |f|
+        = f.text_field :first_name, class: 'form-field input', placeholder: 'First Name'
+        = f.text_field :email, class: 'form-field input', placeholder: 'Email'
+        = f.password_field :password, class: 'form-field input', placeholder: 'Password'
+        = f.password_field :password_confirmation, class: 'form-field input', placeholder: 'Verify Password'
+        = f.button 'Start Earning Rewards', class: 'button primary-action narrow'
 
-  %h3.font.modal-h3
-    Already have an account?
-    %a.text-link{href: new_session_path} Sign In
+    %h3.font.modal-h3
+      Already have an account?
+      %a.text-link{href: new_session_path} Sign In
 
-= link_to 'view offers', offers_path
-= link_to 'view rewards', rewards_path
+  = link_to 'view offers', offers_path
+  = link_to 'view rewards', rewards_path
 
-:javascript
-  gigya.socialize.showLoginUI({
-  'buttonsStyle':'signInWith',
-  'enabledProviders':Plink.Config.enabledProviders,
-  'showTermsLink':false,
-  'hideGigyaLink':true,
-  'containerID': "social-login",
-  'redirectURL': '/handle_gigya_login',
-  'width':224,
-  'height':70
-  });
+  #share-bar-widget{data: {title: 'Share Plink', image: 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg', href: 'https://www.plink.com', description: 'Plink is an online-to-offline rewards program that motivates member to make offline purchases. Plink members...'}}
 
-  gigya.socialize.addEventHandlers({
-    'onLogin': function (data) {
-      Plink.GigyaPostLoginHandler.handleLogin(data);
-    }
-  })
+  :javascript
+    gigya.socialize.showLoginUI({
+    'buttonsStyle':'signInWith',
+    'enabledProviders':Plink.Config.enabledProviders,
+    'showTermsLink':false,
+    'hideGigyaLink':true,
+    'containerID': "social-login",
+    'redirectURL': '/handle_gigya_login',
+    'width':224,
+    'height':70
+    });
 
-  $(function() {
-    Plink.conditionalCallback(
-      window.location.search.match(/sign_up=true/),
-      function () {
-      $('[data-reveal-id="registration-form"]').click();
+    gigya.socialize.addEventHandlers({
+      'onLogin': function (data) {
+        Plink.GigyaPostLoginHandler.handleLogin(data);
       }
-    )
-  });
+    })
+
+    $(function() {
+      Plink.conditionalCallback(
+        window.location.search.match(/sign_up=true/),
+        function () {
+        $('[data-reveal-id="registration-form"]').click();
+        }
+      )
+    });
