@@ -1,5 +1,5 @@
 .welcome-text
-  %span.header-text Welcome, #{current_user.first_name}!
+  %span.header-text.bold Welcome, #{current_user.first_name}!
   %br
   %span.header-text You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
 

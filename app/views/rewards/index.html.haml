@@ -2,12 +2,47 @@
 
   %p= flash[:error]
 
-  %p Redeem #{current_virtual_currency.currency_name} for these rewards
+  .rewards
+    %h1 Choose Your Reward.
+    %h3.gray You're 280 Plink Points from your next reward.
+    %br
+    %br
 
-  - @rewards.each do |reward|
-    .reward
-      %p= reward.name
+    - @rewards.each do |reward|
+      .reward.cf
+        .img
+          %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"}
+        .description
+          %h2.bold #{reward.name} Gift Card
+          %h4 Use your Amazon.com Gift Card* to shop from a huge selection of Books, Music, Electronics, Movies, Software, Apparel, Toys, and more.
 
-      %ul
-        - reward.amounts.each do |amount|
-          %li= link_to number_to_currency(amount.dollar_award_amount), redemptions_path(reward_amount_id: amount.id), method: 'post'
+        - reward.amounts.reverse.each do |amount|
+
+          = link_to redemptions_path(reward_amount_id: amount.id), method: 'post', class: 'denomination available' do
+            = number_to_currency(amount.dollar_award_amount)
+
+        -#.denomination.locked
+        -#  $100
+        -#  .flag-locked
+        -#    %img{ :src => "/assets/icon_lock.png"}
+        -#.denomination.locked
+        -#  $50
+        -#  .flag-locked
+        -#    %img{ :src => "/assets/icon_lock.png"}
+        -#.denomination.locked
+        -#  $25
+        -#  .flag-locked
+        -#    %img{ :src => "/assets/icon_lock.png"}
+        -#.denomination.locked
+        -#  $15
+        -#  .flag-locked
+        -#    %img{ :src => "/assets/icon_lock.png"}
+        -#.denomination.unavailable
+        -#  $10
+        -#  .denom-value
+        -#    %h4 1,000
+        -#%a.denomination.available
+        -#  $5
+        -#  .denom-value
+        -#    %h4 500
+

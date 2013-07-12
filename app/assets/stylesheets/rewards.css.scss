@@ -7,6 +7,7 @@
   	font-size: 2em;
   	font-weight:100;
     margin-bottom:5px;
+    text-transform: uppercase;
 
   	&.cyan {
   	  color: $cyan;
@@ -79,6 +80,7 @@
   	position:relative;
   	text-align:center;
   	width:71px;
+    text-decoration: none;
 
   	font-size:1.7em;
   	font-weight:900;
