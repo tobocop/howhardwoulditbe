@@ -5,6 +5,7 @@ describe 'Managing account' do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
     user = create_user(email: 'user@example.com', password: 'pass1word')
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
+    create_oauth_token(user_id: user.id)
 
     institution = create_institution(name: 'Bank of representin')
     users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
@@ -44,9 +45,6 @@ describe 'Managing account' do
     reward = create_reward(name: 'Walmart Gift Card')
 
     create_redemption(reward_id: reward.id, user_id: user.id, dollar_award_amount:3.00)
-
-    create_oauth_token(user_id: user.id)
-    create_users_institution_account(user_id: user.id)
   end
 
   it 'allows a user to manage their account', js: true, driver: :selenium do
