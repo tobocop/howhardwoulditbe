@@ -2,7 +2,7 @@ module Plink
   class IntuitAccountService
 
     def find_by_user_id(user_id)
-      account_record = ActiveIntuitAccountRecord.where(user_id: user_id).first
+      account_record = ActiveIntuitAccountRecord.where(user_id: user_id).order("#{Plink::ActiveIntuitAccountRecord.table_name}.uia_id DESC").first
       create_active_intuit_account(account_record) if account_record
     end
 
