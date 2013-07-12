@@ -13,7 +13,7 @@ describe OfferItemPresenter do
     end
   end
 
-  describe 'record_id' do
+  describe 'id' do
     it 'returns the id from the offer record' do
       presenter.id.should == 32
     end

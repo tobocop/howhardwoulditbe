@@ -47,7 +47,7 @@ class OfferItemPresenter
 
   def call_to_action_link(linked, signed_in)
     if linked
-      view_context.button_to('Add To My Wallet',
+      view_context.link_to('Add To My Wallet',
                            view_context.wallet_offers_path(offer_id: offer.id),
                            class: 'button primary-action narrow',
                            data: {add_to_wallet: true, offer_dom_selector: "##{dom_id}"})

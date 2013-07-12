@@ -153,8 +153,6 @@ describe 'user signs in' do
       click_on 'Add To My Wallet'
     end
 
-    page.should have_css '.slot .brand'
-
     within '.wallet', text: 'Select From These Offers' do
       page.should have_css("[data-offer-id]", count: 1)
 
@@ -162,6 +160,8 @@ describe 'user signs in' do
         page.should have_css 'img[src="/assets/test/oldnavy.png"]'
       end
     end
+
+    page.should have_css '.slot .brand'
 
     click_on 'Remove'
 

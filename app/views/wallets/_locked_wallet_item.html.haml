@@ -1,5 +1,5 @@
 .slot.locked{data: {'reveal-id' => "locked-slot-modal"}}
-  = image_tag wallet_item.icon_url, class:'img', alt: wallet_item.icon_description
+  %img{src: wallet_item.icon_url, class:'img', alt: wallet_item.icon_description}
   .text
     %h3.bold= wallet_item.title
     %h3= wallet_item.description

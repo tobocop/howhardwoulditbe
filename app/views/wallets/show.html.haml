@@ -1,13 +1,22 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
 
-.layout-inner
+.layout-inner#wallet_offers_management
+
+  %script#populated_wallet_item_template{type: 'text/x-handlebars-template' }
+    = render partial: 'wallets/populated_wallet_item', locals: { wallet_item: WalletItemPresenter::PopulatedWalletItemJsPresenter.new }
+  %script#open_wallet_item_template{type: 'text/x-handlebars-template' }
+    = render partial: 'wallets/open_wallet_item', locals: { wallet_item: WalletItemPresenter::OpenWalletItemJsPresenter.new }
+  %script#locked_wallet_item_template{type: 'text/x-handlebars-template' }
+    = render partial: 'wallets/locked_wallet_item', locals: { wallet_item: WalletItemPresenter::LockedWalletItemJsPresenter.new }
+
   .left-column
     %h1 My Wallet
 
-    .wallet
+    .wallet#wallet_items_bucket
       - @wallet_items.each do |wallet_item|
         = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
 
   .wallet
     %h2 Select From These Offers
-    = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
+    #offers_bucket
+      = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}

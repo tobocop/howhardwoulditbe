@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require handlebars
 //= require bjqs-1.3
 //= require foundation/foundation
 //= require foundation/foundation.reveal
@@ -38,6 +39,13 @@ var Plink = {
         $('input, textarea').placeholder();
       }
     });
+
+    $('#wallet_offers_management').walletOffersManager()
+
+    $('#wallet_offers_management').on('click', '[data-add-to-wallet]', function(e) {
+      $('.modal.offer-details').foundation('reveal', 'close');
+    });
+
   },
 
   conditionalCallback: function (flag, callback) {
