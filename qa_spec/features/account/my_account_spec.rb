@@ -42,6 +42,14 @@ describe 'My Account page', js: true do
       link_card_for_user(@user.userID)
     end
 
+    it 'should display the bank and account that the user has linked' do
+      pending 'Awaiting Implementation' do
+        page.should have_text 'Card Linked?: true'
+        page.should have_text 'CC Bank'
+        page.should have_text ''#Account Name here
+      end
+    end
+
     it 'should be accessible to linked plink members' do
       link_card_for_user(@user.userID)
       click_on 'My Account'
