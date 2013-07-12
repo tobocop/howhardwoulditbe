@@ -15,6 +15,7 @@ PATH
       activerecord-sqlserver-adapter (= 3.2.10)
       haml-rails (~> 0.4)
       rails (~> 3.2.13)
+      tiny_tds (= 0.5.1)
 
 PATH
   remote: gems/gigya
