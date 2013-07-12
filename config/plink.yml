@@ -10,8 +10,8 @@ test:
 
 review:
   image_base_url: https://plink-images.s3.amazonaws.com/
-  card_add_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.changeBank
+  card_add_url: http://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution
+  card_change_url: http://www.plink-qa.com/index.cfm?fuseaction=intuit.changeBank
 
 production:
   image_base_url: ''
