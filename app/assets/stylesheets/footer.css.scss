@@ -1,0 +1,49 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.footer{
+  background:$slate;
+
+  h1 {
+    color:#a0a0a0;
+    letter-spacing:2px;
+    line-height:2.5em;
+  	font-size:1em;
+  	font-weight:300;
+  	text-transform: uppercase;
+  }
+
+  h2 {
+  	color:#ffffff;
+  	font-size:1em;
+  	font-weight:100;
+  	line-height:1.8em;
+  	letter-spacing: 1px;
+  }
+
+  h3 {
+  	color:#a0a0a0;
+  	letter-spacing:1px;
+  	line-height:1em;
+  	font-size:.7em;
+  	font-weight:300;
+  }
+
+  hr {
+  	border: 1px solid #a0a0a0;
+  	display: block;
+  	margin:0px auto;
+  	width:90%;
+  }
+
+  .col-wrapper{
+  	margin:0px auto;
+  	padding:20px 0px;
+  }
+  
+  .col {
+    display:inline-block;
+    margin:10px 7%;
+    vertical-align: text-top; 
+  }
+}

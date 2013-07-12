@@ -1,0 +1,153 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.home {
+  
+  text-align:center;
+  
+  h1 {
+  	color:#FFFFFF;
+  	font-size: 4.2em;
+  	font-weight:900;
+  	margin-bottom:8px;
+  }	
+
+  h2 {
+  	color:#FFFFFF;
+  	font-size:1.9em;
+  	line-height:1.3em;
+  	letter-spacing:3px;
+    
+  	&.light{
+  	  font-weight:300;
+  	}
+
+  	&.thin{
+  	  font-weight:100;
+  	}
+
+  	&.cyan{
+  	  color:$cyan;
+  	}
+  }
+
+  h3 {
+  	font-size:1.2em;
+  	font-weight:300;
+  	letter-spacing:1px;
+  	line-height:1.4em;
+  }
+
+  h4 {
+  	color:#FFFFFF;
+  	font-size:1em;
+  	font-weight:100;
+  	letter-spacing: 2px;
+  	line-height: 1.3em;
+  	margin-top:20px;
+  
+  }
+
+  .join-btn {
+  	margin-right:auto;
+  	margin-left:auto;
+  	padding:20px;
+  	width:340px;
+
+  	&.bottom{
+  	  margin-bottom:-72px;
+  	}
+  }
+
+  .feature {
+    background-image: url('/assets/home_feature_bg.jpg'); 
+    background-position:center; 
+    background-repeat:no-repeat; 
+    height:380px;
+    padding:38px;
+    width:100%;
+
+  }
+
+  .how {
+  	background:$slate;
+  	padding:30px;
+  	
+  	.icon-wrapper {
+
+  	  margin-left:auto;
+  	  margin-right:auto;	
+  	  width:100%;
+
+  	  .icon {
+  	  	margin:30px 5%;
+  	    display:inline-block;
+  	  }
+  	}
+
+  	.video-btn {
+  		margin:10px auto;
+  		width:380px;
+  	}
+  }
+
+  .partners {
+  	background:#e9eef1;
+  	padding:30px;
+
+  	.brand-wrapper {
+  	  margin:30px auto;
+  	  width:70%;
+
+      .brand {
+	  	background:#FFFFFF;
+	  	border: 1px solid #CAD5DA;
+	  	display:inline-block;
+	  	height:120px;
+	  	margin:-1px -3px 0px -2px;
+	  	padding:14px 0px;
+	  	width:200px;	
+	  }
+	}
+
+	.partners-btn{
+	  margin:30px auto;
+	  width:380px;
+	}
+  }
+
+  .security {
+  	background-image: url('/assets/home_security_bg.jpg'); 
+    background-position:center; 
+    background-repeat:no-repeat;
+  	padding:30px;
+
+  	.text {
+  	  color:#FFFFFF;
+  	  margin: 10px auto;
+  	  width:45%;	
+  	}
+
+  	.logos {
+  	  background:#FFFFFF;
+  	  margin:20px auto;
+  	  padding:10px 0px;
+  	  width:45%;
+
+  	  opacity:0.95;
+  	  filter:alpha(opacity=95); /* For IE8 and earlier */
+  	  @include round-corners(10px); 
+
+  	  .logo {
+  	  	display:inline-block;
+  	  	margin:0px 1%;
+  	  }
+  	}
+  }
+
+  .press {
+  	background:$slate;
+  	color:#FFFFFF;
+  	padding:50px 30px 30px 30px;
+  }
+}
