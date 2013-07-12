@@ -530,58 +530,14 @@
             .icon
               %img{ :src => "/assets/history/icon_adjustment_down.png", :alt => "Point Adjustment"}
 
-
   %section
     %h2 Rewards
 
     %section
-
-      .rewards
-        %h1 CHOOSE YOUR REWARD.
-        %h3.gray You're 280 Plink Points from your next reward.
-        %br
-        %br
-        .reward
-          .img
-            %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"}
-          .description
-            %h2.bold Amazon Gift Card
-            %h4 Use your Amazon.com Gift Card* to shop from a huge selection of Books, Music, Electronics, Movies, Software, Apparel, Toys, and more.
-          .denomination.locked 
-            $100
-            .flag-locked
-              %img{ :src => "/assets/icon_lock.png"}
-          .denomination.locked 
-            $50
-            .flag-locked
-              %img{ :src => "/assets/icon_lock.png"}
-          .denomination.locked 
-            $25
-            .flag-locked
-              %img{ :src => "/assets/icon_lock.png"}
-          .denomination.locked 
-            $15
-            .flag-locked
-              %img{ :src => "/assets/icon_lock.png"}
-          .denomination.unavailable 
-            $10
-            .denom-value
-              %h4 1,000    
-          %a.denomination.available 
-            $5
-            .denom-value
-              %h4 500    
-
-
+      = render partial: 'redemptions'
 
   %section
 
-    %img{ :src => "http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif"}
-
-    %h2 Home
-
-    %section
-    
     %header.header.layout-wrapper
       .layout-inner
         %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
@@ -589,30 +545,30 @@
           = link_to 'Join', '#', class:'link button nav join'
         .header-button
           = link_to 'Sign In', '#', class:'link button nav sign-in'
-        .header-button-social.last  
+        .header-button-social.last
           %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
-        .header-button-social  
+        .header-button-social
           %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
         .header-button-social
-          %span.header-text Let's be friends.  
+          %span.header-text Let's be friends.
 
     .home
       .feature
-        %h1 Be a smarter shopper.     
+        %h1 Be a smarter shopper.
         %h2.light
-          Join Plink and start earning rewards at 
+          Join Plink and start earning rewards at
           %br
           over 70,000 locations nationwide.
-        .join-btn  
-          %button.button.primary-action-large Join Plink for FREE! 
+        .join-btn
+          %button.button.primary-action-large Join Plink for FREE!
 
       .how
         %h2.thin How Plink Works
         .icon-wrapper
           .icon
             %img{ :src => "/assets/home_how1.png"}
-            %h4 
-              Link your credit or 
+            %h4
+              Link your credit or
               %br
               debit card
           .icon
@@ -624,80 +580,80 @@
               %br
               our partner locations
           .icon
-            %img{ :src => "/assets/home_how3.png"}  
+            %img{ :src => "/assets/home_how3.png"}
             %h4
               Redeem points for
               %br
               cash and gift cards
         .video-btn
-          %button.button.home-video Watch a short video for more info 
+          %button.button.home-video Watch a short video for more info
 
-      .partners       
+      .partners
         %h2.light.cyan Our Partners
-        %h3 Earn Plink points when you make a purchase at any of our partner locations. 
+        %h3 Earn Plink points when you make a purchase at any of our partner locations.
         .brand-wrapper
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/dunkindonuts.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/dollargeneral.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/oldnavy.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/7eleven.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/tacobell.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/burgerking.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/footlocker.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/gap.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/kmart.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/sears.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/regal.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/outback.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/redrobin.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/arbys.png"}
           .brand
-            %img{ :src => "/assets/wallet-logos/1800flowers.png"}  
-          .brand 
+            %img{ :src => "/assets/wallet-logos/1800flowers.png"}
+          .brand
             %img{ :src => "/assets/wallet-logos/quiznos.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/burgerking.png"}
           .brand
             %img{ :src => "/assets/wallet-logos/tacobell.png"}
-          .brand 
+          .brand
             %img{ :src => "/assets/wallet-logos/kmart.png"}
           .brand
-            %img{ :src => "/assets/wallet-logos/dunkindonuts.png"} 
-        .partners-btn     
-          %button.button.home-partners Check out all of our partners  
+            %img{ :src => "/assets/wallet-logos/dunkindonuts.png"}
+        .partners-btn
+          %button.button.home-partners Check out all of our partners
 
-      .security 
+      .security
         %h2.thin Safety first.
         .text
           %h3 Plink uses the same 256-bit encryption and physical security that banks use. We are a Better Business Bureau Accredited business and our practices are monitored and verified by TRUSTe and VeriSign.
         .logos
           .logo
             %img{ :src => "/assets/home_security_truste.png"}
-          .logo    
-            %img{ :src => "/assets/home_security_norton.png"}  
           .logo
-            %img{ :src => "/assets/home_security_bbb.png"}  
+            %img{ :src => "/assets/home_security_norton.png"}
           .logo
-            %img{ :src => "/assets/home_security_intuit.png"}  
-        .join-btn.bottom 
-          %button.button.primary-action-large Join Plink for FREE! 
+            %img{ :src => "/assets/home_security_bbb.png"}
+          .logo
+            %img{ :src => "/assets/home_security_intuit.png"}
+        .join-btn.bottom
+          %button.button.primary-action-large Join Plink for FREE!
 
       .press
         %h3 As seen in:
-      
+
     %footer.footer
       %hr
       .col-wrapper
@@ -705,7 +661,7 @@
           %h1 Plink
           %h2 Careers
           %h2 Advertisers
-          %h2 Press 
+          %h2 Press
         .col
           %h1 About
           %h2 FAQ
@@ -718,5 +674,5 @@
           %h2 Contact Us
         .col
           %h1 Help
-          %h2 support@plink.com                
+          %h2 support@plink.com
           
