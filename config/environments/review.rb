@@ -1,8 +1,5 @@
 PlinkPivotal::Application.configure do
 
-  config.coldfusion_card_add_url = 'http://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution'
-  # Settings specified here will take precedence over those in config/application.rb
-
   # Code is not reloaded between requests
   config.cache_classes = true
 

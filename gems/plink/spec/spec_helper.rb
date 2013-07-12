@@ -19,4 +19,16 @@ RSpec.configure do |config|
 
   config.include Plink::ObjectCreationMethods
 
+  config.before(:each) do
+    Plink::Config.configure do |c|
+      c.image_base_url = 'http://example.com/image_base_url'
+      c.card_add_url = 'http://example.com/card_add'
+      c.card_change_url = 'http://example.com/card_change_url'
+    end
+  end
+
+  config.after(:each) do
+    Plink::Config.instance.instance_variable_set(:@configured, false)
+  end
+
 end

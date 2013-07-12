@@ -6,7 +6,9 @@ module Plink
     include Singleton
 
     CONFIGURABLE_OPTIONS = [
-        :image_base_url
+        :image_base_url,
+        :card_add_url,
+        :card_change_url
     ]
 
     attr_reader *CONFIGURABLE_OPTIONS
@@ -20,8 +22,8 @@ module Plink
 
       yield config
 
-      config.each_pair do |method, value|
-        instance.send("#{method}=", value)
+      config.each_pair do |attribute, value|
+        instance.instance_variable_set("@#{attribute}".to_sym, value)
       end
 
       instance.instance_variable_set(:@configured, true)
@@ -29,10 +31,6 @@ module Plink
 
     def configured?
       @configured
-    end
-
-    def image_base_url=(url)
-      @image_base_url = url
     end
 
   end

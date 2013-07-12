@@ -13,7 +13,9 @@
 
     - if @user_has_account
       %p Your Bank: #{@bank_account.bank_name}
+
       %p Your Card: #{@bank_account.account_name}
+      = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
 
     %p Email: #{current_user.email}
 
@@ -26,6 +28,9 @@
 
     #card-add-modal.reveal-modal.cf-modal
       %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+
+    #card-change-modal.reveal-modal.cf-modal
+      %iframe{src: @card_change_url, style: 'height: 1000px; width: 100%;'}
 
 :javascript
   $(function() {

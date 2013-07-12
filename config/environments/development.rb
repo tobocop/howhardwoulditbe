@@ -1,7 +1,5 @@
 PlinkPivotal::Application.configure do
 
-  config.coldfusion_card_add_url = 'http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution'
-
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on

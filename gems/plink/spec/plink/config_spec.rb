@@ -23,9 +23,14 @@ describe Plink::Config do
     it 'is configurable via a block' do
       Plink::Config.configure do |config|
         config.image_base_url = 'http://www.example.com/image_base'
+        config.card_add_url= 'http://www.example.com/card_add'
+        config.card_change_url = 'http://www.example.com/card_change'
       end
 
       Plink::Config.instance.image_base_url.should == 'http://www.example.com/image_base'
+      Plink::Config.instance.card_add_url.should == 'http://www.example.com/card_add'
+      Plink::Config.instance.card_change_url.should == 'http://www.example.com/card_change'
+
     end
   end
 end

@@ -49,11 +49,19 @@ describe AccountsController do
     it 'assigns a @card_link_url' do
       session[:referrer_id] = 123
       session[:affiliate_id] = 456
-      Plink::CardLinkUrlGenerator.stub(:create_url).with(referrer_id: 123, affiliate_id: 456) { 'http://www.mywebsite.com' }
+      Plink::CardLinkUrlGenerator.any_instance.stub(:create_url).with(referrer_id: 123, affiliate_id: 456) { 'http://www.mywebsite.example.com' }
 
       get :show
 
-      assigns(:card_link_url).should == 'http://www.mywebsite.com'
+      assigns(:card_link_url).should == 'http://www.mywebsite.example.com'
+    end
+
+    it 'assigns a @card_change_url' do
+      Plink::CardLinkUrlGenerator.any_instance.stub(:change_url) { 'http://www.mywebsite.example.com' }
+
+      get :show
+
+      assigns(:card_change_url).should == 'http://www.mywebsite.example.com'
     end
 
     it 'assigns an @bank_account' do
