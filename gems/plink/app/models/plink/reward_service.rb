@@ -7,7 +7,14 @@ module Plink
     private
 
     def create_rewards(reward_records)
-      reward_records.map { |reward_record| Reward.new(reward_record, reward_record.live_amounts) }
+      reward_records.map do |reward_record|
+        Reward.new(
+          {
+            name: reward_record.name,
+            description: reward_record.description,
+            logo_url: reward_record.logo_url
+          }, reward_record.live_amounts)
+      end
     end
   end
 end

@@ -53,10 +53,9 @@ describe 'Managing account' do
     click_link 'My Account'
 
     page.should have_link 'Link Card'
-    page.should have_content 'Card Linked?: true'
-    page.should have_content 'Your Bank'
+    page.should have_content 'YOUR BANK'
     page.should have_content 'Bank of representin'
-    page.should have_content 'Your Card'
+    page.should have_content 'YOUR CARD'
     page.should have_content 'representing checks 4321'
 
     page.should have_content 'You have 580 Plink Points.'

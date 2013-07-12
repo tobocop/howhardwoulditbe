@@ -1,10 +1,12 @@
 module Plink
   class Reward
 
-    attr_reader :name, :amounts
+    attr_reader :name, :amounts, :description, :logo_url
 
-    def initialize(reward_record, amount_records)
-      @name = reward_record.name
+    def initialize(attributes, amount_records)
+      @name = attributes.fetch(:name)
+      @description = attributes.fetch(:description)
+      @logo_url = attributes.fetch(:logo_url)
       @amounts = award_amounts(amount_records)
     end
 

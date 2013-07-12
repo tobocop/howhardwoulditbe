@@ -96,14 +96,13 @@ create_offer(advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_cur
 )
 
 p 'Creating Rewards'
-wolfmart_reward = create_reward(name: 'Wolfmart')
+wolfmart_reward = create_reward(name: 'Wolfmart', description: 'howl', logo_url: '/assets/test/amazon.png')
 
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 5)
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 10)
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 15)
 
-
-create_reward(name: 'Tango Card', award_code: 'tango-card', is_tango: true, amounts:
+create_reward(name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', logo_url: '/assets/test/amazon.png', is_tango: true, amounts:
   [
     new_reward_amount(dollar_award_amount: 5, is_active: true),
     new_reward_amount(dollar_award_amount: 10, is_active: true),

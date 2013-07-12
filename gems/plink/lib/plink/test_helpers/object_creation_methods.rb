@@ -168,7 +168,8 @@ module Plink
       defaults = {
         award_code: 'wolfmart-card',
         name: 'wolfmart',
-        is_tango: false
+        is_tango: false,
+        description: 'howl at the moon',
         logo_url: '/assets/test/amazon.png'
       }
 

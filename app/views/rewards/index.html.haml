@@ -4,17 +4,17 @@
 
   .rewards
     %h1 Choose Your Reward.
-    %h3.gray You're 280 Plink Points from your next reward.
+
     %br
     %br
 
     - @rewards.each do |reward|
       .reward.cf
         .img
-          %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"}
+          = image_tag reward.logo_url, alt: reward.name
         .description
           %h2.bold #{reward.name} Gift Card
-          %h4 Use your Amazon.com Gift Card* to shop from a huge selection of Books, Music, Electronics, Movies, Software, Apparel, Toys, and more.
+          %h4= reward.description
 
         - reward.amounts.reverse.each do |amount|
 
