@@ -13,9 +13,9 @@
 
     - if @user_has_account
       %p Your Bank: #{@bank_account.bank_name}
+      = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
 
       %p Your Card: #{@bank_account.account_name}
-      = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
 
     %p Email: #{current_user.email}
 
