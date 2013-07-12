@@ -89,31 +89,28 @@ describe 'user signs in' do
     page.current_path.should == '/rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
-      click_on '$5.00'
+      click_on '$5'
     end
 
     page.should have_content('You have 543 Plink Points.')
 
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
-      click_on '$5.00'
+      click_on '$5'
     end
 
     page.should have_content('You have 43 Plink Points.')
 
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_content 'wally mart'
-      click_on '$5.00'
+      page.should_not have_link '$5'
     end
-
-    page.should have_content('You do not have enough points to redeem.')
 
     click_on 'Wallet'
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
-
 
     within '.wallet', text: 'Select From These Offers' do
       page.should have_content 'Select From These Offers'
