@@ -18,6 +18,9 @@ time ./approve_gems.sh
 time bundle exec license_finder rescan -q
 STATUS=$?
 
+cd gems/admin && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
+STATUS=$((STATUS + $?))
+
 cd gems/gigya && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
