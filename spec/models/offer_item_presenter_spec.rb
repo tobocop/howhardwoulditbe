@@ -33,12 +33,10 @@ describe OfferItemPresenter do
 
   describe 'image_url' do
     it 'generates the image url' do
-      #todo use this: Plink::RemoteImagePath.url_for(offer.image_url)
+      offer.should_receive(:image_url)
+      Plink::RemoteImagePath.should_receive(:url_for)
 
-
-      Plink::Config.instance.stub(:image_base_url).and_return('/images/')
-      offer.stub(:image_url).and_return('burger_king.png')
-      presenter.image_url.should == '/images/burger_king.png'
+      presenter.image_url
     end
 
   end

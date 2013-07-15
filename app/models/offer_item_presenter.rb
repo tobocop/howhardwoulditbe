@@ -26,7 +26,7 @@ class OfferItemPresenter
   end
 
   def image_url
-    Plink::Config.instance.image_base_url + offer.image_url.to_s
+    Plink::RemoteImagePath.url_for(offer.image_url)
   end
 
   def image_description
