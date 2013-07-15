@@ -4,27 +4,18 @@
 .account{
   
   h1 {
-  	font-size: 2em;
+  	font-size: 2.9em;
   	font-weight:900;
     margin-bottom:5px;
 
   	&.cyan {
   	  color: $cyan;
   	}
-
-  	&.slate {
-  	  color:$slate;
-  	}
-
-  	&.numbers{
-  	  font-weight:600;
-  	  line-height:1.2em;
-  	}
   }
 
   h2 {
   	font-size: 1.4em;
-  	font-weight:400;
+  	font-weight:300;
   	line-height:1.1em;
 
   	&.cyan {
@@ -35,7 +26,7 @@
   	&.white {
   		color:#FFFFFF;
   		letter-spacing:2px;
-  		font-weight:400;
+  		font-weight:300;
   	}
 
   	&.bold {
@@ -49,7 +40,7 @@
   	letter-spacing: 1px;
 
   	&.bold {
-  		font-weight:400;
+  		font-weight:300;
   	}
 
   	&.green {
@@ -74,7 +65,7 @@
   h4 {
   	color:#808080;
     font-size:.8em;
-    font-weight:200;
+    font-weight:100;
     letter-spacing: 1px;
     margin:0px 0px 10px 0px;
     text-transform: uppercase;

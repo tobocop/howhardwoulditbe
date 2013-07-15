@@ -11,7 +11,7 @@ $state-range:10%;
   width:100%;
 
   &.primary-action-large {
-    border: 1px solid #e6ea9a;
+    border: 1px solid $chart;
     padding: 0 20px;
     height: 45px;
     text-align: center;
@@ -38,7 +38,7 @@ $state-range:10%;
   }
 
   &.primary-action {
-    border: 1px solid #e6ea9a;
+    border: 1px solid $chart;
     padding: 0 0;
     height: 34px;
     text-align: center;
@@ -89,7 +89,7 @@ $state-range:10%;
       }
 
       &.active, &:active{
-        background: #00c6ef;
+        background: #00aeef;
       }
     }
 
@@ -287,6 +287,33 @@ $state-range:10%;
 
     &.active, &:active{
       background: #f0f2f4;
+    }
+
+    &.disabled, &:disabled{
+      background: $disabled;
+    }
+  }
+
+  &.secondary-action {
+    /*border: 1px solid $lightgray;*/
+    padding: 0 0;
+    height: 34px;
+    text-align: center;
+    line-height: 32px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1em;
+    letter-spacing: 1.5px;
+    color:$slate;
+    @include vertical-bg-gradient(#e6e6e6, #cccccc);
+    @include round-corners(5px);
+
+    &.hover, &:hover{
+      background: #e6e6e6;
+    }
+
+    &.active, &:active{
+      background: #cccccc;
     }
 
     &.disabled, &:disabled{

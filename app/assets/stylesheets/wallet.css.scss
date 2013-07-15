@@ -26,7 +26,8 @@
 
   h2 {
     font-size: 1.4em;
-    font-weight:400;
+    font-weight:100;
+    letter-spacing: 1px;
     line-height:1.1em;
 
     &.cyan {
@@ -37,7 +38,7 @@
     &.white {
       color:#FFFFFF;
       letter-spacing:2px;
-      font-weight:400;
+      font-weight:300;
     }
 
     &.slate {

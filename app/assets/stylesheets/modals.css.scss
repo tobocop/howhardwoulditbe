@@ -2,7 +2,7 @@
 @import "mixins.css.scss";
 
 .modal {
-  position: fixed; /* this must be set to relative for the close-btn to be positioned absolutely */
+  position: fixed; 
   display: inline-block;
   border: 20px solid rgb(0, 0, 0);
   border: 20px solid rgba(0, 0, 0, .7);
@@ -68,6 +68,110 @@
       margin-bottom: 7px;
     }
   }
+
+  .account-modal {
+    min-width:370px;
+
+    h1{
+      font-size:1.1em;
+      font-weight:500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size:.9em;
+      font-weight:300;
+      margin-bottom:5px;
+    }
+
+    .bg{
+      width: 100%;
+      display: inline-block;
+      background-color: #f2f2f2;
+      padding: 15px;
+      margin: 15px 0px;
+      text-align: left;
+      @include round-corners(8px);
+    }
+
+    .field{
+      margin:25px 0 0 0;
+
+      &.first {
+        margin:0;
+      }
+    }
+
+  }
+
+  .reward-modal {
+
+    a{
+      color:$lightgray;
+      font-size: .8em;
+      font-weight:300;
+      text-align: left;
+      text-transform: uppercase;
+
+      &.hover, &:hover{
+        color: $slate;
+        text-decoration: underline;
+      }
+
+      &.active, &:active{
+        color: #aaaaaa;
+        text-decoration: underline;
+      }
+    }
+    
+    h1{
+      color:$cyan;
+      font-size:1.3em;
+      font-weight:700;
+      letter-spacing: 1px;
+      line-height:1.5em;
+    }
+
+    h2 {
+      font-size:1em;
+      font-weight:300;
+      line-height: 1.2em;
+    }
+
+    .img{
+      float:left;
+      margin-left:0px;
+    }
+
+    .text{
+      display:inline-block;
+      margin:0 10px;
+      text-align: left;
+      vertical-align: top;
+      width:290px;
+    }
+
+    .btn-wrapper {
+      display:inline-block;
+      margin:11px 0 0 0;
+      
+      .btn {
+        display:inline-block;
+        margin:0px;
+        width:145px;
+
+        &.first {
+          margin-right:5px;
+        }
+      }
+    }
+
+    .terms {
+      margin: 6px 0 0 0;
+      text-align: left;
+    }
+  }
 }
 
 .cf-modal{
@@ -79,3 +183,4 @@
   width:750px;
   margin-left:-375px;
 }
+

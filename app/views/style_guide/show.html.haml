@@ -275,6 +275,43 @@
             %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer.    
           %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing. 
 
+
+      %h3 Change Password
+      .modal  
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+        .account-modal
+          %h1 Change Your Password  
+          .bg
+            .field.first
+              %h2 Enter your current password:
+              %input.form-field.input{:value => 'Current Password'}
+            .field  
+              %h2 Enter your new password:
+              %input.form-field.input{:value => 'New Password'}
+            .field  
+              %h2 Confirm your new password:
+              %input.form-field.input{:value => 'Confirm New Password'}
+          %button.button.primary-action.narrow Change Your Password   
+
+      %h3 Reward Confirmation
+      .modal  
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }  
+        .reward-modal
+          .img
+            %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"} 
+          .text 
+            %h1 $5 Amazon.com Gift Card
+            %h2 You're about to redeem 500 Plink Points for a $5 Amazon.com Gift Card.
+          %br  
+          .btn-wrapper
+            .btn.first
+              %button.button.secondary-action CANCEL 
+            .btn  
+              %button.button.primary-action CONFIRM
+          .terms 
+            %a Terms & Conditions   
+
+
   %section
     %h2 Wallet
 
@@ -460,7 +497,7 @@
             .date
               %h3 12/29
             .description
-              %h3 $99.99 at Brand
+              %h3.bold $99.99 at Brand
             .amount
               %h3.cyan.bold 500 Plink points
             .icon
@@ -470,7 +507,7 @@
             .date
               %h3 12/20
             .description
-              %h3 $25 Redemption orem ipsum dolar sit ament
+              %h3.bold $25 Redemption orem ipsum dolar sit ament
             .amount
               %h3.chart.bold -90000 Plink points
             .icon
@@ -480,7 +517,7 @@
             .date
               %h3 12/11
             .description
-              %h3 Bonus lorem ipsum dolar sit ament
+              %h3.bold Bonus lorem ipsum dolar sit ament
             .amount
               %h3.cyan.bold 20 Plink points
             .icon
@@ -490,7 +527,7 @@
             .date
               %h3 12/2
             .description
-              %h3 Adjustment ipsum dolar sit ament
+              %h3.bold Adjustment ipsum dolar sit ament
             .amount
               %h3.cyan.bold 100 Plink points 
             .icon
@@ -500,7 +537,7 @@
             .date
               %h3 11/23
             .description
-              %h3 Adjustment down lorem ipsum dolar 
+              %h3.bold Adjustment down lorem ipsum dolar 
             .amount
               %h3.pink.bold -1000 Plink points
             .icon
@@ -512,170 +549,13 @@
     %section
       = render partial: 'style_guide/redemptions/redemptions'
 
+    %section
+      %h2 Reward Confirmation
+      %br
+    
+      = render partial: 'style_guide/redemptions/confirm'  
+
   %section
+    %h2 Home
 
-    %header.header.layout-wrapper
-      .layout-inner
-        %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
-        .header-button
-          = link_to 'Join', '#', class:'link button nav join'
-        .header-button
-          = link_to 'Sign In', '#', class:'link button nav sign-in'
-        .header-button-social.last
-          %img{ :src => "/assets/icon_twitter.png", :alt => "Follow Plink on Twitter"}
-        .header-button-social
-          %img{ :src => "/assets/icon_fb.png", :alt => "Like Plink on Facebook"}
-        .header-button-social
-          %span.header-text Let's be friends.
-
-    .home
-      .feature
-        %h1 Be a smarter shopper.
-        %h2.light
-          Join Plink and start earning rewards at
-          %br
-          over 70,000 locations nationwide.
-        .join-btn
-          %button.button.primary-action-large Join Plink for FREE!
-
-      .how
-        %h2.thin How Plink Works
-        .icon-wrapper
-          .icon
-            %img{ :src => "/assets/home_how1.png"}
-            %h4
-              Link your credit or
-              %br
-              debit card
-          .icon
-            %img{ :src => "/assets/home_how2.png"}
-            %h4
-              Earn Plink Points when
-              %br
-              you make purchases at
-              %br
-              our partner locations
-          .icon
-            %img{ :src => "/assets/home_how3.png"}
-            %h4
-              Redeem points for
-              %br
-              cash and gift cards
-        .video-btn
-          %button.button.home-video Watch a short video for more info
-
-      .partners
-        %h2.light.cyan Our Partners
-        %h3 Earn Plink points when you make a purchase at any of our partner locations.
-        .brand-wrapper
-          .brand
-            %img{ :src => "/assets/wallet-logos/dunkindonuts.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/dollargeneral.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/oldnavy.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/7eleven.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/tacobell.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/burgerking.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/footlocker.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/gap.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/kmart.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/sears.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/regal.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/outback.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/redrobin.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/arbys.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/1800flowers.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/quiznos.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/burgerking.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/tacobell.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/kmart.png"}
-          .brand
-            %img{ :src => "/assets/wallet-logos/dunkindonuts.png"}
-        .partners-btn
-          %button.button.home-partners Check out all of our partners
-
-      .security
-        %h2.thin Safety first.
-        .text
-          %h3 Plink uses the same 256-bit encryption and physical security that banks use. We are a Better Business Bureau Accredited business and our practices are monitored and verified by TRUSTe and VeriSign.
-        .logos
-          .logo
-            %img{ :src => "/assets/home_security_truste.png"}
-          .logo
-            %img{ :src => "/assets/home_security_norton.png"}
-          .logo
-            %img{ :src => "/assets/home_security_bbb.png"}
-          .logo
-            %img{ :src => "/assets/home_security_intuit.png"}
-        .join-btn.bottom
-          %button.button.primary-action-large Join Plink for FREE!
-
-      .press
-        .logo-wrapper
-          .logo
-            %h3 As seen in:
-          .logo  
-            %img{ :src => "assets/home_press_washpo.jpg"}
-          .logo  
-            %img{ :src => "assets/home_press_forbes.jpg"}
-          .logo
-            %img{ :src => "assets/home_press_tc.jpg"}
-          .logo  
-            %img{ :src => "assets/home_press_bloomberg.jpg"}
-          .logo  
-            %img{ :src => "assets/home_press_gigaom.jpg"}
-
-    %footer.footer
-      %hr
-      .col-wrapper
-        .col
-          %h1 Plink
-          %a Careers
-          %br
-          %a Advertisers
-          %br
-          %a Press
-        .col
-          %h1 About
-          %a About Us
-          %br
-          %a Privacy Policy
-          %br
-          %a Terms of Service
-        .col
-          %h1 Connect
-          %a Facebook
-          %br
-          %a Twitter
-          %br
-          %a Contact Us
-        .col.last
-          %h1 Help
-          %a support@plink.com
-          %br
-          %a FAQ
-      .col-wrapper
-        .col.legal
-          %h3 *The merchants represented are not sponsors of the Plink program or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. Please visit each company's website for additional terms and conditions.
-          %br
-          %h3 Copyright © 2013 Plink, Inc. All Rights Reserved. Patent Pending. 
-        .col.legal.last
-          %h3 *Amazon.com is not a sponsor of this promotion. Except as required by law, Amazon.com Gift Cards ("GCs") cannot be transferred for value or redeemed for cash. GCs may be used only for purchases of eligible goods on Amazon.com or certain of its affiliated websites. For complete terms and conditions, see www.amazon.com/gc-legal. GCs are issued by ACI Gift Cards, Inc., a Washington corporation. ©,®,™ Amazon.com Inc. and/or its affiliates, 2012. No expiration date or service fees.           
-          
+    = render partial: 'style_guide/home/home'

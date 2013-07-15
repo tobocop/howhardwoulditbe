@@ -29,16 +29,15 @@
 
     &.h2 {
       color:$lightgray;
-      font-weight:400;
+      font-weight:300;
       font-size:1.0em;
       letter-spacing:1px;
     }
 
     &.h3 {
       color:$cyan;
-      /*font-family:'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-      font-size:1.0em;
-      font-weight:700;
+      font-size:1.2em;
+      font-weight:500;
       letter-spacing:1px;
       line-height:1.6em;
       margin-bottom:8px;
