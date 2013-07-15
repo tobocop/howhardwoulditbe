@@ -45,7 +45,7 @@ describe Plink::PopulatedWalletItemRecord do
       subject.offers_virtual_currency_id = 123
       subject.save!
 
-      subject.unassign_offer
+      subject.unassign_offer.should
       subject.offers_virtual_currency_id.should be_nil
       subject.should_not be_changed
     end

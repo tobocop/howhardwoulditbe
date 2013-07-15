@@ -103,7 +103,7 @@ describe WalletOffersController do
 
       service = stub
       Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: removed_offer_record) { service }
-      service.should_receive(:remove_offer)
+      service.should_receive(:remove_offer).and_return(true)
 
       OfferItemPresenter.should_receive(:new).with(removed_offer, virtual_currency: virtual_currency, view_context: anything, linked: false, signed_in: true)
 

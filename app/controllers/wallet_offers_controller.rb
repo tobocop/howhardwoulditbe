@@ -17,8 +17,12 @@ class WalletOffersController < ApplicationController
 
   def destroy
     offer = Plink::OfferRecord.find(params[:id])
-    Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer).remove_offer
-    render json: {wallet: presented_wallet_items, removed_wallet_item: removed_wallet_item(offer)}
+    removal_service = Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer)
+    if removal_service.remove_offer
+      render json: {wallet: presented_wallet_items, removed_wallet_item: removed_wallet_item(offer)}
+    else
+      render nothing: true, status: :internal_server_error
+    end
   end
 
   private
