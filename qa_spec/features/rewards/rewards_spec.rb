@@ -22,22 +22,21 @@ describe 'Rewards page', js: true do
 
   subject { page }
 
-  it { should have_text('Redeem Plink Points for these rewards') }
+  it { should have_text('CHOOSE YOUR REWARD') }
 
   it 'should show a list of all available rewards' do
     page.should have_text('Walmart Gift Card')
-    page.should have_text('$5.00')
+    page.should have_text('$5')
   end
 
   it 'should show all denominations that a user can qualify for' do
     sleep 5
-    page.should have_link('$5.00')
+    page.should have_link('$5')
+    page.should have_text('$10')
   end
 
   it 'should not present awards to a user who cannot afford it' do
-    pending 'Waiting on implementation' do
-      page.should_not have_link('$10.00')
-    end
+      page.should_not have_link('$10')
   end
 
   context 'when the user has linked card' do
@@ -45,17 +44,12 @@ describe 'Rewards page', js: true do
       link_card_for_user(user.id)
     end
 
-    it 'should reject a user who does not have enough points to redeem' do
-      click_on '$10.00'
-      page.should have_text('You do not have enough points to redeem.')
-    end
-
     it 'should decrement a users point total when they redeem', js: true do
       within '.header' do
         page.should have_text('You have 600 Plink Points.')
       end
 
-      click_on '$5.00'
+      click_on '$5'
 
       within '.header' do
         page.should have_text('You have 100 Plink Points.')
@@ -65,7 +59,7 @@ describe 'Rewards page', js: true do
 
   context 'when the user does not have a linked card' do
     it 'should reject a user who does not have a card added', js: true do
-      click_on '$5.00'
+      click_on '$5'
       page.should have_text('You must have a linked card to redeem an award.')
     end
   end

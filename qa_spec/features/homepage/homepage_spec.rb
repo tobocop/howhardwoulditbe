@@ -17,7 +17,7 @@ describe 'Logged out Home page', js: true do
 
   it 'should allow a guest to view all rewards' do
     click_on 'view rewards'
-    page.should have_text('Redeem Plink Points for these rewards')
+    page.should have_text('CHOOSE YOUR REWARD.')
   end
 
   it 'should allow a guest to send an email via the Contact Us form' do
