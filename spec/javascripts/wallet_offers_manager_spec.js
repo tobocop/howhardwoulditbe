@@ -64,7 +64,7 @@ describe('Plink.walletOffersManager', function () {
       expect($('#wallet_items_bucket').find('.populated-wallet-item').length).toEqual(1);
     });
 
-    it("prepends the removed item to the offers bucked", function () {
+    it("prepends the removed item to the offers bucket", function () {
       $('#wallet_items_bucket').append('<a href="#bla" data-remove-from-wallet=true>remove</a>');
       $('#wallet_items_management').walletOffersManager();
       expect($('#offers_bucket').find('.offer').length).toEqual(1);
