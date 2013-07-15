@@ -22,5 +22,9 @@ describe 'Logged out Home page', js: true do
 
   it 'should allow a guest to send an email via the Contact Us form' do
     click_on 'Contact Us'
+    page.should have_text('Contact Us')
+  end
+
+  it 'should allow the user to like Plink on Facebook and Tweet about Plink' do
   end
 end
