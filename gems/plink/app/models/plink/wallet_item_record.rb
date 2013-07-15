@@ -14,6 +14,7 @@ module Plink
     attr_accessible :wallet_id, :wallet_slot_id, :wallet_slot_type_id, :offers_virtual_currency_id
 
     validates :wallet_id, :wallet_slot_id, :wallet_slot_type_id, presence: true
+    validates_uniqueness_of :offersVirtualCurrencyID, scope: :walletID, unless: -> { offersVirtualCurrencyID.nil? }
 
     def convert_to(klass_name)
       self.type = klass_name

@@ -43,4 +43,17 @@ describe Plink::WalletItemRecord do
   it 'defaults open? to false' do
     subject.open?.should be_false
   end
+
+  it 'validates the uniqueness of offers within a wallet' do
+    wallet = create_wallet
+    create_populated_wallet_item(offers_virtual_currency_id: 1, wallet_id: wallet.id)
+    create_open_wallet_item(offers_virtual_currency_id: nil, wallet_id: wallet.id)
+    create_open_wallet_item(offers_virtual_currency_id: nil, wallet_id: wallet.id)
+    create_populated_wallet_item(offers_virtual_currency_id: 1, wallet_id: create_wallet.id)
+    invalid_record = new_populated_wallet_item(offers_virtual_currency_id: 1, wallet_id: wallet.id)
+
+    Plink::WalletItemRecord.count.should == 4
+    invalid_record.valid?.should be_false
+    invalid_record.errors.full_messages.should == ['Offersvirtualcurrencyid has already been taken']
+  end
 end
