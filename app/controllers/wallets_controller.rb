@@ -16,8 +16,4 @@ class WalletsController < ApplicationController
   def plink_offer_service
     Plink::OfferService.new
   end
-
-  def plink_intuit_account_service
-    Plink::IntuitAccountService.new
-  end
 end

@@ -85,38 +85,27 @@ describe WalletOffersController do
       controller.stub(:current_virtual_currency) { virtual_currency }
     end
 
-    it 'deletes the offer from the user wallet' do
-      user = stub
-      controller.stub(:current_user) { user }
-
-      offer = stub
-      Plink::OfferRecord.stub(:find).with(offer_id) { offer }
-
-      service = stub
-      Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: offer) { service }
-
-      service.should_receive(:remove_offer)
-
-      delete :destroy, id: offer_id
-    end
-
     it 'returns a JSON representation of the refreshed wallet and the item that was removed' do
-      user = stub(wallet: stub(id: 3))
+      user = stub(:user, id: 3, logged_in?: true, wallet: stub(:wallet, id: 3))
       controller.stub(:current_user) { user }
 
+      remaining_offer = stub(:wallet_item_offer, image_url: 'something.jpg', name: 'Amazon', max_dollar_award_amount: 25, id: 7)
+      removed_offer_record = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', max_dollar_award_amount: 30, id: 8)
+      Plink::OfferRecord.stub(:find).with(offer_id) { removed_offer_record }
+      removed_offer = stub(:removed_offer)
+      Plink::Offer.stub(:new).and_return(removed_offer)
 
       wallet_items_service = stub
       wallet_item = Plink::WalletItem.new(new_populated_wallet_item)
-      wallet_item.stub(:offer) { stub(:wallet_item_offer, image_url: 'something.jpg', name: 'Amazon', max_dollar_award_amount: 25, id: 7) }
+      wallet_item.stub(:offer) { remaining_offer }
       wallet_items_service.should_receive(:get_for_wallet_id).with(3) { [wallet_item] }
       Plink::WalletItemService.should_receive(:new) { wallet_items_service }
 
-      offer = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', max_dollar_award_amount: 30, id: 8)
-      Plink::OfferRecord.stub(:find).with(offer_id) { offer }
-
       service = stub
-      Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: offer) { service }
-      service.stub(:remove_offer)
+      Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: removed_offer_record) { service }
+      service.should_receive(:remove_offer)
+
+      OfferItemPresenter.should_receive(:new).with(removed_offer, virtual_currency: virtual_currency, view_context: anything, linked: false, signed_in: true)
 
       delete :destroy, id: offer_id
 
@@ -129,14 +118,6 @@ describe WalletOffersController do
         'wallet_offer_url' => 'http://test.host/wallet/offers/7'
       ]
 
-      #JSON.parse(response.body)['removed_wallet_item'].should == {
-      #  'template_name' => 'populated_wallet_item',
-      #  'icon_url' => '/booyah.jpg',
-      #  'icon_description' => 'Best Buy',
-      #  'currency_name' => 'Bit Bucks',
-      #  'max_currency_award_amount' => 24,
-      #  'wallet_offer_url' => 'http://test.host/wallet/offers/8'
-      #}
     end
 
     it 'redirects the user if they are not logged in' do

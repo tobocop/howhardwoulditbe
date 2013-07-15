@@ -11,6 +11,10 @@ module WalletExtensions
     Plink::WalletItemService.new
   end
 
+  def plink_intuit_account_service
+    Plink::IntuitAccountService.new
+  end
+
   def presented_wallet_items
     wallet_items.map do |item|
       WalletItemPresenter.get(item, virtual_currency: current_virtual_currency, view_context: view_context)

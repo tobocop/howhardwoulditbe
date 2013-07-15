@@ -1,10 +1,12 @@
 class OfferItemPresenter
-  attr_reader :offer, :virtual_currency, :view_context
+  attr_reader :offer, :virtual_currency, :view_context, :linked, :signed_in
 
   def initialize(offer, options={})
     @offer = offer
     @virtual_currency = options.fetch(:virtual_currency)
     @view_context = options.fetch(:view_context)
+    @linked = options.fetch(:linked)
+    @signed_in = options.fetch(:signed_in)
   end
 
   def id
@@ -45,7 +47,7 @@ class OfferItemPresenter
     end
   end
 
-  def call_to_action_link(linked, signed_in)
+  def call_to_action_link
     if linked
       view_context.link_to('Add To My Wallet',
                            view_context.wallet_offers_path(offer_id: offer.id),
@@ -64,5 +66,21 @@ class OfferItemPresenter
 
   def description
     Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, virtual_currency)
+  end
+
+  def as_json(options={})
+    {
+      id: id,
+      name: name,
+      dom_id: dom_id,
+      modal_dom_id: modal_dom_id,
+      image_url: image_url,
+      image_description: image_description,
+      max_award_amount: max_award_amount,
+      currency_name: currency_name,
+      description: description,
+      tier_descriptions: [],
+      call_to_action_link: call_to_action_link
+    }
   end
 end

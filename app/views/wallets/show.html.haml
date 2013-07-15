@@ -8,6 +8,8 @@
     = render partial: 'wallets/open_wallet_item', locals: { wallet_item: WalletItemPresenter::OpenWalletItemJsPresenter.new }
   %script#locked_wallet_item_template{type: 'text/x-handlebars-template' }
     = render partial: 'wallets/locked_wallet_item', locals: { wallet_item: WalletItemPresenter::LockedWalletItemJsPresenter.new }
+  %script#offer_item_template{type: 'text/x-handlebars-template' }
+    = render partial: 'shared/offer_item', locals: {presenter: OfferItemJsPresenter.new(virtual_currency: current_virtual_currency), button_label: 'Add to wallet'}
 
   .left-column
     %h1 My Wallet

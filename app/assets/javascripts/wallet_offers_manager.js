@@ -28,8 +28,6 @@
       e.preventDefault();
       var $target = $(e.currentTarget);
 
-      console.log('remove clicked');
-
       base._removeItemFromWallet($target);
     };
 
@@ -53,6 +51,7 @@
         method: httpMethod
       }).done(function (data) {
         base.walletItemsBucket.updateWalletItems(data.wallet);
+        base.offersBucket.add(data.removed_wallet_item);
       });
     };
 
@@ -76,8 +75,16 @@
 
     base.$el = $(el);
 
+    base.offerItemTemplate = Handlebars.compile($('#offer_item_template').html());
+
     base.init = function () {
 
+    };
+
+    base.add = function(offerData) {
+      if (offerData) {
+        base.$el.prepend(base.offerItemTemplate(offerData));
+      }
     };
 
     base.remove = function (offer) {

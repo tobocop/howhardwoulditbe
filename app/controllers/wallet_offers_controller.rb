@@ -18,6 +18,15 @@ class WalletOffersController < ApplicationController
   def destroy
     offer = Plink::OfferRecord.find(params[:id])
     Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer).remove_offer
-    render json: {wallet: presented_wallet_items, removed_wallet_item: {}}
+    render json: {wallet: presented_wallet_items, removed_wallet_item: removed_wallet_item(offer)}
   end
+
+  private
+
+  def removed_wallet_item(offer_record)
+    user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
+    offer = Plink::Offer.new(offer_record, current_virtual_currency.id)
+    OfferItemPresenter.new(offer, virtual_currency: current_virtual_currency, view_context: self.view_context, linked: user_has_account, signed_in: current_user.logged_in?)
+  end
+
 end

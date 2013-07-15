@@ -1,5 +1,5 @@
 - @offers.each do |offer|
-  = render :partial => 'shared/offer_item', locals: {presenter: OfferItemPresenter.new(offer, virtual_currency: current_virtual_currency, view_context: self), button_label: button_label}
+  = render :partial => 'shared/offer_item', locals: {presenter: OfferItemPresenter.new(offer, virtual_currency: current_virtual_currency, view_context: self, linked: @user_has_account, signed_in: current_user.logged_in?), button_label: button_label}
 
 
 
