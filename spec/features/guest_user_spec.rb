@@ -2,91 +2,49 @@ require 'spec_helper'
 
 describe 'guest behavior' do
 
-  describe 'viewing offers and rewards' do
 
-    before do
-      currency = create_virtual_currency(name: 'Plink Points', subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
+  before do
+    currency = create_virtual_currency(name: 'Plink Points', subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
 
-      advertiser = create_advertiser(advertiser_name: 'Old Nervy', logo_url: '/assets/test/oldnavy.png')
+    advertiser = create_advertiser(advertiser_name: 'Old Nervy', logo_url: '/assets/test/oldnavy.png')
 
-      create_offer(
-          advertiser_id: advertiser.id,
-          detail_text: 'great deal',
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: currency.id,
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 0.43
-                      ),
-                      new_tier(
-                          dollar_award_amount: 1.43
-                      )
-                  ]
-              )
+    create_offer(
+      advertiser_id: advertiser.id,
+      detail_text: 'great deal',
+      offers_virtual_currencies: [
+        new_offers_virtual_currency(
+          virtual_currency_id: currency.id,
+          tiers: [
+            new_tier(
+              dollar_award_amount: 0.43
+            ),
+            new_tier(
+              dollar_award_amount: 1.43
+            )
           ]
-      )
+        )
+      ]
+    )
 
-      create_reward(name: 'Walmart Gift Card', amounts:
-          [
-              new_reward_amount(dollar_award_amount: 5, is_active: true),
-              new_reward_amount(dollar_award_amount: 10, is_active: true),
-              new_reward_amount(dollar_award_amount: 15, is_active: false)
-          ]
-      )
+    create_reward(name: 'Walmart Gift Card', amounts:
+      [
+        new_reward_amount(dollar_award_amount: 5, is_active: true),
+        new_reward_amount(dollar_award_amount: 10, is_active: true),
+        new_reward_amount(dollar_award_amount: 15, is_active: false)
+      ]
+    )
 
-      create_reward(name: 'Should Not Exist Gift Card', is_active: false, amounts:
-          [
-              new_reward_amount(dollar_award_amount: 5, is_active: true)
-          ]
-      )
-    end
-
-    it 'allows a user to see them and sign up from the details modal', js: true do
-      visit '/'
-
-      click_on 'view offers'
-
-      page.should have_content 'Earn Plink Points at these locations.'
-      page.should have_css('img[src="/assets/test/oldnavy.png"]')
-      page.should have_content '143 Plink Points'
-
-      visit '/rewards'
-
-      page.should have_content 'Walmart Gift Card'
-      page.should have_content '$5'
-      page.should have_content '$10'
-      page.should_not have_content '$15'
-
-      page.should_not have_content 'Should Not Exist Gift Card'
-
-      visit '/offers'
-
-      within '.offer' do
-        click_button 'Details'
-      end
-
-      click_on 'Join Plink Today'
-
-      page.current_path.should == '/'
-
-      within '.sign-in-modal' do
-        fill_in 'First Name', with: 'Frud'
-        fill_in 'Email', with: 'furd@example.com'
-        fill_in 'Password', with: 'pass1word'
-        fill_in 'Verify Password', with: 'pass1word'
-
-        click_on 'Start Earning Rewards'
-      end
-
-      page.should have_content 'Welcome, Frud!'
-      page.current_path.should == '/dashboard'
-    end
+    create_reward(name: 'Should Not Exist Gift Card', is_active: false, amounts:
+      [
+        new_reward_amount(dollar_award_amount: 5, is_active: true)
+      ]
+    )
   end
 
-  it 'can submit a contact us form', js: true do
-
+  it 'user workflow when logged out', js: true do
     visit '/'
+
+    page.should have_css '[gigid="showShareBarUI"]'
 
     click_on 'Contact Us'
 
@@ -117,5 +75,42 @@ describe 'guest behavior' do
 
     contact_email = ActionMailer::Base.deliveries.first
     contact_email.subject.should == 'Contact Form: [Advertising and Business Development]'
+
+    visit '/offers'
+
+    page.should have_content 'Earn Plink Points at these locations.'
+    page.should have_css('img[src="/assets/test/oldnavy.png"]')
+    page.should have_content '143 Plink Points'
+
+    visit '/rewards'
+
+    page.should have_content 'Walmart Gift Card'
+    page.should have_content '$5'
+    page.should have_content '$10'
+    page.should_not have_content '$15'
+
+    page.should_not have_content 'Should Not Exist Gift Card'
+
+    visit '/offers'
+
+    within '.offer' do
+      click_button 'Details'
+    end
+
+    click_on 'Join Plink Today'
+
+    page.current_path.should == '/'
+
+    within '.sign-in-modal' do
+      fill_in 'First Name', with: 'Frud'
+      fill_in 'Email', with: 'furd@example.com'
+      fill_in 'Password', with: 'pass1word'
+      fill_in 'Verify Password', with: 'pass1word'
+
+      click_on 'Start Earning Rewards'
+    end
+
+    page.should have_content 'Welcome, Frud!'
+    page.current_path.should == '/dashboard'
   end
 end

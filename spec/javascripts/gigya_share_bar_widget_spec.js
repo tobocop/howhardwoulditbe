@@ -17,7 +17,13 @@ describe('Plink.GigyaShareBarWidget', function () {
 
       expect(window.gigya.socialize.showShareBarUI).toHaveBeenCalledWith({
         userAction: 'action',
-        shareButtons: 'facebook-like,twitter-tweet',
+        shareButtons: [
+          {
+            provider: 'facebook-like',
+            url: 'https://www.facebook.com/plinkdotcom',
+            action: 'like'
+          }
+        ],
         containerID: 'share-bar-widget',
         cid: ''
       });
