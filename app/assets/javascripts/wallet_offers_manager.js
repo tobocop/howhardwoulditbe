@@ -14,6 +14,7 @@
 
     base.bindEvents = function () {
       base.$el.on('click', '[data-add-to-wallet]', base._handleWalletAddClick);
+      base.$el.on('click', '[data-remove-from-wallet]', base._handleWalletRemoveClick);
     };
 
     base._handleWalletAddClick = function (e) {
@@ -23,14 +24,36 @@
       base._addItemToWallet($target);
     };
 
+    base._handleWalletRemoveClick = function (e) {
+      e.preventDefault();
+      var $target = $(e.currentTarget);
+
+      console.log('remove clicked');
+
+      base._removeItemFromWallet($target);
+    };
+
     base._addItemToWallet = function ($el) {
       // add stuff to the wallet
       var url = $el.attr('href');
-      base.walletItemsBucket.refreshOffers(url);
+      base.sync(url, 'post');
 
       // removal from offers bucket
       var offer = base.offersBucket.findOffer($el.data('offer-dom-selector'));
       base.offersBucket.remove(offer);
+    };
+
+    base._removeItemFromWallet = function ($el) {
+      var url = $el.attr('href');
+      base.sync(url, 'delete');
+    };
+
+    base.sync = function (url, httpMethod) {
+      $.ajax(url, {
+        method: httpMethod
+      }).done(function (data) {
+        base.walletItemsBucket.updateWalletItems(data.wallet);
+      });
     };
 
     base.init();
@@ -82,15 +105,9 @@
 
     };
 
-    base.refreshOffers = function (url) {
-      $.ajax(url, {
-        method: 'post'
-      }).done(base.updateWalletItems);
-    };
-
     base.updateWalletItems = function (walletItems) {
       var walletItemsHTML = '';
-      $(walletItems.wallet).each(function (i, walletItem) {
+      $(walletItems).each(function (i, walletItem) {
         if (walletItem.template_name == 'populated_wallet_item') {
           walletItemsHTML += base.populatedWalletItemTemplate(walletItem);
         } else if (walletItem.template_name == 'locked_wallet_item') {

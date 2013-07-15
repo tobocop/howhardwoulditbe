@@ -18,6 +18,6 @@ class WalletOffersController < ApplicationController
   def destroy
     offer = Plink::OfferRecord.find(params[:id])
     Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer).remove_offer
-    redirect_to wallet_path
+    render json: {wallet: presented_wallet_items, removed_wallet_item: {}}
   end
 end

@@ -6,4 +6,4 @@
       %h3 up to
       %h1.numbers= wallet_item.max_currency_award_amount
       %h3= wallet_item.currency_name
-      = button_to 'Remove', wallet_item.wallet_offer_url, class: 'button wallet-remove', method: :delete
+      = link_to 'Remove', wallet_item.wallet_offer_url, class: 'button wallet-remove', data: {remove_from_wallet: true}
