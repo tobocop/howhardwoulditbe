@@ -79,7 +79,7 @@ class OfferItemPresenter
       max_award_amount: max_award_amount,
       currency_name: currency_name,
       description: description,
-      tier_descriptions: [],
+      tier_descriptions: tier_descriptions,
       call_to_action_link: call_to_action_link
     }
   end

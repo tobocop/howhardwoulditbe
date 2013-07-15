@@ -14,8 +14,15 @@
     %p.font.modal-text.h3.bold #{presenter.name} Offers
 
     .tiers
-      - presenter.tier_descriptions.each do |description|
-        %p.font.modal-text.h3= description
+      - if presenter.respond_to?(:javascript?)
+        :plain
+          {{#each tier_descriptions}}
+            <p class='font modal-text h3'>{{this}}</p>
+          {{/each}}
+      - else
+        - presenter.tier_descriptions.each do |description|
+          %p.font.modal-text.h3= description
+
 
   = presenter.call_to_action_link
 

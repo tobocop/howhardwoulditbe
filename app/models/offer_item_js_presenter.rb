@@ -5,6 +5,10 @@ class OfferItemJsPresenter
     @virtual_currency = options.fetch(:virtual_currency)
   end
 
+  def javascript?
+    true
+  end
+
   def id
     '{{id}}'
   end
@@ -35,10 +39,6 @@ class OfferItemJsPresenter
 
   def currency_name
     "{{currency_name}}"
-  end
-
-  def tier_descriptions
-    []
   end
 
   def call_to_action_link

@@ -5,6 +5,12 @@ describe OfferItemJsPresenter do
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:presenter) { OfferItemJsPresenter.new(virtual_currency: virtual_currency) }
 
+  describe 'javascript?' do
+    it 'tells the public it is for javascript templates' do
+      presenter.javascript?.should be_true
+    end
+  end
+
   describe 'name' do
     it 'returns the name placeholder' do
       presenter.name.should == '{{name}}'
@@ -50,12 +56,6 @@ describe OfferItemJsPresenter do
   describe "currency_name" do
     it 'returns the name of the virtual currency placeholder' do
       presenter.currency_name.should == '{{currency_name}}'
-    end
-  end
-
-  describe "tier_descriptions" do
-    it 'returns a collection of tier descriptions' do
-      # todo
     end
   end
 

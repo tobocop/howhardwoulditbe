@@ -145,6 +145,7 @@ describe OfferItemPresenter do
       virtual_currency.stub(:amount_in_currency).with(20).and_return(5)
       offer.stub(detail_text: 'Earn $virtualCurrencyName$')
       offer.stub(minimum_purchase_amount_tier: '$5')
+      offer.stub(:tiers_by_minimum_purchase_amount).and_return([])
       Plink::StringSubstituter.stub(:gsub).and_return('Earn Plink points at this location')
       view_context.stub(:wallet_offers_path).with({offer_id: 32}).and_return('wallet/offer/path/32')
       view_context.stub(:link_to).with('Add To My Wallet',
