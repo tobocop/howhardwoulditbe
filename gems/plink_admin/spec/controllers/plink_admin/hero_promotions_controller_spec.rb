@@ -8,15 +8,10 @@ describe PlinkAdmin::HeroPromotionsController do
       sign_in :admin, admin
     end
 
-    it 'redirects to the listing view' do
-      post :create, {hero_promotion: {}}
-      response.should redirect_to '/hero_promotions'
-    end
-
-    it 'creates a hero promotion' do
+    it 'creates a hero promotion and redirects to the listing view' do
       Plink::HeroPromotionRecord.should_receive(:create).with({'name' => 'captn planet'}).and_return(mock("HeroPromotion", persisted?: true))
-
       post :create, {hero_promotion: {name: 'captn planet'}}
+      response.should redirect_to '/hero_promotions'
     end
 
     it 'renders the new template when the hero promotion cannot be created' do

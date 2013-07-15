@@ -25,7 +25,7 @@ describe OffersController do
 
     it 'should assign hero promotions' do
       stub_collection = [stub]
-      HeroPromotion.stub(:by_display_order) { stub_collection }
+      Plink::HeroPromotionRecord.stub(:by_display_order) { stub_collection }
       get :index
 
       assigns(:hero_promotions).should == stub_collection
