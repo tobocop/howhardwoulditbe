@@ -9,15 +9,6 @@ GIT
       thor
 
 PATH
-  remote: gems/admin
-  specs:
-    admin (0.0.1)
-      activerecord-sqlserver-adapter (= 3.2.10)
-      haml-rails (~> 0.4)
-      rails (~> 3.2.13)
-      tiny_tds (= 0.5.1)
-
-PATH
   remote: gems/gigya
   specs:
     gigya (0.0.1)
@@ -216,7 +207,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-sqlserver-adapter (= 3.2.10)
-  admin!
   capybara (~> 2.1.0)
   capybara-webkit (~> 1.0.0)
   coffee-rails (~> 3.2.1)
