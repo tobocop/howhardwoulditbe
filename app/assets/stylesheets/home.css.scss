@@ -82,6 +82,7 @@
   	  .icon {
   	  	margin:30px 5%;
   	    display:inline-block;
+  	    vertical-align: top;
   	  }
   	}
 
@@ -111,7 +112,7 @@
 	}
 
 	.partners-btn{
-	  margin:30px auto;
+	  margin:10px auto;
 	  width:380px;
 	}
   }
@@ -125,6 +126,7 @@
   	.text {
   	  color:#FFFFFF;
   	  margin: 10px auto;
+  	  max-width:660px;
   	  width:45%;	
   	}
 
@@ -132,6 +134,7 @@
   	  background:#FFFFFF;
   	  margin:20px auto;
   	  padding:10px 0px;
+  	  max-width:620px;
   	  width:45%;
 
   	  opacity:0.95;
@@ -149,5 +152,15 @@
   	background:$slate;
   	color:#FFFFFF;
   	padding:50px 30px 30px 30px;
+
+  	.logo-wrapper {
+  	  margin:0px auto;
+  	  max-width:1024px;
+  	}
+  	
+  	.logo {
+  	  display: inline-block;
+  	  padding:0px 2%;
+  	}
   }
 }

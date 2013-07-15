@@ -4,27 +4,37 @@
 .footer{
   background:$slate;
 
+  
+
   h1 {
     color:#a0a0a0;
     letter-spacing:2px;
     line-height:2.5em;
-  	font-size:1em;
+  	font-size:.9em;
   	font-weight:300;
   	text-transform: uppercase;
   }
 
-  h2 {
+ a {
   	color:#ffffff;
-  	font-size:1em;
+  	font-size:.9em;
   	font-weight:100;
   	line-height:1.8em;
   	letter-spacing: 1px;
+
+    &.hover, &:hover{
+      color:#e9eef1;
+    }
+
+    &.active, &:active{
+      color:#c0c0c0;   
+    }
   }
 
   h3 {
   	color:#a0a0a0;
   	letter-spacing:1px;
-  	line-height:1em;
+  	line-height:1.3em;
   	font-size:.7em;
   	font-weight:300;
   }
@@ -33,17 +43,31 @@
   	border: 1px solid #a0a0a0;
   	display: block;
   	margin:0px auto;
+    max-width:1024px;
   	width:90%;
   }
 
   .col-wrapper{
   	margin:0px auto;
-  	padding:20px 0px;
+    max-width:1024px;
   }
   
   .col {
     display:inline-block;
-    margin:10px 7%;
+    margin:20px 17% 20px 0;
     vertical-align: text-top; 
+
+    &.last {
+      margin:20px 0px;  
+    }
+
+    &.legal {
+      margin: 20px 14% 20px 0px;
+      max-width:40%;
+
+      &.last {
+        margin: 20px 0px;
+      }
+    }
   }
 }
