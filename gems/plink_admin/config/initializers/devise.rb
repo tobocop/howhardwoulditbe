@@ -2,6 +2,10 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
+  config.unlock_strategy = :time
+  config.maximum_attempts = 5
+  config.unlock_in = 1.year
+
   config.parent_controller = 'PlinkAdmin::ApplicationController'
 
   # ==> Mailer Configuration
