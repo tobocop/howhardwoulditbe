@@ -1,8 +1,10 @@
 PlinkPivotal::Application.routes.draw do
 
+  mount PlinkAdmin::Engine => '/plink_admin'
+
   resources :registrations, only: [:new, :create]
   resources :offers, only: :index
-  resource :session, only: [:new, :create, :destroy]
+  resource :session, only: [:new, :create, :destroy], as: :plink_session
   resources :rewards, only: [:index]
 
   resource :wallet, only: [:show] do

@@ -34,11 +34,10 @@ We use a local Windows VM with SQL Server Express in development.
 Generating a New Engine
 ===
 
-`rails plugin new gems/[name] --mountable`
+`rails plugin new gems/[name] -GT --mountable --dummy-path=spec/dummy`
+
 
 `cd gems/[name]`
-
-`rm .gitignore`
 
 add rspec-rails as a development dependency
     s.add_development_dependency 'rspec-rails', '2.13.2'
@@ -65,28 +64,28 @@ edit gemspec and remove TODOs and the MIT license
        s.add_dependency 'tiny_tds', '0.5.1'
        s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
 
-       s.add_development_dependency 'sqlite3'
        s.add_development_dependency 'rspec-rails', '2.13.2'
      end
+
+
+- If your engine is going to have migration, make sure to add the engine's db/migrate folder to Rails migration path
+
+        module [name]
+          class Engine < ::Rails::Engine
+            isolate_namespace [name]
+
+            initializer :append_migrations do |app|
+              unless app.root.to_s.match root.to_s
+                app.config.paths["db/migrate"] += config.paths["db/migrate"].expanded
+              end
+            end
+          end
+        end
 
 
 - `bundle`
 
 - `rails g rspec:install`
-
-`cp -r test/dummy spec/`
-
-`rm -r test`
-
-- edit Rakefile to point to correct dummy app
-
-change
-
-    APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
-
-to
-
-    APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
 
 - edit spec_helper to point to the dummy app
 
@@ -102,6 +101,4 @@ add gems/[name] to your gemfile
 
     gem 'admin', path: 'gems/[name]'
 
-
 add new specs to the build.sh and build_ci.sh
-

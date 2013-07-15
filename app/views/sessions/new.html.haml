@@ -3,7 +3,7 @@
     %p= error
 
 %br
-= form_for(@user_session, url: session_path) do |f|
+= form_for(@user_session, url: plink_session_path) do |f|
   = f.label :email
   = f.text_field :email
   = f.label :password

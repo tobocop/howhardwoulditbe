@@ -4,6 +4,7 @@ bundle exec license_finder --quiet
 
 bundle exec license_finder approve plink
 bundle exec license_finder approve tango
+bundle exec license_finder approve plink_admin
 bundle exec license_finder approve eventmachine
 bundle exec license_finder approve rails
 bundle exec license_finder approve rdoc

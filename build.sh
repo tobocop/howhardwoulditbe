@@ -4,8 +4,8 @@ export RAILS_ENV=test
 
 set -e
 
-echo "RUNNING ADMIN GEM BUILD"
-cd gems/admin && rspec spec && cd ../..
+echo "RUNNING PLINK ADMIN GEM BUILD"
+cd gems/plink_admin && rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
 echo "RUNNING GIGYA GEM BUILD"

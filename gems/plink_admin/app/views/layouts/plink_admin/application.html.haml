@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %title PlinkAdmin
+    = stylesheet_link_tag    "plink_admin/application", :media => "all"
+    = javascript_include_tag "plink_admin/application"
+    = csrf_meta_tags
+
+  %body
+    %p.notice= notice
+    %p.alert= alert
+
+    .row
+      = yield

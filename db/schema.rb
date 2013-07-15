@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709160320) do
+ActiveRecord::Schema.define(:version => 20130715170613) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1268,6 +1268,27 @@ ActiveRecord::Schema.define(:version => 20130709160320) do
     t.datetime "updated_at",                                        :null => false
     t.boolean  "is_active",                      :default => true,  :null => false
   end
+
+  create_table "plink_admin_admins", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.integer  "failed_attempts",        :default => 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "plink_admin_admins", ["email"], :name => "index_plink_admin_admins_on_email", :unique => true
+  add_index "plink_admin_admins", ["reset_password_token"], :name => "index_plink_admin_admins_on_reset_password_token", :unique => true
 
   create_table "postbackResults", :primary_key => "postbackResultID", :force => true do |t|
     t.integer  "userID",         :limit => 8,                       :null => false
