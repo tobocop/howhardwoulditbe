@@ -6,6 +6,8 @@ describe 'My Account page', js: true do
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
     @user = Plink::User.where(emailAddress: "email@Plink.com").first
     award_points_to_user(user_id: @user.id, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id)
+ 
+    
   end
 
   it 'should be accessible to plink members' do
@@ -31,6 +33,11 @@ describe 'My Account page', js: true do
     page.should have_text "Email: #{@user.emailAddress}"
   end
 
+  it 'should allow a user to manage their social accounts' do
+    visit '/account'
+    page.should have_css '#social-link-widget'
+  end
+
   it 'should link to the contact form' do
     visit '/account'
     page.should have_link 'Contact Us'
@@ -40,6 +47,11 @@ describe 'My Account page', js: true do
   context 'when a user has added a card' do
     before(:each) do
       link_card_for_user(@user.userID)
+
+    # Need help implementing this:
+      # institution = create_institution(name: 'Bank of representin')
+      # users_institution = create_users_institution(user_id: @user.id, institution_id: institution.id)
+      # create_users_institution_account(user_id: @user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
     end
 
     it 'should display the bank and account that the user has linked' do
@@ -67,6 +79,7 @@ describe 'My Account page', js: true do
     it 'should display an award when a user is awarded points' do
       award_points_to_user(user_id: @user.id, dollar_award_amount: 1, currency_award_amount: 1000, virtual_currency_id: @virtual_currency.id)
       click_on 'My Account'
+      page.should have_content Date.today.to_s(:month_day)
       page.should have_text('1000 Plink Points')
       page.should have_image "icon_bonus"
     end
@@ -76,6 +89,7 @@ describe 'My Account page', js: true do
       click_on 'Rewards'
       click_on('$5.00', match: :first)
       click_on 'My Account'
+      page.should have_content Date.today.to_s(:month_day)
       page.should have_text('$5 Amazon Gift Card')
       page.should have_text('-500 Plink Points')
       page.should have_image('icon_redeem')
