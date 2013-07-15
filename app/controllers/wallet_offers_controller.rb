@@ -9,7 +9,7 @@ class WalletOffersController < ApplicationController
     service = Plink::AddOfferToWalletService.new(user: current_user, offer: offer)
 
     if service.add_offer
-      render json: presented_wallet_items.to_json, status: :created
+      render json: {wallet: presented_wallet_items}, status: :created
     else
       render nothing: true, status: :internal_server_error
     end

@@ -49,7 +49,7 @@ describe WalletOffersController do
         Plink::AddOfferToWalletService.any_instance.stub(:add_offer) { true }
         post :create, offer_id: offer_id
         response.status.should == 201
-        JSON.parse(response.body).should == [
+        JSON.parse(response.body)['wallet'].should == [
             'template_name' => 'populated_wallet_item',
             'icon_url' => '/booyah.jpg',
             'icon_description' => 'Best Buy',

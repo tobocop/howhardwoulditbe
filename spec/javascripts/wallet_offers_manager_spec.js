@@ -26,11 +26,11 @@ describe('Plink.walletOffersManager', function () {
     });
 
     it("re-renders the wallet items bucket with the new item", function () {
-      var fakeResponse = [
-        {"template_name":"populated_wallet_item","icon_url":"/assets/wallet-logos/arbys.png","icon_description":"Arbys","currency_name":"Plink points","max_currency_award_amount":"1150","wallet_offer_url":"http://localhost:3000/wallet/offers/22"},
-        {"description":"Select an offer to start earning Plink points.","icon_description":"Empty Slot","icon_url":"/assets/icon_emptyslot.png","template_name":"open_wallet_item","title":"This slot is empty."},
-        {"description":"Complete an offer to unlock this slot.","icon_description":"Locked Slot","icon_url":"/assets/icon_lockedslot.png","template_name":"locked_wallet_item","title":"This slot is locked."}
-      ]
+      var fakeResponse = {wallet: [
+        {"template_name": "populated_wallet_item", "icon_url": "/assets/wallet-logos/arbys.png", "icon_description": "Arbys", "currency_name": "Plink points", "max_currency_award_amount": "1150", "wallet_offer_url": "http://localhost:3000/wallet/offers/22"},
+        {"description": "Select an offer to start earning Plink points.", "icon_description": "Empty Slot", "icon_url": "/assets/icon_emptyslot.png", "template_name": "open_wallet_item", "title": "This slot is empty."},
+        {"description": "Complete an offer to unlock this slot.", "icon_description": "Locked Slot", "icon_url": "/assets/icon_lockedslot.png", "template_name": "locked_wallet_item", "title": "This slot is locked."}
+      ]}
       var fakejqXHR = {done: function(callback) { callback(fakeResponse) }};
       spyOn($, "ajax").andReturn(fakejqXHR);
 

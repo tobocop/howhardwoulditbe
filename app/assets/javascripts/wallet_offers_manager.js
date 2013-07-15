@@ -25,7 +25,7 @@
 
     base._addItemToWallet = function ($el) {
       // add stuff to the wallet
-      var url = $el.attr('href'); //parents('form').attr('action');
+      var url = $el.attr('href');
       base.walletItemsBucket.refreshOffers(url);
 
       // removal from offers bucket
@@ -35,7 +35,6 @@
 
     base.init();
   };
-
 
   Plink.Offer = function (el) {
     var base = this;
@@ -91,7 +90,7 @@
 
     base.updateWalletItems = function (walletItems) {
       var walletItemsHTML = '';
-      $(walletItems).each(function (i, walletItem) {
+      $(walletItems.wallet).each(function (i, walletItem) {
         if (walletItem.template_name == 'populated_wallet_item') {
           walletItemsHTML += base.populatedWalletItemTemplate(walletItem);
         } else if (walletItem.template_name == 'locked_wallet_item') {
