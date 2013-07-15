@@ -1,9 +1,8 @@
 #! /bin/bash
 
-bundle exec license_finder -q
+bundle exec license_finder --quiet
 
 bundle exec license_finder approve plink
-bundle exec license_finder approve admin
 bundle exec license_finder approve tango
 bundle exec license_finder approve eventmachine
 bundle exec license_finder approve rails
