@@ -6,7 +6,6 @@ class SharedRSpecConfig
     config.order = "random"
     config.verbose_retry = true
 
-    config.include(FactoryTestHelpers)
     config.include(FeatureSpecHelper, type: :feature)
     config.include(UserActions, type: :feature)
     config.include(Plink::ObjectCreationMethods)

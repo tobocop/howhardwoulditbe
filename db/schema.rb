@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715170613) do
+ActiveRecord::Schema.define(:version => 20130715213332) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -655,8 +655,10 @@ ActiveRecord::Schema.define(:version => 20130715170613) do
     t.string   "image_url"
     t.string   "title"
     t.integer  "display_order"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.string   "name"
+    t.boolean  "is_active",     :default => true
   end
 
   create_table "institutions", :primary_key => "institutionID", :force => true do |t|

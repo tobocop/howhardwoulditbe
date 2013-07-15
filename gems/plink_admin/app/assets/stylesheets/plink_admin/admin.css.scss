@@ -1,0 +1,13 @@
+.field_with_errors input {
+  border-color: #c60f13;
+  background-color: rgba(198, 15, 19, 0.1);
+}
+
+.field_with_errors input:focus {
+  background: #fafafa;
+  border-color: #999999;
+}
+
+.field_with_errors label {
+  color: #c60f13;
+}

@@ -19,7 +19,7 @@ describe DashboardController do
       controller.stub(:user_logged_in?) { true }
 
       stub_collection = [stub]
-      HeroPromotion.stub(:by_display_order) { stub_collection }
+      Plink::HeroPromotionRecord.stub(:by_display_order) { stub_collection }
       get :show
 
       assigns(:hero_promotions).should == stub_collection

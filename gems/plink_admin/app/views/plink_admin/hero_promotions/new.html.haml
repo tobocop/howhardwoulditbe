@@ -1,0 +1,20 @@
+%h2 New Hero Promotion
+
+- if @hero_promotion.errors.any?
+  .alert-box.alert
+    - @hero_promotion.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(@hero_promotion, url: hero_promotions_path, as: 'hero_promotion') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :title
+  = f.text_field :title
+  = f.label :display_order, 'Display Order'
+  = f.text_field :display_order
+  = f.label :is_active, 'Active'
+  = f.check_box :is_active
+  = f.label :image_url, 'Image URL'
+  = f.text_field :image_url
+
+  = f.submit 'Create'

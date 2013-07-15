@@ -46,6 +46,19 @@ module Plink
       Plink::InstitutionRecord.new { |institution| apply(institution, defaults, options) }
     end
 
+    def new_hero_promotion(options ={})
+      defaults = {
+        image_url: '/assets/test_image_tbd.jpg',
+        title: 'Awesome Title',
+        display_order: 1
+      }
+      Plink::HeroPromotionRecord.new { |promotion| apply(promotion, defaults, options) }
+    end
+
+    def create_hero_promotion(options ={})
+      new_hero_promotion(options).tap(&:save!)
+    end
+
     def create_users_institution(options = {})
       new_users_institution(options).tap(&:save!)
     end
