@@ -28,7 +28,11 @@
       e.preventDefault();
       var $target = $(e.currentTarget);
 
-      base._removeItemFromWallet($target);
+      if (!$target.hasClass('disabled')) {
+        $target.addClass('disabled');
+        base._removeItemFromWallet($target);
+      }
+
     };
 
     base._addItemToWallet = function ($el) {
