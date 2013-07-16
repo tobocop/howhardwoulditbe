@@ -4,7 +4,8 @@
   = link_to 'Sign In', new_plink_session_path, class: 'link button nav sign-in'
 .header-button-social
   #share-bar-widget
-
+  #twitter-follow-widget
+    = render partial: 'shared/social/twitter_follow'
 
 #registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
   = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
