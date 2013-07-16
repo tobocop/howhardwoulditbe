@@ -30,11 +30,22 @@ describe Plink::HeroPromotionRecord do
   end
 
   describe 'class methods' do
-    it 'returns ordered promotions by display_order' do
-      my_second_hero = create_hero_promotion(image_url: 'assets/my_image.jpg', title: 'for test', display_order: 3)
-      my_first_hero = create_hero_promotion(image_url: 'assets/my_image.jpg', title: 'for test', display_order: 1)
+    describe 'by_display_order' do
+      it 'returns ordered promotions by display_order' do
+        my_second_hero = create_hero_promotion(display_order: 3)
+        my_first_hero = create_hero_promotion(display_order: 1)
 
-      Plink::HeroPromotionRecord.by_display_order.should == [my_first_hero, my_second_hero]
+        Plink::HeroPromotionRecord.by_display_order.should == [my_first_hero, my_second_hero]
+      end
+    end
+
+    describe 'active' do
+      it 'returns only active promos' do
+        active_hero = create_hero_promotion(is_active: true)
+        inactive_hero = create_hero_promotion(is_active: false)
+
+        Plink::HeroPromotionRecord.active.should == [active_hero]
+      end
     end
   end
 end

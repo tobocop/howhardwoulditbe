@@ -3,13 +3,13 @@ class DashboardController < ApplicationController
 
   def show
     @current_tab = 'dashboard'
-    @hero_promotions = plink_hero_promotion_service.by_display_order
+    @hero_promotions = plink_hero_promotion_service.active_promotions
   end
 
   private
 
   def plink_hero_promotion_service
-    Plink::HeroPromotionRecord
+    Plink::HeroPromotionService.new
   end
 
 end

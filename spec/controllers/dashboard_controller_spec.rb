@@ -1,9 +1,15 @@
 require 'spec_helper'
+require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
 describe DashboardController do
   let(:user) { new_user }
 
   describe 'GET show' do
+
+    before do
+      controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
+    end
+
     it 'renders the dashboard if a current user exists' do
       controller.stub(:require_authentication) { true }
       get :show
@@ -18,11 +24,9 @@ describe DashboardController do
     it 'should assign hero promotions' do
       controller.stub(:user_logged_in?) { true }
 
-      stub_collection = [stub]
-      Plink::HeroPromotionRecord.stub(:by_display_order) { stub_collection }
       get :show
 
-      assigns(:hero_promotions).should == stub_collection
+      assigns(:hero_promotions).should == ['promotion']
     end
 
     it 'assigns @current_tab' do

@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_offer_service'
 require 'plink/test_helpers/fake_services/fake_intuit_account_service'
+require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
 describe WalletsController do
 
@@ -13,6 +14,7 @@ describe WalletsController do
   let(:virtual_currency) { stub(id: 1) }
 
   before(:each) do
+    controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
     Plink::WalletRecord.stub(:find).and_return(wallet)
 
     controller.stub(:current_user) { user }
@@ -38,11 +40,9 @@ describe WalletsController do
       end
 
       it 'should assign hero promotions' do
-        stub_collection = [stub]
-        Plink::HeroPromotionRecord.stub(:by_display_order) { stub_collection }
         get :show
 
-        assigns(:hero_promotions).should == stub_collection
+        assigns(:hero_promotions).should == ['promotion']
       end
 
       it 'should assign current tab to wallet' do

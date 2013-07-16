@@ -1,11 +1,13 @@
 require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_offer_service'
+require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
 describe OffersController do
   describe 'GET index' do
     let(:offer) { new_offer }
 
     before(:each) do
+      controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
       controller.stub(:current_virtual_currency) { stub(id: 123) }
 
       fake_offer_service = Plink::FakeOfferService.new({123 => [offer]})
@@ -24,11 +26,9 @@ describe OffersController do
     end
 
     it 'should assign hero promotions' do
-      stub_collection = [stub]
-      Plink::HeroPromotionRecord.stub(:by_display_order) { stub_collection }
       get :index
 
-      assigns(:hero_promotions).should == stub_collection
+      assigns(:hero_promotions).should == ['promotion']
     end
 
   end

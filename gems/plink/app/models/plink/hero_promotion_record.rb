@@ -7,8 +7,13 @@ module Plink
 
     validates_presence_of :title, :image_url, :name
 
-    scope :by_display_order, lambda { order(:display_order) }
+    def self.by_display_order
+      order(:display_order)
+    end
 
+    def self.active
+      self.where(is_active: true)
+    end
   end
 end
 

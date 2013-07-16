@@ -51,7 +51,8 @@ module Plink
         image_url: '/assets/test_image_tbd.jpg',
         name: 'promotion name',
         title: 'Awesome Title',
-        display_order: 1
+        display_order: 1,
+        is_active: true
       }
       Plink::HeroPromotionRecord.new { |promotion| apply(promotion, defaults, options) }
     end
