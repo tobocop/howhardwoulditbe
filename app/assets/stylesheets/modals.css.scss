@@ -2,7 +2,7 @@
 @import "mixins.css.scss";
 
 .modal {
-  position: fixed; 
+  position: fixed;
   display: inline-block;
   border: 20px solid rgb(0, 0, 0);
   border: 20px solid rgba(0, 0, 0, .7);
@@ -53,9 +53,9 @@
     }
   }
 
-  .offer-description{
+  .offer-description {
     border: 0px;
-    line-height:1.2em;
+    line-height: 1.2em;
     margin: 15px 0px 0px 0px;
     padding: 5px;
     text-align: left;
@@ -70,22 +70,22 @@
   }
 
   .account-modal {
-    min-width:370px;
+    min-width: 370px;
 
-    h1{
-      font-size:1.1em;
-      font-weight:500;
+    h1 {
+      font-size: 1.1em;
+      font-weight: 500;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
 
     h2 {
-      font-size:.9em;
-      font-weight:300;
-      margin-bottom:5px;
+      font-size: .9em;
+      font-weight: 300;
+      margin-bottom: 5px;
     }
 
-    .bg{
+    .bg {
       width: 100%;
       display: inline-block;
       background-color: #f2f2f2;
@@ -95,11 +95,11 @@
       @include round-corners(8px);
     }
 
-    .field{
-      margin:25px 0 0 0;
+    .field {
+      margin: 25px 0 0 0;
 
       &.first {
-        margin:0;
+        margin: 0;
       }
     }
 
@@ -107,62 +107,62 @@
 
   .reward-modal {
 
-    a{
-      color:$lightgray;
+    a {
+      color: $lightgray;
       font-size: .8em;
-      font-weight:300;
+      font-weight: 300;
       text-align: left;
       text-transform: uppercase;
 
-      &.hover, &:hover{
+      &.hover, &:hover {
         color: $slate;
         text-decoration: underline;
       }
 
-      &.active, &:active{
+      &.active, &:active {
         color: #aaaaaa;
         text-decoration: underline;
       }
     }
-    
-    h1{
-      color:$cyan;
-      font-size:1.3em;
-      font-weight:700;
+
+    h1 {
+      color: $cyan;
+      font-size: 1.3em;
+      font-weight: 700;
       letter-spacing: 1px;
-      line-height:1.5em;
+      line-height: 1.5em;
     }
 
     h2 {
-      font-size:1em;
-      font-weight:300;
+      font-size: 1em;
+      font-weight: 300;
       line-height: 1.2em;
     }
 
-    .img{
-      float:left;
-      margin-left:0px;
+    .img {
+      float: left;
+      margin-left: 0px;
     }
 
-    .text{
-      display:inline-block;
-      margin:0 10px;
+    .text {
+      display: inline-block;
+      margin: 0 10px;
       text-align: left;
       vertical-align: top;
-      width:290px;
+      width: 290px;
     }
 
     .btn-wrapper {
-      display:inline-block;
-      margin:11px 0 0 0;
-      
+      display: inline-block;
+      margin: 11px 0 0 0;
+
       .btn {
-        display:inline-block;
-        margin:0px;
-        width:145px;
+        display: inline-block;
+        margin: 0px;
+        width: 145px;
 
         &.first {
-          margin-right:5px;
+          margin-right: 5px;
         }
       }
     }
@@ -174,28 +174,29 @@
   }
 }
 
-.cf-modal{
-  padding:0;
-  background:none;
-  border:none;
-  -webkit-box-shadow:none;
-  box-shadow:none;
-  width:750px;
-  margin-left:-375px;
+.cf-modal {
+  padding: 0;
+  background: none;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  width: 750px;
+  margin-left: -375px;
 }
 
 .flash-msg {
-  background:#FFFFFF;
+  background: #FFFFFF;
   border: 1px solid $slate;
-  color:$cyan;
-  font-weight:300;
+  color: $cyan;
+  font-weight: 300;
   line-height: 1.2em;
-  max-width:370px;
-  padding:10px;
-  position:relative;
+  max-width: 370px;
+  padding: 10px;
+  position: relative;
   text-align: center;
+  margin: 13px auto;
 
-   @include round-corners(6px);
+  @include round-corners(6px);
 
   .close-btn {
     position: absolute;
