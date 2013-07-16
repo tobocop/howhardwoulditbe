@@ -5,7 +5,7 @@ module Plink
 
     attr_accessible :image_url, :title, :display_order, :is_active, :name
 
-    validates_presence_of :title, :image_url
+    validates_presence_of :title, :image_url, :name
 
     scope :by_display_order, lambda { order(:display_order) }
 

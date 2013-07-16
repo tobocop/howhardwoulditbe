@@ -3,11 +3,21 @@ require 'spec_helper'
 describe PlinkAdmin::HeroPromotionsController do
   let(:admin) { create_admin }
 
-  describe 'POST create' do
-    before do
-      sign_in :admin, admin
-    end
+  before do
+    sign_in :admin, admin
+  end
 
+  describe 'GET index' do
+    it 'sets up the hero promotions' do
+      Plink::HeroPromotionRecord.should_receive(:order).with('created_at DESC').and_return('active_relation_object')
+
+      get :index
+
+      assigns(:hero_promotions).should == 'active_relation_object'
+    end
+  end
+
+  describe 'POST create' do
     it 'creates a hero promotion and redirects to the listing view' do
       Plink::HeroPromotionRecord.should_receive(:create).with({'name' => 'captn planet'}).and_return(mock("HeroPromotion", persisted?: true))
       post :create, {hero_promotion: {name: 'captn planet'}}

@@ -15,6 +15,13 @@ describe Plink::HeroPromotionRecord do
     Plink::HeroPromotionRecord.new(valid_attributes).should be_valid
   end
 
+  it 'validates presence of name' do
+    invalid_attributes = valid_attributes.merge(name: '')
+    invalid_record = Plink::HeroPromotionRecord.new(invalid_attributes)
+    invalid_record.should_not be_valid
+    invalid_record.errors.full_messages.should == ["Name can't be blank"]
+  end
+
   it 'requires a title and an image_url to not be blank to be valid' do
     promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(image_url: '', title:''))
 

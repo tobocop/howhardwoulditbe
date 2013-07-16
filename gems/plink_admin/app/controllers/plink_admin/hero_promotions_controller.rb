@@ -1,5 +1,10 @@
 module PlinkAdmin
   class HeroPromotionsController < ApplicationController
+
+    def index
+      @hero_promotions = plink_hero_promotion_record.order('created_at DESC')
+    end
+
     def new
       @hero_promotion = plink_hero_promotion_record.new
     end

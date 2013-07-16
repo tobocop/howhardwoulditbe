@@ -1,1 +1,15 @@
-= link_to 'Create New Hero Promotion', new_hero_promotion_path
+= link_to 'Create New Hero Promotion', new_hero_promotion_path, class: 'button small'
+
+%table.hero-promotions-list
+  %thead
+    %th Name
+    %th Title
+    %th Image
+    %th Order
+  %tbody
+    - @hero_promotions.each do |hero_promotion|
+      %tr.hero-promotion-item
+        %td= hero_promotion.name
+        %td= hero_promotion.title
+        %td= image_tag hero_promotion.image_url
+        %td= hero_promotion.display_order

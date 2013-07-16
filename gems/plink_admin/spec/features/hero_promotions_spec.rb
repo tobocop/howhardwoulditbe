@@ -6,7 +6,7 @@ describe 'Hero Promotions' do
     create_admin(email: 'admin@example.com', password: 'pazzword')
   end
 
-  it 'can be create by an admins' do
+  it 'can be created by an admins' do
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
 
     click_link 'Hero Promotions'
@@ -18,6 +18,7 @@ describe 'Hero Promotions' do
     within '.alert-box.alert' do
       page.should have_content "Title can't be blank"
       page.should have_content "Image url can't be blank"
+      page.should have_content "Name can't be blank"
     end
 
     fill_in 'Name', with: 'Heroz'
@@ -28,5 +29,13 @@ describe 'Hero Promotions' do
 
     click_on 'Create'
 
+    within '.hero-promotions-list' do
+      within '.hero-promotion-item:nth-of-type(1)' do
+        page.should have_content 'Heroz'
+        page.should have_content 'This promotion is awesome'
+        page.should have_css "img[src='http://example.com/image']"
+        page.should have_content '28'
+      end
+    end
   end
 end

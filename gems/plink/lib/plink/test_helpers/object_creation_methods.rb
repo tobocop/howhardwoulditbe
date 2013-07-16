@@ -49,6 +49,7 @@ module Plink
     def new_hero_promotion(options ={})
       defaults = {
         image_url: '/assets/test_image_tbd.jpg',
+        name: 'promotion name',
         title: 'Awesome Title',
         display_order: 1
       }
