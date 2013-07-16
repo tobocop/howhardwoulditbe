@@ -12,4 +12,16 @@ describe Plink::UserService do
       subject.find_by_id(44).should == nil
     end
   end
+
+  describe '#find_by_email' do
+    it 'returns the user with the given email if present' do
+      user = create_user(email: 'user@example.com')
+
+      subject.find_by_email('user@example.com').should == user
+    end
+
+    it 'returns nil if the user cannot be found' do
+      subject.find_by_email(33).should == nil
+    end
+  end
 end

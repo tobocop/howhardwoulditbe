@@ -97,4 +97,21 @@ describe 'Managing account' do
 
     page.should have_css '#social-link-widget'
   end
+
+  it 'allows a user to reset their password' do
+
+    visit '/'
+
+    click_on 'Sign In'
+
+    click_link 'Forgot Password?'
+
+    page.should have_content 'Enter the email address associated with your account'
+
+    fill_in 'Email', with: 'user@example.com'
+
+    click_on 'Send Password Reset Instructions'
+
+    page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
+  end
 end
