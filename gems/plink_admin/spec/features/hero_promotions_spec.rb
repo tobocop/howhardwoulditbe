@@ -35,6 +35,26 @@ describe 'Hero Promotions' do
         page.should have_content 'This promotion is awesome'
         page.should have_css "img[src='http://example.com/image']"
         page.should have_content '28'
+
+        click_on 'Heroz'
+      end
+    end
+
+    page.should have_content 'Edit Hero Promotion'
+
+    fill_in 'Name', with: 'Heroz II'
+    fill_in 'Title', with: 'This promotion is awesomer'
+    fill_in 'Display Order', with: '25'
+    fill_in 'Image URL', with: 'http://example.com/new-image'
+
+    click_on 'Update'
+
+    within '.hero-promotions-list' do
+      within '.hero-promotion-item:nth-of-type(1)' do
+        page.should have_content 'Heroz II'
+        page.should have_content 'This promotion is awesomer'
+        page.should have_content '25'
+        page.should have_css "img[src='http://example.com/new-image']"
       end
     end
   end

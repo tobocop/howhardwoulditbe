@@ -19,6 +19,20 @@ module PlinkAdmin
       end
     end
 
+    def edit
+      @hero_promotion = plink_hero_promotion_record.find(params[:id])
+    end
+
+    def update
+      @hero_promotion = plink_hero_promotion_record.find(params[:id])
+
+      if @hero_promotion.update_attributes(params[:hero_promotion])
+        redirect_to hero_promotions_path
+      else
+        render 'edit'
+      end
+    end
+
     private
 
     def plink_hero_promotion_record

@@ -31,6 +31,37 @@ describe PlinkAdmin::HeroPromotionsController do
 
       response.should render_template 'new'
     end
+  end
 
+  describe 'GET edit' do
+    it 'looks up the hero promotion by ID and assigns it' do
+      Plink::HeroPromotionRecord.should_receive(:find).with('6').and_return('promotion')
+
+      get :edit, id: '6'
+
+      assigns(:hero_promotion).should == 'promotion'
+    end
+  end
+
+  describe 'PUT update' do
+    it 'updates the record and redirects to the listing when successful' do
+      fake_hero_promo = mock(:fake_hero_promo)
+      Plink::HeroPromotionRecord.should_receive(:find).with('6').and_return(fake_hero_promo)
+      fake_hero_promo.should_receive(:update_attributes).with({'name' => 'something else'}).and_return(true)
+
+      put :update, {id: 6, hero_promotion: {name: 'something else'}}
+
+      response.should redirect_to '/hero_promotions'
+    end
+
+    it 're-renders the edit form when the record cannot be updated' do
+      fake_hero_promo = mock(:fake_hero_promo)
+      Plink::HeroPromotionRecord.should_receive(:find).with('6').and_return(fake_hero_promo)
+      fake_hero_promo.should_receive(:update_attributes).with({'name' => 'something else'}).and_return(false)
+
+      put :update, {id: 6, hero_promotion: {name: 'something else'}}
+
+      response.should render_template 'edit'
+    end
   end
 end
