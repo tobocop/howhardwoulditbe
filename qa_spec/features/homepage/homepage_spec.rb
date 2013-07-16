@@ -25,6 +25,13 @@ describe 'Logged out Home page', js: true do
     page.should have_text('Contact Us')
   end
 
-  it 'should allow the user to like Plink on Facebook and Tweet about Plink' do
+  it 'should allow the user to like Plink on Facebook' do
+    pending 'awaiting deployment' do
+      page.should have_css '[gigid="showShareBarUI"]'
+      within_frame 'fa7421a30fdeaa' do 
+        click_on 'submit'
+      end
+      # Do FB Stuff...within moda,, page should ahve text facebook
+    end
   end
 end
