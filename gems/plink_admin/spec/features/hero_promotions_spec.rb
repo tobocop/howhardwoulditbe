@@ -35,6 +35,7 @@ describe 'Hero Promotions' do
         page.should have_content 'This promotion is awesome'
         page.should have_css "img[src='http://example.com/image']"
         page.should have_content '28'
+        page.should have_content 'Active'
 
         click_on 'Heroz'
       end
@@ -46,6 +47,7 @@ describe 'Hero Promotions' do
     fill_in 'Title', with: 'This promotion is awesomer'
     fill_in 'Display Order', with: '25'
     fill_in 'Image URL', with: 'http://example.com/new-image'
+    uncheck 'Active'
 
     click_on 'Update'
 
@@ -55,6 +57,7 @@ describe 'Hero Promotions' do
         page.should have_content 'This promotion is awesomer'
         page.should have_content '25'
         page.should have_css "img[src='http://example.com/new-image']"
+        page.should have_content 'Inactive'
       end
     end
   end

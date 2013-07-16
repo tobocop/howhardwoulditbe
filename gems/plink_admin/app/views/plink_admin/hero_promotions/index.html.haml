@@ -6,6 +6,7 @@
     %th Title
     %th Image
     %th Order
+    %th Active
   %tbody
     - @hero_promotions.each do |hero_promotion|
       %tr.hero-promotion-item
@@ -13,3 +14,4 @@
         %td= hero_promotion.title
         %td= image_tag hero_promotion.image_url
         %td= hero_promotion.display_order
+        %td= hero_promotion.is_active ? 'Active' : 'Inactive'
