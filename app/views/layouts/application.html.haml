@@ -14,7 +14,7 @@
         - if user_logged_in?
           = render partial: 'shared/logged_in_nav'
         - else
-          = render partial: 'shared/logged_out_nav'
+          = render partial: 'shared/logged_out_nav', locals: {_user_registration_form: user_registration_form}
 
     .layout-wrapper
       = yield

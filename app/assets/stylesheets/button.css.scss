@@ -10,33 +10,6 @@ $state-range:10%;
   display:inline-block;
   width:100%;
 
-  &.primary-action-large {
-    border: 1px solid $chart;
-    padding: 0 20px;
-    height: 45px;
-    text-align: center;
-    line-height: 35px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.3em;
-    letter-spacing: 2px;
-    color:$slate;
-    @include vertical-bg-gradient(#d9e245, #c3ca23);
-    @include round-corners(5px);
-
-    &.hover, &:hover{
-      background: #c3ca23;
-    }
-
-    &.active, &:active{
-      background: #d9e245;
-    }
-
-    &.disabled, &:disabled{
-      background: $disabled;
-    }
-  }
-
   &.primary-action {
     border: 1px solid $chart;
     padding: 0 0;
@@ -51,6 +24,14 @@ $state-range:10%;
     @include vertical-bg-gradient(#d9e245, #c3ca23);
     @include round-corners(5px);
 
+    &.large {
+      padding: 0 20px;
+      height: 45px;
+      line-height: 43px;
+      font-size: 1.3em;
+      letter-spacing: 2px;
+    }
+
     &.hover, &:hover{
       background: #c3ca23;
     }
@@ -62,6 +43,9 @@ $state-range:10%;
     &.disabled, &:disabled{
       background: $disabled;
     }
+
+
+
   }
 
   &.nav {

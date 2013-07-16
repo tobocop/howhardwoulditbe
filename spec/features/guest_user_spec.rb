@@ -46,8 +46,20 @@ describe 'guest behavior' do
 
     page.should have_css '[gigid="showShareBarUI"]'
 
+
+    within '.feature' do
+      page.should have_content 'Join Plink for FREE'
+      page.should have_css '[data-reveal-id="registration-form"]'
+    end
+
+    within '.security' do
+      page.should have_content 'Join Plink for FREE'
+      page.should have_css '[data-reveal-id="registration-form"]'
+    end
+
     click_on 'Contact Us'
 
+    #Form submit to get errors back, not a duplicate
     click_button 'Contact Us'
 
     page.should have_content 'First name can\'t be blank'
@@ -76,11 +88,6 @@ describe 'guest behavior' do
     contact_email = ActionMailer::Base.deliveries.first
     contact_email.subject.should == 'Contact Form: [Advertising and Business Development]'
 
-    visit '/offers'
-
-    page.should have_content 'Earn Plink Points at these locations.'
-    page.should have_css('img[src="/assets/test/oldnavy.png"]')
-    page.should have_content '143 Plink Points'
 
     visit '/rewards'
 
@@ -91,7 +98,13 @@ describe 'guest behavior' do
 
     page.should_not have_content 'Should Not Exist Gift Card'
 
-    visit '/offers'
+    visit '/'
+
+    click_on 'Check out all of our partners'
+
+    page.should have_content 'Earn Plink Points at these locations.'
+    page.should have_css('img[src="/assets/test/oldnavy.png"]')
+    page.should have_content '143 Plink Points'
 
     within '.offer' do
       click_button 'Details'

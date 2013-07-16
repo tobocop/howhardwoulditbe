@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :current_virtual_currency, :user_logged_in?
+  helper_method :current_user, :current_virtual_currency, :user_logged_in?, :user_registration_form
 
   def sign_in_user(user)
     set_user_session(user.id)
@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
     raise 'User account must be linked' unless Plink::IntuitAccountService.new.user_has_account?(current_user.id)
   end
 
+  def user_registration_form
+    @_user_registration_form ||= UserRegistrationForm.new
+  end
+
   private
 
   def set_user_session(user_id)
@@ -55,4 +59,5 @@ class ApplicationController < ActionController::Base
         path: '/'
     }
   end
+
 end

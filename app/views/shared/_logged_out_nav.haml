@@ -4,3 +4,48 @@
   = link_to 'Sign In', new_plink_session_path, class: 'link button nav sign-in'
 .header-button-social
   #share-bar-widget
+
+
+#registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
+  = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
+  %h1.font.modal-h1 Join Plink
+  %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
+  .bg-element
+    #social-login
+    = form_for(_user_registration_form, url: registrations_path) do |f|
+      = f.text_field :first_name, class: 'form-field input', placeholder: 'First Name'
+      = f.text_field :email, class: 'form-field input', placeholder: 'Email'
+      = f.password_field :password, class: 'form-field input', placeholder: 'Password'
+      = f.password_field :password_confirmation, class: 'form-field input', placeholder: 'Verify Password'
+      = f.button 'Start Earning Rewards', class: 'button primary-action narrow'
+
+  %h3.font.modal-h3
+    Already have an account?
+    %a.text-link{href: new_plink_session_path} Sign In
+
+:javascript
+    gigya.socialize.showLoginUI({
+    'buttonsStyle':'signInWith',
+    'enabledProviders':Plink.Config.enabledProviders,
+    'showTermsLink':false,
+    'hideGigyaLink':true,
+    'containerID': "social-login",
+    'redirectURL': '/handle_gigya_login',
+    'width':224,
+    'height':70
+    });
+
+    gigya.socialize.addEventHandlers({
+      'onLogin': function (data) {
+        Plink.GigyaPostLoginHandler.handleLogin(data);
+      }
+    })
+
+    $(function() {
+      Plink.conditionalCallback(
+        window.location.search.match(/sign_up=true/),
+        function () {
+        $('[data-reveal-id="registration-form"]').click();
+        }
+      )
+    });

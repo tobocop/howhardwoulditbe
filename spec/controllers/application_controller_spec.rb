@@ -115,4 +115,13 @@ describe ApplicationController do
       }.to_not raise_exception
     end
   end
+
+  describe 'user_registration_form' do
+    it 'returns a new registration form object' do
+      mock_reg_form = mock("UserRegistationForm")
+      UserRegistrationForm.should_receive(:new).and_return { mock_reg_form }
+
+      controller.user_registration_form.should == mock_reg_form
+    end
+  end
 end
