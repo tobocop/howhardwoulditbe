@@ -9,7 +9,8 @@ describe GigyaSocialLoginService do
       email: 'bob@example.com',
       firstName: 'Bob',
       gigya_connection: 'connection',
-      photoURL: 'http://example.com/image'
+      photoURL: 'http://example.com/image',
+      provider: 'dogster'
     }
   end
 
@@ -22,6 +23,7 @@ describe GigyaSocialLoginService do
       service.email.should == 'bob@example.com'
       service.first_name.should == 'Bob'
       service.avatar_thumbnail_url.should == 'http://example.com/image'
+      service.provider.should == 'dogster'
     end
 
     it 'raises if no gigya_connection is provided' do
@@ -39,6 +41,11 @@ describe GigyaSocialLoginService do
 
       context 'when we find a user by id' do
         let(:user) { stub(avatar_thumbnail_url?: true) }
+
+        it 'returns a successful response object' do
+          response_object = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'}).sign_in_user
+          response_object.success?.should be_true
+        end
 
         it 'returns the user' do
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'})
@@ -77,6 +84,17 @@ describe GigyaSocialLoginService do
 
         before { Plink::User.stub(:find_by_email).with('bob@example.com') { user } }
 
+        context 'when registering in via twitter' do
+          it 'does not auto sign in the user if the email already exists in the system' do
+            service = GigyaSocialLoginService.new(service_params.merge(provider: 'twitter'))
+            response = service.sign_in_user
+
+            response.should_not be_success
+            response.message.should == 'Sorry, that email has already been registered. Please use a different email.'
+            service.user.should be_nil
+          end
+        end
+
         it 'returns that user' do
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com'})
           gigya_social_login_service.sign_in_user
@@ -111,7 +129,7 @@ describe GigyaSocialLoginService do
         it 'creates a user via the UserCreationService' do
           Plink::UserCreationService.should_receive(:new).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg')
           gigya_connection.stub(:notify_registration) { stub(:successful? => true) }
-          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', photoURL: 'http://www.example.com/my-avatar.jpg'})
+          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', photoURL: 'http://www.example.com/my-avatar.jpg', provider: 'twitter'})
           gigya_social_login_service.sign_in_user
           gigya_social_login_service.user.should == user
         end

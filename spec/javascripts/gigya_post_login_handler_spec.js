@@ -7,7 +7,7 @@ describe('Plink.GigyaPostLoginHandler', function () {
       UID: "_guid_dQpfkMXjALrer1JlrFZjOf0apvTncgs4PMjKXn1JdgI=",
       UIDSignature: "2dMY2Fl0QPfaISspgf1gk3ZHPtQ=",
       eventName: "login",
-      provider: "site",
+      provider: "twitter",
       signatureTimestamp: "1371768069",
       source: "showScreenSet",
       user: {
@@ -59,7 +59,7 @@ describe('Plink.GigyaPostLoginHandler', function () {
 
       Plink.GigyaPostLoginHandler.handleLogin(callbackData);
 
-      expect(Plink.redirect).toHaveBeenCalledWith("/handle_gigya_login?email=hunter%40example.com&UID=_guid_dQpfkMXjALrer1JlrFZjOf0apvTncgs4PMjKXn1JdgI%3D&firstName=Matt");
+      expect(Plink.redirect).toHaveBeenCalledWith("/handle_gigya_login?email=hunter%40example.com&UID=_guid_dQpfkMXjALrer1JlrFZjOf0apvTncgs4PMjKXn1JdgI%3D&firstName=Matt&provider=twitter");
     });
 
     it('redirects does not redirect when the user is from facebook', function () {
