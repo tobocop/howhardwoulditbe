@@ -39,14 +39,6 @@
   	font-weight:300;
   }
 
-  hr {
-  	border: 1px solid #a0a0a0;
-  	display: block;
-  	margin:0px auto;
-    max-width:1024px;
-  	width:90%;
-  }
-
   .col-wrapper{
   	margin:0px auto;
     max-width:1024px;
@@ -54,19 +46,19 @@
   
   .col {
     display:inline-block;
-    margin:20px 17% 20px 0;
+    margin:10px 17% 20px 0;
     vertical-align: text-top; 
 
     &.last {
-      margin:20px 0px;  
+      margin:10px 0px;  
     }
 
     &.legal {
-      margin: 20px 13% 20px 0px;
+      margin: 10px 13% 20px 0px;
       max-width:40%;
 
       &.last {
-        margin: 20px 0px;
+        margin: 10px 0px;
       }
     }
   }

@@ -98,23 +98,24 @@
 
   	.brand-wrapper {
   	  margin:30px auto;
+      max-width:1000px;
   	  width:70%;
 
       .brand {
-	  	background:#FFFFFF;
-	  	border: 1px solid #CAD5DA;
-	  	display:inline-block;
-	  	height:120px;
-	  	margin:-1px -3px 0px -2px;
-	  	padding:14px 0px;
-	  	width:200px;	
+  	  	background:#FFFFFF;
+  	  	border: 1px solid #CAD5DA;
+  	  	display:inline-block;
+  	  	height:120px;
+  	  	margin:-1px -3px 0px -2px;
+  	  	padding:14px 0px;
+  	  	width:200px;	
+	    }
 	  }
-	}
 
-	.partners-btn{
-	  margin:10px auto;
-	  width:380px;
-	}
+	  .partners-btn{
+	    margin:10px auto;
+	    width:380px;
+	  }
   }
 
   .security {
@@ -150,7 +151,7 @@
   .press {
   	background:$slate;
   	color:#FFFFFF;
-  	padding:50px 30px 30px 30px;
+  	padding:50px 30px 10px 30px;
 
   	.logo-wrapper {
   	  margin:0px auto;
@@ -161,5 +162,13 @@
   	  display: inline-block;
   	  padding:0px 2%;
   	}
+
+    hr {
+      border: 1px solid #a0a0a0;
+      display: block;
+      margin:30px auto 0 auto;
+      max-width:1024px;
+      width:90%;
+  }
   }
 }

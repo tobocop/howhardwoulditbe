@@ -145,6 +145,10 @@
     font-weight: 300;
     line-height:1.3em;
 
+    &.gray {
+      color:#d2d2d2;
+    }
+
     &.cyan {
       color: $cyan;
     }
@@ -152,6 +156,13 @@
     .bold {
       font-weight:500;
     }
+  }
+
+  h4 {
+    color:#d2d2d2;
+    font-size:.8em;
+    font-weight: 300;
+    line-height: 1.3em;
   }
 
   a{
@@ -202,5 +213,10 @@
 
   .share-btn {
     margin-top:10px;
+  }
+
+  .legal {
+    margin-top:10px;
+    max-width:574px;
   }
 }  
