@@ -2,22 +2,42 @@ class GigyaSocialLoginService
   class GigyaNotificationError < Exception;
   end
 
-  attr_accessor :user, :gigya_id, :email, :first_name, :gigya_connection, :avatar_thumbnail_url
+  attr_reader :gigya_id, :email, :first_name, :gigya_connection, :avatar_thumbnail_url
+
+  attr_accessor :user
 
   def initialize(params)
-    self.gigya_connection = params.fetch(:gigya_connection)
-    self.gigya_id = params[:UID]
-    self.email = params[:email]
-    self.first_name = params[:firstName]
-    self.avatar_thumbnail_url = params[:photoURL]
+    @gigya_connection = params.fetch(:gigya_connection)
+    @gigya_id = params[:UID]
+    @email = params[:email]
+    @first_name = params[:firstName]
+    @avatar_thumbnail_url = params[:photoURL]
+  end
 
+  def sign_in_user
     if gigya_id_is_valid_primary_key
-      self.user = Plink::User.find(gigya_id.to_i)
+      user = Plink::User.find(gigya_id.to_i)
     else
-      self.user = Plink::User.find_by_email(email) || create_user_from_gigya
+      user = Plink::User.find_by_email(email) || create_user_from_gigya
     end
 
-    user.update_attributes(avatar_thumbnail_url: avatar_thumbnail_url) unless user.avatar_thumbnail_url?
+    update_user_thumbnail(user)
+    self.user = user
+
+    GigyaLoginResponse.new(true)
+  end
+
+  class GigyaLoginResponse
+    attr_reader :success, :message
+
+    def initialize(success, message = '')
+      @success = success
+      @message = message
+    end
+
+    def success?
+      success
+    end
   end
 
   private
@@ -31,6 +51,10 @@ class GigyaSocialLoginService
     raise GigyaNotificationError unless response.successful?
 
     user
+  end
+
+  def update_user_thumbnail(user)
+    user.update_attributes(avatar_thumbnail_url: @avatar_thumbnail_url) unless user.avatar_thumbnail_url?
   end
 
   def gigya_id_is_valid_primary_key
