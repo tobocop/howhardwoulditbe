@@ -169,6 +169,20 @@
       margin:30px auto 0 auto;
       max-width:1024px;
       width:90%;
+    }
   }
-  }
+}
+
+.flash-msg {
+  background:#e9eef1;
+  /*border: 1px solid $slate;*/
+  color:$slate;
+  font-weight:300;
+  line-height: 1.2em;
+  margin: 13px auto;
+  padding:10px;
+  text-align: center;
+
+  /*@include round-corners(6px);*/
+
 }

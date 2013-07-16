@@ -316,15 +316,7 @@
             .btn  
               %button.button.primary-action CONFIRM
           .terms 
-            %a Terms & Conditions
-
-      %h3 Flash Message 
-      %br
-      .flash-msg
-        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }  
-        Sorry, that email has already been registered. 
-        %br
-        Please use a different email.      
+            %a Terms & Conditions     
 
 
   %section
@@ -568,9 +560,14 @@
       %h2 Reward Confirmation
       %br
     
-      = render partial: 'style_guide/redemptions/confirm'  
+      = render partial: 'style_guide/redemptions/confirm'
 
-  %section
-    %h2 Home
+  %section      
+    
+    %h3 Flash Message 
+    %br
+    .flash-msg
+      %img{ :src => "/assets/icon_alert_pink.png"}  
+      Sorry, that email has already been registered. Please use a different email. 
 
     = render partial: 'style_guide/home/home'

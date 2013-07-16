@@ -184,23 +184,3 @@
   margin-left: -375px;
 }
 
-.flash-msg {
-  background: #FFFFFF;
-  border: 1px solid $slate;
-  color: $cyan;
-  font-weight: 300;
-  line-height: 1.2em;
-  max-width: 370px;
-  padding: 10px;
-  position: relative;
-  text-align: center;
-  margin: 13px auto;
-
-  @include round-corners(6px);
-
-  .close-btn {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-  }
-}
