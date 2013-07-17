@@ -43,4 +43,15 @@ class Gigya
 
     Gigya::GigyaResponse.from_json(response.body)
   end
+
+  def delete_user(gigya_id)
+    params = {
+      format: 'json',
+      uid: gigya_id
+    }
+
+    response = Gigya::Http.new(config, api_method: 'socialize.deleteAccount', url_params: params).perform_request
+
+    Gigya::GigyaResponse.from_json(response.body)
+  end
 end

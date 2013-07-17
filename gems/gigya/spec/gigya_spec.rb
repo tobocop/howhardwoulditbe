@@ -71,4 +71,18 @@ describe Gigya do
       response.should == response_stub
     end
   end
+
+  describe '#delete_user' do
+    it 'deletes the user from Gigya' do
+      http_stub = stub
+      Gigya::Http.stub(:new).with(gigya.config, api_method: 'socialize.deleteAccount', url_params: {format: 'json', uid: '1234'}) { http_stub }
+      http_stub.stub(:perform_request) { stub(body: 'somejson') }
+
+      response_stub = stub
+      Gigya::GigyaResponse.stub(:from_json).with('somejson') { response_stub }
+
+      response = gigya.delete_user('1234')
+      response.should == response_stub
+    end
+  end
 end

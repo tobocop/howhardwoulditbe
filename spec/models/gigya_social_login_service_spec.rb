@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe GigyaSocialLoginService do
-  let(:gigya_connection) { stub }
+  let(:gigya_connection) { stub(:gigya_connection, delete_user: nil) }
 
   let(:service_params) do
     {
       UID: 'abc123',
       email: 'bob@example.com',
       firstName: 'Bob',
-      gigya_connection: 'connection',
+      gigya_connection: gigya_connection,
       photoURL: 'http://example.com/image',
       provider: 'dogster'
     }
@@ -19,7 +19,7 @@ describe GigyaSocialLoginService do
       service = GigyaSocialLoginService.new(service_params)
 
       service.gigya_id.should == 'abc123'
-      service.gigya_connection.should == 'connection'
+      service.gigya_connection.should == gigya_connection
       service.email.should == 'bob@example.com'
       service.first_name.should == 'Bob'
       service.avatar_thumbnail_url.should == 'http://example.com/image'
@@ -92,6 +92,14 @@ describe GigyaSocialLoginService do
             response.should_not be_success
             response.message.should == 'Sorry, that email has already been registered. Please use a different email.'
             service.user.should be_nil
+          end
+
+          it 'deletes the user from gigya' do
+            service = GigyaSocialLoginService.new(service_params.merge(provider: 'twitter'))
+
+            gigya_connection.should_receive(:delete_user).with('abc123')
+
+            service.sign_in_user
           end
         end
 

@@ -27,6 +27,7 @@ class GigyaSocialLoginService
       self.user = user
       GigyaLoginResponse.new(true)
     else
+      gigya_connection.delete_user(gigya_id)
       GigyaLoginResponse.new(false, 'Sorry, that email has already been registered. Please use a different email.')
     end
   end
