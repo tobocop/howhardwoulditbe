@@ -11,7 +11,6 @@ require 'gigya/http'
 require 'gigya/gigya_response'
 require 'gigya/notify_login_response'
 require 'gigya/signature'
-require 'gigya/user'
 require 'gigya/version'
 
 class Gigya
