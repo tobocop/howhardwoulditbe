@@ -25,7 +25,7 @@ class UserSession
     is_valid = super
 
     if is_valid
-      user = Plink::User.find_by_email(email)
+      user = plink_user_service.find_by_email(email)
 
       if user.present?
         password_object = Password.new(unhashed_password: password, salt: user.salt)
@@ -44,5 +44,11 @@ class UserSession
 
   def persisted?
     false
+  end
+
+  private
+
+  def plink_user_service
+    Plink::UserService.new
   end
 end

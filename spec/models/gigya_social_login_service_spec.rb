@@ -37,10 +37,10 @@ describe GigyaSocialLoginService do
   describe '#sign_in_user' do
     context 'when gigya_user id is an integer' do
 
-      before { Plink::User.stub(:find).with(123) { user } }
+      before { Plink::UserService.any_instance.stub(:find_by_id).with(123) { user } }
 
       context 'when we find a user by id' do
-        let(:user) { stub(avatar_thumbnail_url?: true) }
+        let(:user) { stub(avatar_thumbnail_url?: true, new_user?: false) }
 
         it 'returns a successful response object' do
           response_object = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'}).sign_in_user
@@ -65,7 +65,7 @@ describe GigyaSocialLoginService do
         end
 
         context 'when the user does not have a thumbnail url' do
-          let(:user) { mock(avatar_thumbnail_url?: false) }
+          let(:user) { mock(avatar_thumbnail_url?: false, new_user?: false) }
           it 'copies the thumbnail url from the Gigya-provided info' do
             user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
             GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', photoURL: 'http://www.example.com/avatar.jpg'}).sign_in_user
@@ -75,7 +75,7 @@ describe GigyaSocialLoginService do
 
       context 'when we cannot find a user by id' do
         it 'raises ActiveRecord::RecordNotFound' do
-          Plink::User.stub(:find).with(123) { raise ActiveRecord::RecordNotFound }
+          Plink::UserService.any_instance.stub(:find_by_id).with(123) { raise ActiveRecord::RecordNotFound }
           expect {
             GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'}).sign_in_user
           }.to raise_exception(ActiveRecord::RecordNotFound)
@@ -85,9 +85,9 @@ describe GigyaSocialLoginService do
 
     context 'when gigya_user id is not an integer' do
       context 'when we find the user by email' do
-        let(:user) { stub(avatar_thumbnail_url?: true) }
+        let(:user) { stub(avatar_thumbnail_url?: true, new_user?: false) }
 
-        before { Plink::User.stub(:find_by_email).with('bob@example.com') { user } }
+        before { Plink::UserService.any_instance.stub(:find_by_email).with('bob@example.com') { user } }
 
         context 'when registering in via twitter' do
           it 'does not auto sign in the user if the email already exists in the system' do
@@ -121,18 +121,19 @@ describe GigyaSocialLoginService do
         end
 
         context 'when the user does not have a thumbnail url' do
-          let(:user) { mock(avatar_thumbnail_url?: false) }
+          let(:user) { mock(avatar_thumbnail_url?: false, new_user?: false) }
 
           it 'copies the thumbnail url from the Gigya-provided info' do
+            Plink::UserService.any_instance.stub(:find_by_id) { user }
             user.should_receive(:update_attributes).with(avatar_thumbnail_url: 'http://www.example.com/avatar.jpg')
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', photoURL: 'http://www.example.com/avatar.jpg'}).sign_in_user
+            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', email: 'bob@example.com', photoURL: 'http://www.example.com/avatar.jpg'}).sign_in_user
           end
         end
       end
 
       context 'when we cannot find the user by email' do
 
-        let(:user) { stub(id: 123, avatar_thumbnail_url?: true) }
+        let(:user) { stub(id: 123, avatar_thumbnail_url?: true, new_user?: true) }
 
         before do
           Plink::UserCreationService.stub(:new) { stub(create_user: user) }

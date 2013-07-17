@@ -14,7 +14,7 @@ module Plink
     end
 
     def create_user
-      Plink::User.transaction do
+      Plink::UserRecord.transaction do
         user.save
         Plink::WalletCreationService.new(user_id: user_id).create_for_user_id
         Plink::UsersVirtualCurrencyRecord.create(user_id: user.id, start_date: Date.today, virtual_currency_id: user.primary_virtual_currency_id)
@@ -37,7 +37,7 @@ module Plink
     private
 
     def set_user
-      self.user = Plink::User.new(email: self.email, first_name: self.first_name, password_hash: self.password_hash, salt: self.salt, avatar_thumbnail_url: self.avatar_thumbnail_url)
+      self.user = Plink::UserRecord.new(email: self.email, first_name: self.first_name, password_hash: self.password_hash, salt: self.salt, avatar_thumbnail_url: self.avatar_thumbnail_url)
     end
 
 

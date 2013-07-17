@@ -3,7 +3,7 @@ require 'plink/test_helpers/fake_services/fake_user_service'
 
 describe ApplicationController do
   describe '#sign_in_user' do
-    let(:user) { mock_model(Plink::User, id: 123, password_hash: 'hashypassy') }
+    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
 
     it 'sets current_user_id in the session' do
       controller.sign_in_user(user)

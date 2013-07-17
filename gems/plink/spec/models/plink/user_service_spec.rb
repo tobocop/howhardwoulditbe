@@ -4,8 +4,7 @@ describe Plink::UserService do
   describe '#find_by_id' do
     it 'returns the user with the given id' do
       user = create_user
-
-      subject.find_by_id(user.id).should == user
+      subject.find_by_id(user.id).should be_instance_of Plink::User
     end
 
     it 'returns nil if the user is not found' do
@@ -16,8 +15,7 @@ describe Plink::UserService do
   describe '#find_by_email' do
     it 'returns the user with the given email if present' do
       user = create_user(email: 'user@example.com')
-
-      subject.find_by_email('user@example.com').should == user
+      subject.find_by_email('user@example.com').should be_instance_of Plink::User
     end
 
     it 'returns nil if the user cannot be found' do

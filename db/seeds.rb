@@ -2,7 +2,7 @@ require 'plink/test_helpers/object_creation_methods'
 
 include Plink::ObjectCreationMethods
 
-Plink::User.destroy_all
+Plink::UserRecord.destroy_all
 PlinkAdmin::Admin.destroy_all
 Plink::OauthToken.destroy_all
 Plink::UsersInstitutionAccountRecord.destroy_all

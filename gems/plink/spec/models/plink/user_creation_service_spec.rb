@@ -40,7 +40,7 @@ describe Plink::UserCreationService do
     end
 
     it 'creates a user object' do
-      Plink::User.should_receive(:new).with(valid_params)
+      Plink::UserRecord.should_receive(:new).with(valid_params)
       service = Plink::UserCreationService.new(valid_params)
     end
   end
@@ -49,12 +49,12 @@ describe Plink::UserCreationService do
     let(:user) { stub(id:42, save:true, primary_virtual_currency_id: 54) }
 
     before do
-      Plink::User.stub(:new) { user }
+      Plink::UserRecord.stub(:new) { user }
       Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) }
     end
 
     it 'saves a user record' do
-      Plink::User.should_receive(:new).with(valid_params) { user }
+      Plink::UserRecord.should_receive(:new).with(valid_params) { user }
       Plink::UserCreationService.new(valid_params).create_user
     end
 
@@ -79,13 +79,13 @@ describe Plink::UserCreationService do
   describe 'valid' do
     it 'returns true if the user is valid' do
       user = stub(valid?: true)
-      Plink::User.stub(:new) {user}
+      Plink::UserRecord.stub(:new) {user}
       Plink::UserCreationService.new(valid_params).valid?.should be_true
     end
 
     it 'returns false if the user is not valid' do
       user = stub(valid?: false)
-      Plink::User.stub(:new) {user}
+      Plink::UserRecord.stub(:new) {user}
       Plink::UserCreationService.new(valid_params).valid?.should be_false
     end
   end
@@ -93,7 +93,7 @@ describe Plink::UserCreationService do
   describe 'errors' do
     it 'exposes errors if the user is not valid' do
       user = stub(first_name:nil, valid?: false, errors: [])
-      Plink::User.stub(:new) {user}
+      Plink::UserRecord.stub(:new) {user}
       user_creation_service = Plink::UserCreationService.new(valid_params)
       user_creation_service.valid?
       user_creation_service.errors.should == []
@@ -103,7 +103,7 @@ describe Plink::UserCreationService do
   describe 'id' do
     it 'returns the id of the user' do
       user = stub(id:243)
-      Plink::User.stub(:new) {user}
+      Plink::UserRecord.stub(:new) {user}
       user_creation_service = Plink::UserCreationService.new(valid_params)
       user_creation_service.user_id.should == 243
     end

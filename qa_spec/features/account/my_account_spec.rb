@@ -4,7 +4,7 @@ describe 'My Account page', js: true do
   before(:each) do
     @virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
-    @user = Plink::User.where(emailAddress: "email@Plink.com").first
+    @user = Plink::UserService.find_by_email('email@Plink.com')
   end
 
   it 'should be accessible to plink members' do

@@ -293,7 +293,7 @@ module Plink
         salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5'
       }
 
-      Plink::User.new { |user| apply(user, defaults, options) }
+      Plink::UserRecord.new { |user| apply(user, defaults, options) }
     end
 
     def create_user(options = {})

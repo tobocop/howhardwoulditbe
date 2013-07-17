@@ -41,7 +41,7 @@ module FeatureSpecHelper
   def delete_users_from_gigya
     gigya = Gigya.new(Gigya::Config.instance)
     
-    Plink::User.all.each do |user|
+    Plink::UserRecord.all.each do |user|
       gigya.delete_user(user.id)
     end
   end

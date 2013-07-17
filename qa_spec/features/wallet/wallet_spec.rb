@@ -7,7 +7,7 @@ describe "Wallet page", js: true do
 
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
 
-    @user = Plink::User.where(emailAddress: "email@Plink.com").first
+    @user = Plink::UserService.find_by_email('email@Plink.com')
   end
 
   subject { page }
