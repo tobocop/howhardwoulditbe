@@ -47,6 +47,11 @@ describe GigyaSocialLoginService do
           response_object.success?.should be_true
         end
 
+        it 'returns if a new user was created or not' do
+          response_object = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'}).sign_in_user
+          response_object.new_user?.should be_false
+        end
+
         it 'returns the user' do
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123'})
           gigya_social_login_service.sign_in_user
@@ -138,9 +143,11 @@ describe GigyaSocialLoginService do
           Plink::UserCreationService.should_receive(:new).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg')
           gigya_connection.stub(:notify_registration) { stub(:successful? => true) }
           gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', photoURL: 'http://www.example.com/my-avatar.jpg', provider: 'twitter'})
-          gigya_social_login_service.sign_in_user
+          response = gigya_social_login_service.sign_in_user
+          response.new_user.should be_true
           gigya_social_login_service.user.should == user
         end
+
 
         it 'should raise when user creation fails' do
           Plink::UserCreationService.should_receive(:new).with(email: 'bob@example.com', first_name: '', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: nil) { raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: []))) }
