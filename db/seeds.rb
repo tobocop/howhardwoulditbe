@@ -6,6 +6,7 @@ Plink::User.destroy_all
 PlinkAdmin::Admin.destroy_all
 Plink::OauthToken.destroy_all
 Plink::UsersInstitutionAccountRecord.destroy_all
+Plink::EventTypeRecord.destroy_all
 Plink::AwardTypeRecord.destroy_all
 Plink::FreeAwardRecord.destroy_all
 Plink::VirtualCurrency.destroy_all
@@ -117,6 +118,9 @@ create_reward(name: 'Tango Card', award_code: 'tango-card', description: 'it tak
     new_reward_amount(dollar_award_amount: 15, is_active: false)
   ]
 )
+
+p 'Creating event types'
+create_event_type(name: Plink::EventTypeRecord.email_capture_type)
 
 p 'Creating award type'
 award_type = create_award_type(email_message: 'All the points!!!')

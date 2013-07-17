@@ -8,6 +8,8 @@ describe 'guest behavior' do
 
     advertiser = create_advertiser(advertiser_name: 'Old Nervy', logo_url: '/assets/test/oldnavy.png')
 
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+
     create_offer(
       advertiser_id: advertiser.id,
       detail_text: 'great deal',

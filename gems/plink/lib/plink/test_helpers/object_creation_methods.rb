@@ -1,6 +1,30 @@
 module Plink
   module ObjectCreationMethods
 
+    def new_campaign(options = {})
+      defaults = {
+        campaign_hash: 'AHASH'
+      }
+
+      Plink::CampaignRecord.new { |campaign| apply(campaign, defaults, options) }
+    end
+
+    def create_campaign(options = {})
+      new_campaign(options).tap(&:save!)
+    end
+
+    def new_event_type(options = {})
+      defaults = {
+        name: 'EVENTTYPEDEFAULT'
+      }
+
+      Plink::EventTypeRecord.new { |event_type| apply(event_type, defaults, options) }
+    end
+
+    def create_event_type(options = {})
+      new_event_type(options).tap(&:save!)
+    end
+
     def new_award_type(options = {})
       defaults = {
         award_code: 'ASD',

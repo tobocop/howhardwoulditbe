@@ -5,6 +5,8 @@ PlinkPivotal::Application.routes.draw do
   resources :registrations, only: [:new, :create]
   resources :offers, only: :index
   resource :session, only: [:new, :create, :destroy], as: :plink_session
+  resource :tracking, only: [:new], controller: 'tracking'
+
   resources :rewards, only: [:index]
 
   resource :wallet, only: [:show] do

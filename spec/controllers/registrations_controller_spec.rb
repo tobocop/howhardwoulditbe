@@ -34,33 +34,50 @@ describe RegistrationsController do
       before do
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
+        @user_stub = stub
+        user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob')
+        UserRegistrationForm.stub(:new) { user_registration_form }
+        controller.stub(:sign_in_user)
       end
 
       it "should redirect to the dashboard upon success" do
-        user_registration_form = stub(save: true, user: stub, user_id: 123, email:'test@example.com', first_name:'bob')
-        UserRegistrationForm.stub(:new) { user_registration_form }
-        controller.stub(:sign_in_user)
+        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
+        controller.stub(:tracking_params) {stub(to_hash: true)}
 
         post :create, {:user_registration_form => {:post => true}}
         response.location.should =~ /\/dashboard$/
       end
 
       it "should sign the user in upon success" do
-        user_stub = stub
-        user_registration_form = stub(save: true, user: user_stub, user_id: 123, email:'test@example.com', first_name:'bob')
-        UserRegistrationForm.stub(:new) { user_registration_form }
+        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
+        controller.stub(:tracking_params) {stub(to_hash: true)}
 
-        controller.should_receive(:sign_in_user).with(user_stub)
+        controller.should_receive(:sign_in_user).with(@user_stub)
         post :create
       end
 
       it "notifies Gigya of a new user log in" do
-        user_stub = stub
-        user_registration_form = stub(save: true, user: user_stub, user_id: 123, email:'bob@example.com', first_name:'Bob')
-        UserRegistrationForm.stub(:new) { user_registration_form }
-        controller.stub(:sign_in_user)
+        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
+        controller.stub(:tracking_params) {stub(to_hash: true)}
 
-        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'Bob', email: 'bob@example.com', new_user: true) { cookie_stub }
+        gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'bob', email: 'test@example.com', new_user: true) { cookie_stub }
+        post :create
+      end
+
+      it 'tracks an email capture event' do
+        controller.stub(:session_params) { {affiliate_id: 23986} }
+        TrackingObject.should_receive(:new).with(affiliate_id: 23986, ip: request.remote_ip).and_call_original
+        Plink::EventService.any_instance.should_receive(:create_email_capture).with(
+          123,
+          affiliate_id: 23986,
+          sub_id: nil,
+          sub_id_two: nil,
+          sub_id_three: nil,
+          sub_id_four: nil,
+          path_id: '1',
+          campaign_hash: nil,
+          ip: request.remote_ip
+        )
 
         post :create
       end
