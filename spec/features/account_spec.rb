@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Managing account' do
   before(:each) do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-    user = create_user(email: 'user@example.com', password: 'pass1word')
+    user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo')
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
     create_oauth_token(user_id: user.id)
 
@@ -113,5 +113,28 @@ describe 'Managing account' do
     click_on 'Send Password Reset Instructions'
 
     page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
+
+    email =  ActionMailer::Base.deliveries.last
+
+    email_string = Capybara.string(email.html_part.body.to_s)
+    password_reset_url = email_string.find("a", text: 'Reset Password')['href']
+
+    visit password_reset_url
+
+    page.should have_content 'Reset your password'
+
+    fill_in 'New password', with: 'goodpassword'
+    fill_in 'Confirm new password', with: 'goodpassword'
+
+    click_on 'Reset Password'
+
+    click_on 'Sign In'
+
+    fill_in 'Email', with: 'user@example.com'
+    fill_in 'Password', with: 'goodpassword'
+
+    click_on 'Log in'
+
+    page.should have_content 'Welcome, Frodo!'
   end
 end

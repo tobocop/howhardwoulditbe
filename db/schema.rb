@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130715213332) do
+ActiveRecord::Schema.define(:version => 20130717175214) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1202,6 +1202,15 @@ ActiveRecord::Schema.define(:version => 20130715213332) do
     t.datetime "modified",                                           :null => false
     t.boolean  "isActive",                         :default => true, :null => false
   end
+
+  create_table "password_resets", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "token",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "password_resets", ["token"], :name => "index_password_resets_on_token", :unique => true
 
   create_table "path_page_attributes", :force => true do |t|
     t.integer "path_page_type_id",                                   :null => false

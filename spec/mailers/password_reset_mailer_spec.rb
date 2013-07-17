@@ -3,7 +3,7 @@ require 'spec_helper'
 describe PasswordResetMailer do
   describe 'instructions' do
     it 'sends a password reset email to the supplied email address' do
-      email = PasswordResetMailer.instructions('bob@example.com', 'Bob').deliver
+      email = PasswordResetMailer.instructions('bob@example.com', 'Bob', 'token').deliver
 
       ActionMailer::Base.deliveries.count.should == 1
 

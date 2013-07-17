@@ -24,7 +24,8 @@ class PasswordResetRequestForm
     @user = plink_user_service.find_by_email(email)
 
     if valid?
-      PasswordResetMailer.instructions(email, @user.first_name).deliver
+      password_reset = PasswordReset.build(user_id: user.userID)
+      PasswordResetMailer.instructions(email, @user.first_name, password_reset.token).deliver
       true
     else
       false

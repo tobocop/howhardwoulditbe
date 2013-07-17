@@ -2,7 +2,7 @@ Hi <%= @first_name %>,
 
 Forgot your password? No worries. Please use the link below to reset your password.
 
-<%= @reset_password_url %>
+<%= new_password_reset_url(token: @token) %>
 
 Thanks!
 -Team Plink

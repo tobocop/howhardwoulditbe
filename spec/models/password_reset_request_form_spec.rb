@@ -22,17 +22,28 @@ describe PasswordResetRequestForm do
 
   describe '#save' do
     context 'when valid' do
-      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe')) }
+      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe', userID: 3)) }
       let(:form) { PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service) }
+      let(:mock_password_reset) { mock(:password_reset, token: 'token') }
+
+      before do
+        PasswordReset.stub(build: mock_password_reset)
+      end
 
       it 'returns true if the password reset is valid' do
         form.save.should == true
       end
 
-      it 'sends an email with password reset instructions' do
+      it 'sends an email to the user with a link to reset password' do
         fake_mail = mock(:fake_mail)
         fake_mail.should_receive(:deliver)
-        PasswordResetMailer.should_receive(:instructions).and_return(fake_mail)
+        PasswordResetMailer.should_receive(:instructions).with('mail@example.com', 'Joe', 'token').and_return(fake_mail)
+
+        form.save
+      end
+
+      it 'create a password reset record' do
+        PasswordReset.should_receive(:build).with(user_id: 3).and_return(mock_password_reset)
 
         form.save
       end

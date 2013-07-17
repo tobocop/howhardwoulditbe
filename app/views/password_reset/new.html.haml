@@ -1,0 +1,9 @@
+.layout-inner
+  %h3 Reset your password
+  = form_for(@password_reset, url: password_reset_path, as: 'password_reset') do |f|
+    = f.label(:new_password)
+    = f.password_field :new_password
+    = f.label(:new_password_confirmation, 'Confirm new password')
+    = f.password_field :new_password_confirmation
+    = f.hidden_field :token
+    = f.submit 'Reset Password', class: 'primary_action'
