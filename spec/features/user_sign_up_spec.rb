@@ -4,6 +4,7 @@ describe 'User signup workflow' do
 
   before do
     create_virtual_currency
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
   end
 
   context 'organic registration' do
@@ -82,7 +83,7 @@ describe 'User signup workflow' do
     end
 
     context 'with twitter' do
-      it 'allows a user to register with their twitter account', js: true, flaky: true, driver: :selenium do
+      it 'allows a user to register with their twitter account', js: true, flaky: true do
         visit '/'
 
         click_on 'Join'
