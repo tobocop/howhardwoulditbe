@@ -1,5 +1,5 @@
 class Gigya
-  class NotifyRegistrationResponse
+  class GigyaResponse
     attr_accessor :status_code, :error_code
 
     def initialize(options = {})

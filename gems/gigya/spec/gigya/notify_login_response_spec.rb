@@ -42,8 +42,6 @@ describe Gigya::NotifyLoginResponse do
       response = Gigya::NotifyLoginResponse.new(valid_params)
       response.error_code.should == 0
     end
-
-
   end
 
   describe '.successful?' do
@@ -61,7 +59,6 @@ describe Gigya::NotifyLoginResponse do
       response = Gigya::NotifyLoginResponse.new(valid_params.merge(status_code: 1))
       response.should_not be_successful
     end
-
   end
 
   describe '.from_json' do
@@ -82,13 +79,15 @@ describe Gigya::NotifyLoginResponse do
     end
 
     it 'initializes a new response object after parsing the json' do
-      Gigya::NotifyLoginResponse.should_receive(:new).with({
-                                                               status_code: 200,
-                                                               cookie_name: 'gac_3_q0axgZ5uEFDE2dCOzCp5M5gKD9eCa3xKwluLv-SWpY4Z2OwjA0zlNopugciH_r_F',
-                                                               cookie_value: 'VC1_342D4A3C0C3201491A9A1136910BEC97__GA5aHw0sAAhOEFhrpSGFqWdUr4gqKzNwA0DKQaE18Hl28yfUVdUpu_mRBrtILJPSKQcSEPALyqCVMm8ePRN4fh1lkBNrANYi3mkeGOGflXcXHuRg8QOi16f4A1cWjglKbDUYCsSk1Pg6rZqs2EzNg==',
-                                                               cookie_domain: 'plink.dev',
-                                                               error_code: 0
-                                                           })
+      Gigya::NotifyLoginResponse.should_receive(:new).with(
+        {
+          status_code: 200,
+          cookie_name: 'gac_3_q0axgZ5uEFDE2dCOzCp5M5gKD9eCa3xKwluLv-SWpY4Z2OwjA0zlNopugciH_r_F',
+          cookie_value: 'VC1_342D4A3C0C3201491A9A1136910BEC97__GA5aHw0sAAhOEFhrpSGFqWdUr4gqKzNwA0DKQaE18Hl28yfUVdUpu_mRBrtILJPSKQcSEPALyqCVMm8ePRN4fh1lkBNrANYi3mkeGOGflXcXHuRg8QOi16f4A1cWjglKbDUYCsSk1Pg6rZqs2EzNg==',
+          cookie_domain: 'plink.dev',
+          error_code: 0
+        }
+      )
 
       Gigya::NotifyLoginResponse.from_json(json_response)
     end
@@ -98,7 +97,5 @@ describe Gigya::NotifyLoginResponse do
       Gigya::NotifyLoginResponse.stub(:new) { response }
       Gigya::NotifyLoginResponse.from_json(json_response).should == response
     end
-
-
   end
 end

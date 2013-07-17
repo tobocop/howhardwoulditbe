@@ -65,7 +65,7 @@ describe Gigya do
       http_stub.stub(:perform_request) { stub(body: 'somejson') }
 
       response_stub = stub
-      Gigya::NotifyRegistrationResponse.stub(:from_json).with('somejson') { response_stub }
+      Gigya::GigyaResponse.stub(:from_json).with('somejson') { response_stub }
 
       response = gigya.notify_registration(mock_params)
       response.should == response_stub

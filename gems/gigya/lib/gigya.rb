@@ -8,8 +8,8 @@ require 'openssl'
 # internal requires
 require 'gigya/config'
 require 'gigya/http'
+require 'gigya/gigya_response'
 require 'gigya/notify_login_response'
-require 'gigya/notify_registration_response'
 require 'gigya/signature'
 require 'gigya/user'
 require 'gigya/version'
@@ -42,6 +42,6 @@ class Gigya
 
     response = Gigya::Http.new(config, api_method: 'socialize.notifyRegistration', url_params: {UID: gigya_id, siteUID: site_user_id, format: 'json'}).perform_request
 
-    Gigya::NotifyRegistrationResponse.from_json(response.body)
+    Gigya::GigyaResponse.from_json(response.body)
   end
 end
