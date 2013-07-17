@@ -8,6 +8,9 @@
     = csrf_meta_tags
 
   %body
+    .layout-inner
+      - if flash.notice
+        .flash-msg= flash.notice
     %header.header.layout-wrapper
       .layout-inner
         = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
@@ -17,9 +20,6 @@
           = render partial: 'shared/logged_out_nav', locals: {_user_registration_form: user_registration_form}
 
     .layout-wrapper
-      .layout-inner
-        - if flash.notice
-          .flash-msg= flash.notice
       = yield
 
     = render partial: 'shared/footer'
