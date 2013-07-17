@@ -1,4 +1,4 @@
-class PasswordResetForm
+class PasswordResetRequestForm
 
   include ActiveModel::Validations
   include ActiveModel::Conversion
