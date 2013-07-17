@@ -2,7 +2,7 @@ class PasswordResetForm
   include ActiveModel::Validations
   include ActiveModel::Conversion
 
-  validates :new_password, confirmation: true
+  validates :new_password, confirmation: true, length: {minimum: 6}
   validates :password_reset, presence: {message: 'link is invalid'}
 
   attr_reader :new_password, :new_password_confirmation, :token, :password_reset

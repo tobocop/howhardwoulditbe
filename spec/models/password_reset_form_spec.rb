@@ -3,12 +3,14 @@ require 'spec_helper'
 describe PasswordResetForm do
   it_behaves_like "a form backing object"
 
+  let(:valid_params) { {new_password: 'pazzword', new_password_confirmation: 'pazzword', token: 'bees'} }
+
   let(:mock_password_reset) { mock(token: 'abc-123', user_id: 9) }
 
   describe '#save' do
     context 'when the password reset is successful' do
       let(:mock_user) { mock(:user) }
-      let(:mock_password) { mock(:mock_password, salt: 'pepper', hashed_value: 'ee44-hheu')}
+      let(:mock_password) { mock(:mock_password, salt: 'pepper', hashed_value: 'ee44-hheu') }
 
       it 'allows the user to reset their password' do
         PasswordReset.should_receive(:where).with(token: 'abc-123').and_return([mock_password_reset])
@@ -41,9 +43,17 @@ describe PasswordResetForm do
     it 'can be valid when when a token is given if a corresponding password reset can be found' do
       PasswordReset.stub(:where).and_return([mock_password_reset])
 
-      password_reset_form = PasswordResetForm.new(new_password: 'pazzword', new_password_confirmation: 'pazzword', token: 'bees')
+      password_reset_form = PasswordResetForm.new(valid_params)
 
       password_reset_form.valid?.should be_true
+    end
+
+    it 'is invalid if the password is less than 6 characters' do
+      PasswordReset.stub(:where).and_return([mock_password_reset])
+
+      password_reset = PasswordResetForm.new(valid_params.merge(new_password: '12345', new_password_confirmation: '12345'))
+      password_reset.should_not be_valid
+      password_reset.errors.full_messages.should == ["New password is too short (minimum is 6 characters)"]
     end
 
     it 'is invalid if given a token and no password reset can be found' do
