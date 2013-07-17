@@ -21,18 +21,36 @@ describe PasswordResetForm do
   end
 
   describe '#save' do
-    it 'returns true if the password reset is valid' do
-      plink_user_service = mock("Plink::UserService", find_by_email: ['user'])
-      form = PasswordResetForm.new({email: 'mail@example.com'}, plink_user_service)
+    context 'when valid' do
+      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe')) }
+      let(:form) { PasswordResetForm.new({email: 'mail@example.com'}, plink_user_service) }
 
-      form.save.should == true
+      it 'returns true if the password reset is valid' do
+        form.save.should == true
+      end
+
+      it 'sends an email with password reset instructions' do
+        fake_mail = mock(:fake_mail)
+        fake_mail.should_receive(:deliver)
+        PasswordResetMailer.should_receive(:instructions).and_return(fake_mail)
+
+        form.save
+      end
     end
 
-    it 'returns false otherwise' do
-      plink_user_service = mock("Plink::UserService", find_by_email: nil)
-      form = PasswordResetForm.new({email: 'mail@example.com'}, plink_user_service)
+    context 'when invalid' do
+      let(:plink_user_service) { mock("Plink::UserService", find_by_email: nil) }
+      let(:form) { PasswordResetForm.new({email: 'mail@example.com'}, plink_user_service) }
 
-      form.save.should == false
+      it 'returns false otherwise' do
+        form.save.should == false
+      end
+
+      it 'does not send an email' do
+        form.save
+
+        ActionMailer::Base.deliveries.count.should == 0
+      end
     end
   end
 end

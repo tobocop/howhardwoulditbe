@@ -3,7 +3,7 @@ class PasswordResetForm
   include ActiveModel::Validations
   include ActiveModel::Conversion
 
-  attr_reader :email, :plink_user_service
+  attr_reader :email, :plink_user_service, :user
 
   def initialize(attributes = {}, plink_user_service = Plink::UserService.new)
     @email = attributes[:email]
@@ -15,12 +15,19 @@ class PasswordResetForm
   end
 
   validate do
-    unless plink_user_service.find_by_email(email)
+    unless user
       errors[:base] << 'Sorry this email is not registered with Plink.'
     end
   end
 
   def save
-    valid? ? true : false
+    @user = plink_user_service.find_by_email(email)
+
+    if valid?
+      PasswordResetMailer.instructions(email, @user.first_name).deliver
+      true
+    else
+      false
+    end
   end
 end
