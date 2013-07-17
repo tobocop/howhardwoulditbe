@@ -17,7 +17,7 @@ $state-range:10%;
     text-align: center;
     line-height: 32px;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 1em;
     letter-spacing: 1.5px;
     color:$slate;
@@ -29,6 +29,7 @@ $state-range:10%;
       height: 45px;
       line-height: 43px;
       font-size: 1.3em;
+      font-weight: 700;
       letter-spacing: 2px;
     }
 
@@ -86,10 +87,9 @@ $state-range:10%;
         background: #c3ca23;
       }
 
-      &.active, &:active{
+      &.active, &:active {
         background: #d9e245;
       }
-
     }
   }
 
@@ -285,7 +285,7 @@ $state-range:10%;
     text-align: center;
     line-height: 32px;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 1em;
     letter-spacing: 1.5px;
     color:$slate;
@@ -293,11 +293,11 @@ $state-range:10%;
     @include round-corners(5px);
 
     &.hover, &:hover{
-      background: #e6e6e6;
+      background: #cccccc;
     }
 
     &.active, &:active{
-      background: #cccccc;
+      background: #e6e6e6;
     }
 
     &.disabled, &:disabled{
