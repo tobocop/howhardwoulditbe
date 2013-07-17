@@ -24,4 +24,12 @@ describe Plink::UserService do
       subject.find_by_email(33).should == nil
     end
   end
+
+  describe '#update' do
+    it 'updates the user record for the given id' do
+      user = create_user(first_name: 'Billy')
+      subject.update(user.id, {first_name: 'Joseph'})
+      subject.find_by_id(user.id).first_name.should == 'Joseph'
+    end
+  end
 end

@@ -1,24 +1,26 @@
 require 'spec_helper'
+require 'plink/test_helpers/fake_services/fake_user_service'
 
 describe PasswordResetForm do
   it_behaves_like "a form backing object"
 
   let(:valid_params) { {new_password: 'pazzword', new_password_confirmation: 'pazzword', token: 'bees'} }
-
-  let(:mock_password_reset) { mock(token: 'abc-123', user_id: 9) }
+  let(:mock_password_reset) { mock(token: 'abc-123', user_id: 9, created_at: 1.hour.ago) }
 
   describe '#save' do
     context 'when the password reset is successful' do
-      let(:mock_user) { mock(:user) }
+      let(:mock_user) { mock(:user, id: 9) }
       let(:mock_password) { mock(:mock_password, salt: 'pepper', hashed_value: 'ee44-hheu') }
+      let(:mock_plink_user_service) { Plink::FakeUserService.new({9 => mock_user}) }
+
+      before do
+        Plink::UserService.stub(:new).and_return(mock_plink_user_service)
+      end
 
       it 'allows the user to reset their password' do
         PasswordReset.should_receive(:where).with(token: 'abc-123').and_return([mock_password_reset])
-        Plink::UserService.any_instance.should_receive(:find_by_id).with(9).and_return(mock_user)
-
         Password.should_receive(:new).with(unhashed_password: 'pazzword').and_return(mock_password)
-
-        mock_user.should_receive(:update_attributes).with(password_hash: 'ee44-hheu', salt: 'pepper').and_return(true)
+        mock_plink_user_service.should_receive(:update).with(9, {password_hash: 'ee44-hheu', salt: 'pepper'}).and_return(true)
 
         password_reset_form = PasswordResetForm.new(token: 'abc-123', new_password: 'pazzword', new_password_confirmation: 'pazzword')
 
@@ -48,6 +50,16 @@ describe PasswordResetForm do
       password_reset_form.valid?.should be_true
     end
 
+    it 'is invalid if the password reset is more than 24 hours old' do
+      expired_password_reset = mock(:password_reset, token: 'abc-123', user_id: 9, created_at: 25.hours.ago)
+      PasswordReset.stub(:where).and_return([expired_password_reset])
+
+      password_reset_form = PasswordResetForm.new(valid_params)
+
+      password_reset_form.valid?.should == false
+      password_reset_form.errors.full_messages.should == ['Sorry, the reset password link has expired.  Please visit the login screen and request a new reset password link.']
+    end
+
     it 'is invalid if the password is less than 6 characters' do
       PasswordReset.stub(:where).and_return([mock_password_reset])
 
@@ -60,7 +72,7 @@ describe PasswordResetForm do
       PasswordReset.stub(:where).and_return([])
       password_reset_form = PasswordResetForm.new(new_password: 'pazzword', new_password_confirmation: 'pazzword', token: 'token')
       password_reset_form.should_not be_valid
-      password_reset_form.errors.full_messages.should == ['Password reset link is invalid']
+      password_reset_form.errors.full_messages.should == ['Sorry, this link is invalid.']
     end
 
     it 'validates that password and confirmation are the same' do
