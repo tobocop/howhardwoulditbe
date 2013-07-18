@@ -1,11 +1,12 @@
 module Plink
   class User
 
-    attr_reader :new_user, :user_record
+    attr_reader :new_user, :user_record, :errors
 
     def initialize(attributes)
       @new_user = attributes.fetch(:new_user)
       @user_record = attributes.fetch(:user_record)
+      @errors = attributes.fetch(:errors, [])
     end
 
     delegate :id,
@@ -25,6 +26,10 @@ module Plink
 
     def new_user?
       new_user
+    end
+
+    def valid?
+      errors.empty?
     end
 
     def avatar_thumbnail_url?

@@ -24,10 +24,20 @@ describe Plink::UserService do
   end
 
   describe '#update' do
-    it 'updates the user record for the given id' do
+    it 'updates the user record for the given id and returns a user with no errors' do
       user = create_user(first_name: 'Billy')
-      subject.update(user.id, {first_name: 'Joseph'})
+      returned_user = subject.update(user.id, {first_name: 'Joseph'})
+
+      returned_user.errors.should be_empty
+
       subject.find_by_id(user.id).first_name.should == 'Joseph'
+    end
+
+    it 'returns a user with errors if the user cannot be saved' do
+      user = create_user(first_name: 'Billy')
+      returned_user = subject.update(user.id, {email: ''})
+
+      returned_user.errors.should_not be_empty
     end
   end
 

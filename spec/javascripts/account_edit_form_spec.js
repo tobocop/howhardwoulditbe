@@ -4,7 +4,13 @@ describe('Plink.accountEditForm', function () {
 
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<div data-account-edit-form="">' +
+      '<script type="text/handlebars-template" id="account-error-template">' +
+        '<p>{{instructions}}</p> ' +
+        '<ul> {{#each errors}} ' +
+        '<li class="font error">{{this}}</li> {{/each}} ' +
+        '</ul> ' +
+        '</script>' +
+        '<div data-account-edit-form="">' +
         '<span data-display-value="first_name">John</span>' +
         '<span data-display-value="email">Jdanger@example.com</span>' +
         '<a data-toggleable-selector=".change">Change</a>' +
@@ -59,9 +65,15 @@ describe('Plink.accountEditForm', function () {
 
   describe('submitting the form', function () {
     it("submits the form", function () {
-      var fakejqXHR = {done: function (callback) {
-        callback({})
-      }};
+      var fakejqXHR = {
+        done: function (callback) {
+          callback({});
+          return fakejqXHR;
+        },
+        fail: function (callback) {
+
+        }
+      };
       spyOn($, "ajax").andReturn(fakejqXHR);
 
       $container.find('[name="first_name"]').val('firty');
@@ -72,28 +84,41 @@ describe('Plink.accountEditForm', function () {
       expect($.ajax).toHaveBeenCalledWith('/update/account/123', { data: 'first_name=firty&email=firty%40example.com', method: 'put' });
     });
 
-    it("updates the display values and collapses the form on success", function () {
+    it("updates the display values, collapses the form, and removes any errors on success", function () {
       var fakeResponse = {first_name: 'firty', email: 'firty@example.com'};
-      var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse);
-      }};
+      var fakejqXHR = {
+        done: function (callback) {
+          callback(fakeResponse);
+          return fakejqXHR;
+        },
+        fail: function (callback) {
+
+        }
+      };
       spyOn($, "ajax").andReturn(fakejqXHR);
 
       $container.find('a[data-toggleable-selector]').click();
       expect($container.hasClass('expanded')).toBeTruthy();
+
+      $container.find('.error-messages').text('a bunch of messages');
 
       $container.find('input[type="submit"]').click();
 
       expect($container.find('[data-display-value="first_name"]').text()).toEqual('firty');
       expect($container.find('[data-display-value="email"]').text()).toEqual('firty@example.com');
       expect($container.hasClass('collapsed')).toBeTruthy();
+      expect($container.find('.error-messages').text().length).toEqual(0);
     });
 
     it("displays errors when they are present in the response", function () {
-      var fakeResponse = {error_message: 'You need to fix these', errors: ['you did it wrong']};
+      var fakeResponse = {responseText: '{"error_message": "You need to fix these", "errors": ["you did it wrong"]}'};
       var fakejqXHR = {
-        fail: function (callback) { callback(fakeResponse); },
-        done: function (callback) { return fakejqXHR }
+        fail: function (callback) {
+          callback(fakeResponse);
+        },
+        done: function (callback) {
+          return fakejqXHR
+        }
       };
       spyOn($, "ajax").andReturn(fakejqXHR);
 

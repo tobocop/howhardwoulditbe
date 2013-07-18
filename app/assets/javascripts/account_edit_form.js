@@ -68,8 +68,14 @@
         $el.text(data[prop]);
       }
 
+      base._clearErrors();
+
       base._collapse();
-    }
+    };
+
+    base._clearErrors = function() {
+      base.$el.find('.error-messages').html('');
+    };
 
     base._displayErrors = function(xhr) {
       var responseData = $.parseJSON(xhr.responseText);

@@ -88,39 +88,62 @@ describe AccountsController do
 
     let(:fake_user_service) { mock(:user_service) }
 
-    before do
-      controller.stub(current_user: user)
-      controller.stub(plink_user_service: fake_user_service)
+    context 'when successful' do
+      before do
+        controller.stub(current_user: user)
+        controller.stub(plink_user_service: fake_user_service)
+        fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: true))
+      end
+
+      it 'updates the user with the given attributes' do
+        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: true))
+
+        put :update, email: 'goo@example.com', password: 'password'
+
+        response.should be_success
+      end
+
+      it 'returns a JSON response' do
+        put :update, email: 'goo@example.com', password: 'password'
+
+        body = JSON.parse(response.body)
+        body.should == {'email' => 'goo@example.com'}
+      end
     end
 
-    it 'updates the user with the given attributes' do
-      fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-      fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com'}).and_return(true)
+    context 'when the password is wrong' do
+      before do
+        controller.stub(current_user: user)
+        controller.stub(plink_user_service: fake_user_service)
 
-      put :update, email: 'goo@example.com', password: 'password'
+        fake_user_service.stub(:verify_password).and_return(false)
+      end
 
-      response.should be_success
+      it 'does not allow updating without a valid password' do
+        fake_user_service.stub(:verify_password).and_return(false)
+        put :update, email: 'goo@example.com'
+
+        response.status.should == 401
+
+        body = JSON.parse(response.body)
+        body.should == {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => ['Current password is incorrect']}
+      end
     end
 
-    it 'returns a JSON response' do
-      fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-      fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'})
+    context 'when the user cannot be updated' do
+      before do
+        controller.stub(current_user: user)
+        controller.stub(plink_user_service: fake_user_service)
+        fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: false, errors: mock(:error_messages, full_messages: ['doesnt work'])))
+      end
 
-      put :update, email: 'goo@example.com', password: 'password'
+      it 'updates the user with the given attributes' do
+        put :update, email: 'goo@example.com', password: 'password'
 
-      body = JSON.parse(response.body)
-      body.should == {'email' => 'goo@example.com'}
-    end
-
-    it 'does not allow updating without a valid password' do
-      fake_user_service.stub(:verify_password).and_return(false)
-
-      put :update, email: 'goo@example.com'
-
-      response.status.should == 401
-
-      body = JSON.parse(response.body)
-      body.should == {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => ['Current password is incorrect']}
+        response.status.should == 403
+      end
     end
   end
 end

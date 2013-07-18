@@ -9,7 +9,20 @@ module Plink
     end
 
     def update(id, attributes={})
-      find_by_id(id).update_attributes(attributes)
+      user = find_by_id(id)
+      user.update_attributes(attributes)
+      create_user(user)
+    end
+
+    def verify_password(user_id, password)
+      user = find_by_id(user_id)
+
+      if user
+        hashed_password = Password.new(unhashed_password: password, salt: user.salt).hashed_value
+        user.password_hash == hashed_password
+      else
+        false
+      end
     end
 
     private
@@ -21,19 +34,9 @@ module Plink
     def new_user(user_record)
       Plink::User.new(
         new_user: false,
-        user_record: user_record
+        user_record: user_record,
+        errors: user_record.errors
       )
-    end
-    
-    def verify_password(user_id, password)
-      user = find_by_id(user_id)
-
-      if user
-        hashed_password = Password.new(unhashed_password: password, salt: user.salt).hashed_value
-        user.password == hashed_password
-      else
-        false
-      end
     end
   end
 end
