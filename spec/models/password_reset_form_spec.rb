@@ -19,7 +19,7 @@ describe PasswordResetForm do
 
       it 'allows the user to reset their password' do
         PasswordReset.should_receive(:where).with(token: 'abc-123').and_return([mock_password_reset])
-        Password.should_receive(:new).with(unhashed_password: 'pazzword').and_return(mock_password)
+        Plink::Password.should_receive(:new).with(unhashed_password: 'pazzword').and_return(mock_password)
         mock_plink_user_service.should_receive(:update).with(9, {password_hash: 'ee44-hheu', salt: 'pepper'}).and_return(true)
 
         password_reset_form = PasswordResetForm.new(token: 'abc-123', new_password: 'pazzword', new_password_confirmation: 'pazzword')

@@ -25,7 +25,7 @@ class PasswordResetForm
   def save
     if valid?
       user = plink_user_service.find_by_id(password_reset.user_id)
-      password = Password.new(unhashed_password: new_password)
+      password = Plink::Password.new(unhashed_password: new_password)
       plink_user_service.update(user.id, {password_hash: password.hashed_value, salt: password.salt})
     else
       false

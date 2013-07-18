@@ -62,6 +62,6 @@ class UserRegistrationForm
   end
 
   def hashed_password
-    Password.new(unhashed_password: password)
+    Plink::Password.new(unhashed_password: password)
   end
 end

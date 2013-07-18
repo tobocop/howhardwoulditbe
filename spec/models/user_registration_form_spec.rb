@@ -92,7 +92,7 @@ describe UserRegistrationForm do
 
     it 'calls save on the user_creation_service when valid' do
       password = stub(hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
-      Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
+      Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
       user_creation_service_mock = mock(valid?:true)
       Plink::UserCreationService.should_receive(:new).with(password_hash: '1234790dfghjkl;', first_name: 'Bobo', email: 'bobo@example.com', salt: 'qwer-qwer-qwer-qwer').and_return(user_creation_service_mock)
       user_creation_service_mock.should_receive(:create_user)

@@ -28,7 +28,7 @@ class UserSession
       user = plink_user_service.find_by_email(email)
 
       if user.present?
-        password_object = Password.new(unhashed_password: password, salt: user.salt)
+        password_object = Plink::Password.new(unhashed_password: password, salt: user.salt)
         if password_object.hashed_value != user.password_hash
           errors.add(:email, 'or password is invalid')
         else

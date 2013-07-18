@@ -53,14 +53,14 @@ describe UserSession do
     it 'returns true on success' do
       user_session = UserSession.new(valid_options)
       password_object = stub(hashed_value: 'my-hash')
-      Password.should_receive(:new).with(unhashed_password: 'test123', salt: 'my-salt') { password_object }
+      Plink::Password.should_receive(:new).with(unhashed_password: 'test123', salt: 'my-salt') { password_object }
       user_session.should be_valid
     end
 
     it 'sets a user id when valid' do
       user = stub(salt: 'my-salt', password_hash: 'my-hash')
       Plink::UserService.any_instance.stub(:find_by_email).with('test123@example.com') { user }
-      Password.any_instance.stub(:hashed_value) { 'my-hash' }
+      Plink::Password.any_instance.stub(:hashed_value) { 'my-hash' }
       user_session = UserSession.new(valid_options)
       user_session.valid?
       user_session.user.should == user
@@ -77,7 +77,6 @@ describe UserSession do
       user_session.valid?
       user_session.errors.full_messages.join.should == 'Password can\'t be blank'
     end
-
 
     it 'sets an error for an empty email' do
       user_session = UserSession.new(valid_options.merge(email: ''))
