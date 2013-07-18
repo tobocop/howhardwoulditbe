@@ -28,7 +28,7 @@
             %h2 Enter your password:
             = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
           .cancel-btn
-            %button.button.secondary-action{data: {cancel: true}} Cancel
+            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
           .submit-btn
             %button.button.primary-action Change Your Email
       %hr
