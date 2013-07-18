@@ -163,6 +163,15 @@
     }
   }
 
+  .error-messages {
+    padding-top: 10px;
+    padding-bottom: 2px;
+
+    .error {
+      margin-left:28px;
+      margin-top:5px;
+    }
+  }
   /* RIGHT COLUMN STYLES */
   
   .activity {

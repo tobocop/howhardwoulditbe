@@ -20,9 +20,13 @@
         %h3.bold{data: {'display-value' => 'email'}}= current_user.email
         %a{data: {'toggleable-selector' => '.change'}} Change
         = form_tag account_path, class: 'change', method: 'put' do
+          .error-messages
           .field
             %h2 Enter your new email address:
             = text_field_tag :email, '', placeholder: 'New Email Address', class: 'form-field input'
+          .field
+            %h2 Enter your password:
+            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
           .cancel-btn
             %button.button.secondary-action{data: {cancel: true}} Cancel
           .submit-btn
@@ -64,3 +68,15 @@
       }
     )
   });
+
+
+:plain
+  <script type="text/handlebars-template" id="account-error-template">
+    <img alt="Your account is inactive" class="status-img" src="/assets/icon_alert_pink.png">
+    <p>{{instructions}}</p>
+    <ul>
+      {{#each errors}}
+        <li class="font error">{{this}}</li>
+      {{/each}}
+    </ul>
+  </script>

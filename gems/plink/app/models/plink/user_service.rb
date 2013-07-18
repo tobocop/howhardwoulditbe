@@ -24,5 +24,16 @@ module Plink
         user_record: user_record
       )
     end
+    
+    def verify_password(user_id, password)
+      user = find_by_id(user_id)
+
+      if user
+        hashed_password = Password.new(unhashed_password: password, salt: user.salt).hashed_value
+        user.password == hashed_password
+      else
+        false
+      end
+    end
   end
 end

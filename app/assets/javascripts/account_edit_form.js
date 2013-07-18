@@ -57,7 +57,9 @@
       $.ajax(url, {
         data: data,
         method: 'put'
-      }).done(base._refreshDisplay);
+      })
+        .done(base._refreshDisplay)
+        .fail(base._displayErrors)
     };
 
     base._refreshDisplay = function (data) {
@@ -68,6 +70,14 @@
 
       base._collapse();
     }
+
+    base._displayErrors = function(xhr) {
+      var responseData = $.parseJSON(xhr.responseText);
+      var template = $("#account-error-template").html();
+      var compiledTemplate = Handlebars.compile(template);
+
+      base.$el.find('.error-messages').html(compiledTemplate({instructions: responseData.error_message, errors: responseData.errors}));
+    };
 
     base.init();
   };

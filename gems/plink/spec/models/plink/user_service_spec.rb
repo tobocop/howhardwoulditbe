@@ -30,4 +30,14 @@ describe Plink::UserService do
       subject.find_by_id(user.id).first_name.should == 'Joseph'
     end
   end
+
+  describe '#verify_password' do
+    it 'returns true only if the correct password is given for the correct user' do
+      user = create_user(first_name: 'Billy', password: 'pazz123')
+      subject.verify_password(user.id, 'pazz123').should be_true
+
+      subject.verify_password(user.id, 'WRONG').should be_false
+      subject.verify_password(user.id + 1, 'pazz123').should be_false
+    end
+  end
 end

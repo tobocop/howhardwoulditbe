@@ -8,6 +8,7 @@ describe('Plink.accountEditForm', function () {
         '<span data-display-value="first_name">John</span>' +
         '<span data-display-value="email">Jdanger@example.com</span>' +
         '<a data-toggleable-selector=".change">Change</a>' +
+        '<div class="error-messages"></div>' +
         '<form class="change" action="/update/account/123">' +
         '<input type="text" name="first_name" />' +
         '<input type="text" name="email" />' +
@@ -86,6 +87,21 @@ describe('Plink.accountEditForm', function () {
       expect($container.find('[data-display-value="first_name"]').text()).toEqual('firty');
       expect($container.find('[data-display-value="email"]').text()).toEqual('firty@example.com');
       expect($container.hasClass('collapsed')).toBeTruthy();
+    });
+
+    it("displays errors when they are present in the response", function () {
+      var fakeResponse = {error_message: 'You need to fix these', errors: ['you did it wrong']};
+      var fakejqXHR = {
+        fail: function (callback) { callback(fakeResponse); },
+        done: function (callback) { return fakejqXHR }
+      };
+      spyOn($, "ajax").andReturn(fakejqXHR);
+
+      $container.find('a[data-toggleable-selector]').click();
+      $container.find('input[type="submit"]').click();
+
+      expect($container.find('.error-messages').text()).toContain('You need to fix these');
+      expect($container.find('.error-messages').text()).toContain('you did it wrong');
     });
 
 
