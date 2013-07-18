@@ -8,6 +8,10 @@ module Plink
       create_user(Plink::UserRecord.where(emailAddress: email).first)
     end
 
+    def update(id, attributes={})
+      find_by_id(id).update_attributes(attributes)
+    end
+
     private
 
     def create_user(user_record)
@@ -19,10 +23,6 @@ module Plink
         new_user: false,
         user_record: user_record
       )
-    end
-
-    def update(id, attributes={})
-      find_by_id(id).update_attributes(attributes)
     end
   end
 end
