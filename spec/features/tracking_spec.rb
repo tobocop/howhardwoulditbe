@@ -76,22 +76,6 @@ describe 'event tracking' do
     tracked_event.is_active.should be_true
     tracked_event.created_at.should be
 
-    click_on 'Log Out'
-
-    click_on 'Join'
-
-    page.should have_content 'Join Plink'
-
-    within '.modal' do
-      page.find('[gigid="facebook"]').click
-    end
-
-    page.should have_content('Welcome, Matt!')
-
-    tracked_event_new = Plink::EventRecord.order('eventID desc').first
-
-    tracked_event_new.id.should == tracked_event.id
-
   end
 
 end
