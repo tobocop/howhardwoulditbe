@@ -18,7 +18,28 @@ describe Plink::UserRecord do
   it 'must have an email address' do
     subject.email = nil
     subject.should_not be_valid
+    subject.should have(2).error_on(:email)
+  end
+
+  it 'validates the format of the email address' do
+    subject.email = 'foo'
+    subject.should_not be_valid
     subject.should have(1).error_on(:email)
+
+    subject.email = 'foo@'
+    subject.should_not be_valid
+    subject.should have(1).error_on(:email)
+
+    subject.email = 'foo@example'
+    subject.should_not be_valid
+    subject.should have(1).error_on(:email)
+
+    subject.email = 'foo@example.'
+    subject.should_not be_valid
+    subject.should have(1).error_on(:email)
+
+    subject.email = 'foo@example.c'
+    subject.should be_valid
   end
 
   it 'must have a password hash' do

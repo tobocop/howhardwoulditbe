@@ -36,7 +36,7 @@ describe UserRegistrationForm do
     it 'expects email address to be present' do
       subject.email = nil
       subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      subject.should have(2).error_on(:email)
     end
 
     it 'expects an email address to contain an @ sign' do
@@ -88,8 +88,6 @@ describe UserRegistrationForm do
   end
 
   describe 'saving' do
-    #before { Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) } }
-
     it 'calls save on the user_creation_service when valid' do
       password = stub(hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
       Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }

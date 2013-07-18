@@ -3,6 +3,14 @@ module Plink
     self.table_name = 'users'
     self.primary_key = 'userID'
 
+    VALID_EMAIL_REGEXP = /
+    ^[^+]+             # One or more not '+' signs
+    @                  # @ sign is mandatory
+    .+                 # One or more characters
+    \.                 # A literal dot
+    .+                 # One or more characters
+    $/x
+
     include Plink::LegacyTimestamps
 
     attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
@@ -15,7 +23,7 @@ module Plink
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 
     validates :first_name, presence: {message: 'Please enter a First Name'}
-    validates :email, presence: {message: 'Please enter a valid email address'}
+    validates :email, presence: {message: 'Email address is required'}, format: {with: VALID_EMAIL_REGEXP, message: 'Please enter a valid email address'}
     validates :password_hash, :salt, presence: true
 
     before_create :set_default_virtual_currency
