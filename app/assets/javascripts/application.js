@@ -40,12 +40,24 @@ var Plink = {
       }
     });
 
-    $('#wallet_offers_management').walletOffersManager()
+    $('#wallet_offers_management').walletOffersManager({
+      successEvent: Plink.WalletEvents.successfulAdd,
+      failureEvent: Plink.WalletEvents.failure
+    })
 
-    $('#wallet_offers_management').on('click', '[data-add-to-wallet]', function(e) {
+    $('#wallet_offers_management').on(Plink.WalletEvents.successfulAdd, function (e) {
       $('.modal.offer-details').foundation('reveal', 'close');
     });
 
+    $('#wallet_offers_management').on(Plink.WalletEvents.failure, function (e, reason) {
+      $('.modal.offer-details .call-to-action').hide()
+      $('.modal.offer-details .' + reason).show()
+    });
+
+    $('.wallet-add').on('click', function(e) {
+      $('.modal.offer-details .reason').hide()
+      $('.modal.offer-details .call-to-action').show()
+    })
   },
 
   conditionalCallback: function (flag, callback) {
@@ -65,3 +77,9 @@ Plink.Config = {
     }
   ]
 }
+
+Plink.WalletEvents = {
+  successfulAdd: 'successfulAdd',
+  failure: 'failure'
+}
+

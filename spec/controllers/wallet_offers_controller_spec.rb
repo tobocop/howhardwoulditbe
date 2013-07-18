@@ -63,11 +63,12 @@ describe WalletOffersController do
         expect { post :create, offer_id: offer_id }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
-      it 'returns an error if the service fails' do
+      it 'returns a failure reason of wallet_full if the service fails' do
         Plink::OfferRecord.stub(:live_only) { stub }
         Plink::AddOfferToWalletService.any_instance.stub(:add_offer) { false }
         post :create, offer_id: offer_id
-        response.should_not be_successful
+
+        JSON.parse(response.body)['failure_reason'].should == 'wallet_full'
       end
     end
 

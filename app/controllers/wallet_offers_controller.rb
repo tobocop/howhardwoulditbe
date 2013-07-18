@@ -11,7 +11,7 @@ class WalletOffersController < ApplicationController
     if service.add_offer
       render json: {wallet: presented_wallet_items}, status: :created
     else
-      render nothing: true, status: :internal_server_error
+      render json: {failure_reason: 'wallet_full'}, status: :ok
     end
   end
 

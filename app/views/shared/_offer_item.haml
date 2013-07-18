@@ -23,7 +23,9 @@
         - presenter.tier_descriptions.each do |description|
           %p.font.modal-text.h3= description
 
-
-  = presenter.call_to_action_link
+  .message.reason.wallet_full.hide
+    You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
+  .call-to-action
+    = presenter.call_to_action_link
 
   .offer-description= raw presenter.description

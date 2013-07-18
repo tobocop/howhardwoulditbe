@@ -108,6 +108,8 @@ describe 'user signs in' do
 
     click_on 'Wallet'
 
+    page.execute_script('$.fx.off = true;')
+
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
@@ -162,6 +164,18 @@ describe 'user signs in' do
     end
 
     page.should have_css '.slot .brand'
+
+    within "[data-offer-id='#{@old_navy_offer.id}']" do
+      page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+      click_on 'Add to wallet'
+    end
+
+    within '.modal' do
+      page.should have_content('Old Navy Offers')
+      click_on 'Add To My Wallet'
+
+      page.should have_content("You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.")
+    end
 
     click_on 'Remove'
 
