@@ -1,4 +1,4 @@
-class RedemptionsController < ApplicationController
+class RedemptionController < ApplicationController
 
   before_filter :require_authentication
 
