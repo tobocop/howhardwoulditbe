@@ -3,6 +3,17 @@ PlinkPivotal::Application.configure do
 
   config.contact_email_address = 'contactus@plink.com'
 
+  config.action_mailer.default_url_options = { :host => "review.plink-qa.com" }
+
+  config.action_mailer.smtp_settings = {
+    :address        => 'smtp.sendgrid.net',
+    :port           => 25,
+    :domain         => 'plink.com',
+    :authentication => :plain,
+    :user_name      => ENV['SENDGRID_USERNAME'],
+    :password       => ENV['SENDGRID_PASSWORD']
+  }
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
@@ -62,6 +73,8 @@ PlinkPivotal::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

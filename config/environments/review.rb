@@ -64,6 +64,8 @@ PlinkPivotal::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+  config.action_mailer.default_url_options = { :host => "review.plink-qa.com" }
+
   config.middleware.use(::Rack::Auth::Basic, "Plink.com Review") do |user, password|
     [user, password] == [ENV['HTTP_USER'], ENV['HTTP_PASSWORD']]
   end
