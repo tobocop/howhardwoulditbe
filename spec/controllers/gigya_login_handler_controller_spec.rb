@@ -15,14 +15,19 @@ describe GigyaLoginHandlerController do
 
       before do
         GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }
+        controller.should_receive(:sign_in_user).with(user)
       end
 
       it 'signs the user in' do
-        controller.should_receive(:sign_in_user).with(user)
 
         get :create, {valid_params: true}
 
         response.should redirect_to dashboard_path
+      end
+
+      it 'does not track an email creation event' do
+        get :create, {valid_params: true}
+        Plink::EventRecord.all.length.should == 0
       end
     end
 
