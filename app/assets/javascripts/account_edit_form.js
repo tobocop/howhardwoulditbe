@@ -68,9 +68,13 @@
         $el.text(data[prop]);
       }
 
+      base._clearInputs();
       base._clearErrors();
-
       base._collapse();
+    };
+
+    base._clearInputs = function() {
+      base.$el.find('input[type="text"], input[type="password"]').val('');
     };
 
     base._clearErrors = function() {
