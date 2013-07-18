@@ -34,6 +34,7 @@ describe Plink::User do
     user.avatar_thumbnail_url?.should be_true
     user.wallet.open_wallet_items.size.should == 1
     user.open_wallet_item.should be
+    user.should respond_to(:update_attributes)
 
   end
 end

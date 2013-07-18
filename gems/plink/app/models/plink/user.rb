@@ -20,6 +20,7 @@ module Plink
              :password_hash,
              :primary_virtual_currency_id,
              :open_wallet_item,
+             :update_attributes,
              to: :user_record
 
     def new_user?
@@ -29,7 +30,6 @@ module Plink
     def avatar_thumbnail_url?
       avatar_thumbnail_url
     end
-
 
   end
 end

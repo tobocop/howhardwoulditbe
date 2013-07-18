@@ -82,10 +82,6 @@ module Plink
       open_wallet_items.first
     end
 
-    def new_user?
-      false
-    end
-
     private
 
     def email_is_not_in_database

@@ -70,9 +70,11 @@ describe Plink::UserCreationService do
       Plink::UserCreationService.new(valid_params).create_user
     end
 
-    it 'returns the craeted user' do
+    it 'returns the created user' do
       created_user = Plink::UserCreationService.new(valid_params).create_user
       created_user.id.should == user.id
+      created_user.should be_instance_of Plink::User
+      created_user.new_user?.should be_true
     end
   end
 
