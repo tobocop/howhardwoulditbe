@@ -10,7 +10,16 @@ class AccountsController < ApplicationController
     @currency_activity = plink_currency_activity_service.get_for_user_id(current_user.id).map {|debit_credit| CurrencyActivityPresenter.build_currency_activity(debit_credit)}
   end
 
+  def update
+    plink_user_service.update(current_user.id, updatable_user_attributes(params))
+    render json: updatable_user_attributes(params)
+  end
+
   private
+
+  def updatable_user_attributes(parameters)
+    parameters.slice(:email)
+  end
 
   def plink_currency_activity_service
     Plink::CurrencyActivityService.new

@@ -15,10 +15,18 @@
         %h4 Account Status
 
       %hr
-      .content
-        %h4 Registered Email
-        %h3.bold= current_user.email
-        %a Change
+      .content{data: {'account-edit-form' => true}}
+        %h4 Email
+        %h3.bold{data: {'display-value' => 'email'}}= current_user.email
+        %a{data: {'toggleable-selector' => '.change'}} Change
+        = form_tag account_path, class: 'change', method: 'put' do
+          .field
+            %h2 Enter your new email address:
+            = text_field_tag :email, '', placeholder: 'New Email Address', class: 'form-field input'
+          .cancel-btn
+            %button.button.secondary-action{data: {cancel: true}} Cancel
+          .submit-btn
+            %button.button.primary-action Change Your Email
       %hr
       .content
         %h4 Your Bank

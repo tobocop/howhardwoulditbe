@@ -124,6 +124,14 @@
     }
   }
 
+  .collapsed .change {
+    display: none;
+  }
+
+  .expanded .change {
+    display: block;
+  }
+
   .change {
 
     h1 {

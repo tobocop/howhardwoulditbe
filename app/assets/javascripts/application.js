@@ -58,6 +58,9 @@ var Plink = {
       $('.modal.offer-details .reason').hide()
       $('.modal.offer-details .call-to-action').show()
     })
+    
+    $('[data-account-edit-form]').accountEditForm();
+
   },
 
   conditionalCallback: function (flag, callback) {

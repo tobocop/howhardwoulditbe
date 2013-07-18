@@ -83,4 +83,31 @@ describe AccountsController do
       response.should be_redirect
     end
   end
+
+  describe 'PUT update' do
+
+    let(:fake_user_service) { mock(:user_service) }
+
+    before do
+      controller.stub(current_user: user)
+      controller.stub(plink_user_service: fake_user_service)
+    end
+
+    it 'updates the user with the given attributes' do
+      fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com'}).and_return(true)
+
+      put :update, email: 'goo@example.com'
+
+      response.should be_success
+    end
+
+    it 'returns a JSON response' do
+      fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'})
+
+      put :update, email: 'goo@example.com'
+
+      body = JSON.parse(response.body)
+      body.should == {'email' => 'goo@example.com'}
+    end
+  end
 end
