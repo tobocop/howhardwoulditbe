@@ -2,25 +2,25 @@ class RegistrationsController < ApplicationController
 
   include Tracking
 
-  def new
-    @user_registration_form = UserRegistrationForm.new
-  end
-
   def create
-    @user_registration_form = UserRegistrationForm.new(
+    user_registration_form = UserRegistrationForm.new(
       first_name: params[:first_name],
       email: params[:email],
       password: params[:password],
       password_confirmation: params[:password_confirmation]
     )
 
-    if @user_registration_form.save
-      notify_gigya(@user_registration_form)
-      track_email_capture_event(@user_registration_form.user_id)
-      sign_in_user(@user_registration_form.user)
-      redirect_to dashboard_path
+    if user_registration_form.save
+      notify_gigya(user_registration_form)
+      track_email_capture_event(user_registration_form.user_id)
+      sign_in_user(user_registration_form.user)
+
+      render json: {}
     else
-      render :new
+      render json: {
+        error_message: 'Please Correct the below errors:',
+        errors: user_registration_form.errors.messages.slice(:first_name, :password, :password_confirmation, :email)
+      }, status: 403
     end
   end
 

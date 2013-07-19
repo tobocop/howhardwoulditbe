@@ -4,6 +4,8 @@
 
     base.$el = $(el);
 
+    base.errorsTemplate = Handlebars.compile($('#generic-error-template').html());
+
     base.init = function () {
       base.bindEvents();
     };
@@ -25,11 +27,30 @@
         data: formValues,
         method: 'post'
       })
-        .done(base._successfulSubmission);
+        .done(base._successfulSubmission)
+        .fail(base._failureSubmission);
     };
 
     base._successfulSubmission = function(data) {
       Plink.redirect(Plink.Routes.dashboard_path);
+    };
+
+    base._failureSubmission = function (xhr) {
+      var response = $.parseJSON(xhr.responseText);
+
+      var errorsHtml = base.errorsTemplate({instructions: response.error_message, errors: base._mapErrorMessages(response.errors)});
+
+      base.$el.find('.error-messages').html(errorsHtml);
+    };
+
+    base._mapErrorMessages = function(errorMessages) {
+      var messagesCollection = [];
+      $.each(errorMessages, function(key, val) {
+        $(val).each(function(i, item) {
+          messagesCollection.push(item);
+        })
+      });
+      return messagesCollection;
     };
 
     base._getFormValues = function() {

@@ -7,7 +7,6 @@
 
     #social-link-widget
 
-
     .left-column
       .flag
         %h2.white SETTINGS
@@ -69,14 +68,4 @@
     )
   });
 
-
-:plain
-  <script type="text/handlebars-template" id="account-error-template">
-    <img alt="Your account is inactive" class="status-img" src="/assets/icon_alert_pink.png">
-    <p>{{instructions}}</p>
-    <ul>
-      {{#each errors}}
-        <li class="font error">{{this}}</li>
-      {{/each}}
-    </ul>
-  </script>
+= render partial: 'shared/js/generic_error_template'

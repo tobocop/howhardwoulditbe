@@ -4,7 +4,7 @@ describe('Plink.accountEditForm', function () {
 
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<script type="text/handlebars-template" id="account-error-template">' +
+      '<script type="text/handlebars-template" id="generic-error-template">' +
         '<p>{{instructions}}</p> ' +
         '<ul> {{#each errors}} ' +
         '<li class="font error">{{this}}</li> {{/each}} ' +

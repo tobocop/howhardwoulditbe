@@ -14,6 +14,18 @@ describe 'User signup workflow' do
       click_link 'Join'
 
       within '.modal' do
+        fill_in 'First Name', with: ''
+        fill_in 'Email', with: ''
+        fill_in 'Password', with: ''
+        fill_in 'Verify Password', with: ''
+
+        click_on 'Start Earning Rewards'
+      end
+
+      within '.modal' do
+        page.should have_content 'Please enter a First Name'
+        page.should have_content 'Email address is required'
+
         fill_in 'First Name', with: 'Joe'
         fill_in 'Email', with: 'test2@example.com'
         fill_in 'Password', with: 'test123'
@@ -30,23 +42,6 @@ describe 'User signup workflow' do
       page.should have_content 'My Wallet'
       page.should have_content 'This slot is empty.', count: 3
       page.should have_content 'This slot is locked.', count: 1
-    end
-
-    it 'should show error messages when form validation fail', js: true do
-
-      pending 'rewriting how this works'
-
-      visit '/'
-
-      click_link 'Join'
-
-      page.should have_content 'Start Earning Rewards'
-
-      within '.modal' do
-        click_on 'Start Earning Rewards'
-      end
-
-      page.should have_text('Please enter a password at least 6 characters long')
     end
   end
 

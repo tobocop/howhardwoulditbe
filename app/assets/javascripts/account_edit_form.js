@@ -4,6 +4,8 @@
 
     base.$el = $(el);
 
+    base.errorsTemplate = Handlebars.compile($('#generic-error-template').html());
+
     base.init = function () {
       base._collapse();
       base.bindEvents();
@@ -83,10 +85,7 @@
 
     base._displayErrors = function(xhr) {
       var responseData = $.parseJSON(xhr.responseText);
-      var template = $("#account-error-template").html();
-      var compiledTemplate = Handlebars.compile(template);
-
-      base.$el.find('.error-messages').html(compiledTemplate({instructions: responseData.error_message, errors: responseData.errors}));
+      base.$el.find('.error-messages').html(base.errorsTemplate({instructions: responseData.error_message, errors: responseData.errors}));
     };
 
     base.init();

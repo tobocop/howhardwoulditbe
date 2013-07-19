@@ -100,11 +100,6 @@
     width:340px;
   }
 
-  .status-img{
-  	float:left;
-  	margin: 0px 5px 0px 0px;
-  }
-
   a {
   	color:$cyan;
     font-size:.9em;
@@ -163,15 +158,6 @@
     }
   }
 
-  .error-messages {
-    padding-top: 10px;
-    padding-bottom: 2px;
-
-    .error {
-      margin-left:28px;
-      margin-top:5px;
-    }
-  }
   /* RIGHT COLUMN STYLES */
   
   .activity {
