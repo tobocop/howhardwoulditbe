@@ -13,14 +13,6 @@ module PlinkAdmin
       PlinkAdmin::Admin.new { |admin| apply(admin, defaults, options) }
     end
 
-    def sign_in_admin
-      create_admin
-      visit '/plink_admin'
-      fill_in 'Email', with: 'my_admin@example.com'
-      fill_in 'Password', with: 'password'
-      click_on 'Sign in'
-    end
-
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|

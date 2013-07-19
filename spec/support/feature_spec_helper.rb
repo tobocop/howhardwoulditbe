@@ -38,6 +38,14 @@ module FeatureSpecHelper
     create_users_institution_account(user_id: user_id)
   end
 
+  def sign_in_admin
+    create_admin
+    visit '/plink_admin'
+    fill_in 'Email', with: 'my_admin@example.com'
+    fill_in 'Password', with: 'password'
+    click_on 'Sign in'
+  end
+
   def delete_users_from_gigya
     gigya = Gigya.new(Gigya::Config.instance)
     
