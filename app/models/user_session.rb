@@ -30,12 +30,12 @@ class UserSession
       if user.present?
         password_object = Plink::Password.new(unhashed_password: password, salt: user.salt)
         if password_object.hashed_value != user.password_hash
-          errors.add(:email, 'or password is invalid')
+          errors.add(:base, 'Sorry, the email and password do not match for this account.  Please try again.')
         else
           self.user = user
         end
       else
-        errors.add(:email, 'or password is invalid')
+        errors.add(:base, 'Sorry, the email and password do not match for this account.  Please try again.')
       end
     end
 

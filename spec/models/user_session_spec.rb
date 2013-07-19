@@ -91,7 +91,7 @@ describe UserSession do
       user_session.user.should_not be
     end
 
-    let(:invalid_user_message) { 'Email or password is invalid' }
+    let(:invalid_user_message) { 'Sorry, the email and password do not match for this account.  Please try again.' }
 
     it 'sets an error if it can\'t find the user' do
       Plink::UserService.stub(:find_by_email).with('test123@example.com') { nil }

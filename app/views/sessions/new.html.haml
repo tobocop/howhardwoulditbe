@@ -1,6 +1,6 @@
 - if @user_session.errors.any?
   - @user_session.errors.full_messages.each do |error|
-    %p= error
+    .font.error= error
 
 %br
 = form_for(@user_session, url: plink_session_path) do |f|
