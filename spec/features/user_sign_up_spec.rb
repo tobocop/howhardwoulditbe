@@ -14,6 +14,8 @@ describe 'User signup workflow' do
       click_link 'Join'
 
       within '.modal' do
+        click_on 'Join with Email'
+
         fill_in 'First Name', with: ''
         fill_in 'Email', with: ''
         fill_in 'Password', with: ''

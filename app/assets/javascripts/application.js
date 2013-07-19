@@ -64,6 +64,8 @@ var Plink = {
 
     $('#organic-registration-form').registrationForm();
 
+    $('[data-toggle-selector]').toggler();
+
   },
 
   conditionalCallback: function (flag, callback) {

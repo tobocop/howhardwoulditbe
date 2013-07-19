@@ -13,7 +13,8 @@
   %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
   .bg-element
     #social-login
-    = form_tag(registrations_path, id: 'organic-registration-form') do
+    %button.button.social-action.email{data: {'toggle-selector' => '#organic-registration-form'}} Join with Email
+    = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden') do
       .error-messages
       = text_field_tag :first_name, '', class: 'form-field input', placeholder: 'First Name'
       = text_field_tag :email, '', class: 'form-field input', placeholder: 'Email'
