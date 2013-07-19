@@ -1,0 +1,22 @@
+.layout-inner
+  .confirm
+    .headline
+      %h1 Congrats on your loot!
+      %h2
+        You've succesfully redeemed for a
+        %span.h2.bold
+          #{plink_currency_format(@reward.amounts.first.dollar_award_amount)} #{@reward.name}.
+    .details
+      %h3= @reward.description
+      %br
+      = link_to "Go To My Wallet >", wallet_path
+    .share
+      %h3
+        %span.h3.bold Get 5 Plink Points
+        when you tell your friends about your loot.
+      .share-btn
+        %button.button.nav.sign-in Share
+    %hr
+    .legal
+      %h3.gray Legal Stuff
+      %h4= @reward.terms

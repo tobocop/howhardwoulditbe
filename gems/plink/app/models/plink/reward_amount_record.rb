@@ -2,6 +2,7 @@ module Plink
   class RewardAmountRecord < ActiveRecord::Base
 
     self.table_name = 'lootAmounts'
+    self.primary_key = 'lootAmountID'
 
     include Plink::LegacyTimestamps
 
@@ -11,5 +12,6 @@ module Plink
 
     attr_accessible :dollar_award_amount, :is_active, :reward_id
 
+    belongs_to :reward_record, class_name: 'Plink::RewardRecord', foreign_key: 'lootID'
   end
 end

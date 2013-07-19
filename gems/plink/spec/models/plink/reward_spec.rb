@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Plink::Reward do
   let(:reward_amount) { new_reward_amount }
-  #let(:reward_record) { create_reward(name: 'terget', logo_url: 'http://example.com/logo', amounts: [reward_amount], description: 'ermagherd') }
 
   subject { Plink::Reward.new(
     {
+      id: 100,
       name: 'terget',
       description: 'ermagherd',
       logo_url: 'http://example.com/logo'
@@ -15,6 +15,7 @@ describe Plink::Reward do
   }
 
   it 'uses info from an reward record to populate all fields' do
+    subject.id.should == 100
     subject.name.should == 'terget'
     subject.description.should == 'ermagherd'
     subject.logo_url.should == 'http://example.com/logo'

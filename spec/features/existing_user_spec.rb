@@ -94,12 +94,22 @@ describe 'user signs in' do
 
     page.should have_content('You have 543 Plink Points.')
 
+    page.should have_content 'CONGRATS ON YOUR LOOT!'
+    page.should have_content "You've succesfully redeemed for a $5 Walmart Gift Card."
+
+    click_on 'Rewards'
+
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
       click_on '$5'
     end
 
+    page.should have_content 'CONGRATS ON YOUR LOOT!'
+    page.should have_content "You've succesfully redeemed for a $5 Tango Card."
+
     page.should have_content('You have 43 Plink Points.')
+
+    click_on 'Rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_content 'wally mart'

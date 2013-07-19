@@ -15,7 +15,7 @@ PlinkPivotal::Application.routes.draw do
     resources :offers, only: [:create, :destroy], controller: 'wallet_offers'
   end
 
-  resource :redemption, only: [:create], controller: :redemption
+  resource :redemption, only: [:show, :create], controller: :redemption
 
   resource :contact, controller: 'contact', only: [:create] do
     get :new

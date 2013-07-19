@@ -2,14 +2,32 @@ require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe RedemptionController do
-  describe 'POST create' do
+  let(:user) { stub(id: 134, logged_in?: true, current_balance: 987, first_name: 'test_name', email: 'test@test.com') }
 
-    let(:user) { stub(id: 134, logged_in?: true, current_balance: 987, first_name: 'test_name', email: 'test@test.com') }
+  before do
+    controller.stub(current_user: user)
+  end
+
+  describe 'GET show' do
+    let(:mock_reward) { mock(:reward) }
+    let(:mock_plink_reward_service) { mock(:plink_reward_service, for_reward_amount: mock_reward) }
+
+    before do
+      controller.stub(plink_reward_service: mock_plink_reward_service)
+    end
+
+    it 'redirects to the rewards page when no reward amount can be found' do
+      get :show
+
+      assigns(:reward).should == mock_reward
+    end
+  end
+
+  describe 'POST create' do
     let(:fake_reward_redemption_service) { stub(redeem: true) }
     let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({134 => true}) }
 
     before do
-      controller.stub(current_user: user)
       controller.stub(plink_redemption_service: fake_reward_redemption_service)
       controller.stub(plink_intuit_account_service: fake_intuit_account_service)
     end
@@ -45,8 +63,7 @@ describe RedemptionController do
     it 'redirect to the rewards page when a redemption is successfully created' do
       fake_reward_redemption_service.should_receive(:redeem)
       post :create, reward_amount_id: 5
-      response.should redirect_to rewards_path
+      response.should redirect_to redemption_path(reward_amount_id: 5)
     end
-
   end
 end
