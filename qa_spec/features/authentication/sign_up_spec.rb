@@ -3,6 +3,7 @@ require 'qa_spec_helper'
 describe 'Signing up', js: true do
   before do
     create_virtual_currency
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
   end
 
   it 'lets the user sign up with the regular registration form' do
