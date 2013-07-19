@@ -3,8 +3,10 @@ require 'qa_spec_helper'
 describe 'Admin portal', js: true do
 
   it 'should only be available to Plink administrators' do
+    create_admin
+
   	visit '/plink_admin'
-    fill_in 'Email', with: 'pivotal@plink.com'
+    fill_in 'Email', with: 'my_admin@example.com'
     fill_in 'Password', with: 'password'
     page.should have_text 'Welcome!'
   end
@@ -19,7 +21,6 @@ describe 'Admin portal', js: true do
 
   context 'as a Plink administrator' do
     before(:each) do
-      #sign in user (admin)
     end
     
   end

@@ -3,11 +3,11 @@ require 'qa_spec_helper'
 describe "Wallet page", js: true do
   before(:each) do
     @virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     add_five_offers_to_page
 
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
-
-    @user = Plink::UserService.find_by_email('email@Plink.com')
+    @user = Plink::UserService.new.find_by_email('email@Plink.com')
   end
 
   subject { page }
@@ -56,7 +56,7 @@ describe "Wallet page", js: true do
 
   context 'after a user has linked a card' do
     before(:each) do
-      link_card_for_user(@user.userID)
+      link_card_for_user(@user.id)
       visit '/wallet'
     end
 

@@ -9,6 +9,7 @@ class SharedRSpecConfig
     config.include(FeatureSpecHelper, type: :feature)
     config.include(UserActions, type: :feature)
     config.include(Plink::ObjectCreationMethods)
+    config.include(PlinkAdmin::ObjectCreationMethods)
 
     config.use_transactional_fixtures = false
 
