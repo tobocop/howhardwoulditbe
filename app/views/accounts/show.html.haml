@@ -47,10 +47,10 @@
 
     %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
 
-    = render partial: 'accounts/recent_activity'
-
     - if current_user.can_redeem?
-      = link_to 'Redeem', rewards_path
+      = link_to 'You have enough points to get some loot!', rewards_path, class: 'redeem-link'
+
+    = render partial: 'accounts/recent_activity'
 
     #card-add-modal.reveal-modal.cf-modal
       %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}

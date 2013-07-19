@@ -43,7 +43,6 @@ describe 'Managing account' do
     )
 
     reward = create_reward(name: 'Walmart Gift Card')
-
     create_redemption(reward_id: reward.id, user_id: user.id, dollar_award_amount:3.00)
   end
 

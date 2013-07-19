@@ -86,6 +86,7 @@ describe 'user signs in' do
     page.should have_css('[gigid="showShareUI"]')
 
     click_on 'Rewards'
+    
     page.current_path.should == '/rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
