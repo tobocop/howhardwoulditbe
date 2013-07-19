@@ -13,13 +13,12 @@
         .img
           = image_tag reward.logo_url, alt: reward.name
         .description
-          %h2.bold #{reward.name} Gift Card
+          %h2.bold #{reward.name}
           %h4= reward.description
 
         - reward.amounts.reverse.each do |amount|
           - if current_user.logged_in? && amount.dollar_award_amount <= current_user.current_balance
-            = link_to redemption_path(reward_amount_id: amount.id), method: 'post', class: 'denomination available' do
-              = plink_currency_format(amount.dollar_award_amount)
+            = render :partial => 'shared/active_reward_amount', locals: {amount: amount, reward: reward}
           - else
             .denomination.unavailable
               = plink_currency_format(amount.dollar_award_amount)

@@ -289,6 +289,9 @@ $state-range:10%;
     font-size: 1em;
     letter-spacing: 1.5px;
     color:$slate;
+    position:relative;
+    top:0;
+    right:0;
     @include vertical-bg-gradient(#e6e6e6, #cccccc);
     @include round-corners(5px);
 

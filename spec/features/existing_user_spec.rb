@@ -94,19 +94,31 @@ describe 'user signs in' do
     page.current_path.should == '/rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
-      click_on '$5'
+      page.find('a', text: '$5').click
+      within '.modal' do
+        page.should have_content '$5 Walmart Gift Card'
+        click_on 'CONFIRM'
+      end
     end
-
-    page.should have_content('You have 500 Plink Points.')
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'
     page.should have_content "You've succesfully redeemed for a $5 Walmart Gift Card."
+    page.should have_content('You have 500 Plink Points.')
 
     click_on 'Rewards'
 
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
-      click_on '$5'
+      page.find('a', text: '$5').click
+      click_on 'CANCEL'
+    end
+
+    page.should have_content('You have 500 Plink Points.')
+
+    within '.reward', text: 'Tango Card' do
+      page.should have_content 'it takes two'
+      page.find('a', text: '$5').click
+      click_on 'CONFIRM'
     end
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'

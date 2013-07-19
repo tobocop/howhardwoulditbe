@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Plink::RewardService do
 
   before do
-    create_reward(name: 'wally mart gift card', amounts: [
-      new_reward_amount(dollar_award_amount: 123, is_active: true),
-      new_reward_amount(dollar_award_amount: 321, is_active: false)
+    @expected = create_reward(name: 'wally mart gift card', amounts: [
+        new_reward_amount(dollar_award_amount: 123, is_active: true),
+        new_reward_amount(dollar_award_amount: 321, is_active: false)
     ])
     create_reward(name: 'not to be found card', is_active: false, amounts: [
       new_reward_amount(dollar_award_amount: 123, is_active: true)
@@ -23,6 +23,7 @@ describe Plink::RewardService do
       reward.class.should == Plink::Reward
       reward.name.should == 'wally mart gift card'
 
+      reward.id.should == @expected.id
       reward.amounts.count.should == 1
     end
   end

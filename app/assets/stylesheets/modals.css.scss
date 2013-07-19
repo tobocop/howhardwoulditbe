@@ -44,6 +44,11 @@
     margin-left: -191px;
   }
 
+  &.reward-amount-confirmation {
+    width: 564px;
+    margin-left: -282px;
+  }
+
   .offer-details {
     max-width: 520px;
 
@@ -91,7 +96,7 @@
 
   .reward-modal {
 
-    a {
+    .terms-link {
       color: $lightgray;
       font-size: .8em;
       font-weight: 300;
@@ -115,6 +120,8 @@
       font-weight: 700;
       letter-spacing: 1px;
       line-height: 1.5em;
+      margin: 0px;
+      text-transform: none;
     }
 
     h2 {
@@ -132,7 +139,7 @@
 
     .img {
       float: left;
-      margin-left: 0px;
+      margin: 0px;
     }
 
     .text {

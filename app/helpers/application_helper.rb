@@ -12,4 +12,11 @@ module ApplicationHelper
       amount
     end
   end
+
+  def redemption_confirmation_text(dollar_award_amount, reward_name)
+    "You're about to redeem #{current_virtual_currency.amount_in_currency(dollar_award_amount)} "\
+    "#{current_virtual_currency.currency_name} for a #{plink_currency_format(dollar_award_amount)} "\
+    "#{reward_name} Gift Card."
+  end
+
 end
