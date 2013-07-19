@@ -17,7 +17,7 @@
           %h4= reward.description
 
         - reward.amounts.reverse.each do |amount|
-          - if current_user.logged_in? && amount.dollar_award_amount < current_user.current_balance
+          - if current_user.logged_in? && amount.dollar_award_amount <= current_user.current_balance
             = link_to redemption_path(reward_amount_id: amount.id), method: 'post', class: 'denomination available' do
               = plink_currency_format(amount.dollar_award_amount)
           - else

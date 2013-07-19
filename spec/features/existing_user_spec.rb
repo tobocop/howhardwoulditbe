@@ -16,7 +16,7 @@ describe 'user signs in' do
 
     link_card_for_user(user.id)
 
-    award_points_to_user(user_id: user.id, dollar_award_amount: 10.43, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
+    award_points_to_user(user_id: user.id, dollar_award_amount: 10.00, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
@@ -74,7 +74,7 @@ describe 'user signs in' do
 
     current_path.should == '/dashboard'
     page.should have_content('Welcome, Bob!')
-    page.should have_content('You have 1043 Plink Points.')
+    page.should have_content('You have 1000 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_css('img[src="http://www.example.com/test.png"]')
@@ -92,7 +92,7 @@ describe 'user signs in' do
       click_on '$5'
     end
 
-    page.should have_content('You have 543 Plink Points.')
+    page.should have_content('You have 500 Plink Points.')
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'
     page.should have_content "You've succesfully redeemed for a $5 Walmart Gift Card."
@@ -107,7 +107,7 @@ describe 'user signs in' do
     page.should have_content 'CONGRATS ON YOUR LOOT!'
     page.should have_content "You've succesfully redeemed for a $5 Tango Card."
 
-    page.should have_content('You have 43 Plink Points.')
+    page.should have_content('You have 0 Plink Points.')
 
     click_on 'Rewards'
 
