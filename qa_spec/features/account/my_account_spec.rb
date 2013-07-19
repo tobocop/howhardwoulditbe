@@ -3,8 +3,9 @@ require 'qa_spec_helper'
 describe 'My Account page', js: true do 
   before(:each) do
     @virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
-    @user = Plink::UserService.find_by_email('email@Plink.com')
+    @user = Plink::UserService.new.find_by_email('email@Plink.com')
   end
 
   it 'should be accessible to plink members' do
@@ -20,8 +21,8 @@ describe 'My Account page', js: true do
 
   it 'should display the users email' do
     click_on 'My Account'
-    page.should have_text 'REGISTERED EMAIL'
-    page.should have_text "#{@user.emailAddress}"
+    page.should have_text 'EMAIL'
+    page.should have_text "#{@user.email}"
   end
 
   it 'should allow a user to manage their social accounts' do
@@ -37,11 +38,11 @@ describe 'My Account page', js: true do
 
   context 'when a user has added a card' do
     before(:each) do
-      link_card_for_user(@user.userID)
+      link_card_for_user(@user.id)
 
       institution = create_institution(name: 'CC Bank')
-      users_institution = create_users_institution(user_id: @user.userID, institution_id: institution.id)
-      create_users_institution_account(user_id: @user.userID, name: 'Bank Account', users_institution_id: users_institution.id, account_number_last_four: 4321)
+      users_institution = create_users_institution(user_id: @user.id, institution_id: institution.id)
+      create_users_institution_account(user_id: @user.id, name: 'Bank Account', users_institution_id: users_institution.id, account_number_last_four: 4321)
       award_points_to_user(user_id: @user.id, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id)
     end
 
@@ -74,7 +75,7 @@ describe 'My Account page', js: true do
     end      
 
     it 'should display an award when a user is awarded points' do
-      award_points_to_user(user_id: @user.userID, dollar_award_amount: 1, currency_award_amount: 1000, virtual_currency_id: @virtual_currency.id)
+      award_points_to_user(user_id: @user.id, dollar_award_amount: 1, currency_award_amount: 1000, virtual_currency_id: @virtual_currency.id)
       click_on 'My Account'
       page.should have_content Date.today.to_s(:month_day)
       page.should have_text('1000 Plink Points')
@@ -93,7 +94,7 @@ describe 'My Account page', js: true do
     end
 
     it 'should display no more than 20 activities at a time' do
-      21.times { award_points_to_user(user_id: @user.userID, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id) }
+      21.times { award_points_to_user(user_id: @user.id, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id) }
       click_on 'My Account'
       page.should have_text('600 Plink Points', count: 20)
     end
