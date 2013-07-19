@@ -94,6 +94,16 @@ describe 'Managing account' do
       end
     end
 
+    within '.content', text: 'EMAIL' do
+      page.find('a', text: 'Change').click
+
+      fill_in 'email', with: 'frodo@example.com'
+      fill_in 'password', with: 'pass1word'
+      click_on 'Change Your Email'
+    end
+
+    page.should have_content 'frodo@example.com'
+
     page.should have_css '#social-link-widget'
   end
 
