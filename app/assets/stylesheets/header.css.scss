@@ -15,6 +15,16 @@
     position: absolute;
     left:130px;
     top: 15px;
+
+    .redeemable {
+      overflow: hidden;
+      text-indent: 100%;
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background: image-url('history/icon_redeem.png') no-repeat;
+      margin-bottom: -3px;
+    }
   }
 
   .header-text {

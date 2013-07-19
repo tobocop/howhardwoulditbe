@@ -85,8 +85,12 @@ describe 'user signs in' do
     click_on 'Invite Friends'
     page.should have_css('[gigid="showShareUI"]')
 
+    within '.welcome-text' do
+      page.should have_css 'span.redeemable'
+    end
+
     click_on 'Rewards'
-    
+
     page.current_path.should == '/rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
