@@ -93,22 +93,22 @@ describe AccountsController do
         controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: true))
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
       end
 
       it 'updates the user with the given attributes' do
-        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: true))
+        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
 
-        put :update, email: 'goo@example.com', password: 'password'
+        put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph'
 
         response.should be_success
       end
 
       it 'returns a JSON response' do
-        put :update, email: 'goo@example.com', password: 'password'
+        put :update, email: 'goo@example.com', first_name: 'Joseph', password: 'password'
 
         body = JSON.parse(response.body)
-        body.should == {'email' => 'goo@example.com'}
+        body.should == {'email' => 'goo@example.com', 'first_name' => 'Joseph'}
       end
     end
 

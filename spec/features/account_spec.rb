@@ -104,6 +104,16 @@ describe 'Managing account' do
 
     page.should have_content 'frodo@example.com'
 
+    within '.content', text: 'NAME' do
+      page.find('a', text: 'Change').click
+
+      fill_in 'first_name', with: 'samwise'
+      fill_in 'password', with: 'pass1word'
+      click_on 'Change Your Name'
+    end
+
+    page.should have_content 'samwise'
+
     page.should have_css '#social-link-widget'
   end
 

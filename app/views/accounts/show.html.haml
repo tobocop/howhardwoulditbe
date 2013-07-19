@@ -15,6 +15,24 @@
 
       %hr
       .content{data: {'account-edit-form' => true}}
+        %h4 Name
+        %h3.bold{data: {'display-value' => 'first_name'}}= current_user.first_name
+        %a{data: {'toggleable-selector' => '.change'}} Change
+        = form_tag account_path, class: 'change', method: 'put' do
+          .error-messages
+          .field
+            %h2 Enter your new name:
+            = text_field_tag :first_name, '', placeholder: 'Name', class: 'form-field input'
+          .field
+            %h2 Enter your password:
+            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+          .cancel-btn
+            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
+          .submit-btn
+            %button.button.primary-action Change Your Name
+
+      %hr
+      .content{data: {'account-edit-form' => true}}
         %h4 Email
         %h3.bold{data: {'display-value' => 'email'}}= current_user.email
         %a{data: {'toggleable-selector' => '.change'}} Change

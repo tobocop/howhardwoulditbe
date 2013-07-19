@@ -27,7 +27,7 @@ class AccountsController < ApplicationController
   private
 
   def updatable_user_attributes(parameters)
-    parameters.slice(:email)
+    parameters.slice(:email, :first_name)
   end
 
   def plink_currency_activity_service
