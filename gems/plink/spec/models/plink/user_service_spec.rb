@@ -41,6 +41,24 @@ describe Plink::UserService do
     end
   end
 
+  describe 'update_password' do
+    let(:user) { create_user }
+
+    it 'update the password for the user' do
+      returned_user = subject.update_password(user.id, {new_password: 'joseph', new_password_confirmation: 'joseph'})
+
+      returned_user.errors.should be_empty
+      user.password_hash.should_not == returned_user.password_hash
+    end
+
+    it 'does not update if the passwords dont match' do
+      returned_user = subject.update_password(user.id, {new_password: 'joseph', new_password_confirmation: 'josep'})
+
+      returned_user.errors.should_not be_empty
+      subject.find_by_id(user.id).password_hash.should == user.password_hash
+    end
+  end
+
   describe '#verify_password' do
     it 'returns true only if the correct password is given for the correct user' do
       user = create_user(first_name: 'Billy', password: 'pazz123')

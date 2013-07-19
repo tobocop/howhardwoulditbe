@@ -19,15 +19,16 @@ module Plink
     has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
     has_many :wallet_item_records, through: :wallet
     has_many :open_wallet_items, through: :wallet
-
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 
     validates :first_name, presence: {message: 'Please enter a First Name'}
     validates :email, presence: {message: 'Email address is required'}, format: {with: VALID_EMAIL_REGEXP, message: 'Please enter a valid email address'}
     validates :password_hash, :salt, presence: true
 
-    before_create :set_default_virtual_currency
+    validates :new_password, length: {minimum: 6}, confirmation: true, if: 'new_password.present?'
     validate :email_is_not_in_database
+
+    before_create :set_default_virtual_currency
 
     def self.find_by_email(email)
       where(:emailAddress => email).first
@@ -51,6 +52,28 @@ module Plink
 
     def email
       emailAddress
+    end
+
+    def new_password=(unhashed_password)
+      @new_password = unhashed_password
+
+      if valid?
+        password = Password.new(unhashed_password: @new_password)
+        self.password_hash = password.hashed_value
+        self.salt = password.salt
+      end
+    end
+
+    def new_password
+      @new_password
+    end
+
+    def new_password_confirmation=(unhashed_password)
+      @new_password_confirmation = unhashed_password
+    end
+
+    def new_password_confirmation
+      @new_password_confirmation
     end
 
     # Legacy naming for password_hash is password, which is kinda confusing.

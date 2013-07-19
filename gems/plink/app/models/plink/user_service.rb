@@ -1,7 +1,7 @@
 module Plink
   class UserService
     def find_by_id(id)
-      create_user(Plink::UserRecord.find_by_id(id))
+      create_user(find_user_record(id))
     end
 
     def find_by_email(email)
@@ -12,10 +12,21 @@ module Plink
       user = find_by_id(id)
       user.update_attributes(attributes)
       create_user(user)
+      end
+
+    def update_password(id, attributes={})
+      user = find_user_record(id)
+
+      user.new_password = attributes.fetch(:new_password)
+      user.new_password_confirmation = attributes.fetch(:new_password_confirmation)
+
+      user.save
+
+      create_user(user)
     end
 
     def verify_password(user_id, password)
-      user = find_by_id(user_id)
+      user = find_user_record(user_id)
 
       if user
         hashed_password = Password.new(unhashed_password: password, salt: user.salt).hashed_value
@@ -26,6 +37,10 @@ module Plink
     end
 
     private
+
+    def find_user_record(id)
+      Plink::UserRecord.find_by_id(id)
+    end
 
     def create_user(user_record)
       user_record ? new_user(user_record) : nil

@@ -12,7 +12,15 @@ class AccountsController < ApplicationController
 
   def update
     if plink_user_service.verify_password(current_user.id, params.delete(:password))
-      plink_user = plink_user_service.update(current_user.id, updatable_user_attributes(params))
+      if updating_password?(params)
+        plink_user = plink_user_service.update_password(
+          current_user.id,
+          new_password: params.delete(:new_password),
+          new_password_confirmation: params.delete(:new_password_confirmation)
+        )
+      else
+        plink_user = plink_user_service.update(current_user.id, updatable_user_attributes(params))
+      end
 
       if plink_user.valid?
         render json: updatable_user_attributes(params)
@@ -25,6 +33,10 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  def updating_password?(parameters)
+    parameters[:new_password].present? || parameters[:new_password_confirmation].present?
+  end
 
   def updatable_user_attributes(parameters)
     parameters.slice(:email, :first_name)

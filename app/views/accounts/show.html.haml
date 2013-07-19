@@ -49,6 +49,26 @@
           .submit-btn
             %button.button.primary-action Change Your Email
       %hr
+      .content{data: {'account-edit-form' => true}}
+        %h4 Password
+        %h3.bold ******
+        %a{data: {'toggleable-selector' => '.change'}} Change
+        = form_tag account_path, class: 'change', method: 'put' do
+          .error-messages
+          .field
+            %h2 Enter your new password:
+            = password_field_tag :new_password, '', placeholder: 'New Password', class: 'form-field input'
+          .field
+            %h2 Enter your new password confirmation:
+            = password_field_tag :new_password_confirmation, '', placeholder: 'New Password Confirmation', class: 'form-field input'
+          .field
+            %h2 Enter your current password:
+            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+          .cancel-btn
+            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
+          .submit-btn
+            %button.button.primary-action Change Your Password
+      %hr
       .content
         %h4 Your Bank
         - if @user_has_account

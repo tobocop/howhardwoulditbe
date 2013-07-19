@@ -88,18 +88,20 @@ describe AccountsController do
 
     let(:fake_user_service) { mock(:user_service) }
 
+    let(:mock_valid_user) { mock(:plink_user, valid?: true) }
+
     context 'when successful' do
       before do
         controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock_valid_user)
       end
 
       it 'updates the user with the given attributes' do
-        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
+        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph', 'new_password' => '123456', 'new_password_confirmation' => '123456'}).and_return(mock(:plink_user, valid?: true))
 
-        put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph'
+        put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph', new_password: '123456', new_password_confirmation: '123456'
 
         response.should be_success
       end
@@ -109,6 +111,15 @@ describe AccountsController do
 
         body = JSON.parse(response.body)
         body.should == {'email' => 'goo@example.com', 'first_name' => 'Joseph'}
+      end
+
+      context 'when the updating password' do
+        it 'updates the password via the user service' do
+          fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(mock_valid_user)
+          fake_user_service.should_not_receive(:update)
+
+          put :update, password: 'password', new_password: '123456', new_password_confirmation: '123456'
+        end
       end
     end
 

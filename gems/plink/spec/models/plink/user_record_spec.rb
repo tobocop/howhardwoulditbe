@@ -54,6 +54,17 @@ describe Plink::UserRecord do
     subject.should have(1).error_on(:salt)
   end
 
+  it 'validates new password' do
+    subject.new_password = 'foo'
+    subject.should_not be_valid
+    subject.errors.full_messages.should == ['New password is too short (minimum is 6 characters)']
+
+    subject.new_password = 'foobar'
+    subject.new_password_confirmation = 'foobee'
+    subject.should_not be_valid
+    subject.errors.full_messages.should == ["New password doesn't match confirmation"]
+  end
+
   it 'does not allow emails to be duplicates' do
     other_user = new_user
     other_user.email = subject.email
@@ -148,6 +159,29 @@ describe Plink::UserRecord do
     it 'returns whether or not the user can redeem for a reward' do
       user = create_user
       user.can_redeem?.should == false
+    end
+  end
+
+  describe '#new_password=' do
+    it 'changes the password to the hashed version of the new password if it is valid' do
+      mock_password = mock(:password, hashed_value: 'abcdefgh', salt: '12345678')
+      Plink::Password.stub(:new).with(unhashed_password: 'abc1234').and_return(mock_password)
+
+      subject.new_password = 'abc1234'
+      subject.new_password_confirmation = 'abc1234'
+      subject.save
+
+      subject.password_hash.should == 'abcdefgh'
+      subject.salt.should == '12345678'
+    end
+
+    it 'does not change the current password if it is invalid' do
+      old_user_password_hash = subject.password_hash
+
+      subject.new_password = 'abc'
+      subject.save
+
+      subject.password_hash.should == old_user_password_hash
     end
   end
 end

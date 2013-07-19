@@ -114,6 +114,25 @@ describe 'Managing account' do
 
     page.should have_content 'samwise'
 
+    within '.content', text: 'PASSWORD' do
+      page.find('a', text: 'Change').click
+
+      fill_in 'new_password', with: 'samwise'
+      fill_in 'new_password_confirmation', with: 'samwise'
+      fill_in 'password', with: 'pass1word'
+      click_on 'Change Your Password'
+    end
+
+    click_on 'Log Out'
+
+    click_on 'Sign In'
+
+    fill_in 'Email', with: 'frodo@example.com'
+    fill_in 'Password', with: 'samwise'
+    click_on 'Log in'
+
+    page.should have_content 'Welcome, samwise!'
+
     page.should have_css '#social-link-widget'
   end
 
