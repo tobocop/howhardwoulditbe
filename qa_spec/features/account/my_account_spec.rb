@@ -99,4 +99,46 @@ describe 'My Account page', js: true do
       page.should have_text('600 Plink Points', count: 20)
     end
   end
+
+  context 'as a user changing their email address' do
+    before (:each) do
+      visit '/account'
+      page.find('a', text: 'Change').click
+    end
+
+    subject { page }
+    
+    it { should have_field('email') }
+    it { should have_field('password') }
+
+    it 'should not change if email format is invalid' do
+      fill_in 'email', with: 'qa_spec_testxampleom'
+      fill_in 'password', with: 'test123'
+      click_on 'Change Your Email'
+      page.should have_text 'Please enter a valid email address'
+    end
+
+    it 'should not change if password is incorrect' do
+      fill_in 'email', with: 'qa_spec_test@xample.com'
+      fill_in 'password', with: 'test44444444'
+      click_on 'Change Your Email'
+      page.should have_text 'Current password is incorrect'
+    end
+
+    it 'should not change if the requested change email is an existing user' do
+      create_user(password:'password', email: 'existing@plink.com')
+      fill_in 'email', with: 'existing@plink.com'
+      fill_in 'password', with: 'test123'
+      click_on 'Change Your Email'
+      page.should have_text "Email You've entered an email address that is already registered with Plink. If you believe there is an error, please contact support@plink.com."
+    end
+
+    it 'should update the users email if all conditions are met' do
+      fill_in 'email', with: 'switch@plink.com'
+      fill_in 'password', with: 'test123'
+      click_on 'Change Your Email'
+      page.should have_text 'switch@plink.com'
+      # page.should have_text "#{@user.email}"
+    end
+  end
 end
