@@ -22,10 +22,10 @@ describe 'user signs in' do
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
 
     @old_navy_offer = create_offer(advertiser_id: old_navy.id, start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
-        new_offers_virtual_currency(
-            virtual_currency_id: virtual_currency.id,
-            tiers: [new_tier]
-        )
+      new_offers_virtual_currency(
+        virtual_currency_id: virtual_currency.id,
+        tiers: [new_tier]
+      )
     ])
 
     @burger_king_offer = create_offer(advertiser_id: burger_king.id,
@@ -35,30 +35,30 @@ describe 'user signs in' do
                                       show_on_wall: true,
                                       detail_text: 'You have to spend $minimumPurchaseAmount$ to get this',
                                       offers_virtual_currencies: [
-                                          new_offers_virtual_currency(
-                                              virtual_currency_id: virtual_currency.id,
-                                              tiers: [
-                                                  new_tier(minimum_purchase_amount: 15, dollar_award_amount: 1.50),
-                                                  new_tier(minimum_purchase_amount: 2.50, dollar_award_amount: 0.50),
-                                                  new_tier(minimum_purchase_amount: 25, dollar_award_amount: 3.00)
-                                              ]
-                                          )
+                                        new_offers_virtual_currency(
+                                          virtual_currency_id: virtual_currency.id,
+                                          tiers: [
+                                            new_tier(minimum_purchase_amount: 15, dollar_award_amount: 1.50),
+                                            new_tier(minimum_purchase_amount: 2.50, dollar_award_amount: 0.50),
+                                            new_tier(minimum_purchase_amount: 25, dollar_award_amount: 3.00)
+                                          ]
+                                        )
                                       ])
 
     create_reward(name: 'Walmart Gift Card', description: 'wally mart', amounts:
-        [
-            new_reward_amount(dollar_award_amount: 5, is_active: true),
-            new_reward_amount(dollar_award_amount: 10, is_active: true),
-            new_reward_amount(dollar_award_amount: 15, is_active: false)
-        ]
+      [
+        new_reward_amount(dollar_award_amount: 5, is_active: true),
+        new_reward_amount(dollar_award_amount: 10, is_active: true),
+        new_reward_amount(dollar_award_amount: 15, is_active: false)
+      ]
     )
 
     create_reward(name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, amounts:
-        [
-            new_reward_amount(dollar_award_amount: 5, is_active: true),
-            new_reward_amount(dollar_award_amount: 10, is_active: true),
-            new_reward_amount(dollar_award_amount: 15, is_active: false)
-        ]
+      [
+        new_reward_amount(dollar_award_amount: 5, is_active: true),
+        new_reward_amount(dollar_award_amount: 10, is_active: true),
+        new_reward_amount(dollar_award_amount: 15, is_active: false)
+      ]
     )
   end
 
