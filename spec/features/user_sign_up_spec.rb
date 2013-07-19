@@ -33,6 +33,9 @@ describe 'User signup workflow' do
     end
 
     it 'should show error messages when form validation fail', js: true do
+
+      pending 'rewriting how this works'
+
       visit '/'
 
       click_link 'Join'

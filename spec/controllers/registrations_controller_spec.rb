@@ -21,9 +21,10 @@ describe RegistrationsController do
   describe "#create" do
     it "should assign @user_registration_form" do
       user_registration_form = stub(save: nil)
-      UserRegistrationForm.stub(:new).with({"post" => true}) { user_registration_form }
+      UserRegistrationForm.stub(:new).with({:first_name => 'frodo', email: 'frod@example.com', password: 'opazz', password_confirmation: 'opazz'}) { user_registration_form }
 
-      post :create, {:user_registration_form => {"post" => true}}
+      post :create, {'first_name' => 'frodo', 'email' => 'frod@example.com', password: 'opazz', password_confirmation: 'opazz'}
+
       assigns(:user_registration_form).should == user_registration_form
     end
 

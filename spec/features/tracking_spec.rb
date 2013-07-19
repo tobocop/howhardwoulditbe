@@ -15,7 +15,6 @@ describe 'event tracking' do
 
     click_on 'Join'
 
-
     within '.sign-in-modal' do
       fill_in 'First Name', with: 'Frud'
       fill_in 'Email', with: 'furd@example.com'

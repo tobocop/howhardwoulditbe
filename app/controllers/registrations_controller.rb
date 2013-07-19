@@ -7,7 +7,12 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    @user_registration_form = UserRegistrationForm.new(params[:user_registration_form])
+    @user_registration_form = UserRegistrationForm.new(
+      first_name: params[:first_name],
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation]
+    )
 
     if @user_registration_form.save
       notify_gigya(@user_registration_form)
