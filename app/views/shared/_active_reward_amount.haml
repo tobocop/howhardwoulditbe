@@ -16,6 +16,6 @@
       .btn
         = link_to 'CONFIRM', redemption_path(reward_amount_id: amount.id), method: 'post', class:'button primary-action'
     .terms
-      %a.terms-link{href: '#', data: {'toggle-selector' => '.terms-text'}} Terms &amp; Conditions
-      %h3.terms-text.hidden
+      %a.terms-link{href: '#', data: {'toggle-selector' => "#toggle-#{amount.id}"}} Terms &amp; Conditions
+      %h3.terms-text.hidden{id: "toggle-#{amount.id}"}
         = reward.terms

@@ -18,6 +18,7 @@ describe('$.toggler', function () {
     $trigger.click();
 
     expect($("#toggleable").hasClass('hidden')).toBeTruthy();
+    expect($("#another-toggleable").hasClass('hidden')).toBeFalsy();
 
     $trigger.click();
 
