@@ -111,6 +111,8 @@ describe 'user signs in' do
 
     click_on 'Rewards'
 
+    page.execute_script('$.fx.off = true;')
+
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
       page.find('a', text: '$5').click
