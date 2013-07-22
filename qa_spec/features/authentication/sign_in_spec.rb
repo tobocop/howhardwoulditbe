@@ -15,7 +15,7 @@ describe 'Signing in', js: true do
     fill_in 'Password', with: 'test123'
     click_on 'Log in'
 
-    current_path.should == '/dashboard'
+    current_path.should == '/wallet'
     page.should have_content('Welcome, Matt!')
   end
 
@@ -76,11 +76,6 @@ describe 'Logging out', js: true do
     click_on 'Log Out'
     current_path.should == '/'
     page.should have_text('You have been successfully logged out.')
-  end
-
-  it 'blocks the dashboard for non-authenticated guests' do
-    visit '/dashboard'
-    current_path.should == '/'
   end
 end
 

@@ -10,7 +10,6 @@ describe 'Nav Header', js: true do
 
     it { should have_text ('Welcome, Matt!') }
     it { should have_text ('You have 0 Plink Points.') }
-    it { should have_link ('Dashboard') }
     it { should have_link ('Wallet') }
     it { should have_link ('Rewards') }
     it { should have_link ('My Account') }

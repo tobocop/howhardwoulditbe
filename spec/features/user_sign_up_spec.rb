@@ -8,7 +8,7 @@ describe 'User signup workflow' do
   end
 
   context 'organic registration' do
-    it 'should create an account, email the user, and drop the user on the dashboard', js: true do
+    it 'should create an account, email the user, and drop the user on the wallet page', js: true do
       visit '/'
 
       click_link 'Join'
@@ -89,7 +89,10 @@ describe 'User signup workflow' do
         end
 
         page.should have_content('Welcome, Matt!')
-        current_path.should == dashboard_path
+
+        page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
+
+        current_path.should == wallet_path
 
         click_on 'Wallet'
 
@@ -127,7 +130,10 @@ describe 'User signup workflow' do
         click_button 'Submit'
 
         page.should have_content('Welcome, Matt!')
-        current_path.should == dashboard_path
+
+        page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
+
+        current_path.should == wallet_path
 
         click_on 'Wallet'
 

@@ -30,7 +30,7 @@ describe SessionsController do
         post :create, {user_session: {email: 'bob@example.com', password: 'test123'}}
 
         session[:current_user_id].should == 123
-        response.should be_redirect
+        response.should redirect_to wallet_path
       end
 
       it 'notifies gigya that an existing user has logged in' do

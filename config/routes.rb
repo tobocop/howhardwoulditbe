@@ -29,7 +29,6 @@ PlinkPivotal::Application.routes.draw do
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get
 
   match "/style_guide", to: "style_guide#show", via: :get
-  match '/dashboard', to: "dashboard#show", via: :get
 
   root to: "home#index", via: :get
 end

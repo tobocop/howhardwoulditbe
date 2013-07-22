@@ -16,7 +16,7 @@ describe 'Signing up', js: true do
     fill_in 'Verify Password', with: 'test123'
     click_on 'Start Earning Rewards'
 
-    current_path.should == dashboard_path
+    current_path.should == wallet_path
     page.should have_text('Welcome, Bob!')
   end
 

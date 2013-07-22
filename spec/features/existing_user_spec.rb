@@ -76,18 +76,12 @@ describe 'user signs in' do
 
     click_on 'Log in'
 
-    current_path.should == '/dashboard'
+    current_path.should == '/wallet'
     page.should have_content('Welcome, Bob!')
     page.should have_content('You have 1000 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
-    page.should have_css('img[src="http://www.example.com/test.png"]')
     page.should have_content('You want this.')
-
-    page.should have_css('#social-link-widget[gigid="showAddConnectionsUI"]')
-
-    click_on 'Invite Friends'
-    page.should have_css('[gigid="showShareUI"]')
 
     within '.welcome-text' do
       page.should have_css 'span.redeemable'

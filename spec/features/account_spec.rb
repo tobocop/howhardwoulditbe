@@ -4,6 +4,11 @@ describe 'Managing account' do
   before(:each) do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
     user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo')
+
+    wallet = create_wallet(user_id: user.id)
+    create_open_wallet_item(wallet_id: wallet.id)
+    create_locked_wallet_item(wallet_id: wallet.id)
+
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
     create_oauth_token(user_id: user.id)
 
@@ -136,8 +141,6 @@ describe 'Managing account' do
     click_on 'Log in'
 
     page.should have_content 'Welcome, samwise!'
-
-    page.should have_css '#social-link-widget'
   end
 
   it 'allows a user to reset their password' do

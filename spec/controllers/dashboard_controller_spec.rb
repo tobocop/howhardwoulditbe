@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
-describe DashboardController do
+describe DashboardController, pending: true do
   let(:user) { new_user }
 
   describe 'GET show' do

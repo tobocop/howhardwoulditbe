@@ -7,8 +7,6 @@
       %span.redeemable You have enough points to redeem
 
 %ul.nav-ul
-  %li.nav-li{class: class_for_nav_tab(@current_tab, 'dashboard')}
-    = link_to 'Dashboard', dashboard_path, class:'link'
   %li.nav-li{class: class_for_nav_tab(@current_tab, 'wallet')}
     = link_to 'Wallet', wallet_path, class:'link'
   %li.nav-li{class: class_for_nav_tab(@current_tab, 'rewards')}
