@@ -70,6 +70,20 @@ module Plink
       Plink::InstitutionRecord.new { |institution| apply(institution, defaults, options) }
     end
 
+    def create_user_reverification(options = {})
+      new_user_reverification(options).tap(&:save!)
+    end
+
+    def new_user_reverification(options = {})
+      defaults = {
+        user_id: 1,
+        users_institution_id: 1,
+        users_intuit_error_id: 1
+      }
+
+      Plink::UserReverificationRecord.new { |reverification| apply(reverification, defaults, options) }
+    end
+
     def new_hero_promotion(options ={})
       defaults = {
         image_url: '/assets/test_image_tbd.jpg',

@@ -1,185 +1,209 @@
 require 'spec_helper'
 
 describe 'Managing account' do
-  before(:each) do
-    virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-    user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo')
 
-    wallet = create_wallet(user_id: user.id)
-    create_open_wallet_item(wallet_id: wallet.id)
-    create_locked_wallet_item(wallet_id: wallet.id)
+  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo')}
 
-    users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
-    create_oauth_token(user_id: user.id)
+  context 'linked user' do
+    before(:each) do
+      virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
 
-    institution = create_institution(name: 'Bank of representin')
-    users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
-    create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
+      wallet = create_wallet(user_id: user.id)
+      create_open_wallet_item(wallet_id: wallet.id)
+      create_locked_wallet_item(wallet_id: wallet.id)
 
-    advertiser = create_advertiser(advertiser_name: 'Pop Caps inc')
+      create_oauth_token(user_id: user.id)
+      users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
+      institution = create_institution(name: 'Bank of representin')
+      users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
+      create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
 
-    award_points_to_user(
-      user_id: user.id,
-      dollar_award_amount: 4.35,
-      currency_award_amount: 435,
-      award_message: 'this is a free award',
-      virtual_currency_id: virtual_currency.id,
-      type: 'free'
-    )
+      advertiser = create_advertiser(advertiser_name: 'Pop Caps inc')
 
-    award_points_to_user(
-      user_id: user.id,
-      dollar_award_amount: 4.25,
-      currency_award_amount: 425,
-      virtual_currency_id: virtual_currency.id,
-      users_virtual_currency_id: users_virtual_currency.id,
-      advertiser_id: advertiser.id,
-      type: 'qualifying'
-    )
+      award_points_to_user(
+        user_id: user.id,
+        dollar_award_amount: 4.35,
+        currency_award_amount: 435,
+        award_message: 'this is a free award',
+        virtual_currency_id: virtual_currency.id,
+        type: 'free'
+      )
 
-    award_points_to_user(
-      user_id: user.id,
-      dollar_award_amount: 0.20,
-      currency_award_amount: 20,
-      virtual_currency_id: virtual_currency.id,
-      users_virtual_currency_id: users_virtual_currency.id,
-      advertiser_id: advertiser.id,
-      type: 'nonqualifying'
-    )
+      award_points_to_user(
+        user_id: user.id,
+        dollar_award_amount: 4.25,
+        currency_award_amount: 425,
+        virtual_currency_id: virtual_currency.id,
+        users_virtual_currency_id: users_virtual_currency.id,
+        advertiser_id: advertiser.id,
+        type: 'qualifying'
+      )
 
-    reward = create_reward(name: 'Walmart Gift Card')
-    create_redemption(reward_id: reward.id, user_id: user.id, dollar_award_amount:3.00)
-  end
+      award_points_to_user(
+        user_id: user.id,
+        dollar_award_amount: 0.20,
+        currency_award_amount: 20,
+        virtual_currency_id: virtual_currency.id,
+        users_virtual_currency_id: users_virtual_currency.id,
+        advertiser_id: advertiser.id,
+        type: 'nonqualifying'
+      )
 
-  it 'allows a user to manage their account', js: true, driver: :selenium do
-    sign_in('user@example.com', 'pass1word')
+      reward = create_reward(name: 'Walmart Gift Card')
+      create_redemption(reward_id: reward.id, user_id: user.id, dollar_award_amount: 3.00)
+    end
 
-    click_link 'My Account'
-
-    page.should have_link 'Link Card'
-    page.should have_content 'YOUR BANK'
-    page.should have_content 'Bank of representin'
-    page.should have_content 'YOUR CARD'
-    page.should have_content 'representing checks 4321'
-
-    page.should have_content 'You have 580 Plink Points.'
-    page.should have_content 'Lifetime balance: 880 Plink Points'
-
-    page.should_not have_link 'Redeem'
-
-    page.should have_content 'RECENT ACTIVITY'
-
-    within '.activity' do
-      within '.event:nth-of-type(2)' do
-        page.should have_content Date.today.to_s(:month_day)
-        page.should have_content 'Walmart Gift Card'
-        page.should have_content '-300 Plink Points'
-        page.should have_image 'history/icon_redeem.png'
+    context 'user that needs to reverify' do
+      before(:each) do
+        create_user_reverification(user_id: user.id)
       end
 
-      within '.event:nth-of-type(3)' do
-        page.should have_content Date.today.to_s(:month_day)
-        page.should have_content 'for participating in the Plink program'
-        page.should have_content '20 Plink Points'
-        page.should have_image 'history/icon_bonus.png'
-      end
+      it 'allows the user to reverify' do
+        sign_in('user@example.com', 'pass1word')
 
-      within '.event:nth-of-type(4)' do
-        page.should have_content Date.today.to_s(:month_day)
-        page.should have_content 'Pop Caps inc'
-        page.should have_content '425 Plink Points'
-        page.should have_image 'history/icon_purchase.png'
-      end
+        click_link 'My Account'
 
-      within '.event:nth-of-type(5)' do
-        page.should have_content Date.today.to_s(:month_day)
-        page.should have_content 'this is a free award'
-        page.should have_content '435 Plink Points'
-        page.should have_image 'history/icon_bonus.png'
+        page.should have_image 'icon_alert_pink.png'
+        page.should have_content 'Inactive'
+        page.should have_link 'Reverify'
       end
     end
 
-    within '.content', text: 'EMAIL' do
-      page.find('a', text: 'Change').click
+    context 'active user' do
+      it 'allows a user to manage their account', js: true, driver: :selenium do
+        sign_in('user@example.com', 'pass1word')
 
-      fill_in 'email', with: 'frodo@example.com'
-      fill_in 'password', with: 'pass1word'
-      click_on 'Change Your Email'
+        click_link 'My Account'
+
+        page.should have_link 'Link Card'
+
+        page.should have_image 'icon_active.png'
+        page.should have_content 'Active'
+        page.should have_content 'YOUR BANK'
+        page.should have_content 'Bank of representin'
+        page.should have_content 'YOUR CARD'
+        page.should have_content 'representing checks 4321'
+
+        page.should have_content 'You have 580 Plink Points.'
+        page.should have_content 'Lifetime balance: 880 Plink Points'
+
+        page.should_not have_link 'Redeem'
+
+        page.should have_content 'RECENT ACTIVITY'
+
+        within '.activity' do
+          within '.event:nth-of-type(2)' do
+            page.should have_content Date.today.to_s(:month_day)
+            page.should have_content 'Walmart Gift Card'
+            page.should have_content '-300 Plink Points'
+            page.should have_image 'history/icon_redeem.png'
+          end
+
+          within '.event:nth-of-type(3)' do
+            page.should have_content Date.today.to_s(:month_day)
+            page.should have_content 'for participating in the Plink program'
+            page.should have_content '20 Plink Points'
+            page.should have_image 'history/icon_bonus.png'
+          end
+
+          within '.event:nth-of-type(4)' do
+            page.should have_content Date.today.to_s(:month_day)
+            page.should have_content 'Pop Caps inc'
+            page.should have_content '425 Plink Points'
+            page.should have_image 'history/icon_purchase.png'
+          end
+
+          within '.event:nth-of-type(5)' do
+            page.should have_content Date.today.to_s(:month_day)
+            page.should have_content 'this is a free award'
+            page.should have_content '435 Plink Points'
+            page.should have_image 'history/icon_bonus.png'
+          end
+        end
+
+        within '.content', text: 'EMAIL' do
+          page.find('a', text: 'Change').click
+
+          fill_in 'email', with: 'frodo@example.com'
+          fill_in 'password', with: 'pass1word'
+          click_on 'Change Your Email'
+        end
+
+        page.should have_content 'frodo@example.com'
+
+        within '.content', text: 'NAME' do
+          page.find('a', text: 'Change').click
+
+          fill_in 'first_name', with: 'samwise'
+          fill_in 'password', with: 'pass1word'
+          click_on 'Change Your Name'
+        end
+
+        within '.flash-msg' do
+          page.should have_content 'Account updated successfully'
+        end
+
+        page.should have_content 'samwise'
+
+        within '.content', text: 'PASSWORD' do
+          page.find('a', text: 'Change').click
+
+          fill_in 'new_password', with: 'samwise'
+          fill_in 'new_password_confirmation', with: 'samwise'
+          fill_in 'password', with: 'pass1word'
+          click_on 'Change Your Password'
+        end
+
+        click_on 'Log Out'
+
+        click_on 'Sign In'
+
+        fill_in 'Email', with: 'frodo@example.com'
+        fill_in 'Password', with: 'samwise'
+        click_on 'Log in'
+
+        page.should have_content 'Welcome, samwise!'
+      end
+
+      it 'allows a user to reset their password' do
+        visit '/'
+
+        click_on 'Sign In'
+
+        click_link 'Forgot Password?'
+
+        page.should have_content 'Enter the email address associated with your account'
+
+        fill_in 'Email', with: 'user@example.com'
+
+        click_on 'Send Password Reset Instructions'
+
+        page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
+
+        email = ActionMailer::Base.deliveries.last
+
+        email_string = Capybara.string(email.html_part.body.to_s)
+        password_reset_url = email_string.find("a", text: 'Reset Password')['href']
+
+        visit password_reset_url
+
+        page.should have_content 'Reset your password'
+
+        fill_in 'New password', with: 'goodpassword'
+        fill_in 'Confirm new password', with: 'goodpassword'
+
+        click_on 'Reset Password'
+
+        click_on 'Sign In'
+
+        fill_in 'Email', with: 'user@example.com'
+        fill_in 'Password', with: 'goodpassword'
+
+        click_on 'Log in'
+
+        page.should have_content 'Welcome, Frodo!'
+      end
+
     end
-
-    page.should have_content 'frodo@example.com'
-
-    within '.content', text: 'NAME' do
-      page.find('a', text: 'Change').click
-
-      fill_in 'first_name', with: 'samwise'
-      fill_in 'password', with: 'pass1word'
-      click_on 'Change Your Name'
-    end
-
-    within '.flash-msg' do
-      page.should have_content 'Account updated successfully'
-    end
-
-    page.should have_content 'samwise'
-
-    within '.content', text: 'PASSWORD' do
-      page.find('a', text: 'Change').click
-
-      fill_in 'new_password', with: 'samwise'
-      fill_in 'new_password_confirmation', with: 'samwise'
-      fill_in 'password', with: 'pass1word'
-      click_on 'Change Your Password'
-    end
-
-    click_on 'Log Out'
-
-    click_on 'Sign In'
-
-    fill_in 'Email', with: 'frodo@example.com'
-    fill_in 'Password', with: 'samwise'
-    click_on 'Log in'
-
-    page.should have_content 'Welcome, samwise!'
-  end
-
-  it 'allows a user to reset their password' do
-
-    visit '/'
-
-    click_on 'Sign In'
-
-    click_link 'Forgot Password?'
-
-    page.should have_content 'Enter the email address associated with your account'
-
-    fill_in 'Email', with: 'user@example.com'
-
-    click_on 'Send Password Reset Instructions'
-
-    page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
-
-    email =  ActionMailer::Base.deliveries.last
-
-    email_string = Capybara.string(email.html_part.body.to_s)
-    password_reset_url = email_string.find("a", text: 'Reset Password')['href']
-
-    visit password_reset_url
-
-    page.should have_content 'Reset your password'
-
-    fill_in 'New password', with: 'goodpassword'
-    fill_in 'Confirm new password', with: 'goodpassword'
-
-    click_on 'Reset Password'
-
-    click_on 'Sign In'
-
-    fill_in 'Email', with: 'user@example.com'
-    fill_in 'Password', with: 'goodpassword'
-
-    click_on 'Log in'
-
-    page.should have_content 'Welcome, Frodo!'
   end
 end

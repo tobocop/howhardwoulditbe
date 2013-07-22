@@ -43,8 +43,12 @@
   		font-weight:500;
   	}
 
+    &.account-status{
+      display:inline;
+    }
+
   	&.green {
-  		color:$green;
+  	  color:$green;
       font-weight:500;
   		/*margin-top:13px;*/
   	}

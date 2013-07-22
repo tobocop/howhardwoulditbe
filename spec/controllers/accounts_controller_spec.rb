@@ -6,7 +6,7 @@ describe AccountsController do
   let(:user) { stub(id: 10) }
 
   let(:intuit_account) {
-    Plink::ActiveIntuitAccount.new(account_name: 'account', bank_name: 'bank', account_number_last_four: 1234)
+    Plink::IntuitAccount.new(account_name: 'account', bank_name: 'bank', account_number_last_four: 1234, requires_reverification: false)
   }
 
   let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({10 => intuit_account}) }

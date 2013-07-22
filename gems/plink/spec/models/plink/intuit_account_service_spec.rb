@@ -16,7 +16,7 @@ describe Plink::IntuitAccountService do
     it 'returns the most recently created active intuit account ' do
       account = subject.find_by_user_id(user.id)
 
-      account.should be_a(Plink::ActiveIntuitAccount)
+      account.should be_a(Plink::IntuitAccount)
 
       account.bank_name.should == 'First bank of derp'
       account.account_name.should == 'My Second Awesome bank account 4321'

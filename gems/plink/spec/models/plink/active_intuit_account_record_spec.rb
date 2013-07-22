@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Plink::ActiveIntuitAccountRecord do
 
   let(:user) { create_user }
+  let(:institution) {create_institution(name: 'First bank of derp')}
+  let(:users_institution) {create_users_institution(user_id: user.id, institution_id: institution.id)}
+  let(:active_intuit_account) {Plink::ActiveIntuitAccountRecord.first}
 
   before do
     create_oauth_token(user_id: user.id)
-    institution = create_institution(name: 'First bank of derp')
-    users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
     create_users_institution_account(user_id: user.id, name: 'My Awesome bank account', users_institution_id: users_institution.id, account_number_last_four: 5468)
   end
 
@@ -22,19 +23,27 @@ describe Plink::ActiveIntuitAccountRecord do
     end
   end
 
-  it 'can return its attributes' do
-    Plink::ActiveIntuitAccountRecord.first.user_id.should == user.id
+  it 'returns its user_id' do
+    active_intuit_account.user_id.should == user.id
   end
 
-  it 'can give back names of its associations' do
-    active_intuit_account = Plink::ActiveIntuitAccountRecord.first
+  it 'returns the names of the bank and account' do
     active_intuit_account.account_name.should == 'My Awesome bank account'
     active_intuit_account.bank_name.should == 'First bank of derp'
   end
 
-  it 'can return the last 4 nubmers of an account' do
-    active_intuit_account = Plink::ActiveIntuitAccountRecord.first
+  it 'returns the last 4 nubmers of an account' do
     active_intuit_account.account_number_last_four.should == '5468'
   end
 
+  describe 'requires_reverification?' do
+    it 'returns true if there are no reverifications' do
+      active_intuit_account.requires_reverification?.should be_false
+    end
+
+    it 'returns false if there is a reverifications' do
+      create_user_reverification(users_institution_id: users_institution.id)
+      active_intuit_account.requires_reverification?.should be_true
+    end
+  end
 end
