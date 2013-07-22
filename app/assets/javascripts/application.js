@@ -45,7 +45,7 @@ var Plink = {
     $('#wallet_offers_management').walletOffersManager({
       successEvent: Plink.WalletEvents.successfulAdd,
       failureEvent: Plink.WalletEvents.failure
-    })
+    });
 
     $('#wallet_offers_management').on(Plink.WalletEvents.successfulAdd, function (e) {
       $('.modal.offer-details').foundation('reveal', 'close');
@@ -59,8 +59,8 @@ var Plink = {
     $('.wallet-add').on('click', function(e) {
       $('.modal.offer-details .reason').hide()
       $('.modal.offer-details .call-to-action').show()
-    })
-    
+    });
+
     $('[data-account-edit-form]').accountEditForm();
 
     $('#organic-registration-form').registrationForm();
