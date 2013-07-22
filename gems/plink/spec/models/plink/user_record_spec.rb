@@ -17,13 +17,6 @@ describe Plink::UserRecord do
       subject.errors.messages[:first_name].should == ['Please provide a First name']
     end
 
-    it 'enforces a max length of 14 for the first name' do
-      subject.first_name = 'w'*15
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
-      subject.errors.messages[:first_name].should == ['First name is too long (maximum is 14 characters)']
-    end
-
     it 'ensures first name must only be alphabetical letters' do
       subject.first_name = "asb2"
       subject.should_not be_valid
