@@ -69,7 +69,6 @@ describe 'User signup workflow' do
 
         click_on 'Join'
 
-
         within '.modal' do
           page.should have_content 'Join Plink'
         end
