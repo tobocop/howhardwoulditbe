@@ -3,17 +3,19 @@
 
 .modal.reward-amount-confirmation.reveal-modal{style: 'display: none', id: amount.id }
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-  .reward-modal
+  .reward-modal{data: {'reward-amount-modal' => true}}
     .img
       = image_tag reward.logo_url, alt: reward.name
     .text
       %h1= "#{plink_currency_format(amount.dollar_award_amount)} #{reward.name}"
-      %h2= redemption_confirmation_text(amount.dollar_award_amount, reward.name)
+      %h2= redemption_confirmation_text(amount, reward.name)
     %br
     .btn-wrapper
       .btn.first
         %button.button.secondary-action.close-reveal-modal CANCEL
       .btn
-        =link_to 'CONFIRM', redemption_path(reward_amount_id: amount.id), method: 'post', class:'button primary-action'
+        = link_to 'CONFIRM', redemption_path(reward_amount_id: amount.id), method: 'post', class:'button primary-action'
     .terms
-      %span.terms-link Terms & Conditions
+      %a.terms-link{href: '#', data: {'toggle-selector' => '.terms-text'}} Terms &amp; Conditions
+      %h3.terms-text.hidden
+        = reward.terms

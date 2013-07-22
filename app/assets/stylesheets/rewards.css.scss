@@ -1,152 +1,162 @@
 @import "colors.css.scss";
 @import "mixins.css.scss";
 
-.rewards{
+.rewards {
 
   h1 {
-  	font-size: 2em;
-  	font-weight:100;
-    margin-bottom:5px;
+    font-size: 2em;
+    font-weight: 100;
+    margin-bottom: 5px;
     text-transform: uppercase;
-
-  	&.cyan {
-  	  color: $cyan;
-  	}
-  }
-
-  h2 {
-  	font-size: 1.4em;
-  	font-weight:400;
-  	line-height:1.1em;
-
-  	&.white {
-  	  color:#FFFFFF;
-  	  font-weight:900;
-  	}
-
-  	&.bold {
-  	  font-weight:700;
-  	}
-  }
-
-  h3 {
-  	font-size:1em;
-  	font-weight:300;
-  	letter-spacing: 1px;
 
     &.cyan {
-      color:$cyan;
-
-      .bold {
-        font-weight:500;
-      }
+      color: $cyan;
     }
-
-  	&.gray {
-  	  color:$lightgray;
-  	}
-  }
-
-  h4 {
-  	color:#808080;
-    font-size:.9em;
-    font-weight:300;
-    letter-spacing: 1px;
-    line-height:1.2em;
-  }	
-  
-  .reward{
-  	margin:25px 0px;
-  	width:1024px;
-  }
-
-  .img {
-  	float:left;
-  	margin:0px 23px;
-
-  }
-
-  .description {
-  	float:left;
-  	margin-right:39px;
-  	width:247px;
-
-  }
-
-  .denom-value{
-    font-size:.6em;
-    font-weight:100;
-    line-height:1em;
-    margin-top:28px;
-  }
-
-  .denomination {
-  	float:right;
-  	height:71px;
-  	margin:12px 7px 0px 7px;
-  	padding-top:20px;
-  	position:relative;
-  	text-align:center;
-  	width:71px;
-    text-decoration: none;
-
-  	font-size:1.7em;
-  	font-weight:900;
-  	letter-spacing: -.1em;
-
-  	&.available {
-  	  background: url('/assets/rewards_bg_available.png');
-  	  color:#FFFFFF;
-
-      &.hover, &:hover{
-        color:#f5ffd2;
-      }
-  	}
-
-  	&.unavailable {
-  	  background: url('/assets/rewards_bg_unavailable.png');
-  	  color:#e6e6e6;
-  	}
-
-  	&.locked {
-  	  background: url('/assets/rewards_bg_locked.png');
-  	  color:#f8f8f8;
-  	}
-  }
-
-  .flag-locked {
-  	position:absolute;
-  	right:-2px;
-  	top:-8px;
-  }
-}
-  /* CONFIRMATION PAGE STYLES */
-
-.confirm {
-  h1 {
-    font-size:4em;
-    font-weight:900;
-    text-transform: uppercase;
   }
 
   h2 {
-    color: $cyan;
-    font-size:1.5em;
-    font-weight:300;
-    line-height:1.4em;
+    font-size: 1.4em;
+    font-weight: 400;
+    line-height: 1.1em;
 
-    .bold {
-      font-weight:500;
+    &.white {
+      color: #FFFFFF;
+      font-weight: 900;
+    }
+
+    &.bold {
+      font-weight: 700;
     }
   }
 
   h3 {
     font-size: 1em;
     font-weight: 300;
-    line-height:1.3em;
+    letter-spacing: 1px;
+
+    &.cyan {
+      color: $cyan;
+
+      .bold {
+        font-weight: 500;
+      }
+    }
 
     &.gray {
-      color:#d2d2d2;
+      color: $lightgray;
+    }
+  }
+
+  h4 {
+    color: #808080;
+    font-size: .9em;
+    font-weight: 300;
+    letter-spacing: 1px;
+    line-height: 1.2em;
+  }
+
+  .reward {
+    margin: 25px 0px;
+    width: 1024px;
+  }
+
+  .img {
+    float: left;
+    margin: 0px 23px;
+
+  }
+
+  .description {
+    float: left;
+    margin-right: 39px;
+    width: 247px;
+
+  }
+
+  .denom-value {
+    font-size: .6em;
+    font-weight: 100;
+    line-height: 1em;
+    margin-top: 28px;
+  }
+
+  .denomination {
+    float: right;
+    height: 71px;
+    margin: 12px 7px 0px 7px;
+    padding-top: 20px;
+    position: relative;
+    text-align: center;
+    width: 71px;
+    text-decoration: none;
+
+    font-size: 1.7em;
+    font-weight: 900;
+    letter-spacing: -.1em;
+
+    &.available {
+      background: url('/assets/rewards_bg_available.png');
+      color: #FFFFFF;
+
+      &.hover, &:hover {
+        color: #f5ffd2;
+      }
+    }
+
+    &.unavailable {
+      background: url('/assets/rewards_bg_unavailable.png');
+      color: #e6e6e6;
+    }
+
+    &.locked {
+      background: url('/assets/rewards_bg_locked.png');
+      color: #f8f8f8;
+    }
+  }
+
+  .flag-locked {
+    position: absolute;
+    right: -2px;
+    top: -8px;
+  }
+
+  .reward-modal {
+    .terms-text {
+      display: block;
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}
+
+/* CONFIRMATION PAGE STYLES */
+
+.confirm {
+  h1 {
+    font-size: 4em;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    color: $cyan;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.4em;
+
+    .bold {
+      font-weight: 500;
+    }
+  }
+
+  h3 {
+    font-size: 1em;
+    font-weight: 300;
+    line-height: 1.3em;
+
+    &.gray {
+      color: #d2d2d2;
     }
 
     &.cyan {
@@ -154,69 +164,69 @@
     }
 
     .bold {
-      font-weight:500;
+      font-weight: 500;
     }
   }
 
   h4 {
-    color:#d2d2d2;
-    font-size:.8em;
+    color: #d2d2d2;
+    font-size: .8em;
     font-weight: 300;
     line-height: 1.3em;
   }
 
-  a{
-    font-weight:100;
-    color:$cyan;
+  a {
+    font-weight: 100;
+    color: $cyan;
 
-    &.hover, &:hover{
+    &.hover, &:hover {
       text-decoration: underline;
     }
 
-    &.active, &:active{
-      color:#0071bc;
+    &.active, &:active {
+      color: #0071bc;
     }
   }
 
   hr {
     border: 1px solid #d2d2d2;
     display: inline-block;
-    margin:50px auto 0 auto;
-    max-width:1024px;
-    width:100%;
+    margin: 50px auto 0 auto;
+    max-width: 1024px;
+    width: 100%;
 
   }
 
   .headline {
-    margin:25px 0 50px 0;
+    margin: 25px 0 50px 0;
   }
 
-  .details{
-    display:inline-block;
-    margin:0 70px 0 0;
+  .details {
+    display: inline-block;
+    margin: 0 70px 0 0;
     max-width: 574px;
-    width:54%;
+    width: 54%;
   }
 
   .share {
     background: #f2f2f2;
     border: 1px solid #d2d2d2;
-    display:inline-block;
-    max-width:300px;
-    min-width:200px;
-    padding:15px;
+    display: inline-block;
+    max-width: 300px;
+    min-width: 200px;
+    padding: 15px;
     vertical-align: top;
-    width:30%;
+    width: 30%;
 
     @include round-corners(5px);
   }
 
   .share-btn {
-    margin-top:10px;
+    margin-top: 10px;
   }
 
   .legal {
-    margin-top:10px;
-    max-width:574px;
+    margin-top: 10px;
+    max-width: 574px;
   }
 }  

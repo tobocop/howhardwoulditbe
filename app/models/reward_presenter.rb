@@ -8,7 +8,7 @@ class RewardPresenter
   end
 
   delegate :currency_name, to: :virtual_currency_presenter
-  delegate :logo_url, :name, :description, to: :reward
+  delegate :logo_url, :name, :description, :terms, to: :reward
 
   def amounts
     reward.amounts.map do |amount|

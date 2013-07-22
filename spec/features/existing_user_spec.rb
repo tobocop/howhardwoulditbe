@@ -45,20 +45,24 @@ describe 'user signs in' do
                                         )
                                       ])
 
-    create_reward(name: 'Walmart Gift Card', description: 'wally mart', amounts:
-      [
-        new_reward_amount(dollar_award_amount: 5, is_active: true),
-        new_reward_amount(dollar_award_amount: 10, is_active: true),
-        new_reward_amount(dollar_award_amount: 15, is_active: false)
-      ]
+    create_reward(
+      name: 'Walmart Gift Card', description: 'wally mart',
+      amounts:
+        [
+          new_reward_amount(dollar_award_amount: 5, is_active: true),
+          new_reward_amount(dollar_award_amount: 10, is_active: true),
+          new_reward_amount(dollar_award_amount: 15, is_active: false)
+        ]
     )
 
-    create_reward(name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, amounts:
-      [
-        new_reward_amount(dollar_award_amount: 5, is_active: true),
-        new_reward_amount(dollar_award_amount: 10, is_active: true),
-        new_reward_amount(dollar_award_amount: 15, is_active: false)
-      ]
+    create_reward(
+      name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, terms: 'Tango card terms',
+      amounts:
+        [
+          new_reward_amount(dollar_award_amount: 5, is_active: true),
+          new_reward_amount(dollar_award_amount: 10, is_active: true),
+          new_reward_amount(dollar_award_amount: 15, is_active: false)
+        ]
     )
   end
 
@@ -110,7 +114,16 @@ describe 'user signs in' do
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
       page.find('a', text: '$5').click
-      click_on 'CANCEL'
+
+      within '.modal' do
+        click_on 'Terms & Conditions'
+        page.should have_content 'Tango card terms'
+
+        click_on 'Terms & Conditions'
+        page.should_not have_content 'Tango card terms'
+
+        click_on 'CANCEL'
+      end
     end
 
     page.should have_content('You have 500 Plink Points.')
@@ -118,7 +131,10 @@ describe 'user signs in' do
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
       page.find('a', text: '$5').click
-      click_on 'CONFIRM'
+      within '.modal' do
+        page.should have_content '$5 Tango Card'
+        click_on 'CONFIRM'
+      end
     end
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'

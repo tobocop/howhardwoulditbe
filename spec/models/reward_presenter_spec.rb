@@ -6,6 +6,7 @@ describe RewardPresenter do
       logo_url: 'awesome.png',
       name: 'derp',
       description: 'Awesomeness',
+      terms: 'Terms',
       amounts: [
         new_reward_amount
       ]
@@ -29,6 +30,7 @@ describe RewardPresenter do
       presenter.logo_url.should == 'awesome.png'
       presenter.name.should == 'derp'
       presenter.description.should == 'Awesomeness'
+      presenter.terms.should == 'Terms'
     end
   end
 
