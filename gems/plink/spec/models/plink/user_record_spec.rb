@@ -21,7 +21,7 @@ describe Plink::UserRecord do
       subject.first_name = 'w'*15
       subject.should_not be_valid
       subject.should have(1).error_on(:first_name)
-      subject.errors.messages[:first_name].should == ['is too long (maximum is 14 characters)']
+      subject.errors.messages[:first_name].should == ['First name is too long (maximum is 14 characters)']
     end
 
     it 'ensures first name must only be alphabetical letters' do
@@ -85,12 +85,12 @@ describe Plink::UserRecord do
     it 'validates new password' do
       subject.new_password = 'foo'
       subject.should_not be_valid
-      subject.errors.full_messages.should == ['New password is too short (minimum is 6 characters)']
+      subject.errors.messages[:new_password].should == ['New password must be at least 6 characters long']
 
       subject.new_password = 'foobar'
       subject.new_password_confirmation = 'foobee'
       subject.should_not be_valid
-      subject.errors.full_messages.should == ["New password doesn't match confirmation"]
+      subject.errors.messages[:new_password].should == ["New password doesn't match confirmation"]
     end
 
     it 'does not allow emails to be duplicates' do

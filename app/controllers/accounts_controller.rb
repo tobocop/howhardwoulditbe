@@ -25,7 +25,7 @@ class AccountsController < ApplicationController
       if plink_user.valid?
         render json: updatable_user_attributes(params)
       else
-        render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => plink_user.errors.full_messages}, status: 403
+        render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => plink_user.errors.messages}, status: 403
       end
     else
       render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => ['Current password is incorrect']}, status: 401

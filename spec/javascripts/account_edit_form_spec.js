@@ -119,7 +119,7 @@ describe('Plink.accountEditForm', function () {
     });
 
     it("displays errors when they are present in the response", function () {
-      var fakeResponse = {responseText: '{"error_message": "You need to fix these", "errors": ["you did it wrong"]}'};
+      var fakeResponse = {responseText: '{"error_message": "You need to fix these", "errors": {"first_name": ["you did it wrong"]}}'};
       var fakejqXHR = {
         fail: function (callback) {
           callback(fakeResponse);

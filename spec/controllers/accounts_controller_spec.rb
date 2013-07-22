@@ -147,7 +147,7 @@ describe AccountsController do
         controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: false, errors: mock(:error_messages, full_messages: ['doesnt work'])))
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: false, errors: mock(:errors, messages: ['doesnt work'])))
       end
 
       it 'updates the user with the given attributes' do

@@ -87,7 +87,17 @@
 
     base._displayErrors = function(xhr) {
       var responseData = $.parseJSON(xhr.responseText);
-      base.$el.find('.error-messages').html(base.errorsTemplate({instructions: responseData.error_message, errors: responseData.errors}));
+      base.$el.find('.error-messages').html(base.errorsTemplate({instructions: responseData.error_message, errors: base._mapErrorMessages(responseData.errors)}));
+    };
+
+    base._mapErrorMessages = function(errorMessages) {
+      var messagesCollection = [];
+      $.each(errorMessages, function(key, val) {
+        $(val).each(function(i, item) {
+          messagesCollection.push(item);
+        })
+      });
+      return messagesCollection;
     };
 
     base.init();
