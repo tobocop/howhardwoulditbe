@@ -88,6 +88,9 @@ describe('Plink.accountEditForm', function () {
     });
 
     it("updates the display values, collapses the form, and removes any errors on success", function () {
+
+      spyOn(Plink.Notice, 'display');
+
       var fakeResponse = {first_name: 'firty', email: 'firty@example.com'};
       var fakejqXHR = {
         done: function (callback) {
@@ -111,6 +114,8 @@ describe('Plink.accountEditForm', function () {
       expect($container.find('[data-display-value="email"]').text()).toEqual('firty@example.com');
       expect($container.hasClass('collapsed')).toBeTruthy();
       expect($container.find('.error-messages').text().length).toEqual(0);
+
+      expect(Plink.Notice.display).toHaveBeenCalled();
     });
 
     it("displays errors when they are present in the response", function () {

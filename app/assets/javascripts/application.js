@@ -19,6 +19,7 @@
 //= require custom.modernizr
 //= require_self
 //= require routes
+//= require notice
 //= require_tree .
 
 $(function () {

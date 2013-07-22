@@ -112,6 +112,10 @@ describe 'Managing account' do
       click_on 'Change Your Name'
     end
 
+    within '.flash-msg' do
+      page.should have_content 'Account updated successfully'
+    end
+
     page.should have_content 'samwise'
 
     within '.content', text: 'PASSWORD' do

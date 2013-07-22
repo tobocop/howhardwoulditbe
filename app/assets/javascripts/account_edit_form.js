@@ -70,6 +70,8 @@
         $el.text(data[prop]);
       }
 
+      Plink.Notice.display('Account updated successfully');
+
       base._clearInputs();
       base._clearErrors();
       base._collapse();
