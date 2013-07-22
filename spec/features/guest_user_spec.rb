@@ -126,7 +126,10 @@ describe 'guest behavior' do
       click_on 'Start Earning Rewards'
     end
 
-    page.should have_content 'Welcome, Frud!'
+    within ".welcome-text" do
+      page.should have_content 'Welcome, Frud!'
+    end
+
     page.current_path.should == '/dashboard'
   end
 end

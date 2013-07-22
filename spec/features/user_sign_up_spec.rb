@@ -36,7 +36,10 @@ describe 'User signup workflow' do
         click_on 'Start Earning Rewards'
       end
 
-      page.should have_content('Welcome, Joe!')
+      within ".welcome-text" do
+        page.should have_content('Welcome, Joe!')
+      end
+
       current_path.should == dashboard_path
 
       click_on 'Wallet'
@@ -58,7 +61,10 @@ describe 'User signup workflow' do
 
         click_on 'Join'
 
-        page.should have_content 'Join Plink'
+
+        within '.modal' do
+          page.should have_content 'Join Plink'
+        end
 
         within '.modal' do
           page.find('[gigid="facebook"]').click

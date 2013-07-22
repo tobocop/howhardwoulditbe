@@ -25,7 +25,9 @@ describe 'event tracking' do
       click_on 'Start Earning Rewards'
     end
 
-    page.should have_content 'Welcome, Frud!'
+    within ".welcome-text" do
+      page.should have_content 'Welcome, Frud!'
+    end
 
     tracked_event = Plink::EventRecord.order('eventID desc').first
 
@@ -61,7 +63,9 @@ describe 'event tracking' do
       click_button 'Log In'
     end
 
-    page.should have_content('Welcome, Matt!')
+    within ".welcome-text" do
+      page.should have_content('Welcome, Matt!')
+    end
 
     tracked_event = Plink::EventRecord.order('eventID desc').first
 
