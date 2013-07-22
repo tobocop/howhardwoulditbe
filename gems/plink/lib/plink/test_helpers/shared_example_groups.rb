@@ -18,7 +18,7 @@ shared_examples_for(:legacy_timestamps) do
     subject.created_at.should == created_at
   end
 
-  it "does update the modified time on update" do
+  it "updates the modified time on update" do
     subject.save!
     updated_at = subject.created_at
     subject.touch
