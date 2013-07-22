@@ -23,7 +23,6 @@ module Plink
 
     validates :first_name, presence: {message: 'Please provide a First name'}
     validates :first_name,
-              length: {maximum: 14, message: 'First name is too long (maximum is 14 characters)'},
               format: {with: /\A[a-zA-Z]+\z/, message: 'Please enter only alphabetical characters for your name.'},
               if: 'first_name.present?'
     validates :email, presence: {message: 'Email address is required'}, format: {with: VALID_EMAIL_REGEXP, message: 'Please enter a valid email address'}
