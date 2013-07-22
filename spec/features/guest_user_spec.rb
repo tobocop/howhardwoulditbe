@@ -130,6 +130,6 @@ describe 'guest behavior' do
       page.should have_content 'Welcome, Frud!'
     end
 
-    page.current_path.should == '/dashboard'
+    page.current_path.should == '/wallet'
   end
 end

@@ -22,7 +22,7 @@ describe GigyaLoginHandlerController do
 
         get :create, {valid_params: true}
 
-        response.should redirect_to dashboard_path
+        response.should redirect_to wallet_path
       end
 
       it 'does not track an email creation event' do
@@ -36,18 +36,21 @@ describe GigyaLoginHandlerController do
       let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: mock('user', id: 87, password_hash: 'asd'), sign_in_user: successful_response) }
 
       before do
+        controller.stub(:track_email_capture_event)
         GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }
       end
 
       it 'calls the track_email_capture_event' do
-
         controller.should_receive(:track_email_capture_event).with(87)
 
         get :create, {valid_params: true}
-
-        response.should redirect_to dashboard_path
       end
 
+      it 'signs the user in' do
+        get :create, {valid_params: true}
+
+        response.should redirect_to wallet_path(link_card: true)
+      end
     end
 
     context 'when the notification to gigya is not successful' do

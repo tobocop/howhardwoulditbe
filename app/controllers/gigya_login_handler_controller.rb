@@ -7,14 +7,15 @@ class GigyaLoginHandlerController < ApplicationController
 
     response = gigya_login_service.sign_in_user
 
-
     if response.success?
+      sign_in_user(gigya_login_service.user)
+
       if response.new_user?
         track_email_capture_event(gigya_login_service.user.id)
+        redirect_to wallet_path(link_card: true)
+      else
+        redirect_to wallet_path
       end
-
-      sign_in_user(gigya_login_service.user)
-      redirect_to dashboard_path
     else
       flash.notice = response.message
       redirect_to root_path
