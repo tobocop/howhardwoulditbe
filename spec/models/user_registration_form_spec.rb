@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UserRegistrationForm do
 
-  subject { UserRegistrationForm.new(password: 'goodpassword', password_confirmation: 'goodpassword', first_name: 'Bobo', email: 'bobo@example.com') }
+  subject { UserRegistrationForm.new(password: 'goodpassword', password_confirmation: 'goodpassword', first_name: 'Bobo', email: 'bobo@example.com', virtual_currency_name: 'Plink Points') }
 
   it 'is not persisted' do
     subject.should_not be_persisted
@@ -114,7 +114,7 @@ describe UserRegistrationForm do
 
       it 'emails the user a welcome email' do
         mock_mail.should_receive(:deliver)
-        UserRegistrationMailer.should_receive(:welcome).with(email: 'bobo@example.com', first_name: 'Bobo').and_return(mock_mail)
+        UserRegistrationMailer.should_receive(:welcome).with(email: 'bobo@example.com', first_name: 'Bobo', virtual_currency_name: 'Plink Points').and_return(mock_mail)
 
         subject.save
       end

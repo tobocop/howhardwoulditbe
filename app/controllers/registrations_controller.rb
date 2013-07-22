@@ -7,7 +7,8 @@ class RegistrationsController < ApplicationController
       first_name: params[:first_name],
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation]
+      password_confirmation: params[:password_confirmation],
+      virtual_currency_name: current_virtual_currency.currency_name
     )
 
     if user_registration_form.save

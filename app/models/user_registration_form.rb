@@ -4,7 +4,7 @@ class UserRegistrationForm
   include ActiveModel::Validations
   include ActiveModel::Conversion
 
-  attr_accessor :password, :password_confirmation, :first_name, :email, :user_creation_service, :user
+  attr_accessor :password, :password_confirmation, :first_name, :email, :virtual_currency_name, :user_creation_service, :user
 
   validates :password, length: {minimum: 6, message: 'Please enter a password at least 6 characters long'}, confirmation: {message: 'Confirmation password doesn\'t match', if: Proc.new { password_confirmation.present? }}
   validates :password_confirmation, presence: {message: 'Please confirm your password'}
@@ -15,12 +15,19 @@ class UserRegistrationForm
     self.email = options[:email]
     self.password = options[:password]
     self.password_confirmation = options[:password_confirmation]
+    self.virtual_currency_name = options[:virtual_currency_name]
   end
 
   def save
     return unless valid?
     self.user = user_creation_service.create_user
-    UserRegistrationMailer.welcome(email: user.email, first_name: user.first_name).deliver
+
+    UserRegistrationMailer.welcome(
+      email: user.email,
+      first_name: user.first_name,
+      virtual_currency_name: virtual_currency_name
+    ).deliver
+
     true
   end
 
@@ -46,10 +53,10 @@ class UserRegistrationForm
   def user_params
     password = hashed_password
     {
-        :first_name => first_name,
-        :email => email,
-        :password_hash => password.hashed_value,
-        :salt => password.salt
+      :first_name => first_name,
+      :email => email,
+      :password_hash => password.hashed_value,
+      :salt => password.salt
     }
   end
 

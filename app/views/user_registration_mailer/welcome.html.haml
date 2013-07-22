@@ -1,1 +1,43 @@
-%h2 Welcome to Plink
+%html
+  %head
+    %title Welcome to Plink
+  %body{:bgcolor => "#ffffff", :leftmargin => "0", :marginheight => "0", :marginwidth => "0", :topmargin => "0"}
+    %table{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "margin-top:10px", :width => "573"}
+      %tr
+        %td{:height => "40", :valign => "bottom"}
+          %a{:href => account_url, :style => "font-size:11px;font-family:Arial;text-decoration:underline; font-weight:bold;"} View my Account
+          %br/
+      %tr
+        %td{:colspan => "2", :style => "border:1px solid black;"}
+          %div{:style => "background:#ffffff"}
+            %div
+              %a{:href => "https://www.plink.com/index.cfm?cid=10&utm_source=double_confirm_email&utm_medium=email&utm_content=logo_header", :style => "text-decoration:underline; font-weight:bold;"}
+                %img{:alt => "", :border => "0", :src => "http://plink-email.s3.amazonaws.com/global/header_square.png", :width => "573"}/
+            %table{:bgcolor => "#ffffff", :style => "font-family:Arial;font-size:12px;"}
+              %tr
+                %td{:width => "40"}
+                %td
+                  %table{:width => "100%"}
+                  %p{:style => "color:#666666; margin:0; padding:0; margin-bottom:10px;font-size:32px;"} Hi #{@first_name},
+                  %p Welcome and thanks for signing up for Plink!  We're excited to help you earn #{@virtual_currency_name} towards the reward of your choice.
+                  %p Please click the link below to manage your account.
+                  %p
+                    %a{:href => account_url, :style => "text-decoration:underline; font-weight:bold;"}= account_url
+                  %p Thanks!
+                  %p -Team Plink
+                  %img{:src => "http://plink-email.s3.amazonaws.com/global/divider.jpg", :width => "100%"}/
+                  %table{:bgcolor => "#ffffff", :style => "font-family:Arial;font-size:12px;", :width => "100%"}
+                    %tr
+                      %td
+                        %img{:alt => "", :border => "0", :src => "http://plink-email.s3.amazonaws.com/global/logo.png"}/
+                      %td
+                        %p{:style => "font-size:12px; color:#0099FF; margin:0; padding:0;"} Need some help?
+                        If you have any questions, please contact us at
+                        %a{:href => "mailto:support@plink.com", :style => "text-decoration:underline; font-weight:bold;"} support@plink.com
+                        %br/
+                        and we'd be happy to help you out.
+                    %tr
+                      %td{:align => "center", :colspan => "2"}
+                %td{:width => "40"}
+            %div
+              %img{:alt => "", :border => "0", :src => "http://plink-email.s3.amazonaws.com/global/footer_square.png", :style => "vertical-align:bottom", :width => "573"}/

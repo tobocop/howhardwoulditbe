@@ -7,6 +7,7 @@ describe RegistrationsController do
       let(:cookie_stub) { stub(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
 
       before do
+        controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
         @user_stub = stub
@@ -53,6 +54,11 @@ describe RegistrationsController do
     end
 
     describe "when registration has errors" do
+
+      before do
+        controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
+      end
+
       it "should return an erroneous json response" do
         xhr :post, :create
 
