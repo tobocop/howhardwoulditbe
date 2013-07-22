@@ -44,9 +44,10 @@ describe 'event tracking' do
   end
 
   it 'tracks events for a social registration and not on login', js: true, driver: :selenium do
-    visit '/tracking/new?aid=1324&subid=one&subID2=two&subid3=three&SuBid4=four&c=MYTESTHASH&pathID=298'
 
     page.driver.browser.manage.delete_all_cookies
+
+    visit '/tracking/new?aid=1324&subid=one&subID2=two&subid3=three&SuBid4=four&c=MYTESTHASH&pathID=298'
 
     page.current_path.should == '/'
 
