@@ -270,7 +270,6 @@
       .modal
         .offer-details
           %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
-          %img{ :class => "modal-ribbon", :src => "/assets/ribbon_2x.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
           %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Old Navy"}
           .bg-element
             .offer-points
@@ -287,6 +286,30 @@
             %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer.  
           .legal-text    
             %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing. 
+
+      %h3 Offer Details - Promo
+      .modal
+        .offer-details
+          %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+          %img{ :class => "modal-ribbon", :src => "/assets/ribbon_promo.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+          %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Old Navy"}
+          .bg-element
+            .offer-points
+              %h1 5000
+              %h2 Plink Points when you spend $500
+            .offer-points
+              %h1 300
+              %h2 Plink Points when you spend $30
+            .offer-points
+              %h1 100
+              %h2 Plink Points when you spend $10  
+          .message.promo
+            Get DOUBLE POINTS at this partner, now through July 27th.  
+          %button.button.primary-action.narrow ADD TO MY WALLET  
+          .offer-description
+            %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer.  
+          .legal-text    
+            %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing.       
 
       %h3 Offer Details - Full Wallet
       .modal
@@ -309,7 +332,7 @@
             .offer-points
               %h1 9999
               %h2 Plink Points when you spend $999          
-          .message
+          .message.full
             You don't have any open slots in your Plink Wallet.  To add this offer, remove one of the offers currently in your Plink Wallet.
           .offer-description
             %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer. 
@@ -332,7 +355,26 @@
             .btn  
               %button.button.primary-action CONFIRM
           .terms 
-            %a Terms & Conditions     
+            %a Terms & Conditions      
+
+      %h3 Reward Confirmation - Expanded Terms
+      .modal  
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }  
+        .reward-modal
+          .img
+            %img{ :src => "/assets/gift-cards/amazon.png", :alt => "Amazon Gift Card"} 
+          .text 
+            %h1 $5 Amazon.com Gift Card
+            %h2 You're about to redeem 500 Plink Points for a $5 Amazon.com Gift Card.
+          %br  
+          .btn-wrapper
+            .btn.first
+              %button.button.secondary-action CANCEL 
+            .btn  
+              %button.button.primary-action CONFIRM
+          .terms 
+            %a Terms & Conditions   
+            %h3 Terms and conditions are my favorite thing to lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupi excelsior!       
 
 
   %section
@@ -393,7 +435,7 @@
 
       .wallet
         .offer
-          %img{ :class => "ribbon", :src => "/assets/ribbon_2x_offer.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+          %img{ :class => "ribbon", :src => "/assets/ribbon_promo_offer.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
           .offer-inner
             .brand
               %img{ :src =>"/assets/wallet-logos/arbys.png", :alt => "Arby's"}

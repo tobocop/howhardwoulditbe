@@ -61,11 +61,20 @@
   }
 
   .message {
-    color:$pink;
     font-size:1.1em;
     font-weight: 300;
     line-height:1.2em;
     margin: 0 auto;
+
+    &.full {
+      color:$pink;
+    }
+
+    &.promo {
+      color:#fbb03b;
+      font-weight:500;
+      margin-bottom:15px;
+    }
   }
 
   .legal-text{
@@ -114,6 +123,13 @@
       line-height: 1.2em;
     }
 
+    h3 {
+      color: $lightgray;
+      font-size: .8em;
+      font-weight:300;
+      line-height: 1.3em;
+    }
+
     .img {
       float: left;
       margin-left: 0px;
@@ -144,6 +160,7 @@
 
     .terms {
       margin: 6px 0 0 0;
+      width: 490px;
       text-align: left;
     }
   }
