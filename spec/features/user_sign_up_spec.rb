@@ -8,7 +8,7 @@ describe 'User signup workflow' do
   end
 
   context 'organic registration' do
-    it 'should create an account and drop the user on the dashboard', js: true do
+    it 'should create an account, email the user, and drop the user on the dashboard', js: true do
       visit '/'
 
       click_link 'Join'
@@ -41,6 +41,14 @@ describe 'User signup workflow' do
       end
 
       current_path.should == dashboard_path
+
+      email = ActionMailer::Base.deliveries.last
+
+      [email.html_part, email.text_part].each do |email_part|
+        email_string = Capybara.string(email_part.body.to_s)
+
+        email_string.should have_content 'Welcome to Plink'
+      end
 
       click_on 'Wallet'
 

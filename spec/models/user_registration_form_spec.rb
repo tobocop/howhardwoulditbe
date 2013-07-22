@@ -88,15 +88,38 @@ describe UserRegistrationForm do
   end
 
   describe 'saving' do
-    it 'calls save on the user_creation_service when valid' do
-      password = stub(hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
-      Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
-      user_creation_service_mock = mock(valid?:true)
-      Plink::UserCreationService.should_receive(:new).with(password_hash: '1234790dfghjkl;', first_name: 'Bobo', email: 'bobo@example.com', salt: 'qwer-qwer-qwer-qwer').and_return(user_creation_service_mock)
-      user_creation_service_mock.should_receive(:create_user)
+    context 'when successful' do
 
-      subject.save.should be_true
+      let(:user_creation_service_mock) { mock(:user_creation_service, valid?: true) }
+      let(:mock_mail) {mock(:welcome_email)}
+
+      before do
+        mock_mail.stub(:deliver)
+        UserRegistrationMailer.stub(:welcome).and_return(mock_mail)
+
+        password = mock(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
+        Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
+
+        Plink::UserCreationService.stub(:new).with(password_hash: '1234790dfghjkl;', first_name: 'Bobo', email: 'bobo@example.com', salt: 'qwer-qwer-qwer-qwer').and_return(user_creation_service_mock)
+        user_creation_service_mock.stub(:create_user).and_return(mock(:user, email: 'bobo@example.com', first_name: 'Bobo'))
+
+      end
+
+      it 'calls save on the user_creation_service when valid' do
+        Plink::UserCreationService.should_receive(:new).with(password_hash: '1234790dfghjkl;', first_name: 'Bobo', email: 'bobo@example.com', salt: 'qwer-qwer-qwer-qwer').and_return(user_creation_service_mock)
+        user_creation_service_mock.should_receive(:create_user).and_return(mock(:user, email: 'bobo@example.com', first_name: 'Bobo'))
+
+        subject.save.should be_true
+      end
+
+      it 'emails the user a welcome email' do
+        mock_mail.should_receive(:deliver)
+        UserRegistrationMailer.should_receive(:welcome).with(email: 'bobo@example.com', first_name: 'Bobo').and_return(mock_mail)
+
+        subject.save
+      end
     end
+
 
     it 'does not create a user object if validation fails' do
       subject.stub(:valid?) { false }
