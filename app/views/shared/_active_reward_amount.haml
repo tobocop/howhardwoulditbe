@@ -18,4 +18,4 @@
     .terms
       %a.terms-link{href: '#', data: {'toggle-selector' => "#toggle-#{amount.id}"}} Terms &amp; Conditions
       %h3.terms-text.hidden{id: "toggle-#{amount.id}"}
-        = reward.terms
+        = reward.terms.try(:html_safe)

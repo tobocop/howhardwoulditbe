@@ -46,7 +46,7 @@ describe 'user signs in' do
                                       ])
 
     create_reward(
-      name: 'Walmart Gift Card', description: 'wally mart',
+      name: 'Walmart Gift Card', description: 'wally mart', terms: '<a href="#">wally card terms</a>',
       amounts:
         [
           new_reward_amount(dollar_award_amount: 5, is_active: true),
@@ -56,7 +56,7 @@ describe 'user signs in' do
     )
 
     create_reward(
-      name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, terms: 'Tango card terms',
+      name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, terms: '<a href="#">Tango card terms</a>',
       amounts:
         [
           new_reward_amount(dollar_award_amount: 5, is_active: true),
@@ -90,6 +90,15 @@ describe 'user signs in' do
     click_on 'Rewards'
 
     page.current_path.should == '/rewards'
+
+    within '.reward', text: 'Walmart Gift Card' do
+      page.find('a', text: '$5').click
+
+      within '.modal' do
+        page.find('a', text: 'TERMS & CONDITIONS').click
+        page.should have_link "wally card terms"
+      end
+    end
 
     within '.reward', text: 'Walmart Gift Card' do
       page.find('a', text: '$5').click
