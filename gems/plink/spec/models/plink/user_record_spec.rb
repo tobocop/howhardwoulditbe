@@ -5,73 +5,95 @@ describe Plink::UserRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
-  it 'be valid' do
-    subject.should be_valid
-  end
+  describe 'validations' do
+    it 'be valid' do
+      subject.should be_valid
+    end
 
-  it 'must have a first name' do
-    subject.first_name = nil
-    subject.should_not be_valid
-    subject.should have(1).error_on(:first_name)
-  end
+    it 'must have a first name' do
+      subject.first_name = nil
+      subject.should_not be_valid
+      subject.should have(1).error_on(:first_name)
+      subject.errors.messages[:first_name].should == ['Please provide a First name']
+    end
 
-  it 'must have an email address' do
-    subject.email = nil
-    subject.should_not be_valid
-    subject.should have(2).error_on(:email)
-  end
+    it 'ensures first name must only be alphabetical letters' do
+      subject.first_name = "asb2"
+      subject.should_not be_valid
+      subject.should have(1).error_on(:first_name)
+      subject.errors.messages[:first_name].should == ['Please enter only alphabetical characters for your name.']
 
-  it 'validates the format of the email address' do
-    subject.email = 'foo'
-    subject.should_not be_valid
-    subject.should have(1).error_on(:email)
+      subject.first_name = "asb;"
+      subject.should_not be_valid
+      subject.should have(1).error_on(:first_name)
 
-    subject.email = 'foo@'
-    subject.should_not be_valid
-    subject.should have(1).error_on(:email)
+      subject.first_name = '_hunter'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:first_name)
 
-    subject.email = 'foo@example'
-    subject.should_not be_valid
-    subject.should have(1).error_on(:email)
+      subject.first_name = '-hunter'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:first_name)
+    end
 
-    subject.email = 'foo@example.'
-    subject.should_not be_valid
-    subject.should have(1).error_on(:email)
+    it 'must have an email address' do
+      subject.email = nil
+      subject.should_not be_valid
+      subject.should have(2).error_on(:email)
+    end
 
-    subject.email = 'foo@example.c'
-    subject.should be_valid
-  end
+    it 'validates the format of the email address' do
+      subject.email = 'foo'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
 
-  it 'must have a password hash' do
-    subject.password_hash = nil
-    subject.should_not be_valid
-    subject.should have(1).error_on(:password_hash)
-  end
+      subject.email = 'foo@'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
 
-  it 'must have a salt' do
-    subject.salt = nil
-    subject.should_not be_valid
-    subject.should have(1).error_on(:salt)
-  end
+      subject.email = 'foo@example'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
 
-  it 'validates new password' do
-    subject.new_password = 'foo'
-    subject.should_not be_valid
-    subject.errors.full_messages.should == ['New password is too short (minimum is 6 characters)']
+      subject.email = 'foo@example.'
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
 
-    subject.new_password = 'foobar'
-    subject.new_password_confirmation = 'foobee'
-    subject.should_not be_valid
-    subject.errors.full_messages.should == ["New password doesn't match confirmation"]
-  end
+      subject.email = 'foo@example.c'
+      subject.should be_valid
+    end
 
-  it 'does not allow emails to be duplicates' do
-    other_user = new_user
-    other_user.email = subject.email
-    other_user.save!
+    it 'must have a password hash' do
+      subject.password_hash = nil
+      subject.should_not be_valid
+      subject.should have(1).error_on(:password_hash)
+    end
 
-    subject.should_not be_valid
-    subject.should have(1).error_on(:email)
+    it 'must have a salt' do
+      subject.salt = nil
+      subject.should_not be_valid
+      subject.should have(1).error_on(:salt)
+    end
+
+    it 'validates new password' do
+      subject.new_password = 'foo'
+      subject.should_not be_valid
+      subject.errors.full_messages.should == ['New password is too short (minimum is 6 characters)']
+
+      subject.new_password = 'foobar'
+      subject.new_password_confirmation = 'foobee'
+      subject.should_not be_valid
+      subject.errors.full_messages.should == ["New password doesn't match confirmation"]
+    end
+
+    it 'does not allow emails to be duplicates' do
+      other_user = new_user
+      other_user.email = subject.email
+      other_user.save!
+
+      subject.should_not be_valid
+      subject.should have(1).error_on(:email)
+    end
   end
 
   it 'allows assignment of avatar_thumbnail_url' do

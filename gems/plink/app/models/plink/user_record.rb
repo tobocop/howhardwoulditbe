@@ -21,7 +21,8 @@ module Plink
     has_many :open_wallet_items, through: :wallet
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 
-    validates :first_name, presence: {message: 'Please enter a First Name'}
+    validates :first_name, presence: {message: 'Please provide a First name'}
+    validates :first_name, format: {with: /\A[a-zA-Z]+\z/, message: 'Please enter only alphabetical characters for your name.'}, if: 'first_name.present?'
     validates :email, presence: {message: 'Email address is required'}, format: {with: VALID_EMAIL_REGEXP, message: 'Please enter a valid email address'}
     validates :password_hash, :salt, presence: true
 

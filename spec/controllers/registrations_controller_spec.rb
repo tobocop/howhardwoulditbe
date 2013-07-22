@@ -67,7 +67,7 @@ describe RegistrationsController do
         JSON.parse(response.body).should == {
           'error_message' => 'Please Correct the below errors:',
           'errors' => {
-            'first_name' => ["Please enter a First Name"],
+            'first_name' => ["Please provide a First name"],
             'password' => ["Please enter a password at least 6 characters long"],
             'password_confirmation' => ["Please confirm your password"],
             'email' => ["Email address is required", "Please enter a valid email address"]

@@ -25,7 +25,7 @@ describe 'User signup workflow' do
       end
 
       within '.modal' do
-        page.should have_content 'Please enter a First Name'
+        page.should have_content 'Please provide a First name'
         page.should have_content 'Email address is required'
 
         fill_in 'First Name', with: 'Joe'
