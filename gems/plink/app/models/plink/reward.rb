@@ -8,7 +8,6 @@ module Plink
       @name = attributes.fetch(:name)
       @description = attributes.fetch(:description)
       @logo_url = attributes.fetch(:logo_url)
-      @id = attributes.fetch(:id)
       @amounts = award_amounts(amount_records)
       @terms = attributes[:terms]
     end
