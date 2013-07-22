@@ -7,6 +7,7 @@ describe UserRegistrationMailer do
 
       email.to.should == ['jobo@example.com']
       email.from.should == ['info@plink.com']
+      email.subject.should == 'Welcome to Plink'
 
       [email.html_part, email.text_part].each do |email_part|
         email_string = Capybara.string(email_part.body.to_s)
