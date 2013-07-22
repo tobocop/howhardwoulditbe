@@ -40,7 +40,9 @@ describe 'User signup workflow' do
         page.should have_content('Welcome, Joe!')
       end
 
-      current_path.should == dashboard_path
+      current_path.should == wallet_path
+
+      page.should have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
 
       email = ActionMailer::Base.deliveries.last
 
@@ -49,6 +51,8 @@ describe 'User signup workflow' do
 
         email_string.should have_content 'Welcome and thanks for signing up for Plink'
       end
+
+      page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
       click_on 'Wallet'
 

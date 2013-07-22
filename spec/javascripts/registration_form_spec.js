@@ -42,7 +42,7 @@ describe('Plink.registrationForm', function () {
           password_confirmation: ['password']
         });
 
-        expect(Plink.redirect).toHaveBeenCalledWith('/dashboard');
+        expect(Plink.redirect).toHaveBeenCalledWith('/wallet?link_card=true');
       });
     });
 

@@ -22,3 +22,17 @@
     %h2 Select From These Offers
     #offers_bucket
       = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
+
+
+  #card-add-modal.reveal-modal.cf-modal
+    %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+
+:javascript
+  $(function() {
+        Plink.conditionalCallback(
+          window.location.search.match(/link_card=true/),
+          function () {
+            $('#card-add-modal').foundation('reveal', 'open');
+          }
+        )
+      });

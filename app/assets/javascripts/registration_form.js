@@ -32,7 +32,7 @@
     };
 
     base._successfulSubmission = function(data) {
-      Plink.redirect(Plink.Routes.dashboard_path);
+      Plink.redirect(Plink.Routes.post_login_path);
     };
 
     base._failureSubmission = function (xhr) {

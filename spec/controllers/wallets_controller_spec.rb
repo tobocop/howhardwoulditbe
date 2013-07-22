@@ -50,6 +50,14 @@ describe WalletsController do
         assigns(:current_tab).should == 'wallet'
       end
 
+      it 'assigns a @card_link_url' do
+        Plink::CardLinkUrlGenerator.any_instance.stub(:create_url) { 'http://www.mywebsite.example.com' }
+
+        get :show
+
+        assigns(:card_link_url).should == 'http://www.mywebsite.example.com'
+      end
+
       it 'assigns @user_has_account' do
         get :show
 
