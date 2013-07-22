@@ -3,6 +3,7 @@ module UserActions
     visit '/'
 
     click_on 'Join'
+    click_on 'Join with Email'
 
     fill_in 'First Name', with: args[:first_name]
     fill_in 'Email', with: args[:email]

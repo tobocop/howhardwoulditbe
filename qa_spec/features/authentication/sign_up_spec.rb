@@ -9,6 +9,7 @@ describe 'Signing up', js: true do
   it 'lets the user sign up with the regular registration form' do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'test123'
@@ -22,6 +23,7 @@ describe 'Signing up', js: true do
   it 'tells the user their password is too short' do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'short'
@@ -34,6 +36,7 @@ describe 'Signing up', js: true do
   it "tells the user to enter a password confirmation" do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'test123'
@@ -45,6 +48,7 @@ describe 'Signing up', js: true do
   it "tells the user the password fields don't match" do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'test123'
@@ -57,6 +61,7 @@ describe 'Signing up', js: true do
   it 'tells the user the first name field is blank' do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'test123'
     fill_in 'Verify Password', with: 'test123'
@@ -68,6 +73,7 @@ describe 'Signing up', js: true do
   it 'tells the user the email field is blank' do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'bob'
     fill_in 'Password', with: 'test123'
     fill_in 'Verify Password', with: 'test123'
@@ -79,6 +85,7 @@ describe 'Signing up', js: true do
   it 'tells the user the email field is invalid format' do
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@'
     fill_in 'Password', with: 'test123'
@@ -92,6 +99,7 @@ describe 'Signing up', js: true do
     create_user(email: 'bob@example.com')
     visit '/'
     click_on 'Join'
+    click_on 'Join with Email'
     fill_in 'First Name', with: 'Bob'
     fill_in 'Email', with: 'bob@example.com'
     fill_in 'Password', with: 'test123'

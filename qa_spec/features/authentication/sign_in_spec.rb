@@ -9,6 +9,7 @@ describe 'Signing in', js: true do
 
   it 'lets the user sign in with an existing Plink account' do
     visit '/'
+    
     click_on "Sign In"
     fill_in 'Email', with: 'qa_spec_test@example.com'
     fill_in 'Password', with: 'test123'
