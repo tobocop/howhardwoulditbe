@@ -99,9 +99,9 @@ describe AccountsController do
       end
 
       it 'updates the user with the given attributes' do
-        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph', 'new_password' => '123456', 'new_password_confirmation' => '123456'}).and_return(mock(:plink_user, valid?: true))
+        fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
 
-        put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph', new_password: '123456', new_password_confirmation: '123456'
+        put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph'
 
         response.should be_success
       end
