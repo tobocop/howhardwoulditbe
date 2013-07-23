@@ -20,10 +20,8 @@ describe 'Password reset request', js: true do
   end
 
   it 'should sent a reset email to a valid user' do
-    pending 'database fix' do
-      fill_in 'Email', with: 'existing@plink.com'
-      click_on 'Send Password Reset Instructions'
-      page.should have_text "Enter the email address associated with your account. We will send you an e-mail containing instructions for how you can reset your password."
-    end
+    fill_in 'Email', with: 'existing@plink.com'
+    click_on 'Send Password Reset Instructions'
+    page.should have_text "To reset your password, please follow the instructions sent to your email address."
   end
 end
