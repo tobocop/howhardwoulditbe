@@ -96,7 +96,7 @@ create_offer(advertiser_id: burger_king.id, start_date: '1900-01-01', offers_vir
 ]
 )
 
-create_offer(advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_currencies: [
+create_offer(advertiser_id: gap.id, start_date: '1900-01-01', is_new: true, offers_virtual_currencies: [
   new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
     new_tier(dollar_award_amount: 0.8, minimum_purchase_amount: 1, end_date: '2999-12-31'),
     new_tier(dollar_award_amount: 9.5, minimum_purchase_amount: 19, end_date: '2999-12-31'),

@@ -174,7 +174,7 @@ describe 'user signs in' do
 
       within "[data-offer-id='#{@burger_king_offer.id}']" do
         page.should have_css 'img[src="/assets/test/burgerking.png"]'
-        page.should have_css 'img[src="/assets/test/burgerking.png"]'
+        page.should have_css '.ribbon.ribbon-new-offer', text: 'New Partner!'
         click_on 'Add to wallet'
       end
     end
@@ -182,6 +182,7 @@ describe 'user signs in' do
     within '.modal' do
 
       page.should have_content('Burger King Offers')
+      page.should have_css '.modal-ribbon.ribbon-new-offer', text: 'New Partner!'
 
       within '.tiers' do
         within 'p:nth-of-type(1)' do
@@ -210,6 +211,13 @@ describe 'user signs in' do
 
       within "[data-offer-id='#{@old_navy_offer.id}']" do
         page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+      end
+    end
+
+    within '#wallet_items_bucket' do
+      within '.slot:nth-of-type(1)' do
+        page.should have_css 'img[src="/assets/test/burgerking.png"]'
+        page.should have_css '.ribbon.ribbon-new-offer', text: 'New Partner!'
       end
     end
 

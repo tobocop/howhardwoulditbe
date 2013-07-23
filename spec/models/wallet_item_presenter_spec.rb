@@ -13,6 +13,34 @@ describe WalletItemPresenter do
       presenter.partial.should == 'populated_wallet_item'
     end
 
+    it 'has the correct special offer type' do
+      offer_stub = stub(is_new: false)
+      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      presenter.special_offer_type.should be_nil
+    end
+
+    it 'has the correct special offer type text' do
+      offer_stub = stub(is_new: false)
+      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      presenter.special_offer_type_text.should be_nil
+    end
+
+    context 'with a new offer' do
+      let(:offer_stub) { stub(is_new: true) }
+
+      before do
+        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      end
+
+      it 'has the correct special offer type' do
+        presenter.special_offer_type.should == 'ribbon-new-offer'
+      end
+
+      it 'has the correct special offer type text' do
+        presenter.special_offer_type_text.should == 'New Partner!'
+      end
+    end
+
     it 'has the correct icon_url' do
       offer_stub = stub(image_url: "my_custom_image.png")
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
@@ -42,17 +70,19 @@ describe WalletItemPresenter do
     end
 
     it 'has a JSON representation' do
-      offer_stub = stub(max_dollar_award_amount: 15.2, name: 'Taco Bell', image_url: 'my_custom_image.png', id: 2)
+      offer_stub = stub(max_dollar_award_amount: 15.2, name: 'Taco Bell', image_url: 'my_custom_image.png', id: 2, is_new: true)
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
       fake_view_context.should_receive(:wallet_offer_url) { 'test.host/offers/2' }
 
       JSON.parse(presenter.to_json).symbolize_keys.should == {
-          template_name: 'populated_wallet_item',
-          icon_url: '/my_custom_image.png',
-          icon_description: 'Taco Bell',
-          currency_name: 'Plink points',
-          max_currency_award_amount: '1520',
-          wallet_offer_url: 'test.host/offers/2'
+        template_name: 'populated_wallet_item',
+        special_offer_type: 'ribbon-new-offer',
+        special_offer_type_text: 'New Partner!',
+        icon_url: '/my_custom_image.png',
+        icon_description: 'Taco Bell',
+        currency_name: 'Plink points',
+        max_currency_award_amount: '1520',
+        wallet_offer_url: 'test.host/offers/2'
       }
     end
   end
@@ -125,11 +155,11 @@ describe WalletItemPresenter do
       fake_view_context.should_receive(:image_path).with('icon_lockedslot.png') { 'http://test.host/icon_lockedslot.png' }
 
       JSON.parse(presenter.to_json).symbolize_keys.should == {
-          template_name: 'locked_wallet_item',
-          icon_url: 'http://test.host/icon_lockedslot.png',
-          icon_description: 'Locked Slot',
-          title: 'This slot is locked.',
-          description: 'Complete an offer to unlock this slot.'
+        template_name: 'locked_wallet_item',
+        icon_url: 'http://test.host/icon_lockedslot.png',
+        icon_description: 'Locked Slot',
+        title: 'This slot is locked.',
+        description: 'Complete an offer to unlock this slot.'
       }
     end
   end

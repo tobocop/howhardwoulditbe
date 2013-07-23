@@ -25,6 +25,14 @@ class OfferItemPresenter
     "offer-details-#{offer.id}"
   end
 
+  def special_offer_type
+    'ribbon-new-offer' if offer.is_new
+  end
+
+  def special_offer_type_text
+    'New Partner!' if offer.is_new
+  end
+
   def image_url
     Plink::RemoteImagePath.url_for(offer.image_url)
   end
@@ -70,10 +78,12 @@ class OfferItemPresenter
 
   def as_json(options={})
     {
-      id: id,
+    id: id,
       name: name,
       dom_id: dom_id,
       modal_dom_id: modal_dom_id,
+      special_offer_type: special_offer_type,
+      special_offer_type_text: special_offer_type_text,
       image_url: image_url,
       image_description: image_description,
       max_award_amount: max_award_amount,

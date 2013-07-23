@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717175214) do
+ActiveRecord::Schema.define(:version => 20130723193458) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1112,6 +1112,7 @@ ActiveRecord::Schema.define(:version => 20130717175214) do
     t.string   "logoURL",                 :limit => 500
     t.boolean  "isEligibleForFreeAwards",                                               :default => true,                  :null => false
     t.boolean  "showOnWall",                                                            :default => true,                  :null => false
+    t.boolean  "is_new"
   end
 
   create_table "offersVirtualCurrencies", :primary_key => "offersVirtualCurrencyID", :force => true do |t|

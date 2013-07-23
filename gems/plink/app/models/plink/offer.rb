@@ -1,7 +1,7 @@
 module Plink
   class Offer
 
-    attr_reader :id, :tiers, :detail_text, :name, :image_url
+    attr_reader :id, :tiers, :detail_text, :name, :image_url, :is_new
 
     def initialize(offer_record, virtual_currency_id)
       @id = offer_record.id
@@ -9,6 +9,7 @@ module Plink
       @detail_text = detail_text_for_offer(offer_record)
       @name = offer_record.advertiser.advertiser_name
       @image_url = offer_record.advertiser.logo_url
+      @is_new = offer_record.is_new
     end
 
     def max_dollar_award_amount

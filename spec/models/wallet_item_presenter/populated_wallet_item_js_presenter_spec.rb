@@ -10,6 +10,18 @@ describe WalletItemPresenter::PopulatedWalletItemJsPresenter do
     end
   end
 
+  describe 'special_offer_type' do
+    it 'returns a special_offer_type placeholder' do
+      presenter.special_offer_type.should == '{{special_offer_type}}'
+    end
+  end
+
+  describe 'special_offer_type_text' do
+    it 'returns a special_offer_type_text placeholder' do
+      presenter.special_offer_type_text.should == '{{special_offer_type_text}}'
+    end
+  end
+
   describe 'icon_url' do
     it 'returns a template placeholder for the icon url' do
       presenter.icon_url.should == '{{icon_url}}'

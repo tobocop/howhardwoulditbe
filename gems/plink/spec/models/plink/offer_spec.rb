@@ -8,6 +8,7 @@ describe Plink::Offer do
     before do
       @plink_offer = create_offer(
           detail_text: 'one text',
+          is_new: true,
           advertiser_id: advertiser.id,
           offers_virtual_currencies: [
               new_offers_virtual_currency(
@@ -47,6 +48,7 @@ describe Plink::Offer do
       subject.tiers.count.should == 3
       subject.tiers.map(&:class).should == [Plink::Tier, Plink::Tier, Plink::Tier]
       subject.detail_text.should == 'one text'
+      subject.is_new.should == true
       subject.name.should == 'cold wavy'
       subject.image_url.should == 'fake.jpg'
       subject.id.should == @plink_offer.id

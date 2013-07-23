@@ -1,5 +1,6 @@
 .offer{ 'data-offer-id' => presenter.id, id: presenter.dom_id }
   .offer-inner
+    .ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
     .brand
       %img{src: presenter.image_url, class: 'wallet-logo', alt: presenter.image_description}
     .info
@@ -9,6 +10,7 @@
       %button.button.wallet-add{data: {'reveal-id' => presenter.modal_dom_id}}= button_label
 .modal.offer-details.reveal-modal{style: 'display: none', id: presenter.modal_dom_id}
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
+  .modal-ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
   %img{src: presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'}
   .bg-element
     %p.font.modal-text.h3.bold #{presenter.name} Offers

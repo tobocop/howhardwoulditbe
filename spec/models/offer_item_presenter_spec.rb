@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper') }
+  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false) }
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:view_context) { stub(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
@@ -28,6 +28,38 @@ describe OfferItemPresenter do
   describe 'modal_dom_id' do
     it 'returns the generated dom id for the modal' do
       presenter.modal_dom_id.should == "offer-details-32"
+    end
+  end
+
+  describe 'special_offer_type' do
+    it 'returns the string to be used as a css class' do
+      presenter.special_offer_type.should be_nil
+    end
+  end
+
+  describe 'special_offer_type_text' do
+    it 'returns the special offer type text' do
+      presenter.special_offer_type_text.should be_nil
+    end
+  end
+
+  context 'when the offer is new' do
+    before do
+      offer.stub(:is_new).and_return(true)
+    end
+
+    let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
+
+    describe 'special_offer_type' do
+      it 'returns the string to be used as a css class' do
+        presenter.special_offer_type.should == 'ribbon-new-offer'
+      end
+    end
+
+    describe 'special_offer_type_text' do
+      it 'returns the special offer type text' do
+        presenter.special_offer_type_text.should == 'New Partner!'
+      end
     end
   end
 
@@ -157,6 +189,8 @@ describe OfferItemPresenter do
         name: 'BK Whopper',
         dom_id: 'offer_32',
         modal_dom_id: 'offer-details-32',
+        special_offer_type: nil,
+        special_offer_type_text: nil,
         image_url: '/images/burger_king.png',
         image_description: 'BK Whopper',
         max_award_amount: 5,

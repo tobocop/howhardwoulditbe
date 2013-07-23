@@ -16,6 +16,14 @@ module WalletItemPresenter
       'populated_wallet_item'
     end
 
+    def special_offer_type
+      'ribbon-new-offer' if wallet_item.offer.is_new
+    end
+
+    def special_offer_type_text
+      'New Partner!' if wallet_item.offer.is_new
+    end
+
     def icon_url
       Plink::RemoteImagePath.url_for(wallet_item.offer.image_url)
     end
@@ -43,6 +51,8 @@ module WalletItemPresenter
     def as_json(options={})
       {
         template_name: template_name,
+        special_offer_type: special_offer_type,
+        special_offer_type_text: special_offer_type_text,
         icon_url: icon_url,
         icon_description: icon_description,
         currency_name: currency_name,

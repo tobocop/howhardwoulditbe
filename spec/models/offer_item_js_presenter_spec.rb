@@ -35,6 +35,18 @@ describe OfferItemJsPresenter do
     end
   end
 
+  describe 'special_offer_type' do
+    it 'returns the special offer type placeholder' do
+      presenter.special_offer_type.should == "{{special_offer_type}}"
+    end
+  end
+
+  describe 'special_offer_type_text' do
+    it 'returns the special_offer_type_text placeholder' do
+      presenter.special_offer_type_text.should == "{{special_offer_type_text}}"
+    end
+  end
+
   describe 'image_url' do
     it 'returns the image url placeholder' do
       presenter.image_url.should == '{{image_url}}'

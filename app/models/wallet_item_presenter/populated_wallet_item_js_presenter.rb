@@ -1,6 +1,14 @@
 module WalletItemPresenter
   class PopulatedWalletItemJsPresenter < BaseWalletItemJsPresenter
 
+    def special_offer_type_text
+      '{{special_offer_type_text}}'
+    end
+
+    def special_offer_type
+      '{{special_offer_type}}'
+    end
+
     def max_currency_award_amount
       '{{max_currency_award_amount}}'
     end

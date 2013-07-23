@@ -25,6 +25,14 @@ class OfferItemJsPresenter
     "{{modal_dom_id}}"
   end
 
+  def special_offer_type
+    '{{special_offer_type}}'
+  end
+
+  def special_offer_type_text
+    '{{special_offer_type_text}}'
+  end
+
   def image_url
     "{{image_url}}"
   end
