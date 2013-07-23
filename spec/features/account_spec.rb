@@ -91,7 +91,7 @@ describe 'Managing account' do
 
         page.should_not have_link 'Redeem'
 
-        page.should have_content 'RECENT ACTIVITY'
+        page.should have_content 'Recent Activity'
 
         within '.activity' do
           within '.event:nth-of-type(2)' do
