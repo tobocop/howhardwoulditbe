@@ -23,6 +23,8 @@ Plink::NonQualifyingAwardRecord.destroy_all
 Plink::RedemptionRecord.destroy_all
 Plink::InstitutionRecord.destroy_all
 Plink::UsersInstitutionRecord.destroy_all
+Plink::WalletItemRecord.destroy_all
+Plink::UsersAwardPeriodRecord.destroy_all
 
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
