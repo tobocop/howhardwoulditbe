@@ -68,7 +68,7 @@ describe 'User signup workflow' do
     end
 
     context 'with facebook' do
-      it 'allows a user to register with their facebook account', js: true do
+      it 'allows a user to register with their facebook account', js: true, flaky: true do
         visit '/'
 
         click_on 'Join'
