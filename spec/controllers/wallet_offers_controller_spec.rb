@@ -38,7 +38,7 @@ describe WalletOffersController do
 
         wallet_items_service = stub
         wallet_item = Plink::WalletItem.new(new_populated_wallet_item)
-        fake_offer = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', max_dollar_award_amount: 30, id: 8)
+        fake_offer = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', is_new: false, max_dollar_award_amount: 30, id: 8)
         wallet_item.stub(:offer) { fake_offer }
         wallet_items_service.should_receive(:get_for_wallet_id).with(3) { [wallet_item] }
 
@@ -51,6 +51,8 @@ describe WalletOffersController do
         JSON.parse(response.body)['wallet'].should == [
             'template_name' => 'populated_wallet_item',
             'icon_url' => '/booyah.jpg',
+            'special_offer_type' => nil,
+            'special_offer_type_text' => nil,
             'icon_description' => 'Best Buy',
             'currency_name' => 'Bit Bucks',
             'max_currency_award_amount' => 24,
@@ -90,7 +92,7 @@ describe WalletOffersController do
       user = stub(:user, id: 3, logged_in?: true, wallet: stub(:wallet, id: 3))
       controller.stub(:current_user) { user }
 
-      remaining_offer = stub(:wallet_item_offer, image_url: 'something.jpg', name: 'Amazon', max_dollar_award_amount: 25, id: 7)
+      remaining_offer = stub(:wallet_item_offer, image_url: 'something.jpg', is_new: true, name: 'Amazon', max_dollar_award_amount: 25, id: 7)
       removed_offer_record = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', max_dollar_award_amount: 30, id: 8)
       Plink::OfferRecord.stub(:find).with(offer_id) { removed_offer_record }
       removed_offer = stub(:removed_offer)
@@ -114,6 +116,8 @@ describe WalletOffersController do
         'template_name' => 'populated_wallet_item',
         'icon_url' => '/something.jpg',
         'icon_description' => 'Amazon',
+        'special_offer_type' => 'ribbon-new-offer',
+        'special_offer_type_text' => 'New Partner!',
         'currency_name' => 'Bit Bucks',
         'max_currency_award_amount' => 24,
         'wallet_offer_url' => 'http://test.host/wallet/offers/7'

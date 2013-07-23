@@ -30,7 +30,7 @@ module Plink
     belongs_to :advertiser, class_name: 'Plink::AdvertiserRecord', foreign_key: 'advertiserID'
 
     def self.live_offers_for_currency(currency_id)
-      joins(:active_offers_virtual_currencies).where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id)
+      joins(:active_offers_virtual_currencies).where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id).order('is_new DESC, created DESC')
     end
 
     def self.in_wallet(wallet_id)
