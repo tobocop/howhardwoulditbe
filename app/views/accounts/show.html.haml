@@ -3,8 +3,6 @@
     -#Remove me later
     %div{style: 'padding-top: 20px;'}
 
-    = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
-
     #social-link-widget
 
     .left-column
@@ -12,14 +10,19 @@
         %h2.white SETTINGS
       .content
         %h4 Account Status
-        - if @user_has_account && @bank_account.status == 'Active'
+        - if @user_has_account && @bank_account.active?
           = image_tag 'icon_active.png', alt: 'Your account is active', class: 'status-img'
           %h3.account-status.green Active
-        - else
+        - elsif @user_has_account
           = image_tag 'icon_alert_pink.png', alt: 'Your account is inactive', class: 'status-img'
           %h3.account-status.pink Inactive
           %br
           = link_to 'Reverify', '#'
+        - else
+          = image_tag 'icon_alert_pink.png', alt: 'You need to link a card', class: 'status-img'
+          %h3.account-status.pink You haven't linked a card yet.
+          %br
+          = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
 
       %hr
       .content{data: {'account-edit-form' => true}}

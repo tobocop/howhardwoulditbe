@@ -75,8 +75,6 @@ describe 'Managing account' do
 
         click_link 'My Account'
 
-        page.should have_link 'Link Card'
-
         page.should have_image 'icon_active.png'
         page.should have_content 'Active'
         page.should have_content 'YOUR BANK'
@@ -204,6 +202,26 @@ describe 'Managing account' do
         page.should have_content 'Welcome, Frodo!'
       end
 
+    end
+  end
+
+  context 'non linked user' do
+    before do
+      create_virtual_currency(name: 'Plink Points', subdomain: 'www')
+
+      wallet = create_wallet(user_id: user.id)
+      create_open_wallet_item(wallet_id: wallet.id)
+      create_locked_wallet_item(wallet_id: wallet.id)
+    end
+
+    it 'allows the user to link one' do
+      sign_in('user@example.com', 'pass1word')
+
+      click_link 'My Account'
+
+      page.should have_image 'icon_alert_pink.png'
+      page.should have_content "You haven't linked a card yet."
+      page.should have_link 'Link Card'
     end
   end
 end

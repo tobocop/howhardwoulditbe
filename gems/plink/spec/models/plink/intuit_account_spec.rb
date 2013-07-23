@@ -16,15 +16,15 @@ describe Plink::IntuitAccount do
     account.account_name.should == 'account of the bank of the firstmerica 4512'
   end
 
-  describe 'status' do
-    it 'returns inactive if requires_reverification is true' do
-      account = Plink::IntuitAccount.new(default_attrs)
-      account.status.should == 'Inactive'
+  describe 'active?' do
+    it 'returns true if requires_reverification is false' do
+      account = Plink::IntuitAccount.new(default_attrs.merge(requires_reverification: false))
+      account.active?.should be_true
     end
 
-    it 'returns active if requires_reverification is false' do
-      account = Plink::IntuitAccount.new(default_attrs.merge(requires_reverification: false))
-      account.status.should == 'Active'
+    it 'returns inactive if requires_reverification is true' do
+      account = Plink::IntuitAccount.new(default_attrs)
+      account.active?.should be_false
     end
   end
 end

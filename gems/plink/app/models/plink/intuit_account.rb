@@ -9,8 +9,8 @@ module Plink
       @requires_reverification = attributes.fetch(:requires_reverification)
     end
 
-    def status
-      requires_reverification ? 'Inactive' : 'Active'
+    def active?
+      !requires_reverification
     end
 
   end
