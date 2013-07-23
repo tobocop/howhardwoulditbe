@@ -32,6 +32,7 @@ describe 'user signs in' do
                                       start_date: Date.yesterday,
                                       end_date: Date.tomorrow,
                                       is_active: true,
+                                      is_new: true,
                                       show_on_wall: true,
                                       detail_text: 'You have to spend $minimumPurchaseAmount$ to get this',
                                       offers_virtual_currencies: [
@@ -172,6 +173,7 @@ describe 'user signs in' do
       end
 
       within "[data-offer-id='#{@burger_king_offer.id}']" do
+        page.should have_css 'img[src="/assets/test/burgerking.png"]'
         page.should have_css 'img[src="/assets/test/burgerking.png"]'
         click_on 'Add to wallet'
       end

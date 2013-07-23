@@ -107,6 +107,22 @@
     left: -7px;
     position: absolute;
     top: -7px;
+
+
+    background-repeat: no-repeat;
+    width: 77px;
+    height: 62px;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space:nowrap;
+  }
+
+  .ribbon.ribbon-new-offer {
+    background: image-url('ribbon_new_offer.png');
+  }
+
+  .ribbon.ribbon-promo-offer {
+    background: image-url('ribbon_promo_offer.png');
   }
 
   .slot {

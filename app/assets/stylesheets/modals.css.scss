@@ -37,6 +37,18 @@
     left: -9px;
     position: absolute;
     top: -11px;
+    width: 128px;
+    height: 103px;
+    backround-repeat: no-repeat;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space:nowrap;
+  }
+  .modal-ribbon.ribbon-new-offer {
+    background-image: image-url('ribbon_new.png');
+  }
+  .modal-ribbon.ribbon-promo-offer {
+    background-image: image-url('ribbon_promo.png');
   }
 
   &.reveal-modal.sign-in-modal {
