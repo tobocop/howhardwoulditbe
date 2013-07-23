@@ -309,7 +309,29 @@
           .offer-description
             %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer.  
           .legal-text    
-            %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing.       
+            %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing.   
+
+      %h3 Offer Details - New
+      .modal
+        .offer-details
+          %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+          %img{ :class => "modal-ribbon", :src => "/assets/ribbon_new.png", :alt => "Get double points when you make a qualifying purchase at this partner." }
+          %img{ :class => "wallet-logo", :src =>"/assets/wallet-logos/burgerking.png", :alt => "Old Navy"}
+          .bg-element
+            .offer-points
+              %h1 5000
+              %h2 Plink Points when you spend $500
+            .offer-points
+              %h1 300
+              %h2 Plink Points when you spend $30
+            .offer-points
+              %h1 100
+              %h2 Plink Points when you spend $10    
+          %button.button.primary-action.narrow ADD TO MY WALLET  
+          .offer-description
+            %p.font.modal-text.h2 Description field lorem ipsum dolar sit ament non sic transit gloria I always wanted to be in one of your stupid plays, Fischer.  
+          .legal-text    
+            %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing.             
 
       %h3 Offer Details - Full Wallet
       .modal
@@ -443,7 +465,21 @@
               %h3 up to
               %h1.numbers 150
               %h3 Plink points
-              %button.button.wallet-add ADD TO WALLET    
+              %button.button.wallet-add ADD TO WALLET  
+
+      %h3 Offer - New
+
+      .wallet
+        .offer
+          %img{ :class => "ribbon", :src => "/assets/ribbon_new_offer.png", :alt => "New Partner!" }
+          .offer-inner
+            .brand
+              %img{ :src =>"/assets/wallet-logos/arbys.png", :alt => "Arby's"}
+            .info 
+              %h3 up to
+              %h1.numbers 150
+              %h3 Plink points
+              %button.button.wallet-add ADD TO WALLET            
 
       %h3 Wallet Slot - Empty
 
@@ -532,6 +568,76 @@
       %h3 Left Column
 
       = render partial: 'style_guide/account/left_column'
+
+      %br
+      %h3 Change Setting Fields
+      .account
+        .left-column
+          .flag
+            %h2.white SETTINGS
+          .content
+            %h4 Account Status
+            %img{ :class => "status-img", :src => "/assets/icon_alert_pink.png", :alt => "Your account is inactive"}
+            %h3.pink Inactive
+            %a Reverify   
+          %hr
+          .content
+            %h4 Account Status
+            %img{ :class => "status-img", :src => "/assets/icon_alert_pink.png", :alt => "You haven't linked a card yet"}
+            %h3.pink You haven't linked a card yet.
+            %a Link a card
+          %hr
+          .content
+            %h4 Email
+            %h3.bold kris@plink.com
+            %a Change
+            .change
+              .field
+                %h2 Enter your new email address:
+                %input.form-field.input{:value => 'New Email Address'}
+              .field
+                %h2 Enter your password:
+                %input.form-field.input{:value => 'Password'}  
+              .cancel-btn
+                %button.button.secondary-action Cancel
+              .submit-btn    
+                %button.button.primary-action Change Your Email
+          %hr  
+          .content
+            %h4 Email Preferences
+            %input.checkbox{:type => "checkbox"}
+            %label.label I want to hear about deals and promotions from Plink via email.      
+          %hr
+          .content
+            %h4 Password
+            %h3.bold ******
+            %a Change  
+            .change
+              .field
+                %h2 Enter your current password:
+                %input.form-field.input{:value => 'Current Password'}
+              .field  
+                %h2 Enter your new password:
+                %input.form-field.input{:value => 'New Password'}
+              .field  
+                %h2 Confirm your new password:
+                %input.form-field.input{:value => 'Confirm New Password'}
+              .cancel-btn
+                %button.button.secondary-action Cancel
+              .submit-btn    
+                %button.button.primary-action Change Your Password   
+          %hr
+          .content
+            %h4 Your Bank
+            %h3.bold CHASE BANK
+            %a Change
+          %hr
+          .content
+            %h4 Your Card
+            %h3.bold CREDIT CARD 9876
+            %a Change
+
+
 
     %section
       %h3 Current Balance
@@ -629,3 +735,10 @@
       Sorry, that email has already been registered. Please use a different email. 
 
     = render partial: 'style_guide/home/home'
+
+  %section
+
+    %h3 My Account Page
+    %br
+
+    = render partial: 'style_guide/account/account'

@@ -2,6 +2,9 @@
 @import "mixins.css.scss";
 
 .account{
+  margin:0 auto;
+  /*width:1024px;*/
+  width:90%;
   
   h1 {
   	font-size: 2.9em;
@@ -11,11 +14,19 @@
   	&.cyan {
   	  color: $cyan;
   	}
+
+    &.chart {
+      color: $chart;
+    }
+
+    &.pink {
+      color: $pink;
+    }
   }
 
   h2 {
   	font-size: 1.4em;
-  	font-weight:300;
+  	font-weight:500;
   	line-height:1.1em;
 
   	&.cyan {
@@ -30,7 +41,9 @@
   	}
 
   	&.bold {
+      font-size:1.8em;
   		font-weight:700;
+      text-transform: uppercase;
   	}
   }
 
@@ -40,7 +53,7 @@
   	letter-spacing: 1px;
 
   	&.bold {
-  		font-weight:500;
+  		font-weight:300;
   	}
 
     &.account-status{
@@ -55,10 +68,12 @@
 
   	&.cyan {
   		color:$cyan;
+      font-weight:500;
   	}
 
   	&.chart {
   		color:$chart;
+      font-weight:500;
   	}
 
   	&.pink {
@@ -77,8 +92,8 @@
   }
 
   hr {
-    background-color: $lightgray;
-    color: $lightgray;
+    background-color: #f6f6f6;
+    color: #f6f6f6;
     height: 1px;
     margin:10px 0px;
   }
@@ -87,16 +102,61 @@
   
   .left-column {
     background-color: $grayblue;
-    width:340px;
-    margin-top: -25px;
+    display:inline-block;
+    /*margin-top: -25px;*/
+    margin:30px 0 0 auto;
+    max-width:440px;
+    min-width:340px;
+    /*padding-left:5%;*/
+    width:33.203125%;
+    /*width:340px;*/
+
+    .profile-img {
+      float:left;
+      margin: 0px 10px 0px 0px;
+    }
   }
     
   .flag {
    	background-color:#666666;
     height:54px;
-    margin: 30px 0px 15px 0px;
+    margin: 0px 0px 15px 0px;
     padding: 15px 28px;
-    width:340px;
+
+    &.profile {
+      color:#FFFFFF;
+      margin: 0 0 20px 0;
+      padding:20px 28px 0px 28px;
+    }
+  }
+
+  .gig-btn {
+    margin:10px 5px 0 10px;
+    float:left;
+    width:30px;
+  }
+
+  .invite {
+    background: #FFFFFF;
+    display: block;
+    height: 68px;
+    margin: 50px 0px 25px 0px;
+    text-decoration: none;
+    @include round-corners(8px);
+
+    &.hover, &:hover{
+       color: $cyan;
+       text-decoration: underline;
+    }
+
+    &.active, &:active{
+      color: #1073b9;
+    }
+  }
+
+  .invite-img{
+    display: inline-block;
+    margin: 0px 15px 0px 0px;
   }
 
   .content {
@@ -178,50 +238,79 @@
 
   /* RIGHT COLUMN STYLES */
   
-  .activity {
-  	margin-top:20px;
-  	width:640px;
+  .right-column {
+    background:#FFFFFF;
+    display: inline-block;
+    height:100%;
+    min-width:664px;
+    padding:30px 0 0 20px;
+    width:66%;
 
+    .current-points{
+      margin-bottom:30px;
+    }
+      
     h2 {
       text-transform: uppercase;
+      margin-bottom:15px;
+    }
+    
+    .activity {
+    	margin:40px 0;
+    	/*width:640px;*/
+
+      .event {
+        height:36px;
+        padding: 10px 0px;	
+
+        &.alt {
+        	background:#fafafa;
+        }
+        
+        .icon {
+        	float:left;
+        	padding: 0px 4px;
+        	width:24px;
+
+        	&.title {
+        	  text-indent: -99999px;
+        	}
+        }
+
+        .date {
+        	float:left;
+        	width:12.5%;
+        }
+
+        .description {
+        	float:left;
+        	padding-right:10px;
+        	overflow:hidden;
+        	text-overflow:ellipsis;
+        	width:57%;
+        	
+        }
+
+        .amount {
+        	float:left;
+        	width:166px;
+        }
+      }
     }
 
-    .event {
-      height:36px;
-      padding: 10px 0px;	
+    .lifetime {
+      margin:40px 0;
 
-      &.alt {
-      	background:#fafafa;
-      }
-      
-      .icon {
-      	float:left;
-      	padding: 0px 4px;
-      	width:24px;
-
-      	&.title {
-      	  text-indent: -99999px;
-      	}
-      }
-
-      .date {
-      	float:left;
-      	width:80px;
-      }
-
-      .description {
-      	float:left;
-      	padding-right:10px;
-      	overflow:hidden;
-      	text-overflow:ellipsis;
-      	width:57%;
-      	
-      }
-
-      .amount {
-      	float:left;
-      	width:166px;
+      .stat{
+        display:inline-block;
+        margin:0 10% 0 0;
       }
     }
   } 
+}
+
+.column-bg {
+  /*background: url('/assets/bg.png');*/
+  background-repeat: repeat-y;
+  background-position: center;
 }

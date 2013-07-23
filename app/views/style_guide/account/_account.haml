@@ -1,0 +1,176 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li.selected
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.column-bg
+  .account
+    .left-column
+      .flag.profile
+        %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
+        %h2.bold kristopher
+        .gig-btn
+          %button.button.nav.sign-in FPO
+        .gig-btn
+          %button.button.nav.sign-in FPO
+        .gig-btn
+          %button.button.nav.sign-in FPO  
+      .content
+        %a.invite
+          %img{ :class => "invite-img", :src => "/assets/icon-addfriend-blue.jpg", :alt => "Add A Friend"}
+          %span.h2 REFER A FRIEND  
+      .flag
+        %h2.white SETTINGS
+      .content
+        %h4 Account Status
+        %img{ :class => "status-img", :src => "/assets/icon_active.png", :alt => "Your account is active"}
+        %h3.green Active
+      %hr
+      .content
+        %h4 Email
+        %h3.bold kris@plink.com
+        %a Change
+      %hr  
+      .content
+        %h4 Email Preferences
+        %input.checkbox{:type => "checkbox"}
+        %label.label I want to hear about deals and promotions from Plink via email.
+      %hr
+      .content
+        %h4 Password
+        %h3.bold ******
+        %a Change   
+      %hr
+      .content
+        %h4 Your Bank
+        %h3.bold CHASE BANK
+        %a Change
+      %hr
+      .content
+        %h4 Your Card
+        %h3.bold CREDIT CARD 9876
+        %a Change
+  
+    .right-column
+      .current-points
+        %h1.cyan You have 720 Plink points. 
+        %h3 If you feel your current balance is incorrect, please log out and log back in.
+      %hr
+      .activity
+        %h2 Recent Activity
+        .event
+          .date
+            %h4 Date
+          .description
+            %h4 Description
+          .amount
+            %h4 Amount
+          .icon.title icon
+
+        .event
+          .date
+            %h3 12/29
+          .description
+            %h3.bold $99.99 at Brand
+          .amount
+            %h3.cyan.bold 500 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_purchase.png", :alt => "Purchase"} 
+
+        .event.alt
+          .date
+            %h3 12/20
+          .description
+            %h3.bold $25 Redemption orem ipsum dolar sit 
+          .amount
+            %h3.chart.bold -90000 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_redeem.png", :alt => "Redemption"}    
+        
+        .event
+          .date
+            %h3 12/11
+          .description
+            %h3.bold Bonus lorem ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 20 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_bonus.png", :alt => "Bonus"}
+
+        .event.alt
+          .date
+            %h3 12/2
+          .description
+            %h3.bold Adjustment ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 100 Plink points 
+          .icon
+            %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"}
+
+        .event
+          .date
+            %h3 12/29
+          .description
+            %h3.bold $99.99 at Brand
+          .amount
+            %h3.cyan.bold 500 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_purchase.png", :alt => "Purchase"} 
+
+        .event.alt
+          .date
+            %h3 12/20
+          .description
+            %h3.bold $25 Redemption orem ipsum dolar 
+          .amount
+            %h3.chart.bold -90000 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_redeem.png", :alt => "Redemption"}    
+        
+        .event
+          .date
+            %h3 12/11
+          .description
+            %h3.bold Bonus lorem ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 20 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_bonus.png", :alt => "Bonus"}
+
+        .event.alt
+          .date
+            %h3 12/2
+          .description
+            %h3.bold Adjustment ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 100 Plink points 
+          .icon
+            %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"}  
+      %hr 
+      .lifetime
+        %h2 Lifetime Stats
+        .stat
+          %h3 Plink Points
+          %h1.cyan 14,085
+        .stat
+          %h3 Friends Referred
+          %h1.pink 1
+        .stat
+          %h3 Rewards Earned
+          %h1.chart $135    
+
+

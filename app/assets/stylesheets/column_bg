@@ -1,0 +1,5 @@
+.column-bg {
+  background: url('/assets/bg.png');
+  background-repeat: repeat-y;
+  background-position: center;
+}
