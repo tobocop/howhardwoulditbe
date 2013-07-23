@@ -3,8 +3,6 @@ require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe AccountsController do
 
-  let(:user) { stub(id: 10) }
-
   let(:intuit_account) {
     Plink::IntuitAccount.new(account_name: 'account', bank_name: 'bank', account_number_last_four: 1234, requires_reverification: false)
   }
@@ -28,8 +26,8 @@ describe AccountsController do
   let(:fake_currency_activity_service) { mock("CurrencyService", get_for_user_id: [debits_credit, debits_credit]) }
 
   before(:each) do
-    controller.stub(user_logged_in?: true)
-    controller.stub(current_user: user)
+    set_current_user(id: 10)
+    set_virtual_currency
     controller.stub(plink_intuit_account_service: fake_intuit_account_service)
     controller.stub(plink_currency_activity_service: fake_currency_activity_service)
   end
@@ -88,14 +86,15 @@ describe AccountsController do
 
     let(:fake_user_service) { mock(:user_service) }
 
-    let(:mock_valid_user) { mock(:plink_user, valid?: true) }
+    before do
+      @user = set_current_user(id: 10)
+    end
 
     context 'when successful' do
       before do
-        controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock_valid_user)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(@user)
       end
 
       it 'updates the user with the given attributes' do
@@ -114,7 +113,7 @@ describe AccountsController do
       end
 
       it 'returns a JSON response with a truncated first name' do
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmynizzleforizzle'}).and_return(mock_valid_user)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmynizzleforizzle'}).and_return(@user)
         put :update, email: 'goo@example.com', first_name: 'Hoobastankmynizzleforizzle', password: 'password'
 
         body = JSON.parse(response.body)
@@ -123,7 +122,7 @@ describe AccountsController do
 
       context 'when the updating password' do
         it 'updates the password via the user service' do
-          fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(mock_valid_user)
+          fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(@user)
           fake_user_service.should_not_receive(:update)
 
           put :update, password: 'password', new_password: '123456', new_password_confirmation: '123456'
@@ -133,7 +132,6 @@ describe AccountsController do
 
     context 'when the password is wrong' do
       before do
-        controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
 
         fake_user_service.stub(:verify_password).and_return(false)
@@ -152,7 +150,6 @@ describe AccountsController do
 
     context 'when the user cannot be updated' do
       before do
-        controller.stub(current_user: user)
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
         fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'}).and_return(mock(:plink_user, valid?: false, errors: mock(:errors, messages: ['doesnt work'])))

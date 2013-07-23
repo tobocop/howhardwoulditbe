@@ -7,6 +7,7 @@ class SharedRSpecConfig
     config.verbose_retry = true
 
     config.include(FeatureSpecHelper, type: :feature)
+    config.include(ControllerSpecHelper, type: :controller)
     config.include(UserActions, type: :feature)
     config.include(Plink::ObjectCreationMethods)
     config.include(PlinkAdmin::ObjectCreationMethods)

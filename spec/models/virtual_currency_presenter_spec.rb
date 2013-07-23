@@ -10,6 +10,13 @@ describe VirtualCurrencyPresenter do
     end
   end
 
+  describe '#subdomain' do
+    it 'returns the subdomain of the virtual currency' do
+      presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(subdomain: 'www'))
+      presenter.subdomain.should == 'www'
+    end
+  end
+
   describe '#amount_in_currency' do
     it 'returns the given amount * the currency\'s exchange rate' do
       presenter = VirtualCurrencyPresenter.new(virtual_currency: stub(exchange_rate: 100))

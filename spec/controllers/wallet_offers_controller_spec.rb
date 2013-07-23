@@ -2,14 +2,12 @@ require 'spec_helper'
 
 describe WalletOffersController do
   let(:offer_id) { '1' }
-  let(:virtual_currency) { stub(:fake_virtual_currency, id: 1, currency_name: 'Bit Bucks', amount_in_currency: 24) }
-
   describe '#create' do
     context 'when the user is logged in' do
       before do
-        controller.stub(:user_logged_in?) { true }
         controller.stub(:user_must_be_linked) { nil }
-        controller.stub(:current_virtual_currency) { virtual_currency }
+        @user = set_current_user
+        @virtual_currency = set_virtual_currency(currency_name: 'Bit Bucks', amount_in_currency: 24)
       end
 
       it 'raises an exception if user is not linked' do
@@ -18,14 +16,11 @@ describe WalletOffersController do
       end
 
       it 'adds the offer to the user wallet' do
-        user = stub
-        controller.stub(:current_user) { user }
-
         offer = stub
         Plink::OfferRecord.stub(:live_only).with(offer_id) { offer }
 
         service = stub
-        Plink::AddOfferToWalletService.should_receive(:new).with(user: user, offer: offer) { service }
+        Plink::AddOfferToWalletService.should_receive(:new).with(user: @user, offer: offer) { service }
 
         service.should_receive(:add_offer)
 
@@ -33,8 +28,7 @@ describe WalletOffersController do
       end
 
       it 'returns a JSON representation of the wallet if the service is successful' do
-        user = stub(wallet: stub(id: 3))
-        controller.stub(:current_user) { user }
+        set_current_user(wallet: stub(id: 3))
 
         wallet_items_service = stub
         wallet_item = Plink::WalletItem.new(new_populated_wallet_item)
@@ -85,12 +79,11 @@ describe WalletOffersController do
     before do
       controller.stub(:user_logged_in?) { true }
       controller.stub(:user_must_be_linked)
-      controller.stub(:current_virtual_currency) { virtual_currency }
+      @virtual_currency = set_virtual_currency(currency_name: 'Bit Bucks', amount_in_currency: 24)
     end
 
     it 'returns a JSON representation of the refreshed wallet and the item that was removed' do
-      user = stub(:user, id: 3, logged_in?: true, wallet: stub(:wallet, id: 3))
-      controller.stub(:current_user) { user }
+      user = set_current_user(wallet: stub(id: 3))
 
       remaining_offer = stub(:wallet_item_offer, image_url: 'something.jpg', is_new: true, name: 'Amazon', max_dollar_award_amount: 25, id: 7)
       removed_offer_record = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', max_dollar_award_amount: 30, id: 8)
@@ -108,7 +101,7 @@ describe WalletOffersController do
       Plink::RemoveOfferFromWalletService.should_receive(:new).with(user: user, offer: removed_offer_record) { service }
       service.should_receive(:remove_offer).and_return(true)
 
-      OfferItemPresenter.should_receive(:new).with(removed_offer, virtual_currency: virtual_currency, view_context: anything, linked: false, signed_in: true)
+      OfferItemPresenter.should_receive(:new).with(removed_offer, virtual_currency: @virtual_currency, view_context: anything, linked: false, signed_in: true)
 
       delete :destroy, id: offer_id
 

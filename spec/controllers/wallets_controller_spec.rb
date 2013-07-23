@@ -9,16 +9,12 @@ describe WalletsController do
   let(:wallet_item) { new_locked_wallet_item }
   let(:wallet) { stub(id:2, wallet_item_records: [wallet_item]) }
 
-  let(:user) { mock(Plink::UserRecord, id: 5, wallet: wallet, logged_in?:true) }
-
-  let(:virtual_currency) { stub(id: 1) }
-
   before(:each) do
+    set_current_user(id: 5, wallet: wallet)
+    set_virtual_currency({id: 1})
+
     controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
     Plink::WalletRecord.stub(:find).and_return(wallet)
-
-    controller.stub(:current_user) { user }
-    controller.stub(:current_virtual_currency) { virtual_currency }
 
     fake_offer_service = Plink::FakeOfferService.new({1 => [offer]})
     controller.stub(:plink_offer_service) { fake_offer_service }
@@ -29,7 +25,7 @@ describe WalletsController do
 
   describe '#show' do
     it 'redirects to the home page if the user is not logged in' do
-      controller.stub(:current_user) { stub(logged_in?:false) }
+      set_current_user(logged_in?: false)
       get :show
       response.should be_redirect
     end
@@ -58,7 +54,7 @@ describe WalletsController do
         assigns(:card_link_url).should == 'http://www.mywebsite.example.com'
       end
 
-      it 'assigns @user_has_account' do
+      it 'assigns user_has_account' do
         get :show
 
         assigns(:user_has_account).should == true

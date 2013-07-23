@@ -77,8 +77,8 @@ describe SessionsController do
 
   describe 'user was signed in' do
     before do
-      user = stub(id: 123)
-      controller.stub(:current_user) { user }
+      set_current_user(id: 123)
+      set_virtual_currency
     end
 
     it 'should destroy the user session after log out' do

@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe SubscriptionsController do
-  let(:user) {mock(:user, id: 3)}
   let(:mock_plink_user_service) { mock(:plink_user_service) }
 
   before do
-    controller.stub(current_user: user)
+    set_current_user(id: 3)
+    set_virtual_currency
     controller.stub(plink_user_service: mock_plink_user_service)
   end
 

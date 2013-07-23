@@ -2,10 +2,9 @@ require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe RedemptionController do
-  let(:user) { stub(id: 134, logged_in?: true, current_balance: 987, first_name: 'test_name', email: 'test@test.com') }
-
   before do
-    controller.stub(current_user: user)
+    set_current_user({id: 134})
+    set_virtual_currency
   end
 
   describe 'GET show' do

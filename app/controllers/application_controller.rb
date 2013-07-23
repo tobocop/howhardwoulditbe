@@ -3,6 +3,18 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :current_virtual_currency, :user_logged_in?, :user_registration_form
 
+  before_filter :redirect_white_label_members
+
+  def redirect_white_label_members
+    if current_user.logged_in?
+      virtual_currency = current_virtual_currency
+
+      if virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN
+        send_user_to_white_label(current_user, virtual_currency.subdomain)
+      end
+    end
+  end
+
   def sign_in_user(user)
     set_user_session(user.id)
     set_coldfusion_login_cookie(user.password_hash)
@@ -42,6 +54,15 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def send_user_to_white_label(user, subdomain)
+    sign_in_user(user)
+    redirect_to white_label_url_for(subdomain)
+  end
+
+  def white_label_url_for(subdomain)
+    "http://#{subdomain}.#{request.host}"
+  end
+
   def set_user_session(user_id)
     session[:current_user_id] = user_id
   end
@@ -54,9 +75,9 @@ class ApplicationController < ActionController::Base
     encoded_hash = Base64.encode64(password_hash)
 
     cookies[:PLINKUID] = {
-        value: encoded_hash,
-        domain: :all,
-        path: '/'
+      value: encoded_hash,
+      domain: :all,
+      path: '/'
     }
   end
 

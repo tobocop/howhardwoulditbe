@@ -2,6 +2,43 @@ require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_user_service'
 
 describe ApplicationController do
+
+  controller do
+    def index
+      render text: 'ok'
+    end
+  end
+
+  describe '#redirect_white_label_members' do
+    it 'signs in the user and redirects users that have a virtual currency from a different subdomain' do
+      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'swag'))
+
+      host = request.host
+
+      get :index
+
+      response.should redirect_to "http://swag.#{host}"
+      cookies[:PLINKUID].should_not be_nil
+    end
+
+    it 'does not redirect if the user is from the www subdomain' do
+      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
+
+      get :index
+
+      response.body.should == 'ok'
+    end
+
+    it 'does not redirect if the user is not logged in' do
+      controller.stub(current_user: mock(:logged_out_user, logged_in?: false))
+      get :index
+
+      response.body.should == 'ok'
+    end
+  end
+
   describe '#sign_in_user' do
     let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
 
