@@ -36,6 +36,12 @@ module Plink
       end
     end
 
+    def update_subscription_preferences(user_id, attributes)
+      user_record = find_user_record(user_id)
+      user_record.update_attribute(:is_subscribed, attributes[:is_subscribed])
+      create_user(user_record)
+    end
+
     private
 
     def find_user_record(id)

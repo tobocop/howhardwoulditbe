@@ -15,7 +15,7 @@ describe('Plink.accountEditForm', function () {
         '<span data-display-value="email">Jdanger@example.com</span>' +
         '<a data-toggleable-selector=".change">Change</a>' +
         '<div class="error-messages"></div>' +
-        '<form class="change" action="/update/account/123">' +
+        '<form class="change" action="/update/account/123" data-method="put">' +
         '<input type="text" name="first_name" />' +
         '<input type="text" name="email" />' +
         '<input type="submit" value="Save" />' +

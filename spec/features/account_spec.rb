@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Managing account' do
 
-  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo')}
+  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true)}
 
   context 'linked user' do
     before(:each) do
@@ -123,7 +123,7 @@ describe 'Managing account' do
           end
         end
 
-        within '.content', text: 'EMAIL' do
+        within '.content', text: 'user@example.com' do
           page.find('a', text: 'Change').click
 
           fill_in 'email', with: 'frodo@example.com'
@@ -132,6 +132,19 @@ describe 'Managing account' do
         end
 
         page.should have_content 'frodo@example.com'
+
+        within '.content', text: 'EMAIL PREFERENCES' do
+          page.should have_checked_field 'I want to hear about deals and promotions from Plink via email'
+          uncheck 'I want to hear about deals and promotions from Plink via email'
+        end
+
+        page.should have_css '.flash-msg', text: 'Account updated successfully'
+
+        within '.content', text: 'EMAIL PREFERENCES' do
+          check 'I want to hear about deals and promotions from Plink via email'
+        end
+
+        page.should have_css '.flash-msg', text: 'Account updated successfully'
 
         within '.content', text: 'NAME' do
           page.find('a', text: 'Change').click

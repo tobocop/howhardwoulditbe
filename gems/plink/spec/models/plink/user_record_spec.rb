@@ -5,6 +5,12 @@ describe Plink::UserRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
+  it 'provides a better interface to the legacy field names' do
+    user = new_user(is_subscribed: true)
+
+    user.is_subscribed.should == true
+  end
+
   describe 'validations' do
     it 'be valid' do
       subject.should be_valid

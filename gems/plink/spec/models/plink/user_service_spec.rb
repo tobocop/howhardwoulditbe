@@ -41,7 +41,7 @@ describe Plink::UserService do
     end
   end
 
-  describe 'update_password' do
+  describe '#update_password' do
     let(:user) { create_user }
 
     it 'update the password for the user' do
@@ -66,6 +66,19 @@ describe Plink::UserService do
 
       subject.verify_password(user.id, 'WRONG').should be_false
       subject.verify_password(user.id + 1, 'pazz123').should be_false
+    end
+  end
+
+  describe '#update_subscription_preferences' do
+    it 'updates the is_subscribed attribute on the user with the given value' do
+      user = create_user(first_name: 'Billy', password: 'pazz123')
+      subject.update_subscription_preferences(user.id, is_subscribed: '1')
+
+      subject.find_by_id(user.id).is_subscribed.should == true
+
+      subject.update_subscription_preferences(user.id, is_subscribed: '0')
+
+      subject.find_by_id(user.id).is_subscribed.should == false
     end
   end
 end

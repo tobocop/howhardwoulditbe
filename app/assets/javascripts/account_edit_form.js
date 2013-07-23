@@ -15,6 +15,7 @@
       base.$el.on('click', '[data-toggleable-selector]', base._handleToggle);
       base.$el.on('click', '[data-cancel]', base._handleCancel);
       base.$el.on('submit', 'form', base._handleSubmit);
+      base.$el.on('change', 'input[type="checkbox"]', base._handleCheck);
     };
 
     base._handleToggle = function (e) {
@@ -27,6 +28,13 @@
       }
     };
 
+    base._handleCheck = function(e) {
+      var $target = $(e.currentTarget);
+      var $form = $target.parents('form');
+
+      base._submitForm($form);
+    };
+
     base._handleCancel = function (e) {
       e.preventDefault();
 
@@ -37,10 +45,15 @@
       e.preventDefault();
 
       var $form = $(e.currentTarget);
+      base._submitForm($form);
+    };
+
+    base._submitForm = function ($form) {
       var url = $form.attr('action');
+      var method = $form.data('method');
       var formFields = $form.serialize();
 
-      base._submit(url, formFields);
+      base._submit(url, formFields, method);
     };
 
     base._isExpanded = function () {
@@ -55,10 +68,10 @@
       base.$el.addClass('collapsed').removeClass('expanded');
     };
 
-    base._submit = function (url, data) {
+    base._submit = function (url, data, method) {
       $.ajax(url, {
         data: data,
-        method: 'put'
+        method: method
       })
         .done(base._refreshDisplay)
         .fail(base._displayErrors)

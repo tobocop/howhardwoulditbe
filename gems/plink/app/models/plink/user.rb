@@ -18,6 +18,7 @@ module Plink
              :wallet,
              :avatar_thumbnail_url,
              :salt,
+             :is_subscribed,
              :password_hash,
              :primary_virtual_currency_id,
              :open_wallet_item,

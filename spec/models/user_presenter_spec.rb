@@ -38,7 +38,7 @@ describe UserPresenter do
   end
 
   describe '#first_name' do
-    it 'returns a first_name of the provided user' do
+    it 'returns the first_name of the provided user' do
       presenter = UserPresenter.new(user: stub(first_name: 'Brian'))
       presenter.first_name.should == 'Brian'
     end
@@ -46,6 +46,18 @@ describe UserPresenter do
     it 'returns the first 14 characters of the first name if it is over 14' do
       presenter = UserPresenter.new(user: stub(first_name: 'Brianhastoomanylettersofanametobelegit'))
       presenter.first_name.should == 'Brianhastooman'
+    end
+  end
+
+  describe '#is_subscribed?' do
+    it 'returns true if the user is subscribed' do
+      presenter = UserPresenter.new(user: stub(is_subscribed: true))
+      presenter.is_subscribed?.should be_true
+    end
+
+    it 'returns false if the user is not subscribed' do
+      presenter = UserPresenter.new(user: stub(is_subscribed: false))
+      presenter.is_subscribed?.should be_false
     end
   end
 

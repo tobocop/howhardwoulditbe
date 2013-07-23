@@ -40,6 +40,10 @@ class UserPresenter
     user.first_name[0..FIRST_NAME_DISPLAY_LENGTH]
   end
 
+  def is_subscribed?
+    user.is_subscribed
+  end
+
   def wallet
     Plink::Wallet.new(user.wallet)
   end

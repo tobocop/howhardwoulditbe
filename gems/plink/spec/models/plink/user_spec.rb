@@ -31,6 +31,7 @@ describe Plink::User do
     user.new_user?.should be_false
     user.errors.should == []
     user.first_name.should == 'George'
+    user.is_subscribed.should == true
     user.email.should == 'test@test.com'
     user.current_balance.should == 0
     user.lifetime_balance.should == 0

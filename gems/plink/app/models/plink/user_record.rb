@@ -15,6 +15,8 @@ module Plink
 
     attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
 
+    alias_attribute :is_subscribed, :isSubscribed
+
     belongs_to :primary_virtual_currency, class_name: 'Plink::VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
     has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
     has_many :wallet_item_records, through: :wallet
