@@ -1,5 +1,6 @@
 class UserPresenter
   DEFAULT_AVATAR_THUMBNAIL_PATH = 'silhouette.jpg'
+  FIRST_NAME_DISPLAY_LENGTH = 13
 
   attr_accessor :user
 
@@ -36,7 +37,7 @@ class UserPresenter
   end
 
   def first_name
-    user.first_name
+    user.first_name[0..FIRST_NAME_DISPLAY_LENGTH]
   end
 
   def wallet

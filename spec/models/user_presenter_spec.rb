@@ -37,9 +37,16 @@ describe UserPresenter do
     presenter.can_redeem?.should == true
   end
 
-  it 'returns a first_name of the provided user' do
-    presenter = UserPresenter.new(user: stub(first_name: 'Brian'))
-    presenter.first_name.should == 'Brian'
+  describe '#first_name' do
+    it 'returns a first_name of the provided user' do
+      presenter = UserPresenter.new(user: stub(first_name: 'Brian'))
+      presenter.first_name.should == 'Brian'
+    end
+
+    it 'returns the first 14 characters of the first name if it is over 14' do
+      presenter = UserPresenter.new(user: stub(first_name: 'Brianhastoomanylettersofanametobelegit'))
+      presenter.first_name.should == 'Brianhastooman'
+    end
   end
 
   it 'returns the user wallet' do

@@ -113,6 +113,14 @@ describe AccountsController do
         body.should == {'email' => 'goo@example.com', 'first_name' => 'Joseph'}
       end
 
+      it 'returns a JSON response with a truncated first name' do
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmynizzleforizzle'}).and_return(mock_valid_user)
+        put :update, email: 'goo@example.com', first_name: 'Hoobastankmynizzleforizzle', password: 'password'
+
+        body = JSON.parse(response.body)
+        body.should == {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmyni'}
+      end
+
       context 'when the updating password' do
         it 'updates the password via the user service' do
           fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(mock_valid_user)

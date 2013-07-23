@@ -23,7 +23,7 @@ class AccountsController < ApplicationController
       end
 
       if plink_user.valid?
-        render json: updatable_user_attributes(params)
+        render json: displayable_user_hash(updatable_user_attributes(params))
       else
         render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => plink_user.errors.messages}, status: 403
       end
@@ -33,6 +33,11 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  def displayable_user_hash(attrs)
+    attrs[:first_name] = attrs[:first_name][0..UserPresenter::FIRST_NAME_DISPLAY_LENGTH] if attrs[:first_name].present?
+    attrs
+  end
 
   def updating_password?(parameters)
     parameters[:new_password].present? || parameters[:new_password_confirmation].present?
