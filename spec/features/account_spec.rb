@@ -65,7 +65,7 @@ describe 'Managing account' do
 
         page.should have_image 'icon_alert_pink.png'
         page.should have_content 'Inactive'
-        page.should have_link 'Reverify'
+        page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Reverify')
       end
     end
 
@@ -77,8 +77,12 @@ describe 'Managing account' do
 
         page.should have_image 'icon_active.png'
         page.should have_content 'Active'
-        page.should have_content 'YOUR BANK'
-        page.should have_content 'Bank of representin'
+
+        within '.content', text: 'YOUR BANK' do
+          page.should have_css('a[data-reveal-id="card-change-modal"]', text: 'Change')
+          page.should have_content 'Bank of representin'
+        end
+
         page.should have_content 'YOUR CARD'
         page.should have_content 'representing checks 4321'
 
@@ -221,7 +225,7 @@ describe 'Managing account' do
 
       page.should have_image 'icon_alert_pink.png'
       page.should have_content "You haven't linked a card yet."
-      page.should have_link 'Link Card'
+      page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
     end
   end
 end
