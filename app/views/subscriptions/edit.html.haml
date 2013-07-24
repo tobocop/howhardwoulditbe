@@ -8,7 +8,7 @@
       = radio_button_tag :is_subscribed, '0'
       I no longer wish to receive marketing & promotional emails from Plink(this includes your Account Summary).
     = label_tag do
-      = radio_button_tag :is_subscribed, '1'
+      = radio_button_tag :is_subscribed, '1', true
       I want to keep everything as it was.
     = hidden_field_tag :email_address, @email_address
     = submit_tag 'Submit', class: 'button primary-action'

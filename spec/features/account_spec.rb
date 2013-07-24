@@ -241,8 +241,22 @@ describe 'Managing account' do
       page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
     end
 
-    it 'allows a user to unsubscribe an email' do
-      visit edit_subscription_path(email_address: 'user@example.com')
+    it 'allows a user to unsubscribe from email notifications' do
+      visit '/'
+
+      click_on 'Sign In'
+
+      click_link 'Forgot Password?'
+
+      fill_in 'Email', with: 'user@example.com'
+      click_on 'Send Password Reset Instructions'
+
+      email = ActionMailer::Base.deliveries.last
+
+      email_string = Capybara.string(email.html_part.body.to_s)
+      unsubscribe_url = email_string.find("a", text: 'unsubscribe')['href']
+
+      visit unsubscribe_url
 
       choose 'I no longer wish to receive marketing & promotional emails from Plink(this includes your Account Summary).'
 

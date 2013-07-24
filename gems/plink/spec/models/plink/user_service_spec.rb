@@ -80,5 +80,14 @@ describe Plink::UserService do
 
       subject.find_by_id(user.id).is_subscribed.should == false
     end
+
+    it 'does not raise if you dont pass in a is_subscribed value' do
+      user = create_user(first_name: 'Billy', password: 'pazz123')
+
+      expect {
+        subject.update_subscription_preferences(user.id, is_subscribed: nil)
+      }.to_not raise_exception
+
+    end
   end
 end

@@ -38,7 +38,8 @@ module Plink
 
     def update_subscription_preferences(user_id, attributes)
       user_record = find_user_record(user_id)
-      user_record.update_attribute(:is_subscribed, attributes[:is_subscribed])
+      is_subscribed = attributes[:is_subscribed]
+      user_record.update_attribute(:is_subscribed, is_subscribed) if is_subscribed.present?
       create_user(user_record)
     end
 

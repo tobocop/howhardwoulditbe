@@ -37,7 +37,8 @@
                         %br/
                         and we'd be happy to help you out.
                     %tr
-                      %td{:align => "center", :colspan => "2"}
+                      %td{colspan: "2", align: "center"}
+                        %a{href: edit_subscription_url(email_address: @email_address), style: "color:#0099FF;font-size:11px;font-family:Arial;text-decoration:underline; font-weight:bold;"} unsubscribe
                 %td{:width => "40"}
             %div
               %img{:alt => "", :border => "0", :src => "http://plink-email.s3.amazonaws.com/global/footer_square.png", :style => "vertical-align:bottom", :width => "573"}/
