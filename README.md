@@ -45,6 +45,7 @@ We use a local Windows VM with SQL Server Express in development.
 * rake db:test:prepare
 * RAILS_ENV=test rake db:udfs:create
 * RAILS_ENV=test rake db:views:create
+* RAILS_ENV=test rake db:stored_procs:create
 
 
 * ./build.sh

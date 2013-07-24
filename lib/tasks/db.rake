@@ -46,4 +46,16 @@ namespace :db do
       ActiveRecord::Base.connection.execute('DROP FUNCTION udf_getDateOnly')
     end
   end
+
+  namespace :stored_procs do
+    desc 'create the stored procedures in the db'
+    task :create => :environment do
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_prc_getUsersWalletByWalletID.sql')))
+    end
+
+    desc 'drop the stored procedures in the db'
+    task :drop => :environment do
+      ActiveRecord::Base.connection.execute('DROP PROCEDURE prc_getUsersWalletByWalletID')
+    end
+  end
 end

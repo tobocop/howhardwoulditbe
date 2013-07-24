@@ -4,6 +4,9 @@ describe "wallet_items:migrate" do
   include_context "rake"
   include_context "legacy_wallet_items"
 
+  let(:legacy_open_wallet_item) { create_legacy_wallet_item('open', wallet_slot_id: 1) }
+  let(:legacy_populated_wallet_item) { create_legacy_wallet_item('populated', wallet_slot_id: 2) }
+
   it 'updates the types to the correct class name' do
     legacy_open_wallet_item.type.should be_nil
     legacy_populated_wallet_item.type.should be_nil
