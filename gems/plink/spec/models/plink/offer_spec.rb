@@ -7,42 +7,52 @@ describe Plink::Offer do
 
     before do
       @plink_offer = create_offer(
-          detail_text: 'one text',
-          is_new: true,
-          advertiser_id: advertiser.id,
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: 3,
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 0.52,
-                          minimum_purchase_amount: 1.00
-                      ),
-                      new_tier(
-                          dollar_award_amount: 1.43,
-                          minimum_purchase_amount: 2.00
-                      ),
-                      new_tier(
-                          dollar_award_amount: 0.23,
-                          minimum_purchase_amount: 0.50
-                      )
-                  ]
+        detail_text: 'one text',
+        is_new: true,
+        advertiser_id: advertiser.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            virtual_currency_id: 3,
+            tiers: [
+              new_tier(
+                dollar_award_amount: 0.52,
+                minimum_purchase_amount: 1.00
               ),
-              new_offers_virtual_currency(
-                  virtual_currency_id: 4,
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 2.50,
-                          minimum_purchase_amount: 1.15
-                      )
-                  ]
+              new_tier(
+                dollar_award_amount: 1.43,
+                minimum_purchase_amount: 2.00
+              ),
+              new_tier(
+                dollar_award_amount: 0.23,
+                minimum_purchase_amount: 0.50
               )
-          ]
+            ]
+          ),
+          new_offers_virtual_currency(
+            virtual_currency_id: 4,
+            tiers: [
+              new_tier(
+                dollar_award_amount: 2.50,
+                minimum_purchase_amount: 1.15
+              )
+            ]
+          )
+        ]
       )
 
     end
 
-    subject { Plink::Offer.new(offer_record: @plink_offer, virtual_currency_id: 3) }
+    subject do
+      Plink::Offer.new(
+        {
+          offer_record: @plink_offer,
+          virtual_currency_id: 3,
+          name: 'cold wavy',
+          image_url: 'fake.jpg',
+          is_new: true
+        }
+      )
+    end
 
     it 'uses info from an offer record to populate all fields' do
       subject.tiers.count.should == 3
@@ -74,26 +84,35 @@ describe Plink::Offer do
 
     let(:offer) {
       create_offer(
-          detail_text: 'one text',
-          advertiser_id: advertiser.id,
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: 3,
-                  detail_text: 'override text',
-                  tiers: [
-                      new_tier(
-                          dollar_award_amount: 1.43
-                      ),
-                      new_tier(
-                          dollar_award_amount: 0.52
-                      )
-                  ]
+        detail_text: 'one text',
+        advertiser_id: advertiser.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            virtual_currency_id: 3,
+            detail_text: 'override text',
+            tiers: [
+              new_tier(
+                dollar_award_amount: 1.43
+              ),
+              new_tier(
+                dollar_award_amount: 0.52
               )
-          ]
+            ]
+          )
+        ]
       )
     }
 
-    subject { Plink::Offer.new(offer_record: offer, virtual_currency_id: 3) }
+    subject do
+      Plink::Offer.new(
+        {
+          offer_record: offer,
+          virtual_currency_id: 3,
+          name: 'cold wavy',
+          image_url: 'fake.jpg'
+        }
+      )
+    end
 
     it 'takes an offer_record and structures it to be handed back' do
       subject.tiers.count.should == 2
@@ -106,18 +125,27 @@ describe Plink::Offer do
 
     before do
       @plink_offer = create_offer(
-          detail_text: 'one text',
-          advertiser_id: advertiser.id,
-          offers_virtual_currencies: [
-              new_offers_virtual_currency(
-                  virtual_currency_id: 3
+        detail_text: 'one text',
+        advertiser_id: advertiser.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            virtual_currency_id: 3
 
-              )
-          ]
+          )
+        ]
       )
     end
 
-    subject { Plink::Offer.new(offer_record: @plink_offer, virtual_currency_id: 3) }
+    subject do
+      Plink::Offer.new(
+        {
+          offer_record: @plink_offer,
+          virtual_currency_id: 3,
+          name: 'cold wavy',
+          image_url: 'fake.jpg'
+        }
+      )
+    end
 
     it 'does not blow up when you ask for tier related data' do
       subject.tiers.should == []
