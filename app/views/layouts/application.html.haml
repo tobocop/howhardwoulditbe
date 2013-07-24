@@ -14,10 +14,13 @@
           .flash-msg= flash.notice
     %header.header.layout-wrapper
       .layout-inner
-        = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
         - if user_logged_in?
+          %a{ href: wallet_path }
+            = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
           = render partial: 'shared/logged_in_nav'
         - else
+          %a{ href: root_path }
+            = image_tag 'header_logo.png', class: 'header-logo', alt: 'Plink'
           = render partial: 'shared/logged_out_nav', locals: {_user_registration_form: user_registration_form}
 
     .layout-wrapper

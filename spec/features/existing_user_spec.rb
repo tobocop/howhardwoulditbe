@@ -280,9 +280,20 @@ describe 'user signs in' do
       page.find('.close-btn').click
     end
 
+    click_on 'Rewards'
+    current_path.should == '/rewards'
+    page.should have_css('img[src="/assets/header_logo.png"]')
+    find(".header-logo").click
+    current_path.should == '/wallet'
+
     click_on 'Log Out'
 
     current_path.should == '/'
     page.should have_content('You have been successfully logged out.')
+
+    page.should have_css('img[src="/assets/header_logo.png"]')
+    find(".header-logo").click
+    current_path.should == '/'
+
   end
 end
