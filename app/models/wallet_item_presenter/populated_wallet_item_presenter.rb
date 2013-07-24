@@ -17,11 +17,19 @@ module WalletItemPresenter
     end
 
     def special_offer_type
-      'ribbon-new-offer' if wallet_item.offer.is_new
+      if wallet_item.offer.is_new
+        'ribbon-new-offer'
+      elsif wallet_item.offer.is_promotion
+        'ribbon-promo-offer'
+      end
     end
 
     def special_offer_type_text
-      'New Partner!' if wallet_item.offer.is_new
+      if wallet_item.offer.is_new
+        'New Partner!'
+      elsif wallet_item.offer.is_promotion
+        'Get double points when you make a qualifying purchase at this partner.'
+      end
     end
 
     def icon_url

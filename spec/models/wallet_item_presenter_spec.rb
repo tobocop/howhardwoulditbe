@@ -14,13 +14,13 @@ describe WalletItemPresenter do
     end
 
     it 'has the correct special offer type' do
-      offer_stub = stub(is_new: false)
+      offer_stub = stub(is_new: false, is_promotion: false)
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
       presenter.special_offer_type.should be_nil
     end
 
     it 'has the correct special offer type text' do
-      offer_stub = stub(is_new: false)
+      offer_stub = stub(is_new: false, is_promotion: false)
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
       presenter.special_offer_type_text.should be_nil
     end
@@ -38,6 +38,22 @@ describe WalletItemPresenter do
 
       it 'has the correct special offer type text' do
         presenter.special_offer_type_text.should == 'New Partner!'
+      end
+    end
+
+    context 'with a bonus offer' do
+      let(:offer_stub) { stub(is_new: false, is_promotion: true) }
+
+      before do
+        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      end
+
+      it 'has the correct special offer type' do
+        presenter.special_offer_type.should == 'ribbon-promo-offer'
+      end
+
+      it 'has the correct special offer type text' do
+        presenter.special_offer_type_text.should == 'Get double points when you make a qualifying purchase at this partner.'
       end
     end
 
