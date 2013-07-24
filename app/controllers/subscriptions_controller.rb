@@ -27,6 +27,17 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def unsubscribe
+    user = retrieve_user(params[:email_address])
+    plink_user_service.update_subscription_preferences(user.id, is_subscribed: false) if user.logged_in?
+
+    if user.logged_in?
+      redirect_to root_url, notice: 'You have been un-subscribed.'
+    else
+      redirect_to root_url, notice: 'Email address does not exist in our system.'
+    end
+  end
+
   private
 
   def retrieve_user(email_address)

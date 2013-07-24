@@ -7,6 +7,9 @@
         %td{:height => "40", :valign => "bottom"}
           %a{:href => account_url, :style => "font-size:11px;font-family:Arial;text-decoration:underline; font-weight:bold;"} View my Account
           %br/
+        %td{height: "40", valign: "top", style: "text-align:right;"}
+          %a{style: "font-size:11px;font-family:Arial;text-decoration:underline; font-weight:bold;", href:unsubscribe_subscription_url(email_address: @email_address)} mark as spam
+          %br/
       %tr
         %td{:colspan => "2", :style => "border:1px solid black;"}
           %div{:style => "background:#ffffff"}

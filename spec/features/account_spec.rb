@@ -264,5 +264,25 @@ describe 'Managing account' do
 
       page.should have_css '.flash-msg', text: 'Your subscription preferences have been successfully updated.'
     end
+
+    it 'allows a user to mark an email as spam' do
+      visit '/'
+
+      click_on 'Sign In'
+
+      click_link 'Forgot Password?'
+
+      fill_in 'Email', with: 'user@example.com'
+      click_on 'Send Password Reset Instructions'
+
+      email = ActionMailer::Base.deliveries.last
+
+      email_string = Capybara.string(email.html_part.body.to_s)
+      mark_as_spam_url = email_string.find("a", text: 'mark as spam')['href']
+
+      visit mark_as_spam_url
+
+      page.should have_css '.flash-msg', text: 'You have been un-subscribed.'
+    end
   end
 end

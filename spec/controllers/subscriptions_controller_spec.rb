@@ -74,4 +74,25 @@ describe SubscriptionsController do
       end
     end
   end
+
+  describe 'GET unsubscribe' do
+    it 'immediately unsubscribes the user for the given email address' do
+      mock_plink_user_service.should_receive(:find_by_email).with('mail@example.com').and_return(mock(:user, id: 3))
+      mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: false)
+
+      get :unsubscribe, email_address: 'mail@example.com'
+
+      response.should redirect_to root_url
+      flash[:notice].should == 'You have been un-subscribed.'
+    end
+
+    it 'returns notification if the user cannot be found' do
+      mock_plink_user_service.should_receive(:find_by_email).with('notthere@example.com').and_return(nil)
+
+      get :unsubscribe, email_address: 'notthere@example.com'
+
+      response.should redirect_to root_url
+      flash[:notice].should == 'Email address does not exist in our system.'
+    end
+  end
 end

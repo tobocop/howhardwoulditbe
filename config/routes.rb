@@ -17,7 +17,9 @@ PlinkPivotal::Application.routes.draw do
 
   resource :redemption, only: [:show, :create], controller: :redemption
 
-  resource :subscription, only: [:edit, :update]
+  resource :subscription, only: [:edit, :update] do
+    get :unsubscribe, on: :member
+  end
 
   resource :contact, controller: 'contact', only: [:create] do
     get :new
