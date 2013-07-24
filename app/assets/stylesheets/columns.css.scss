@@ -12,6 +12,10 @@
   width:33.203125%;
   /*width:340px;*/
 
+  &.static {
+    background-color:#FFFFFF;
+  }
+
   .profile-img {
     float:left;
     margin: 0px 10px 0px 0px;
