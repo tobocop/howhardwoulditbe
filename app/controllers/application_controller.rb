@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def white_label_url_for(subdomain)
-    "http://#{subdomain}.#{request.host}"
+    "http://#{subdomain}.#{request.domain}"
   end
 
   def set_user_session(user_id)
