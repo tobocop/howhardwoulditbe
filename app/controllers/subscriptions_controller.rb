@@ -27,11 +27,11 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  private
+
   def retrieve_user(email_address)
     email_address.present? ? present_user(plink_user_service.find_by_email(email_address)) : current_user
   end
-
-  private
 
   def plink_user_service
     Plink::UserService.new
