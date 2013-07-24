@@ -8,6 +8,10 @@ Getting Started
 
 We use a local Windows VM with SQL Server Express in development.
 
+
+* install qt on host for capybara webkit
+    brew install qt
+
 * install freetds on host
 
     brew install freetds
@@ -16,9 +20,17 @@ We use a local Windows VM with SQL Server Express in development.
 		brew install libiconv
 		gem install tiny_tds -- --with-freetds-include=/usr/local/include --with-freetds-lib=/usr/local/lib --with-iconv-include=/usr/local/Cellar/libiconv/1.14/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.14/lib
 
-* point database.yml at the SQL Server running on Windows VM
+* add 127.0.0.1 plink.test to /etc/hosts
 
 * bundle
+
+* Get yml files (tango, gigya, and sendgrid)
+
+* point database.yml at the SQL Server running on Windows VM
+* cp config/database.yml gems/plink/spec/dummy/config
+* cp config/database.yml gems/plink_admin/spec/dummy/config
+* cp config/gigya_keys.yml gems/gigya/integration_spec/support/
+    Change gigya_keys.yml in the gigya gem to look like the example
 
 * rake db:schema:load
 
@@ -28,7 +40,14 @@ We use a local Windows VM with SQL Server Express in development.
 
 * rake db:seed
 
-* open a Rails console and `User.first`. If you see a user, you did it.
+* open a Rails console and `Plink::UserRecord.first`. If you see a user, your dev DB is setup.
+
+* rake db:test:prepare
+* RAILS_ENV=test rake db:udfs:create
+* RAILS_ENV=test rake db:views:create
+
+
+* ./build.sh
 
 
 Generating a New Engine
