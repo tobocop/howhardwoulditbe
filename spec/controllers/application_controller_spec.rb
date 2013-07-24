@@ -19,7 +19,6 @@ describe ApplicationController do
       get :index
 
       response.should redirect_to "http://swag.#{host}"
-      cookies[:PLINKUID].should_not be_nil
     end
 
     it 'does not redirect if the user is from the www subdomain' do

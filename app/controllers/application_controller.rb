@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       virtual_currency = current_virtual_currency
 
       if virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN
-        send_user_to_white_label(current_user, virtual_currency.subdomain)
+        send_user_to_white_label(virtual_currency.subdomain)
       end
     end
   end
@@ -54,8 +54,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def send_user_to_white_label(user, subdomain)
-    sign_in_user(user)
+  def send_user_to_white_label(subdomain)
     redirect_to white_label_url_for(subdomain)
   end
 
