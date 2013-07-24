@@ -240,5 +240,15 @@ describe 'Managing account' do
       page.should have_content "You haven't linked a card yet."
       page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
     end
+
+    it 'allows a user to unsubscribe an email' do
+      visit edit_subscription_path(email_address: 'user@example.com')
+
+      choose 'I no longer wish to receive marketing & promotional emails from Plink(this includes your Account Summary).'
+
+      click_on 'Submit'
+
+      page.should have_css '.flash-msg', text: 'Your subscription preferences have been successfully updated.'
+    end
   end
 end

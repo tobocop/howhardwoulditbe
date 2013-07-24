@@ -23,7 +23,15 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return NullUserPresenter.new if session[:current_user_id].blank?
-    @user ||= UserPresenter.new(user: plink_user_service.find_by_id(session[:current_user_id]))
+    @user ||= present_user(plink_user_service.find_by_id(session[:current_user_id]))
+  end
+
+  def present_user(user)
+    if user.present?
+      UserPresenter.new(user: user)
+    else
+      NullUserPresenter.new
+    end
   end
 
   def current_virtual_currency

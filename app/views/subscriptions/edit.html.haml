@@ -1,1 +1,23 @@
-booyah
+- content_for(:body_class, 'slimbox-wrapper')
+.slimbox
+  = image_tag 'header_logo.png', alt: 'Plink'
+  %h1 Unsubscribe
+
+  = form_tag subscription_path, method: 'put' do
+    = label_tag do
+      = radio_button_tag :is_subscribed, '0'
+      I no longer wish to receive marketing & promotional emails from Plink(this includes your Account Summary).
+    = label_tag do
+      = radio_button_tag :is_subscribed, '1'
+      I want to keep everything as it was.
+    = hidden_field_tag :email_address, @email_address
+    = submit_tag 'Submit', class: 'button primary-action'
+
+  %p.info
+    Transactional emails related to your account will still be sent.
+    These include Plink Points redemption and account information emails.
+    If you'd like to close your account with us, please contact support@plink.com.
+  %p.info
+    Not what you wanted?
+    = link_to 'Contact Us', contact_path
+

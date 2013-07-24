@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %title Plink
+    = stylesheet_link_tag    'application', :media => 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag "http://cdn.gigya.com/JS/socialize.js?apikey=#{Gigya::Config.instance.api_key}"
+    = csrf_meta_tags
+
+  %body{class: content_for(:body_class)}
+    .layout-inner
+      .flash-container
+        - if flash.notice
+          .flash-msg= flash.notice
+    .layout-wrapper
+      = yield
