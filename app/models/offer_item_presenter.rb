@@ -26,11 +26,20 @@ class OfferItemPresenter
   end
 
   def special_offer_type
-    'ribbon-new-offer' if offer.is_new
+    if offer.is_new
+      'ribbon-new-offer'
+    elsif offer.is_promotion
+      'ribbon-promo-offer'
+    end
+
   end
 
   def special_offer_type_text
-    'New Partner!' if offer.is_new
+    if offer.is_new
+      'New Partner!'
+    elsif offer.is_promotion
+      'Get double points when you make a qualifying purchase at this partner.'
+    end
   end
 
   def image_url
@@ -78,7 +87,7 @@ class OfferItemPresenter
 
   def as_json(options={})
     {
-    id: id,
+      id: id,
       name: name,
       dom_id: dom_id,
       modal_dom_id: modal_dom_id,

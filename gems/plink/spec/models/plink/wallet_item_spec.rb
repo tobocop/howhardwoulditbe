@@ -19,9 +19,11 @@ describe Plink::WalletItem do
 
   it 'returns its associated offer' do
     offer = stub
-    offer_record = stub
-    wallet_item_record = stub(offer: offer_record, offers_virtual_currency: stub(virtual_currency_id: 123))
-    Plink::Offer.should_receive(:new).with(offer_record, 123) { offer }
+    offer_record = stub(:offer_record, advertiser: stub(:advertiser).as_null_object).as_null_object
+    wallet_item_record = stub(offer: offer_record,offers_virtual_currency: stub(virtual_currency_id: 123))
+
+    Plink::Offer.should_receive(:new) { offer }
+
     presenter = Plink::WalletItem.new(wallet_item_record)
     presenter.offer.should == offer
   end

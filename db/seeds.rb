@@ -87,7 +87,7 @@ create_offer(advertiser_id: arbys.id,
 )
 
 create_offer(advertiser_id: burger_king.id, start_date: '1900-01-01', offers_virtual_currencies: [
-  new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [
+  new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, is_promotion: true, tiers: [
     new_tier(dollar_award_amount: 0.2, minimum_purchase_amount: 1, end_date: '2999-12-31'),
     new_tier(dollar_award_amount: 1.1, minimum_purchase_amount: 14, end_date: '2999-12-31'),
     new_tier(dollar_award_amount: 14.5, minimum_purchase_amount: 120, end_date: '2999-12-31')

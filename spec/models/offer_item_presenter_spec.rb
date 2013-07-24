@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false) }
+  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false) }
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:view_context) { stub(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
@@ -45,6 +45,47 @@ describe OfferItemPresenter do
 
   context 'when the offer is new' do
     before do
+      offer.stub(:is_new).and_return(true)
+    end
+
+    let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
+
+    describe 'special_offer_type' do
+      it 'returns the string to be used as a css class' do
+        presenter.special_offer_type.should == 'ribbon-new-offer'
+      end
+    end
+
+    describe 'special_offer_type_text' do
+      it 'returns the special offer type text' do
+        presenter.special_offer_type_text.should == 'New Partner!'
+      end
+    end
+  end
+
+  context 'when the the offer is a promotion for the users virtual currency' do
+    before do
+      offer.stub(:is_promotion).and_return(true)
+    end
+
+    let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
+
+    describe 'special_offer_type' do
+      it 'returns the string to be used as a css class' do
+        presenter.special_offer_type.should == 'ribbon-promo-offer'
+      end
+    end
+
+    describe 'special_offer_type_text' do
+      it 'returns the special offer type text' do
+        presenter.special_offer_type_text.should == 'Get double points when you make a qualifying purchase at this partner.'
+      end
+    end
+  end
+
+  context 'when the the offer is a promotion for the users virtual currency and is new' do
+    before do
+      offer.stub(:is_promotion).and_return(true)
       offer.stub(:is_new).and_return(true)
     end
 

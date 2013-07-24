@@ -21,12 +21,18 @@ describe 'user signs in' do
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
 
-    @old_navy_offer = create_offer(advertiser_id: old_navy.id, start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
-      new_offers_virtual_currency(
-        virtual_currency_id: virtual_currency.id,
-        tiers: [new_tier]
-      )
-    ])
+    @old_navy_offer = create_offer(advertiser_id: old_navy.id,
+                                   start_date: Date.yesterday,
+                                   end_date: Date.tomorrow,
+                                   is_active: true,
+                                   show_on_wall: true,
+                                   offers_virtual_currencies: [
+                                     new_offers_virtual_currency(
+                                       is_promotion: true,
+                                       virtual_currency_id: virtual_currency.id,
+                                       tiers: [new_tier]
+                                     )
+                                   ])
 
     @burger_king_offer = create_offer(advertiser_id: burger_king.id,
                                       start_date: Date.yesterday,
@@ -169,7 +175,14 @@ describe 'user signs in' do
       page.should have_css("[data-offer-id]", count: 2)
 
       within "[data-offer-id='#{@old_navy_offer.id}']" do
+        page.should have_css '.ribbon.ribbon-promo-offer', text: 'Get double points when you make a qualifying purchase at this partner.'
         page.should have_css 'img[src="/assets/test/oldnavy.png"]'
+        click_on 'Add to wallet'
+      end
+
+      within '.modal' do
+        page.should have_content 'Old Navy Offers'
+        page.should have_css '.modal-ribbon.ribbon-promo-offer', text: 'Get double points when you make a qualifying purchase at this partner.'
       end
 
       within "[data-offer-id='#{@burger_king_offer.id}']" do

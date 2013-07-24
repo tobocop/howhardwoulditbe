@@ -29,7 +29,14 @@ class WalletOffersController < ApplicationController
 
   def removed_wallet_item(offer_record)
     user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
-    offer = Plink::Offer.new(offer_record, current_virtual_currency.id)
+    offer = Plink::Offer.new(
+      offer_record: offer_record,
+      virtual_currency_id: current_virtual_currency.id,
+      name: offer_record.advertiser.advertiser_name,
+      image_url: offer_record.advertiser.logo_url,
+      is_new: offer_record.is_new,
+      is_promotion: offer_record.active_offers_virtual_currencies.first.try(:is_promotion)
+    )
     OfferItemPresenter.new(offer, virtual_currency: current_virtual_currency, view_context: self.view_context, linked: user_has_account, signed_in: current_user.logged_in?)
   end
 

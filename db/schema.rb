@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130723193458) do
+ActiveRecord::Schema.define(:version => 20130724142540) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1123,6 +1123,7 @@ ActiveRecord::Schema.define(:version => 20130723193458) do
     t.datetime "modified",                            :null => false
     t.boolean  "isActive",          :default => true, :null => false
     t.text     "detailText"
+    t.boolean  "is_promotion"
   end
 
   create_table "optIns", :primary_key => "optInId", :force => true do |t|
