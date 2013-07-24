@@ -81,7 +81,7 @@ describe('Plink.accountEditForm', function () {
 
       $container.find('input[type="submit"]').click();
 
-      expect($.ajax).toHaveBeenCalledWith('/update/account/123', { data: 'first_name=firty&email=firty%40example.com', method: 'put' });
+      expect($.ajax).toHaveBeenCalledWith('/update/account/123', { dataType: 'json', data: 'first_name=firty&email=firty%40example.com', method: 'put' });
 
       expect($container.find('[name="first_name"]').val()).toEqual('');
       expect($container.find('[name="email"]').val()).toEqual('');

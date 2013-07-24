@@ -9,13 +9,44 @@ describe SubscriptionsController do
     controller.stub(plink_user_service: mock_plink_user_service)
   end
 
+  describe 'GET edit' do
+    it 'sets @email_address' do
+      get :edit, email_address: 'mail@example.com'
+
+      assigns(:email_address).should == 'mail@example.com'
+    end
+  end
+
   describe 'PUT update' do
-    it 'updates the users email preferences with the given value' do
-      mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: '0')
+    context 'json response' do
+      it 'updates the users email preferences with the given value' do
+        mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: '0')
 
-      xhr :put, :update, is_subscribed: '0'
+        xhr :put, :update, is_subscribed: '0', format: 'json'
 
-      JSON.parse(response.body).should == {}
+        JSON.parse(response.body).should == {}
+      end
+    end
+
+    context 'html response' do
+      before do
+        mock_plink_user_service.stub(:find_by_email).with('foo@example.com').and_return(mock(:user, id: 3))
+        mock_plink_user_service.stub(:update_subscription_preferences).with(3, is_subscribed: '0')
+      end
+
+      it 'redirects to the home page with a flash message' do
+        put :update, email_address: 'foo@example.com', is_subscribed: '0'
+
+        response.should redirect_to root_url
+        flash[:notice].should == 'Your subscription preferences have been successfully updated.'
+      end
+
+      it 'updates the users subscription' do
+        mock_plink_user_service.should_receive(:find_by_email).with('foo@example.com').and_return(mock(:user, id: 3))
+        mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: '0')
+
+        put :update, email_address: 'foo@example.com', is_subscribed: '0'
+      end
     end
   end
 end

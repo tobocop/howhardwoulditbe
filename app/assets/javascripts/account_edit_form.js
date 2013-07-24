@@ -71,7 +71,8 @@
     base._submit = function (url, data, method) {
       $.ajax(url, {
         data: data,
-        method: method
+        method: method,
+        dataType: 'json'
       })
         .done(base._refreshDisplay)
         .fail(base._displayErrors)
