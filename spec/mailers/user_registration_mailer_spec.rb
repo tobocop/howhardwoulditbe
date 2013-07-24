@@ -15,8 +15,6 @@ describe UserRegistrationMailer do
         email_string.should have_content 'Hi Jub'
         email_string.should have_content 'Welcome and thanks for signing up for Plink'
         email_string.should have_content "We're excited to help you earn Plonk Points"
-
-        email.should have_link 'http://test.host/account'
       end
     end
   end
