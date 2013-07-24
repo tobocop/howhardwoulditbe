@@ -15,10 +15,12 @@ describe ApplicationController do
       controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'swag'))
 
       request.host = 'www.test.host'
+      session[:current_user_id] = 123
 
       get :index
 
       response.should redirect_to "http://swag.test.host"
+      session[:current_user_id].should be_nil
     end
 
     it 'does not redirect if the user is from the www subdomain' do
