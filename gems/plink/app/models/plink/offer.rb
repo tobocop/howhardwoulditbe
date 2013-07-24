@@ -3,7 +3,10 @@ module Plink
 
     attr_reader :id, :tiers, :detail_text, :name, :image_url, :is_new
 
-    def initialize(offer_record, virtual_currency_id)
+    def initialize(attributes={})
+      offer_record = attributes.fetch(:offer_record)
+      virtual_currency_id = attributes.fetch(:virtual_currency_id)
+
       @id = offer_record.id
       @tiers = offer_tiers(offer_record, virtual_currency_id)
       @detail_text = detail_text_for_offer(offer_record)

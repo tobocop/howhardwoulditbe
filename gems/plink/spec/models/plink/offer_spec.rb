@@ -42,7 +42,7 @@ describe Plink::Offer do
 
     end
 
-    subject { Plink::Offer.new(@plink_offer, 3) }
+    subject { Plink::Offer.new(offer_record: @plink_offer, virtual_currency_id: 3) }
 
     it 'uses info from an offer record to populate all fields' do
       subject.tiers.count.should == 3
@@ -93,7 +93,7 @@ describe Plink::Offer do
       )
     }
 
-    subject { Plink::Offer.new(offer, 3) }
+    subject { Plink::Offer.new(offer_record: offer, virtual_currency_id: 3) }
 
     it 'takes an offer_record and structures it to be handed back' do
       subject.tiers.count.should == 2
@@ -117,7 +117,7 @@ describe Plink::Offer do
       )
     end
 
-    subject { Plink::Offer.new(@plink_offer, 3) }
+    subject { Plink::Offer.new(offer_record: @plink_offer, virtual_currency_id: 3) }
 
     it 'does not blow up when you ask for tier related data' do
       subject.tiers.should == []

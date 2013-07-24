@@ -15,7 +15,7 @@ module Plink
     private
 
     def create_offers(offer_records, virtual_currency_id)
-      offer_records.map { |offer_record| Offer.new(offer_record, virtual_currency_id) }
+      offer_records.map { |offer_record| Offer.new(offer_record: offer_record, virtual_currency_id: virtual_currency_id) }
     end
   end
 end
