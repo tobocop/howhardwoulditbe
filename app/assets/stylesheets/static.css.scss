@@ -1,0 +1,92 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.static {
+  color:$slate;
+  margin:0 auto;
+  width:1024px;
+  /*width:90%;*/
+
+
+  h1 {
+  	font-size: 3.2em;
+  	font-weight:900;
+  	line-height:1.2em;
+  }
+
+  h2 {
+  	font-size: 1.6em;
+  	font-weight:300;
+  	line-height:1.2em;
+
+  	&.cyan {
+  	  color:$cyan;
+  	}
+  }
+
+  h3 {
+  	font-size:1.1em;
+  	font-weight:300;
+  	line-height:1.4em;
+  }
+
+  h4 {
+  	color:#909094;
+  	font-size:1em;
+  	font-weight:300;
+  	line-height:1.5em;
+  	margin-top:8px;
+  }
+
+  hr {
+  	margin-top:10px;
+  }
+
+  &.container {
+  	height:100%;
+  }
+
+  .left-column {
+  	display:inline-block;
+    margin:30px 0;
+    max-width:440px;
+    min-width:340px;
+    width:33.203125%;
+    /*
+    &.fixed {
+      position:fixed;
+    }
+	*/
+    .headline {
+      margin:0 0 15px 0;
+    }
+  }
+
+  .right-column{
+    display: inline-block;
+    margin:70px 0 0 0;
+    min-width:664px;
+    padding:0 0 0 6%;
+    width:66%;
+
+    .content {
+      margin:20px 0;
+      
+      &.narrow {
+      	margin:20px 0 10px 0;
+      	width:50%;
+
+      	&.right{
+          float:right;
+        }
+      }
+    }
+
+    .center {
+ 	  float:left;
+ 	  height:400px;
+ 	  margin:20px 0;
+      width:45%;
+    }
+  }
+}

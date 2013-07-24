@@ -17,7 +17,7 @@
       %li.nav-li
         = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
-.column-bg
+.column-container
   .account
     .left-column
       .flag.profile
@@ -30,9 +30,8 @@
         .gig-btn
           %button.button.nav.sign-in FPO  
       .content
-        %a.invite
-          %img{ :class => "invite-img", :src => "/assets/icon-addfriend-blue.jpg", :alt => "Add A Friend"}
-          %span.h2 REFER A FRIEND  
+        .refer-btn 
+          %button.button.nav.sign-in Refer a Friend
       .flag
         %h2.white SETTINGS
       .content
@@ -60,10 +59,10 @@
         %h3.bold CHASE BANK
         %a Change
       %hr
-      .content
+      .content.last
         %h4 Your Card
         %h3.bold CREDIT CARD 9876
-        %a Change
+        %a Change 
   
     .right-column
       .current-points
@@ -159,7 +158,48 @@
           .amount
             %h3.cyan.bold 100 Plink points 
           .icon
-            %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"}  
+            %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"}
+
+        .event
+          .date
+            %h3 12/29
+          .description
+            %h3.bold $99.99 at Brand
+          .amount
+            %h3.cyan.bold 500 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_purchase.png", :alt => "Purchase"} 
+
+        .event.alt
+          .date
+            %h3 12/20
+          .description
+            %h3.bold $25 Redemption orem ipsum dolar 
+          .amount
+            %h3.chart.bold -90000 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_redeem.png", :alt => "Redemption"}    
+        
+        .event
+          .date
+            %h3 12/11
+          .description
+            %h3.bold Bonus lorem ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 20 Plink points
+          .icon
+            %img{ :src => "/assets/history/icon_bonus.png", :alt => "Bonus"}
+
+        .event.alt
+          .date
+            %h3 12/2
+          .description
+            %h3.bold Adjustment ipsum dolar sit ament
+          .amount
+            %h3.cyan.bold 100 Plink points 
+          .icon
+            %img{ :src => "/assets/history/icon_adjustment_up.png", :alt => "Point Adjustment"}
+                  
       %hr 
       .lifetime
         %h2 Lifetime Stats
@@ -168,9 +208,13 @@
           %h1.cyan 14,085
         .stat
           %h3 Friends Referred
-          %h1.pink 1
+          %h1.gray 1
         .stat
           %h3 Rewards Earned
-          %h1.chart $135    
+          %h1.chart $135   
+
+= render partial: 'style_guide/footer/footer'            
+
+
 
 

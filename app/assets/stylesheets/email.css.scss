@@ -1,0 +1,58 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+.email {
+  background:$grayblue;
+
+  h1 {
+  	font-size:2em;
+  	font-weight:300;
+    line-height: 1.1em;
+  }
+
+  h2 {
+  	font-size:1.2em;
+  	font-weight:300;
+  }
+
+  h3 {
+    color:$lightgray;
+    font-size:.9em;
+    font-weight:300;
+    line-height:1.2em;
+
+  }
+
+  .container {
+  	background:#FFFFFF;
+    border: 1px solid #d5d5d6;
+    /*box-shadow: 1px 2px 3px #888888;*/
+    margin:4% auto;
+  	min-width:320px;
+    max-width:600px;
+    padding:3%;
+    position:relative;
+  	width:48%;
+    @include round-corners(5px);
+  }
+
+  .logo {
+    margin:-3% 0 2% 0;
+  }
+
+  .login {
+    margin:5% 0 0 0;
+
+    .btn {
+      margin:3% 0;
+    }
+  }
+
+  .headline {
+    margin-bottom:15px;
+  }
+
+  .subtext {
+    margin:5% 0 0 0;
+  }
+}

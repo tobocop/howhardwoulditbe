@@ -1,0 +1,45 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.static.container
+  .left-column
+    .headline
+      %h1 Contact Us
+      %h2 How can we help you?
+    %h3 Fi is an agency made up of smart people who believe in each other. It’s as simple as that. What you might not get as quickly is our “no shoes, please” policy.
+
+  .right-column
+    .center
+      %h3 This is where the radio buttons will go as soon as I figure out how to write them in HAML. 
+    .content.narrow.right
+      %h3 What's your first name?
+      %input.form-field.input{:value => 'First Name'}
+    .content.narrow.right
+      %h3 What's your last name?
+      %input.form-field.input{:value => 'Last Name'}
+    .content.narrow.right
+      %h3 What's your email?
+      %input.form-field.input{:value => 'Email'}
+    .content.narrow.right
+      %h3 And what can we help you with?
+      %textarea.form-field.input{:value => 'Your Message'}
+    .content.narrow.right
+      %button.button.primary-action Submit    
+
+= render partial: 'style_guide/footer/footer'   
