@@ -1,0 +1,181 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+/* LEFT COLUMN STYLES */
+  
+.left-column {
+  background-color: $grayblue;
+  display:inline-block;
+  /*margin:30px 0;*/
+  max-width:440px;
+  min-width:340px;
+  width:33.203125%;
+  /*width:340px;*/
+
+  .profile-img {
+    float:left;
+    margin: 0px 10px 0px 0px;
+  }
+
+  
+  .flag {
+   	background-color:#666666;
+    height:54px;
+    margin: 0px 0px 15px 0px;
+    padding: 15px 28px;
+
+
+    &.profile {
+      color:#FFFFFF;
+      margin: 35px 0 20px 0;
+      padding:20px 28px 0px 28px;
+    }
+
+    &.feature {
+      background:$cyan;
+      color:#FFFFFF;
+      margin: -25px 0 20px 0;
+      text-align: center;
+    }
+  }
+
+  .gig-btn {
+    margin:15px 5px 0 10px;
+    float:left;
+    width:30px;
+  }
+
+  .refer-btn {
+    margin:50px 0 10px 0;
+  }
+
+  .content {
+    padding: 10px 28px;
+    width:340px;
+
+    &.last {
+      padding-bottom:20px;
+    }
+  }
+
+  a {
+  	color:$cyan;
+    font-size:.9em;
+    font-weight:300;
+  	text-decoration: underline;
+
+  	&.hover, &:hover{
+      color: #1073b9;
+    }
+
+    &.active, &:active{
+      color: #1dafec;
+    }
+
+    &.disabled, &:disabled{
+      color: $disabled;
+    }
+
+    &.redeem-link {
+      color: $chart;
+      font-weight: bold;
+      text-decoration: none;
+      background: image-url('history/icon_redeem.png') no-repeat left center;
+      padding-left: 24px;
+      line-height: 36px;
+    }
+  }
+
+  .status-img {
+    float:left;
+    margin:0 5px;
+  }
+
+  .collapsed .change {
+    display: none;
+  }
+
+  .expanded .change {
+    display: block;
+  }
+}
+
+/* RIGHT COLUMN STYLES */
+  
+.right-column {
+  background:#FFFFFF;
+  display: inline-block;
+  height:100%;
+  min-width:664px;
+  padding:30px 0 0 20px;
+  /*width:66.796875%;*/
+  width:66%;
+
+  .current-points{
+    margin-bottom:30px;
+  }
+    
+  h2 {
+    text-transform: uppercase;
+    margin-bottom:15px;
+  }
+  
+  .activity {
+    margin:40px 0;
+    /*width:640px;*/
+
+    .event {
+      height:36px;
+      padding: 10px 0px;  
+
+      &.alt {
+        background:#fafafa;
+      }
+      
+      .icon {
+        float:left;
+        padding: 0px 4px;
+        width:24px;
+
+        &.title {
+          text-indent: -99999px;
+        }
+      }
+
+      .date {
+        float:left;
+        width:12.5%;
+      }
+
+      .description {
+        float:left;
+        padding-right:10px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        width:57%;
+        
+      }
+
+      .amount {
+        float:left;
+        width:166px;
+      }
+    }
+  }
+
+  .lifetime {
+    margin:40px 0;
+
+    .stat{
+      display:inline-block;
+      margin:0 10% 0 0;
+    }
+  }
+} 
+
+.column-container {
+  background: url('/assets/bg.png');
+  background-repeat: repeat-y;
+  background-position: center;
+  height:100%;
+}

@@ -1,0 +1,157 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li.selected
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.hero-gallery
+  .hero-gallery-inner
+    %ul.bjqs
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/bk_2.jpg", :title => "Get Double Points at Burger King"}
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
+      %li.bjqs-slide
+        %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}
+
+:javascript
+  jQuery(function () {
+    $('.hero-gallery-inner').bjqs({
+          width       : 1800,
+          height      : 380,
+          responsive  : true
+        });
+  });   
+
+.column-container
+  .wallet
+    .left-column
+      .flag.feature
+        %h1 My Wallet
+      .slot
+        %img{ :class => "img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+        .text
+          %h3.bold This slot is empty.  
+          %h3 Select an offer to start earning Plink points. 
+      .slot
+        %img{ :class => "img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+        .text
+          %h3.bold This slot is empty.  
+          %h3 Select an offer to start earning Plink points. 
+      .slot
+        %img{ :class => "img", :src =>"/assets/icon_emptyslot.png", :alt => "Empty Slot"} 
+        .text
+          %h3.bold This slot is empty.  
+          %h3 Select an offer to start earning Plink points. 
+      .slot.locked
+        %img{ :class => "img", :src =>"/assets/icon_lockedslot.png", :alt => "Locked Slot"} 
+        .text
+          %h3.bold This slot is locked.  
+          %h3 Refer a friend to unlock this slot. 
+
+      .slot.locked
+        %img{ :class => "img", :src =>"/assets/icon_lockedslot.png", :alt => "Locked Slot"} 
+        .text
+          %h3.bold This slot is locked.  
+          %h3 Complete an offer to unlock this slot.
+    
+    .right-column
+      %h2 Select from these offers
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET 
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET 
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+      .offer
+        .offer-inner
+          .brand
+            %img{ :src =>"/assets/wallet-logos/dunkindonuts.png", :alt => "Dunkin' Donuts"}
+          .info 
+            %h3 up to
+            %h1.numbers 1200
+            %h3 Plink points
+            %button.button.wallet-add ADD TO WALLET
+
+= render partial: 'style_guide/footer/footer'    
+
+      
