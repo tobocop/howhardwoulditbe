@@ -1,6 +1,6 @@
-namespace :wallet do
+namespace :wallet_items do
   desc 'Migrate wallet items to use to Rails STI'
-  task migrate_wallet_items: :environment do
+  task migrate: :environment do
     update_populated_and_open_wallet_item_records
     fill_in_missing_locked_slots
   end
