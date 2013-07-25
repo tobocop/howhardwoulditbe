@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Managing account' do
 
-  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true)}
+  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')}
 
   context 'linked user' do
     before(:each) do
@@ -74,6 +74,11 @@ describe 'Managing account' do
         sign_in('user@example.com', 'pass1word')
 
         click_link 'My Account'
+
+        within '.profile' do
+          page.should have_content 'Frodo'
+          page.should have_css "img[src='http://example.com/image']"
+        end
 
         page.should have_image 'icon_active.png'
         page.should have_content 'Active'
