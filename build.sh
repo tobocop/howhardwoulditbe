@@ -26,9 +26,9 @@ STATUS=$((STATUS + $?))
 
 echo "RUNNING RAILS APP BUILD"
 bundle exec rake db:migrate
-rake db:test:prepare
-rake db:udfs:create
-rake db:views:create
+bundle exec rake db:test:prepare
+bundle exec rake db:udfs:create
+bundle exec rake db:views:create
 bundle exec rspec spec --tag ~skip_in_build
 STATUS=$((STATUS + $?))
 
