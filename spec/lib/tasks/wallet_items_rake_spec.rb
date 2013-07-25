@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "wallet_items:migrate" do
+describe "wallet_items:migrate", skip_in_build: true do
   include_context "rake"
   include_context "legacy_wallet_items"
 

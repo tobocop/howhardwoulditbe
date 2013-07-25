@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "wallet:alter_prc_getUsersWalletByWalletID" do
+describe "wallet:alter_prc_getUsersWalletByWalletID",  skip_in_build: true do
   include_context "legacy_wallet_items"
   include_context "rake"
 

@@ -29,7 +29,7 @@ bundle exec rake db:migrate
 rake db:test:prepare
 rake db:udfs:create
 rake db:views:create
-bundle exec rspec spec
+bundle exec rspec spec --tag ~skip_in_build
 STATUS=$((STATUS + $?))
 
 echo "The build exited with $STATUS"
