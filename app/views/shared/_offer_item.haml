@@ -1,4 +1,4 @@
-.offer{ 'data-offer-id' => presenter.id, id: presenter.dom_id }
+.offer{ data: {'offer-id' => presenter.id, 'reveal-id' => presenter.modal_dom_id}, id: presenter.dom_id }
   .offer-inner
     .ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
     .brand
@@ -7,7 +7,7 @@
       %p.font.dashboard-text.h3 up to
       %p.font.dashboard-text.h1.numbers= presenter.max_award_amount
       %p.font.dashboard-text.h3= presenter.currency_name
-      %button.button.wallet-add{data: {'reveal-id' => presenter.modal_dom_id}}= button_label
+      %button.button.wallet-add= button_label
 .modal.offer-details.reveal-modal{style: 'display: none', id: presenter.modal_dom_id}
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
   .modal-ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
