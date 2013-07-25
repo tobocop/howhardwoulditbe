@@ -8,8 +8,7 @@ class WalletsController < ApplicationController
     @hero_promotions = plink_hero_promotion_service.active_promotions
     @user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
     @wallet_items = presented_wallet_items
-    @card_link_url = plink_card_link_url_generator.create_url({})
-
+    @card_link_url = plink_card_link_url_generator.create_url(referrer_id: session[:referrer_id], affiliate_id: session[:affiliate_id])
     @offers = present_offers(plink_offer_service.get_available_offers_for(wallet_id, current_virtual_currency.id), @user_has_account)
     @all_offers = present_offers(plink_offer_service.get_live_offers(current_virtual_currency.id), @user_has_account)
   end

@@ -47,7 +47,9 @@ describe WalletsController do
       end
 
       it 'assigns a @card_link_url' do
-        Plink::CardLinkUrlGenerator.any_instance.stub(:create_url) { 'http://www.mywebsite.example.com' }
+        session[:referrer_id] = 123
+        session[:affiliate_id] = 456
+        Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).with(referrer_id: 123, affiliate_id: 456).and_return { 'http://www.mywebsite.example.com' }
 
         get :show
 
