@@ -258,13 +258,47 @@
     %h2 Skins
     %section
 
-      %h3 Modal
+      %h3 Join
       .modal
         %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
         %p.font.modal-text.h1 Join Plink
         %p.font.modal-text.h2 Your days of not earning unlimited rewards are over.
         .bg-element
-        %p.font.modal-text.h4 Already have an account?
+        %p.font.modal-text.h4 
+          %a.text-link Already have an account?
+
+      %h3 Sign In
+      .modal
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+        %p.font.modal-text.h4 How do you want to sign in?
+        .bg-element
+          .sign-in-element
+            %img{ :src => "/assets/btn_gigya_email.gif", :alt => "Sign in with an Email Address"}
+        %p.font.modal-text.h4 
+          %a.text-link Forgot your password?
+        %br  
+        %p.font.modal-text.h4 
+          Don't have an account?
+          %a.span.text-link Join Plink
+
+      %h3 Sign In - Email
+      .modal
+        %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+        %p.font.modal-text.h4 How do you want to sign in?
+        .bg-element
+          .sign-in-element
+            %img{ :src => "/assets/btn_gigya_email.gif", :alt => "Sign in with an Email Address"}
+          .sign-in-element
+            %input.form-field.input{:value => 'Email'}
+          .sign-in-element
+            %input.form-field.input{:value => 'Password'}
+          %button.button.primary-action Sign In
+        %p.font.modal-text.h4 
+          %a.text-link Forgot your password?
+        %br  
+        %p.font.modal-text.h4 
+          Don't have an account?
+          %a.span.text-link Join Plink    
 
       %h3 Offer Details
       .modal
@@ -377,7 +411,7 @@
             .btn
               %a.button.primary-action CONFIRM
           .terms
-            %a Terms & Conditions
+            %a.terms-link Terms & Conditions
 
       %h3 Reward Confirmation - Expanded Terms
       .modal  
@@ -397,6 +431,17 @@
           .terms 
             %a.terms-link Terms & Conditions
             %h3 Terms and conditions are my favorite thing to lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupi excelsior!
+
+      %h3 Locked Slot Info
+      .modal
+        .locked-slot-info
+          %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+          %p.font.modal-text.h1.slate This slot will unlock after your first qualified partner purchase* OR the first time you refer a friend** to Plink.
+          %br
+          %p.font.modal-text.h2 *A purchase is considered 'qualified' when it meets or exceeds the minimum spend requirement and is in your Plink Wallet at the time of the purchase. 
+          %br
+          %p.font.modal-text.h2 **A friend is considered 'referred' when he or she joins Plink and links a card.
+
 
 
   %section

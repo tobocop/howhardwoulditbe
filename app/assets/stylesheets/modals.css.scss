@@ -105,6 +105,11 @@
     }
   }
 
+  .locked-slot-info {
+    text-align:left;
+    width:400px;
+  }
+
   .reward-modal {
 
     .terms-link {
@@ -182,6 +187,11 @@
       text-align: left;
     }
   }
+}
+
+.sign-in-element {
+  margin:0 0 10px 0;
+  width:212px;
 }
 
 .offer-points {

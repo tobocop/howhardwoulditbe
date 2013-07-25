@@ -25,6 +25,17 @@
       font-size:3.2em;
       letter-spacing:1px;
       margin-bottom: 7px;
+
+      &.slate {
+        color:$slate;
+        font-size:1.3em;
+        font-weight:500;
+        line-height:1.2em;
+      }
+
+      &.bold {
+        font-weight:700;
+      }
     }
 
     &.h2 {
