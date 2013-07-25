@@ -6,6 +6,10 @@
   background-color:$cyan;
   height:60px;
 
+  .layout-inner {
+    position: relative;
+  }
+
   .header-logo {
     top:8px;
     position: absolute;

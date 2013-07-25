@@ -32,6 +32,9 @@ var Plink = {
   },
 
   boot: function () {
+
+    $('[data-reveal-id]').positionFoundationModal();
+
     $(document).foundation();
 
     Modernizr.load({
@@ -56,7 +59,7 @@ var Plink = {
       $('.modal.offer-details .' + reason).show()
     });
 
-    $('.wallet-add').on('click', function(e) {
+    $('.wallet-add').on('click', function (e) {
       $('.modal.offer-details .reason').hide()
       $('.modal.offer-details .call-to-action').show()
     });
