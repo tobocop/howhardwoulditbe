@@ -17,6 +17,9 @@ namespace :db do
 
       #Returns everyone we currently consider to be active in intuit and in our system
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_active_intuit_accounts.sql')))
+
+      #Adds the 10% control group for retail
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_offer_exclusions.sql')))
     end
 
     desc 'drops the views in the DB'
@@ -27,6 +30,7 @@ namespace :db do
       ActiveRecord::Base.connection.execute('DROP VIEW vw_userBalances')
       ActiveRecord::Base.connection.execute('DROP VIEW vw_oauth_tokens')
       ActiveRecord::Base.connection.execute('DROP VIEW vw_active_intuit_accounts')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_offerExclusions')
     end
   end
 
