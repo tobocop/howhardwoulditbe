@@ -110,7 +110,6 @@
     };
 
     base.remove = function (offer) {
-//      base.$el.remove(base.(offerData));
       offer.$el.remove();
     };
 

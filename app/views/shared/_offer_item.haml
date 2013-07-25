@@ -8,26 +8,3 @@
       %p.font.dashboard-text.h1.numbers= presenter.max_award_amount
       %p.font.dashboard-text.h3= presenter.currency_name
       %button.button.wallet-add= button_label
-.modal.offer-details.reveal-modal{style: 'display: none', id: presenter.modal_dom_id}
-  = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-  .modal-ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
-  %img{src: presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'}
-  .bg-element
-    %p.font.modal-text.h3.bold #{presenter.name} Offers
-
-    .tiers
-      - if presenter.respond_to?(:javascript?)
-        :plain
-          {{#each tier_descriptions}}
-            <p class='font modal-text h3'>{{this}}</p>
-          {{/each}}
-      - else
-        - presenter.tier_descriptions.each do |description|
-          %p.font.modal-text.h3= description
-
-  .message.reason.wallet_full.hide
-    You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
-  .call-to-action
-    = presenter.call_to_action_link
-
-  .offer-description= raw presenter.description
