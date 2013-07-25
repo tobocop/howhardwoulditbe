@@ -2,9 +2,6 @@
 @import "mixins.css.scss";
 
 .wallet{
-  margin:0 auto;
-  width:1024px;
-
   h1 {
     font-size: 1.8em;
     font-weight:700;
@@ -182,4 +179,8 @@
       }
     }
   }
+}
+
+.clear {
+  clear: both;
 }

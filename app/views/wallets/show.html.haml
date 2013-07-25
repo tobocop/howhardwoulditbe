@@ -1,6 +1,6 @@
 = render :partial => 'shared/hero_gallery', locals: {promotions: @hero_promotions}
 
-.layout-inner#wallet_offers_management
+#wallet_offers_management
 
   %script#populated_wallet_item_template{type: 'text/x-handlebars-template' }
     = render partial: 'wallets/populated_wallet_item', locals: { wallet_item: WalletItemPresenter::PopulatedWalletItemJsPresenter.new }
@@ -11,21 +11,25 @@
   %script#offer_item_template{type: 'text/x-handlebars-template' }
     = render partial: 'shared/offer_item', locals: {presenter: OfferItemJsPresenter.new(virtual_currency: current_virtual_currency), button_label: 'Add to wallet'}
 
-  .left-column
-    %h1 My Wallet
+  .column-container
+    .wallet.layout-inner
+      .left-column
+        .flag.feature
+          %h1 My Wallet
 
-    .wallet#wallet_items_bucket
-      - @wallet_items.each do |wallet_item|
-        = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
+        #wallet_items_bucket
+          - @wallet_items.each do |wallet_item|
+            = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
 
-  .wallet
-    %h2 Select From These Offers
-    #offers_bucket
-      = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
+      .right-column
+        .subhead
+          %h2 Select From These Offers
+        #offers_bucket
+          = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
+    .clear
 
-
-  #card-add-modal.reveal-modal.cf-modal
-    %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+#card-add-modal.reveal-modal.cf-modal
+  %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
 
 :javascript
   $(function() {
