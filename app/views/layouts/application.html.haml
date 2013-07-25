@@ -5,6 +5,7 @@
     = stylesheet_link_tag    'application', :media => 'all'
     = javascript_include_tag 'application'
     = javascript_include_tag "http://cdn.gigya.com/JS/socialize.js?apikey=#{Gigya::Config.instance.api_key}"
+    = favicon_link_tag
     = csrf_meta_tags
 
   %body
