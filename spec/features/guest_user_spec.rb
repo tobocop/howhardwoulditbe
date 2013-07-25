@@ -102,7 +102,13 @@ describe 'guest behavior' do
 
     visit '/'
 
-    click_on 'Check out all of our partners'
+    click_on 'See all of our rewards'
+    page.should have_content 'CHOOSE YOUR REWARD'
+    page.should have_css('img[src="/assets/test/amazon.png"]')
+    find(".header-logo").click
+
+
+    click_on 'See all of our partners'
 
     page.should have_content 'Earn Plink Points at these locations.'
     page.should have_css('img[src="/assets/test/oldnavy.png"]')
