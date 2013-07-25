@@ -169,8 +169,8 @@ describe 'user signs in' do
     page.should have_content('You want this.')
     page.should_not have_css '.slot .brand'
 
-    within '.wallet', text: 'Select From These Offers' do
-      page.should have_content 'Select From These Offers'
+    within '.right-column', text: 'SELECT FROM THESE OFFERS' do
+      page.should have_content 'SELECT FROM THESE OFFERS'
 
       page.should have_css("[data-offer-id]", count: 2)
 
@@ -219,7 +219,7 @@ describe 'user signs in' do
       click_on 'Add To My Wallet'
     end
 
-    within '.wallet', text: 'Select From These Offers' do
+    within '.right-column', text: 'SELECT FROM THESE OFFERS' do
       page.should have_css("[data-offer-id]", count: 1)
 
       within "[data-offer-id='#{@old_navy_offer.id}']" do
@@ -250,8 +250,8 @@ describe 'user signs in' do
 
     click_on 'Remove'
 
-    within '.wallet', text: 'Select From These Offers' do
-      page.should have_content 'Select From These Offers'
+    within '.right-column', text: 'SELECT FROM THESE OFFERS' do
+      page.should have_content 'SELECT FROM THESE OFFERS'
 
       page.should have_css("[data-offer-id]", count: 2)
 

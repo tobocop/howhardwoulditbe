@@ -56,7 +56,7 @@ describe 'User signup workflow' do
 
       click_on 'Wallet'
 
-      page.should have_content 'My Wallet'
+      page.should have_content 'MY WALLET'
       page.should have_content 'This slot is empty.', count: 3
       page.should have_content 'This slot is locked.', count: 1
     end
@@ -96,7 +96,7 @@ describe 'User signup workflow' do
 
         click_on 'Wallet'
 
-        page.should have_content 'My Wallet'
+        page.should have_content 'MY WALLET'
         page.should have_content 'This slot is empty.', count: 3
         page.should have_content 'This slot is locked.', count: 1
       end
@@ -137,7 +137,7 @@ describe 'User signup workflow' do
 
         click_on 'Wallet'
 
-        page.should have_content 'My Wallet'
+        page.should have_content 'MY WALLET'
         page.should have_content 'This slot is empty.', count: 3
         page.should have_content 'This slot is locked.', count: 1
       end
