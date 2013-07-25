@@ -12,7 +12,7 @@
     You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
   .add-call-to-action
     = presenter.call_to_action_link
-  .remove-call-to-action-link
+  .remove-call-to-action
     = link_to 'Remove!', presenter.remove_url, class: 'button primary-action', data: {'remove-from-wallet' => true}
 
   .offer-description= raw presenter.description

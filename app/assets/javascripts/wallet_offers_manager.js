@@ -12,6 +12,20 @@
       base.walletItemsBucket = new Plink.WalletItemsBucket(base.$el.find('#wallet_items_bucket'));
 
       base.bindEvents();
+      base.determineWalletOffers();
+    };
+
+    base.determineWalletOffers = function () {
+      base._defer(function() {
+        base.$el.find('[data-in-wallet]').removeAttr('data-in-wallet');
+      });
+
+      $(base.walletItemsBucket.getPopulatedWalletItems()).each(function (index, el) {
+        var selector = '#' + $(el).data('reveal-id');
+        base._defer(function () {
+          base.$el.find(selector).attr('data-in-wallet', true);
+        });
+      });
     };
 
     base.bindEvents = function () {
@@ -20,11 +34,12 @@
     };
 
     base._onSuccess = function () {
-      base.$el.trigger(base.successEvent)
+      base.$el.trigger(base.successEvent);
+      base.determineWalletOffers();
     }
 
     base._onFailure = function (reason) {
-      base.$el.trigger(base.failureEvent, reason)
+      base.$el.trigger(base.failureEvent, reason);
     }
 
     base._handleWalletAddClick = function (e) {
@@ -45,8 +60,11 @@
 
     };
 
+    base._defer = function(callback) {
+      setTimeout(callback, 1000);
+    };
+
     base._addItemToWallet = function ($el) {
-      // add stuff to the wallet
       var url = $el.attr('href');
       base.offersBucket.stageForRemoval($el.data('offer-dom-selector'));
       base.sync(url, 'post');
@@ -66,6 +84,9 @@
             base._onSuccess()
 
             base.walletItemsBucket.updateWalletItems(data.wallet);
+
+            base.determineWalletOffers();
+
             if (data.removed_wallet_item) {
               base.offersBucket.add(data.removed_wallet_item);
             } else {
@@ -155,7 +176,12 @@
 
       });
       base.$el.html(walletItemsHTML);
-    }
+    };
+
+
+    base.getPopulatedWalletItems = function () {
+      return base.$el.find('[data-template-name="populated_wallet_item"]');
+    };
 
     base.init();
   };

@@ -1,19 +1,20 @@
 describe('Plink.walletOffersManager', function () {
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<script id="populated_wallet_item_template" type="text/x-handlebars-template"><div class="populated-wallet-item"></div></script>' +
+      '<script id="populated_wallet_item_template" type="text/x-handlebars-template"><div class="populated-wallet-item" data-reveal-id="some-modal" data-template-name="populated_wallet_item"></div></script>' +
         '<script id="locked_wallet_item_template" type="text/x-handlebars-template"><div class="locked-wallet-item"></div></script>' +
         '<script id="open_wallet_item_template" type="text/x-handlebars-template"><div class="open-wallet-item"></div></script>' +
         '<script id="offer_item_template" type="text/x-handlebars-template"><div class="offer">{{icon_description}}</div></script>' +
         '<div id="wallet_items_management">' +
-        '<div id="wallet_items_bucket">' +
-        '<div class="slot">empty slot</div>' +
-        '<div class="slot">locked slot</div>' +
-        '</div>' +
-        '<div id="offers_bucket">' +
-        '<div class="offer" id="first_offer">Offer One</div>' +
-        '</div>' +
-        '<a data-add-to-wallet="true" data-offer-dom-selector="#first_offer">add to wallet</a>' +
+          '<div id="wallet_items_bucket">' +
+            '<div class="slot">empty slot</div>' +
+            '<div class="slot">locked slot</div>' +
+          '</div>' +
+          '<div id="offers_bucket">' +
+            '<div class="offer" id="first_offer">Offer One</div>' +
+          '</div>' +
+          '<a data-add-to-wallet="true" data-offer-dom-selector="#first_offer">add to wallet</a>' +
+          '<div id="some-modal"></div>' +
         '</div>'
     );
     successfulResponse = {wallet: [
@@ -21,6 +22,22 @@ describe('Plink.walletOffersManager', function () {
       {"description": "Select an offer to start earning Plink points.", "icon_description": "Empty Slot", "icon_url": "/assets/icon_emptyslot.png", "template_name": "open_wallet_item", "title": "This slot is empty."},
       {"description": "Complete an offer to unlock this slot.", "icon_description": "Locked Slot", "icon_url": "/assets/icon_lockedslot.png", "template_name": "locked_wallet_item", "title": "This slot is locked."}
     ]};
+
+    spyOn(window, 'setTimeout').andCallFake(function(callback) {
+      callback();
+    });
+
+  });
+
+  describe("on initialize", function () {
+    it("identifies which modals are associated with offers in the wallet", function () {
+      $('#wallet_items_bucket').append('<div class="populated-wallet-item" data-reveal-id="some-modal" data-template-name="populated_wallet_item"></div>');
+      $('#wallet_items_management').append('<div id="other-modal" class="modal" data-in-wallet="true"></div>')
+
+      $('#wallet_items_management').walletOffersManager();
+      expect($("#some-modal[data-in-wallet]").length).toEqual(1);
+      expect($("#other-modal[data-in-wallet]").length).toEqual(0);
+    });
 
   });
 
@@ -75,7 +92,7 @@ describe('Plink.walletOffersManager', function () {
       }};
       spyOn($, "ajax").andReturn(fakejqXHR);
 
-      var failureFunction = function(e, reason){
+      var failureFunction = function (e, reason) {
         expect(reason).toEqual('fail')
       };
       $('#wallet_items_management').on('failure', failureFunction);

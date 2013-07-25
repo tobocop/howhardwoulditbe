@@ -250,6 +250,10 @@ describe 'user signs in' do
 
     click_on 'Remove'
 
+    within '.modal' do
+      click_on 'Remove'
+    end
+
     within '.right-column', text: 'SELECT FROM THESE OFFERS' do
       page.should have_content 'SELECT FROM THESE OFFERS'
 

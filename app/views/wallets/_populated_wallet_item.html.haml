@@ -1,4 +1,4 @@
-.slot{data: {'reveal-id' => wallet_item.modal_dom_id}}
+.slot{data: {'reveal-id' => wallet_item.modal_dom_id, 'template-name' => wallet_item.template_name}}
   .slot-inner
     .brand
       .ribbon{class: wallet_item.special_offer_type}= wallet_item.special_offer_type_text
@@ -7,4 +7,4 @@
       %h3 up to
       %h1.numbers= wallet_item.max_currency_award_amount
       %h3= wallet_item.currency_name
-      = link_to 'Remove', wallet_item.wallet_offer_url, class: 'button wallet-remove', data: {remove_from_wallet: true}
+      = link_to 'Remove', wallet_item.wallet_offer_url, class: 'button wallet-remove'

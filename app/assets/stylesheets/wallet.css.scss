@@ -180,6 +180,14 @@
       }
     }
   }
+
+  .add-call-to-action { display: block; }
+  .remove-call-to-action { display: none; }
+
+  [data-in-wallet='true'] {
+    .add-call-to-action{ display: none; }
+    .remove-call-to-action{ display: block; }
+  }
 }
 
 .clear {
