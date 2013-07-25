@@ -8,7 +8,9 @@ module Plink
     attr_accessible :name
 
     TYPES = {
-      :email_capture_type => 'userRegistration'
+      :email_capture_type => 'userRegistration',
+      :impression_type => 'impression',
+      :login_type => 'login'
     }
 
 
@@ -20,6 +22,13 @@ module Plink
       TYPES[:email_capture_type]
     end
 
+    def self.impression_type
+      TYPES[:impression_type]
+    end
+
+    def self.login_type
+      TYPES[:login_type]
+    end
 
   end
 end

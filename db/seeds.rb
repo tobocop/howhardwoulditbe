@@ -24,6 +24,7 @@ Plink::RedemptionRecord.destroy_all
 Plink::InstitutionRecord.destroy_all
 Plink::UsersInstitutionRecord.destroy_all
 Plink::WalletItemRecord.destroy_all
+Plink::WalletRecord.destroy_all
 Plink::UsersAwardPeriodRecord.destroy_all
 
 p 'Creating VirtualCurrency'
@@ -125,6 +126,8 @@ create_reward(
 
 p 'Creating event types'
 create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+create_event_type(name: Plink::EventTypeRecord.impression_type)
+create_event_type(name: Plink::EventTypeRecord.login_type)
 
 p 'Creating award type'
 award_type = create_award_type(email_message: 'All the points!!!')

@@ -21,9 +21,16 @@ describe Plink::EventTypeRecord do
   end
 
   context 'types' do
-    it 'returns the string "userRegistration" for an email_event_type' do
+    it 'returns the string "userRegistration" for email_type' do
       Plink::EventTypeRecord.email_capture_type.should == 'userRegistration'
     end
 
+    it 'returns the string "impression" for impression_type' do
+      Plink::EventTypeRecord.impression_type.should == 'impression'
+    end
+
+    it 'returns the string "login" for login_type' do
+      Plink::EventTypeRecord.login_type.should == 'login'
+    end
   end
 end
