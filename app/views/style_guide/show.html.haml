@@ -272,7 +272,7 @@
         %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
         %p.font.modal-text.h4 How do you want to sign in?
         .bg-element
-          .sign-in-element
+          .sign-in-element.last
             %img{ :src => "/assets/btn_gigya_email.gif", :alt => "Sign in with an Email Address"}
         %p.font.modal-text.h4 
           %a.text-link Forgot your password?
@@ -292,7 +292,8 @@
             %input.form-field.input{:value => 'Email'}
           .sign-in-element
             %input.form-field.input{:value => 'Password'}
-          %button.button.primary-action Sign In
+          .sign-in-element.last
+            %button.button.primary-action Sign In
         %p.font.modal-text.h4 
           %a.text-link Forgot your password?
         %br  
