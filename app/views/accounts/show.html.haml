@@ -1,112 +1,121 @@
 .layout-inner
   .account
-    -#Remove me later
-    %div{style: 'padding-top: 20px;'}
 
-    #social-link-widget
+    .column-container
 
-    .left-column
-      .flag
-        %h2.white SETTINGS
-      .content
-        %h4 Account Status
-        - if @user_has_account && @bank_account.active?
-          = image_tag 'icon_active.png', alt: 'Your account is active', class: 'status-img'
-          %h3.account-status.green Active
-        - elsif @user_has_account
-          = image_tag 'icon_alert_pink.png', alt: 'Your account is inactive', class: 'status-img'
-          %h3.account-status.pink Inactive
-          %br
-          = link_to 'Reverify', '#', data: { 'reveal-id' => 'card-add-modal' }
-        - else
-          = image_tag 'icon_alert_pink.png', alt: 'You need to link a card', class: 'status-img'
-          %h3.account-status.pink You haven't linked a card yet.
-          %br
-          = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
+      .left-column
+        .flag.profile
+          %img{ :class => "profile-img", :src => "/assets/profile.jpg", :alt => "Kris"}
+          %h2.bold kristopher
+          #social-link-widget.gig-btn{style: 'float: left'}
+        .content
+          .refer-btn
+            %button.button.nav.sign-in Refer a Friend
+        .flag
+          %h2.white SETTINGS
+        .content
+          %h4 Account Status
+          - if @user_has_account && @bank_account.active?
+            = image_tag 'icon_active.png', alt: 'Your account is active', class: 'status-img'
+            %h3.account-status.green Active
+          - elsif @user_has_account
+            = image_tag 'icon_alert_pink.png', alt: 'Your account is inactive', class: 'status-img'
+            %h3.account-status.pink Inactive
+            %br
+            = link_to 'Reverify', '#', data: { 'reveal-id' => 'card-add-modal' }
+          - else
+            = image_tag 'icon_alert_pink.png', alt: 'You need to link a card', class: 'status-img'
+            %h3.account-status.pink You haven't linked a card yet.
+            %br
+            = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
 
-      %hr
-      .content{data: {'account-edit-form' => true}}
-        %h4 Name
-        %h3.bold{data: {'display-value' => 'first_name'}}= current_user.first_name
-        %a{data: {'toggleable-selector' => '.change'}} Change
-        = form_tag account_path, class: 'change', method: 'put', data: {method: 'put'} do
-          .error-messages
-          .field
-            %h2 Enter your new name:
-            = text_field_tag :first_name, '', placeholder: 'Name', class: 'form-field input'
-          .field
-            %h2 Enter your password:
-            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
-          .cancel-btn
-            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
-          .submit-btn
-            %button.button.primary-action Change Your Name
+        %hr
+        .content{data: {'account-edit-form' => true}}
+          %h4 Name
+          %h3.bold{data: {'display-value' => 'first_name'}}= current_user.first_name
+          %a{data: {'toggleable-selector' => '.change'}} Change
+          = form_tag account_path, class: 'change', method: 'put', data: {method: 'put'} do
+            .error-messages
+            .field
+              %h2 Enter your new name:
+              = text_field_tag :first_name, '', placeholder: 'Name', class: 'form-field input'
+            .field
+              %h2 Enter your password:
+              = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+            .cancel-btn
+              = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
+            .submit-btn
+              %button.button.primary-action Change Your Name
 
-      %hr
-      .content{data: {'account-edit-form' => true}}
-        %h4 Email
-        %h3.bold{data: {'display-value' => 'email'}}= current_user.email
-        %a{data: {'toggleable-selector' => '.change'}} Change
-        = form_tag account_path, class: 'change', data: {method: 'put'} do
-          .error-messages
-          .field
-            %h2 Enter your new email address:
-            = text_field_tag :email, '', placeholder: 'New Email Address', class: 'form-field input'
-          .field
-            %h2 Enter your password:
-            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
-          .cancel-btn
-            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
-          .submit-btn
-            %button.button.primary-action Change Your Email
-      %hr
-      .content{data: {'account-edit-form' => true}}
-        %h4 Email Preferences
-        = form_tag subscription_path, data: {method: 'put'} do
-          = hidden_field_tag :is_subscribed, '0', id: 'hidden_is_subscribed'
-          = check_box_tag :is_subscribed, '1', current_user.is_subscribed?, class: 'checkbox'
-          %label.label{for: 'is_subscribed'} I want to hear about deals and promotions from Plink via email.
-      %hr
-      .content{data: {'account-edit-form' => true}}
-        %h4 Password
-        %h3.bold ******
-        %a{data: {'toggleable-selector' => '.change'}} Change
-        = form_tag account_path, class: 'change', data: {method: 'put'} do
-          .error-messages
-          .field
-            %h2 Enter your new password:
-            = password_field_tag :new_password, '', placeholder: 'New Password', class: 'form-field input'
-          .field
-            %h2 Enter your new password confirmation:
-            = password_field_tag :new_password_confirmation, '', placeholder: 'New Password Confirmation', class: 'form-field input'
-          .field
-            %h2 Enter your current password:
-            = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
-          .cancel-btn
-            = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
-          .submit-btn
-            %button.button.primary-action Change Your Password
-      %hr
-      .content
-        %h4 Your Bank
-        - if @user_has_account
-          %h3.bold= @bank_account.bank_name
-          = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
-      %hr
-      .content
-        %h4 Your Card
-        - if @user_has_account
-          %h3.bold= @bank_account.account_name
-          %a Change
+        %hr
+        .content{data: {'account-edit-form' => true}}
+          %h4 Email
+          %h3.bold{data: {'display-value' => 'email'}}= current_user.email
+          %a{data: {'toggleable-selector' => '.change'}} Change
+          = form_tag account_path, class: 'change', data: {method: 'put'} do
+            .error-messages
+            .field
+              %h2 Enter your new email address:
+              = text_field_tag :email, '', placeholder: 'New Email Address', class: 'form-field input'
+            .field
+              %h2 Enter your password:
+              = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+            .cancel-btn
+              = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
+            .submit-btn
+              %button.button.primary-action Change Your Email
+        %hr
+        .content{data: {'account-edit-form' => true}}
+          %h4 Email Preferences
+          = form_tag subscription_path, data: {method: 'put'} do
+            = hidden_field_tag :is_subscribed, '0', id: 'hidden_is_subscribed'
+            = check_box_tag :is_subscribed, '1', current_user.is_subscribed?, class: 'checkbox'
+            %label.label{for: 'is_subscribed'} I want to hear about deals and promotions from Plink via email.
+        %hr
+        .content{data: {'account-edit-form' => true}}
+          %h4 Password
+          %h3.bold ******
+          %a{data: {'toggleable-selector' => '.change'}} Change
+          = form_tag account_path, class: 'change', data: {method: 'put'} do
+            .error-messages
+            .field
+              %h2 Enter your new password:
+              = password_field_tag :new_password, '', placeholder: 'New Password', class: 'form-field input'
+            .field
+              %h2 Enter your new password confirmation:
+              = password_field_tag :new_password_confirmation, '', placeholder: 'New Password Confirmation', class: 'form-field input'
+            .field
+              %h2 Enter your current password:
+              = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+            .cancel-btn
+              = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
+            .submit-btn
+              %button.button.primary-action Change Your Password
+        %hr
+        .content
+          %h4 Your Bank
+          - if @user_has_account
+            %h3.bold= @bank_account.bank_name
+            = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
+        %hr
+        .content
+          %h4 Your Card
+          - if @user_has_account
+            %h3.bold= @bank_account.account_name
+            %a Change
 
-    %h1.cyan You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
+      .right-column
+        .headline
+          %h1.cyan You have #{current_virtual_currency.amount_in_currency(current_user.current_balance)} #{current_virtual_currency.currency_name}.
+          %h3 If you feel your current balance is incorrect, please log out and log back in.
+        %hr
 
-    %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
+        %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
 
-    - if current_user.can_redeem?
-      = link_to 'You have enough points to get some loot!', rewards_path, class: 'redeem-link'
+        - if current_user.can_redeem?
+          = link_to 'You have enough points to get some loot!', rewards_path, class: 'redeem-link'
 
-    = render partial: 'accounts/recent_activity'
+        = render partial: 'accounts/recent_activity'
 
     #card-add-modal.reveal-modal.cf-modal
       %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
