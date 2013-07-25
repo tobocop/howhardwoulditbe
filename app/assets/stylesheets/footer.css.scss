@@ -19,9 +19,11 @@
   	font-weight:100;
   	line-height:1.8em;
   	letter-spacing: 1px;
+    text-decoration: none;
 
     &.hover, &:hover{
       color:#e9eef1;
+      text-decoration: underline;
     }
 
     &.active, &:active{
