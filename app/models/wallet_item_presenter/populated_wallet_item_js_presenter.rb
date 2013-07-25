@@ -5,6 +5,10 @@ module WalletItemPresenter
       '{{special_offer_type_text}}'
     end
 
+    def modal_dom_id
+      '{{modal_dom_id}}'
+    end
+
     def special_offer_type
       '{{special_offer_type}}'
     end

@@ -28,6 +28,12 @@ describe WalletItemPresenter::PopulatedWalletItemJsPresenter do
     end
   end
 
+  describe 'modal_dom_id' do
+    it 'returns a template placeholder for the dom id' do
+      presenter.modal_dom_id.should == '{{modal_dom_id}}'
+    end
+  end
+
   describe 'icon_description' do
     it 'returns the template placeholder for the icon description' do
       presenter.icon_description.should == '{{icon_description}}'

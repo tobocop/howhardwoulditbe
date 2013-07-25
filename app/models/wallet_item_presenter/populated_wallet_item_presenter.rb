@@ -16,6 +16,10 @@ module WalletItemPresenter
       'populated_wallet_item'
     end
 
+    def modal_dom_id
+      "offer-details-#{wallet_item.offer.id}"
+    end
+
     def special_offer_type
       if wallet_item.offer.is_new
         'ribbon-new-offer'
@@ -61,6 +65,7 @@ module WalletItemPresenter
         template_name: template_name,
         special_offer_type: special_offer_type,
         special_offer_type_text: special_offer_type_text,
+        modal_dom_id: modal_dom_id,
         icon_url: icon_url,
         icon_description: icon_description,
         currency_name: currency_name,

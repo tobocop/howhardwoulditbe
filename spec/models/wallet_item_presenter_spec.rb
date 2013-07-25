@@ -75,6 +75,12 @@ describe WalletItemPresenter do
       presenter.max_currency_award_amount.should == "1520"
     end
 
+    it 'has the correct modal_dom_id' do
+      offer_stub = stub(id: 15)
+      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      presenter.modal_dom_id.should == "offer-details-15"
+    end
+
     it 'returns the correct currency_name' do
       presenter.currency_name.should == 'Plink points'
     end
@@ -93,6 +99,7 @@ describe WalletItemPresenter do
       JSON.parse(presenter.to_json).symbolize_keys.should == {
         template_name: 'populated_wallet_item',
         special_offer_type: 'ribbon-new-offer',
+        modal_dom_id: 'offer-details-2',
         special_offer_type_text: 'New Partner!',
         icon_url: '/my_custom_image.png',
         icon_description: 'Taco Bell',

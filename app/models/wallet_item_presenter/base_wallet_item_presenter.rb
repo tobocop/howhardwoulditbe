@@ -18,6 +18,10 @@ module WalletItemPresenter
       raise NotImplementedError, 'You should implement this in your subclass'
     end
 
+    def modal_dom_id
+      raise NotImplementedError, 'You should implement this in your subclass'
+    end
+
     def icon_url
       raise NotImplementedError, 'You should implement this in your subclass'
     end
