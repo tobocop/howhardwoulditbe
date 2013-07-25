@@ -62,7 +62,7 @@ describe WalletsController do
 
       it 'should display offers' do
         get :show
-        assigns(:offers).should == [offer]
+        assigns(:offers).map(&:class).should == [OfferItemPresenter]
       end
 
       it 'should display wallet items' do

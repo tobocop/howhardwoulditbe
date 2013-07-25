@@ -195,6 +195,14 @@ describe OfferItemPresenter do
     end
   end
 
+  describe 'remove_url' do
+    it 'returns the url for deleting the offer from the wallet' do
+      view_context.should_receive(:wallet_offer_url).with(32).and_return('offer/path')
+
+      presenter.remove_url
+    end
+  end
+
   describe 'description' do
     it 'displays the offer text' do
       offer.stub(detail_text: 'Earn $virtualCurrencyName$')

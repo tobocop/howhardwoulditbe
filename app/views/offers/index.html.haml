@@ -5,4 +5,5 @@
   .wallet
     %h2 Earn #{current_virtual_currency.currency_name} at these locations.
 
-    = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Details'}
+    = render partial: 'shared/offer_item', collection: @offers, as: :presenter, locals: {button_label: 'Details'}
+    = render partial: 'shared/offer_detail_modal', collection: @offers, as: :presenter

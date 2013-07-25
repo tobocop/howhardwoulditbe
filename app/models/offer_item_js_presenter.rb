@@ -5,10 +5,6 @@ class OfferItemJsPresenter
     @virtual_currency = options.fetch(:virtual_currency)
   end
 
-  def javascript?
-    true
-  end
-
   def id
     '{{id}}'
   end

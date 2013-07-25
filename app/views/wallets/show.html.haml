@@ -25,7 +25,10 @@
         .subhead
           %h2 Select From These Offers
         #offers_bucket
-          = render :partial => 'shared/offers', locals: {offers: @offers, button_label: 'Add to wallet'}
+          = render partial: 'shared/offer_item', collection: @offers, as: :presenter, locals: {button_label: 'Add to wallet'}
+          = render partial: 'shared/offer_detail_modal', collection: @all_offers, as: :presenter
+
+
     .clear
 
 #card-add-modal.reveal-modal.cf-modal

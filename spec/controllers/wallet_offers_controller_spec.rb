@@ -45,6 +45,7 @@ describe WalletOffersController do
         JSON.parse(response.body)['wallet'].should == [
             'template_name' => 'populated_wallet_item',
             'icon_url' => '/booyah.jpg',
+            'modal_dom_id' => 'offer-details-8',
             'special_offer_type' => nil,
             'special_offer_type_text' => nil,
             'icon_description' => 'Best Buy',
@@ -109,6 +110,7 @@ describe WalletOffersController do
       JSON.parse(response.body)['wallet'].should == [
         'template_name' => 'populated_wallet_item',
         'icon_url' => '/something.jpg',
+        'modal_dom_id' => 'offer-details-7',
         'icon_description' => 'Amazon',
         'special_offer_type' => 'ribbon-new-offer',
         'special_offer_type_text' => 'New Partner!',

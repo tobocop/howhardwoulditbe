@@ -22,7 +22,7 @@ describe OffersController do
 
     it 'looks up offers based on current_virtual_currency_id' do
       get :index
-      assigns(:offers).should == [offer]
+      assigns(:offers).map(&:class).should == [OfferItemPresenter]
     end
 
     it 'should assign hero promotions' do

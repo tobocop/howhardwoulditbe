@@ -81,6 +81,10 @@ class OfferItemPresenter
     end
   end
 
+  def remove_url
+    view_context.wallet_offer_url(id)
+  end
+
   def description
     Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, virtual_currency)
   end
