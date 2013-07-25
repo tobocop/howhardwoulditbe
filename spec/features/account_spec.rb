@@ -76,7 +76,7 @@ describe 'Managing account' do
         click_link 'My Account'
 
         within '.profile' do
-          page.should have_content 'Frodo'
+          page.should have_content 'FRODO'
           page.should have_css "img[src='http://example.com/image']"
         end
 
