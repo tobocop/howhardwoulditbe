@@ -1,6 +1,16 @@
+@import 'colors.css.scss';
+
+body {
+  background:$slate;
+}
+
 .layout-wrapper {
   width:100%;
   min-width: 1024px;
+
+  &.main-content {
+    background-color: #fff;
+  }
 
   .layout-inner {
     width:1024px;
