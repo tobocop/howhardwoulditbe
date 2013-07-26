@@ -146,6 +146,10 @@
 
     &.locked {
       background:#e6e6e6;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .slot-inner {
@@ -187,6 +191,25 @@
   [data-in-wallet='true'] {
     .add-call-to-action{ display: none; }
     .remove-call-to-action{ display: block; }
+  }
+
+  #locked-slot-modal {
+    width: 570px;
+    margin-left: -285px;
+    padding: 30px;
+
+    h1 {
+      text-transform: none;
+      font-size: 1.7em;
+    }
+    p {
+      text-align: left;
+      margin-top: 1.2em;
+      font-weight: 300;
+      color: $lightgray;
+      font-size: 1.1em;
+      line-height: 1.1;
+    }
   }
 }
 

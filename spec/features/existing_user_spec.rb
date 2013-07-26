@@ -273,7 +273,7 @@ describe 'user signs in' do
     page.find('.slot.locked').click
 
     within '.modal' do
-      page.should have_content 'Complete your first Plink offer and Expand your Plink Wallet'
+      page.should have_content 'This slot will unlock after your first qualified partner purchase'
       page.find('.close-btn').click
     end
 
