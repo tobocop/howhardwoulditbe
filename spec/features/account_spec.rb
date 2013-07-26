@@ -271,11 +271,7 @@ describe 'Managing account' do
     end
 
     it 'allows a user to mark an email as spam' do
-      visit '/'
-
-      click_on 'Sign In'
-
-      click_link 'Forgot Password?'
+      visit new_password_reset_request_path
 
       fill_in 'Email', with: 'user@example.com'
       click_on 'Send Password Reset Instructions'
