@@ -1,5 +1,5 @@
 (function ($) {
-  Plink.RegistrationForm = function (el, options) {
+  Plink.AjaxRedirectForm = function (el, options) {
     var base = this;
 
     base.$el = $(el);
@@ -8,6 +8,7 @@
 
     base.init = function () {
       base.bindEvents();
+      base.redirectUrl = base.$el.data('redirect-url');
     };
 
     base.bindEvents = function () {
@@ -32,7 +33,7 @@
     };
 
     base._successfulSubmission = function(data) {
-      Plink.redirect(Plink.Routes.post_login_path);
+      Plink.redirect(base.redirectUrl);
     };
 
     base._failureSubmission = function (xhr) {
@@ -54,24 +55,24 @@
     };
 
     base._getFormValues = function() {
-      return {
-        first_name: base.$el.find('input[name="first_name"]').val(),
-        email: base.$el.find('input[name="email"]').val(),
-        password: base.$el.find('input[name="password"]').val(),
-        password_confirmation: base.$el.find('input[name="password_confirmation"]').val()
-      }
+      var attributes = {};
+      base.$el.find('input[type="text"], input[type="password"]').each(function(i, el) {
+        var $el = $(el);
+        attributes[$el.attr('name')] = $el.val();
+      });
+      return attributes;
     };
 
     base.init();
   };
 
-  Plink.RegistrationForm.defaultOptions = {
+  Plink.AjaxRedirectForm.defaultOptions = {
 
   };
 
-  $.fn.registrationForm = function (options) {
+  $.fn.ajaxRedirectForm = function (options) {
     return this.each(function () {
-      (new Plink.RegistrationForm(this, options));
+      (new Plink.AjaxRedirectForm(this, options));
     });
   };
 

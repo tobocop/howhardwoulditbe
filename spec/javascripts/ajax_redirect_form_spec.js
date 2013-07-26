@@ -1,4 +1,4 @@
-describe('Plink.registrationForm', function () {
+describe('Plink.ajaxRedirectForm', function () {
 
   var $container, request;
 
@@ -10,7 +10,7 @@ describe('Plink.registrationForm', function () {
         '<li class="font error">{{this}}</li> {{/each}} ' +
         '</ul> ' +
         '</script>' +
-        '<form id="registration-form" action="/registration">' +
+        '<form id="registration-form" action="/registration" data-redirect-url="/shebassel">' +
         '<div class="error-messages"></div>' +
         '<input type="text" name="first_name" value="John" />' +
         '<input type="text" name="email" value="j@example.com" />' +
@@ -20,7 +20,7 @@ describe('Plink.registrationForm', function () {
         '</form>');
 
     $container = $('#registration-form');
-    $container.registrationForm();
+    $container.ajaxRedirectForm();
   });
 
   describe('form submission', function () {
@@ -42,7 +42,7 @@ describe('Plink.registrationForm', function () {
           password_confirmation: ['password']
         });
 
-        expect(Plink.redirect).toHaveBeenCalledWith('/wallet?link_card=true');
+        expect(Plink.redirect).toHaveBeenCalledWith('/shebassel');
       });
     });
 

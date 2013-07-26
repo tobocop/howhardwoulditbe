@@ -13,7 +13,7 @@
   .bg-element
     -##social-login
     %button.button.social-action.email{data: {'toggle-selector' => '#organic-sign-in-form'}} Sign in with Email
-    = form_tag(plink_session_path, id: 'organic-sign-in-form', class: 'hidden') do
+    = form_tag(plink_session_path, id: 'organic-sign-in-form', class: 'hidden', data: {'redirect-url' => '/wallet'}) do
       .error-messages
       = text_field_tag 'user_session[email]', '', class: 'form-field input', placeholder: 'Email'
       = password_field_tag 'user_session[password]', '', class: 'form-field input', placeholder: 'Password'
@@ -27,7 +27,7 @@
   .bg-element
     #social-login
     %button.button.social-action.email{data: {'toggle-selector' => '#organic-registration-form'}} Join with Email
-    = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden') do
+    = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden', data: {'redirect-url' => '/wallet?link_card=true'}) do
       .error-messages
       = text_field_tag :first_name, '', class: 'form-field input', placeholder: 'First Name'
       = text_field_tag :email, '', class: 'form-field input', placeholder: 'Email'

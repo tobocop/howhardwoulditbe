@@ -18,7 +18,6 @@
 //= require foundation/foundation.reveal
 //= require custom.modernizr
 //= require_self
-//= require routes
 //= require notice
 //= require_tree .
 
@@ -66,7 +65,7 @@ var Plink = {
 
     $('[data-account-edit-form]').accountEditForm();
 
-    $('#organic-registration-form').registrationForm();
+    $('#organic-registration-form').ajaxRedirectForm();
 
     $('[data-toggle-selector]').toggler();
 
