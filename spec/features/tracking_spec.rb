@@ -44,7 +44,7 @@ describe 'event tracking' do
     tracked_event.created_at.should be
   end
 
-  it 'tracks events for a social registration and not on login', js: true, driver: :selenium do
+  it 'tracks events for a social registration and not on login', js: true, driver: :selenium, skip_in_build: true do
 
     page.driver.browser.manage.delete_all_cookies
 
