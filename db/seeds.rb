@@ -108,7 +108,7 @@ create_offer(advertiser_id: gap.id, start_date: '1900-01-01', is_new: true, offe
 )
 
 p 'Creating Rewards'
-wolfmart_reward = create_reward(name: 'Wolfmart', description: 'howl', logo_url: '/assets/test/amazon.png', terms: '<a href="#">wolfmart terms and conditions</a>')
+wolfmart_reward = create_reward(name: 'Wolfmart', description: 'howl at the <a href="http://google.com">google</a>', logo_url: '/assets/test/amazon.png', terms: '<a href="#">wolfmart terms and conditions</a>')
 
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 5)
 create_reward_amount(reward_id: wolfmart_reward.id, is_active: true, dollar_award_amount: 10)

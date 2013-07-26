@@ -14,7 +14,7 @@
           = image_tag reward.logo_url, alt: reward.name
         .description
           %h2.bold #{reward.name}
-          %h4= reward.description
+          %h4= reward.description.html_safe
 
         - reward.amounts.reverse.each do |amount|
           - if current_user.logged_in? && amount.dollar_award_amount <= current_user.current_balance
