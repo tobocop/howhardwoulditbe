@@ -1,28 +1,8 @@
 require 'spec_helper'
 
 describe SessionsController do
-  describe '#new' do
-    it "sets a user_session object" do
-      get :new
-      assigns(:user_session).should be_a(UserSession)
-    end
-
-    it "is successful" do
-      get :new
-      response.should be_success
-    end
-  end
-
   describe '#create' do
-    it 'sets a user_session object' do
-      user_session = stub(valid?: nil)
-      UserSession.stub(:new) { user_session }
-      post :create, {user_session: {}}
-      assigns(:user_session).should == user_session
-    end
-
     describe 'happy path' do
-
       it 'sets the session current user id if UserSession is valid and redirects' do
         user = stub(id: 123).as_null_object
         user_session = stub(valid?: true, user: user, user_id: 123, first_name: 'Bob', email: 'bob@example.com')
@@ -30,7 +10,7 @@ describe SessionsController do
         post :create, {user_session: {email: 'bob@example.com', password: 'test123'}}
 
         session[:current_user_id].should == 123
-        response.should redirect_to wallet_path
+        response.should be_success
       end
 
       it 'notifies gigya that an existing user has logged in' do
@@ -65,12 +45,18 @@ describe SessionsController do
     end
 
     describe 'user was not signed in' do
-      it 're-renders the new template' do
-        user_session = stub(valid?: false)
-        UserSession.should_receive(:new) { user_session }
-        post :create, {user_session: {}}
+      it 'returns the errors in json' do
+        post :create, user_session: {}
 
-        response.should render_template('sessions/new')
+        response.status.should == 403
+
+        JSON.parse(response.body).should == {
+          'error_message' => 'Please Correct the below errors:',
+          'errors' => {
+            'email' => ["Email can't be blank"],
+            'password' => ["Password can't be blank"],
+          }
+        }
       end
     end
   end

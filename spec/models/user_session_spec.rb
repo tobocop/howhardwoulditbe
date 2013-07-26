@@ -75,13 +75,13 @@ describe UserSession do
     it 'sets an error for an empty password' do
       user_session = UserSession.new(valid_options.merge(password: ''))
       user_session.valid?
-      user_session.errors.full_messages.join.should == 'Password can\'t be blank'
+      user_session.errors[:password].should == ['Password can\'t be blank']
     end
 
     it 'sets an error for an empty email' do
       user_session = UserSession.new(valid_options.merge(email: ''))
       user_session.valid?
-      user_session.errors.full_messages.join.should == 'Email can\'t be blank'
+      user_session.errors[:email].should == ['Email can\'t be blank']
     end
 
     it 'it does not set user when invalid' do

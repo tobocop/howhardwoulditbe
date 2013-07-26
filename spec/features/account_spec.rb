@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Managing account' do
 
-  let(:user) {create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')}
+  let(:user) { create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image') }
 
   context 'linked user' do
     before(:each) do
@@ -58,7 +58,7 @@ describe 'Managing account' do
         create_user_reverification(user_id: user.id)
       end
 
-      it 'allows the user to reverify' do
+      it 'allows the user to reverify', js: true do
         sign_in('user@example.com', 'pass1word')
 
         click_link 'My Account'
@@ -176,16 +176,12 @@ describe 'Managing account' do
 
         click_on 'Log Out'
 
-        click_on 'Sign In'
-
-        fill_in 'Email', with: 'frodo@example.com'
-        fill_in 'Password', with: 'samwise'
-        click_on 'Log in'
+        sign_in('frodo@example.com', 'samwise')
 
         page.should have_content 'Welcome, samwise!'
       end
 
-      it 'allows a user to reset their password' do
+      it 'allows a user to reset their password', js: true do
         visit '/'
 
         click_on 'Sign In'
@@ -236,7 +232,7 @@ describe 'Managing account' do
       create_locked_wallet_item(wallet_id: wallet.id)
     end
 
-    it 'allows the user to link one' do
+    it 'allows the user to link one', js: true do
       sign_in('user@example.com', 'pass1word')
 
       click_link 'My Account'
@@ -246,7 +242,7 @@ describe 'Managing account' do
       page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
     end
 
-    it 'allows a user to unsubscribe from email notifications' do
+    it 'allows a user to unsubscribe from email notifications', js: true do
       visit '/'
 
       click_on 'Sign In'

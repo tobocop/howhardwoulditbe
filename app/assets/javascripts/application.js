@@ -66,6 +66,7 @@ var Plink = {
     $('[data-account-edit-form]').accountEditForm();
 
     $('#organic-registration-form').ajaxRedirectForm();
+    $('#organic-sign-in-form').ajaxRedirectForm();
 
     $('[data-toggle-selector]').toggler();
 

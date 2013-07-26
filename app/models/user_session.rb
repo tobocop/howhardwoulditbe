@@ -6,7 +6,8 @@ class UserSession
 
   attr_accessor :email, :password, :user
 
-  validates :email, :password, presence: true
+  validates :email, presence: {message: "Email can't be blank"}
+  validates :password, presence: {message: "Password can't be blank"}
 
   def initialize(options = {})
     self.email = options[:email]

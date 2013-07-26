@@ -18,8 +18,11 @@ module UserActions
 
     click_on 'Sign In'
 
-    fill_in 'Email', with: email
-    fill_in 'Password', with: password
-    click_on 'Log in'
+    within '.sign-in-modal' do
+      page.find('button', text: 'Sign in with Email').click
+      fill_in 'user_session_email', with: email
+      fill_in 'user_session_password', with: password
+      click_on 'Sign In'
+    end
   end
 end
