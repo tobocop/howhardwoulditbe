@@ -16,7 +16,8 @@ describe 'event tracking' do
     click_on 'Join'
 
     within '.sign-in-modal' do
-      click_on 'Join with Email'
+      page.find('img[alt="Register with Email"]').click
+
       fill_in 'First Name', with: 'Frud'
       fill_in 'Email', with: 'furd@example.com'
       fill_in 'Password', with: 'pass1word'

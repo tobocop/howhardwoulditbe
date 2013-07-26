@@ -309,3 +309,10 @@ $state-range:10%;
   }
 }
 
+.email-sign-in-button {
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}

@@ -97,7 +97,9 @@
     margin:0 auto;
   }
 
-  #social-login {
+  #social-login,
+  #social-registration {
+    margin-left: 5px;
     margin-bottom: 15px;
 
     [gigid] {
