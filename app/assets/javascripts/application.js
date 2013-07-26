@@ -34,7 +34,7 @@ var Plink = {
 
     $('[data-reveal-id]').positionFoundationModal();
 
-    $(document).foundation();
+    $(document).foundation('reveal', {animationSpeed: 50});
 
     Modernizr.load({
       test: Modernizr.input.placeholder,
