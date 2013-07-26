@@ -98,3 +98,16 @@
     }
   }
 }
+
+// FAQ Page
+
+.faq-static-page {
+  .left-column {
+    position: fixed;
+    width: 340px;
+    margin: 20px 20px 0 0;
+  }
+  .right-column {
+    margin-left: 370px;
+  }
+}

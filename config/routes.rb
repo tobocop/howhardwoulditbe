@@ -29,6 +29,8 @@ PlinkPivotal::Application.routes.draw do
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request
   resource :password_reset, only: [:new, :create], controller: :password_reset
 
+  match '/faq', to: 'static#faq', as: :faq_static
+
   match '/handle_gigya_login', to: 'gigya_login_handler#create', as: :gigya_login_handler, via: :get
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get
 
