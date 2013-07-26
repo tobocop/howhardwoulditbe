@@ -11,7 +11,7 @@
   = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
   %h2.font.modal-h2 How do you want to sign in?
   .bg-element
-    -##social-login
+    #social-login
     %button.button.social-action.email{data: {'toggle-selector' => '#organic-sign-in-form'}} Sign in with Email
     = form_tag(plink_session_path, id: 'organic-sign-in-form', class: 'hidden', data: {'redirect-url' => '/wallet'}) do
       .error-messages
