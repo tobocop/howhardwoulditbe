@@ -10,5 +10,11 @@ describe 'Static pages' do
 
     page.should have_content 'FAQ'
 
+    within '.footer' do
+      click_on 'Terms of Service'
+    end
+
+    page.should have_content 'Service Terms'
+
   end
 end
