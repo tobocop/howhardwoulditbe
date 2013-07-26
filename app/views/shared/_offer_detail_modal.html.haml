@@ -3,16 +3,20 @@
   .modal-ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
   %img{src: presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'}
   .bg-element
-    %p.font.modal-text.h3.bold #{presenter.name} Offers
-    .tiers
-      - presenter.tier_descriptions.each do |description|
-        %p.font.modal-text.h3= description
+    - presenter.tiers.each do |tier|
+      .offer-points
+        %h1= tier[:points_in_currency]
+        %h2= tier[:description]
 
   .message.reason.wallet_full.hide
     You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
+
   .add-call-to-action
     = presenter.call_to_action_link
   .remove-call-to-action
     = link_to 'Remove!', presenter.remove_url, class: 'button primary-action', data: {'remove-from-wallet' => true}
 
-  .offer-description= raw presenter.description
+  .offer-description
+    %p.font.modal-text.h2= raw presenter.description
+  .legal-text
+    %p.font.legal Offer valid in-store only. Offer not valid for online purchases. $20 minimum purchase required to qualify. $20 minimum must be reached in a single transaction. Offer can be redeemed multiple times within award period. On average, you will receive notification of your Plink Points award with 2-5 days of when the purchase occurred, due to bank and credit card processing.

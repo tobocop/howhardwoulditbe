@@ -174,7 +174,6 @@ describe 'user signs in' do
       end
 
       within '.modal' do
-        page.should have_content 'Old Navy Offers'
         page.should have_css '.modal-ribbon.ribbon-promo-offer', text: 'Get double points when you make a qualifying purchase at this partner.'
       end
 
@@ -187,21 +186,20 @@ describe 'user signs in' do
 
     within '.modal' do
 
-      page.should have_content('Burger King Offers')
       page.should have_css '.modal-ribbon.ribbon-new-offer', text: 'New Partner!'
 
-      within '.tiers' do
-        within 'p:nth-of-type(1)' do
+      within '.bg-element' do
+        within '.offer-points:nth-of-type(1)' do
           page.should have_content '$2.50'
           page.should have_content '50 Plink Points'
         end
 
-        within 'p:nth-of-type(2)' do
+        within '.offer-points:nth-of-type(2)' do
           page.should have_content '$15'
           page.should have_content '150 Plink Points'
         end
 
-        within 'p:nth-of-type(3)' do
+        within '.offer-points:nth-of-type(3)' do
           page.should have_content '$25'
           page.should have_content '300 Plink Points'
         end
@@ -235,7 +233,6 @@ describe 'user signs in' do
     end
 
     within '.modal' do
-      page.should have_content('Old Navy Offers')
       click_on 'Add To My Wallet'
 
       page.should have_content("You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.")

@@ -61,7 +61,7 @@
   }
 
   .offer-details {
-    max-width: 520px;
+    max-width: 590px;
 
     .button {
       text-transform: uppercase;
@@ -200,7 +200,12 @@
   }
 }
 
-.offer-points {
+.wallet .offer-details {
+  width: 590px;
+  margin-left: -295px;
+}
+
+.wallet .modal .offer-points {
   color:#FFFFFF;
   display:inline-block;
   margin:10px;

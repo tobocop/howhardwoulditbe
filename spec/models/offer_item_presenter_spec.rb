@@ -137,24 +137,17 @@ describe OfferItemPresenter do
 
   describe "tier_descriptions" do
     it 'returns a collection of tier descriptions' do
+      view_context.stub(plink_currency_format: '$5')
       virtual_currency.stub(:amount_in_currency).with(0.7).and_return(70)
-      virtual_currency.stub(:amount_in_currency).with(1).and_return(100)
+
       fake_first_tier = stub(:fake_first_tier,
                              minimum_purchase_amount: 5,
                              dollar_award_amount: 0.7
       )
-      fake_second_tier = stub(:fake_second_tier,
-                              minimum_purchase_amount: 10,
-                              dollar_award_amount: 1
-      )
-      offer.stub(:tiers_by_minimum_purchase_amount).and_return([fake_first_tier, fake_second_tier])
-      view_context.stub(:number_to_currency).with(5).and_return('$5')
-      view_context.stub(:number_to_currency).with(10).and_return('$10')
 
-      presenter.tier_descriptions.should == [
-        "Spend $5 or more, get 70 Plink points.",
-        "Spend $10 or more, get 100 Plink points."
-      ]
+      offer.stub(:tiers_by_minimum_purchase_amount).and_return([fake_first_tier])
+
+      presenter.tiers.should == [{points_in_currency: 70, description: 'Plink points when you spend $5'}]
     end
   end
 
@@ -245,7 +238,7 @@ describe OfferItemPresenter do
         max_award_amount: 5,
         currency_name: 'Plink points',
         description: 'Earn Plink points at this location',
-        tier_descriptions: [],
+        tiers: [],
         call_to_action_link: '<a href="#bla">bla</a>'
       }
     end

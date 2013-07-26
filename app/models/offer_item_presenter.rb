@@ -58,9 +58,12 @@ class OfferItemPresenter
     virtual_currency.currency_name
   end
 
-  def tier_descriptions
+  def tiers
     offer.tiers_by_minimum_purchase_amount.map do |tier|
-      "Spend #{view_context.number_to_currency(tier.minimum_purchase_amount)} or more, get #{virtual_currency.amount_in_currency(tier.dollar_award_amount)} #{virtual_currency.currency_name}."
+      {
+        points_in_currency: virtual_currency.amount_in_currency(tier.dollar_award_amount),
+        description: "#{virtual_currency.currency_name} when you spend #{view_context.plink_currency_format(tier.minimum_purchase_amount)}"
+      }
     end
   end
 
@@ -102,7 +105,7 @@ class OfferItemPresenter
       max_award_amount: max_award_amount,
       currency_name: currency_name,
       description: description,
-      tier_descriptions: tier_descriptions,
+      tiers: tiers,
       call_to_action_link: call_to_action_link
     }
   end
