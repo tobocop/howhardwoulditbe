@@ -32,7 +32,7 @@ var Plink = {
 
   boot: function () {
 
-    $('[data-reveal-id]').positionFoundationModal();
+    $('body').positionFoundationModal({selector: '[data-reveal-id]'})
 
     $(document).foundation('reveal', {animationSpeed: 50});
 

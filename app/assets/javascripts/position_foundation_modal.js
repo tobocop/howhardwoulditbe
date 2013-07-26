@@ -1,6 +1,6 @@
 (function ($) {
-  $.fn.positionFoundationModal = function () {
-    $(this).click(function (e) {
+  $.fn.positionFoundationModal = function (options) {
+    $(this).on('click', options.selector, function(e) {
       var $target = $(e.currentTarget);
       var $targetEl = $('#' + $target.data('reveal-id'));
 
