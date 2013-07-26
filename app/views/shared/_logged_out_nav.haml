@@ -22,8 +22,8 @@
 
 #registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
   = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
-  %h1.font.modal-h1 Join Plink
-  %h2.font.modal-h2 Your days of not earning unlimited rewards are over.
+  %h1.font.modal-text.h1 Join Plink
+  %h2.font.modal-text.h2 Your days of not earning unlimited rewards are over.
   .bg-element
     #social-registration
     = image_tag 'email_signin_button.gif', data: {'toggle-selector' => '#organic-registration-form'}, alt: 'Register with Email', class: 'email-sign-in-button'
@@ -36,8 +36,7 @@
       = button_tag 'Start Earning Rewards', class: 'button primary-action narrow'
 
   %h3.font.modal-h3
-    Already have an account?
-    %a.text-link{href: '#', data: {'reveal-id' => 'sign-in-form-modal'}} Sign In
+    %a.text-link{href: '#', data: {'reveal-id' => 'sign-in-form-modal'}} Already have an account?
 
 :javascript
     gigya.socialize.showLoginUI({
