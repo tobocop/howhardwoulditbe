@@ -74,20 +74,9 @@ describe 'user signs in' do
   end
 
   it 'a registered user can have an active session', js: true, driver: :selenium do
-    visit '/'
 
-    click_on 'Sign In'
+    sign_in('test@example.com', 'test123')
 
-    within '.modal' do
-      click_on 'Sign in with Email'
-
-      fill_in 'Email', with: 'test@example.com'
-      fill_in 'Password', with: 'test123'
-
-      click_on 'Sign In'
-    end
-
-    current_path.should == '/wallet'
     page.should have_content('Welcome, Bob!')
     page.should have_content('You have 1000 Plink Points.')
 

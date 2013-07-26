@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'guest behavior' do
-
-
   before do
     currency = create_virtual_currency(name: 'Plink Points', subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
 

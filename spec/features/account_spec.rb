@@ -182,11 +182,7 @@ describe 'Managing account' do
       end
 
       it 'allows a user to reset their password', js: true do
-        visit '/'
-
-        click_on 'Sign In'
-
-        click_link 'Forgot Password?'
+        visit new_password_reset_request_path
 
         page.should have_content 'Enter the email address associated with your account'
 
@@ -210,12 +206,9 @@ describe 'Managing account' do
 
         click_on 'Reset Password'
 
-        click_on 'Sign In'
+        visit '/'
 
-        fill_in 'Email', with: 'user@example.com'
-        fill_in 'Password', with: 'goodpassword'
-
-        click_on 'Log in'
+        sign_in('user@example.com', 'goodpassword')
 
         page.should have_content 'Welcome, Frodo!'
       end
@@ -242,12 +235,8 @@ describe 'Managing account' do
       page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
     end
 
-    it 'allows a user to unsubscribe from email notifications', js: true do
-      visit '/'
-
-      click_on 'Sign In'
-
-      click_link 'Forgot Password?'
+    it 'allows a user to unsubscribe from email notifications' do
+      visit new_password_reset_request_path
 
       fill_in 'Email', with: 'user@example.com'
       click_on 'Send Password Reset Instructions'
