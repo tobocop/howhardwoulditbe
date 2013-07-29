@@ -32,7 +32,7 @@
     .clear
 
 #card-add-modal.reveal-modal.cf-modal
-  %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+  = render partial: 'shared/card_add_modal', locals: {card_modal_url: @card_link_url}
 
 :javascript
   $(function() {
