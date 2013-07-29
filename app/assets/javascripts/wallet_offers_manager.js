@@ -69,6 +69,7 @@
       var offerSelector = $el.data('offer-dom-selector');
       base.sync(url, 'post', function(data) {
         base.offersBucket.remove(offerSelector);
+        base._update(data);
       });
     };
 
@@ -76,24 +77,25 @@
       var url = $el.attr('href');
       base.sync(url, 'delete', function(data) {
         base.offersBucket.add(data.removed_wallet_item);
+        base._update(data);
       });
+    };
+
+    base._update = function(data) {
+      base.walletItemsBucket.updateWalletItems(data.wallet);
+      base.determineWalletOffers();
     };
 
     base.sync = function (url, httpMethod, callback) {
       $.ajax(url, {
         method: httpMethod
       }).done(function (data) {
-            base._onSuccess()
-
-            base.walletItemsBucket.updateWalletItems(data.wallet);
-
-            base.determineWalletOffers();
-
-            callback(data);
-        }).error(function(data) {
-          var response = $.parseJSON(data.responseText);
-          base._onFailure(response.failure_reason);
-        });
+          base._onSuccess();
+          callback(data);
+      }).error(function(data) {
+        var response = $.parseJSON(data.responseText);
+        base._onFailure(response.failure_reason);
+      });
     };
 
     base.init();
