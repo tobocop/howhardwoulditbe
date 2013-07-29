@@ -13,7 +13,7 @@ time bundle exec rake db:test:prepare
 time bundle exec rake db:udfs:create
 time bundle exec rake db:views:create
 
-time ./approve_gems.sh
+time ./script/approve_gems.sh
 
 time bundle exec license_finder rescan --quiet
 STATUS=$?
