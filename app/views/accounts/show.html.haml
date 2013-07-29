@@ -116,10 +116,10 @@
         = render partial: 'accounts/recent_activity'
 
     #card-add-modal.reveal-modal.cf-modal
-      %iframe{src: @card_link_url, style: 'height: 1000px; width: 100%;'}
+      %iframe{src: @card_link_url, style: 'height: auto; width: 100%;'}
 
     #card-change-modal.reveal-modal.cf-modal
-      %iframe{src: @card_change_url, style: 'height: 1000px; width: 100%;'}
+      %iframe{src: @card_change_url, style: 'height: auto; width: 100%;'}
 
 :javascript
   $(function() {
