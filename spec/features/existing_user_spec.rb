@@ -63,7 +63,7 @@ describe 'user signs in' do
     )
 
     create_reward(
-      name: 'Tango Card', award_code: 'tango-card', description: 'it takes two', is_tango: true, terms: '<a href="#">Tango card terms</a>',
+      name: 'Tango Card', award_code: 'tango-card', description: '<a href="#">it takes two</a>', is_tango: true, terms: '<a href="#">Tango card terms</a>',
       amounts:
         [
           new_reward_amount(dollar_award_amount: 5, is_active: true),
@@ -117,12 +117,12 @@ describe 'user signs in' do
     page.execute_script('$.fx.off = true;')
 
     within '.reward', text: 'Tango Card' do
-      page.should have_content 'it takes two'
+      page.should have_link 'it takes two'
       page.find('a', text: '$5').click
 
       within '.modal' do
         click_on 'Terms & Conditions'
-        page.should have_content 'Tango card terms'
+        page.should have_link 'Tango card terms'
 
         click_on 'Terms & Conditions'
         page.should_not have_content 'Tango card terms'
@@ -144,6 +144,7 @@ describe 'user signs in' do
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'
     page.should have_content "You've succesfully redeemed for a $5 Tango Card."
+    page.should have_link "it takes two"
 
     page.should have_content('You have 0 Plink Points.')
 
