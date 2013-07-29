@@ -55,7 +55,6 @@
 
   .left-column {
     display: inline-block;
-    position: fixed;
     width: 340px;
     margin: 20px 20px 0 0;
 
@@ -67,9 +66,7 @@
   .right-column {
     display: inline-block;
     margin: 70px 0 0 0;
-    min-width: 664px;
-    padding: 0 0 0 6%;
-    margin-left: 370px;
+    width: 620px;
 
     .content {
       margin: 20px 0;
