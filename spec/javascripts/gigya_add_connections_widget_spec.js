@@ -12,7 +12,17 @@ describe('Plink.GigyaAddConnectionsWidget', function () {
       $('#jasmine_content').html('<div id="social-link-widget"></div>');
 
       Plink.GigyaAddConnectionsWidget.setup();
-      expect(window.gigya.socialize.showAddConnectionsUI).toHaveBeenCalledWith({showTermsLink: false, showEditLink: true, hideGigyaLink: true, enabledProviders: 'facebook,twitter', containerID: 'social-link-widget', width: 65, height: 70});
+      expect(
+        window.gigya.socialize.showAddConnectionsUI
+      ).toHaveBeenCalledWith({
+        showTermsLink: false,
+        showEditLink: false,
+        hideGigyaLink: true,
+        enabledProviders: 'facebook,twitter',
+        containerID: 'social-link-widget',
+        width: 65,
+        height: 70
+      });
     });
 
     it('does not show the Add Connections UI when social-link-widget is not on the page', function () {
