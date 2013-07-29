@@ -81,7 +81,7 @@ describe 'guest behavior' do
 
     click_button 'Submit'
 
-    page.should have_content 'Thank you for contacting us.'
+    page.should have_content 'Thank you for contacting Plink.'
 
     ActionMailer::Base.deliveries.count.should == 1
 

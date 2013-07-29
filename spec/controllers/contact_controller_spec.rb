@@ -36,7 +36,8 @@ describe ContactController do
 
       post :create, contact_form: {email: 'bob@example.com', first_name: 'Merlin', last_name: 'Haggard', message_text: 'i like to magic', category: 'sorcery'}
 
-      page.should redirect_to thank_you_contact_path
+      page.should redirect_to wallet_path
+      flash.notice.should == 'Thank you for contacting Plink.'
     end
   end
 

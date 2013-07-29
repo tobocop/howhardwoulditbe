@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_authentication
+    flash.keep
     redirect_to root_path unless user_logged_in?
   end
 

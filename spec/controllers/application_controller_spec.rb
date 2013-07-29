@@ -98,6 +98,10 @@ describe ApplicationController do
   end
 
   describe '#require_authentication' do
+    before do
+      controller.stub(:redirect_to)
+    end
+
     it 'does not redirect if the user is logged in' do
       controller.stub(:user_logged_in?) { true }
       controller.should_not_receive(:redirect_to)
@@ -107,6 +111,12 @@ describe ApplicationController do
     it 'it redirects to the home page if the user is not logged in' do
       controller.stub(:user_logged_in?) { false }
       controller.should_receive(:redirect_to).with(root_path)
+      controller.require_authentication
+    end
+
+    it "keeps the flash" do
+      controller.stub(:user_logged_in?) { false }
+      flash.should_receive(:keep)
       controller.require_authentication
     end
   end
