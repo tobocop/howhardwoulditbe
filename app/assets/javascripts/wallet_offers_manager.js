@@ -66,16 +66,20 @@
 
     base._addItemToWallet = function ($el) {
       var url = $el.attr('href');
-      base.offersBucket.stageForRemoval($el.data('offer-dom-selector'));
-      base.sync(url, 'post');
+      var offerSelector = $el.data('offer-dom-selector');
+      base.sync(url, 'post', function(data) {
+        base.offersBucket.remove(offerSelector);
+      });
     };
 
     base._removeItemFromWallet = function ($el) {
       var url = $el.attr('href');
-      base.sync(url, 'delete');
+      base.sync(url, 'delete', function(data) {
+        base.offersBucket.add(data.removed_wallet_item);
+      });
     };
 
-    base.sync = function (url, httpMethod) {
+    base.sync = function (url, httpMethod, callback) {
       $.ajax(url, {
         method: httpMethod
       }).done(function (data) {
@@ -87,11 +91,7 @@
 
             base.determineWalletOffers();
 
-            if (data.removed_wallet_item) {
-              base.offersBucket.add(data.removed_wallet_item);
-            } else {
-              base.offersBucket.removeStagedOffer();
-            }
+            callback(data);
           } else {
             base._onFailure(data.failure_reason)
           }
@@ -119,20 +119,8 @@
     };
 
     base.remove = function (offerSelector) {
-      $(offerSelector).remove();
+      base.$el.find(offerSelector).remove();
     };
-
-    base.findOffer = function (selector) {
-      return base.$el.find(selector);
-    };
-
-    base.stageForRemoval = function (selector) {
-      base.offerToRemove = base.findOffer(selector);
-    }
-
-    base.removeStagedOffer = function () {
-      base.remove(base.offerToRemove)
-    }
 
     base.init();
   };
