@@ -67,10 +67,15 @@
     base._addItemToWallet = function ($el) {
       var url = $el.attr('href');
       var offerSelector = $el.data('offer-dom-selector');
+
+      var offerDetailView = new Plink.OfferDetailView(base._getOfferDetailsElement(offerSelector));
+
       base.sync(url, 'post', {
         success: function (data) {
           base.offersBucket.remove(offerSelector);
           base._update(data);
+        }, failure: function(data) {
+          offerDetailView.displayError(data.failure_reason);
         }
       });
     };
@@ -81,6 +86,7 @@
         success: function (data) {
           base.offersBucket.add(data.removed_wallet_item);
           base._update(data);
+          Plink.OfferDetailView.clearErrors();
         }
       });
     };
@@ -101,11 +107,35 @@
       }).error(function (data) {
         var response = $.parseJSON(data.responseText);
         base._onFailure(response.failure_reason);
+        if (options.failure) {
+          options.failure(response);
+        }
       });
     };
 
+    base._getOfferDetailsElement = function(offerSelector) {
+      var offerDetailsSelector = '#' + base.$el.find(offerSelector).data('reveal-id');
+      return base.$el.find(offerDetailsSelector);
+    }
+
     base.init();
   };
+
+  Plink.OfferDetailView = function(el) {
+    var base = this;
+
+    base.$el = $(el);
+
+    base.displayError = function(type) {
+      base.$el.find('.add-call-to-action').addClass('hidden');
+      base.$el.find('.' + type).removeClass('hidden');
+    }
+  };
+
+  Plink.OfferDetailView.clearErrors = function() {
+    $('.offer-details .reason').addClass('hidden');
+    $('.offer-details .add-call-to-action').removeClass('hidden');
+  }
 
   Plink.OffersBucket = function (el) {
     var base = this;

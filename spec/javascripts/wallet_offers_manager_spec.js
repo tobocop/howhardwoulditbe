@@ -11,10 +11,10 @@ describe('Plink.walletOffersManager', function () {
         '<div class="slot">locked slot</div>' +
         '</div>' +
         '<div id="offers_bucket">' +
-        '<div class="offer" id="first_offer">Offer One</div>' +
+        '<div class="offer" id="first_offer" data-reveal-id="some-modal">Offer One</div>' +
         '</div>' +
         '<a data-add-to-wallet="true" data-offer-dom-selector="#first_offer">add to wallet</a>' +
-        '<div id="some-modal"></div>' +
+        '<div id="some-modal" class="offer-details"></div>' +
         '</div>'
     );
     successfulResponse = {wallet: [
@@ -87,32 +87,51 @@ describe('Plink.walletOffersManager', function () {
       expect(successFunction).toHaveBeenCalled();
     })
 
-
-    it("Doesn't remove the offer from the wall if the add failed, and triggers the on failure event", function () {
-      var fakeResponse = {responseText: JSON.stringify({failure_reason: 'fail'})};
-      var fakejqXHR = {done: function (callback) {
-        return fakejqXHR;
-      }, error: function (callback) {
-        callback(fakeResponse);
-      }};
-      spyOn($, "ajax").andReturn(fakejqXHR);
-
-      var failureFunction = jasmine.createSpy('failureFunction').andCallFake(function (e, reason) {
-        expect(reason).toEqual('fail');
+    describe("Failed add attempt", function () {
+      beforeEach(function() {
+        var fakeResponse = {responseText: JSON.stringify({failure_reason: 'fail'})};
+        var fakejqXHR = {done: function (callback) {
+          return fakejqXHR;
+        }, error: function (callback) {
+          callback(fakeResponse);
+        }};
+        spyOn($, "ajax").andReturn(fakejqXHR);
       });
 
-      $('#wallet_items_management').on('failure', failureFunction);
+      it("Doesn't remove the offer from the wall and triggers the on failure event", function () {
+        var failureFunction = jasmine.createSpy('failureFunction').andCallFake(function (e, reason) {
+          expect(reason).toEqual('fail');
+        });
 
-      $('#wallet_items_management').walletOffersManager();
-      expect($('#offers_bucket').find('.offer').length).toEqual(1);
+        $('#wallet_items_management').on('failure', failureFunction);
 
-      $('[data-add-to-wallet]').click();
-      expect($('#offers_bucket').find('.offer').length).toEqual(1);
-      expect(failureFunction).toHaveBeenCalled();
+        $('#wallet_items_management').walletOffersManager();
+        expect($('#offers_bucket').find('.offer').length).toEqual(1);
+
+        $('[data-add-to-wallet]').click();
+        expect($('#offers_bucket').find('.offer').length).toEqual(1);
+        expect(failureFunction).toHaveBeenCalled();
+
+      });
+
+      it("hides the call to action button and displays the message", function () {
+        $('#wallet_items_bucket').append('<div class="populated-wallet-item"><a href="#bla" data-remove-from-wallet=true>remove</a></div>');
+        $('#some-modal').html('<a class="add-call-to-action">Do Something!</a><p class="reason fail hidden">This is the reason</p>');
+        $('#wallet_items_management').walletOffersManager();
+
+        expect($('.reason').hasClass('hidden')).toBeTruthy();
+        expect($('.add-call-to-action').hasClass('hidden')).toBeFalsy();
+
+        $('[data-add-to-wallet]').click();
+
+        expect($('.reason').hasClass('hidden')).toBeFalsy();
+        expect($('.add-call-to-action').hasClass('hidden')).toBeTruthy();
+
+
+
+      });
 
     });
-
-
   });
 
   describe("removing an offer from the wallet", function () {
@@ -147,6 +166,19 @@ describe('Plink.walletOffersManager', function () {
       $('[data-remove-from-wallet]').click();
       expect($('#offers_bucket').find('.offer').length).toEqual(2);
       expect($('#offers_bucket').find('.offer').first().text()).toEqual('McDonalds');
+    });
+
+    it("hides the reason text and shows call to action", function () {
+      $('#wallet_items_bucket').append('<div class="populated-wallet-item"><a href="#bla" data-remove-from-wallet=true>remove</a></div>');
+      $('#some-modal').html('<a class="add-call-to-action hidden">Do Something!</a><p class="reason">This is the reason</p>');
+      $('#wallet_items_management').walletOffersManager();
+
+      expect($('.reason').hasClass('hidden')).toBeFalsy();
+      expect($('.add-call-to-action').hasClass('hidden')).toBeTruthy();
+
+      $('[data-remove-from-wallet]').click();
+      expect($('.reason').hasClass('hidden')).toBeTruthy();
+      expect($('.add-call-to-action').hasClass('hidden')).toBeFalsy();
     });
 
 
