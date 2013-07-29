@@ -34,7 +34,7 @@ var Plink = {
 
     $('body').positionFoundationModal({selector: '[data-reveal-id]'})
 
-    $(document).foundation('reveal', {animationSpeed: 50});
+    $(document).foundation('reveal', {animationSpeed: 100});
 
     Modernizr.load({
       test: Modernizr.input.placeholder,
@@ -48,7 +48,11 @@ var Plink = {
       successEvent: Plink.WalletEvents.successfulAdd,
       failureEvent: Plink.WalletEvents.failure
     }).on(Plink.WalletEvents.successfulAdd, function (e) {
-      $('.modal.offer-details').foundation('reveal', 'close');
+      $('.modal.offer-details').each(function() {
+        if ($(this).hasClass('open')) {
+          $(this).foundation('reveal', 'close');
+        }
+      });
     });
 
     $('[data-account-edit-form]').accountEditForm();
