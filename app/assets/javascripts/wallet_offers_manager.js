@@ -61,7 +61,7 @@
     };
 
     base._defer = function (callback) {
-      setTimeout(callback, 1000);
+      setTimeout(callback, 100);
     };
 
     base._addItemToWallet = function ($el) {
