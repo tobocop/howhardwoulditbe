@@ -8,7 +8,8 @@ describe PasswordResetMailer do
       ActionMailer::Base.deliveries.count.should == 1
 
       email.to.should == ['bob@example.com']
-      email.from.should == ['info@plink.com']
+      email.header['From'].to_s.should == 'Plink <info@plink.com>'
+
       email.subject.should == 'Plink: Password Reset Instructions'
 
       [email.html_part, email.text_part].each do |part|

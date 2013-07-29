@@ -6,7 +6,7 @@ describe UserRegistrationMailer do
       email = UserRegistrationMailer.welcome(first_name: 'Jub', email: 'jobo@example.com', virtual_currency_name: 'Plonk Points')
 
       email.to.should == ['jobo@example.com']
-      email.from.should == ['info@plink.com']
+      email.header['From'].to_s.should == 'Plink <info@plink.com>'
       email.subject.should == 'Welcome to Plink'
 
       [email.html_part, email.text_part].each do |email_part|
