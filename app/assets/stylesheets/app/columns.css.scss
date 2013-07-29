@@ -6,6 +6,7 @@
 .left-column {
   display:inline-block;
   width: 340px;
+  vertical-align: top;
 
   &.static {
     background-color:#FFFFFF;
@@ -96,10 +97,10 @@
   background:#FFFFFF;
   display: inline-block;
   height:100%;
-  min-width:664px;
+  width:664px;
   padding:30px 0 0 20px;
-  /*width:66.796875%;*/
-  width:66%;
+  vertical-align: top;
+
   .headline{
     margin-bottom:30px;
   }
