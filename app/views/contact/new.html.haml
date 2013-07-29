@@ -1,39 +1,62 @@
 .layout-inner
+  -#%h1 Contact Us
 
-  %div{style: 'padding-top: 30px;'}
+    -#= f.text_field :first_name, placeholder: 'First Name', class: ['form-field', 'input']
+    -#= f.text_field :last_name, placeholder: 'Last Name', class: ['form-field', 'input']
+    -#= f.text_field :email, placeholder: 'Email', class: ['form-field', 'input']
 
-  %h1 Contact Us
+    -#= f.text_area :message_text, class: ['form-field', 'input']
 
-  = form_for(@contact_form, url: contact_path) do |f|
+    -#= f.submit 'Contact Us'
 
-    %ul
-    - @contact_form.errors.full_messages.each do |message|
-      %li= message
+.static.container
+  .left-column.static
+    .headline
+      %h1 Contact Us
+      %h2 How can we help you?
+    %h3 Questions? Concerns? Let us know! We're always happy to help and strive to give you the best customer service in the history of ever.
 
-    = f.text_field :first_name, placeholder: 'First Name', class: ['form-field', 'input']
-    = f.text_field :last_name, placeholder: 'Last Name', class: ['form-field', 'input']
-    = f.text_field :email, placeholder: 'Email', class: ['form-field', 'input']
+  .right-column
+    = form_for(@contact_form, url: contact_path) do |form|
+      .center
+        %h3 Why are you contacting Plink?
+        .content
+          = label_tag nil, class: 'label' do
+            = form.radio_button :category, 'Customer Support', checked: true
+            Customer Support
+        .content
+          = label_tag nil, class: 'label' do
+            = form.radio_button :category, 'Close my account'
+            Close my account
+        .content
+          = label_tag nil, class: 'label' do
+            = form.radio_button :category, 'Advertising and Business Development'
+            Advertising and Business Development
+        .content
+          = label_tag nil, class: 'label' do
+            = form.radio_button :category, 'Investor Relations'
+            Investor Relations
 
-    %p Why Are You Contacting Plink?
+      - if @contact_form.errors.any?
+        .content.narrow.right
+          %ul
+            - @contact_form.errors.full_messages.each do |message|
+              %li.font.error= message
 
-    = label_tag do
-      = f.radio_button :category, 'Customer Support', checked: true
-      Customer Support
+      .content.narrow.right
+        %h3 What's your first name?
+        = form.text_field :first_name, placeholder: 'First Name', class: ['form-field', 'input']
+      .content.narrow.right
+        %h3 What's your last name?
+        = form.text_field :last_name, placeholder: 'Last Name', class: ['form-field', 'input']
+      .content.narrow.right
+        %h3 What's your email?
+        = form.text_field :email, placeholder: 'Email', class: ['form-field', 'input']
+      .content.narrow.right
+        %h3 And what can we help you with?
+        = form.text_area :message_text, placeholder: 'Your Message', class: ['form-field', 'input']
 
-    = label_tag do
-      = f.radio_button :category, 'Close my account'
-      Close my account
+      .content.narrow.right
+        = form.submit 'Submit', class: 'primary-action button'
 
-    = label_tag do
-      = f.radio_button :category, 'Advertising and Business Development'
-      Advertising and Business Development
-
-    = label_tag do
-      = f.radio_button :category, 'Investor Relations'
-      Investor Relations
-
-    %p What Is Your Message For Plink?
-
-    = f.text_area :message_text, class: ['form-field', 'input']
-
-    = f.submit 'Contact Us'
+  .clear

@@ -60,7 +60,7 @@ describe 'guest behavior' do
     click_on 'Contact Us'
 
     #Form submit to get errors back, not a duplicate
-    click_button 'Contact Us'
+    click_button 'Submit'
 
     page.should have_content 'First name can\'t be blank'
     page.should have_content 'Last name can\'t be blank'
@@ -79,7 +79,7 @@ describe 'guest behavior' do
 
     fill_in 'contact_form[message_text]', with: 'Some message'
 
-    click_button 'Contact Us'
+    click_button 'Submit'
 
     page.should have_content 'Thank you for contacting us.'
 
