@@ -10,19 +10,7 @@
       %a.span.text-link support@plink.com
 
   .right-column
-    .content
-      %h2.cyan What is Plink?
-      %h4 Plink is a registered card program that allows you to earn Plink Points and other online rewards for dining out and shopping offline. You select where you want to eat or shop, and Plink activates those offers on your credit or debit card. It's easy and safe!
-    %hr
-    .content
-      %h2.cyan How do you know that I've eaten at a restaurant that has been selected for Plink rewards?
-      %h4 Plink is designed so you don't have to carry around an additional card, print out coupons, or use some sort of code to get your rewards. Simply pay with the credit or debit card you register with Plink when joining and we'll automatically give you your rewards.
-    %hr
-    .content
-      %h2.cyan How can you afford to give me rewards?
-      %h4 We've negotiated special rewards with many of the nations' top restaurants. They pay us each time one of our registered members dines at their restaurant and we share that reward with you.
-    %hr
-    .content
-      %h2.cyan Can I earn rewards for eating at a restaurant multiple times?
-      %h4 Yes. Each restaurant has specific promotions, but in general, you receive rewards every time you eat at one of the Plink restaurants that you've unlocked. Please see the details for each offer for more information.
+    - faq_items.each do |question, answer|
+      = render 'faq_item', question: question, answer: answer
+
   .clear

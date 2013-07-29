@@ -17,5 +17,4 @@ module ApplicationHelper
     "You're about to redeem #{amount.currency_award_amount} #{amount.currency_name} "\
     "for a #{plink_currency_format(amount.dollar_award_amount)} #{reward_name} Gift Card."
   end
-
 end
