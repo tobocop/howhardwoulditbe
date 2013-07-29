@@ -10,13 +10,7 @@
       %h3= @reward.description.html_safe
       %br
       = link_to "Go To My Wallet >", wallet_path
-    .share
-      %h3
-        %span.h3.bold Get 5 Plink Points
-        when you tell your friends about your loot.
-      .share-btn
-        %button.button.nav.sign-in Share
     %hr
     .legal
       %h3.gray Legal Stuff
-      %h4= @reward.terms
+      %h4= @reward.terms.html_safe
