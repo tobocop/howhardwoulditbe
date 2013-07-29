@@ -101,18 +101,6 @@
     base.init();
   };
 
-  Plink.Offer = function (el) {
-    var base = this;
-
-    base.$el = $(el);
-
-    base.init = function () {
-    };
-
-    base.init();
-  };
-
-
   Plink.OffersBucket = function (el) {
     var base = this;
 
@@ -130,16 +118,16 @@
       }
     };
 
-    base.remove = function (offer) {
-      offer.$el.remove();
+    base.remove = function (offerSelector) {
+      $(offerSelector).remove();
     };
 
     base.findOffer = function (selector) {
-      return new Plink.Offer(base.$el.find(selector));
+      return base.$el.find(selector);
     };
 
     base.stageForRemoval = function (selector) {
-      base.offerToRemove = base.findOffer(selector)
+      base.offerToRemove = base.findOffer(selector);
     }
 
     base.removeStagedOffer = function () {
