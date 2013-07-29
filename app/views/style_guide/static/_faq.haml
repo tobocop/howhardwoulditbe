@@ -18,7 +18,7 @@
         = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
 .static.container
-  .left-column
+  .left-column.static
     .headline
       %h1 FAQ
       %h2 We've got answers.
@@ -45,9 +45,8 @@
       %h2.cyan Can I earn rewards for eating at a restaurant multiple times?
       %h4 Yes. Each restaurant has specific promotions, but in general, you receive rewards every time you eat at one of the Plink restaurants that you've unlocked. Please see the details for each offer for more information.
     %hr
-  .clear
 
-= render partial: 'style_guide/footer/footer'
+= render partial: 'style_guide/footer/footer'   
 
 
     

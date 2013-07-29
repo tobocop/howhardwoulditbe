@@ -54,7 +54,8 @@
   }
 
   .left-column {
-    float: left;
+    display: inline-block;
+    position: fixed;
     width: 340px;
     margin: 20px 20px 0 0;
 
@@ -64,11 +65,11 @@
   }
 
   .right-column {
-    float: left;
-
+    display: inline-block;
     margin: 70px 0 0 0;
-    width: 620px;
+    min-width: 664px;
     padding: 0 0 0 6%;
+    margin-left: 370px;
 
     .content {
       margin: 20px 0;
