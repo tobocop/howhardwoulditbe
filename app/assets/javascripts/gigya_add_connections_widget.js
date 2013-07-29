@@ -4,7 +4,7 @@
       if ($('#social-link-widget').length > 0) {
         gigya.socialize.showAddConnectionsUI({
           showTermsLink: false,
-          showEditLink: true,
+          showEditLink: false,
           hideGigyaLink: true,
           enabledProviders: Plink.Config.enabledProviders,
           containerID: 'social-link-widget',
