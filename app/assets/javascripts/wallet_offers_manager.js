@@ -12,12 +12,13 @@
       base.walletItemsBucket = new Plink.WalletItemsBucket(base.$el.find('#wallet_items_bucket'));
 
       base.bindEvents();
-      base.determineWalletOffers();
+      base.refreshDisplay();
     };
 
-    base.determineWalletOffers = function () {
+    base.refreshDisplay = function () {
       base._defer(function () {
         base.$el.find('[data-in-wallet]').removeAttr('data-in-wallet');
+        base.$el.find('[data-remove-from-wallet]').removeClass('disabled');
       });
 
       $(base.walletItemsBucket.getPopulatedWalletItems()).each(function (index, el) {
@@ -35,7 +36,7 @@
 
     base._onSuccess = function () {
       base.$el.trigger(base.successEvent);
-      base.determineWalletOffers();
+      base.refreshDisplay();
     }
 
     base._onFailure = function (reason) {
@@ -57,7 +58,6 @@
         $target.addClass('disabled');
         base._removeItemFromWallet($target);
       }
-
     };
 
     base._defer = function (callback) {
@@ -93,7 +93,7 @@
 
     base._update = function (data) {
       base.walletItemsBucket.updateWalletItems(data.wallet);
-      base.determineWalletOffers();
+      base.refreshDisplay();
     };
 
     base.sync = function (url, httpMethod, options) {

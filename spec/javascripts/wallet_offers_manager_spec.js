@@ -39,6 +39,14 @@ describe('Plink.walletOffersManager', function () {
       expect($("#other-modal[data-in-wallet]").length).toEqual(0);
     });
 
+    it("enables all disabled removal buttons", function() {
+      $('#wallet_items_bucket').append('<a data-remove-from-wallet="true" class="disabled">remove</a>');
+
+      expect($("[data-remove-from-wallet].disabled").length).toEqual(1);
+      $('#wallet_items_management').walletOffersManager();
+      expect($("[data-remove-from-wallet].disabled").length).toEqual(0);
+    });
+
   });
 
   describe("adding items to a wallet items bucket", function () {
