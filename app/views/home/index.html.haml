@@ -32,7 +32,7 @@
           %br
           cash and gift cards
     .video-btn
-      %button.button.home-video Watch a short video for more info
+      %button.button.home-video{data: {'reveal-id' => 'plink-video-modal'}} Watch a short video for more info
 
   .partners
     %h2.light.cyan Our Partners
@@ -130,7 +130,4 @@
       .logo
         =image_tag 'home_press_gigaom.jpg'
 
-
-
-
-
+= render "welcome_video_modal"
