@@ -22,5 +22,9 @@ module PlinkPivotal
     # Heroku deployment requirement
     config.assets.initialize_on_precompile = false
     config.default_affiliate_id = 1264
+
+    # Set application to the same timezone as the production database; Mountain Time
+    config.time_zone = 'Mountain Time (US & Canada)'
+    config.active_record.default_timezone = :local
   end
 end
