@@ -60,7 +60,6 @@
   }
 
   .offer{
-    overflow: hidden;
     background:#FFFFFF;
   	border: 1px solid #999999;
   	display: inline-block;
@@ -77,6 +76,7 @@
     }
 
     .brand {
+      overflow: hidden;
       border: 0px;
       padding:8px 5px;
       width: 187px;
@@ -124,7 +124,6 @@
   }
 
   .slot {
-    overflow: hidden;
     background:#FFFFFF;
   	border: 1px solid #999999;
   	height:105px;
@@ -160,6 +159,7 @@
     }
 
     .brand {
+      overflow: hidden;
       text-align: center;
       border: 0px;
       height: 103px;
