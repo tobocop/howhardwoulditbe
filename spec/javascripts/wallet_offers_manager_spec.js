@@ -6,15 +6,15 @@ describe('Plink.walletOffersManager', function () {
         '<script id="open_wallet_item_template" type="text/x-handlebars-template"><div class="open-wallet-item"></div></script>' +
         '<script id="offer_item_template" type="text/x-handlebars-template"><div class="offer">{{icon_description}}</div></script>' +
         '<div id="wallet_items_management">' +
-          '<div id="wallet_items_bucket">' +
-            '<div class="slot">empty slot</div>' +
-            '<div class="slot">locked slot</div>' +
-          '</div>' +
-          '<div id="offers_bucket">' +
-            '<div class="offer" id="first_offer">Offer One</div>' +
-          '</div>' +
-          '<a data-add-to-wallet="true" data-offer-dom-selector="#first_offer">add to wallet</a>' +
-          '<div id="some-modal"></div>' +
+        '<div id="wallet_items_bucket">' +
+        '<div class="slot">empty slot</div>' +
+        '<div class="slot">locked slot</div>' +
+        '</div>' +
+        '<div id="offers_bucket">' +
+        '<div class="offer" id="first_offer">Offer One</div>' +
+        '</div>' +
+        '<a data-add-to-wallet="true" data-offer-dom-selector="#first_offer">add to wallet</a>' +
+        '<div id="some-modal"></div>' +
         '</div>'
     );
     successfulResponse = {wallet: [
@@ -23,7 +23,7 @@ describe('Plink.walletOffersManager', function () {
       {"description": "Complete an offer to unlock this slot.", "icon_description": "Locked Slot", "icon_url": "/assets/icon_lockedslot.png", "template_name": "locked_wallet_item", "title": "This slot is locked."}
     ]};
 
-    spyOn(window, 'setTimeout').andCallFake(function(callback) {
+    spyOn(window, 'setTimeout').andCallFake(function (callback) {
       callback();
     });
 
@@ -45,8 +45,9 @@ describe('Plink.walletOffersManager', function () {
     it("removes the item from the offers bucket", function () {
       var fakeResponse = successfulResponse;
       var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse)
-      }};
+        callback(fakeResponse);
+        return fakejqXHR;
+      }, error: jasmine.createSpy()};
       spyOn($, "ajax").andReturn(fakejqXHR);
 
       $('#wallet_items_management').walletOffersManager();
@@ -58,8 +59,9 @@ describe('Plink.walletOffersManager', function () {
     it("Adds the offer to the walletItemsBucket", function () {
       var fakeResponse = successfulResponse
       var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse)
-      }};
+        callback(fakeResponse);
+        return fakejqXHR;
+      }, error: jasmine.createSpy()};
       spyOn($, "ajax").andReturn(fakejqXHR);
 
       $('#wallet_items_management').walletOffersManager();
@@ -72,8 +74,9 @@ describe('Plink.walletOffersManager', function () {
     it("triggers the onSuccess event", function () {
       var fakeResponse = successfulResponse;
       var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse)
-      }};
+        callback(fakeResponse);
+        return fakejqXHR;
+      }, error: jasmine.createSpy()};
       spyOn($, "ajax").andReturn(fakejqXHR);
 
       var successFunction = jasmine.createSpy('successFunction');
@@ -86,24 +89,28 @@ describe('Plink.walletOffersManager', function () {
 
 
     it("Doesn't remove the offer from the wall if the add failed, and triggers the on failure event", function () {
-      var fakeResponse = {failure_reason: 'fail'}
+      var fakeResponse = {responseText: JSON.stringify({failure_reason: 'fail'})};
       var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse)
+        return fakejqXHR;
+      }, error: function (callback) {
+        callback(fakeResponse);
       }};
       spyOn($, "ajax").andReturn(fakejqXHR);
 
-      var failureFunction = function (e, reason) {
-        expect(reason).toEqual('fail')
-      };
-      $('#wallet_items_management').on('failure', failureFunction);
+      var failureFunction = jasmine.createSpy('failureFunction').andCallFake(function (e, reason) {
+        expect(reason).toEqual('fail');
+      });
 
+      $('#wallet_items_management').on('failure', failureFunction);
 
       $('#wallet_items_management').walletOffersManager();
       expect($('#offers_bucket').find('.offer').length).toEqual(1);
+
       $('[data-add-to-wallet]').click();
       expect($('#offers_bucket').find('.offer').length).toEqual(1);
+      expect(failureFunction).toHaveBeenCalled();
 
-    })
+    });
 
 
   });
@@ -118,8 +125,9 @@ describe('Plink.walletOffersManager', function () {
         removed_wallet_item: {"template_name": "offer_item", "icon_url": "/assets/wallet-logos/arbys.png", "icon_description": "McDonalds", "currency_name": "Mcpoints", "max_currency_award_amount": "950", "wallet_offer_url": "http://localhost:3000/wallet/offers/13"}
       }
       var fakejqXHR = {done: function (callback) {
-        callback(fakeResponse)
-      }};
+        callback(fakeResponse);
+        return fakejqXHR;
+      }, error: jasmine.createSpy()};
       spyOn($, "ajax").andReturn(fakejqXHR);
     });
 

@@ -83,8 +83,6 @@
       $.ajax(url, {
         method: httpMethod
       }).done(function (data) {
-          if (!data.failure_reason) {
-
             base._onSuccess()
 
             base.walletItemsBucket.updateWalletItems(data.wallet);
@@ -92,9 +90,9 @@
             base.determineWalletOffers();
 
             callback(data);
-          } else {
-            base._onFailure(data.failure_reason)
-          }
+        }).error(function(data) {
+          var response = $.parseJSON(data.responseText);
+          base._onFailure(response.failure_reason);
         });
     };
 

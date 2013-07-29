@@ -66,6 +66,7 @@ describe WalletOffersController do
         post :create, offer_id: offer_id
 
         JSON.parse(response.body)['failure_reason'].should == 'wallet_full'
+        response.should be_forbidden
       end
     end
 

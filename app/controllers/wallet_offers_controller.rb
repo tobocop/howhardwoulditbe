@@ -11,7 +11,7 @@ class WalletOffersController < ApplicationController
     if service.add_offer
       render json: {wallet: presented_wallet_items}, status: :created
     else
-      render json: {failure_reason: 'wallet_full'}, status: :ok
+      render json: {failure_reason: 'wallet_full'}, status: :forbidden
     end
   end
 
