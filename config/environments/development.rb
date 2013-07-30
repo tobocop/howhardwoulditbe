@@ -39,7 +39,7 @@ PlinkPivotal::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-
+  # Only load keys in development because they are set as environment variables on heroku:
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
       :address        => 'smtp.sendgrid.net',
