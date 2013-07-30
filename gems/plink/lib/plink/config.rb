@@ -8,7 +8,8 @@ module Plink
     CONFIGURABLE_OPTIONS = [
         :image_base_url,
         :card_add_url,
-        :card_change_url
+        :card_change_url,
+        :card_reverify_url
     ]
 
     attr_reader *CONFIGURABLE_OPTIONS
