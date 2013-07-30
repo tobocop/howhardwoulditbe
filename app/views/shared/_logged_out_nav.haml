@@ -12,7 +12,7 @@
   %h2.font.modal-h2 How do you want to sign in?
   .bg-element
     #social-login
-    = image_tag 'email_signin_button.gif', data: {'toggle-selector' => '#organic-sign-in-form'}, alt: 'Sign in with Email', class: 'email-sign-in-button'
+    = image_tag 'btn_gigya_email.gif', data: {'toggle-selector' => '#organic-sign-in-form'}, alt: 'Sign in with Email', class: 'email-sign-in-button'
     = form_tag(plink_session_path, id: 'organic-sign-in-form', class: 'hidden', data: {'redirect-url' => '/wallet'}) do
       .error-messages
       = text_field_tag 'user_session[email]', '', class: 'form-field input', placeholder: 'Email'
@@ -26,7 +26,7 @@
   %h2.font.modal-text.h2 Your days of not earning unlimited rewards are over.
   .bg-element
     #social-registration
-    = image_tag 'email_signin_button.gif', data: {'toggle-selector' => '#organic-registration-form'}, alt: 'Register with Email', class: 'email-sign-in-button'
+    = image_tag 'btn_gigya_email_join.gif', data: {'toggle-selector' => '#organic-registration-form'}, alt: 'Register with Email', class: 'email-sign-in-button'
     = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden', data: {'redirect-url' => '/wallet?link_card=true'}) do
       .error-messages
       = text_field_tag :first_name, '', class: 'form-field input', placeholder: 'First Name'
