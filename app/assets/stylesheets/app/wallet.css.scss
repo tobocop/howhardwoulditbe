@@ -127,7 +127,6 @@
     background:#FFFFFF;
   	border: 1px solid #999999;
   	height:105px;
-    cursor: pointer;
   	margin: 5px 17px;
   	position:relative;
   	width:305px;
@@ -152,6 +151,10 @@
       &:hover {
         cursor: pointer;
       }
+    }
+
+    &.filled:hover {
+      cursor: pointer;
     }
 
     .slot-inner {
