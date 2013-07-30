@@ -8,4 +8,13 @@ describe HomeController do
     end
 
   end
+
+  describe 'GET plink_video' do
+    it 'renders the template without a layout' do
+
+      get :plink_video
+
+      response.should render_template(layout: false)
+    end
+  end
 end

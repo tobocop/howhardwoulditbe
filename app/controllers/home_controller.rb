@@ -4,4 +4,7 @@ class HomeController < ApplicationController
 
   end
 
+  def plink_video
+    render layout: false
+  end
 end
