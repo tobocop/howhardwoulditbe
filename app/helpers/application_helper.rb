@@ -17,4 +17,8 @@ module ApplicationHelper
     "You're about to redeem #{amount.currency_award_amount} #{amount.currency_name} "\
     "for a #{plink_currency_format(amount.dollar_award_amount)} #{reward_name} Gift Card."
   end
+
+  def contact_us_message
+    "Need help? Please #{link_to 'contact us', contact_path, class: 'text-link'}.".html_safe
+  end
 end

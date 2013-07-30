@@ -67,11 +67,7 @@
                       %td
                         %img{:alt => "", :border => "0", :src => "http://plink-email.s3.amazonaws.com/global/logo.png"}/
                       %td
-                        %h4 Need some help?
-                        If you have any questions, please contact us at
-                        %a{:href => "mailto:support@plink.com"} support@plink.com
-                        %br/
-                        and we'd be happy to help you out.
+                        %h4 Need help? Please #{link_to 'Contact Us', contact_url}
                     %tr
                       %td{colspan: "2", align: "center"}
                         %a{href: edit_subscription_url(email_address: @email_address), style: "color:#0099FF;font-size:11px;font-family:Arial;text-decoration:underline; font-weight:bold;"} unsubscribe

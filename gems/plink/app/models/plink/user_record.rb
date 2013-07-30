@@ -122,7 +122,7 @@ module Plink
 
     def email_is_not_in_database
       if emailAddress_changed? && self.class.find_by_email(email)
-        errors.add(:email, "You've entered an email address that is already registered with Plink. If you believe there is an error, please contact support@plink.com.")
+        errors.add(:email, "You've entered an email address that is already registered with Plink.")
       end
     end
 

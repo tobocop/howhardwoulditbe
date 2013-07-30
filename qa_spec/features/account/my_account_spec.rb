@@ -130,7 +130,7 @@ describe 'My Account page', js: true do
       fill_in 'email', with: 'existing@plink.com'
       fill_in 'password', with: 'test123'
       click_on 'Change Your Email'
-      page.should have_text "Email You've entered an email address that is already registered with Plink. If you believe there is an error, please contact support@plink.com."
+      page.should have_text "Email You've entered an email address that is already registered with Plink."
     end
 
     it 'should update the users email if all conditions are met' do

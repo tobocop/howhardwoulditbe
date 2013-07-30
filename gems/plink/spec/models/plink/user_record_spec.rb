@@ -99,6 +99,7 @@ describe Plink::UserRecord do
 
       subject.should_not be_valid
       subject.should have(1).error_on(:email)
+      subject.errors.messages[:email].should == ["You've entered an email address that is already registered with Plink."]
     end
   end
 
