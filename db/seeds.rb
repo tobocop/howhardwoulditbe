@@ -6,6 +6,7 @@ Plink::UserRecord.destroy_all
 PlinkAdmin::Admin.destroy_all
 Plink::OauthToken.destroy_all
 Plink::UsersInstitutionAccountRecord.destroy_all
+Plink::UserReverificationRecord.destroy_all
 Plink::EventTypeRecord.destroy_all
 Plink::AwardTypeRecord.destroy_all
 Plink::FreeAwardRecord.destroy_all
@@ -30,6 +31,10 @@ Plink::UsersAwardPeriodRecord.destroy_all
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
 
+
+p 'Creating institution'
+institution = create_institution(name: 'Bank of AMERRRICA!')
+
 p 'Creating Dev user'
 user = create_user(password: 'password', email: 'pivotal@plink.com')
 users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
@@ -37,20 +42,33 @@ wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
 
+p 'Linking Dev User'
+users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
+create_oauth_token(user_id: user.id)
+create_users_institution_account(user_id: user.id, users_institution_id: users_institution.id, name: 'Tiny checking account', account_number_last_four: 2341)
+
+p 'Creating user that needs reverification'
+user_reverify = create_user(password: 'password', email: 'reverify@plink.com')
+users_virtual_currency = create_users_virtual_currency(user_id: user_reverify.id, virtual_currency_id: virtual_currency.id)
+wallet = create_wallet(user_id: user_reverify.id)
+3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
+create_locked_wallet_item(wallet_id: wallet.id)
+
+p 'Linking reverification user'
+users_institution = create_users_institution(user_id: user_reverify.id, institution_id: institution.id)
+create_oauth_token(user_id: user_reverify.id)
+create_users_institution_account(user_id: user_reverify.id, users_institution_id: users_institution.id, name: 'Tiny checking account', account_number_last_four: 2341)
+
+p 'Creating reverification'
+create_user_reverification(user_id: user_reverify.id, users_institution_id: users_institution.id)
+
+
 p 'Creating Admin user'
 PlinkAdmin::Admin.new do |admin|
   admin.email ='pivotal@plink.com'
   admin.password = 'password'
   admin.save
 end
-
-p 'Creating institution'
-institution = create_institution(name: 'Bank of AMERRRICA!')
-users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
-
-p 'Linking Dev User'
-create_oauth_token(user_id: user.id)
-create_users_institution_account(user_id: user.id, users_institution_id: users_institution.id, name: 'Tiny checking account', account_number_last_four: 2341)
 
 p 'Creating HeroPromotions'
 Plink::HeroPromotionRecord.create(name: 'Yo-hiness', image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
