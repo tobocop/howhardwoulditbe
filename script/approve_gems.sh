@@ -13,3 +13,4 @@ bundle exec license_finder approve bundler
 bundle exec license_finder approve ffi
 bundle exec license_finder approve launchy
 bundle exec license_finder approve addressable
+bundle exec license_finder approve quiet_assets
