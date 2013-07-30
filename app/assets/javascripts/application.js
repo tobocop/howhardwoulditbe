@@ -32,6 +32,8 @@ var Plink = {
 
   boot: function () {
 
+    document.domain = document.domain.replace(/^[^\.]+\./, '');
+
     $('body').positionFoundationModal({selector: '[data-reveal-id]'})
 
     $(document).foundation('reveal', {animationSpeed: 100});
