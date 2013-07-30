@@ -122,3 +122,19 @@ add gems/[name] to your gemfile
     gem 'admin', path: 'gems/[name]'
 
 add new specs to the build.sh and build_ci.sh
+
+
+Production Setup on Heroku
+===
+
+Running the application in production relies on the `Procfile` containing the appropriate commands for running the application. Locally, it is possible to test that the `Procfile` is correct using Foreman. To run Foreman, you'll first need to copy the example `.env` file:
+
+    cp .env.example .env
+
+And then run:
+
+    foreman start
+
+You can now access the application at:
+
+    localhost:5000
