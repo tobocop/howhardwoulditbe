@@ -35,3 +35,7 @@ group :test do
   gem 'selenium-webdriver', '2.33.0'
   gem 'rspec-retry'
 end
+
+group :production do
+  gem 'exceptional'
+end
