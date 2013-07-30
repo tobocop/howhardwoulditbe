@@ -24,6 +24,7 @@ group :development, :test do
   gem 'capybara', '~> 2.1.0'
   gem 'license_finder', git: 'git://github.com/pivotal/LicenseFinder.git', require: false
   gem 'jasmine', '~> 1.3.2'
+  gem 'quiet_assets'
 end
 
 group :test do

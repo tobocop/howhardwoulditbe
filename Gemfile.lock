@@ -141,6 +141,8 @@ GEM
       mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -238,6 +240,7 @@ DEPENDENCIES
   license_finder!
   plink!
   plink_admin!
+  quiet_assets
   rails (= 3.2.13)
   rspec-rails (= 2.13.2)
   rspec-retry
