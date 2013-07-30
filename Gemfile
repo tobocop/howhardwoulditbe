@@ -19,6 +19,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :development do
+  gem 'foreman'
+end
+
 group :development, :test do
   gem 'rspec-rails', '2.13.2'
   gem 'capybara', '~> 2.1.0'
@@ -34,4 +38,8 @@ group :test do
   gem 'database_cleaner', '~> 1.0.1'
   gem 'selenium-webdriver', '2.33.0'
   gem 'rspec-retry'
+end
+
+group :production do
+  gem 'unicorn'
 end
