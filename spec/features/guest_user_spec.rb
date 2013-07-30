@@ -57,9 +57,8 @@ describe 'guest behavior' do
       page.should have_css '[data-reveal-id="registration-form"]'
     end
 
-    click_on 'Contact Us'
+    page.first("a", text: "Contact Us").click
 
-    #Form submit to get errors back, not a duplicate
     click_button 'Submit'
 
     page.should have_content 'First name can\'t be blank'
@@ -71,7 +70,7 @@ describe 'guest behavior' do
     fill_in 'Email', with: 'bob@example.com'
 
     page.should have_checked_field 'Customer Support'
-    page.should have_unchecked_field 'Close my account'
+    page.should have_unchecked_field 'Other'
     page.should have_unchecked_field 'Advertising and Business Development'
     page.should have_unchecked_field 'Investor Relations'
 
@@ -87,7 +86,6 @@ describe 'guest behavior' do
 
     contact_email = ActionMailer::Base.deliveries.first
     contact_email.subject.should == 'Contact Form: [Advertising and Business Development]'
-
 
     visit '/rewards'
 
