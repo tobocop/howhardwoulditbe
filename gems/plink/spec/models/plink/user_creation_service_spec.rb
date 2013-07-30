@@ -61,7 +61,7 @@ describe Plink::UserCreationService do
     it 'creates the users wallet' do
       wallet_creation_service = stub
       Plink::WalletCreationService.should_receive(:new).with(user_id: user.id) { wallet_creation_service  }
-      wallet_creation_service.should_receive(:create_for_user_id)
+      wallet_creation_service.should_receive(:create_for_user_id).with(number_of_locked_slots: 2)
       Plink::UserCreationService.new(valid_params).create_user
     end
 

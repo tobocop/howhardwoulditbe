@@ -1,7 +1,14 @@
 module Plink
   class UserCreationService
 
-    attr_accessor :avatar_thumbnail_url, :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url, :user_record
+    attr_accessor :avatar_thumbnail_url,
+                  :email,
+                  :first_name,
+                  :password_hash,
+                  :salt,
+                  :avatar_thumbnail_url,
+                  :user_record,
+                  :number_of_locked_slots
 
     def initialize(options = {})
       self.email = options.fetch(:email)
@@ -9,6 +16,7 @@ module Plink
       self.password_hash = options.fetch(:password_hash)
       self.salt = options.fetch(:salt)
       self.avatar_thumbnail_url = options.fetch(:avatar_thumbnail_url, nil)
+      self.number_of_locked_slots = options.fetch(:number_of_locked_slots, 2)
 
       set_user_record
     end
@@ -16,7 +24,7 @@ module Plink
     def create_user
       Plink::UserRecord.transaction do
         user_record.save
-        Plink::WalletCreationService.new(user_id: user_id).create_for_user_id
+        Plink::WalletCreationService.new(user_id: user_id).create_for_user_id(number_of_locked_slots: number_of_locked_slots)
         Plink::UsersVirtualCurrencyRecord.create(user_id: user_record.id, start_date: Date.today, virtual_currency_id: user_record.primary_virtual_currency_id)
         new_user(user_record)
       end

@@ -14,10 +14,10 @@ module Plink
       self.user_id = options.fetch(:user_id)
     end
 
-    def create_for_user_id
+    def create_for_user_id(args = {})
       wallet = create_wallet
       create_open_wallet_items(wallet)
-      create_locked_wallet_items(wallet)
+      create_locked_wallet_items(wallet, args.fetch(:number_of_locked_slots))
     end
 
     private
@@ -32,8 +32,14 @@ module Plink
       end
     end
 
-    def create_locked_wallet_items(wallet)
-      Plink::LockedWalletItemRecord.create(wallet_id: wallet.id, wallet_slot_id: 1, wallet_slot_type_id: self.class.default_wallet_slot_type_id)
+    def create_locked_wallet_items(wallet, number_of_slots)
+      number_of_slots.times do
+        Plink::LockedWalletItemRecord.create!(
+          wallet_id: wallet.id,
+          wallet_slot_id: 1,
+          wallet_slot_type_id: self.class.default_wallet_slot_type_id
+        )
+      end
     end
   end
 end
