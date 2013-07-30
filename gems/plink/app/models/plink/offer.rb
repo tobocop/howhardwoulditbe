@@ -1,7 +1,7 @@
 module Plink
   class Offer
 
-    attr_reader :id, :tiers, :detail_text, :name, :image_url, :is_new, :is_promotion
+    attr_reader :id, :tiers, :detail_text, :name, :image_url, :is_new, :is_promotion, :promotion_description
 
     def initialize(attributes={})
       offer_record = attributes.fetch(:offer_record)
@@ -14,6 +14,7 @@ module Plink
       @image_url = attributes[:image_url]
       @is_new = attributes.fetch(:is_new, false)
       @is_promotion = attributes.fetch(:is_promotion, false)
+      @promotion_description = attributes.fetch(:promotion_description, nil)
     end
 
     def max_dollar_award_amount

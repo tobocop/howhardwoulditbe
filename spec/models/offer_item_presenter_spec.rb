@@ -206,6 +206,14 @@ describe OfferItemPresenter do
     end
   end
 
+  describe '#promotion_description' do
+    let(:offer) { stub(:offer, promotion_description: 'Something awesome') }
+
+    it "returns the offer's promotion description" do
+      presenter.promotion_description.should == 'Something awesome'
+    end
+  end
+
   describe "as_json" do
     it 'has a JSON representation' do
       presenter.stub(:linked).and_return(true)

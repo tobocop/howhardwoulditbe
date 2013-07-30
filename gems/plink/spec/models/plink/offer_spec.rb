@@ -49,7 +49,8 @@ describe Plink::Offer do
           virtual_currency_id: 3,
           name: 'cold wavy',
           image_url: 'fake.jpg',
-          is_new: true
+          is_new: true,
+          promotion_description: 'good offer'
         }
       )
     end
@@ -60,6 +61,7 @@ describe Plink::Offer do
       subject.detail_text.should == 'one text'
       subject.is_new.should == true
       subject.name.should == 'cold wavy'
+      subject.promotion_description.should == 'good offer'
       subject.image_url.should == 'fake.jpg'
       subject.id.should == @plink_offer.id
       subject.max_dollar_award_amount.should == 1.43

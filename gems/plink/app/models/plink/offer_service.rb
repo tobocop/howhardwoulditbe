@@ -23,7 +23,8 @@ module Plink
             name: offer_record.advertiser.advertiser_name,
             image_url: offer_record.advertiser.logo_url,
             is_new: offer_record.is_new,
-            is_promotion: offer_record.active_offers_virtual_currencies.first.try(:is_promotion)
+            is_promotion: offer_record.active_offers_virtual_currencies.first.try(:is_promotion),
+            promotion_description: offer_record.active_offers_virtual_currencies.first.try(:promotion_description)
           }
         )
       end

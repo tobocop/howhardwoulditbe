@@ -11,6 +11,7 @@ describe Plink::OfferService do
         offers_virtual_currencies: [
             new_offers_virtual_currency(
                 virtual_currency_id: 3,
+                promotion_description: 'the description',
                 is_promotion: true,
                 tiers: [
                     new_tier(
@@ -32,6 +33,7 @@ describe Plink::OfferService do
       offer = offers.first
       offer.id.should == plink_offer.id
       offer.name.should == 'cold wavy'
+      offer.promotion_description.should == 'the description'
       offer.image_url.should == 'fake.jpg'
       offer.is_new.should be_true
       offer.is_promotion.should be_true

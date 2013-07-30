@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130724142540) do
+ActiveRecord::Schema.define(:version => 20130730160213) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1116,14 +1116,15 @@ ActiveRecord::Schema.define(:version => 20130724142540) do
   end
 
   create_table "offersVirtualCurrencies", :primary_key => "offersVirtualCurrencyID", :force => true do |t|
-    t.integer  "offerID",                             :null => false
-    t.integer  "virtualCurrencyID",                   :null => false
+    t.integer  "offerID",                                 :null => false
+    t.integer  "virtualCurrencyID",                       :null => false
     t.integer  "displayOrder"
-    t.datetime "created",                             :null => false
-    t.datetime "modified",                            :null => false
-    t.boolean  "isActive",          :default => true, :null => false
+    t.datetime "created",                                 :null => false
+    t.datetime "modified",                                :null => false
+    t.boolean  "isActive",              :default => true, :null => false
     t.text     "detailText"
     t.boolean  "is_promotion"
+    t.text     "promotion_description"
   end
 
   create_table "optIns", :primary_key => "optInId", :force => true do |t|

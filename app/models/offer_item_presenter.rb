@@ -92,6 +92,10 @@ class OfferItemPresenter
     Plink::StringSubstituter.gsub(offer.detail_text, offer.minimum_purchase_amount_tier, virtual_currency)
   end
 
+  def promotion_description
+    offer.promotion_description
+  end
+
   def as_json(options={})
     {
       id: id,

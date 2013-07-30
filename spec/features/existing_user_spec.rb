@@ -29,6 +29,7 @@ describe 'user signs in' do
                                    offers_virtual_currencies: [
                                      new_offers_virtual_currency(
                                        is_promotion: true,
+                                       promotion_description: 'This is a double offer',
                                        virtual_currency_id: virtual_currency.id,
                                        tiers: [new_tier]
                                      )
@@ -175,6 +176,7 @@ describe 'user signs in' do
       end
 
       within '.modal' do
+        page.should have_content 'This is a double offer'
         page.should have_css '.modal-ribbon.ribbon-promo-offer', text: 'Get double points when you make a qualifying purchase at this partner.'
       end
 
