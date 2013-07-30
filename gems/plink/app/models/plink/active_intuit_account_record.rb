@@ -27,7 +27,13 @@ module Plink
     end
 
     def requires_reverification?
-      user_reverification_records.incomplete.present?
+      incomplete_reverifications.present?
+    end
+
+    private
+
+    def incomplete_reverifications
+      @_reverifications ||= user_reverification_records.incomplete
     end
 
   end

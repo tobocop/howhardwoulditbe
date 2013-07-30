@@ -32,4 +32,10 @@ describe Plink::CardLinkUrlGenerator do
       subject.change_url.should == 'http://example.com/card_change_url'
     end
   end
+
+  describe 'card_reverify_url' do
+    it 'should return the correct reverify URL' do
+      subject.card_reverify_url.should == 'http://www.example.com/card_reverify_url'
+    end
+  end
 end

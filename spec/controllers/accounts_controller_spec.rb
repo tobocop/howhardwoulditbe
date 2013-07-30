@@ -4,22 +4,28 @@ require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 describe AccountsController do
 
   let(:intuit_account) {
-    Plink::IntuitAccount.new(account_name: 'account', bank_name: 'bank', account_number_last_four: 1234, requires_reverification: false)
+    Plink::IntuitAccount.new(
+        account_name: 'account',
+        bank_name: 'bank',
+        account_number_last_four: 1234,
+        requires_reverification: false,
+        reverify_id: 143
+    )
   }
 
   let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({10 => intuit_account}) }
 
   let(:debits_credit) {
     Plink::DebitsCredit.new(
-      mock('Plink::DebitCreditRecord', {
-        is_reward: false,
-        award_display_name: 'derp',
-        dollar_award_amount: 1.23,
-        display_currency_name: 'Plink Pointers',
-        currency_award_amount: '123',
-        created: Date.parse('2012-07-09'),
-        award_type: 'my award'
-      })
+        mock('Plink::DebitCreditRecord', {
+            is_reward: false,
+            award_display_name: 'derp',
+            dollar_award_amount: 1.23,
+            display_currency_name: 'Plink Pointers',
+            currency_award_amount: '123',
+            created: Date.parse('2012-07-09'),
+            award_type: 'my award'
+        })
     )
   }
 
@@ -60,6 +66,15 @@ describe AccountsController do
       get :show
 
       assigns(:card_change_url).should == 'http://www.mywebsite.example.com'
+    end
+
+    it 'assigns a @card_reverify_url' do
+      Plink::CardLinkUrlGenerator.any_instance.stub(:card_reverify_url) { 'http://www.mywebsite.example.com' }
+
+      get :show
+
+      assigns(:card_reverify_url).should == 'http://www.mywebsite.example.com'
+
     end
 
     it 'assigns an @bank_account' do

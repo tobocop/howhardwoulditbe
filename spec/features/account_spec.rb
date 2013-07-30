@@ -65,7 +65,7 @@ describe 'Managing account' do
 
         page.should have_image 'icon_alert_pink.png'
         page.should have_content 'Inactive'
-        page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Reverify')
+        page.should have_css('a[data-reveal-id="card-reverify-modal"]', text: 'Reverify')
       end
     end
 

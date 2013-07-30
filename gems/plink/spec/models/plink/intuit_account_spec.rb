@@ -26,5 +26,7 @@ describe Plink::IntuitAccount do
       account = Plink::IntuitAccount.new(default_attrs)
       account.active?.should be_false
     end
+
   end
+
 end

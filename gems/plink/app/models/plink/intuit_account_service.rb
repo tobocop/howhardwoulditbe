@@ -10,14 +10,15 @@ module Plink
       Plink::ActiveIntuitAccountRecord.user_has_account?(user_id)
     end
 
+
     private
 
     def create_intuit_account(account_record)
       Plink::IntuitAccount.new(
-        requires_reverification: account_record.requires_reverification?,
-        bank_name: account_record.bank_name,
-        account_name: account_record.account_name,
-        account_number_last_four: account_record.account_number_last_four
+          requires_reverification: account_record.requires_reverification?,
+          bank_name: account_record.bank_name,
+          account_name: account_record.account_name,
+          account_number_last_four: account_record.account_number_last_four
       )
     end
   end

@@ -24,6 +24,10 @@ class Plink::CardLinkUrlGenerator
     config.card_change_url
   end
 
+  def card_reverify_url
+     config.card_reverify_url
+  end
+
   private
 
   def base_url
