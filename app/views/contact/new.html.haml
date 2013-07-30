@@ -15,16 +15,16 @@
             Customer Support
         .content
           = label_tag nil, class: 'label' do
-            = form.radio_button :category, 'Close my account'
-            Close my account
-        .content
-          = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Advertising and Business Development'
             Advertising and Business Development
         .content
           = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Investor Relations'
             Investor Relations
+        .content
+          = label_tag nil, class: 'label' do
+            = form.radio_button :category, 'Other'
+            Other
 
       - if @contact_form.errors.any?
         .content.narrow.right
