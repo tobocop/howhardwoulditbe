@@ -22,3 +22,4 @@ gigya_keys.yml
 tango.yml
 .DS_Store
 .idea
+.env
