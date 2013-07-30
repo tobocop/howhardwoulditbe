@@ -38,51 +38,12 @@
     %h2.light.cyan Our Partners
     %h3 Earn Plink points when you make a purchase at any of our partner locations.
     .brand-wrapper
-      .brand
-        =image_tag 'wallet-logos/dunkindonuts.png'
-      .brand
-        =image_tag 'wallet-logos/dollargeneral.png'
-      .brand
-        =image_tag 'wallet-logos/oldnavy.png'
-      .brand
-        =image_tag 'wallet-logos/7eleven.png'
-      .brand
-        =image_tag 'wallet-logos/tacobell.png'
-      .brand
-        =image_tag 'wallet-logos/burgerking.png'
-      .brand
-        =image_tag 'wallet-logos/footlocker.png'
-      .brand
-        =image_tag 'wallet-logos/gap.png'
-      .brand
-        =image_tag 'wallet-logos/kmart.png'
-      .brand
-        =image_tag 'wallet-logos/sears.png'
-      .brand
-        =image_tag 'wallet-logos/regal.png'
-      .brand
-        =image_tag 'wallet-logos/outback.png'
-      .brand
-        =image_tag 'wallet-logos/redrobin.png'
-      .brand
-        =image_tag 'wallet-logos/arbys.png'
-      .brand
-        =image_tag 'wallet-logos/1800flowers.png'
-      .brand
-        =image_tag 'wallet-logos/quiznos.png'
-      .brand
-        =image_tag 'wallet-logos/burgerking.png'
-      .brand
-        =image_tag 'wallet-logos/tacobell.png'
-      .brand
-        =image_tag 'wallet-logos/kmart.png'
-      .brand
-        =image_tag 'wallet-logos/dunkindonuts.png'
+      - ordered_partner_logos.each do |logo|
+        = render partial: 'partner', locals: {logo_url: logo}
     .partners-btn
       = link_to 'See all of our partners', offers_path, class: 'button home-partners'
     .partners-btn
       = link_to 'See all of our rewards', rewards_path, class: 'button home-partners'
-
 
   .security
     %h2.thin Safety first.
