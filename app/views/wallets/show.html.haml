@@ -24,6 +24,7 @@
       .right-column
         .subhead
           %h2 Select From These Offers
+          %h3.rewards-message= redemption_message(current_user.points_until_next_redemption, current_virtual_currency.currency_name).html_safe
         #offers_bucket
           = render partial: 'shared/offer_item', collection: @offers, as: :presenter, locals: {button_label: 'Add to wallet'}
           = render partial: 'shared/offer_detail_modal', collection: @all_offers, as: :presenter

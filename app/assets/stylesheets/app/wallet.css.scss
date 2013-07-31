@@ -222,6 +222,21 @@
       line-height: 1.1;
     }
   }
+
+  .rewards-message {
+    color: $cyan;
+    text-transform: none;
+    font-weight: 300;
+    margin-top: 10px;
+
+    strong {
+      font-weight: 500;
+    }
+    .redeem-link {
+      line-height: 1;
+      text-transform: none;
+    }
+  }
 }
 
 .clear {

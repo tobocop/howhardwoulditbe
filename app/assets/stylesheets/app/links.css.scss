@@ -16,3 +16,13 @@ $state-range:10%;
   }
 
 }
+
+.redeem-link {
+  color: $chart;
+  font-weight: bold;
+  text-decoration: none;
+  background: image-url('history/icon_redeem.png') no-repeat left center;
+  padding-left: 24px;
+  line-height: 36px;
+  display: block;
+}

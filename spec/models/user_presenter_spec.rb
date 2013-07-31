@@ -37,6 +37,23 @@ describe UserPresenter do
     presenter.can_redeem?.should == true
   end
 
+  describe "#points_until_next_redemption" do
+    it 'displays the remaining points needed to achieve an award if less than 500' do
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 320))
+      presenter.points_until_next_redemption.should == 180
+    end
+
+    it 'displays the remaining points needed to achieve a 1,000 point reward' do
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 750))
+      presenter.points_until_next_redemption.should == 250
+    end
+
+    it 'displays the remaining points needed to achieve a 1,000 point reward' do
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 1350))
+      presenter.points_until_next_redemption.should == -350
+    end
+  end
+
   describe '#first_name' do
     it 'returns the first_name of the provided user' do
       presenter = UserPresenter.new(user: stub(first_name: 'Brian'))

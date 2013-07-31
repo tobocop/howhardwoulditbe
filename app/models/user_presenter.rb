@@ -36,6 +36,14 @@ class UserPresenter
     user.can_redeem?
   end
 
+  def points_until_next_redemption
+    if current_balance < 500
+      500 - current_balance
+    else
+      1000 - current_balance
+    end
+  end
+
   def first_name
     user.first_name[0..FIRST_NAME_DISPLAY_LENGTH]
   end
