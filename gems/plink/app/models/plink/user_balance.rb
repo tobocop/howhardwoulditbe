@@ -6,6 +6,10 @@ module Plink
       dollarCurrentBalance
     end
 
+    def currency_balance
+      currencyCurrentBalance
+    end
+
     def lifetime_balance
       lifetimeBalance
     end

@@ -27,6 +27,11 @@ describe UserPresenter do
     presenter.current_balance.should == 123.45
   end
 
+  it 'returns the user currency_balance' do
+    presenter = UserPresenter.new(user: stub(currency_balance: 12345))
+    presenter.currency_balance.should == 12345
+  end
+
   it 'returns the user\'s lifetime balance' do
     presenter = UserPresenter.new(user: stub(lifetime_balance: 2000.59))
     presenter.lifetime_balance.should == 2000.59
@@ -39,17 +44,17 @@ describe UserPresenter do
 
   describe "#points_until_next_redemption" do
     it 'displays the remaining points needed to achieve an award if less than 500' do
-      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 320))
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, currency_balance: 320))
       presenter.points_until_next_redemption.should == 180
     end
 
     it 'displays the remaining points needed to achieve a 1,000 point reward' do
-      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 750))
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, currency_balance: 750))
       presenter.points_until_next_redemption.should == 250
     end
 
     it 'displays the remaining points needed to achieve a 1,000 point reward' do
-      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, current_balance: 1350))
+      presenter = UserPresenter.new(user: mock(:user, can_redeem?: false, currency_balance: 1350))
       presenter.points_until_next_redemption.should == -350
     end
   end

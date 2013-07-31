@@ -28,6 +28,10 @@ class UserPresenter
     user.current_balance
   end
 
+  def currency_balance
+    user.currency_balance
+  end
+
   def lifetime_balance
     user.lifetime_balance
   end
@@ -37,10 +41,10 @@ class UserPresenter
   end
 
   def points_until_next_redemption
-    if current_balance < 500
-      500 - current_balance
+    if currency_balance < 500
+      500 - currency_balance
     else
-      1000 - current_balance
+      1000 - currency_balance
     end
   end
 
