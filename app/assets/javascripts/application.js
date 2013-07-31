@@ -33,7 +33,7 @@ var Plink = {
   topLevelDomain: function (fullDomain) {
     var domainAry = fullDomain.split('.')
 
-    if(domainAry.length == 2){
+    if(domainAry.length < 3){
       return fullDomain;
     }
     return domainAry[domainAry.length - 2] + '.' + domainAry[domainAry.length - 1]

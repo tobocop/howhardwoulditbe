@@ -33,6 +33,11 @@ describe('Plink', function () {
     it('returns plink.dev when passed www.memolink.plink.dev', function () {
       expect(Plink.topLevelDomain('www.memolink.plink.dev')).toEqual('plink.dev')
     })
+
+    it('returns localhost when passed localhost', function () {
+      expect(Plink.topLevelDomain('localhost')).toEqual('localhost')
+    })
+
   })
 
 
