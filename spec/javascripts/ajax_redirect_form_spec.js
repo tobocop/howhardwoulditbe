@@ -4,13 +4,14 @@ describe('Plink.ajaxRedirectForm', function () {
 
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<script type="text/handlebars-template" id="generic-error-template">' +
+      '<script type="text/handlebars-template" id="special-error-template">' +
+        '<p>Im special</p>' +
         '<p>{{instructions}}</p> ' +
         '<ul> {{#each errors}} ' +
         '<li class="font error">{{this}}</li> {{/each}} ' +
         '</ul> ' +
         '</script>' +
-        '<form id="registration-form" action="/registration" data-redirect-url="/shebassel">' +
+        '<form id="registration-form" action="/registration" data-redirect-url="/shebassel" data-error-template-selector="#special-error-template">' +
         '<div class="error-messages"></div>' +
         '<input type="text" name="first_name" value="John" />' +
         '<input type="text" name="email" value="j@example.com" />' +
@@ -55,6 +56,7 @@ describe('Plink.ajaxRedirectForm', function () {
         request = mostRecentAjaxRequest();
         request.response(TestResponses.registration.failure);
 
+        expect($('.error-messages').html()).toContain('Im special');
         expect($('.error-messages').html()).toContain('Please Correct the below errors:');
         expect($('.error-messages').html()).toContain('Please enter a First Name');
       });

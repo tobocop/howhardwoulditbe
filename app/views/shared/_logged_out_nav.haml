@@ -27,7 +27,7 @@
   .bg-element
     #social-registration
     = image_tag 'btn_gigya_email_join.gif', data: {'toggle-selector' => '#organic-registration-form'}, alt: 'Register with Email', class: 'email-sign-in-button'
-    = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden', data: {'redirect-url' => '/wallet?link_card=true'}) do
+    = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden', data: {'redirect-url' => '/wallet?link_card=true', 'error-template-selector' => '#registration-error-template'}) do
       .error-messages
       = text_field_tag :first_name, '', class: 'form-field input', placeholder: 'First Name'
       = text_field_tag :email, '', class: 'form-field input', placeholder: 'Email'
@@ -76,4 +76,4 @@
       )
     });
 
-= render partial: 'shared/js/generic_error_template'
+= render partial: 'shared/js/error_templates'

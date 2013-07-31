@@ -4,15 +4,25 @@
 
     base.$el = $(el);
 
-    base.errorsTemplate = Handlebars.compile($('#generic-error-template').html());
+
 
     base.init = function () {
       base.bindEvents();
+      base.errorsTemplate = base._getErrorsTemplate();
       base.redirectUrl = base.$el.data('redirect-url');
     };
 
     base.bindEvents = function () {
       base.$el.on('submit', base._handleFormSubmit);
+    };
+
+    base._getErrorsTemplate = function() {
+      var $errorTemplate = $(base.$el.data('error-template-selector'));
+      if ($errorTemplate.length <= 0) {
+        $errorTemplate = $('#generic-error-template');
+      }
+
+      return Handlebars.compile($errorTemplate.html())
     };
 
     base._handleFormSubmit = function(e) {

@@ -1,0 +1,21 @@
+<script type="text/handlebars-template" id="generic-error-template">
+  <img alt="Your account is inactive" class="status-img" src="/assets/icon_alert_pink.png">
+  <p>{{instructions}}</p>
+  <ul>
+    {{#each errors}}
+      <li class="font error">{{this}}</li>
+    {{/each}}
+  </ul>
+</script>
+
+<script type="text/handlebars-template" id="registration-error-template">
+  <img alt="Your account is inactive" class="status-img" src="/assets/icon_alert_pink.png">
+  <p>{{instructions}}</p>
+  <ul>
+    {{#each errors}}
+      <li class="font error">{{this}}</li>
+    {{/each}}
+    <li class="font error"><%= link_to "Having trouble? Contact Us", contact_path, class: 'text-link' %></li>
+  </ul>
+
+</script>
