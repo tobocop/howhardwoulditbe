@@ -1,4 +1,6 @@
-.layout-inner
+- content_for(:container_class, 'slimbox-wrapper')
+
+.slimbox
   %h3 Reset your password
 
   - if @password_reset.errors.any?

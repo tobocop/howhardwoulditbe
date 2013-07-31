@@ -32,6 +32,10 @@
     }
   }
 
+  input {
+    margin-top: 10px;
+  }
+
   p.info {
     margin-top: 1.5em;
     font-weight: 300;
@@ -39,7 +43,17 @@
     color: $lightgray;
   }
 
+  p.explanatory {
+    font-size: 1.2em;
+    line-height: 1.1;
+    font-weight: 300;
+    margin: 2em 0;
+  }
+
   a {
     color: $cyan;
+  }
+  .block {
+    display: block;
   }
 }

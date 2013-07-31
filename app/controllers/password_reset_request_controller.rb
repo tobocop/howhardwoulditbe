@@ -1,4 +1,6 @@
 class PasswordResetRequestController < ApplicationController
+  layout 'plain'
+
   def new
     @password_reset = PasswordResetRequestForm.new
   end
