@@ -1,0 +1,29 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.email
+  .wrapper
+    .container
+      .headline
+        %h1 Forgot your password?
+      .headline
+        %h2 Enter the email address associated with your Plink account. We will send you an email with instructions on how to reset your password.
+      .headline  
+        %input.form-field.input{:value => 'Email'}
+      %button.button.primary-action Submit   

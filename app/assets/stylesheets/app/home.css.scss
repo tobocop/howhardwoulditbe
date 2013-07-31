@@ -90,6 +90,10 @@
   		margin:10px auto;
   		width:380px;
   	}
+
+    .video {
+      margin:50px;
+    }
   }
 
   .partners {
@@ -176,13 +180,9 @@
 
 .flash-msg {
   background:#e9eef1;
-  /*border: 1px solid $slate;*/
   color:$slate;
   font-weight:300;
   line-height: 1.2em;
   padding:10px;
   text-align: center;
-
-  /*@include round-corners(6px);*/
-
 }

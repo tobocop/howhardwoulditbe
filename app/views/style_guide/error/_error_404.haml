@@ -1,0 +1,36 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.static.container
+  .left-column
+    .headline
+      %h1 Whoops!
+      %h2 Something broke - we're sorry! 
+    .headline
+      %h3 The page you're looking for does not exist (Error 404).
+
+    %h3 What would you like to do now?  
+    %h3 
+      %a.span.text-link Go to My Wallet
+    %h3  
+      %a.span.text-link Go to My Account 
+    %h3
+      %a.span.text-link Contact Support
+      
+= render partial: 'style_guide/footer/footer'

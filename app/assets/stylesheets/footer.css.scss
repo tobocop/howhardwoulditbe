@@ -1,7 +1,9 @@
-@import "app/colors.css.scss";
-@import "app/mixins.css.scss";
+@import "colors.css.scss";
+@import "mixins.css.scss";
 
 .footer{
+  background:$slate;
+
   h1 {
     color:#a0a0a0;
     letter-spacing:2px;
@@ -38,21 +40,21 @@
   }
 
   .col-wrapper{
-  	margin:35px auto 0 auto;
+  	margin:0px auto;
     max-width:1024px;
   }
   
   .col {
     display:inline-block;
-    margin:20px 16.5% 20px 0;
+    margin:10px 16.5% 20px 0;
     vertical-align: text-top; 
 
     &.last {
-      margin:20px 0px;  
+      margin:10px 0px;  
     }
 
     &.legal {
-      margin: 10px 134px 20px 0px;
+      margin: 10px 13% 20px 0px;
       max-width:40%;
 
       &.last {

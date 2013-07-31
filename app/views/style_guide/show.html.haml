@@ -783,6 +783,11 @@
 
     = render partial: 'style_guide/home/home'
 
+    %h3 Video 
+    %br
+
+    = render partial: 'style_guide/home/showvid'
+
   %section
 
     %h3 My Account Page
@@ -826,4 +831,14 @@
     %section
       %h3 Terms
 
-      = render partial: 'style_guide/static/terms'        
+      = render partial: 'style_guide/static/terms'  
+
+    %section
+      %h3 Error 404
+
+      = render partial: 'style_guide/error/error_404' 
+
+    %section
+      %h3 Forgot PW
+
+      = render partial: 'style_guide/static/forgotPW'          
