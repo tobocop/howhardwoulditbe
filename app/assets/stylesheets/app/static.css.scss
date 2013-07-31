@@ -94,3 +94,47 @@
     }
   }
 }
+
+.privacy-page {
+  h1 {
+    font-size: 3em;
+  }
+  h3 {
+    text-transform: uppercase;
+    margin-top: 1em;
+  }
+  section {
+    margin-top: 2em;
+  }
+  .left-column {
+    ul {
+      list-style: none;
+
+      li a {
+        display: block;
+        font-size: 1.2em;
+        padding: 1em 0;
+        text-decoration: none;
+        border-bottom: $disabled 1px solid;
+      }
+      li:last-child a {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .top-link {
+    text-decoration: none;
+    font-size: 0.6em;
+    margin-top: .2em;
+    color: $slate;
+    float: right;
+    &:after {
+      content: '↑';
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
