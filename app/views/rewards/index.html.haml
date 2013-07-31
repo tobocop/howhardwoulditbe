@@ -17,7 +17,7 @@
           %h4= reward.description.html_safe
 
         - reward.amounts.reverse.each do |amount|
-          - if current_user.can_redeem? && amount.dollar_award_amount <= current_user.current_balance
+          - if @user_has_account && current_user.can_redeem? && amount.dollar_award_amount <= current_user.current_balance
             = render :partial => 'shared/active_reward_amount', locals: {amount: amount, reward: reward}
           - else
             .denomination.unavailable
