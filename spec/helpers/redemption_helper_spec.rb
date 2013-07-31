@@ -3,7 +3,8 @@ require 'spec_helper'
 describe RedemptionHelper do
   describe '#redemption_message' do
     it 'returns a message telling a user how many points until the next redemption if the given value is a positive number' do
-      helper.redemption_message(400, 'currency name').should == "You're <strong>400 currency name</strong> from your next reward."
+      helper.redemption_message(400.0, 'currency name').should == "You're <strong>400 currency name</strong> from your next reward."
+      helper.redemption_message(400.5, 'currency name').should == "You're <strong>400.5 currency name</strong> from your next reward."
     end
 
     it 'returns a link to the redemption page if the points until next redemptions is negative (they have enough)' do
