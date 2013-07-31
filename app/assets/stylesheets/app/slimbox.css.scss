@@ -3,13 +3,14 @@
 
 .slimbox-wrapper {
   background-color: #E9EEF2;
+  padding: 30px 0;
 }
 .slimbox {
   background-color: #ffffff;
   border: 1px solid lighten($lightgray, 30%);
   @include round-corners(14px);
   padding: 20px;
-  margin: 30px auto;
+  margin: 0 auto;
   width: 600px;
 }
 
