@@ -7,4 +7,8 @@ class NullUserPresenter
   def logged_in?
     false
   end
+
+  def can_redeem?
+    false
+  end
 end
