@@ -165,6 +165,13 @@ describe Plink::UserRecord do
     end
   end
 
+  describe '#currency_balance' do
+    it 'returns the users balance of dollars in currency' do
+      user = create_user
+      user.currency_balance.should == 0
+    end
+  end
+
   describe '.find_by_id' do
     it 'returns the user with the given id' do
       user = create_user

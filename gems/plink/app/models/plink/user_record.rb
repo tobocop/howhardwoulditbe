@@ -102,6 +102,10 @@ module Plink
       user_balance.current_balance
     end
 
+    def currency_balance
+      user_balance.currency_balance
+    end
+
     def lifetime_balance
       user_balance.lifetime_balance
     end

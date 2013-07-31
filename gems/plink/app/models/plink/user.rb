@@ -13,6 +13,7 @@ module Plink
              :first_name,
              :email,
              :current_balance,
+             :currency_balance,
              :lifetime_balance,
              :can_redeem?,
              :wallet,

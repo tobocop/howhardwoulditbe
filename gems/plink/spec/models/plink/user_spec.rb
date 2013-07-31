@@ -34,6 +34,7 @@ describe Plink::User do
     user.is_subscribed.should == true
     user.email.should == 'test@test.com'
     user.current_balance.should == 0
+    user.currency_balance.should == 0
     user.lifetime_balance.should == 0
     user.can_redeem?.should == false
     user.wallet.id.should == wallet.id
