@@ -16,4 +16,24 @@ describe('Plink', function () {
       expect(callback).not.toHaveBeenCalled();
     });
   })
+
+  describe('.topLevelDomain', function () {
+    it('returns plink.dev when passed www.plink.dev', function () {
+      expect(Plink.topLevelDomain('www.plink.dev')).toEqual('plink.dev')
+    })
+
+    it('returns plink.dev when passed plink.dev', function () {
+      expect(Plink.topLevelDomain('plink.dev')).toEqual('plink.dev')
+    })
+
+    it('returns plink.dev when passed memolink.plink.dev', function () {
+      expect(Plink.topLevelDomain('memolink.plink.dev')).toEqual('plink.dev')
+    })
+
+    it('returns plink.dev when passed www.memolink.plink.dev', function () {
+      expect(Plink.topLevelDomain('www.memolink.plink.dev')).toEqual('plink.dev')
+    })
+  })
+
+
 });

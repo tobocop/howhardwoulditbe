@@ -30,11 +30,20 @@ var Plink = {
     window.location.href = path;
   },
 
+  topLevelDomain: function (fullDomain) {
+    var domainAry = fullDomain.split('.')
+
+    if(domainAry.length == 2){
+      return fullDomain;
+    }
+    return domainAry[domainAry.length - 2] + '.' + domainAry[domainAry.length - 1]
+  },
+
   boot: function () {
 
-    document.domain = document.domain.replace(/^[^\.]+\./, '');
+    document.domain = Plink.topLevelDomain(document.domain);
 
-    $('body').positionFoundationModal({selector: '[data-reveal-id]'})
+    $('body').positionFoundationModal({selector: '[data-reveal-id]'});
 
     $(document).foundation('reveal', {animationSpeed: 100});
 
@@ -63,7 +72,6 @@ var Plink = {
     $('#organic-sign-in-form').ajaxRedirectForm();
 
     $('[data-toggle-selector]').toggler();
-
   },
 
   conditionalCallback: function (flag, callback) {
@@ -71,6 +79,7 @@ var Plink = {
       callback();
     }
   }
+
 };
 
 Plink.Config = {
@@ -82,10 +91,10 @@ Plink.Config = {
       action: 'like'
     }
   ]
-}
+};
 
 Plink.WalletEvents = {
   successfulAdd: 'successfulAdd',
   failure: 'failure'
-}
+};
 
