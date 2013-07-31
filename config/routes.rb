@@ -30,6 +30,7 @@ PlinkPivotal::Application.routes.draw do
   resource :password_reset, only: [:new, :create], controller: :password_reset
 
   match '/faq', to: 'static#faq', as: :faq_static
+  match '/press', to: 'static#press', as: :press_static
   match '/terms', to: 'static#terms', as: :terms_static
   match '/privacy_policy', to: 'static#privacy', as: :terms_privacy
 

@@ -5,6 +5,7 @@ include Plink::ObjectCreationMethods
 Plink::UserRecord.destroy_all
 PlinkAdmin::Admin.destroy_all
 Plink::OauthToken.destroy_all
+Plink::NewsArticleRecord.destroy_all
 Plink::UsersInstitutionAccountRecord.destroy_all
 Plink::UserReverificationRecord.destroy_all
 Plink::EventTypeRecord.destroy_all
@@ -30,7 +31,6 @@ Plink::UsersAwardPeriodRecord.destroy_all
 
 p 'Creating VirtualCurrency'
 virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
-
 
 p 'Creating institution'
 institution = create_institution(name: 'Bank of AMERRRICA!')
@@ -166,3 +166,5 @@ create_non_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtua
 p 'Creating Redemption'
 create_redemption(reward_id: wolfmart_reward.id, user_id: user.id, dollar_award_amount: 3.00)
 
+p 'Creating News Articles'
+create_news_article(title: 'Yay! Plink!', source: 'TechCrunch', source_link: 'http://techcrunch.com/plink', is_active: true, published_on: Date.yesterday)

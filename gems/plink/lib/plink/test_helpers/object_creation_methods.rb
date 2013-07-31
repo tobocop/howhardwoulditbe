@@ -1,6 +1,22 @@
 module Plink
   module ObjectCreationMethods
 
+    def new_news_article(options = {})
+      defaults = {
+        source: 'TechCrunch',
+        source_link: 'http://techcrunch.com/plink',
+        published_on: Date.today,
+        title: 'the news',
+        is_active: true
+      }
+
+      Plink::NewsArticleRecord.new { |news_article| apply(news_article, defaults, options) }
+    end
+
+    def create_news_article(options = {})
+      new_news_article(options).tap(&:save!)
+    end
+
     def new_campaign(options = {})
       defaults = {
         campaign_hash: 'AHASH'

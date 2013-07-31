@@ -7,4 +7,14 @@ class StaticController < ApplicationController
 
   def privacy
   end
+
+  def press
+    @articles = plink_news_archive_service.news_articles
+  end
+
+  private
+
+  def plink_news_archive_service
+    @plink_archive_service ||= Plink::NewsArticleService.new
+  end
 end

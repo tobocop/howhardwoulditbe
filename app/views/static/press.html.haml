@@ -1,0 +1,24 @@
+.static.container.news-page
+  .left-column
+    .headline
+      %h1 Press
+      %h2 "If it's on the internet, it has to be true."
+      %cite - George Washington
+    %ul.nav
+      %li= link_to 'Archive', '#archive'
+      %li= link_to 'Releases', '#press-releases'
+
+  .right-column.news-items
+    %h2#archive.cyan Press Archive
+
+    = render partial: 'press_article', collection: @articles
+
+    %hr
+
+    %h2#press-releases.cyan Releases
+    - press_releases.each do |release|
+      %p= link_to release[:title], release[:url], class: 'text-link'
+      %em= release[:date]
+
+
+  .clear

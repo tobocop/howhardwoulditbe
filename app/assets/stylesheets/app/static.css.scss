@@ -95,6 +95,29 @@
   }
 }
 
+.left-column {
+  cite {
+    display: block;
+    font-weight: 100;
+    margin-top: 1em;
+  }
+
+  ul.nav {
+    list-style: none;
+
+    li a {
+      display: block;
+      font-size: 1.2em;
+      padding: 1em 0;
+      text-decoration: none;
+      border-bottom: $disabled 1px solid;
+    }
+    li:last-child a {
+      border-bottom: 0;
+    }
+  }
+}
+
 .privacy-page {
   h1 {
     font-size: 3em;
@@ -105,22 +128,6 @@
   }
   section {
     margin-top: 2em;
-  }
-  .left-column {
-    ul {
-      list-style: none;
-
-      li a {
-        display: block;
-        font-size: 1.2em;
-        padding: 1em 0;
-        text-decoration: none;
-        border-bottom: $disabled 1px solid;
-      }
-      li:last-child a {
-        border-bottom: 0;
-      }
-    }
   }
 
   .top-link {
@@ -137,4 +144,27 @@
       text-decoration: underline;
     }
   }
+}
+
+.news-items {
+  font-weight: 100;
+  h3 {
+    margin: 20px 0 10px;
+    font-weight: 100;
+
+    strong {
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+  }
+
+  em {
+    font-weight: 100;
+  }
+
+  hr {
+    margin: 2em 0;
+  }
+
+  padding-bottom: 20px;
 }
