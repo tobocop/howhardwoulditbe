@@ -41,6 +41,8 @@ var Plink = {
 
   boot: function () {
 
+    $('[data-disable-on-click]').disableOnClick();
+
     document.domain = Plink.topLevelDomain(document.domain);
 
     $('body').positionFoundationModal({selector: '[data-reveal-id]'});

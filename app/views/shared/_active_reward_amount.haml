@@ -14,7 +14,7 @@
       .btn.first
         %button.button.secondary-action.close-reveal-modal CANCEL
       .btn
-        = link_to 'CONFIRM', redemption_path(reward_amount_id: amount.id), method: 'post', class:'button primary-action'
+        = link_to 'CONFIRM', redemption_path(reward_amount_id: amount.id), method: 'post', class:'button primary-action', data: {'disable-on-click' => true}
     .terms
       %a.terms-link{href: '#', data: {'toggle-selector' => "#toggle-#{amount.id}"}} Terms &amp; Conditions
       %h3.terms-text.hidden{id: "toggle-#{amount.id}"}
