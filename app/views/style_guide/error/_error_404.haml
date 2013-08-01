@@ -17,20 +17,20 @@
       %li.nav-li
         = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
-.static.container
-  .left-column
+.email.error
+  .container
     .headline
-      %h1 Whoops!
-      %h2 Something broke - we're sorry! 
+      %h1 Whoops! Something broke. 
     .headline
-      %h3 The page you're looking for does not exist (Error 404).
-
-    %h3 What would you like to do now?  
-    %h3 
-      %a.span.text-link Go to My Wallet
-    %h3  
-      %a.span.text-link Go to My Account 
-    %h3
-      %a.span.text-link Contact Support
-      
+      %h2 The page you're looking for does not exist (Error 404). We're sorry!  
+    .headline
+      %h2
+        %a.text-link Go to My Wallet
+    .headline    
+      %h2
+        %a.text-link Go to My Account
+    .headline    
+      %h2
+        %a.text-link Contact Support    
+     
 = render partial: 'style_guide/footer/footer'

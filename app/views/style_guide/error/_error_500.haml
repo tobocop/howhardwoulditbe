@@ -17,12 +17,20 @@
       %li.nav-li
         = link_to 'Log Out', '#', method: :delete, class:'link logout'
 
-.email
+.email.error
   .container
     .headline
-      %h1 Forgot your password?
+      %h1 Whoops! Something broke. 
     .headline
-      %h2 Enter the email address associated with your Plink account. We will send you an email with instructions on how to reset your password.
-    .headline  
-      %input.form-field.input{:value => 'Email'}
-    %button.button.primary-action Submit   
+      %h2 There was an internal server error (Error 500). We're sorry!  
+    .headline
+      %h2
+        %a.text-link Go to My Wallet
+    .headline    
+      %h2
+        %a.text-link Go to My Account
+    .headline    
+      %h2
+        %a.text-link Contact Support    
+     
+= render partial: 'style_guide/footer/footer'

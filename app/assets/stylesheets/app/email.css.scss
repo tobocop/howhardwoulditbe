@@ -3,6 +3,17 @@
 
 .email {
   background:$grayblue;
+  padding:4%;
+
+  &.error {
+    background: url('/assets/error_bg.jpg');
+    background-color: $grayblue;
+    background-position: top;
+    background-repeat: no-repeat;
+    height:800px;
+    padding:160px 0;
+  }
+
 
   h1 {
   	font-size:2em;
@@ -28,11 +39,10 @@
   	background:#FFFFFF;
     border: 1px solid #d5d5d6;
     /*box-shadow: 1px 2px 3px #888888;*/
-    margin:4% auto;
+    margin:0 auto;
   	min-width:320px;
     max-width:600px;
     padding:3%;
-    position:relative;
   	width:48%;
     @include round-corners(5px);
   }
