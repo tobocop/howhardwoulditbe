@@ -7,6 +7,20 @@
     = csrf_meta_tags
 
   %body
+    %nav.top-bar
+      .row
+        %section.top-bar-section
+          %ul.left
+            %li= link_to "Dashboard", plink_admin.root_path
+            - if admin_signed_in?
+              %li= link_to 'Hero Promotions', plink_admin.hero_promotions_path
+
+          %ul.right
+            - if admin_signed_in?
+              %li= link_to 'Sign Out', plink_admin.destroy_admin_session_path, method: 'delete'
+            - else
+              %li= link_to 'Sign In', plink_admin.new_admin_session_path
+
     %p.notice= notice
     %p.alert= alert
 
