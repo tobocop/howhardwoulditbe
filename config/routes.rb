@@ -32,7 +32,7 @@ PlinkPivotal::Application.routes.draw do
   match '/faq', to: 'static#faq', as: :faq_static
   match '/press', to: 'static#press', as: :press_static
   match '/terms', to: 'static#terms', as: :terms_static
-  match '/privacy_policy', to: 'static#privacy', as: :terms_privacy
+  match '/privacy_policy', to: 'static#privacy', as: :terms_privacy_static
   match '/careers', to: 'static#careers', as: :careers_static
 
   match '/handle_gigya_login', to: 'gigya_login_handler#create', as: :gigya_login_handler, via: :get
