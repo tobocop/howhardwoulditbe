@@ -11,15 +11,22 @@
       .row
         %section.top-bar-section
           %ul.left
+            %li= link_to "&laquo; Visit Site".html_safe, main_app.root_path
+            %li.divider
             %li= link_to "Dashboard", plink_admin.root_path
+            %li.divider
             - if admin_signed_in?
               %li= link_to 'Hero Promotions', plink_admin.hero_promotions_path
+            %li.divider
               %li= link_to 'Find Users', plink_admin.users_path
+            %li.divider
 
           %ul.right
             - if admin_signed_in?
+              %li.divider
               %li= link_to 'Sign Out', plink_admin.destroy_admin_session_path, method: 'delete'
             - else
+              %li.divider
               %li= link_to 'Sign In', plink_admin.new_admin_session_path
 
     %p.notice= notice

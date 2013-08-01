@@ -9,3 +9,11 @@ hr {
   border: $disabled 1px solid;
   border-width: 0 0 1px 0;
 }
+
+.admin-top-bar {
+  margin-bottom: 0;
+
+  li {
+    color: #fff;
+  }
+}

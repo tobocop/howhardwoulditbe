@@ -9,6 +9,9 @@
     = csrf_meta_tags
 
   %body
+    - if admin_signed_in?
+      = render :partial => 'shared/admin_bar'
+
     .layout-inner
       .flash-container
         - if flash.notice

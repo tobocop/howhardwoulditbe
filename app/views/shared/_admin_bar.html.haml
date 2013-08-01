@@ -1,0 +1,15 @@
+%nav.top-bar.admin-top-bar
+  .row
+    %section.top-bar-section
+      %ul.left
+        %li= link_to "&laquo; Return to Admin".html_safe, plink_admin.root_path
+        %li.divider
+
+      - if current_user.logged_in?
+        %ul.right
+          %li.divider
+          %li
+            %a
+              Impersonating: #{current_user.email}
+          %li.divider
+          %li= link_to 'Stop impersonating', plink_admin.stop_impersonating_user_path(id: current_user.id), method: :post

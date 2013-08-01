@@ -16,6 +16,11 @@ module PlinkAdmin
       redirect_to PlinkAdmin.impersonation_redirect_url
     end
 
+    def stop_impersonating
+      PlinkAdmin.sign_out_user.call(session)
+      redirect_to plink_admin.root_path
+    end
+
     private
 
     def plink_user_service

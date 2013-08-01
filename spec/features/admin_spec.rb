@@ -28,5 +28,13 @@ describe 'Admins' do
 
     page.current_path.should == wallet_path
     page.should have_content 'Welcome, '
+
+    click_on "Stop impersonating"
+
+    page.current_path.should == plink_admin.root_path
+
+    visit root_path
+
+    page.should_not have_link 'Stop impersonating'
   end
 end
