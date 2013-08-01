@@ -29,6 +29,7 @@ group :development, :test do
   gem 'license_finder', git: 'git://github.com/pivotal/LicenseFinder.git', require: false
   gem 'jasmine', '~> 1.3.2'
   gem 'quiet_assets'
+  gem 'pry'
 end
 
 group :test do
