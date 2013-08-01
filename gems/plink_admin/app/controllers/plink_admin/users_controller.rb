@@ -11,6 +11,11 @@ module PlinkAdmin
       render :index
     end
 
+    def impersonate
+      PlinkAdmin.sign_in_user.call(params[:id], session)
+      redirect_to PlinkAdmin.impersonation_redirect_url
+    end
+
     private
 
     def plink_user_service

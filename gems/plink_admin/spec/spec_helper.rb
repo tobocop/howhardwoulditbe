@@ -36,3 +36,9 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
+
+PlinkAdmin.impersonation_redirect_url = '/'
+
+PlinkAdmin.sign_in_user = ->(user_id, session) do
+  session[:current_user_id] = user_id
+end

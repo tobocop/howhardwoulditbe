@@ -1,4 +1,13 @@
 module FeatureSpecHelper
+
+  def create_app_user(args)
+    virtual_currency = create_virtual_currency(subdomain: Plink::VirtualCurrency::DEFAULT_SUBDOMAIN)
+    user = create_user(email: args[:email], primary_virtual_currency: virtual_currency)
+    wallet = create_wallet(user_id: user.id)
+    create_open_wallet_item(wallet_id: wallet.id)
+    create_locked_wallet_item(wallet_id: wallet.id)
+  end
+
   def award_points_to_user(args)
 
     case args[:type]
@@ -38,11 +47,11 @@ module FeatureSpecHelper
     create_users_institution_account(user_id: user_id)
   end
 
-  def sign_in_admin
-    create_admin
+  def sign_in_admin(email='my_admin@example.com', password='password')
+    create_admin unless email.present?
     visit '/plink_admin'
-    fill_in 'Email', with: 'my_admin@example.com'
-    fill_in 'Password', with: 'password'
+    fill_in 'Email', with: email
+    fill_in 'Password', with: password
     click_on 'Sign in'
   end
 

@@ -6,6 +6,7 @@ PlinkAdmin::Engine.routes.draw do
 
   resources :users, only: [:index] do
     get :search, on: :collection
+    post :impersonate, on: :member
   end
 
   root to: 'admin#home'
