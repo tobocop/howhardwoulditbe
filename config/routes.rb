@@ -33,6 +33,7 @@ PlinkPivotal::Application.routes.draw do
   match '/press', to: 'static#press', as: :press_static
   match '/terms', to: 'static#terms', as: :terms_static
   match '/privacy_policy', to: 'static#privacy', as: :terms_privacy
+  match '/careers', to: 'static#careers', as: :careers_static
 
   match '/handle_gigya_login', to: 'gigya_login_handler#create', as: :gigya_login_handler, via: :get
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get

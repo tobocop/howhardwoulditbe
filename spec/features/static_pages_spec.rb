@@ -16,5 +16,11 @@ describe 'Static pages' do
 
     page.should have_content 'Service Terms'
 
+    within '.footer' do
+      click_on 'Careers'
+    end
+
+    page.should have_content 'Careers'
+
   end
 end

@@ -1,0 +1,16 @@
+.static.container
+  .left-column
+    .headline
+      %h1 Careers
+      %h2 You'll like the way we work. No diggity.
+    .headline
+      %h3
+        Plink is a start-up made up of smart people who believe in each other. We're into things like agile development and ladder ball, and from time to time we ring an impressive looking gong.
+        %br/
+        If you like our vibe and are passionate about your work, we'd like to hear from you.
+
+  .right-column
+    - career_items.each do |title, description|
+      = render 'title_description_block', title: title, description: description
+
+  .clear

@@ -9,6 +9,6 @@
 
   .right-column
     - faq_items.each do |question, answer|
-      = render 'faq_item', question: question, answer: answer
+      = render 'title_description_block', title: question, description: answer
 
   .clear
