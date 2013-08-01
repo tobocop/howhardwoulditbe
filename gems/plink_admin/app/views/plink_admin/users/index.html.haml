@@ -1,0 +1,25 @@
+.row.collapse
+  = form_tag search_users_path, method: :get do
+    .large-4.push-6.columns
+      = text_field_tag :email, @search_term, placeholder: 'User Email'
+    .large-2.columns
+      = submit_tag 'Search', class: 'button prefix'
+
+.row.collapse.search-results
+  - if @users.present?
+    %table.large-12.columns
+      %thead
+        %tr
+          %th Email
+          %th First Name
+          %th Current Balance
+          %th Lifetime Balance
+          %th Primary Currency
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td= user.email
+            %td= user.first_name
+            %td= user.current_balance
+            %td= user.lifetime_balance
+            %td= user.primary_virtual_currency_id

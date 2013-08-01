@@ -8,6 +8,10 @@ module Plink
       create_user(Plink::UserRecord.where(emailAddress: email).first)
     end
 
+    def search_by_email(email)
+      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "%#{email}%"))
+    end
+
     def update(id, attributes={})
       user = find_by_id(id)
       user.update_attributes(attributes)
@@ -47,6 +51,10 @@ module Plink
 
     def find_user_record(id)
       Plink::UserRecord.find_by_id(id)
+    end
+
+    def create_users(user_records)
+      user_records.map { |user_record| create_user(user_record) }
     end
 
     def create_user(user_record)

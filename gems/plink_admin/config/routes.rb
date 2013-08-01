@@ -4,5 +4,9 @@ PlinkAdmin::Engine.routes.draw do
 
   resources :hero_promotions
 
+  resources :users, only: [:index] do
+    get :search, on: :collection
+  end
+
   root to: 'admin#home'
 end

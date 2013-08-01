@@ -23,6 +23,20 @@ describe Plink::UserService do
     end
   end
 
+  describe '#search_by_email' do
+    it 'returns users that have an email that match the given value' do
+      user = create_user(email: 'user@example.com')
+      user = create_user(email: 'someuser@example.com')
+      user = create_user(email: 'someguy@example.com')
+      subject.search_by_email('user@ex').count.should == 2
+      subject.search_by_email('user@ex').map(&:class).uniq.should == [Plink::User]
+    end
+
+    it 'returns empty array if the user cannot be found' do
+      subject.search_by_email(33).should == []
+    end
+  end
+
   describe '#update' do
     it 'updates the user record for the given id and returns a user with no errors' do
       user = create_user(first_name: 'Billy')
