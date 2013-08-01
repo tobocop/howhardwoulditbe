@@ -1,7 +1,7 @@
 module Plink
   class NewsArticleRecord < ActiveRecord::Base
 
-    include Plink::LegacyTimestamps
+    #include Plink::LegacyTimestamps
 
     self.table_name = 'newsArticles'
 
@@ -14,5 +14,16 @@ module Plink
     def self.active
       where(isActive: true)
     end
+
+    def created_at
+      self.created
+    end
+
+    private
+
+    def timestamp_attributes_for_create
+      super << :created
+    end
+
   end
 end
