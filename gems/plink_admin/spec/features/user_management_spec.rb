@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'User search' do
+describe 'User Management' do
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')
     @user = create_user(first_name: 'oldmanjumbo', email: 'jumbalaya@example.com')
