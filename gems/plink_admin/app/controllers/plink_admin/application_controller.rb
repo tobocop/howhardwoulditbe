@@ -1,6 +1,8 @@
 module PlinkAdmin
   class ApplicationController < ActionController::Base
 
+    layout 'plink_admin/application'
+
     before_filter :authenticate_admin!
 
     private
