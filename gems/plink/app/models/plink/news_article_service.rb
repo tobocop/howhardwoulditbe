@@ -1,7 +1,7 @@
 module Plink
   class NewsArticleService
     def news_articles
-      create_news_articles(NewsArticleRecord.active)
+      create_news_articles(NewsArticleRecord.active.by_publish_date)
     end
 
     private

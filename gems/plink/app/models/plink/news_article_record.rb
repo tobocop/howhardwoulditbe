@@ -1,8 +1,6 @@
 module Plink
   class NewsArticleRecord < ActiveRecord::Base
 
-    #include Plink::LegacyTimestamps
-
     self.table_name = 'newsArticles'
 
     alias_attribute :source_link, :sourceLink
@@ -17,6 +15,10 @@ module Plink
 
     def created_at
       self.created
+    end
+
+    def self.by_publish_date
+      order('publishedOn Desc')
     end
 
     private

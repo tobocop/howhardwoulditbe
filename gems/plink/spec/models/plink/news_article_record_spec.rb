@@ -40,4 +40,15 @@ describe Plink::NewsArticleRecord do
       Plink::NewsArticleRecord.active.should == [@active_article]
     end
   end
+
+  describe '.by_publish_date' do
+    before do
+      @newer_article = create_news_article(published_on: Date.today)
+      @older_article = create_news_article(published_on: Date.yesterday)
+    end
+
+    it 'returns articles ordered by publish date' do
+      Plink::NewsArticleRecord.by_publish_date.should == [@newer_article, @older_article]
+    end
+  end
 end
