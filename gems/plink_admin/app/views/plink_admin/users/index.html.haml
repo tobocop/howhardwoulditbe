@@ -1,7 +1,7 @@
 .row.collapse
   = form_tag search_users_path, method: :get do
     .large-4.push-6.columns
-      = text_field_tag :email, @search_term, placeholder: 'User Email'
+      = text_field_tag :email, @search_term, placeholder: 'User Email', autofocus: 'autofocus'
     .large-2.columns
       = submit_tag 'Search', class: 'button prefix'
 

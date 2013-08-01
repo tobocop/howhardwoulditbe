@@ -24,12 +24,15 @@ describe Plink::UserService do
   end
 
   describe '#search_by_email' do
-    it 'returns users that have an email that match the given value' do
+    it 'returns users that have an email that match the given value, limited by the given value' do
       user = create_user(email: 'user@example.com')
       user = create_user(email: 'someuser@example.com')
+      user = create_user(email: 'auser@example.com')
       user = create_user(email: 'someguy@example.com')
-      subject.search_by_email('user@ex').count.should == 2
-      subject.search_by_email('user@ex').map(&:class).uniq.should == [Plink::User]
+
+      results = subject.search_by_email('user@ex', 2)
+      results.count.should == 2
+      results.map(&:class).uniq.should == [Plink::User]
     end
 
     it 'returns empty array if the user cannot be found' do

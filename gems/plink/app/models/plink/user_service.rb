@@ -8,8 +8,8 @@ module Plink
       create_user(Plink::UserRecord.where(emailAddress: email).first)
     end
 
-    def search_by_email(email)
-      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "%#{email}%"))
+    def search_by_email(email, max_results = 25)
+      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "%#{email}%").limit(max_results))
     end
 
     def update(id, attributes={})
