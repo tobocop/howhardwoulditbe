@@ -1,7 +1,7 @@
 (function (exports) {
   exports.Plink.GigyaShareWidget = {
     setup: function () {
-      $('.invite-friend-widget').on('click', this._clickHandler);
+      $('[data-share-widget]').on('click', this._clickHandler);
     },
 
     _clickHandler: function (event) {

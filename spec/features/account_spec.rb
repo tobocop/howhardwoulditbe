@@ -228,7 +228,9 @@ describe 'Managing account' do
     it 'allows the user to link one', js: true do
       sign_in('user@example.com', 'pass1word')
 
-      click_link 'My Account'
+      page.should have_content "Welcome"
+      
+      visit '/account'
 
       page.should have_image 'icon_alert_pink.png'
       page.should have_content "You haven't linked a card yet."
