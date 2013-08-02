@@ -12,8 +12,8 @@
       = link_to "Go To My Wallet >", wallet_path
     .share
       %h3
-        %span.h3.bold Get 5 Plink Points
-        when you tell your friends about your loot.
+        %span.h3.bold Tell your friends
+        about the awesome loot you earned.
       .share-btn
         %button.button.nav.sign-in{ href: referrer_url(user_id: current_user.id, affiliate_id: Rails.application.config.default_affiliate_id),
           data: { 'share-widget' => true,
