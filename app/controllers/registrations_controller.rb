@@ -16,7 +16,7 @@ class RegistrationsController < ApplicationController
       track_email_capture_event(user_registration_form.user_id)
       sign_in_user(user_registration_form.user)
 
-      render json: {}
+      render json: {redirect_path: wallet_path(link_card: true)}
     else
       render json: {
         error_message: 'Please Correct the below errors:',

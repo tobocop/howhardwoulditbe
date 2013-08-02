@@ -43,7 +43,7 @@
     };
 
     base._successfulSubmission = function(data) {
-      Plink.redirect(base.redirectUrl);
+      Plink.redirect(data.redirect_path);
     };
 
     base._failureSubmission = function (xhr) {

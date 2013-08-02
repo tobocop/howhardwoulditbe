@@ -16,11 +16,7 @@ class GigyaLoginHandlerController < ApplicationController
         track_email_capture_event(user.id)
         redirect_to wallet_path(link_card: true)
       else
-        if plink_intuit_account_service.user_has_account?(user.id)
-          redirect_to wallet_path
-        else
-          redirect_to wallet_path(link_card: true)
-        end
+        redirect_to redirect_path_for(user)
       end
     else
       redirect_to root_path, notice: response.message
@@ -28,6 +24,14 @@ class GigyaLoginHandlerController < ApplicationController
   end
 
   private
+
+  def redirect_path_for(user)
+    if plink_intuit_account_service.user_has_account?(user.id)
+      wallet_path
+    else
+      wallet_path(link_card: true)
+    end
+  end
 
   def params_for_service
     params.merge(gigya_connection: gigya_connection).except(:controller, :action)

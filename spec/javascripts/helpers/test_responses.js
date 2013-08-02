@@ -2,7 +2,7 @@ var TestResponses = {
   registration: {
     success: {
       status: 200,
-      responseText: '{"foo":"bar"}'
+      responseText: '{"redirect_path":"/foonazzle"}'
     },
 
     failure: {

@@ -11,7 +11,7 @@ describe('Plink.ajaxRedirectForm', function () {
         '<li class="font error">{{this}}</li> {{/each}} ' +
         '</ul> ' +
         '</script>' +
-        '<form id="registration-form" action="/registration" data-redirect-url="/shebassel" data-error-template-selector="#special-error-template">' +
+        '<form id="registration-form" action="/registration" data-error-template-selector="#special-error-template">' +
         '<div class="error-messages"></div>' +
         '<input type="text" name="first_name" value="John" />' +
         '<input type="text" name="email" value="j@example.com" />' +
@@ -43,7 +43,7 @@ describe('Plink.ajaxRedirectForm', function () {
           password_confirmation: ['password']
         });
 
-        expect(Plink.redirect).toHaveBeenCalledWith('/shebassel');
+        expect(Plink.redirect).toHaveBeenCalledWith('/foonazzle');
       });
     });
 

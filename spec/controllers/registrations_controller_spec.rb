@@ -23,6 +23,8 @@ describe RegistrationsController do
         controller.should_receive(:sign_in_user).with(@user_stub)
 
         xhr :post, :create
+
+        JSON.parse(response.body).should == {'redirect_path' => wallet_path(link_card: true)}
       end
 
       it "notifies Gigya of a new user log in" do
