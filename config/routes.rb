@@ -31,6 +31,7 @@ PlinkPivotal::Application.routes.draw do
 
   match '/faq', to: 'static#faq', as: :faq_static
   match '/press', to: 'static#press', as: :press_static
+  match '/about', to: 'static#about', as: :about_static
   match '/terms', to: 'static#terms', as: :terms_static
   match '/privacy_policy', to: 'static#privacy', as: :terms_privacy_static
   match '/careers', to: 'static#careers', as: :careers_static

@@ -15,6 +15,9 @@ class StaticController < ApplicationController
     @articles = plink_news_archive_service.news_articles
   end
 
+  def about
+  end
+
   private
 
   def plink_news_archive_service
