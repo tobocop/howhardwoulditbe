@@ -89,16 +89,17 @@
               = link_to 'Cancel', '#', class: 'button secondary-action', data: {cancel: true}
             .submit-btn
               %button.button.primary-action Change Your Password
-        %hr
-        .content
-          %h4 Your Bank
-          - if @user_has_account
+
+        - if @user_has_account
+          %hr
+          .content
+            %h4 Your Bank
             %h3.bold= @bank_account.bank_name
             = link_to 'Change', '#', data: {'reveal-id' => 'card-change-modal'}
-        %hr
-        .content
-          %h4 Your Card
-          - if @user_has_account
+
+          %hr
+          .content
+            %h4 Your Card
             %h3.bold= @bank_account.account_name
 
       .right-column
