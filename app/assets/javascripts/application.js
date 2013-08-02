@@ -33,7 +33,7 @@ var Plink = {
   topLevelDomain: function (fullDomain) {
     var domainAry = fullDomain.split('.')
 
-    if(domainAry.length < 3){
+    if (domainAry.length < 3) {
       return fullDomain;
     }
     return domainAry[domainAry.length - 2] + '.' + domainAry[domainAry.length - 1]
@@ -42,8 +42,6 @@ var Plink = {
   boot: function () {
 
     $('[data-disable-on-click]').disableOnClick();
-
-    document.domain = Plink.topLevelDomain(document.domain);
 
     $('body').positionFoundationModal({selector: '[data-reveal-id]'});
 
@@ -61,12 +59,12 @@ var Plink = {
       successEvent: Plink.WalletEvents.successfulAdd,
       failureEvent: Plink.WalletEvents.failure
     }).on(Plink.WalletEvents.successfulAdd, function (e) {
-      $('.modal.offer-details').each(function() {
-        if ($(this).hasClass('open')) {
-          $(this).foundation('reveal', 'close');
-        }
+        $('.modal.offer-details').each(function () {
+          if ($(this).hasClass('open')) {
+            $(this).foundation('reveal', 'close');
+          }
+        });
       });
-    });
 
     $('[data-account-edit-form]').accountEditForm();
 
@@ -74,6 +72,14 @@ var Plink = {
     $('#organic-sign-in-form').ajaxRedirectForm();
 
     $('[data-toggle-selector]').toggler();
+
+    try {
+      document.domain = Plink.topLevelDomain(document.domain);
+    } catch (error) {
+      if (typeof console != 'undefined') {
+        console.log('Failed to set document domain')
+      }
+    }
   },
 
   conditionalCallback: function (flag, callback) {
