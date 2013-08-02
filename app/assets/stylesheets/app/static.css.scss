@@ -195,3 +195,15 @@
     }
   }
 }
+
+.error-page {
+  background-image: image-url('error_bg.jpg');
+  background-repeat: no-repeat;
+  min-height: 600px;
+
+  line-height: 2;
+
+  .slimbox {
+    margin-top: 175px;
+  }
+}

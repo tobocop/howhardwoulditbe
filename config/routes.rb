@@ -42,4 +42,6 @@ PlinkPivotal::Application.routes.draw do
   match "/home/plink_video", to: "home#plink_video", via: :get
 
   root to: "home#index"
+
+  match "/500", to: "errors#general_error"
 end
