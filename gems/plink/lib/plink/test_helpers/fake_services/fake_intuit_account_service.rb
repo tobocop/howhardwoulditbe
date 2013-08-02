@@ -1,6 +1,6 @@
 module Plink
   class FakeIntuitAccountService
-    def initialize(accounts_by_id)
+    def initialize(accounts_by_id = {})
       @accounts_by_id = accounts_by_id
     end
 

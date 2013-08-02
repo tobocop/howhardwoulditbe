@@ -8,17 +8,22 @@ class GigyaLoginHandlerController < ApplicationController
     response = gigya_login_service.sign_in_user
 
     if response.success?
-      sign_in_user(gigya_login_service.user)
+      user = gigya_login_service.user
+
+      sign_in_user(user)
 
       if response.new_user?
-        track_email_capture_event(gigya_login_service.user.id)
+        track_email_capture_event(user.id)
         redirect_to wallet_path(link_card: true)
       else
-        redirect_to wallet_path
+        if plink_intuit_account_service.user_has_account?(user.id)
+          redirect_to wallet_path
+        else
+          redirect_to wallet_path(link_card: true)
+        end
       end
     else
-      flash.notice = response.message
-      redirect_to root_path
+      redirect_to root_path, notice: response.message
     end
   end
 
@@ -26,5 +31,9 @@ class GigyaLoginHandlerController < ApplicationController
 
   def params_for_service
     params.merge(gigya_connection: gigya_connection).except(:controller, :action)
+  end
+
+  def plink_intuit_account_service
+    @plink_intuit_account_service ||= Plink::IntuitAccountService.new
   end
 end
