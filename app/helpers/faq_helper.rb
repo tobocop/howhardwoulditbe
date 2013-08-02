@@ -16,7 +16,8 @@ module FaqHelper
       ),
       "I was missing points, but just realized I needed to revalidate my account. Will my points still be added?" => "As long as you revalidated your account within a week or so of receiving our revalidation email, you will receive your points. If you wait longer than, that it's possible that we may not get those transactions from your bank, just let us know as soon as you can so we can recover as many of your transactions as possible.",
       "How Does the Referral Program work?" => "A referral is considered successfully joined when he/she confirms his/her email address and links a card to their account. When you refer a friend, your first referral will unlock an additional slot in your wallet and you will receive 100 Plink points. For each friend that successfully joins, we'll give you 100 Plink. Spread the word.",
-      "What will happen to my points if I need to return something I've purchased at a retail location?" => "Plink reserves the right to withhold any points for up to 90 days. If the points are awarded and the purchases are returned, those could be removed from your account and no rewards will be shipped."
+      "What will happen to my points if I need to return something I've purchased at a retail location?" => "Plink reserves the right to withhold any points for up to 90 days. If the points are awarded and the purchases are returned, those could be removed from your account and no rewards will be shipped.",
+      "Why do I have to reverify my account multiple times?" => "Generally you get those if your bank has multiple security questions. You'll likely get a reverification email a few times until we have all of your security answers on file. You will also have to reverify if you change any of your login information for your bank."
     }
   end
 
