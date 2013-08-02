@@ -35,10 +35,17 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-end
 
-PlinkAdmin.impersonation_redirect_url = '/'
+  config.before(:each) do
+    PlinkAdmin.impersonation_redirect_url = '/'
 
-PlinkAdmin.sign_in_user = ->(user_id, session) do
-  session[:current_user_id] = user_id
+    PlinkAdmin.sign_in_user = ->(user_id, session) do
+      session[:current_user_id] = user_id
+    end
+
+    PlinkAdmin.sign_out_user = ->(session) do
+      session[:current_user_id] = nil
+    end
+  end
+
 end
