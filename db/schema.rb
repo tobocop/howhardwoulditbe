@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730160213) do
+ActiveRecord::Schema.define(:version => 20130802152402) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1302,7 +1302,6 @@ ActiveRecord::Schema.define(:version => 20130730160213) do
   end
 
   add_index "plink_admin_admins", ["email"], :name => "index_plink_admin_admins_on_email", :unique => true
-  add_index "plink_admin_admins", ["reset_password_token"], :name => "index_plink_admin_admins_on_reset_password_token", :unique => true
 
   create_table "postbackResults", :primary_key => "postbackResultID", :force => true do |t|
     t.integer  "userID",         :limit => 8,                       :null => false
