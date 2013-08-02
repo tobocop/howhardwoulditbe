@@ -44,4 +44,5 @@ PlinkPivotal::Application.routes.draw do
   root to: "home#index"
 
   match "/500", to: "errors#general_error"
+  match "/404", to: "errors#not_found"
 end
