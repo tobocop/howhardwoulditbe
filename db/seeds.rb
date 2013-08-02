@@ -36,7 +36,7 @@ p 'Creating institution'
 institution = create_institution(name: 'Bank of AMERRRICA!')
 
 p 'Creating Dev user'
-user = create_user(password: 'password', email: 'pivotal@plink.com')
+user = create_user(password: 'password', email: 'pivotal@plink.com', avatar_thumbnail_url: 'http://img.gawkerassets.com/img/17m6znqc61o49jpg/original.jpg')
 users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
 wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
