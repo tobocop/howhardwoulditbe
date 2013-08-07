@@ -1,6 +1,9 @@
+# Move to account_spec and blow me up
+
+
 require 'qa_spec_helper'
 
-describe 'My Account page', js: true do 
+describe 'My Account page', js: true do
   before(:each) do
     @virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
@@ -8,10 +11,6 @@ describe 'My Account page', js: true do
     @user = Plink::UserService.new.find_by_email('email@Plink.com')
   end
 
-  it 'should be accessible to plink members' do
-    click_on 'My Account'
-    current_path.should == '/account'
-  end  
 
   it 'should present the user with a link to add/change a card' do
     click_on 'My Account'
@@ -72,7 +71,7 @@ describe 'My Account page', js: true do
       page.should have_text 'DATE'
       page.should have_text 'DESCRIPTION'
       page.should have_text 'AMOUNT'
-    end      
+    end
 
     it 'should display an award when a user is awarded points' do
       award_points_to_user(user_id: @user.id, dollar_award_amount: 1, currency_award_amount: 1000, virtual_currency_id: @virtual_currency.id)
@@ -107,7 +106,7 @@ describe 'My Account page', js: true do
     end
 
     subject { page }
-    
+
     it { should have_field('email') }
     it { should have_field('password') }
 
@@ -138,7 +137,6 @@ describe 'My Account page', js: true do
       fill_in 'password', with: 'test123'
       click_on 'Change Your Email'
       page.should have_text 'switch@plink.com'
-      # page.should have_text "#{@user.email}"
     end
   end
 end
