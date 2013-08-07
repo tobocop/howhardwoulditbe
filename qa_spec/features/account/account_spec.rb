@@ -4,10 +4,8 @@ describe 'My Account page', js: true do
   before(:each) do
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
 
-
     # Figure this out
     # user = Plink::UserService.where(emailAddress: "email@Plink.com")
-    # pp user.inspect
     click_on 'My Account'
   end
 
@@ -36,21 +34,21 @@ describe 'My Account page', js: true do
 
     it 'should not change if name contains numbers' do
       fill_in 'first_name', with: 'Name123'
-      fill_in 'password', with: 'test123'
+      fill_in 'password',   with: 'test123'
       click_on 'Change Your Name'
       page.should have_text 'Please enter only alphabetical characters for your name.'
     end
 
     it 'should not change if name contains symbols' do
       fill_in 'first_name', with: 'Name*&%'
-      fill_in 'password', with: 'test123'
+      fill_in 'password',   with: 'test123'
       click_on 'Change Your Name'
       page.should have_text 'Please enter only alphabetical characters for your name.'
     end
 
     it 'should not change if name contains spaces' do
       fill_in 'first_name', with: 'name name'
-      fill_in 'password', with: 'test123'
+      fill_in 'password',   with: 'test123'
       click_on 'Change Your Name'
       page.should have_text 'Please enter only alphabetical characters for your name.'
     end
@@ -58,7 +56,7 @@ describe 'My Account page', js: true do
     pending 'correction' do
       it 'should not change if password is incorrect' do
         fill_in 'first_name', with: 'qa_spec_test@xample.com'
-        fill_in 'password', with: 'test44444444'
+        fill_in 'password',   with: 'test44444444'
         click_on 'Change Your Name'
         page.should have_text 'Current password is incorrect'
       end
@@ -66,9 +64,10 @@ describe 'My Account page', js: true do
 
     it 'should update the users email if all conditions are met' do
       fill_in 'first_name', with: 'Newname'
-      fill_in 'password', with: 'test123'
+      fill_in 'password',   with: 'test123'
       click_on 'Change Your Name'
       page.should have_text 'Newname'
+      page.should have_text 'Account updated successfully'
     end
   end
 
@@ -80,7 +79,7 @@ describe 'My Account page', js: true do
     it { should have_field('password') }
 
     it 'should not change if email format is invalid' do
-      fill_in 'email', with: 'qa_spec_testxampleom'
+      fill_in 'email',    with: 'qa_spec_testxampleom'
       fill_in 'password', with: 'test123'
       click_on 'Change Your Email'
       page.should have_text 'Please enter a valid email address'
@@ -88,7 +87,7 @@ describe 'My Account page', js: true do
 
     pending 'correction' do
       it 'should not change if password is incorrect' do
-        fill_in 'email', with: 'qa_spec_test@xample.com'
+        fill_in 'email',    with: 'qa_spec_test@xample.com'
         fill_in 'password', with: 'test44444444'
         click_on 'Change Your Email'
         page.should have_text 'Current password is incorrect'
@@ -97,21 +96,61 @@ describe 'My Account page', js: true do
 
     it 'should not change if the requested change email is an existing user' do
       create_user(password:'password', email: 'existing@plink.com')
-      fill_in 'email', with: 'existing@plink.com'
+      fill_in 'email',    with: 'existing@plink.com'
       fill_in 'password', with: 'test123'
       click_on 'Change Your Email'
       page.should have_text "You've entered an email address that is already registered with Plink."
     end
 
     it 'should update the users email if all conditions are met' do
-      fill_in 'email', with: 'switch@plink.com'
+      fill_in 'email',    with: 'switch@plink.com'
       fill_in 'password', with: 'test123'
       click_on 'Change Your Email'
       page.should have_text 'switch@plink.com'
+      page.should have_text 'Account updated successfully'
     end
   end
 
-  it 'should allow the user to reset their password' do
+
+  context 'as a user updating their password' do
+    before { page.all('a', text: 'Change')[2].click }
+
+    it { should have_field('email') }
+    it { should have_field('password') }
+
+    it 'should error if password does not match confirmation' do
+      fill_in 'new_password',              with: 'test123'
+      fill_in 'new_password_confirmation', with: 'test12346'
+      fill_in 'password',                  with: 'test123'
+      click_on 'Change Your Password'
+      page.should have_text "New password doesn't match confirmation"
+    end
+
+    pending 'correction' do
+      it 'should error if the user enters the wrong password' do
+        fill_in 'new_password',              with: 'test123'
+        fill_in 'new_password_confirmation', with: 'test123'
+        fill_in 'password',                  with: 'wrong'
+        click_on 'Change Your Password'
+        page.should have_text "Current password is incorrect"
+      end
+    end
+
+    it 'should error if the user enters a short password' do
+      fill_in 'new_password',              with: '1'
+      fill_in 'new_password_confirmation', with: '1'
+      fill_in 'password',                  with: 'test123'
+      click_on 'Change Your Password'
+      page.should have_text "New password must be at least 6 characters long"
+    end
+
+    it 'should change the users password if all fields are correct' do
+      fill_in 'new_password',              with: 'newPass'
+      fill_in 'new_password_confirmation', with: 'newPass'
+      fill_in 'password',                  with: 'test123'
+      click_on 'Change Your Password'
+      page.should have_text "Account updated successfully"
+    end
   end
 
 
@@ -128,10 +167,7 @@ describe 'My Account page', js: true do
 
   context 'as a linked user' do
 
-  end
-
-
-  context 'as a user who has recent activity' do
-
+    context 'as a user who has recent activity' do
+    end
   end
 end
