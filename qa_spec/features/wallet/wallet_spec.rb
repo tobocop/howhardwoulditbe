@@ -7,8 +7,7 @@ describe "Wallet page", js: true do
     add_five_offers_to_page
 
     sign_up_user(first_name: "tester", email: "email@Plink.com", password: "test123")
-    @user = Plink::UserService.new.find_by_email('email@Plink.com')
-  end
+      end
 
   subject { page }
 
@@ -36,7 +35,7 @@ describe "Wallet page", js: true do
 
   context 'before a user has linked a card' do
     it 'should prompt the user to link a card on the offer details modal' do
-      visit '/wallet'  
+      visit '/wallet'
       click_on('Add to wallet', match: :first)
       within '.modal' do
         click_on 'Link Your Card'
