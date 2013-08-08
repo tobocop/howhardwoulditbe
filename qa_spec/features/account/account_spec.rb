@@ -20,6 +20,7 @@ describe 'My Account page', js: true do
     it { should have_text "You haven't linked a card yet." }
     it { should have_link 'Link Card' }
     it { should have_image 'icon_alert_pink' }
+
     it 'should allow the user to link a card' do
       click_on 'Link Card'
       page.should have_css '#card-add-modal'
@@ -171,26 +172,83 @@ describe 'My Account page', js: true do
     before(:each) do
       create_oauth_token(user_id: user.id)
       users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: @virtual_currency.id)
-      institution = create_institution(name: 'Bank of representin')
+      institution = create_institution(name: 'Bankhead')
       users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
-      create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
-
+      create_users_institution_account(user_id: user.id, name: 'checks on checks on checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
 
       sign_in('email@plink.com', 'test123')
-      click_on 'My Account'
     end
 
-    it { should have_text 'Active' }
-    it { should have_image 'icon_active' }
-    it { should }
+    it 'should display the users bank info' do
+      click_on 'My Account'
+      page.should have_text 'Active'
+      page.should have_image 'icon_active'
+      page.should have_text 'Bankhead'
+      page.should have_text 'checks on checks on checks 4321'
+    end
+
+    it 'should allow a user to change their bank' do
+      click_on 'My Account'
+      page.should have_text('Change', count: 4)    #Will be 5 once change account comes back
+      page.all('a', text: 'Change')[3].click
+      page.should have_css '#card-change-modal'
+    end
 
 
-
-    context 'who has recent activity' do
+    context 'who has recent activity & points' do
       before(:each) do
-        #Add some points and activity
+        award_points_to_user(user_id: user.id, dollar_award_amount: 5.43, currency_award_amount: 543, virtual_currency_id: @virtual_currency.id)
+
+        @reward = create_reward(
+          name: 'Amazon Gift Card', description: 'amazon.com', terms: '<a href="#">amazon TOC</a>',
+          amounts: [ new_reward_amount(dollar_award_amount: 5, is_active: true) ]
+        )
       end
 
+      it 'should display the users balance' do
+        click_on 'My Account'
+        page.should have_text('You have 543 Plink Points.', count: 2)
+        page.should have_text('Lifetime balance: 543 Plink Points')
+      end
+
+      it 'should show a link to redeem if a user has enough points' do
+        click_on 'My Account'
+        page.should have_link 'You have enough points to get some loot!'
+        click_on 'You have enough points to get some loot!'
+        redeem_for_5(@reward)
+        validate_5_reward_on_account(@reward, user)
+      end
+
+      it 'should display an award when a user is awarded points' do
+        award_points_to_user(
+          user_id: user.id,
+          dollar_award_amount: 4.35,
+          currency_award_amount: 435,
+          award_message: 'this is a free award',
+          virtual_currency_id: @virtual_currency.id,
+          type: 'free'
+        )
+        click_on 'My Account'
+        page.should have_content Date.today.to_s(:month_day)
+        page.should have_text('435 Plink Points')
+        page.should have_text('this is a free award')
+        page.should have_image "icon_bonus"
+      end
+
+      it 'should display an redemption activity when a user redeems' do
+        click_on 'Rewards'
+        redeem_for_5(@reward)
+        validate_5_reward_on_account(@reward, user)
+      end
+
+      it 'should display no more than 20 activities at a time' do
+        21.times { award_points_to_user(user_id: user.id, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id) }
+        click_on 'My Account'
+        page.should have_text('600 Plink Points', count: 20)
+      end
     end
   end
 end
+
+
+
