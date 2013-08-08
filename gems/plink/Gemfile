@@ -3,4 +3,5 @@ source "http://rubygems.org"
 gemspec
 
 gem 'tango', path: '../tango'
+gem 'pry'
 
