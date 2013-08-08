@@ -37,6 +37,17 @@ describe Plink::WalletItemUnlockingService do
       wallet_item.unlock_reason.should == 'transaction'
       wallet_item.type.should == 'Plink::OpenWalletItemRecord'
     end
+
+    it 'handles NULL walletItem.type values gracefully' do
+      wallet.wallet_item_records.each do |wallet_item_record|
+        wallet_item_record.type = nil
+        wallet_item_record.save!
+      end
+      wallet.reload
+      expect {
+        service.unlock(wallet, Plink::WalletRecord::UNLOCK_REASONS[:transaction])
+      }.not_to raise_exception(NoMethodError)
+    end
   end
 
 end
