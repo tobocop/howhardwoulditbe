@@ -32,15 +32,9 @@ module Plink
       .where('walletItems.unlock_reason IS NULL')
     }
 
-    #scope :wallets_eligible_for_transaction_unlocks, -> {
-    #  joins(wallets_without_unlocked_transaction_wallet_items)
-    #  .joins(wallets_of_users_with_qualifying_transactions)
-    #}
-
     scope :wallets_eligible_for_transaction_unlocks, -> {
-      joins("LEFT JOIN walletItems ON wallets.walletID = walletItems.walletID AND walletItems.unlock_reason = 'transaction'")
-      .where('walletItems.unlock_reason IS NULL')
-      .where('userID IN (?)', Plink::UserRecord.user_ids_with_qualifying_transactions)
+      wallets_without_unlocked_transaction_wallet_items
+      .wallets_of_users_with_qualifying_transactions
     }
 
   end
