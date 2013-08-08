@@ -29,6 +29,19 @@ module Plink
 
     belongs_to :advertiser, class_name: 'Plink::AdvertiserRecord', foreign_key: 'advertiserID'
 
+    scope :live_non_excluded_offers_for_currency, ->(wallet_id, currency_id) {
+      self.live_offers_for_currency(currency_id)
+      .non_excluded_offers(wallet_id)
+    }
+
+    scope :non_excluded_offers, ->(wallet_id) {
+      joins("
+        LEFT JOIN #{Plink::OfferExclusionRecord.table_name} ON #{Plink::OfferExclusionRecord.table_name}.offerID = #{self.table_name}.offerID
+          AND #{Plink::OfferExclusionRecord.table_name}.walletID = #{sanitize(wallet_id)}
+      ")
+      .where("#{Plink::OfferExclusionRecord.table_name}.offerID IS NULL")
+    }
+
     def self.live_offers_for_currency(currency_id)
       joins(:active_offers_virtual_currencies).where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id).order('is_new DESC, created DESC')
     end

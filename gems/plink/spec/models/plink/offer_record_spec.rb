@@ -45,6 +45,72 @@ describe Plink::OfferRecord do
     end
   end
 
+  context 'excluded offers' do
+    let(:excluded_wallet_record) { create_wallet(user_id: 1) }
+    let(:not_excluded_wallet_record) { create_wallet(user_id: 9) }
+
+    before :each do
+      gap = create_advertiser(advertiser_name: 'Gap')
+      create_offer(
+        advertiser_id: gap.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            virtual_currency_id: 54,
+            tiers: [
+              new_tier
+            ]
+          )
+        ]
+      )
+
+      not_gap = create_advertiser(advertiser_name: 'Not Gap')
+      @expected_offer = create_offer(
+        advertiser_id: not_gap.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            virtual_currency_id: 54,
+            tiers: [
+              new_tier
+            ]
+          )
+        ]
+      )
+
+      expired_offer = create_offer(
+        advertiser_id: not_gap.id,
+        offers_virtual_currencies: [
+          new_offers_virtual_currency(
+            is_active: false,
+            virtual_currency_id: 54,
+            tiers: [
+              new_tier
+            ]
+          )
+        ]
+      )
+    end
+
+    describe 'live_non_excluded_offers_for_currency' do
+      it 'returns live offers that are excluded from a wallet' do
+        offers = Plink::OfferRecord.live_non_excluded_offers_for_currency(excluded_wallet_record.id, 54)
+        offers.length.should == 1
+        offers.first.id.should == @expected_offer.id
+      end
+
+      it 'returns live offers that are not excluded from a wallet' do
+        offers = Plink::OfferRecord.live_non_excluded_offers_for_currency(not_excluded_wallet_record.id, 54)
+        offers.length.should == 2
+      end
+    end
+
+    describe 'non_excluded_offers' do
+      it 'returns offers that are not excluded from a wallet' do
+        offers = Plink::OfferRecord.non_excluded_offers(excluded_wallet_record.id)
+        offers.length.should == 2
+      end
+    end
+  end
+
   describe 'in_wallet' do
     it 'returns all offers in a given wallet' do
       wallet = create_wallet
