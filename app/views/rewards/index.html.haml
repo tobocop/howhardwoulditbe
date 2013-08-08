@@ -3,10 +3,13 @@
   %p= flash[:error]
 
   .rewards
-    %h1 Choose Your Reward.
-
-    %br
-    %br
+    .message.cf
+      %h1 Choose Your Reward.
+    .message.cf
+      %h3.cyan.bold
+        Why can't I redeem for more than $10?
+      %h3.cyan
+        We're updating how our rewards system works to give you more savings. Check back soon!
 
     - @rewards.each do |reward|
       .reward.cf

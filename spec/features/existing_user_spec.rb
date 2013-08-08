@@ -160,6 +160,8 @@ describe 'user signs in' do
 
     page.execute_script('$.fx.off = true;')
 
+    page.should have_content "Why can't I redeem for more than $10?"
+    page.should have_content "We're updating how our rewards system works to give you more savings. Check back soon!"
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_css('.denomination.locked')
       page.should have_css('.flag-locked')
