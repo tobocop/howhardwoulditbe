@@ -30,8 +30,6 @@ module UserActions
   end
 
   def redeem_for_5(reward)     #make this non dependant on reward amount
-    pp reward.amounts
-
     click_on 'Rewards' if current_path != '/rewards'
     page.find('a', text: '$5').click
     within '.modal' do
