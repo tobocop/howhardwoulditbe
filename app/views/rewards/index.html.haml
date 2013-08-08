@@ -17,8 +17,9 @@
           %h4= reward.description.html_safe
 
         - reward.amounts.reverse.each do |amount|
-          - if @user_has_account && current_user.can_redeem? && amount.dollar_award_amount <= current_user.current_balance
-            = render :partial => 'shared/active_reward_amount', locals: {amount: amount, reward: reward}
+          - locals = {amount: amount, reward: reward}
+
+          - if display_as_available?(@user_has_account, amount.dollar_award_amount)
+            = render :partial => 'shared/active_reward_amount', locals: locals
           - else
-            .denomination.unavailable
-              = plink_currency_format(amount.dollar_award_amount)
+            = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals

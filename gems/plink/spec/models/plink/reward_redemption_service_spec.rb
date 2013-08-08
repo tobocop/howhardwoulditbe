@@ -8,7 +8,14 @@ describe Plink::RewardRedemptionService do
   describe 'redeem' do
     it 'returns false if the user does not have enough to redeem' do
       Plink::RewardAmountRecord.stub(:find).and_return (stub(dollar_award_amount:5, reward_id: 3))
+
       subject.new(valid_params.merge(user_balance:4.5)).redeem.should be_false
+    end
+
+    it 'returns false if the redemption amount is more than $10' do
+      Plink::RewardAmountRecord.stub(:find).and_return (stub(dollar_award_amount:10.01, reward_id: 3))
+
+      subject.new(valid_params.merge(user_balance:100)).redeem.should be_false
     end
 
     it 'inserts the redemption record as pending' do

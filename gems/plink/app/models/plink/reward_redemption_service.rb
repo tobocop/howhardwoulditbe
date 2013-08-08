@@ -10,7 +10,8 @@ module Plink
     end
 
     def redeem
-      return false unless user_can_afford_it?
+      return false unless user_can_afford_it? && eligible_redemption_amount?
+
       process!
     end
 
@@ -25,6 +26,10 @@ module Plink
 
     def user_can_afford_it?
       reward_amount_record.dollar_award_amount <= user_balance
+    end
+
+    def eligible_redemption_amount?
+      reward_amount_record.dollar_award_amount <= Plink::RewardAmount::MAXIMUM_REDEMPTION_VALUE
     end
 
     def tango_redemption_service

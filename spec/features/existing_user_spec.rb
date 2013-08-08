@@ -16,7 +16,7 @@ describe 'user signs in' do
 
     link_card_for_user(user.id)
 
-    award_points_to_user(user_id: user.id, dollar_award_amount: 10.00, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
+    award_points_to_user(user_id: user.id, dollar_award_amount: 100.00, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
@@ -59,7 +59,8 @@ describe 'user signs in' do
         [
           new_reward_amount(dollar_award_amount: 5, is_active: true),
           new_reward_amount(dollar_award_amount: 10, is_active: true),
-          new_reward_amount(dollar_award_amount: 15, is_active: false)
+          new_reward_amount(dollar_award_amount: 15, is_active: false),
+          new_reward_amount(dollar_award_amount: 20, is_active: true)
         ]
     )
 
@@ -75,11 +76,10 @@ describe 'user signs in' do
   end
 
   it 'a registered user can have an active session', js: true, driver: :selenium do
-
     sign_in('test@example.com', 'test123')
 
     page.should have_content('Welcome, Bob!')
-    page.should have_content('You have 1000 Plink Points.')
+    page.should have_content('You have 10000 Plink Points.')
 
     page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     page.should have_content('You want this.')
@@ -111,7 +111,7 @@ describe 'user signs in' do
 
     page.should have_content 'CONGRATS ON YOUR LOOT!'
     page.should have_content "You've succesfully redeemed for a $5 Walmart Gift Card."
-    page.should have_content('You have 500 Plink Points.')
+    page.should have_content('You have 9500 Plink Points.')
 
     click_on 'Rewards'
 
@@ -132,7 +132,7 @@ describe 'user signs in' do
       end
     end
 
-    page.should have_content('You have 500 Plink Points.')
+    page.should have_content('You have 9500 Plink Points.')
 
     within '.reward', text: 'Tango Card' do
       page.should have_content 'it takes two'
@@ -147,13 +147,22 @@ describe 'user signs in' do
     page.should have_content "You've succesfully redeemed for a $5 Tango Card."
     page.should have_link "it takes two"
 
-    page.should have_content('You have 0 Plink Points.')
+    page.should have_content('You have 9000 Plink Points.')
 
     click_on 'Rewards'
 
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_content 'wally mart'
       page.should_not have_link '$5'
+    end
+
+    click_on 'Rewards'
+
+    page.execute_script('$.fx.off = true;')
+
+    within '.reward', text: 'Walmart Gift Card' do
+      page.should have_css('.denomination.locked')
+      page.should have_css('.flag-locked')
     end
 
     click_on 'Wallet'

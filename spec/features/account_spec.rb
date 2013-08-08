@@ -229,7 +229,7 @@ describe 'Managing account' do
       sign_in('user@example.com', 'pass1word')
 
       page.should have_content "Welcome"
-      
+
       visit '/account'
 
       page.should have_image 'icon_alert_pink.png'

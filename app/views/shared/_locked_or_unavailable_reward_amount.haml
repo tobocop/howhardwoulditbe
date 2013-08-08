@@ -1,0 +1,8 @@
+- if amount.dollar_award_amount > 10
+  .denomination.locked
+    = plink_currency_format(amount.dollar_award_amount)
+    .flag-locked
+      %img{ :src => "/assets/icon_lock.png"}
+- else
+  .denomination.unavailable
+    = plink_currency_format(amount.dollar_award_amount)
