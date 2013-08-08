@@ -294,6 +294,9 @@ describe 'user signs in' do
     find(".header-logo").click
     current_path.should == '/wallet'
 
+    visit '/'
+    current_path.should == '/wallet'
+
     click_on 'Log Out'
 
     current_path.should == '/'
