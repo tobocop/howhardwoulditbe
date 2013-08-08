@@ -5,19 +5,19 @@ export RAILS_ENV=test
 set -e
 
 echo "RUNNING PLINK ADMIN GEM BUILD"
-cd gems/plink_admin && rspec spec && cd ../..
+cd gems/plink_admin && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
 echo "RUNNING GIGYA GEM BUILD"
-cd gems/gigya && rspec spec && rspec integration_spec && cd ../..
+cd gems/gigya && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
 echo "RUNNING TANGO GEM BUILD"
-cd gems/tango && rspec spec && rspec integration_spec && cd ../..
+cd gems/tango && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
 echo "RUNNING PLINK GEM BUILD"
-cd gems/plink && rspec spec && cd ../..
+cd gems/plink && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
 echo "RUNNING JASMINE BUILD"
