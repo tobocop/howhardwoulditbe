@@ -28,8 +28,10 @@ module Plink
     }
 
     scope :wallets_without_unlocked_transaction_wallet_items, -> {
-      joins("LEFT JOIN walletItems ON wallets.walletID = walletItems.walletID AND walletItems.unlock_reason = 'transaction'")
-      .where('walletItems.unlock_reason IS NULL')
+      joins("LEFT JOIN #{Plink::WalletItemRecord.table_name}
+        ON #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
+        AND #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{UNLOCK_REASONS[:transaction]}'")
+      .where("#{Plink::WalletItemRecord.table_name}.unlock_reason IS NULL")
     }
 
     scope :wallets_eligible_for_transaction_unlocks, -> {
