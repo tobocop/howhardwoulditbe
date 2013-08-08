@@ -373,7 +373,8 @@ module Plink
       defaults = {
         wallet_id: 1,
         wallet_slot_id: 1,
-        wallet_slot_type_id: 1
+        wallet_slot_type_id: 1,
+        unlock_reason: 'join'
       }
 
       OpenWalletItemRecord.new(defaults.merge(options))
@@ -389,7 +390,8 @@ module Plink
       defaults = {
         wallet_id: 1,
         wallet_slot_id: 1,
-        wallet_slot_type_id: 1
+        wallet_slot_type_id: 1,
+        unlock_reason: nil
       }
 
       LockedWalletItemRecord.new(defaults.merge(options))

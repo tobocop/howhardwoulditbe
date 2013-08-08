@@ -35,6 +35,15 @@ module Plink
 
     before_create :set_default_virtual_currency
 
+    scope :users_with_qualifying_transactions, -> {
+      joins('INNER JOIN qualifyingAwards ON qualifyingAwards.userID = users.userID')
+      .where('qualifyingAwards.isSuccessful = 1')
+    }
+
+    def self.user_ids_with_qualifying_transactions
+      users_with_qualifying_transactions.map(&:userID)
+    end
+
     def self.find_by_email(email)
       where(:emailAddress => email).first
     end

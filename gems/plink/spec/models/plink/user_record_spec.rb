@@ -103,6 +103,38 @@ describe Plink::UserRecord do
     end
   end
 
+  describe 'named scopes' do
+    describe '.users_with_qualifying_transactions' do
+      let(:users_with_qualifying_transactions) { Plink::UserRecord.users_with_qualifying_transactions }
+      it 'returns users who have a qualifying transaction' do
+        qualifying_user = create_user
+        create_qualifying_award(user_id: qualifying_user.id)
+
+        users_with_qualifying_transactions.should include qualifying_user
+      end
+
+      it 'does not return users who do not have a qualifying transaction' do
+        non_qualifying_user = create_user
+        users_with_qualifying_transactions.should_not include non_qualifying_user
+      end
+    end
+  end
+
+  describe '.user_ids_with_qualifying_transactions' do
+    let(:user_ids_with_qualifying_transactions) { Plink::UserRecord.user_ids_with_qualifying_transactions }
+    it 'returns users who have a qualifying transaction' do
+      qualifying_user = create_user
+      create_qualifying_award(user_id: qualifying_user.id)
+
+      user_ids_with_qualifying_transactions.should include qualifying_user.id
+    end
+
+    it 'does not return users who do not have a qualifying transaction' do
+      non_qualifying_user = create_user
+      user_ids_with_qualifying_transactions.should_not include non_qualifying_user.id
+    end
+  end
+
   it 'allows assignment of avatar_thumbnail_url' do
     subject.update_attributes(avatar_thumbnail_url: 'test123')
     subject.avatar_thumbnail_url.should == 'test123'

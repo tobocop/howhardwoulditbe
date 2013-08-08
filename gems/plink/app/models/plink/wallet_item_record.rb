@@ -11,10 +11,15 @@ module Plink
     alias_attribute :users_award_period_id, :usersAwardPeriodID
     alias_attribute :offers_virtual_currency_id, :offersVirtualCurrencyID
 
-    attr_accessible :wallet_id, :wallet_slot_id, :wallet_slot_type_id, :offers_virtual_currency_id
+    attr_accessible :wallet_id, :wallet_slot_id, :wallet_slot_type_id, :offers_virtual_currency_id, :unlock_reason
 
     validates :wallet_id, :wallet_slot_id, :wallet_slot_type_id, presence: true
     validates_uniqueness_of :offersVirtualCurrencyID, scope: :walletID, unless: -> { offersVirtualCurrencyID.nil? }
+
+    scope :wallets_with_an_unlock_reason_of_transaction, -> {
+      select(:walletID)
+      .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:transaction])
+    }
 
     def convert_to(klass_name)
       self.type = klass_name

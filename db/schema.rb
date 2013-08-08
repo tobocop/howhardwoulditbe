@@ -2119,17 +2119,12 @@ ActiveRecord::Schema.define(:version => 20130802152402) do
   end
 
   create_table "walletItems", :primary_key => "walletItemID", :force => true do |t|
-    t.integer  "walletID",                                               :null => false
     t.integer  "advertiserID_old"
     t.integer  "virtualCurrencyID_old"
     t.integer  "usersAwardPeriodID",      :limit => 8
-    t.datetime "created",                                                :null => false
-    t.datetime "modified",                                               :null => false
-    t.boolean  "isActive",                             :default => true, :null => false
-    t.integer  "walletSlotID",                                           :null => false
-    t.integer  "walletSlotTypeID",                                       :null => false
     t.integer  "offersVirtualCurrencyID"
     t.string   "type"
+    t.string   "unlock_reason",           :limit => 15
   end
 
   create_table "walletItemsHistory", :primary_key => "walletItemHistoryID", :force => true do |t|
