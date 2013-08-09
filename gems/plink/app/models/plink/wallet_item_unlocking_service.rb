@@ -7,7 +7,14 @@ module Plink
       end
     end
 
-    private
+    def self.unlock_wallet_item_record(wallet_item_record, reason)
+      wallet_item_record.unlock_reason = reason
+      wallet_item_record.type = 'Plink::OpenWalletItemRecord'
+      wallet_item_record.save
+    end
+
+  private
+
     def self.unlock(wallet_record, reason)
       return if wallet_record.locked_wallet_items.empty?
 
@@ -18,5 +25,4 @@ module Plink
     end
 
   end
-
 end

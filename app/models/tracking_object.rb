@@ -3,7 +3,6 @@ class TrackingObject
   attr_reader :affiliate_id, :sub_id, :sub_id_two, :sub_id_three, :sub_id_four, :path_id, :campaign_hash, :ip
 
   def initialize(options)
-
     defaults = self.class.defaults
 
     @affiliate_id = options.fetch(:affiliate_id, defaults['AID'])

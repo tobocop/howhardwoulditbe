@@ -1,0 +1,20 @@
+%h3 Unlock Locked Wallet Items
+
+%h4= "Locked Wallet Items: #{@user.wallet_item_records.locked.count}"
+%ol
+  - @user.wallet_item_records.locked.each do |wallet_item|
+    %li.locked-wallet-items
+      = "Open Slot for reason of: "
+      = open_slot_link('referral', wallet_item.id)
+      = open_slot_link('join', wallet_item.id)
+      = open_slot_link('transaction', wallet_item.id)
+
+%h4= "Open Wallet Items: #{@user.wallet_item_records.open_records.count}"
+%ol
+  - @user.wallet_item_records.open_records.each do |wallet_item|
+    %li.open-wallet-items= wallet_item.unlock_reason
+
+%h4= "Populated Wallet Items: #{@user.wallet_item_records.populated_records.count}"
+%ol
+  - @user.wallet_item_records.populated_records.each do |wallet_item|
+    %li.open-wallet-items= wallet_item.unlock_reason

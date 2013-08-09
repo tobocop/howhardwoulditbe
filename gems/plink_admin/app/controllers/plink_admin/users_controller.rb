@@ -5,6 +5,10 @@ module PlinkAdmin
       @users = []
     end
 
+    def edit
+      @user = Plink::UserRecord.find(params[:id])
+    end
+
     def search
       @search_term = params[:email]
       @users = plink_user_service.search_by_email(@search_term)

@@ -4,11 +4,9 @@ describe ContactController do
 
   describe 'GET new' do
     it 'should assign @contact_form' do
-
       get :new
 
       assigns(:contact_form).should be_present
-
     end
   end
 
@@ -22,7 +20,6 @@ describe ContactController do
     end
 
     it 'should send an email to the default email address' do
-
       email_spy = mock('email')
       email_spy.should_receive(:deliver)
 

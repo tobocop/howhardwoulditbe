@@ -26,4 +26,6 @@
             %td= user.current_balance
             %td= user.lifetime_balance
             %td= user.primary_virtual_currency_id
-            %td= link_to 'Impersonate &raquo;'.html_safe, impersonate_user_path(id: user.id), method: :post
+            %td
+              = link_to 'Edit User &raquo;'.html_safe, edit_user_path(id: user.id)
+              = link_to 'Impersonate &raquo;'.html_safe, impersonate_user_path(id: user.id), method: :post

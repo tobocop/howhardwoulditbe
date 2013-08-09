@@ -44,10 +44,36 @@ describe Plink::WalletItemUnlockingService do
         wallet_item_record.save!
       end
       wallet.reload
+
       expect {
         service.unlock_transaction_items_for_eligible_users
       }.not_to raise_exception(NoMethodError)
     end
+  end
+
+  describe '.unlock_wallet_item_record' do
+    let(:wallet_item_record) { create_locked_wallet_item }
+    let(:reason) { Plink::WalletRecord::UNLOCK_REASONS[:join] }
+
+    it 'unlocks the given WalletItemRecord with the given reason' do
+      wallet_item_record.type.should == 'Plink::LockedWalletItemRecord'
+
+      service.unlock_wallet_item_record(wallet_item_record, reason)
+
+      wallet_item_record.unlock_reason.should == reason
+      wallet_item_record.type.should == 'Plink::OpenWalletItemRecord'
+    end
+
+    it 'returns true when successful' do
+      service.unlock_wallet_item_record(wallet_item_record, reason).should be_true
+    end
+
+    it 'returns false when unsuccessful' do
+      wallet_item_record.stub(:save).and_return(false)
+
+      service.unlock_wallet_item_record(wallet_item_record, reason).should be_false
+    end
+
   end
 
 end

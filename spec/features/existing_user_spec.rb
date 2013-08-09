@@ -18,7 +18,7 @@ describe 'user signs in' do
 
     award_points_to_user(user_id: user.id, dollar_award_amount: 100.00, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
 
-    old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
+    old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy Test')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
 
     @old_navy_offer = create_offer(advertiser_id: old_navy.id,

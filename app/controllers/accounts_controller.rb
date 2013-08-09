@@ -17,9 +17,9 @@ class AccountsController < ApplicationController
     if plink_user_service.verify_password(current_user.id, params.delete(:password))
       if updating_password?(params)
         plink_user = plink_user_service.update_password(
-            current_user.id,
-            new_password: params.delete(:new_password),
-            new_password_confirmation: params.delete(:new_password_confirmation)
+          current_user.id,
+          new_password: params.delete(:new_password),
+          new_password_confirmation: params.delete(:new_password_confirmation)
         )
       else
         plink_user = plink_user_service.update(current_user.id, updatable_user_attributes(params))

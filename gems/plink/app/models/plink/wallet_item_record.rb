@@ -15,11 +15,17 @@ module Plink
 
     validates :wallet_id, :wallet_slot_id, :wallet_slot_type_id, presence: true
     validates_uniqueness_of :offersVirtualCurrencyID, scope: :walletID, unless: -> { offersVirtualCurrencyID.nil? }
+    validates :unlock_reason, inclusion: {in: Plink::WalletRecord::UNLOCK_REASONS.values},
+      allow_nil: true, allow_blank: false
 
     scope :wallets_with_an_unlock_reason_of_transaction, -> {
       select(:walletID)
       .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:transaction])
     }
+
+    scope :locked, -> { where(type: Plink::LockedWalletItemRecord) }
+    scope :open_records, -> { where(type: Plink::OpenWalletItemRecord) }
+    scope :populated_records, -> { where(type: Plink::PopulatedWalletItemRecord) }
 
     def convert_to(klass_name)
       self.type = klass_name

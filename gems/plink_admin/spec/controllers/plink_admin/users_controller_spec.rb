@@ -7,8 +7,17 @@ describe PlinkAdmin::UsersController do
     sign_in :admin, admin
   end
 
-  describe 'GET search' do
+  describe 'GET edit' do
+    let(:user) { create_user }
 
+    it 'returns the user whose :id is passed as a parameter' do
+      get :edit, id: user.id
+
+      assigns(:user).should == user
+    end
+  end
+
+  describe 'GET search' do
     let(:mock_user_service) { mock(:user_service, search_by_email: []) }
 
     before do

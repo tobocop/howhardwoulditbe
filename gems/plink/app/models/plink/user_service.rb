@@ -16,7 +16,7 @@ module Plink
       user = find_by_id(id)
       user.update_attributes(attributes)
       create_user(user)
-      end
+    end
 
     def update_password(id, attributes={})
       user = find_user_record(id)

@@ -14,6 +14,23 @@ describe Plink::WalletItemRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
+  describe 'validations' do
+    it 'validates that unlock_reason can be nil' do
+      subject.should be_valid
+    end
+    it 'validates that unlock_reason is in the list' do
+      subject.unlock_reason = 'join'
+      subject.should be_valid
+    end
+    it 'validates that unlock_reason cannot be a value not in the list or nil' do
+      subject.unlock_reason = ' '
+      subject.should_not be_valid
+
+      subject.unlock_reason = 'plink'
+      subject.should_not be_valid
+    end
+  end
+
   describe 'create' do
     it 'can be created' do
       Plink::WalletItemRecord.create(valid_params).should be_persisted
@@ -29,6 +46,50 @@ describe Plink::WalletItemRecord do
 
     it 'requires a wallet_slot_type_id' do
       Plink::WalletItemRecord.new(valid_params.except(:wallet_slot_type_id)).should_not be_valid
+    end
+  end
+
+  describe 'named scopes' do
+    describe '.open_records' do
+      subject(:open_scope) { Plink::WalletItemRecord.open_records }
+
+      let!(:open_wallet_item) { create_open_wallet_item }
+      let!(:populated_wallet_item) { create_populated_wallet_item }
+      let!(:locked_wallet_item) { create_locked_wallet_item }
+
+      it "returns only open wallet item records" do
+        open_scope.should include open_wallet_item
+        open_scope.should_not include populated_wallet_item
+        open_scope.should_not include locked_wallet_item
+      end
+    end
+
+    describe '.populated_records' do
+      subject(:populated_scope) { Plink::WalletItemRecord.populated_records }
+
+      let!(:open_wallet_item) { create_open_wallet_item }
+      let!(:populated_wallet_item) { create_populated_wallet_item }
+      let!(:locked_wallet_item) { create_locked_wallet_item }
+
+      it "returns only populated wallet item records" do
+        populated_scope.should_not include open_wallet_item
+        populated_scope.should include populated_wallet_item
+        populated_scope.should_not include locked_wallet_item
+      end
+    end
+
+    describe '.locked' do
+      subject(:locked_scope) { Plink::WalletItemRecord.locked }
+
+      let!(:open_wallet_item) { create_open_wallet_item }
+      let!(:populated_wallet_item) { create_populated_wallet_item }
+      let!(:locked_wallet_item) { create_locked_wallet_item }
+
+      it "returns only locked wallet item records" do
+        locked_scope.should_not include open_wallet_item
+        locked_scope.should_not include populated_wallet_item
+        locked_scope.should include locked_wallet_item
+      end
     end
   end
 

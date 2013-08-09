@@ -6,7 +6,8 @@ module Plink
 
     UNLOCK_REASONS = {
       transaction: 'transaction',
-      join: 'join'
+      join: 'join',
+      referral: 'referral'
     }
 
     alias_attribute :user_id, :userID
