@@ -16,7 +16,7 @@ module UserActions
     end
   end
 
-  def sign_in(email, password)
+  def sign_in_user(email, password)
     visit '/'
     click_on 'Sign In'
 
