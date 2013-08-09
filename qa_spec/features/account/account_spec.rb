@@ -2,7 +2,8 @@ require 'qa_spec_helper'
 
 describe 'My Account page', js: true do
 
-  let(:user) { create_user(email: 'email@plink.com', password: 'test123', first_name: 'tester', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image') }
+  let(:user) {
+    create_user( email: 'email@plink.com', password: 'test123', first_name: 'tester') }
 
   before(:each) do
     @virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
@@ -66,7 +67,7 @@ describe 'My Account page', js: true do
         page.should have_text 'Please enter only alphabetical characters for your name.'
       end
 
-      pending 'correction' do
+      pending 'bug fix' do
         it 'should not change if password is incorrect' do
           fill_in 'first_name', with: 'qa_spec_test@xample.com'
           fill_in 'password',   with: 'test44444444'
@@ -98,7 +99,7 @@ describe 'My Account page', js: true do
         page.should have_text 'Please enter a valid email address'
       end
 
-      pending 'correction' do
+      pending 'bug fix' do
         it 'should not change if password is incorrect' do
           fill_in 'email',    with: 'qa_spec_test@xample.com'
           fill_in 'password', with: 'test44444444'
@@ -139,7 +140,7 @@ describe 'My Account page', js: true do
         page.should have_text "New password doesn't match confirmation"
       end
 
-      pending 'correction' do
+      pending 'bug fix' do
         it 'should error if the user enters the wrong password' do
           fill_in 'new_password',              with: 'test123'
           fill_in 'new_password_confirmation', with: 'test123'
@@ -174,7 +175,12 @@ describe 'My Account page', js: true do
       users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: @virtual_currency.id)
       institution = create_institution(name: 'Bankhead')
       users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
-      create_users_institution_account(user_id: user.id, name: 'checks on checks on checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
+      create_users_institution_account(
+        user_id: user.id,
+        name: 'checks on checks on checks',
+        users_institution_id: users_institution.id,
+        account_number_last_four: 4321
+      )
 
       sign_in('email@plink.com', 'test123')
     end
@@ -189,7 +195,7 @@ describe 'My Account page', js: true do
 
     it 'should allow a user to change their bank' do
       click_on 'My Account'
-      page.should have_text('Change', count: 4)    #Will be 5 once change account comes back
+      page.should have_text('Change', count: 4)
       page.all('a', text: 'Change')[3].click
       page.should have_css '#card-change-modal'
     end
@@ -197,8 +203,12 @@ describe 'My Account page', js: true do
 
     context 'who has recent activity & points' do
       before(:each) do
-        award_points_to_user(user_id: user.id, dollar_award_amount: 5.43, currency_award_amount: 543, virtual_currency_id: @virtual_currency.id)
-
+        award_points_to_user(
+          user_id: user.id,
+          dollar_award_amount: 5.43,
+          currency_award_amount: 543,
+          virtual_currency_id: @virtual_currency.id
+        )
         @reward = create_reward(
           name: 'Amazon Gift Card', description: 'amazon.com', terms: '<a href="#">amazon TOC</a>',
           amounts: [ new_reward_amount(dollar_award_amount: 5, is_active: true) ]
@@ -215,8 +225,8 @@ describe 'My Account page', js: true do
         click_on 'My Account'
         page.should have_link 'You have enough points to get some loot!'
         click_on 'You have enough points to get some loot!'
-        redeem_for_5(@reward)
-        validate_5_reward_on_account(@reward, user)
+        redeem_for_reward_and_dollar_amount(@reward, 5)
+        validate_reward_on_account(@reward, user, 5)
       end
 
       it 'should display an award when a user is awarded points' do
@@ -237,12 +247,17 @@ describe 'My Account page', js: true do
 
       it 'should display an redemption activity when a user redeems' do
         click_on 'Rewards'
-        redeem_for_5(@reward)
-        validate_5_reward_on_account(@reward, user)
+        redeem_for_reward_and_dollar_amount(@reward, 5)
+        validate_reward_on_account(@reward, user, 5)
       end
 
       it 'should display no more than 20 activities at a time' do
-        21.times { award_points_to_user(user_id: user.id, dollar_award_amount: 6, currency_award_amount: 600, virtual_currency_id: @virtual_currency.id) }
+        21.times { award_points_to_user(
+                    user_id: user.id,
+                    dollar_award_amount: 6,
+                    currency_award_amount: 600,
+                    virtual_currency_id: @virtual_currency.id)
+          }
         click_on 'My Account'
         page.should have_text('600 Plink Points', count: 20)
       end
