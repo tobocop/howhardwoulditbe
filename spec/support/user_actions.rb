@@ -28,9 +28,19 @@ module UserActions
     end
   end
 
+  def open_password_reset_page
+    visit '/' if current_path != '/'
+    click_on 'Sign In'
+    within '.modal' do
+      page.should have_link 'Forgot Password?'
+      click_on 'Forgot Password?'
+    end
+  end
+
   def redeem_for_reward_and_dollar_amount(reward, dollar_amount)
     click_on 'Rewards' if current_path != '/rewards'
     page.find('a', text: "$#{dollar_amount}").click
+
     within '.modal' do
       page.should have_content reward.name
       click_on 'CONFIRM'
