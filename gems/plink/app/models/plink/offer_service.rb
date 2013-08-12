@@ -1,13 +1,13 @@
 module Plink
   class OfferService
     def get_live_offers(virtual_currency_id)
-      offer_records = OfferRecord.live_offers_for_currency(virtual_currency_id)
+      offer_records = offer_record.live_offers_for_currency(virtual_currency_id)
       create_offers(offer_records, virtual_currency_id)
     end
 
     def get_available_offers_for(wallet_id, virtual_currency_id)
-      live_offers = OfferRecord.live_non_excluded_offers_for_currency(wallet_id, virtual_currency_id)
-      selected_offers = OfferRecord.in_wallet(wallet_id)
+      live_offers = offer_record.live_non_excluded_offers_for_currency(wallet_id, virtual_currency_id)
+      selected_offers = offer_record.in_wallet(wallet_id)
       offer_records = live_offers - selected_offers
       create_offers(offer_records, virtual_currency_id)
     end
@@ -29,5 +29,10 @@ module Plink
         )
       end
     end
+
+    def offer_record
+      Plink::OfferRecord
+    end
+
   end
 end
