@@ -14,7 +14,7 @@ describe 'My Account page', js: true do
 
   context 'as a non-linked user' do
     before(:each) do
-      sign_in_user('email@plink.com', 'test123')
+      sign_in('email@plink.com', 'test123')
       click_on 'My Account'
     end
 
@@ -182,7 +182,7 @@ describe 'My Account page', js: true do
         account_number_last_four: 4321
       )
 
-      sign_in_user('email@plink.com', 'test123')
+      sign_in('email@plink.com', 'test123')
     end
 
     it 'should display the users bank info' do
