@@ -33,7 +33,7 @@ describe Plink::OfferRecord do
     subject.advertisers_rev_share.should == 0.5
   end
 
-  describe 'active_offers_virtual_currencies' do
+  describe '.active_offers_virtual_currencies' do
     before :each do
       @offer = create_offer(advertiser_id: 1)
       create_offers_virtual_currency(virtual_currency_id: 3, is_active: false, offer_id: @offer.id)
@@ -90,7 +90,7 @@ describe Plink::OfferRecord do
       )
     end
 
-    describe 'live_non_excluded_offers_for_currency' do
+    describe '.live_non_excluded_offers_for_currency' do
       it 'returns live offers that are excluded from a wallet' do
         offers = Plink::OfferRecord.live_non_excluded_offers_for_currency(excluded_wallet_record.id, 54)
         offers.length.should == 1
@@ -103,7 +103,7 @@ describe Plink::OfferRecord do
       end
     end
 
-    describe 'non_excluded_offers' do
+    describe '.non_excluded_offers' do
       it 'returns offers that are not excluded from a wallet' do
         offers = Plink::OfferRecord.non_excluded_offers(excluded_wallet_record.id)
         offers.length.should == 2
@@ -111,7 +111,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'in_wallet' do
+  describe '.in_wallet' do
     it 'returns all offers in a given wallet' do
       wallet = create_wallet
 
@@ -134,7 +134,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'active_virtual_currencies' do
+  describe '.active_virtual_currencies' do
     before :each do
       @offer = create_offer(advertiser_id: 1)
       @expected_virtual_currency = create_virtual_currency
@@ -147,7 +147,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'live_tiers' do
+  describe '.live_tiers' do
     before :each do
       @offer = create_offer(advertiser_id: 1)
 
@@ -165,22 +165,20 @@ describe Plink::OfferRecord do
       @offer.live_tiers.should == [@expected_tier, @tier_for_other_virtual_currency]
     end
 
-    describe 'for a specific virtual currency' do
+    context 'for a specific virtual currency' do
       it 'returns only the tiers for that currency' do
         @offer.live_tiers.for_virtual_currency(3).should == [@expected_tier]
       end
     end
   end
 
-  describe 'live_offers_for_currency' do
+  describe '.live_offers_for_currency' do
     before :each do
-      create_offer(valid_attributes.merge(show_on_wall: false))
-      create_offer(valid_attributes.merge(is_active: false))
-      create_offer(valid_attributes.merge(start_date: Date.tomorrow))
-      create_offer(valid_attributes.merge(end_date: Date.yesterday))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday - 2.days, end_date: Date.yesterday))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, show_on_wall: false))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: false))
+      create_offer(valid_attributes.merge(
+        show_on_wall: false, 
+        offers_virtual_currencies: [
+          create_offers_virtual_currency(virtual_currency_id: 13, tiers: [new_tier, new_tier])
+      ]))
 
       offer_with_other_virtual_currency = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
@@ -225,7 +223,7 @@ describe Plink::OfferRecord do
 
   end
 
-  describe 'for_currency_id' do
+  describe '.for_currency_id' do
     it 'returns offers only for the given currency' do
       create_offer(
           advertiser_id: 1,
@@ -249,7 +247,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'active' do
+  describe '.active' do
     before do
       @offer1 = create_offer(valid_attributes)
       @offer2 = create_offer(valid_attributes.merge(is_active: false))
@@ -260,7 +258,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'visible_on_wall' do
+  describe '.visible_on_wall' do
     before do
       @offer1 = create_offer(valid_attributes.merge(show_on_wall: false))
       @offer2 = create_offer(valid_attributes)
@@ -271,7 +269,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'for_today' do
+  describe '.for_today' do
     before do
       @offer1 = create_offer(valid_attributes.merge(start_date: Date.tomorrow))
       @offer2 = create_offer(valid_attributes.merge(end_date: Date.yesterday))
@@ -284,7 +282,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'live' do
+  describe '.live' do
     before do
       create_offer(valid_attributes.merge(show_on_wall: false))
       create_offer(valid_attributes.merge(is_active: false))
@@ -301,7 +299,7 @@ describe Plink::OfferRecord do
     end
   end
 
-  describe 'live_only' do
+  describe '.live_only' do
     it 'returns an offer by id only if it is active, visible on the wall and for today' do
       expected_offer = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true))
       Plink::OfferRecord.live_only(expected_offer.id).should == expected_offer
