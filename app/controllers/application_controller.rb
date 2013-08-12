@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auto_login_from_cookie
+    return if current_user.logged_in?
     return unless cookies[:PLINKUID]
 
     user = plink_user_service.find_by_password_hash(cookies[:PLINKUID])
