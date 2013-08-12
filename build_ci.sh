@@ -13,11 +13,6 @@ time bundle exec rake db:test:prepare
 time bundle exec rake db:udfs:create
 time bundle exec rake db:views:create
 
-time ./script/approve_gems.sh
-
-time bundle exec license_finder rescan --quiet
-STATUS=$?
-
 cd gems/plink_admin && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 

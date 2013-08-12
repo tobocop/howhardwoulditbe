@@ -1,13 +1,3 @@
-GIT
-  remote: git://github.com/pivotal/LicenseFinder.git
-  revision: e6217a27981253c9659f655149a6875a17d2d92f
-  specs:
-    license_finder (0.8.2)
-      bundler
-      sequel
-      sqlite3
-      thor
-
 PATH
   remote: gems/gigya
   specs:
@@ -27,7 +17,7 @@ PATH
   specs:
     plink_admin (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
-      devise (~> 2.2.4)
+      devise (= 2.2.4)
       haml-rails (~> 0.4)
       rails (= 3.2.13)
       tiny_tds (= 0.5.1)
@@ -107,8 +97,8 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    faraday (0.8.7)
-      multipart-post (~> 1.1)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     ffi (1.9.0)
     foreman (0.63.0)
       dotenv (>= 0.7)
@@ -142,7 +132,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.23)
     mini_portile (0.5.1)
-    multi_json (1.7.7)
+    multi_json (1.7.9)
     multipart-post (1.2.0)
     newrelic_rpm (3.6.6.147)
     nokogiri (1.6.0)
@@ -199,7 +189,7 @@ GEM
     rspec-retry (0.2.1)
       rspec
     rubyzip (0.9.9)
-    sass (3.2.9)
+    sass (3.2.10)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -209,14 +199,12 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
-    sequel (4.0.0)
     slop (3.4.6)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.7)
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -256,7 +244,6 @@ DEPENDENCIES
   jasmine (~> 1.3.2)
   jquery-rails (~> 3.0.1)
   launchy (= 2.3.0)
-  license_finder!
   newrelic_rpm
   plink!
   plink_admin!

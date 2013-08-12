@@ -26,7 +26,6 @@ end
 group :development, :test do
   gem 'rspec-rails', '2.13.2'
   gem 'capybara', '~> 2.1.0'
-  gem 'license_finder', git: 'git://github.com/pivotal/LicenseFinder.git', require: false
   gem 'jasmine', '~> 1.3.2'
   gem 'quiet_assets'
   gem 'pry'
