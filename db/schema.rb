@@ -299,6 +299,13 @@ ActiveRecord::Schema.define(:version => 20130802172430) do
     t.boolean  "isActive",                      :default => true, :null => false
   end
 
+  create_table "authentication_tokens", :force => true do |t|
+    t.string   "token"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "user_id",    :limit => 8
+  end
+
   create_table "awardTypes", :primary_key => "awardTypeID", :force => true do |t|
     t.string   "awardType",         :limit => 500,                                                    :null => false
     t.string   "awardCode",         :limit => 100,                                                    :null => false
@@ -490,6 +497,13 @@ ActiveRecord::Schema.define(:version => 20130802172430) do
     t.integer  "modifiedBy",                               :default => 0,    :null => false
     t.datetime "modified",                                                   :null => false
     t.boolean  "isActive",                                 :default => true, :null => false
+  end
+
+  create_table "client_applications", :force => true do |t|
+    t.string   "name"
+    t.integer  "virtual_currency_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "dm_dates", :id => false, :force => true do |t|
@@ -1324,6 +1338,14 @@ ActiveRecord::Schema.define(:version => 20130802172430) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "preferences", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.boolean  "value",      :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
+
   create_table "promotions", :primary_key => "promotionID", :force => true do |t|
     t.integer  "offerID"
     t.string   "promotionName",         :limit => 100
@@ -1884,6 +1906,7 @@ ActiveRecord::Schema.define(:version => 20130802172430) do
     t.boolean  "intuitRegistrationComplete",                 :default => false
     t.string   "gigya_uid"
     t.string   "avatar_thumbnail_url"
+    t.string   "shortened_referral_link"
   end
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|
