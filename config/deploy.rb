@@ -14,7 +14,7 @@ set :deploy_to, "/var/www/#{application}"
 
 # Git:
 set :scm, :git
-set :repository,  'git@github.com:plinkinc/plink-pivotal.git'
+set :repository, 'git@github.com:plinkinc/plink-pivotal.git'
 set :branch, 'master'
 # Used as an alternative to :git_shallow_clone (which doesn't work with :branch):
 # keep a local copy of the repo on the server:
@@ -24,14 +24,15 @@ set :deploy_via, :remote_cache
 set :stages, ['review', 'production']
 set :default_stage, 'review'
 
-load "config/deploy/recipes/base"
-load "config/deploy/recipes/database"
-load "config/deploy/recipes/apache"
-load "config/deploy/recipes/rbenv"
-load "config/deploy/recipes/application_keys"
-load "config/deploy/recipes/unicorn"
-load "config/deploy/recipes/assets"
-load "config/deploy/recipes/log"
+load 'config/deploy/recipes/base'
+load 'config/deploy/recipes/database'
+load 'config/deploy/recipes/apache'
+load 'config/deploy/recipes/rbenv'
+load 'config/deploy/recipes/application_keys'
+load 'config/deploy/recipes/unicorn'
+load 'config/deploy/recipes/assets'
+load 'config/deploy/recipes/log'
+load 'config/deploy/recipes/gems'
 
 # Deployment Tasks:
 before :deploy, 'deploy:setup'
