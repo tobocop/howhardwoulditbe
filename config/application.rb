@@ -15,13 +15,12 @@ module PlinkPivotal
     config.filter_parameters += [:password, :password_confirmation]
     config.active_support.escape_html_entities_in_json = true
     config.active_record.whitelist_attributes = true
+
     config.assets.enabled = true
     config.assets.version = '1.0'
-    config.assets.precompile += ['jquery.placeholder.js']
     config.exceptions_app = self.routes
 
     # Heroku deployment requirement
-    config.assets.initialize_on_precompile = false
     config.default_affiliate_id = 1264
 
     # Set application to the same timezone as the production database; Mountain Time

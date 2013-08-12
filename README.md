@@ -138,3 +138,125 @@ And then run:
 You can now access the application at:
 
     localhost:5000
+
+
+Production Setup on EC2
+===
+
+### Ubuntu Packages
+
+- As the `root` user on the server issue the following:
+  * `apt-get update`
+  * `apt-get install make curl nodejs libapache2-mod-xsendfile`
+  * `apt-get install freetds-dev unixodbc-dev unixodbc-bin unixodbc`
+
+### Accident Insurance
+
+- Setup root terminal coloring, as root:
+  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
+  * `source /home/deployer/.bashrc`
+
+#### Creating `deployer`
+
+- To create the `deployer` user with `SSH` key access, run the following as the `root` user:
+  * `adduser deployer` - enter a PW for the user and matching confirmation and add these to `KeePass`
+  * `su - deployer`
+  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
+  * `source /home/deployer/.bashrc`
+  * `mkdir /home/deployer/.ssh`
+  * `chmod 700 /home/deployer/.ssh`
+  * `ssh-keygen -t rsa` and press Enter three times or, optionally, configure a password and store it in `KeePass`
+  * `cat /home/deployer/.ssh/id_rsa.pub >> /home/deployer/.ssh/authorized_keys`
+  * `chown deployer:deployer /home/deployer/.ssh/authorized_keys`
+  * `chmod 600 /home/deployer/.ssh/authorized_keys`
+  * `exit` - should return to `root` user prompt
+  * `visudo`
+    - add the following lines to the bottom of the file:
+
+      `## Allow deployer to run any commands anywhere without prompting for password
+       deployer        ALL=(ALL)       NOPASSWD: ALL`
+  * `exit` from `visudo`
+  * `su - deployer`
+  * `ssh deployer@[insert_server_IP_address_here]`
+  * the above command is just for testing; it shouldn't prompt for a password
+  * `sudo ls`
+  * the above command also shouldn't prompt for a password
+  * `exit` to get back to `deployer` user prompt that is not using `SSH`
+
+### Enabling Users to Deploy
+
+- Add your `SSH public key` so that you can deploy. As the `deployer` user:
+  * [local ] `cat /Users/[name]/.ssh/id_rsa.pub`
+  * [server] append output from last command to `vim /home/deployer/.ssh/authorized_keys`
+
+### Installing `git`
+
+`SSH` into the remote as the `deployer` user. Then;
+
+- Install `git`
+  * `sudo apt-get install git`
+
+- Setup permissions on github.com:
+
+  * `cat ~/.ssh/id_rsa.pub`
+  * Open github.com preferences for the repository that the remote will use and add the public key, this can be found in the "Deploy Keys" section
+
+### Installing Apache2
+
+`SSH` into the remote as the `deployer` user. Then;
+
+- Configure Apache2
+  * `sudo -i`
+  * `apt-get install apache2`
+  * `adduser www-data` - enter a PW for the user and matching confirmation and enter it in `KeyPass`
+  * `mkdir -p /var/www/plink-www`
+  * `chown -R deployer:deployer /var/www/plink-www`
+  * in `/etc/apache2/sites-available` create a text file named `points.plink.com`
+  * copy the contents of `config/deploy/apache/points.plink.com.example` into the above file on the server
+  * save and exit the file
+  * `a2enmod rewrite`
+  * `a2enmod proxy`
+  * `a2enmod proxy_balancer`
+  * `a2enmod proxy_http`
+  * `a2enmod expires`
+  * `a2enmod headers`
+
+Deploying with Capistrano
+===
+
+### Some general guidelines:
+
+* All commands documented below are issues from local Rails root directory
+* All commands documented for the **default** environment, currently `review` (should never be `production`)
+* To modify commands to run for a specified environment, use `cap [environment] ...` (e.g. `cap production unicorn:restart`)
+
+### To setup the machine for running `Ruby on Rails` with `unicorn`
+
+- Install RBEnv from local dev:
+  * You can configure the `ruby` version in `config/deploy/recipes/rbenv.rb'
+  * `cap rbenv:install`
+
+- Make sure that `apache` is running:
+  * `cap apache:start`
+
+- Cap tasks for first-time setup:
+   * `cap deploy:setup`
+   * The above command will prompt you for all YAML file credetials: `database.yml`, `sendgrid.yml`, `gigya_keys.yml`, `tango.yml`
+   * `cap deploy:check`
+   * The above command should return `You appear to have all necessary dependencies installed`
+   * `cap deploy:cold` (you will not want to use this command unless this is a first deployment, use `cap deploy` instead)
+   * `cap unicorn:restart` (you may need to issue `cap unicorn:start`)
+
+- **_DISCLAIMER_** about `unicorn`s and `rubygems` : Whenever a release incldues a gem installation, you will want to keep an eye on `current/log/unicorn_access.log` and the  `unicorn_error.log` as well. Sometimes gem installations can cause the unicorns to spin into a `kill/spawn` (infinite) loop. To remedy this, issue:
+   * `cap unicorn:stop`
+   * `cap unicorn:start`
+
+- Once this has been done, to deploy the application: From the Rails root directory on local machine:
+   * `cap deploy:update`
+   * `cap unicorn:restart`
+
+### Quick Reference: `cap` commands
+   * Run `cap -T` to see what tasks Capistrano knows about. These all have descriptions in the recipes and should describe what the task will do on the remote.
+   * All `recipes` can be found at `config/deploy/recipes/`
+   * `cap apache:{restart:start:stop}`
+   * `cap unicorn:{restart:start:stop}`

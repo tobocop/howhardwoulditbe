@@ -1,0 +1,36 @@
+### /etc/apache2/sites-available/points.plink.com
+Ensure that Apache listens on port 80
+Listen 80
+
+# Rails finger-printed assets, make them cached forever.
+# Try only match if the asset actually has a fingerprint in it.
+`<LocationMatch "^/assets/.*-[0-9a-f]{32}.*$">
+  Header unset ETag
+  FileETag None
+  # RFC says only cache for 1 year
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+</LocationMatch>
+
+<VirtualHost *:80>
+
+  DocumentRoot /var/www/plink-www/current/public
+  ServerName points.plink.com
+
+  RewriteEngine On
+
+  <Proxy balancer://unicornservers>
+    BalancerMember http://127.0.0.1:5000
+  </Proxy>
+
+  # Redirect all non-static requests to unicorn
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://unicornservers%{REQUEST_URI} [P,QSA,L]
+
+  ProxyPreserveHost on
+
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+</VirtualHost>

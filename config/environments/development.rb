@@ -39,7 +39,6 @@ PlinkPivotal::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  # Only load keys in development because they are set as environment variables on heroku:
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
       :port => "25",
@@ -49,12 +48,4 @@ PlinkPivotal::Application.configure do
 
   config.contact_email_address = 'pivotal@plink.com'
 
-  gigya_keys = YAML.load_file(Rails.root.join('config', 'gigya_keys.yml'))[Rails.env]
-  ENV['GIGYA_API_KEY'] = gigya_keys['gigya_api_key']
-  ENV['GIGYA_SECRET'] = gigya_keys['gigya_secret']
-
-  tango_keys = YAML.load_file(Rails.root.join('config', 'tango.yml'))[Rails.env]
-  ENV['TANGO_BASE_URL'] = tango_keys['base_url']
-  ENV['TANGO_USERNAME'] = tango_keys['username']
-  ENV['TANGO_PASSWORD'] = tango_keys['password']
 end

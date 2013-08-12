@@ -1,5 +1,10 @@
-worker_processes Integer(ENV['UNICORN_WORKER_PROCESSES'] || 3)
-timeout Integer(ENV['WEB_TIMEOUT'] || 15)
+working_directory "<%= current_path %>"
+pid "<%= unicorn_pid %>"
+stderr_path "<%= unicorn_log + 'unicorn_error.log' %>"
+stdout_path "<%= unicorn_log + 'unicorn_access.log' %>"
+
+listen "/tmp/unicorn.<%= application %>.sock"
+timeout <%= Integer(web_timeout || 15) %>
 preload_app true
 
 before_fork do |server, worker|

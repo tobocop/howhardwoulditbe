@@ -21,6 +21,8 @@ end
 
 group :development do
   gem 'foreman'
+  gem 'capistrano'
+  gem 'capistrano-ext'
 end
 
 group :development, :test do
@@ -43,4 +45,5 @@ end
 group :production do
   gem 'unicorn'
   gem 'newrelic_rpm'
+  gem 'execjs'
 end
