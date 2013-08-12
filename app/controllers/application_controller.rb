@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_virtual_currency, :user_logged_in?, :user_registration_form
 
   before_filter :redirect_white_label_members
+  before_filter :auto_login_from_cookie
 
   def redirect_white_label_members
     if current_user.logged_in?
@@ -14,6 +15,13 @@ class ApplicationController < ActionController::Base
         send_user_to_white_label(virtual_currency.subdomain)
       end
     end
+  end
+
+  def auto_login_from_cookie
+    return unless cookies[:PLINKUID]
+
+    user = plink_user_service.find_by_password_hash(cookies[:PLINKUID])
+    sign_in_user(user) if user
   end
 
   def sign_in_user(user)

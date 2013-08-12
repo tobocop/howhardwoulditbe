@@ -40,6 +40,20 @@ describe Plink::UserService do
     end
   end
 
+  describe '#find_by_password_hash' do
+    let!(:user) { create_user(email: 'woozle@example.com', password_hash: 'poohcorner') }
+    
+    it 'returns a user with the same password hash if present' do
+      found_user = subject.find_by_password_hash('poohcorner')
+      found_user.should be_instance_of Plink::User
+      found_user.email.should == 'woozle@example.com'
+    end
+
+    it 'returns nil if the user cannot be found' do
+      subject.find_by_password_hash('wizzles').should be_nil
+    end
+  end
+
   describe '#update' do
     it 'updates the user record for the given id and returns a user with no errors' do
       user = create_user(first_name: 'Billy')

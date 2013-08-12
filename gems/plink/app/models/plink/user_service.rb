@@ -12,6 +12,10 @@ module Plink
       create_users(Plink::UserRecord.where("emailAddress LIKE ?", "%#{email}%").limit(max_results))
     end
 
+    def find_by_password_hash(password_hash)
+      create_user(Plink::UserRecord.where(password: password_hash.chomp).first)
+    end
+
     def update(id, attributes={})
       user = find_by_id(id)
       user.update_attributes(attributes)

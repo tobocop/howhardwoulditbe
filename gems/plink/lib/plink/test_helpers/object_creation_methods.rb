@@ -429,6 +429,17 @@ module Plink
       WalletRecord.new(defaults.merge(options))
     end
 
+    def create_cookie(encoded_hash, cookie_name=:PLINKUID, options={})
+      defaults = {
+        value: encoded_hash,
+        domain: :all,
+        path: '/',
+        expires: 1.hour.from_now
+      }
+
+      cookies[cookie_name] = defaults.merge(options)
+    end
+
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|
