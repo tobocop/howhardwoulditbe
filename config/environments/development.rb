@@ -42,12 +42,9 @@ PlinkPivotal::Application.configure do
   # Only load keys in development because they are set as environment variables on heroku:
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
-      :address        => 'smtp.sendgrid.net',
-      :port           => 25,
-      :domain         => 'plink.com',
-      :authentication => :plain,
-      :user_name      => sendgrid_keys['username'],
-      :password       => sendgrid_keys['password']
+      :port => "25",
+      :address => "localhost",
+      :domain => "plinkslocalworld.com"
   }
 
   config.contact_email_address = 'pivotal@plink.com'
