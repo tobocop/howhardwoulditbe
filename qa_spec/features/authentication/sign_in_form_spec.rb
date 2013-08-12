@@ -8,32 +8,32 @@ describe 'Sign In form', js: true do
   end
 
   it 'lets the user sign in with an existing Plink account' do
-    sign_in_user('test@plink.com', 'test123')
+    sign_in('test@plink.com', 'test123')
     page.should have_content('Welcome, Matt!')
   end
 
   it 'throws an error if the user attempts to log in with a non-existent account' do
-    sign_in_user('fakebullshit@plink.com', 'test123')
+    sign_in('fakebullshit@plink.com', 'test123')
     page.should have_text('Sorry, the email and password do not match for this account.')
   end
 
   it 'tells the user if password is incorrect' do
-    sign_in_user('test@plink.com', 'test')
+    sign_in('test@plink.com', 'test')
     page.should have_text('Sorry, the email and password do not match for this account.')
   end
 
   it 'tells the user if email field is blank' do
-    sign_in_user('', 'test123')
+    sign_in('', 'test123')
     page.should have_text("Email can't be blank")
   end
 
   it 'tells the user if password field is blank' do
-    sign_in_user('test@plink.com', '')
+    sign_in('test@plink.com', '')
     page.should have_text("Password can't be blank")
   end
 
   it 'signs out a logged in user' do
-    sign_in_user('test@plink.com', 'test123')
+    sign_in('test@plink.com', 'test123')
     click_on 'Log Out'
     current_path.should == '/'
     page.should have_text('You have been successfully logged out.')

@@ -61,6 +61,7 @@ describe 'Rewards page', js: true do
     context 'when the user does not have a linked card' do
       it 'should reject a user who does not have a card added', js: true do
         click_on '$5'
+
         page.should have_text('You must have a linked card to redeem an award.')
       end
     end

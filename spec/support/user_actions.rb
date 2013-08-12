@@ -1,5 +1,5 @@
 module UserActions
-  def sign_up_user(first_name, email, password)
+  def sign_up_user(first_name, email, password, password_confirm=password)
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
 
@@ -11,7 +11,7 @@ module UserActions
       fill_in 'First Name', with: first_name
       fill_in 'Email', with: email
       fill_in 'Password', with: password
-      fill_in 'Verify Password', with: password
+      fill_in 'Verify Password', with: password_confirm
       click_on 'Start Earning Rewards'
     end
   end
