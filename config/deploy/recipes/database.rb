@@ -24,9 +24,10 @@ namespace :db do
   end
   after 'deploy:setup', 'db:setup'
 
-  desc 'Load the schema using schema.rb and then run migrations'
+  desc 'Load the schema using schema.rb and then seed the DB'
   task :schema_load, roles: :app do
     run "cd #{current_path}; bundle exec rake db:schema:load RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
     run "cd #{current_path}; bundle exec rake db:udfs:create RAILS_ENV=#{rails_env}"
     run "cd #{current_path}; bundle exec rake db:views:create RAILS_ENV=#{rails_env}"
   end
