@@ -131,6 +131,14 @@ describe 'Managing account' do
         within '.content', text: 'user@example.com' do
           page.find('a', text: 'Change').click
 
+          fill_in 'email', with: 'anything@example.com'
+          fill_in 'password', with: 'random_stuff'
+          click_on 'Change Your Email'
+        end
+
+        page.should have_content 'Current password is incorrect'
+
+        within '.content', text: 'user@example.com' do
           fill_in 'email', with: 'frodo@example.com'
           fill_in 'password', with: 'pass1word'
           click_on 'Change Your Email'

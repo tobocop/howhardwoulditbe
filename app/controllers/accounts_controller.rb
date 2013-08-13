@@ -31,7 +31,7 @@ class AccountsController < ApplicationController
         render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => plink_user.errors.messages}, status: 403
       end
     else
-      render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => ['Current password is incorrect']}, status: 401
+      render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => {:password_error => ['Current password is incorrect']}}, status: 401
     end
   end
 

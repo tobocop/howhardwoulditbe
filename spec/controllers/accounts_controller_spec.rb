@@ -159,7 +159,7 @@ describe AccountsController do
         response.status.should == 401
 
         body = JSON.parse(response.body)
-        body.should == {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => ['Current password is incorrect']}
+        body.should == {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => {'password_error' => ['Current password is incorrect']}}
       end
     end
 
