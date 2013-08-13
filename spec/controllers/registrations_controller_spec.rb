@@ -48,6 +48,7 @@ describe RegistrationsController do
           sub_id_four: nil,
           path_id: '1',
           campaign_hash: nil,
+          campaign_id: nil,
           ip: request.remote_ip
         )
 

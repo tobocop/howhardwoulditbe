@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'Static pages' do
+  before :each do
+    create_virtual_currency
+  end
+
   it 'can be reached from the footer' do
     visit '/'
 

@@ -1,6 +1,14 @@
 class TrackingObject
 
-  attr_reader :affiliate_id, :sub_id, :sub_id_two, :sub_id_three, :sub_id_four, :path_id, :campaign_hash, :ip
+  attr_reader :affiliate_id,
+              :sub_id,
+              :sub_id_two,
+              :sub_id_three,
+              :sub_id_four,
+              :path_id,
+              :campaign_hash,
+              :ip,
+              :campaign_id
 
   def initialize(options)
     defaults = self.class.defaults
@@ -12,6 +20,7 @@ class TrackingObject
     @sub_id_four = options.fetch(:sub_id_four, defaults['SUBID4'])
     @path_id = options.fetch(:path_id, defaults['PATHID'])
     @campaign_hash = options.fetch(:campaign_hash, defaults['C'])
+    @campaign_id = options.fetch(:campaign_id, defaults['CAMPAIGIN_ID'])
     @ip = options.fetch(:ip, '127.0.0.1')
   end
 
@@ -30,7 +39,8 @@ class TrackingObject
       sub_id_three: options.fetch('SUBID3'),
       sub_id_four: options.fetch('SUBID4'),
       path_id: options.fetch('PATHID'),
-      campaign_hash: options.fetch('C')
+      campaign_hash: options.fetch('C'),
+      campaign_id: options.fetch('CAMPAIGN_ID')
     )
   end
 
@@ -43,8 +53,30 @@ class TrackingObject
       sub_id_four: sub_id_four,
       path_id: path_id,
       campaign_hash: campaign_hash,
+      campaign_id: campaign_id,
       ip: ip
     }
+  end
+
+  def steelhouse_additional_info(virtual_currency_id)
+    additional_info_params = {
+      affiliateid: affiliate_id,
+      subid: sub_id || '',
+      subid2: sub_id_two || '',
+      subid3: sub_id_three || '',
+      subid4: sub_id_four || '',
+      campaignid: campaign_id || '',
+      pathid: path_id,
+      virtualcurrencyid: virtual_currency_id
+    }
+
+    additional_info = ''
+
+    additional_info_params.each do |key, value|
+      additional_info += "&#{key}=#{value.to_s.downcase},"
+    end
+
+    additional_info.html_safe
   end
 
   private
@@ -57,7 +89,8 @@ class TrackingObject
       'SUBID3' => nil,
       'SUBID4' => nil,
       'PATHID' => '1',
-      'C' => nil
+      'C' => nil,
+      'CAMPAIGN_ID' => nil
     }
   end
 

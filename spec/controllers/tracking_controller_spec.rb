@@ -9,7 +9,8 @@ describe TrackingController do
       'subID3' => 'Subid 3',
       'subID4' => 'Subid 4',
       'pathID' => '123',
-      'c' => 'BIGLONGHASH'
+      'c' => 'BIGLONGHASH',
+      'campaign_id' => nil
     }}
 
 
