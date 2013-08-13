@@ -35,11 +35,11 @@ module Plink
     }
 
     scope :non_excluded_offers, ->(wallet_id) {
+      offer_exclusions = Plink::OfferExclusionRecord.table_name
       joins("
-        LEFT JOIN #{Plink::OfferExclusionRecord.table_name} ON #{Plink::OfferExclusionRecord.table_name}.offerID = #{self.table_name}.offerID
-          AND #{Plink::OfferExclusionRecord.table_name}.walletID = #{sanitize(wallet_id)}
-      ")
-      .where("#{Plink::OfferExclusionRecord.table_name}.offerID IS NULL")
+        LEFT JOIN #{offer_exclusions} ON #{offer_exclusions}.offerID = #{self.table_name}.offerID
+          AND #{offer_exclusions}.walletID = #{sanitize(wallet_id)}")
+      .where("#{offer_exclusions}.offerID IS NULL")
     }
 
     scope :live_offers_for_currency, ->(currency_id) {
