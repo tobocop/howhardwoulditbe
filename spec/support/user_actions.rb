@@ -55,4 +55,12 @@ module UserActions
     page.should have_text("-#{dollar_amount}00 Plink Points")
     page.should have_image('icon_redeem')
   end
+
+  def submit_contact_us_form(first_name, last_name, email, message)
+    fill_in 'First Name', with: first_name
+    fill_in 'Last Name', with: last_name
+    fill_in 'Email', with: email
+    fill_in 'Your Message', with: message
+    click_on 'Submit'
+  end
 end
