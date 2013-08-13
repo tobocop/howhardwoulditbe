@@ -1,22 +1,4 @@
-# This is example contains the bare mininum to get nginx going with
-# Unicorn or Rainbows! servers.  Generally these configuration settings
-# are applicable to other HTTP application servers (and not just Ruby
-# ones), so if you have one working well for proxying another app
-# server, feel free to continue using it.
-#
-# The only setting we feel strongly about is the fail_timeout=0
-# directive in the "upstream" block.  max_fails=0 also has the same
-# effect as fail_timeout=0 for current versions of nginx and may be
-# used in its place.
-#
-# Users are strongly encouraged to refer to nginx documentation for more
-# details and search for other example configs.
-
-# you generally only need one nginx worker unless you're serving
-# large amounts of static files which require blocking disk reads
 worker_processes 1;
-
-daemon off;
 
 # # drop privileges, root is needed on most systems for binding to port 80
 # # (or anything < 1024).  Capability-based security may be available for
@@ -27,7 +9,7 @@ user nobody nogroup; # for systems with a "nogroup"
 
 # Feel free to change all paths to suite your needs here, of course
 pid /var/www/plink-www/shared/pids/nginx.pid;
-error_log /var/log/ngxinx/error.log;
+error_log /var/log/nginx/error.log;
 
 events {
   worker_connections 1024; # increase if you have lots of clients
@@ -50,15 +32,9 @@ http {
   # Unicorn nor Rainbows! is optimized for it at the moment
   sendfile on;
 
-  tcp_nopush on; # off may be better for *some* Comet/long-poll stuff
-  tcp_nodelay off; # on may be better for some Comet/long-poll stuff
+  tcp_nopush on;
+  tcp_nodelay off;
 
-  # we haven't checked to see if Rack::Deflate on the app server is
-  # faster or not than doing compression via nginx.  It's easier
-  # to configure it all in one place here for static files and also
-  # to disable gzip for clients who don't get gzip/deflate right.
-  # There are other gzip settings that may be needed used to deal with
-  # bad clients out there, see http://wiki.nginx.org/NginxHttpGzipModule
   gzip on;
   gzip_http_version 1.0;
   gzip_proxied any;
@@ -69,14 +45,13 @@ http {
              text/javascript application/x-javascript
              application/atom+xml;
 
-  # this can be any application server, not just Unicorn/Rainbows!
-  upstream app_server {
+  upstream unicorn {
     # fail_timeout=0 means we always retry an upstream even if it failed
     # to return a good HTTP response (in case the Unicorn master nukes a
     # single worker for timing out).
 
     # for UNIX domain socket setups:
-    server unix:/var/www/plink-www/shared/sockets/unicorn.sock fail_timeout=0;
+    server unix://var/www/plink-www/shared/sockets/unicorn.sock fail_timeout=0;
 
     # for TCP setups, point these to your backend servers
     # server 192.168.0.7:8080 fail_timeout=0;
@@ -86,7 +61,7 @@ http {
 
   server {
     # enable one of the following if you're on Linux or FreeBSD
-    # listen 80 default deferred; # for Linux
+    listen 80 default deferred; # for Linux
     # listen 80 default accept_filter=httpready; # for FreeBSD
 
     # If you have IPv6, you'll likely want to have two separate listeners.
@@ -106,7 +81,7 @@ http {
     keepalive_timeout 5;
 
     # path for static files
-    root /var/www/plink-www/current/public;
+    root //var/www/plink-www/current/public;
 
     # Prefer to serve static files directly from nginx to avoid unnecessary
     # data copies from the application server.
@@ -118,8 +93,6 @@ http {
     try_files $uri/index.html $uri.html $uri @app;
 
     location @app {
-      # an HTTP header important enough to have its own Wikipedia entry:
-      #   http://en.wikipedia.org/wiki/X-Forwarded-For
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
       # enable this if you forward HTTPS traffic to unicorn,
@@ -146,7 +119,7 @@ http {
       # per-response basis.
       # proxy_buffering off;
 
-      proxy_pass http://unicorn_server;
+      proxy_pass http://unicorn;
     }
 
     # Rails error pages
