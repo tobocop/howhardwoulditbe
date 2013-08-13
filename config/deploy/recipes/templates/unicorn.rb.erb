@@ -3,7 +3,9 @@ pid "<%= unicorn_pid %>"
 stderr_path "<%= unicorn_log + 'unicorn_error.log' %>"
 stdout_path "<%= unicorn_log + 'unicorn_access.log' %>"
 
-listen "/tmp/unicorn.<%= application %>.sock"
+listen "<%= shared_path %>/sockets/unicorn.sock", :backlog => 64
+listen 8080, :tcp_nopush => true
+
 timeout <%= Integer(web_timeout || 15) %>
 preload_app true
 
