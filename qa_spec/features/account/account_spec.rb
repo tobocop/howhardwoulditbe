@@ -67,13 +67,12 @@ describe 'My Account page', js: true do
         page.should have_text 'Please enter only alphabetical characters for your name.'
       end
 
-      pending 'bug fix' do
-        it 'should not change if password is incorrect' do
-          fill_in 'first_name', with: 'qa_spec_test@xample.com'
-          fill_in 'password',   with: 'test44444444'
-          click_on 'Change Your Name'
-          page.should have_text 'Current password is incorrect'
-        end
+
+      it 'should not change if password is incorrect' do
+        fill_in 'first_name', with: 'qa_spec_test@xample.com'
+        fill_in 'password',   with: 'test44444444'
+        click_on 'Change Your Name'
+        page.should have_text 'Current password is incorrect'
       end
 
       it 'should update the users email if all conditions are met' do
@@ -99,13 +98,12 @@ describe 'My Account page', js: true do
         page.should have_text 'Please enter a valid email address'
       end
 
-      pending 'bug fix' do
-        it 'should not change if password is incorrect' do
-          fill_in 'email',    with: 'qa_spec_test@xample.com'
-          fill_in 'password', with: 'test44444444'
-          click_on 'Change Your Email'
-          page.should have_text 'Current password is incorrect'
-        end
+
+      it 'should not change if password is incorrect' do
+        fill_in 'email',    with: 'qa_spec_test@xample.com'
+        fill_in 'password', with: 'test44444444'
+        click_on 'Change Your Email'
+        page.should have_text 'Current password is incorrect'
       end
 
       it 'should not change if the requested change email is an existing user' do
@@ -140,14 +138,12 @@ describe 'My Account page', js: true do
         page.should have_text "New password doesn't match confirmation"
       end
 
-      pending 'bug fix' do
-        it 'should error if the user enters the wrong password' do
-          fill_in 'new_password',              with: 'test123'
-          fill_in 'new_password_confirmation', with: 'test123'
-          fill_in 'password',                  with: 'wrong'
-          click_on 'Change Your Password'
-          page.should have_text "Current password is incorrect"
-        end
+      it 'should error if the user enters the wrong password' do
+        fill_in 'new_password',              with: 'test123'
+        fill_in 'new_password_confirmation', with: 'test123'
+        fill_in 'password',                  with: 'wrong'
+        click_on 'Change Your Password'
+        page.should have_text "Current password is incorrect"
       end
 
       it 'should error if the user enters a short password' do
