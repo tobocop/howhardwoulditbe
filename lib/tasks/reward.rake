@@ -2,7 +2,7 @@ namespace :reward do
 
   # TODO: Remove this and its spec after execution
   desc 'One-time task to update rewards text'
-  task :update_reward_records_text do
+  task update_reward_records_text: :environment do
     amazon = Plink::RewardRecord.where(name: 'Amazon.com Gift Card', isActive: true).first
     amazon.update_attributes(description: 'Online retailer of books, movies, music and games along with electronics, toys, apparel, sports, tools, groceries and general home and garden items.')
 
