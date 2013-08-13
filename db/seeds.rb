@@ -34,6 +34,7 @@ virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain
 
 p 'Creating institution'
 institution = create_institution(name: 'Bank of AMERRRICA!')
+create_institution(name: 'CC Bank', intuit_institution_id: 100000)
 
 p 'Creating Dev user'
 user = create_user(password: 'password', email: 'pivotal@plink.com', avatar_thumbnail_url: 'http://img.gawkerassets.com/img/17m6znqc61o49jpg/original.jpg')
@@ -150,6 +151,7 @@ p 'Creating event types'
 create_event_type(name: Plink::EventTypeRecord.email_capture_type)
 create_event_type(name: Plink::EventTypeRecord.impression_type)
 create_event_type(name: Plink::EventTypeRecord.login_type)
+create_event_type(name: Plink::EventTypeRecord.card_add_type)
 
 p 'Creating award type'
 award_type = create_award_type(email_message: 'All the points!!!')
