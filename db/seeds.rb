@@ -155,6 +155,20 @@ create_event_type(name: Plink::EventTypeRecord.card_add_type)
 
 p 'Creating award type'
 award_type = create_award_type(email_message: 'All the points!!!')
+create_award_type(award_code:'incentedJoin', email_message: 'incentedJoin')
+create_award_type(award_code:'pathIncentReferrals', email_message: 'pathIncentReferrals')
+create_award_type(award_code:'incentivizedAffiliateID', email_message: 'incentivizedAffiliateID')
+create_award_type(award_code:'friendReferral', email_message: 'friendReferral')
+create_award_type(award_code:'facebookLike', email_message: 'facebookLike')
+create_award_type(award_code:'questionAnswer', email_message: 'questionAnswer')
+create_award_type(award_code:'doubleConfirm', email_message: 'doubleConfirm')
+create_award_type(award_code:'incentedJoin', email_message: 'incentedJoin')
+create_award_type(award_code:'pathIncentReferrals', email_message: 'pathIncentReferrals')
+create_award_type(award_code:'incentivizedAffiliateID', email_message: 'incentivizedAffiliateID')
+create_award_type(award_code:'friendReferral', email_message: 'friendReferral')
+create_award_type(award_code:'facebookLike', email_message: 'facebookLike')
+create_award_type(award_code:'questionAnswer', email_message: 'questionAnswer')
+create_award_type(award_code:'doubleConfirm', email_message: 'doubleConfirm')
 
 p 'Creating Free Award'
 create_free_award(user_id: user.id, dollar_award_amount: 5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
