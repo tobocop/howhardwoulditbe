@@ -36,5 +36,9 @@ describe Plink::EventTypeRecord do
     it 'returns the string "credentialRegistration" for card_add_type' do
       Plink::EventTypeRecord.card_add_type.should == 'credentialRegistration'
     end
+
+    it 'returns the string "cardChange" for card_change_type' do
+      Plink::EventTypeRecord.card_change_type.should == 'cardChange'
+    end
   end
 end

@@ -11,7 +11,8 @@ module Plink
       :email_capture_type => 'userRegistration',
       :impression_type => 'impression',
       :login_type => 'login',
-      :card_add_type => 'credentialRegistration'
+      :card_add_type => 'credentialRegistration',
+      :card_change_type => 'cardChange'
     }
 
 
@@ -33,6 +34,10 @@ module Plink
 
     def self.card_add_type
       TYPES[:card_add_type]
+    end
+
+    def self.card_change_type
+      TYPES[:card_change_type]
     end
 
   end
