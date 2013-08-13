@@ -32,6 +32,7 @@ namespace :db do
     run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
     run "cd #{current_path}; bundle exec rake db:udfs:create RAILS_ENV=#{rails_env}"
     run "cd #{current_path}; bundle exec rake db:views:create RAILS_ENV=#{rails_env}"
+    run "cd #{current_path}; bundle exec rake db:stored_procs:create RAILS_ENV=#{rails_env}"
   end
   after 'db:setup', 'db:schema_load'
 
