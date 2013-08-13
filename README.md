@@ -201,25 +201,22 @@ Production Setup on EC2
   * `cat ~/.ssh/id_rsa.pub`
   * Open github.com preferences for the repository that the remote will use and add the public key, this can be found in the "Deploy Keys" section
 
-### Installing Apache2
+### Installing nginx
 
 `SSH` into the remote as the `deployer` user. Then;
 
-- Configure Apache2
   * `sudo -i`
-  * `apt-get install apache2`
-  * `adduser www-data` - enter a PW for the user and matching confirmation and enter it in `KeyPass`
-  * `mkdir -p /var/www/plink-www`
-  * `chown -R deployer:deployer /var/www/plink-www`
-  * in `/etc/apache2/sites-available` create a text file named `points.plink.com`
-  * copy the contents of `config/deploy/apache/points.plink.com.example` into the above file on the server
+  * `apt-get install nginx`
+  * `useradd -s /sbin/nologin -r nginx`
+  * `usermod -a -G nginx nginx`
+  * `chgrp -R nginx /var/www`
+  * `chmod -R 775 /var/www`
+  * `usermod -a -G nginx root`
+  * `usermod -a -G nginx deployer`
+  * `vim /etc/nginx/nginx.conf`
+  * copy the contents of `config/deploy/nginx/nginx.conf.example` into the above file on the server
   * save and exit the file
-  * `a2enmod rewrite`
-  * `a2enmod proxy`
-  * `a2enmod proxy_balancer`
-  * `a2enmod proxy_http`
-  * `a2enmod expires`
-  * `a2enmod headers`
+  * `service nginx start`
 
 Deploying with Capistrano
 ===

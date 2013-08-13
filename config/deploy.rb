@@ -26,7 +26,7 @@ set :default_stage, 'review'
 
 load 'config/deploy/recipes/base'
 load 'config/deploy/recipes/database'
-load 'config/deploy/recipes/apache'
+load 'config/deploy/recipes/nginx'
 load 'config/deploy/recipes/rbenv'
 load 'config/deploy/recipes/application_keys'
 load 'config/deploy/recipes/unicorn'
