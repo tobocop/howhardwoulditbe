@@ -260,6 +260,3 @@ describe 'My Account page', js: true do
     end
   end
 end
-
-
-
