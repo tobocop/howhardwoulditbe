@@ -28,4 +28,116 @@ namespace :reward do
     american_red_cross.update_attributes(description: "A gift of any size supports the lifesaving mission of the American Red Cross whether it's responding to a disaster, collecting lifesaving blood, or assisting our military members and their families.")
   end
 
+  desc 'One-time task to set reward amounts'
+  task update_reward_amounts: :environment do
+    Plink::RewardAmountRecord.update_all(isActive: false)
+
+    amazon = Plink::RewardRecord.where(name: 'Amazon.com Gift Card').first
+    ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: amazon.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    regal = Plink::RewardRecord.where(name: 'Regal Cinemas Gift Card').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: regal.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    tango = Plink::RewardRecord.where(name: 'Tango Card').first
+    ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: tango.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    walmart = Plink::RewardRecord.where(name: 'Walmart Gift Card').first
+    ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: walmart.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    airline_miles = Plink::RewardRecord.where(name: 'Airline Miles').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: airline_miles.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    itunes = Plink::RewardRecord.where(name: 'iTunes&reg; Gift Card').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: itunes.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    american_red_cross = Plink::RewardRecord.where(name: 'Red Cross donation').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: american_red_cross.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    facebook = Plink::RewardRecord.where(name: 'Facebook Credits').first
+    ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: facebook.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    kohls = Plink::RewardRecord.where(name: "Kohl's Gift Card").first
+    ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: kohls.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    macys = Plink::RewardRecord.where(name: "Macy's Gift Card").first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: macys.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    overstock = Plink::RewardRecord.where(name: 'Overstock.com Gift Card').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: overstock.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+
+    barnes_and_noble = Plink::RewardRecord.where(name: 'Barnes and Noble Gift Card').first
+    ['10', '15', '25', '50', '100'].each do |dollar_value|
+      Plink::RewardAmountRecord.create!({
+        reward_id: barnes_and_noble.id,
+        is_active: true,
+        dollar_award_amount: dollar_value
+      })
+    end
+  end
 end
