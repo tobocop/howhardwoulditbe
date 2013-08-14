@@ -20,6 +20,8 @@ describe RedemptionController do
 
       assigns(:reward).should == mock_reward
     end
+
+    pending 'does not allow for reward redemption'
   end
 
   describe 'POST create' do

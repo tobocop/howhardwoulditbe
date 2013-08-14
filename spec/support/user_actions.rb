@@ -1,7 +1,6 @@
 module UserActions
   def sign_up_user(first_name, email, password, password_confirm=password)
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
-    virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
 
     visit '/'
     click_on 'Join'
@@ -25,15 +24,6 @@ module UserActions
       fill_in 'user_session_email', with: email
       fill_in 'user_session_password', with: password
       click_on 'Sign In'
-    end
-  end
-
-  def open_password_reset_page
-    visit '/' if current_path != '/'
-    click_on 'Sign In'
-    within '.modal' do
-      page.should have_link 'Forgot Password?'
-      click_on 'Forgot Password?'
     end
   end
 

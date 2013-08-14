@@ -221,6 +221,35 @@ describe 'Managing account' do
         page.should have_content 'Welcome, Frodo!'
       end
 
+      it 'should error with a blank form submission' do
+        visit new_password_reset_request_path
+        click_on 'Send Password Reset Instructions'
+
+        page.should have_text 'Sorry this email is not registered with Plink.'
+      end
+
+      it 'should error if I enter an email not associated with a Plink user record' do
+        visit new_password_reset_request_path
+        fill_in 'Email', with: 'notamember@Plink.com'
+        click_on 'Send Password Reset Instructions'
+
+        page.should have_text 'Sorry this email is not registered with Plink.'
+      end
+
+      it 'displays a maximum of 20 activities', js:true do
+        sign_in('user@example.com', 'pass1word')
+        click_on 'My Account'
+
+        virtual_currency = Plink::UsersVirtualCurrencyRecord.last
+        21.times { award_points_to_user(
+                    user_id: user.id,
+                    dollar_award_amount: 6,
+                    currency_award_amount: 600,
+                    virtual_currency_id: virtual_currency.id)
+        }
+
+        page.should have_text('600 Plink Points', count: 20)
+      end
     end
   end
 

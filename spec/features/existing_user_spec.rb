@@ -297,6 +297,13 @@ describe 'user signs in' do
     visit '/'
     current_path.should == '/wallet'
 
+    click_on('Contact Us', match: :first)
+    submit_contact_us_form('Matt', 'Tester', 'non@member.com',
+      'Im a lumberjack and im ok I sleep all night and work all day')
+    page.current_path.should == '/wallet'
+    page.should have_text('Thank you for contacting Plink.')
+
+    visit '/'
     click_on 'Log Out'
 
     current_path.should == '/'

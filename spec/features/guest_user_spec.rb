@@ -30,7 +30,8 @@ describe 'guest behavior' do
       [
         new_reward_amount(dollar_award_amount: 5, is_active: true),
         new_reward_amount(dollar_award_amount: 10, is_active: true),
-        new_reward_amount(dollar_award_amount: 15, is_active: false)
+        new_reward_amount(dollar_award_amount: 15, is_active: false),
+        new_reward_amount(dollar_award_amount: 20, is_active: true)
       ]
     )
 
@@ -88,6 +89,10 @@ describe 'guest behavior' do
     contact_email.subject.should == 'Contact Form: [Advertising and Business Development]'
 
     visit '/rewards'
+
+    page.should have_image('icon_lock')
+
+    page.should have_text "Why can't I redeem for more than $10?"
 
     page.should have_content 'Walmart Gift Card'
     page.should have_content '$5'

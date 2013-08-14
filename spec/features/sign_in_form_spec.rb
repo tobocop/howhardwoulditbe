@@ -1,8 +1,8 @@
-require 'qa_spec_helper'
+require 'spec_helper'
 
 describe 'Sign In form', js: true do
   before(:each) do
-    virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
+    virtual_currency = create_virtual_currency
     user = create_user( email: 'test@plink.com', password: 'test123', first_name: 'Matt')
     wallet = create_wallet(user_id: user.id)
   end
@@ -32,10 +32,4 @@ describe 'Sign In form', js: true do
     page.should have_text("Password can't be blank")
   end
 
-  it 'signs out a logged in user' do
-    sign_in('test@plink.com', 'test123')
-    click_on 'Log Out'
-    current_path.should == '/'
-    page.should have_text('You have been successfully logged out.')
-  end
 end
