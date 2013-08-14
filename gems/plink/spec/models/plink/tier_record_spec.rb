@@ -8,7 +8,8 @@ describe Plink::TierRecord do
         end_date: Date.tomorrow,
         dollar_award_amount: 100,
         minimum_purchase_amount: 199,
-        offers_virtual_currency_id: 2
+        offers_virtual_currency_id: 2,
+        percent_award_amount: 2.0
     }
   }
 
