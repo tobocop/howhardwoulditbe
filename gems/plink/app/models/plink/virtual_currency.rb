@@ -7,7 +7,13 @@ module Plink
 
     DEFAULT_SUBDOMAIN = 'www'
 
-    attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name
+    alias_attribute :name, :currencyName
+    alias_attribute :exchange_rate, :exchangeRate
+    alias_attribute :site_name, :siteName
+    alias_attribute :singular_name, :singularCurrencyName
+    alias_attribute :has_all_offers, :hasAllOffers
+
+    attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name, :has_all_offers
 
     validates :name, :subdomain, :exchange_rate, :site_name, :singular_name, presence: true
     validates :subdomain, uniqueness: true
@@ -16,36 +22,8 @@ module Plink
       self.find_by_subdomain(DEFAULT_SUBDOMAIN)
     end
 
-    def name=(name)
-      self.currencyName = name
-    end
-
-    def name
-      self.currencyName
-    end
-
-    def exchange_rate=(rate)
-      self.exchangeRate = rate
-    end
-
-    def exchange_rate
-      self.exchangeRate
-    end
-
-    def site_name=(site_name)
-      self.siteName = site_name
-    end
-
-    def site_name
-      siteName
-    end
-
-    def singular_name=(singular_name)
-      self.singularCurrencyName = singular_name
-    end
-
-    def singular_name
-      singularCurrencyName
+    def self.find_by_sudomain(subdomain)
+      where('subdomain = ?', subdomain)
     end
 
   end
