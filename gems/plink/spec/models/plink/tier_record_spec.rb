@@ -14,18 +14,18 @@ describe Plink::TierRecord do
   }
 
   it 'can be valid' do
-    create_tier(valid_attributes).should be_valid
+    Plink::TierRecord.create(valid_attributes).should be_persisted
   end
 
   it 'provides a nicer API for legacy column names' do
-    tier = new_tier(valid_attributes)
+    tier = Plink::TierRecord.new(valid_attributes)
 
     tier.dollar_award_amount.should == 100
     tier.minimum_purchase_amount.should == 199
   end
 
   it 'defaults minimum_purchase_amount to 0' do
-    tier = new_tier(valid_attributes.merge(minimum_purchase_amount: nil))
+    tier = Plink::TierRecord.new(valid_attributes.merge(minimum_purchase_amount: nil))
     tier.minimum_purchase_amount.should == 0
   end
 end

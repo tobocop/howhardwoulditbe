@@ -10,10 +10,11 @@ module Plink
     alias_attribute :offers_virtual_currency_id, :offersVirtualCurrencyID
     alias_attribute :percent_award_amount, :percentAwardAmount
 
-    attr_accessible :start_date, :end_date, :dollar_award_amount, :minimum_purchase_amount, :offers_virtual_currency_id
+    attr_accessible :start_date, :end_date, :dollar_award_amount, :minimum_purchase_amount, :offers_virtual_currency_id, :percent_award_amount
 
-    def initialize(options = {})
-      super
+    after_initialize :init
+
+    def init
       self.minimum_purchase_amount ||= 0
     end
   end
