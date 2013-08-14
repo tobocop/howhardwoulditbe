@@ -20,6 +20,8 @@ describe 'Linking a card' do
 
     click_on 'Wallet'
 
+    page.execute_script('$.fx.off = true;')
+
     click_on 'Add to wallet'
 
     within '.modal' do
