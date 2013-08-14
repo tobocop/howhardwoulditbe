@@ -8,6 +8,7 @@ describe Plink::AwardTypeRecord do
       award_display_name: 'Awesome Award',
       award_type: 'cool',
       is_active: true,
+      dollar_amount: 1,
       email_message: 'message'
     }
   }
