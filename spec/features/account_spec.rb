@@ -238,7 +238,6 @@ describe 'Managing account' do
 
       it 'displays a maximum of 20 activities', js:true do
         sign_in('user@example.com', 'pass1word')
-        click_on 'My Account'
 
         virtual_currency = Plink::UsersVirtualCurrencyRecord.last
         21.times { award_points_to_user(
@@ -247,6 +246,7 @@ describe 'Managing account' do
                     currency_award_amount: 600,
                     virtual_currency_id: virtual_currency.id)
         }
+        click_on 'My Account'
 
         page.should have_text('600 Plink Points', count: 20)
       end
