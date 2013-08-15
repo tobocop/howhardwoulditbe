@@ -11,7 +11,7 @@ class ContactForm
     .+                 # One or more characters
     $/x
 
-  validates_presence_of :first_name, :last_name, :email
+  validates_presence_of :first_name, :last_name, :email, :message_text
   validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true, message: 'Please enter a valid email address'}
 
   attr_accessor :first_name, :last_name, :email, :message_text, :category
@@ -20,6 +20,7 @@ class ContactForm
     self.first_name = params[:first_name]
     self.last_name = params[:last_name]
     self.email = params[:email]
+    self.message_text = params[:message_text]
   end
 
   def persisted?

@@ -21,5 +21,11 @@ describe ContactForm do
       subject.should_not be_valid
       subject.should have(1).error_on(:email)
     end
+
+    it 'expects that the message text is not blank' do
+      subject.message_text = ' '
+      subject.should_not be_valid
+      subject.should have(1).error_on(:message_text)
+    end
   end
 end

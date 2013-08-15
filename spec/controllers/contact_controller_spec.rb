@@ -11,7 +11,6 @@ describe ContactController do
   end
 
   describe 'POST create' do
-
     it 'should does not send email if the contact form is invalid' do
       ContactMailer.should_not_receive(:contact_email)
       post :create, contact_form: { email: nil, first_name: nil, last_name: nil, message_text: nil, category: nil }
