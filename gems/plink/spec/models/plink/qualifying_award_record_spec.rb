@@ -22,4 +22,21 @@ describe Plink::QualifyingAwardRecord do
   it 'can be persisted' do
     Plink::QualifyingAwardRecord.create(valid_params).should be_persisted
   end
+
+  context 'named scopes' do
+    describe '.find_successful_by_user_id' do
+      let(:user) { create_user(email: 'tobypants@example.com') }
+      let!(:expected_qualifying_award) { create_qualifying_award(user_id: user.id, is_successful: true) }
+
+      before :each do
+        create_qualifying_award(user_id: user.id, is_successful: false)
+      end
+
+      it 'returns successful qualifying awards by user_id' do
+        qualifying_awards = Plink::QualifyingAwardRecord.find_successful_by_user_id(user.id)
+        qualifying_awards.size.should == 1
+        qualifying_awards.first.id.should == expected_qualifying_award.id
+      end
+    end
+  end
 end

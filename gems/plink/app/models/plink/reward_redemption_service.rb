@@ -11,7 +11,6 @@ module Plink
 
     def redeem
       return false unless user_can_afford_it? && eligible_redemption_amount?
-
       process!
     end
 
@@ -20,8 +19,15 @@ module Plink
     attr_reader :reward_amount_id, :user_balance, :user_id, :first_name, :email
 
     def process!
-      redemption_service = reward_record.is_tango ? tango_redemption_service : pending_redemption_service
       redemption_service.redeem
+    end
+
+    def redemption_service
+      if user_can_auto_redeem? && reward_record.is_tango
+        tango_redemption_service
+      else
+        pending_redemption_service
+      end
     end
 
     def user_can_afford_it?
@@ -58,6 +64,14 @@ module Plink
 
     def reward_record
       @reward_record ||= RewardRecord.find(reward_amount_record.reward_id)
+    end
+
+    def user_can_auto_redeem?
+      qualifying_award_record.find_successful_by_user_id(user_id).size >= 2
+    end
+
+    def qualifying_award_record
+      Plink::QualifyingAwardRecord
     end
   end
 end

@@ -16,5 +16,10 @@ module Plink
 
     attr_accessible :currency_award_amount, :dollar_award_amount, :user_id, :users_virtual_currency_id, :virtual_currency_id, :advertiser_id, :is_successful, :is_notification_successful
 
+    scope :find_successful_by_user_id, ->(user_id) {
+      where('userID = ?', user_id)
+      .where('isSuccessful = ?', true)
+    }
+
   end
 end
