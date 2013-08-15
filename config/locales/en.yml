@@ -2,4 +2,51 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  errors:
+    format: "%{message}"
+  activemodel:
+    errors:
+      models:
+        contact_form:
+          attributes:
+            email:
+              blank: Please provide your Plink registered email
+              invalid: Please enter a valid email address
+            first_name:
+              blank: Please provide your first name
+            last_name:
+              blank: Please provide your last name
+            message_text:
+              blank: Please provide a brief message so we can better assist you
+        password_reset_form:
+          attributes:
+            new_password:
+              too_short: New password is too short (minimum is 6 characters)
+              confirmation: New password doesn't match confirmation
+        user_registration_form:
+          attributes:
+            password:
+              too_short: Please enter a password at least 6 characters long
+              confirmation: Confirmation password doesn't match
+            password_confirmation:
+              blank: Please confirm your password
+        user_session:
+          attributes:
+            email:
+              blank: Email can't be blank
+            password:
+              blank: Password can't be blank
+  activerecord:
+    errors:
+      models:
+        plink/user_record:
+          attributes:
+            first_name:
+              blank: Please provide a First name
+              invalid: Please enter only alphabetical characters for your name
+            email:
+              blank: Email address is required
+              invalid: Please enter a valid email address
+            new_password:
+              confirmation: New password doesn't match confirmation
+              too_short: New password must be at least 6 characters long

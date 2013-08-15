@@ -6,8 +6,8 @@ class UserRegistrationForm
 
   attr_accessor :password, :password_confirmation, :first_name, :email, :virtual_currency_name, :user_creation_service, :user
 
-  validates :password, length: {minimum: 6, message: 'Please enter a password at least 6 characters long'}, confirmation: {message: 'Confirmation password doesn\'t match', if: Proc.new { password_confirmation.present? }}
-  validates :password_confirmation, presence: {message: 'Please confirm your password'}
+  validates :password, length: {minimum: 6}, confirmation: {if: Proc.new { password_confirmation.present? }}
+  validates :password_confirmation, presence: true
   validate :params_are_valid_for_user
 
   def initialize(options = {})

@@ -55,6 +55,5 @@ module Plink
       )
     end
 
-
   end
 end

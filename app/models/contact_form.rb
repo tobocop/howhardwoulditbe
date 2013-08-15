@@ -12,7 +12,7 @@ class ContactForm
     $/x
 
   validates_presence_of :first_name, :last_name, :email, :message_text
-  validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true, message: 'Please enter a valid email address'}
+  validates :email, format: {with: VALID_EMAIL_REGEXP, allow_blank: true}
 
   attr_accessor :first_name, :last_name, :email, :message_text, :category
 

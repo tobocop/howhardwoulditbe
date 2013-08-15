@@ -62,9 +62,9 @@ describe 'guest behavior' do
 
     click_button 'Submit'
 
-    page.should have_content 'First name can\'t be blank'
-    page.should have_content 'Last name can\'t be blank'
-    page.should have_content 'Email can\'t be blank'
+    page.should have_content 'Please provide your first name'
+    page.should have_content 'Please provide your last name'
+    page.should have_content 'Please provide your Plink registered email'
 
     fill_in 'First Name', with: 'Bob'
     fill_in 'Last Name', with: 'Jones'

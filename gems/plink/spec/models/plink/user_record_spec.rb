@@ -20,14 +20,12 @@ describe Plink::UserRecord do
       subject.first_name = nil
       subject.should_not be_valid
       subject.should have(1).error_on(:first_name)
-      subject.errors.messages[:first_name].should == ['Please provide a First name']
     end
 
     it 'ensures first name must only be alphabetical letters' do
       subject.first_name = "asb2"
       subject.should_not be_valid
       subject.should have(1).error_on(:first_name)
-      subject.errors.messages[:first_name].should == ['Please enter only alphabetical characters for your name.']
 
       subject.first_name = "asb;"
       subject.should_not be_valid
@@ -84,12 +82,12 @@ describe Plink::UserRecord do
     it 'validates new password' do
       subject.new_password = 'foo'
       subject.should_not be_valid
-      subject.errors.messages[:new_password].should == ['New password must be at least 6 characters long']
+      subject.should have(1).error_on(:new_password)
 
       subject.new_password = 'foobar'
       subject.new_password_confirmation = 'foobee'
       subject.should_not be_valid
-      subject.errors.messages[:new_password].should == ["New password doesn't match confirmation"]
+      subject.should have(1).error_on(:new_password)
     end
 
     it 'does not allow emails to be duplicates' do
@@ -99,7 +97,6 @@ describe Plink::UserRecord do
 
       subject.should_not be_valid
       subject.should have(1).error_on(:email)
-      subject.errors.messages[:email].should == ["You've entered an email address that is already registered with Plink."]
     end
   end
 

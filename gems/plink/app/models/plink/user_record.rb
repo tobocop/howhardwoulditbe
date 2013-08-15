@@ -23,14 +23,11 @@ module Plink
     has_many :open_wallet_items, through: :wallet
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
 
-    validates :first_name, presence: {message: 'Please provide a First name'}
-    validates :first_name,
-              format: {with: /\A[a-zA-Z]+\z/, message: 'Please enter only alphabetical characters for your name.'},
-              if: 'first_name.present?'
-    validates :email, presence: {message: 'Email address is required'}, format: {with: VALID_EMAIL_REGEXP, message: 'Please enter a valid email address'}
+    validates :first_name, presence: true, format: {with: /\A[a-zA-Z]+\z/, if: 'first_name.present?'}
+    validates :email, presence: true, format: {with: VALID_EMAIL_REGEXP}
     validates :password_hash, :salt, presence: true
 
-    validates :new_password, length: {minimum: 6, message: 'New password must be at least 6 characters long'}, confirmation: {message: "New password doesn't match confirmation"}, if: 'new_password.present?'
+    validates :new_password, length: {minimum: 6}, confirmation: true, if: 'new_password.present?'
     validate :email_is_not_in_database
 
     before_create :set_default_virtual_currency

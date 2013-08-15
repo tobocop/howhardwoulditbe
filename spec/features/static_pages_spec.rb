@@ -59,33 +59,32 @@ describe 'Static pages' do
       end
 
       context 'form' do
-
         it 'shouldnt submit if first name is blank' do
           submit_contact_us_form('', 'Tester', 'non@member.com',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
-          page.should have_text("First name can't be blank")
+          page.should have_text('Please provide your first name')
         end
 
         it 'shouldnt submit if last name is blank' do
           submit_contact_us_form('Matt', '', 'non@member.com',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
-          page.should have_text("Last name can't be blank")
+          page.should have_text('Please provide your last name')
         end
 
         it 'shouldnt submit if email is blank' do
           submit_contact_us_form('Matt', 'Tester', '',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
-          page.should have_text("Email can't be blank")
+          page.should have_text('Please provide your Plink registered email')
         end
 
         it 'shouldnt submit if an email is invalid' do
           submit_contact_us_form('Matt', 'Tester', 'invalidemailformat',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
-          page.should have_text("Please enter a valid email address")
+          page.should have_text("Please enter a valid email")
         end
 
         it 'should submit successfully for a non-member' do
@@ -98,7 +97,7 @@ describe 'Static pages' do
         pending 'shouldnt submit if message is blank' do
           submit_contact_us_form('Matt', 'Tester', 'test@email.com', '')
           page.current_path.should == contact_path
-          page.should have_text("Message text can't be blank")
+          page.should have_text('Please provide a brief message so we can better assist you')
         end
       end
     end
