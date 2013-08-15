@@ -6,9 +6,6 @@ namespace :reward do
     amazon = Plink::RewardRecord.where(name: 'Amazon.com Gift Card', isActive: true).first
     amazon.update_attributes(description: 'Online retailer of books, movies, music and games along with electronics, toys, apparel, sports, tools, groceries and general home and garden items.')
 
-    zappos = Plink::RewardRecord.where(name: 'Zappos.com Gift Card', isActive: true).first
-    zappos.update_attributes(description: 'Free shipping BOTH ways on shoes, clothing, and more! Over 1000 brands and 24/7 friendly customer service.')
-
     regal = Plink::RewardRecord.where(name: 'Regal Cinemas Gift Card', isActive: true).first
     regal.update_attributes(description: 'The largest movie theater circuit featuring major motion pictures, digital movie presentation, and RealD Digital 3D.')
 
@@ -32,7 +29,7 @@ namespace :reward do
   task update_reward_amounts: :environment do
     Plink::RewardAmountRecord.update_all(isActive: false)
 
-    amazon = Plink::RewardRecord.where(name: 'Amazon.com Gift Card').first
+    amazon = Plink::RewardRecord.where(name: 'Amazon.com Gift Card', isActive: true).first
     ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: amazon.id,
@@ -50,7 +47,7 @@ namespace :reward do
       })
     end
 
-    tango = Plink::RewardRecord.where(name: 'Tango Card').first
+    tango = Plink::RewardRecord.where(name: 'Tango Card', isActive: true).first
     ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: tango.id,
@@ -59,7 +56,7 @@ namespace :reward do
       })
     end
 
-    walmart = Plink::RewardRecord.where(name: 'Walmart Gift Card').first
+    walmart = Plink::RewardRecord.where(name: 'Walmart Gift Card', isActive: true).first
     ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: walmart.id,
@@ -68,7 +65,7 @@ namespace :reward do
       })
     end
 
-    airline_miles = Plink::RewardRecord.where(name: 'Airline Miles').first
+    airline_miles = Plink::RewardRecord.where(name: 'Airline Miles', isActive: true).first
     ['10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: airline_miles.id,
@@ -77,7 +74,7 @@ namespace :reward do
       })
     end
 
-    itunes = Plink::RewardRecord.where(name: 'iTunes&reg; Gift Card').first
+    itunes = Plink::RewardRecord.where(name: 'iTunes&reg; Gift Card', isActive: true).first
     ['10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: itunes.id,
@@ -86,7 +83,7 @@ namespace :reward do
       })
     end
 
-    american_red_cross = Plink::RewardRecord.where(name: 'Red Cross donation').first
+    american_red_cross = Plink::RewardRecord.where(name: 'Red Cross donation', isActive: true).first
     ['10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: american_red_cross.id,
@@ -95,7 +92,7 @@ namespace :reward do
       })
     end
 
-    facebook = Plink::RewardRecord.where(name: 'Facebook Credits').first
+    facebook = Plink::RewardRecord.where(name: 'Facebook Credits', isActive: true).first
     ['5', '10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: facebook.id,
@@ -122,7 +119,7 @@ namespace :reward do
       })
     end
 
-    overstock = Plink::RewardRecord.where(name: 'Overstock.com Gift Card').first
+    overstock = Plink::RewardRecord.where(name: 'Overstock.com Gift Card', isActive: true).first
     ['10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: overstock.id,
@@ -131,7 +128,7 @@ namespace :reward do
       })
     end
 
-    barnes_and_noble = Plink::RewardRecord.where(name: 'Barnes and Noble Gift Card').first
+    barnes_and_noble = Plink::RewardRecord.where(name: 'Barnes and Noble Gift Card', isActive: true).first
     ['10', '15', '25', '50', '100'].each do |dollar_value|
       Plink::RewardAmountRecord.create!({
         reward_id: barnes_and_noble.id,
