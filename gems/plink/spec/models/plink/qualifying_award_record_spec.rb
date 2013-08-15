@@ -25,7 +25,8 @@ describe Plink::QualifyingAwardRecord do
 
   context 'named scopes' do
     describe '.find_successful_by_user_id' do
-      let(:user) { create_user(email: 'tobypants@example.com') }
+      let(:user) { create_user(email: 'piglet@example.com') }
+      let(:another_user) { create_user(email: 'pooh@example.com') }
       let!(:expected_qualifying_award) { create_qualifying_award(user_id: user.id, is_successful: true) }
 
       before :each do
@@ -36,7 +37,9 @@ describe Plink::QualifyingAwardRecord do
         qualifying_awards = Plink::QualifyingAwardRecord.find_successful_by_user_id(user.id)
         qualifying_awards.size.should == 1
         qualifying_awards.first.id.should == expected_qualifying_award.id
+        qualifying_awards.first.user_id.should == user.id
       end
     end
+
   end
 end
