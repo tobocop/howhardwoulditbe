@@ -25,6 +25,7 @@ describe 'Linking a card' do
     click_on 'Add to wallet'
 
     within '.modal' do
+      page.should have_content 'Link Your Card'
       click_on 'Link Your Card'
     end
 
