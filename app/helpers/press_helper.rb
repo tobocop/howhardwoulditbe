@@ -2,6 +2,16 @@ module PressHelper
   def press_releases
     [
       {
+        date: 'July 31, 2013',
+        title: 'Plink Nominated for 2013 APEX Award',
+        url: '/downloads/Plink_2013_APEX_Award.pdf'
+      },
+      {
+        date: 'July 25, 2013',
+        title: 'Plink Honored With eTail "Rising Stars" Award',
+        url: '/downloads/Plink_2013_eTail_Rising_Stars_Award.pdf'
+      },
+      {
         date: 'April 23, 2013',
         title: 'Plink Extends Online-To-Offline Rewards Program to Mobile',
         url: '/downloads/Mobile_App_Press_Release__April_2013.pdf'
