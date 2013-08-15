@@ -26,7 +26,7 @@ describe PasswordResetController do
         post :create, password_reset: params
 
         response.should redirect_to root_path
-        flash.notice.should == "You're password has been successfully updated. Please sign in."
+        flash.notice.should == "Your password has been successfully updated. Please sign in."
       end
     end
 
