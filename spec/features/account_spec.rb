@@ -3,11 +3,10 @@ require 'spec_helper'
 describe 'Managing account' do
 
   let(:user) { create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image') }
+  let!(:virtual_currency) { create_virtual_currency(name: 'Plink Points', subdomain: 'www') }
 
   context 'linked user' do
-    before(:each) do
-      virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-
+    before :each do
       wallet = create_wallet(user_id: user.id)
       create_open_wallet_item(wallet_id: wallet.id)
       create_locked_wallet_item(wallet_id: wallet.id)
@@ -54,17 +53,19 @@ describe 'Managing account' do
     end
 
     context 'user that needs to reverify' do
-      before(:each) do
+      before :each do
         create_user_reverification(user_id: user.id)
       end
 
       it 'allows the user to reverify', js: true do
         sign_in('user@example.com', 'pass1word')
 
+        page.should have_content 'My Account'
+
         click_link 'My Account'
 
-        page.should have_image 'icon_alert_pink.png'
         page.should have_content 'Inactive'
+        page.should have_image 'icon_alert_pink.png'
         page.should have_css('a[data-reveal-id="card-reverify-modal"]', text: 'Reverify')
       end
     end
@@ -189,63 +190,16 @@ describe 'Managing account' do
         page.should have_content 'Welcome, samwise!'
       end
 
-      it 'allows a user to reset their password', js: true do
-        visit new_password_reset_request_path
+      it 'displays a maximum of 20 activities', js: true do
+        21.times { award_points_to_user(
+          user_id: user.id,
+          dollar_award_amount: 6,
+          currency_award_amount: 600,
+          virtual_currency_id: virtual_currency.id)
+        }
 
-        page.should have_content 'Enter the email address associated with your account'
-
-        fill_in 'Email', with: 'user@example.com'
-
-        click_on 'Send Password Reset Instructions'
-
-        page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
-
-        email = ActionMailer::Base.deliveries.last
-
-        email_string = Capybara.string(email.html_part.body.to_s)
-        password_reset_url = email_string.find("a", text: 'Reset Password')['href']
-
-        visit password_reset_url
-
-        page.should have_content 'Reset your password'
-
-        fill_in 'New password', with: 'goodpassword'
-        fill_in 'Confirm new password', with: 'goodpassword'
-
-        click_on 'Reset Password'
-
-        visit '/'
-
-        sign_in('user@example.com', 'goodpassword')
-
-        page.should have_content 'Welcome, Frodo!'
-      end
-
-      it 'should error with a blank form submission' do
-        visit new_password_reset_request_path
-        click_on 'Send Password Reset Instructions'
-
-        page.should have_text 'Sorry this email is not registered with Plink.'
-      end
-
-      it 'should error if I enter an email not associated with a Plink user record' do
-        visit new_password_reset_request_path
-        fill_in 'Email', with: 'notamember@Plink.com'
-        click_on 'Send Password Reset Instructions'
-
-        page.should have_text 'Sorry this email is not registered with Plink.'
-      end
-
-      it 'displays a maximum of 20 activities', js:true do
         sign_in('user@example.com', 'pass1word')
 
-        virtual_currency = Plink::UsersVirtualCurrencyRecord.last
-        21.times { award_points_to_user(
-                    user_id: user.id,
-                    dollar_award_amount: 6,
-                    currency_award_amount: 600,
-                    virtual_currency_id: virtual_currency.id)
-        }
         click_on 'My Account'
 
         page.should have_text('600 Plink Points', count: 20)
@@ -254,9 +208,7 @@ describe 'Managing account' do
   end
 
   context 'non linked user' do
-    before do
-      create_virtual_currency(name: 'Plink Points', subdomain: 'www')
-
+    before :each do
       wallet = create_wallet(user_id: user.id)
       create_open_wallet_item(wallet_id: wallet.id)
       create_locked_wallet_item(wallet_id: wallet.id)

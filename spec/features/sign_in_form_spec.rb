@@ -7,29 +7,54 @@ describe 'Sign In form', js: true do
     wallet = create_wallet(user_id: user.id)
   end
 
-  it 'lets the user sign in with an existing Plink account' do
+  it 'throws an error if the user submits an invalid form' do
+    sign_in('fakebullshit@plink.com', 'test123')
+    page.should have_text('Sorry, the email and password do not match for this account.')
+
+    sign_in('test@plink.com', 'test')
+    page.should have_text('Sorry, the email and password do not match for this account.')
+
+    sign_in('', 'test123')
+    page.should have_text("Email can't be blank")
+
+    sign_in('test@plink.com', '')
+    page.should have_text("Password can't be blank")
+
     sign_in('test@plink.com', 'test123')
     page.should have_content('Welcome, Matt!')
   end
 
-  it 'throws an error if the user attempts to log in with a non-existent account' do
-    sign_in('fakebullshit@plink.com', 'test123')
-    page.should have_text('Sorry, the email and password do not match for this account.')
-  end
 
-  it 'tells the user if password is incorrect' do
-    sign_in('test@plink.com', 'test')
-    page.should have_text('Sorry, the email and password do not match for this account.')
-  end
+  it 'allows a user to reset their password' do
+    visit new_password_reset_request_path
 
-  it 'tells the user if email field is blank' do
-    sign_in('', 'test123')
-    page.should have_text("Email can't be blank")
-  end
+    page.should have_content 'Enter the email address associated with your account'
 
-  it 'tells the user if password field is blank' do
-    sign_in('test@plink.com', '')
-    page.should have_text("Password can't be blank")
+    fill_in 'Email', with: 'test@plink.com'
+
+    click_on 'Send Password Reset Instructions'
+
+    page.should have_content 'To reset your password, please follow the instructions sent to your email address.'
+
+    email = ActionMailer::Base.deliveries.last
+
+    email_string = Capybara.string(email.html_part.body.to_s)
+    password_reset_url = email_string.find("a", text: 'Reset Password')['href']
+
+    visit password_reset_url
+
+    page.should have_content 'Reset your password'
+
+    fill_in 'New password', with: 'goodpassword'
+    fill_in 'Confirm new password', with: 'goodpassword'
+
+    click_on 'Reset Password'
+
+    visit '/'
+
+    sign_in('test@plink.com', 'goodpassword')
+
+    page.should have_content 'Welcome, Matt!'
   end
 
 end

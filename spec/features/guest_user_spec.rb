@@ -42,6 +42,19 @@ describe 'guest behavior' do
     )
   end
 
+  it 'should check the reset password form for errors' do
+    visit new_password_reset_request_path
+    click_on 'Send Password Reset Instructions'
+
+    page.should have_text 'Sorry this email is not registered with Plink.'
+
+    visit new_password_reset_request_path
+    fill_in 'Email', with: 'notamember@Plink.com'
+    click_on 'Send Password Reset Instructions'
+    page.should have_text 'Sorry this email is not registered with Plink.'
+
+  end
+
   it 'user workflow when logged out', js: true do
     visit '/'
 
