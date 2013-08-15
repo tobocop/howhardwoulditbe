@@ -77,7 +77,7 @@ module Plink
     end
 
     def self.for_today
-      where("#{self.table_name}.startDate <= ? AND #{self.table_name}.endDate >= ?", Date.today, Date.today)
+      where("#{self.table_name}.startDate <= ? AND #{self.table_name}.endDate >= ?", Time.zone.today, Time.zone.today)
     end
   end
 end

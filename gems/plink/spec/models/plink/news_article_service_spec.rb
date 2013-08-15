@@ -6,8 +6,8 @@ describe Plink::NewsArticleService do
 
   describe '#news_articles' do
     before do
-      create_news_article(is_active: true, title: 'bad article', published_on: Date.yesterday)
-      create_news_article(is_active: true, title: 'good article', published_on: Date.today)
+      create_news_article(is_active: true, title: 'bad article', published_on: 1.day.ago)
+      create_news_article(is_active: true, title: 'good article', published_on: Time.zone.today)
       create_news_article(is_active: false, title: 'bad article')
     end
 

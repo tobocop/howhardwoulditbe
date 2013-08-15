@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::UsersAwardPeriodRecord do
-  let(:valid_params) { { user_id: 1, begin_date: Date.today, advertisers_rev_share: 0.5, offers_virtual_currency_id: 3 } }
+  let(:valid_params) { { user_id: 1, begin_date: Time.zone.today, advertisers_rev_share: 0.5, offers_virtual_currency_id: 3 } }
   subject { Plink::UsersAwardPeriodRecord.new(valid_params) }
 
   it_should_behave_like(:legacy_timestamps)

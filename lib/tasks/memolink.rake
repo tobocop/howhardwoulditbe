@@ -8,13 +8,13 @@ namespace :memolink do
     offers_virtual_currencies.each do |offers_virtual_currency|
 
       offers_virtual_currency.live_tiers.each do |tier|
-        tier.update_attributes(end_date: Date.yesterday)
+        tier.update_attributes(end_date: 1.day.ago)
       end
 
       rev_share = offers_virtual_currency.active_offer.advertisers_rev_share 
       percent_award_amount = (((rev_share.to_f * 0.75) * 0.4) * 100).round(1)
 
-      Plink::TierRecord.create(start_date: Date.yesterday,
+      Plink::TierRecord.create(start_date: 1.day.ago,
         end_date: '2999-12-31',
         dollar_award_amount: 0,
         minimum_purchase_amount: 0.01,

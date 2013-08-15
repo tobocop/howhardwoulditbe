@@ -14,7 +14,7 @@ describe Plink::DebitsCredit do
 
     debits_credit.award_display_name.should == 'my free award'
     debits_credit.dollar_award_amount.should == 1.43
-    debits_credit.awarded_on.should == Date.today
+    debits_credit.awarded_on.should == Time.zone.today
     debits_credit.currency_award_amount.should == '143'
     debits_credit.display_currency_name.should == 'Plink points'
     debits_credit.is_reward?.should == false

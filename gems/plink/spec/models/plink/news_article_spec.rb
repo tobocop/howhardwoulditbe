@@ -8,7 +8,7 @@ describe Plink::NewsArticle do
       source: 'a magazine',
       source_link: 'http://example.com/magazine',
       is_active: true,
-      published_on: Date.today
+      published_on: Time.zone.today
     }
   end
 
@@ -20,6 +20,6 @@ describe Plink::NewsArticle do
     subject.source.should == 'a magazine'
     subject.source_link.should == 'http://example.com/magazine'
     subject.is_active.should == true
-    subject.published_on.should == Date.today
+    subject.published_on.should == Time.zone.today
   end
 end

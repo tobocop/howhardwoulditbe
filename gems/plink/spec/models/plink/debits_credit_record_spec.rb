@@ -21,7 +21,7 @@ describe Plink::DebitsCreditRecord do
       record.display_currency_name.should == 'Ploink Points'
       record.is_reward.should be_false
       record.award_type.should == 'my new one'
-      Date.new(record.created.to_i) == Date.today
+      Date.new(record.created.to_i) == Time.zone.today
     end
   end
 

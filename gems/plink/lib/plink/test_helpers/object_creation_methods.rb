@@ -5,7 +5,7 @@ module Plink
       defaults = {
         source: 'TechCrunch',
         source_link: 'http://techcrunch.com/plink',
-        published_on: Date.today,
+        published_on: Time.zone.today,
         title: 'the news',
         is_active: true
       }
@@ -205,7 +205,7 @@ module Plink
     def new_users_institution_account(options = {})
       defaults = {
         account_id: 1,
-        begin_date: Date.yesterday,
+        begin_date: 1.day.ago,
         end_date: '2999-12-31',
         user_id: 24,
         users_institution_account_staging_id: 0,
@@ -279,8 +279,8 @@ module Plink
 
     def new_tier(options = {})
       defaults= {
-        start_date: Date.yesterday,
-        end_date: Date.tomorrow,
+        start_date: 1.day.ago,
+        end_date: 1.day.from_now,
         dollar_award_amount: 100,
         minimum_purchase_amount: 199,
         offers_virtual_currency_id: 2

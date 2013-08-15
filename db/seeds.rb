@@ -203,4 +203,4 @@ p 'Creating Redemption'
 create_redemption(reward_id: amazon_reward.id, user_id: user.id, dollar_award_amount: 3.00)
 
 p 'Creating News Articles'
-create_news_article(title: 'Yay! Plink!', source: 'TechCrunch', source_link: 'http://techcrunch.com/plink', is_active: true, published_on: Date.yesterday)
+create_news_article(title: 'Yay! Plink!', source: 'TechCrunch', source_link: 'http://techcrunch.com/plink', is_active: true, published_on: 1.day.ago)

@@ -66,7 +66,7 @@ describe Plink::UserCreationService do
     end
 
     it 'creates a users virtual currency record' do
-      Plink::UsersVirtualCurrencyRecord.should_receive(:create).with(user_id: user.id, start_date: Date.today, virtual_currency_id: user.primary_virtual_currency_id)
+      Plink::UsersVirtualCurrencyRecord.should_receive(:create).with(user_id: user.id, start_date: Time.zone.today, virtual_currency_id: user.primary_virtual_currency_id)
       Plink::UserCreationService.new(valid_params).create_user
     end
 

@@ -22,9 +22,9 @@ describe Plink::UserReverificationRecord do
 
   describe 'incomplete' do
     before do
-      create_user_reverification(completed_on: Date.today, is_active: true)
+      create_user_reverification(completed_on: Time.zone.today, is_active: true)
       @expected = create_user_reverification(completed_on: nil, is_active: true)
-      create_user_reverification(completed_on: Date.today, is_active: false)
+      create_user_reverification(completed_on: Time.zone.today, is_active: false)
       create_user_reverification(completed_on: nil, is_active: false)
     end
 

@@ -7,7 +7,7 @@ describe 'Linking a card' do
     create_wallet(user_id: user.id)
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy')
 
-    @old_navy_offer = create_offer(advertiser_id: old_navy.id, start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+    @old_navy_offer = create_offer(advertiser_id: old_navy.id, start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
         new_offers_virtual_currency(
             virtual_currency_id: virtual_currency.id,
             tiers: [new_tier]

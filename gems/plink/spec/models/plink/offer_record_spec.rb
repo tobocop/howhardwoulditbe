@@ -153,12 +153,12 @@ describe Plink::OfferRecord do
 
       offers_virtual_currency = create_offers_virtual_currency(virtual_currency_id: 3, is_active: false, offer_id: @offer.id)
       create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: false)
-      create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: Date.tomorrow)
-      create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, end_date: Date.yesterday)
-      @expected_tier = create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: Date.yesterday, end_date: Date.tomorrow)
+      create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: 1.day.from_now)
+      create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, end_date: 1.day.ago)
+      @expected_tier = create_tier(offers_virtual_currency_id: offers_virtual_currency.id, is_active: true, start_date: 1.day.ago, end_date: 1.day.from_now)
 
       second_offers_virtual_currency = create_offers_virtual_currency(virtual_currency_id: 6, is_active: false, offer_id: @offer.id)
-      @tier_for_other_virtual_currency = create_tier(offers_virtual_currency_id: second_offers_virtual_currency.id, is_active: true, start_date: Date.yesterday, end_date: Date.tomorrow)
+      @tier_for_other_virtual_currency = create_tier(offers_virtual_currency_id: second_offers_virtual_currency.id, is_active: true, start_date: 1.day.ago, end_date: 1.day.from_now)
     end
 
     it 'returns only the live tier records' do
@@ -180,14 +180,14 @@ describe Plink::OfferRecord do
           create_offers_virtual_currency(virtual_currency_id: 13, tiers: [new_tier, new_tier])
       ]))
 
-      offer_with_other_virtual_currency = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      offer_with_other_virtual_currency = create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 123,
               tiers: [new_tier]
           )
       ]))
 
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               is_active: false,
               virtual_currency_id: 13,
@@ -195,21 +195,21 @@ describe Plink::OfferRecord do
           )
       ]))
 
-      @older_new_offer = create_offer(valid_attributes.merge(detail_text: 'older new one', start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
+      @older_new_offer = create_offer(valid_attributes.merge(detail_text: 'older new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
               tiers: [new_tier, new_tier]
           )
       ]))
 
-      @most_current_new_offer = create_offer(valid_attributes.merge(detail_text: 'newer new one', start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
+      @most_current_new_offer = create_offer(valid_attributes.merge(detail_text: 'newer new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
               tiers: [new_tier, new_tier]
           )
       ]))
 
-      @offer_with_no_active_tiers = create_offer(valid_attributes.merge(detail_text: 'no active tiers', start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      @offer_with_no_active_tiers = create_offer(valid_attributes.merge(detail_text: 'no active tiers', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
         create_offers_virtual_currency(
           virtual_currency_id: 13,
           tiers: [new_tier(is_active:false)]
@@ -271,10 +271,10 @@ describe Plink::OfferRecord do
 
   describe '.for_today' do
     before do
-      @offer1 = create_offer(valid_attributes.merge(start_date: Date.tomorrow))
-      @offer2 = create_offer(valid_attributes.merge(end_date: Date.yesterday))
-      @offer3 = create_offer(valid_attributes.merge(start_date: Date.yesterday - 2.days, end_date: Date.yesterday))
-      @offer4 = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow))
+      @offer1 = create_offer(valid_attributes.merge(start_date: 1.day.from_now))
+      @offer2 = create_offer(valid_attributes.merge(end_date: 1.day.ago))
+      @offer3 = create_offer(valid_attributes.merge(start_date: 3.days.ago, end_date: 1.day.ago))
+      @offer4 = create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now))
     end
 
     it 'returns offers between the start and end date' do
@@ -286,12 +286,12 @@ describe Plink::OfferRecord do
     before do
       create_offer(valid_attributes.merge(show_on_wall: false))
       create_offer(valid_attributes.merge(is_active: false))
-      create_offer(valid_attributes.merge(start_date: Date.tomorrow))
-      create_offer(valid_attributes.merge(end_date: Date.yesterday))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday - 2.days, end_date: Date.yesterday))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, show_on_wall: false))
-      create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: false))
-      @expected_offer = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true))
+      create_offer(valid_attributes.merge(start_date: 1.day.from_now))
+      create_offer(valid_attributes.merge(end_date: 1.day.ago))
+      create_offer(valid_attributes.merge(start_date: 3.days.ago, end_date: 1.day.ago))
+      create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, show_on_wall: false))
+      create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, is_active: false))
+      @expected_offer = create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true))
     end
 
     it 'returns only offers that are active, visible on the wall and for today' do
@@ -301,7 +301,7 @@ describe Plink::OfferRecord do
 
   describe '.live_only' do
     it 'returns an offer by id only if it is active, visible on the wall and for today' do
-      expected_offer = create_offer(valid_attributes.merge(start_date: Date.yesterday, end_date: Date.tomorrow, is_active: true, show_on_wall: true))
+      expected_offer = create_offer(valid_attributes.merge(start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true))
       Plink::OfferRecord.live_only(expected_offer.id).should == expected_offer
     end
 
@@ -316,12 +316,12 @@ describe Plink::OfferRecord do
     end
 
     it 'does not return old offers' do
-      old_offer = create_offer(valid_attributes.merge(end_date: Date.yesterday))
+      old_offer = create_offer(valid_attributes.merge(end_date: 1.day.ago))
       expect { Plink::OfferRecord.live_only(old_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'does not return offers than have not started yet' do
-      unstarted_offer = create_offer(valid_attributes.merge(start_date: Date.tomorrow))
+      unstarted_offer = create_offer(valid_attributes.merge(start_date: 1.day.from_now))
       expect { Plink::OfferRecord.live_only(unstarted_offer.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

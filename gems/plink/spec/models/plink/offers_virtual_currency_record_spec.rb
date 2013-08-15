@@ -50,10 +50,10 @@ describe Plink::OffersVirtualCurrencyRecord do
       inactive_offer = create_offer(is_active: false)
       create_offers_virtual_currency(offer_id: inactive_offer.id)
 
-      inactive_offer = create_offer(start_date: Date.tomorrow)
+      inactive_offer = create_offer(start_date: 1.day.from_now)
       create_offers_virtual_currency(offer_id: inactive_offer.id)
 
-      inactive_offer = create_offer(end_date: Date.yesterday)
+      inactive_offer = create_offer(end_date: 1.day.ago)
       create_offers_virtual_currency(offer_id: inactive_offer.id)
     end
 

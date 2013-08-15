@@ -40,7 +40,7 @@ module UserActions
   def validate_reward_on_account(reward, user, dollar_amount)
     click_on 'My Account' if current_path != '/account'
     page.should have_text("You have #{user.currency_balance.floor} Plink Points.", count: 2)
-    page.should have_content Date.today.to_s(:month_day)
+    page.should have_content Time.zone.today.to_s(:month_day)
     page.should have_text("$#{dollar_amount} #{reward.name}")
     page.should have_text("-#{dollar_amount}00 Plink Points")
     page.should have_image('icon_redeem')

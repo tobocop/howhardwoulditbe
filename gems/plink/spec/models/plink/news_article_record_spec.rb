@@ -5,7 +5,7 @@ describe Plink::NewsArticleRecord do
     {
       source: 'TechCrunch',
       source_link: 'http://techcrunch.com/plink',
-      published_on: Date.today,
+      published_on: Time.zone.today,
       title: 'the news',
       is_active: true
     }
@@ -43,8 +43,8 @@ describe Plink::NewsArticleRecord do
 
   describe '.by_publish_date' do
     before do
-      @newer_article = create_news_article(published_on: Date.today)
-      @older_article = create_news_article(published_on: Date.yesterday)
+      @newer_article = create_news_article(published_on: Time.zone.today)
+      @older_article = create_news_article(published_on: 1.day.ago)
     end
 
     it 'returns articles ordered by publish date' do

@@ -22,8 +22,8 @@ describe 'user signs in' do
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
 
     @old_navy_offer = create_offer(advertiser_id: old_navy.id,
-                                   start_date: Date.yesterday,
-                                   end_date: Date.tomorrow,
+                                   start_date: 1.day.ago,
+                                   end_date: 1.day.from_now,
                                    is_active: true,
                                    show_on_wall: true,
                                    offers_virtual_currencies: [
@@ -36,8 +36,8 @@ describe 'user signs in' do
                                    ])
 
     @burger_king_offer = create_offer(advertiser_id: burger_king.id,
-                                      start_date: Date.yesterday,
-                                      end_date: Date.tomorrow,
+                                      start_date: 1.day.ago,
+                                      end_date: 1.day.from_now,
                                       is_active: true,
                                       is_new: true,
                                       show_on_wall: true,

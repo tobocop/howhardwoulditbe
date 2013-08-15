@@ -16,14 +16,14 @@ module Plink
 
     has_many :live_tiers, class_name: 'Plink::TierRecord',
              foreign_key: 'offersVirtualCurrencyID',
-             conditions: ["#{Plink::TierRecord.table_name}.isActive = ? AND #{Plink::TierRecord.table_name}.beginDate <= ? AND #{Plink::TierRecord.table_name}.endDate >= ?", true, Date.today, Date.today]
+             conditions: ["#{Plink::TierRecord.table_name}.isActive = ? AND #{Plink::TierRecord.table_name}.beginDate <= ? AND #{Plink::TierRecord.table_name}.endDate >= ?", true, Time.zone.today, Time.zone.today]
 
     belongs_to :virtual_currency, foreign_key: :virtualCurrencyID
     belongs_to :offer, class_name: 'Plink::OfferRecord', foreign_key: :offerID
     belongs_to :active_offer,
               class_name: 'Plink::OfferRecord',
               foreign_key: :offerID,
-              conditions: ["offers.isActive = ? AND offers.showOnWall = ? AND offers.startDate <= ? AND offers.endDate >= ?",true, true, Date.today, Date.today]
+              conditions: ["offers.isActive = ? AND offers.showOnWall = ? AND offers.startDate <= ? AND offers.endDate >= ?",true, true, Time.zone.today, Time.zone.today]
 
     scope :for_currency_id, ->(virtual_currency_id) {
       where('virtualCurrencyID = ?', virtual_currency_id)

@@ -36,7 +36,7 @@ describe Plink::AddOfferToWalletService do
           user.stub(:open_wallet_item) { wallet_item }
           wallet_item.stub(:assign_offer)
 
-          Plink::UsersAwardPeriodRecord.should_receive(:create).with(user_id: 1, begin_date: Date.today, advertisers_rev_share: 0.05, offers_virtual_currency_id: 123)
+          Plink::UsersAwardPeriodRecord.should_receive(:create).with(user_id: 1, begin_date: Time.zone.today, advertisers_rev_share: 0.05, offers_virtual_currency_id: 123)
           subject.add_offer
         end
       end

@@ -4,8 +4,8 @@ describe Plink::TierRecord do
 
   let(:valid_attributes) {
     {
-        start_date: Date.yesterday,
-        end_date: Date.tomorrow,
+        start_date: 1.day.ago,
+        end_date: 1.day.from_now,
         dollar_award_amount: 100,
         minimum_purchase_amount: 199,
         offers_virtual_currency_id: 2,

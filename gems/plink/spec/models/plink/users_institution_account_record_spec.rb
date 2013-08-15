@@ -5,7 +5,7 @@ describe Plink::UsersInstitutionAccountRecord do
   let (:valid_params) {
     {
       account_id: 1,
-      begin_date: Date.yesterday,
+      begin_date: 1.day.ago,
       end_date: '2999-12-31',
       user_id: 24,
       users_institution_account_staging_id: 0,

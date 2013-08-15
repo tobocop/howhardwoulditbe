@@ -20,7 +20,7 @@ module Plink
     end
 
     def create_award_period
-      Plink::UsersAwardPeriodRecord.create(user_id: user.id, begin_date: Date.today, advertisers_rev_share: offer.advertisers_rev_share, offers_virtual_currency_id: offer_virtual_currency_for_user.id)
+      Plink::UsersAwardPeriodRecord.create(user_id: user.id, begin_date: Time.zone.today, advertisers_rev_share: offer.advertisers_rev_share, offers_virtual_currency_id: offer_virtual_currency_for_user.id)
     end
 
     def offer_virtual_currency_for_user
