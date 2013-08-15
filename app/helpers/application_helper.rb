@@ -21,4 +21,29 @@ module ApplicationHelper
   def contact_us_message
     "Need help? Please #{link_to 'contact us', contact_path, class: 'text-link'}.".html_safe
   end
+
+  def google_analytics_script_tag
+    case Rails.env
+    when 'review'
+      "<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-27582334-3', 'plink-qa.com');
+        ga('send', 'pageview');
+      </script>".html_safe
+    when 'production'
+      "<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-27582334-2', 'plink.com');
+        ga('send', 'pageview');
+      </script>".html_safe
+    end
+  end
 end
