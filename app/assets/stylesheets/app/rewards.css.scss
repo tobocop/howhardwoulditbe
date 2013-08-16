@@ -34,6 +34,7 @@
     font-size: 1em;
     font-weight: 300;
     letter-spacing: 1px;
+    line-height:1.2em;
 
     &.cyan {
       color: $cyan;
@@ -45,6 +46,10 @@
 
     &.gray {
       color: $lightgray;
+
+      &.bold {
+        font-weight: 700;
+      }
     }
   }
 
