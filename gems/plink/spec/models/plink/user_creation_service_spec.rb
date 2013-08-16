@@ -6,7 +6,8 @@ describe Plink::UserCreationService do
       first_name: 'derp',
       password_hash: 'asd',
       salt: 'asd',
-      avatar_thumbnail_url: 'http://www.google.com/logo.png'
+      avatar_thumbnail_url: 'http://www.google.com/logo.png',
+      provider: 'organic'
   }}
 
   describe 'initialize' do
@@ -32,6 +33,12 @@ describe Plink::UserCreationService do
       expect {
         Plink::UserCreationService.new(valid_params.except(:salt))
       }.to raise_exception(KeyError, 'key not found: :salt')
+    end
+
+    it 'requires a provider' do
+      expect {
+        Plink::UserCreationService.new(valid_params.except(:provider))
+      }.to raise_exception(KeyError, 'key not found: :provider')
     end
 
     it 'can be initialized with an avatar_thumbnail_url' do

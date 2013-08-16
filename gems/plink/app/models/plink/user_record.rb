@@ -11,9 +11,12 @@ module Plink
     .+                 # One or more characters
     $/x
 
+    VALID_PROVIDERS = %w[facebook organic twitter]
+
     include Plink::LegacyTimestamps
 
-    attr_accessible :email, :first_name, :password_hash, :salt, :avatar_thumbnail_url
+    attr_accessible :avatar_thumbnail_url, :email, :first_name, :password_hash, :provider,
+      :salt
 
     alias_attribute :is_subscribed, :isSubscribed
 
@@ -26,9 +29,9 @@ module Plink
     validates :first_name, presence: true, format: {with: /\A[a-zA-Z]+\z/, if: 'first_name.present?'}
     validates :email, presence: true, format: {with: VALID_EMAIL_REGEXP}
     validates :password_hash, :salt, presence: true
-
     validates :new_password, length: {minimum: 6}, confirmation: true, if: 'new_password.present?'
     validate :email_is_not_in_database
+    validates :provider, inclusion: {in: VALID_PROVIDERS}
 
     before_create :set_default_virtual_currency
 

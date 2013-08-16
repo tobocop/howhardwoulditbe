@@ -57,7 +57,6 @@ describe RegistrationsController do
     end
 
     describe "when registration has errors" do
-
       before do
         controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
       end

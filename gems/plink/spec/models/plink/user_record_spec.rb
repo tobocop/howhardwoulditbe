@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::UserRecord do
-  subject { new_user }
+  subject(:user_record) { new_user }
 
   it_should_behave_like(:legacy_timestamps)
 
@@ -13,90 +13,104 @@ describe Plink::UserRecord do
 
   describe 'validations' do
     it 'be valid' do
-      subject.should be_valid
+      user_record.should be_valid
     end
 
     it 'must have a first name' do
-      subject.first_name = nil
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
+      user_record.first_name = nil
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:first_name)
     end
 
     it 'ensures first name must only be alphabetical letters' do
-      subject.first_name = "asb2"
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
+      user_record.first_name = "asb2"
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:first_name)
 
-      subject.first_name = "asb;"
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
+      user_record.first_name = "asb;"
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:first_name)
 
-      subject.first_name = '_hunter'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
+      user_record.first_name = '_hunter'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:first_name)
 
-      subject.first_name = '-hunter'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:first_name)
+      user_record.first_name = '-hunter'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:first_name)
     end
 
     it 'must have an email address' do
-      subject.email = nil
-      subject.should_not be_valid
-      subject.should have(2).error_on(:email)
+      user_record.email = nil
+      user_record.should_not be_valid
+      user_record.should have(2).error_on(:email)
     end
 
     it 'validates the format of the email address' do
-      subject.email = 'foo'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      user_record.email = 'foo'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:email)
 
-      subject.email = 'foo@'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      user_record.email = 'foo@'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:email)
 
-      subject.email = 'foo@example'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      user_record.email = 'foo@example'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:email)
 
-      subject.email = 'foo@example.'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      user_record.email = 'foo@example.'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:email)
 
-      subject.email = 'foo@example.c'
-      subject.should be_valid
+      user_record.email = 'foo@example.c'
+      user_record.should be_valid
     end
 
     it 'must have a password hash' do
-      subject.password_hash = nil
-      subject.should_not be_valid
-      subject.should have(1).error_on(:password_hash)
+      user_record.password_hash = nil
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:password_hash)
     end
 
     it 'must have a salt' do
-      subject.salt = nil
-      subject.should_not be_valid
-      subject.should have(1).error_on(:salt)
+      user_record.salt = nil
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:salt)
     end
 
     it 'validates new password' do
-      subject.new_password = 'foo'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:new_password)
+      user_record.new_password = 'foo'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:new_password)
 
-      subject.new_password = 'foobar'
-      subject.new_password_confirmation = 'foobee'
-      subject.should_not be_valid
-      subject.should have(1).error_on(:new_password)
+      user_record.new_password = 'foobar'
+      user_record.new_password_confirmation = 'foobee'
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:new_password)
     end
 
     it 'does not allow emails to be duplicates' do
       other_user = new_user
-      other_user.email = subject.email
+      other_user.email = user_record.email
       other_user.save!
 
-      subject.should_not be_valid
-      subject.should have(1).error_on(:email)
+      user_record.should_not be_valid
+      user_record.should have(1).error_on(:email)
+    end
+
+    it 'validates that the provider is facebook, twitter, or organic' do
+      user_record.provider = 'other'
+      user_record.should_not be_valid
+
+      user_record.provider = 'facebook'
+      user_record.should be_valid
+
+      user_record.provider = 'twitter'
+      user_record.should be_valid
+
+      user_record.provider = 'organic'
+      user_record.should be_valid
     end
   end
 
@@ -133,51 +147,51 @@ describe Plink::UserRecord do
   end
 
   it 'allows assignment of avatar_thumbnail_url' do
-    subject.update_attributes(avatar_thumbnail_url: 'test123')
-    subject.avatar_thumbnail_url.should == 'test123'
+    user_record.update_attributes(avatar_thumbnail_url: 'test123')
+    user_record.avatar_thumbnail_url.should == 'test123'
   end
 
   it 'has a primary virtual currency' do
-    subject.primary_virtual_currency = create_virtual_currency
-    subject.save!
+    user_record.primary_virtual_currency = create_virtual_currency
+    user_record.save!
 
-    subject.primary_virtual_currency.should be
+    user_record.primary_virtual_currency.should be
   end
 
   it 'returns the primary virtrual currencies id' do
     currency = create_virtual_currency
-    subject.primary_virtual_currency = currency
-    subject.primary_virtual_currency_id.should == currency.id
+    user_record.primary_virtual_currency = currency
+    user_record.primary_virtual_currency_id.should == currency.id
   end
 
   it 'sets the virtual currency to the default Plink Points currency' do
     plink_point_currency = create_virtual_currency
     Plink::VirtualCurrency.stub(:default) { plink_point_currency }
-    subject.save!
+    user_record.save!
 
-    subject.primary_virtual_currency.should == plink_point_currency
+    user_record.primary_virtual_currency.should == plink_point_currency
   end
 
   it 'has wallet items' do
-    subject.save!
-    subject.wallet_item_records.length.should == 0
-    wallet = create_wallet(user_id: subject.id)
+    user_record.save!
+    user_record.wallet_item_records.length.should == 0
+    wallet = create_wallet(user_id: user_record.id)
     wallet_item = create_locked_wallet_item(wallet_id: wallet.id)
-    subject.wallet_item_records(true).length == 1
+    user_record.wallet_item_records(true).length == 1
   end
 
   it 'has an empty wallet item' do
-    subject.save!
-    wallet = create_wallet(user_id: subject.id)
+    user_record.save!
+    wallet = create_wallet(user_id: user_record.id)
     wallet_item = create_open_wallet_item(wallet_id: wallet.id)
-    subject.open_wallet_item.should == wallet_item
+    user_record.open_wallet_item.should == wallet_item
   end
 
   it 'returns nil when no wallet items are empty' do
-    subject.save!
-    wallet = create_wallet(user_id: subject.id)
+    user_record.save!
+    wallet = create_wallet(user_id: user_record.id)
     wallet_item = create_locked_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 123)
-    subject.open_wallet_item.should == nil
+    user_record.open_wallet_item.should == nil
   end
 
   describe 'class methods' do
@@ -232,21 +246,21 @@ describe Plink::UserRecord do
       mock_password = mock(:password, hashed_value: 'abcdefgh', salt: '12345678')
       Plink::Password.stub(:new).with(unhashed_password: 'abc1234').and_return(mock_password)
 
-      subject.new_password = 'abc1234'
-      subject.new_password_confirmation = 'abc1234'
-      subject.save
+      user_record.new_password = 'abc1234'
+      user_record.new_password_confirmation = 'abc1234'
+      user_record.save
 
-      subject.password_hash.should == 'abcdefgh'
-      subject.salt.should == '12345678'
+      user_record.password_hash.should == 'abcdefgh'
+      user_record.salt.should == '12345678'
     end
 
     it 'does not change the current password if it is invalid' do
-      old_user_password_hash = subject.password_hash
+      old_user_password_hash = user_record.password_hash
 
-      subject.new_password = 'abc'
-      subject.save
+      user_record.new_password = 'abc'
+      user_record.save
 
-      subject.password_hash.should == old_user_password_hash
+      user_record.password_hash.should == old_user_password_hash
     end
   end
 end

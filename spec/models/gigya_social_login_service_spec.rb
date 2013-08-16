@@ -36,7 +36,6 @@ describe GigyaSocialLoginService do
 
   describe '#sign_in_user' do
     context 'when gigya_user id is an integer' do
-
       before { Plink::UserService.any_instance.stub(:find_by_id).with(123) { user } }
 
       context 'when we find a user by id' do
@@ -132,7 +131,6 @@ describe GigyaSocialLoginService do
       end
 
       context 'when we cannot find the user by email' do
-
         let(:user) { stub(id: 123, avatar_thumbnail_url?: true, new_user?: true) }
 
         before do
@@ -141,33 +139,87 @@ describe GigyaSocialLoginService do
         end
 
         it 'creates a user via the UserCreationService' do
-          Plink::UserCreationService.should_receive(:new).with(email: 'bob@example.com', first_name: 'Bob', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg')
+          user_params = {
+            email:'bob@example.com',
+            first_name:'Bob',
+            password_hash:'my-hashed-password',
+            salt:'my-salt',
+            avatar_thumbnail_url:'http://www.example.com/my-avatar.jpg',
+            provider: 'twitter'
+          }
+          Plink::UserCreationService.should_receive(:new).with(user_params)
+
           gigya_connection.stub(:notify_registration) { stub(:successful? => true) }
-          gigya_social_login_service = GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob', photoURL: 'http://www.example.com/my-avatar.jpg', provider: 'twitter'})
+
+          gigya_params = {
+            gigya_connection: gigya_connection,
+            UID: 'abc123',
+            email: 'bob@example.com',
+            firstName: 'Bob',
+            photoURL: 'http://www.example.com/my-avatar.jpg',
+            provider: 'twitter'
+          }
+          gigya_social_login_service = GigyaSocialLoginService.new(gigya_params)
           response = gigya_social_login_service.sign_in_user
+
           response.new_user.should be_true
           gigya_social_login_service.user.should == user
         end
 
-
         it 'should raise when user creation fails' do
-          Plink::UserCreationService.should_receive(:new).with(email: 'bob@example.com', first_name: '', password_hash: 'my-hashed-password', salt: 'my-salt', avatar_thumbnail_url: nil) { raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: []))) }
+          user_params = {
+            email: 'bob@example.com',
+            first_name: '',
+            password_hash: 'my-hashed-password',
+            salt: 'my-salt',
+            avatar_thumbnail_url: nil,
+            provider: 'twitter'
+          }
+          Plink::UserCreationService.should_receive(:new).with(user_params) {
+            raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: [])))
+          }
+
+          gigya_params = {
+            gigya_connection: gigya_connection,
+            UID: 'abc123',
+            email: 'bob@example.com',
+            firstName: '',
+            avatar_thumbnail_url: nil,
+            provider: 'twitter'
+          }
 
           expect {
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: '', avatar_thumbnail_url: nil}).sign_in_user
+            GigyaSocialLoginService.new(gigya_params).sign_in_user
           }.to raise_exception(ActiveRecord::RecordInvalid)
         end
 
         it 'notifies Gigya of a user registration' do
-          gigya_connection.should_receive(:notify_registration).with(site_user_id: 123, gigya_id: 'abc123') { stub(:successful? => true) }
-          GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob'}).sign_in_user
+          notification_params = {site_user_id: 123, gigya_id: 'abc123'}
+          gigya_connection.should_receive(:notify_registration).with(notification_params) {
+            stub(:successful? => true)
+          }
+
+          gigya_params = {
+            gigya_connection: gigya_connection,
+            UID: 'abc123',
+            email: 'bob@example.com',
+            firstName: 'Bob'
+          }
+          GigyaSocialLoginService.new(gigya_params).sign_in_user
         end
 
         it 'raises when Gigya user registration notification fails' do
           gigya_connection.stub(:notify_registration) { stub(:successful? => false) }
 
+          gigya_params = {
+            gigya_connection: gigya_connection,
+            UID: 'abc123',
+            email: 'bob@example.com',
+            firstName: 'Bob'
+          }
+
           expect {
-            GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: 'abc123', email: 'bob@example.com', firstName: 'Bob'}).sign_in_user
+            GigyaSocialLoginService.new(gigya_params).sign_in_user
           }.to raise_exception(GigyaSocialLoginService::GigyaNotificationError)
         end
       end
