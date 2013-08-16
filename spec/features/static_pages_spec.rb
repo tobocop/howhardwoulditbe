@@ -38,7 +38,7 @@ describe 'Static pages' do
         page.should have_text('How can we help you?')
       end
 
-      it 'should have the correct fields' do
+      it 'has the correct fields' do
         page.should have_field('contact_form[first_name]')
         page.should have_field('contact_form[last_name]')
         page.should have_field('contact_form[email]')
@@ -51,7 +51,7 @@ describe 'Static pages' do
         page.should have_field('contact_form_category_other')
       end
 
-      it 'should have the correct placeholder text' do
+      it 'has the correct placeholder text' do
         visit contact_path
         page.should have_xpath("//input[@placeholder='First Name']")
         page.should have_xpath("//input[@placeholder='Last Name']")
@@ -59,48 +59,48 @@ describe 'Static pages' do
       end
 
       context 'form' do
-        it 'shouldnt submit if first name is blank' do
+        it 'will not submit if first name is blank' do
           submit_contact_us_form('', 'Tester', 'non@member.com',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
           page.should have_text('Please provide your first name')
         end
 
-        it 'shouldnt submit if last name is blank' do
+        it 'will not submit if last name is blank' do
           submit_contact_us_form('Matt', '', 'non@member.com',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
           page.should have_text('Please provide your last name')
         end
 
-        it 'shouldnt submit if email is blank' do
+        it 'will not submit if email is blank' do
           submit_contact_us_form('Matt', 'Tester', '',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
           page.should have_text('Please provide your Plink registered email')
         end
 
-        it 'shouldnt submit if an email is invalid' do
+        it 'will not submit if an email is invalid' do
           submit_contact_us_form('Matt', 'Tester', 'invalidemailformat',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == contact_path
-          page.should have_text("Please enter a valid email")
+          page.should have_text('Please enter a valid email')
+          page.should_not have_text('EmailPlease enter a valid email')
         end
 
-        it 'should submit successfully for a non-member' do
+        it 'will not submit if message is blank' do
+          submit_contact_us_form('Matt', 'Tester', 'test@email.com', '')
+          page.current_path.should == contact_path
+          page.should have_text('Please provide a brief message so we can better assist you')
+        end
+
+        it 'submits successfully for a non-member' do
           submit_contact_us_form('Matt', 'Tester', 'non@member.com',
             'Im a lumberjack and im ok I sleep all night and work all day')
           page.current_path.should == '/'
           page.should have_text('Thank you for contacting Plink.')
         end
-
-        pending 'shouldnt submit if message is blank' do
-          submit_contact_us_form('Matt', 'Tester', 'test@email.com', '')
-          page.current_path.should == contact_path
-          page.should have_text('Please provide a brief message so we can better assist you')
-        end
       end
     end
   end
-
 end
