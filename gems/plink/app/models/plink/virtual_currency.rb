@@ -12,8 +12,9 @@ module Plink
     alias_attribute :site_name, :siteName
     alias_attribute :singular_name, :singularCurrencyName
     alias_attribute :has_all_offers, :hasAllOffers
+    alias_attribute :show_tiers_as_percent, :showTiersAsPercent
 
-    attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name, :has_all_offers
+    attr_accessible :name, :subdomain, :exchange_rate, :site_name, :singular_name, :has_all_offers, :show_tiers_as_percent
 
     validates :name, :subdomain, :exchange_rate, :site_name, :singular_name, presence: true
     validates :subdomain, uniqueness: true

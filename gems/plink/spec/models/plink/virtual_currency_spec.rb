@@ -8,7 +8,8 @@ describe Plink::VirtualCurrency do
       exchange_rate: 100,
       site_name: 'Plink',
       singular_name: 'Plink point',
-      has_all_offers: false
+      has_all_offers: false,
+      show_tiers_as_percent: false
     }
   }
   subject { new_virtual_currency(subdomain: 'www') }

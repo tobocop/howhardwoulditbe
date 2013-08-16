@@ -30,8 +30,11 @@ Plink::WalletRecord.destroy_all
 Plink::UsersAwardPeriodRecord.destroy_all
 
 p 'Creating VirtualCurrency'
-virtual_currency = Plink::VirtualCurrency.create(name: "Plink points", subdomain: "www", exchange_rate: 100, site_name: "Plink", singular_name: "Plink Point")
-memolink_virtual_currency = Plink::VirtualCurrency.create(name: "memolink points", subdomain: "memolink", exchange_rate: 1600, site_name: "Memolink", singular_name: "memolink point")
+plink_virtual_currency = Plink::VirtualCurrency.create(name: 'Plink points', subdomain: 'www', exchange_rate: 100, site_name: 'Plink', singular_name: 'Plink Point')
+memolink_virtual_currency = Plink::VirtualCurrency.create(name: 'memolink points', subdomain: 'memolink', exchange_rate: 1600, site_name: 'Memolink', singular_name: 'memolink point')
+swagbucks_virtual_currency = Plink::VirtualCurrency.create(name: 'Swag Bucks', subdomain: 'swagbucks', exchange_rate: 100, site_name: 'Swagbucks', singular_name: 'Swag Buck', has_all_offers: true)
+bestbuy_virtual_currency = Plink::VirtualCurrency.create(name: 'Reward Zone<sup>&reg;</sup> points', subdomain: 'bestbuy', exchange_rate: 50, site_name: 'Reward Zone Out & About', singular_name: 'Reward Zone<sup>&reg;</sup> point', has_all_offers: true)
+goodsearch_virtual_currency = Plink::VirtualCurrency.create(name: 'towards your cause', subdomain: 'goodsearch', exchange_rate: 1, site_name: 'Goodswipe', singular_name: 'towards your cause', has_all_offers: true, show_tiers_as_percent: true)
 
 p 'Creating institution'
 institution = create_institution(name: 'Bank of AMERRRICA!')
@@ -39,14 +42,14 @@ create_institution(name: 'CC Bank', intuit_institution_id: 100000)
 
 p 'Create non-linked User'
 user = create_user(password: 'password', email: 'clean_account@plink.com', avatar_thumbnail_url: 'http://img.gawkerassets.com/img/17m6znqc61o49jpg/original.jpg')
-users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
+users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: plink_virtual_currency.id)
 wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
 
 p 'Creating Dev user'
 user = create_user(password: 'password', email: 'pivotal@plink.com', avatar_thumbnail_url: 'http://img.gawkerassets.com/img/17m6znqc61o49jpg/original.jpg')
-users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
+users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: plink_virtual_currency.id)
 wallet = create_wallet(user_id: user.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
@@ -58,7 +61,7 @@ create_users_institution_account(user_id: user.id, users_institution_id: users_i
 
 p 'Creating user that needs reverification'
 user_reverify = create_user(password: 'password', email: 'reverify@plink.com')
-users_virtual_currency = create_users_virtual_currency(user_id: user_reverify.id, virtual_currency_id: virtual_currency.id)
+users_virtual_currency = create_users_virtual_currency(user_id: user_reverify.id, virtual_currency_id: plink_virtual_currency.id)
 wallet = create_wallet(user_id: user_reverify.id)
 3.times { |i| create_open_wallet_item(wallet_id: wallet.id, wallet_slot_id: i+1) }
 create_locked_wallet_item(wallet_id: wallet.id)
@@ -85,72 +88,78 @@ Plink::HeroPromotionRecord.create(name: 'Stefan', image_url: '/assets/hero-galle
 Plink::HeroPromotionRecord.create(name: 'Georg', image_url: '/assets/hero-gallery/7eleven_2.jpg', title: '7-Eleven = AMAZING HOTDOGS', display_order: 3)
 
 p 'Creating Advertisers'
-vitamin_world = Plink::AdvertiserRecord.create(advertiser_name: 'Vitamin World', logo_url: '/assets/wallet-logos/vitaminworld.png')
-puritans_pride = Plink::AdvertiserRecord.create(advertiser_name: "Puritan's Pride")
-foot_locker = Plink::AdvertiserRecord.create(advertiser_name: 'Foot Locker', logo_url: '/assets/wallet-logos/footlocker.png')
-footaction = Plink::AdvertiserRecord.create(advertiser_name: 'Footaction')
-eastbay_ccs = Plink::AdvertiserRecord.create(advertiser_name: 'Eastbay/CCS')
-champs_sports = Plink::AdvertiserRecord.create(advertiser_name: 'Champs Sports')
-dollar_general = Plink::AdvertiserRecord.create(advertiser_name: 'Dollar General', logo_url: '/assets/wallet-logos/dollargeneral.png')
-sears = Plink::AdvertiserRecord.create(advertiser_name: 'Sears', logo_url: '/assets/wallet-logos/sears.png')
-kmart = Plink::AdvertiserRecord.create(advertiser_name: 'Kmart', logo_url: '/assets/wallet-logos/kmart.png')
-united_artists_theatres = Plink::AdvertiserRecord.create(advertiser_name: 'United Artists Theatres', logo_url: '/assets/wallet-logos/unitedartists.png')
-edwards_theatres = Plink::AdvertiserRecord.create(advertiser_name: 'Edwards Theatres')
-regal_cinemas = Plink::AdvertiserRecord.create(advertiser_name: 'Regal Cinemas', logo_url: '/assets/wallet-logos/regal.png')
-dunkin_donuts = Plink::AdvertiserRecord.create(advertiser_name: "Dunkin' Donuts", logo_url: '/assets/wallet-logos/dunkindonuts.png')
-red_robin = Plink::AdvertiserRecord.create(advertiser_name: 'Red Robin', logo_url: '/assets/wallet-logos/redrobin.png')
-seven_eleven = Plink::AdvertiserRecord.create(advertiser_name: '7 - Eleven', logo_url: '/assets/wallet-logos/7eleven.png')
-quiznos = Plink::AdvertiserRecord.create(advertiser_name: 'Quiznos', logo_url: '/assets/wallet-logos/quiznos.png')
-outback_steakhouse = Plink::AdvertiserRecord.create(advertiser_name: 'Outback Steakhouse', logo_url: '/assets/wallet-logos/outback.png')
-old_navy = Plink::AdvertiserRecord.create(advertiser_name: 'Old Navy', logo_url: '/assets/wallet-logos/oldnavy.png')
-arbys = Plink::AdvertiserRecord.create(advertiser_name: 'Arbys', logo_url: '/assets/wallet-logos/arbys.png')
-burger_king = Plink::AdvertiserRecord.create(advertiser_name: 'Burger King', logo_url: '/assets/wallet-logos/bk-cropped.png')
-gap = Plink::AdvertiserRecord.create(advertiser_name: 'Gap', logo_url: '/assets/wallet-logos/gap.png')
+vitamin_world = create_advertiser(advertiser_name: 'Vitamin World', logo_url: '/assets/wallet-logos/vitaminworld.png')
+puritans_pride = create_advertiser(advertiser_name: "Puritan's Pride")
+foot_locker = create_advertiser(advertiser_name: 'Foot Locker', logo_url: '/assets/wallet-logos/footlocker.png')
+footaction = create_advertiser(advertiser_name: 'Footaction')
+eastbay_ccs = create_advertiser(advertiser_name: 'Eastbay/CCS')
+champs_sports = create_advertiser(advertiser_name: 'Champs Sports')
+dollar_general = create_advertiser(advertiser_name: 'Dollar General', logo_url: '/assets/wallet-logos/dollargeneral.png')
+sears = create_advertiser(advertiser_name: 'Sears', logo_url: '/assets/wallet-logos/sears.png')
+kmart = create_advertiser(advertiser_name: 'Kmart', logo_url: '/assets/wallet-logos/kmart.png')
+united_artists_theatres = create_advertiser(advertiser_name: 'United Artists Theatres', logo_url: '/assets/wallet-logos/unitedartists.png')
+edwards_theatres = create_advertiser(advertiser_name: 'Edwards Theatres')
+regal_cinemas = create_advertiser(advertiser_name: 'Regal Cinemas', logo_url: '/assets/wallet-logos/regal.png')
+dunkin_donuts = create_advertiser(advertiser_name: "Dunkin' Donuts", logo_url: '/assets/wallet-logos/dunkindonuts.png')
+red_robin = create_advertiser(advertiser_name: 'Red Robin', logo_url: '/assets/wallet-logos/redrobin.png')
+seven_eleven = create_advertiser(advertiser_name: '7 - Eleven', logo_url: '/assets/wallet-logos/7eleven.png')
+quiznos = create_advertiser(advertiser_name: 'Quiznos', logo_url: '/assets/wallet-logos/quiznos.png')
+outback_steakhouse = create_advertiser(advertiser_name: 'Outback Steakhouse', logo_url: '/assets/wallet-logos/outback.png')
+old_navy = create_advertiser(advertiser_name: 'Old Navy', logo_url: '/assets/wallet-logos/oldnavy.png')
+arbys = create_advertiser(advertiser_name: 'Arbys', logo_url: '/assets/wallet-logos/arbys.png')
+burger_king = create_advertiser(advertiser_name: 'Burger King', logo_url: '/assets/wallet-logos/bk-cropped.png')
+gap = create_advertiser(advertiser_name: 'Gap', logo_url: '/assets/wallet-logos/gap.png')
 
+p 'Creating Offers'
+offers = {
+    quiznos: create_offer(advertisers_rev_share: 0.08, advertiser_id: quiznos.id, start_date: '1900-01-01'),
+    outback_steakhouse: create_offer(advertisers_rev_share: 0.10,advertiser_id: outback_steakhouse.id, start_date: '1900-01-01'),
+    seven_eleven: create_offer(advertisers_rev_share: 0.05,advertiser_id: seven_eleven.id, start_date: '1900-01-01'),
+    red_robin: create_offer(advertisers_rev_share: 0.08,advertiser_id: red_robin.id, start_date: '1900-01-01'),
+    dunkin_donuts: create_offer(advertisers_rev_share: 0.02,advertiser_id: dunkin_donuts.id, start_date: '1900-01-01'),
+    burger_king: create_offer(advertisers_rev_share: 0.05,advertiser_id: burger_king.id, start_date: '1900-01-01'),
+    regal_cinemas: create_offer(advertisers_rev_share: 0.08,advertiser_id: regal_cinemas.id, start_date: '1900-01-01'),
+    edwards_theatres: create_offer(advertisers_rev_share: 0.08,advertiser_id: edwards_theatres.id, start_date: '1900-01-01'),
+    united_artists_theatres: create_offer(advertisers_rev_share: 0.08,advertiser_id: united_artists_theatres.id, start_date: '1900-01-01'),
+    gap: create_offer(advertisers_rev_share: 0.1,advertiser_id: gap.id, start_date: '1900-01-01'),
+    old_navy: create_offer(advertisers_rev_share: 0.1,advertiser_id: old_navy.id, start_date: '1900-01-01'),
+    kmart: create_offer(advertisers_rev_share: 0.05,advertiser_id: kmart.id, start_date: '1900-01-01'),
+    sears: create_offer(advertisers_rev_share: 0.05,advertiser_id: sears.id, start_date: '1900-01-01'),
+    dollar_general: create_offer(advertisers_rev_share: 0.03,advertiser_id: dollar_general.id, start_date: '1900-01-01'),
+    champs_sports: create_offer(advertisers_rev_share: 0.08,advertiser_id: champs_sports.id, start_date: '1900-01-01'),
+    eastbay_ccs: create_offer(advertisers_rev_share: 0.08,advertiser_id: eastbay_ccs.id, start_date: '1900-01-01'),
+    footaction: create_offer(advertisers_rev_share: 0.08,advertiser_id: footaction.id, start_date: '1900-01-01'),
+    foot_locker: create_offer(advertisers_rev_share: 0.08,advertiser_id: foot_locker.id, start_date: '1900-01-01'),
+    puritans_pride: create_offer(advertisers_rev_share: 0.08,advertiser_id: puritans_pride.id, start_date: '1900-01-01'),
+    vitamin_world: create_offer(advertisers_rev_share: 0.08,advertiser_id: vitamin_world.id, start_date: '1900-01-01')
+}
 
-p 'Creating Plink Points Offers'
-    create_offer(advertisers_rev_share: 0.08, advertiser_id: quiznos.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.10,advertiser_id: outback_steakhouse.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: seven_eleven.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: red_robin.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.02,advertiser_id: dunkin_donuts.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: burger_king.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: regal_cinemas.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: edwards_theatres.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: united_artists_theatres.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.1,advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.1,advertiser_id: old_navy.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: kmart.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: sears.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.03,advertiser_id: dollar_general.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: champs_sports.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: eastbay_ccs.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: footaction.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: foot_locker.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: puritans_pride.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: vitamin_world.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
+p 'Creating Plink Points And Memolink Points Offers Virtual Currencies'
+[plink_virtual_currency, memolink_virtual_currency].each do |virtual_currency|
+  offers.each do |offer_name, offer_record|
+    create_offers_virtual_currency(
+      offer_id: offer_record.id,
+      virtual_currency_id: virtual_currency.id,
+      tiers: [
+        new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'),
+        new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31')
+      ]
+    )
+  end
+end
 
-p 'Creating Memolink Offers'
-    create_offer(advertisers_rev_share: 0.08, advertiser_id: quiznos.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.10,advertiser_id: outback_steakhouse.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: seven_eleven.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: red_robin.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.02,advertiser_id: dunkin_donuts.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: burger_king.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: regal_cinemas.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: edwards_theatres.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: united_artists_theatres.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.1,advertiser_id: gap.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.1,advertiser_id: old_navy.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: kmart.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.05,advertiser_id: sears.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.03,advertiser_id: dollar_general.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: champs_sports.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: eastbay_ccs.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: footaction.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: foot_locker.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: puritans_pride.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
-    create_offer(advertisers_rev_share: 0.08,advertiser_id: vitamin_world.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: memolink_virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
+p 'Creating swagbucks, bestbuy, and goodsearch Offers Virtual Currencies'
+[swagbucks_virtual_currency, bestbuy_virtual_currency, goodsearch_virtual_currency].each do |virtual_currency|
+  offers.each do |offer_name, offer_record|
+    create_offers_virtual_currency(
+      offer_id: offer_record.id,
+      virtual_currency_id: virtual_currency.id,
+      tiers: [
+        new_tier(dollar_award_amount: 0, minimum_purchase_amount: 0.01, percent_award_amount: 3.0, end_date: '2999-12-31')
+      ]
+    )
+  end
+end
 
 p 'Creating Plink Rewards'
 amazon_reward = create_reward(name: 'Amazon.com Gift Card', amounts: [ new_reward_amount(dollar_award_amount: 5, is_active: true), new_reward_amount(dollar_award_amount: 10, is_active: true), new_reward_amount(dollar_award_amount: 15, is_active: true), new_reward_amount(dollar_award_amount: 25, is_active: true), new_reward_amount(dollar_award_amount: 50, is_active: true), new_reward_amount(dollar_award_amount: 100, is_active: true),])
@@ -191,13 +200,13 @@ create_award_type(dollar_amount:1, award_code:'questionAnswer', email_message: '
 create_award_type(dollar_amount:1, award_code:'doubleConfirm', email_message: 'doubleConfirm')
 
 p 'Creating Free Award'
-create_free_award(user_id: user.id, dollar_award_amount: 5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: virtual_currency.id)
+create_free_award(user_id: user.id, dollar_award_amount: 5430.43, currency_award_amount: 543043, award_type_id: award_type.id, virtual_currency_id: plink_virtual_currency.id)
 
 p 'Creating Qualifying Award'
-create_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
+create_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: plink_virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
 
 p 'Creating Non-Qualifying Award'
-create_non_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
+create_non_qualifying_award(user_id: user.id, advertiser_id: old_navy.id, virtual_currency_id: plink_virtual_currency.id, users_virtual_currency_id: users_virtual_currency.id)
 
 p 'Creating Redemption'
 create_redemption(reward_id: amazon_reward.id, user_id: user.id, dollar_award_amount: 3.00)
