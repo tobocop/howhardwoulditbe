@@ -23,6 +23,9 @@ namespace :db do
 
       #Adds view for reverifications for the mobile api
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_user_has_reverifications.sql')))
+
+      #View for rails reg to get the current active paths for a given affiliate
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_active_paths.sql')))
     end
 
     desc 'drops the views in the DB'
@@ -35,6 +38,7 @@ namespace :db do
       ActiveRecord::Base.connection.execute('DROP VIEW vw_active_intuit_accounts')
       ActiveRecord::Base.connection.execute('DROP VIEW vw_offerExclusions')
       ActiveRecord::Base.connection.execute('DROP VIEW vw_user_has_reverifications')
+      ActiveRecord::Base.connection.execute('DROP VIEW vw_activePaths')
     end
   end
 
