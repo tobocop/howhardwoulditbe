@@ -19,15 +19,21 @@ class ApplicationController < ActionController::Base
 
   def auto_login_from_cookie
     return if current_user.logged_in?
-    return unless cookies[:PLINKUID]
+    return unless cookies[login_cookie_key]
 
-    user = plink_user_service.find_by_password_hash(cookies[:PLINKUID])
+    decoded_cookie = decode_plink_cookie(cookies[login_cookie_key])
+    user = plink_user_service.find_by_password_hash(decoded_cookie)
     sign_in_user(user) if user
   end
 
   def sign_in_user(user)
     set_user_session(user.id)
-    set_coldfusion_login_cookie(user.password_hash)
+    set_auto_login_cookie(user.password_hash)
+  end
+
+  def sign_out_user
+    expire_user_session
+    expire_auto_login_cookie
   end
 
   def current_user
@@ -71,10 +77,6 @@ class ApplicationController < ActionController::Base
     @_user_registration_form ||= UserRegistrationForm.new
   end
 
-  def sign_out_user
-    session[:current_user_id] = nil
-  end
-
   private
 
   def send_user_to_white_label(subdomain)
@@ -89,18 +91,38 @@ class ApplicationController < ActionController::Base
     session[:current_user_id] = user_id
   end
 
+  def expire_user_session
+    session[:current_user_id] = nil
+  end
+
   def plink_user_service
     Plink::UserService.new
   end
 
-  def set_coldfusion_login_cookie(password_hash)
-    encoded_hash = Base64.encode64(password_hash)
+  def set_auto_login_cookie(password_hash)
+    encoded_hash = encode_plink_cookie(password_hash)
 
-    cookies[:PLINKUID] = {
+    cookies[login_cookie_key] = {
       value: encoded_hash,
       domain: :all,
       path: '/'
     }
   end
 
+  def expire_auto_login_cookie
+    return unless cookies[login_cookie_key]
+    cookies.delete(login_cookie_key, domain: :all, path: '/')
+  end
+
+  def encode_plink_cookie(unencoded_value)
+    Base64.encode64(unencoded_value)
+  end
+
+  def decode_plink_cookie(encoded_value)
+    Base64.decode64(encoded_value)
+  end
+
+  def login_cookie_key
+    :PLINKUID
+  end
 end

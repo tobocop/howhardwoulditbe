@@ -54,6 +54,24 @@ describe ApplicationController do
     end
   end
 
+  describe '#sign_out_user' do
+    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
+
+    before :each do
+      controller.sign_in_user(user)
+    end
+
+    it 'sets the current_user_id in the session to nil' do
+      controller.sign_out_user
+      session[:current_user_id].should be_nil
+    end
+
+    it 'destroys the PLINKUID cookie' do
+      controller.sign_out_user
+      cookies[:PLINKUID].should be_nil
+    end
+  end
+
   describe '#current_user' do
     it 'returns the current user' do
       session[:current_user_id] = 3
@@ -176,31 +194,31 @@ describe ApplicationController do
   describe '.auto_login_from_cookie' do
     context 'with a valid cookie' do
       let!(:valid_user) { create_user(email: 'grinch@example.com', password_hash: 'greeneggsandhash') }
-      let!(:valid_cookie) { create_cookie(valid_user.password_hash) }
+      let!(:valid_cookie) { set_auto_login_cookie(valid_user.password_hash) }
 
       it 'auto logs in the user if a valid cookie is found' do
         get :index
-        @controller.user_logged_in?.should be_true
+        controller.user_logged_in?.should be_true
       end
     end
 
     context 'with an invalid cookie' do
       let!(:invalid_user) { create_user(email: 'cindylou@example.com', password_hash: 'whohash') }
-      let!(:invalid_cookie) { create_cookie('stolenbythegrinch') }
+      let!(:invalid_cookie) { set_auto_login_cookie('stolenbythegrinch') }
 
       it 'does not log the user in automatically if an invalid cookie is found' do
         get :index
-        @controller.user_logged_in?.should be_false
+        controller.user_logged_in?.should be_false
       end
     end
 
     context 'with an expired cookie' do
       let!(:invalid_user) { create_user(email: 'max@example.com', password_hash: 'maxhash') }
-      let!(:invalid_cookie) { create_cookie('maxhash', expires: 5.minutes.ago) }
+      let!(:invalid_cookie) { set_auto_login_cookie('maxhash', expires: 5.minutes.ago) }
 
       it 'does not log the user in automatically if an expired cookie is found' do
         get :index
-        @controller.user_logged_in?.should be_false
+        controller.user_logged_in?.should be_false
       end
     end
   end

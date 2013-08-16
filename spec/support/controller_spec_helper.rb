@@ -25,4 +25,16 @@ module ControllerSpecHelper
     controller.stub(current_virtual_currency: virtual_currency)
     virtual_currency
   end
+
+  def set_auto_login_cookie(password_hash, cookie_name=:PLINKUID, options={})
+    encoded_hash = Base64.encode64(password_hash)
+    defaults = {
+      value: encoded_hash,
+      domain: :all,
+      path: '/',
+      expires: 1.hour.from_now
+    }
+
+    cookies[cookie_name] = defaults.merge(options)
+  end
 end
