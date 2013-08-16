@@ -4,6 +4,12 @@ export RAILS_ENV=test
 
 set -e
 
+echo "TEST SETUP"
+bundle exec rake db:migrate
+bundle exec rake db:test:prepare
+bundle exec rake db:udfs:create
+bundle exec rake db:views:create
+
 echo "RUNNING PLINK ADMIN GEM BUILD"
 cd gems/plink_admin && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
@@ -25,10 +31,6 @@ bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 
 echo "RUNNING RAILS APP BUILD"
-bundle exec rake db:migrate
-bundle exec rake db:test:prepare
-bundle exec rake db:udfs:create
-bundle exec rake db:views:create
 bundle exec rspec spec --tag ~skip_in_build
 STATUS=$((STATUS + $?))
 
