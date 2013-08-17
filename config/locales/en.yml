@@ -45,6 +45,7 @@ en:
               blank: Please provide a First name
               invalid: Please enter only alphabetical characters for your name
             email:
+              already_registered: You've entered an email address that is already registered with Plink.
               blank: Email address is required
               invalid: Please enter a valid email address
             new_password:
