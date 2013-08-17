@@ -9,7 +9,8 @@ module Plink
     alias_attribute :is_tango, :isTangoRedemption
     alias_attribute :logo_url, :logoURL
 
-    attr_accessible :award_code, :name, :is_active, :is_tango, :description, :logo_url
+    attr_accessible :award_code, :description, :is_active, :is_tango, :logo_url, :name,
+      :terms
 
     has_many :amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID'
     has_many :live_amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID', conditions: ["#{Plink::RewardAmountRecord.table_name}.isActive = ?", true]

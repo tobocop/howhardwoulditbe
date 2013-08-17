@@ -190,3 +190,25 @@ describe 'reward:update_reward_amounts', skip_in_build: true do
   end
 
 end
+
+describe 'reward:add_subway', skip_in_build: true do
+  include_context 'rake'
+
+  let(:subway) { Plink::RewardRecord.last }
+
+  before { subject.invoke }
+
+  it 'adds a reward record with the correct production values' do
+    subway.award_code.should == 'subway-gift-card'
+    subway.name.should == 'Subway Gift Card'
+    subway.description.should == "Redeem your SUBWAY&reg; Card today, and you'll always have a delicious meal right at your fingertips."
+    subway.terms.should == 'Subway gift cards are a physical gift card that will be mailed to your home address.  Please allow up to 3-5 business days for a Plink team member to contact you via your registered Plink email, asking for your mailing address. The gift card should arrive within a week of your response.'
+    subway.logo_url.should == 'https://plink-images.s3.amazonaws.com/rewardImages/subway.png'
+  end
+
+  it 'adds redemption values of $10 and $20' do
+    dollar_amounts = subway.amounts.map(&:dollar_award_amount)
+    dollar_amounts.should include 10
+    dollar_amounts.should include 20
+  end
+end

@@ -137,4 +137,20 @@ namespace :reward do
       })
     end
   end
+
+  desc 'One-time task to add Subway'
+  task add_subway: :environment do
+    reward = Plink::RewardRecord.create!(
+      award_code: 'subway-gift-card',
+      name: 'Subway Gift Card',
+      description: "Redeem your SUBWAY&reg; Card today, and you'll always have a delicious meal right at your fingertips.",
+      terms: 'Subway gift cards are a physical gift card that will be mailed to your home address.  Please allow up to 3-5 business days for a Plink team member to contact you via your registered Plink email, asking for your mailing address. The gift card should arrive within a week of your response.',
+      logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/subway.png'
+    )
+
+    reward.amounts << Plink::RewardAmountRecord.new(is_active: true, dollar_award_amount: 10)
+    reward.amounts << Plink::RewardAmountRecord.new(is_active: true, dollar_award_amount: 20)
+
+    reward.save!
+  end
 end
