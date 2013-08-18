@@ -22,7 +22,6 @@ describe Plink::RewardRecord do
   end
 
   describe 'live' do
-
     before do
       create_reward(name:'do not find me', is_active: false)
       @expected = create_reward(name:'find me', is_active: true)
@@ -37,7 +36,6 @@ describe Plink::RewardRecord do
   end
 
   describe 'live_amounts' do
-
     before do
       subject.save!
 

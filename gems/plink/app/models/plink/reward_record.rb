@@ -8,12 +8,14 @@ module Plink
     alias_attribute :is_active, :isActive
     alias_attribute :is_tango, :isTangoRedemption
     alias_attribute :logo_url, :logoURL
+    alias_attribute :display_order, :displayOrder
 
-    attr_accessible :award_code, :description, :is_active, :is_tango, :logo_url, :name,
+    attr_accessible :award_code, :description, :display_order, :is_active, :is_tango, :logo_url, :name,
       :terms
 
     has_many :amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID'
-    has_many :live_amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID', conditions: ["#{Plink::RewardAmountRecord.table_name}.isActive = ?", true]
+    has_many :live_amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID',
+      conditions: ["#{Plink::RewardAmountRecord.table_name}.isActive = ?", true]
 
     def self.live
       where("#{table_name}.isActive = ?", true)
