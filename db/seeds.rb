@@ -187,6 +187,7 @@ create_event_type(name: Plink::EventTypeRecord.impression_type)
 create_event_type(name: Plink::EventTypeRecord.login_type)
 create_event_type(name: Plink::EventTypeRecord.card_add_type)
 create_event_type(name: Plink::EventTypeRecord.card_change_type)
+create_event_type(name: Plink::EventTypeRecord.facebook_login_type)
 
 p 'Creating award type'
 award_type = create_award_type(email_message: 'All the points!!!')

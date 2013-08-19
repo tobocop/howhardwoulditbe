@@ -40,5 +40,9 @@ describe Plink::EventTypeRecord do
     it 'returns the string "cardChange" for card_change_type' do
       Plink::EventTypeRecord.card_change_type.should == 'cardChange'
     end
+
+    it 'returns the string "facebookLogin" for facebook_login_type' do
+      Plink::EventTypeRecord.facebook_login_type.should == 'facebookLogin'
+    end
   end
 end

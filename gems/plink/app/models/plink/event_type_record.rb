@@ -12,7 +12,8 @@ module Plink
       :impression_type => 'impression',
       :login_type => 'login',
       :card_add_type => 'credentialRegistration',
-      :card_change_type => 'cardChange'
+      :card_change_type => 'cardChange',
+      :facebook_login_type => 'facebookLogin'
     }
 
 
@@ -40,5 +41,8 @@ module Plink
       TYPES[:card_change_type]
     end
 
+    def self.facebook_login_type
+      TYPES[:facebook_login_type]
+    end
   end
 end
