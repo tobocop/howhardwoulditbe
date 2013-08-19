@@ -164,10 +164,6 @@ namespace :reward do
     end
   end
 
-  desc 'One-time task to set unordered rewards to inactie'
-  task deactivate_old_rewards: :environment do
-  end
-
   desc 'One-time task to add Subway'
   task add_subway: :environment do
     reward = Plink::RewardRecord.create!(
