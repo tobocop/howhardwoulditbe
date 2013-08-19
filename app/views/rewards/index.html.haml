@@ -17,7 +17,7 @@
         .img
           = image_tag reward.logo_url, alt: reward.name
         .description
-          %h2.bold #{reward.name}
+          %h2.bold #{reward.name.html_safe}
           %h4= reward.description.html_safe
 
         - reward.amounts.reverse.each do |amount|
