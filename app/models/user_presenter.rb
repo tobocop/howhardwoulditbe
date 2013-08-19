@@ -71,4 +71,8 @@ class UserPresenter
       user.avatar_thumbnail_url
     end
   end
+
+  def provider
+    user.provider
+  end
 end

@@ -22,6 +22,7 @@ module Plink
              :is_subscribed,
              :password_hash,
              :primary_virtual_currency_id,
+             :provider,
              :open_wallet_item,
              :update_attributes,
              to: :user_record

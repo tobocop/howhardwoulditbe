@@ -97,6 +97,11 @@ describe UserPresenter do
     presenter.open_wallet_item.should == wallet_item
   end
 
+  it 'returns the provider' do
+    presenter = UserPresenter.new(user: double(provider: 'provider'))
+    presenter.provider.should == 'provider'
+  end
+
   describe '.avatar_thumbnail_url' do
     it 'returns a default avatar url if no profile image is in the user' do
       presenter = UserPresenter.new(user: stub(avatar_thumbnail_url: nil))

@@ -8,7 +8,8 @@ describe Plink::User do
       email: 'test@test.com',
       avatar_thumbnail_url: 'www.example.com/some_avatar',
       salt: 'angelinajolie',
-      password_hash: 'somehashything'
+      password_hash: 'somehashything',
+      provider: 'twitter'
     }
   end
 
@@ -45,6 +46,7 @@ describe Plink::User do
     user.avatar_thumbnail_url?.should be_true
     user.wallet.open_wallet_items.size.should == 1
     user.open_wallet_item.should be
+    user.provider.should == 'twitter'
     user.should respond_to(:update_attributes)
   end
 
