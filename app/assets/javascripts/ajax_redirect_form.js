@@ -4,8 +4,6 @@
 
     base.$el = $(el);
 
-
-
     base.init = function () {
       base.bindEvents();
       base.errorsTemplate = base._getErrorsTemplate();
@@ -27,7 +25,11 @@
 
     base._handleFormSubmit = function(e) {
       e.preventDefault();
-      var url = $(e.currentTarget).attr('action');
+      var url = $(e.currentTarget).attr('action'),
+          submit = base.$el.find(':submit');
+
+      submit.attr("disabled", true);
+      submit.addClass("disabled");
       base._submit(url);
     };
 
@@ -49,8 +51,11 @@
     base._failureSubmission = function (xhr) {
       var response = $.parseJSON(xhr.responseText);
 
-      var errorsHtml = base.errorsTemplate({instructions: response.error_message, errors: base._mapErrorMessages(response.errors)});
+      var errorsHtml = base.errorsTemplate({instructions: response.error_message, errors: base._mapErrorMessages(response.errors)}),
+          submit = base.$el.find(':submit');
 
+      submit.removeClass("disabled");
+      submit.attr("disabled", false);
       base.$el.find('.error-messages').html(errorsHtml);
     };
 
