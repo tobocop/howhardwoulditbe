@@ -16,7 +16,7 @@ describe 'user signs in' do
 
     link_card_for_user(user.id)
 
-    award_points_to_user(user_id: user.id, dollar_award_amount: 100.00, currency_award_amount: 543, virtual_currency_id: virtual_currency.id)
+    award_points_to_user(user_id: user.id, dollar_award_amount: 100.00, currency_award_amount: 10000, virtual_currency_id: virtual_currency.id)
 
     old_navy = create_advertiser(logo_url: '/assets/test/oldnavy.png', advertiser_name: 'Old Navy Test')
     burger_king = create_advertiser(logo_url: '/assets/test/burgerking.png', advertiser_name: 'Burger King')
@@ -91,6 +91,8 @@ describe 'user signs in' do
     click_on 'Rewards'
 
     page.current_path.should == '/rewards'
+
+    page.should have_content "You have enough Plink Points to redeem for a Gift card."
 
     within '.reward', text: 'Walmart Gift Card' do
       page.find('a', text: '$5').click
@@ -312,6 +314,5 @@ describe 'user signs in' do
     page.should have_css('img[src="/assets/header_logo.png"]')
     find(".header-logo").click
     current_path.should == '/'
-
   end
 end

@@ -15,4 +15,9 @@ class NullUserPresenter
   def can_redeem?
     false
   end
+
+  def currency_balance
+    0
+  end
+
 end

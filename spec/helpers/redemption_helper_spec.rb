@@ -2,14 +2,16 @@ require 'spec_helper'
 
 describe RedemptionHelper do
   describe '#redemption_message' do
-    it 'returns a message telling a user how many points until the next redemption if the given value is a positive number' do
-      helper.redemption_message(400.0, 'currency name').should == "You're <strong>400 currency name</strong> from your next reward."
-      helper.redemption_message(400.5, 'currency name').should == "You're <strong>400.5 currency name</strong> from your next reward."
+    context 'for a user with less than 1000 points' do
+      it 'returns a message indicating how many points they have until 1,000' do
+        helper.redemption_message(321, 'currency name').should == "You're <strong>679 currency name</strong> from your next reward."
+      end
     end
-
-    it 'returns a link to the redemption page if the points until next redemptions is negative (they have enough)' do
-      helper.should_receive(:link_to).with("You have enough Plink Points to redeem for a Gift card.", '/rewards', anything).and_return('You have enough Plink Points to redeem for a Gift card.')
-      helper.redemption_message(-300, 'currency name').should == "You have enough Plink Points to redeem for a Gift card."
+    context 'for a user with >= 1000 points' do
+      it 'returns a message indicating that they can redeem' do
+        helper.should_receive(:link_to).with("You have enough currency name to redeem for a Gift card.", '/rewards', {class: 'redeem-link'}).and_return("You have enough currency name to redeem for a Gift card.")
+        helper.redemption_message(1001, 'currency name').should == "You have enough currency name to redeem for a Gift card."
+      end
     end
   end
 end
