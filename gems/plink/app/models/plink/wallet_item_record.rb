@@ -23,6 +23,16 @@ module Plink
       .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:transaction])
     }
 
+    scope :wallets_with_an_unlock_reason_of_join, -> {
+      select(:walletID)
+      .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:join])
+    }
+
+    scope :wallets_with_an_unlock_reason_of_referral, -> {
+      select(:walletID)
+      .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:referral])
+    }
+
     scope :locked, -> { where(type: Plink::LockedWalletItemRecord) }
     scope :open_records, -> { where(type: Plink::OpenWalletItemRecord) }
     scope :populated_records, -> { where(type: Plink::PopulatedWalletItemRecord) }

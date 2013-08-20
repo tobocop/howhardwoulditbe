@@ -25,6 +25,8 @@ module Plink
     has_many :wallet_item_records, through: :wallet
     has_many :open_wallet_items, through: :wallet
     has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
+    has_many :referral_conversion_records, class_name: 'Plink::ReferralConversionRecord', foreign_key: 'referredBy'
+    has_many :qualifying_award_records, class_name: 'Plink::QualifyingAwardRecord', foreign_key: 'userID'
 
     validates :first_name, presence: true, format: {with: /\A[a-zA-Z]+\z/, if: 'first_name.present?'}
     validates :email, presence: true, format: {with: VALID_EMAIL_REGEXP}
