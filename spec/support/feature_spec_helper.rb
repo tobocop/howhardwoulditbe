@@ -31,7 +31,7 @@ module FeatureSpecHelper
         )
       else
         award_type = create_award_type(
-          email_message: args[:award_message], 
+          email_message: args[:award_message],
           award_display_name: args.fetch(:award_message, 'Message')
         )
 
@@ -60,7 +60,7 @@ module FeatureSpecHelper
 
   def delete_users_from_gigya
     gigya = Gigya.new(Gigya::Config.instance)
-    
+
     Plink::UserRecord.all.each do |user|
       gigya.delete_user(user.id)
     end
