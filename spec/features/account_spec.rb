@@ -195,8 +195,9 @@ describe 'Managing account' do
           user_id: user.id,
           dollar_award_amount: 6,
           currency_award_amount: 600,
-          virtual_currency_id: virtual_currency.id)
-        }
+          virtual_currency_id: virtual_currency.id,
+          award_message: 'My Awards'
+        )}
 
         sign_in('user@example.com', 'pass1word')
 

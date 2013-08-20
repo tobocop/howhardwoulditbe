@@ -30,7 +30,7 @@ module FeatureSpecHelper
           advertiser_id: args[:advertiser_id]
         )
       else
-        award_type = create_award_type(email_message: args[:award_message])
+        award_type = create_award_type(email_message: args[:award_message], award_display_name: args[:award_message])
 
         create_free_award(
           user_id: args[:user_id],
