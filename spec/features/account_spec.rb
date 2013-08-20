@@ -93,35 +93,35 @@ describe 'Managing account' do
         page.should have_content 'representing checks 4321'
 
         page.should have_content 'You have 580 Plink Points.'
-        page.should have_content 'Lifetime balance: 880 Plink Points'
+        page.should have_content 'LIFETIME STATS Plink Points 880'
 
         page.should_not have_link 'Redeem'
 
-        page.should have_content 'Recent Activity'
+        page.should have_content 'RECENT ACTIVITY'
 
         within '.activity' do
-          within '.event:nth-of-type(2)' do
+          within '.event:nth-of-type(3)' do
             page.should have_content Time.zone.now.to_date.to_s(:month_day)
             page.should have_content 'Walmart Gift Card'
             page.should have_content '-300 Plink Points'
             page.should have_image 'history/icon_redeem.png'
           end
 
-          within '.event:nth-of-type(3)' do
+          within '.event:nth-of-type(4)' do
             page.should have_content Time.zone.now.to_date.to_s(:month_day)
             page.should have_content 'for participating in the Plink program'
             page.should have_content '20 Plink Points'
             page.should have_image 'history/icon_bonus.png'
           end
 
-          within '.event:nth-of-type(4)' do
+          within '.event:nth-of-type(5)' do
             page.should have_content Time.zone.now.to_date.to_s(:month_day)
             page.should have_content 'Pop Caps inc'
             page.should have_content '425 Plink Points'
             page.should have_image 'history/icon_purchase.png'
           end
 
-          within '.event:nth-of-type(5)' do
+          within '.event:nth-of-type(6)' do
             page.should have_content Time.zone.now.to_date.to_s(:month_day)
             page.should have_content 'this is a free award'
             page.should have_content '435 Plink Points'
