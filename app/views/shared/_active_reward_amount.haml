@@ -7,7 +7,7 @@
     .img
       = image_tag reward.logo_url, alt: reward.name
     .text
-      %h1= "#{plink_currency_format(amount.dollar_award_amount)} #{reward.name}"
+      %h1= "#{plink_currency_format(amount.dollar_award_amount)} #{reward.name}".html_safe
       %h2= redemption_confirmation_text(amount, reward.name)
     %br
     .btn-wrapper

@@ -15,7 +15,7 @@
       .date
         %h3= activity.display_date
       .description
-        %h3= activity.award_display_name
+        %h3= activity.award_display_name.html_safe
       .amount
         %h3.bold{class: activity.amount_css_class}= "#{activity.currency_award_amount} #{activity.display_currency_name}"
       .icon

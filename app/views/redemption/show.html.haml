@@ -5,7 +5,7 @@
       %h2
         You've succesfully redeemed for a
         %span.h2.bold
-          #{plink_currency_format(@reward.amounts.first.dollar_award_amount)} #{@reward.name}.
+          #{plink_currency_format(@reward.amounts.first.dollar_award_amount)} #{@reward.name.html_safe}.
     .details
       %h3= @reward.description.html_safe
       %br

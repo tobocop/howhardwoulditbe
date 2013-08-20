@@ -15,7 +15,8 @@ module ApplicationHelper
 
   def redemption_confirmation_text(amount, reward_name)
     "You're about to redeem #{amount.currency_award_amount} #{amount.currency_name} "\
-    "for a #{plink_currency_format(amount.dollar_award_amount)} #{reward_name} Gift Card."
+    "for a #{plink_currency_format(amount.dollar_award_amount)} #{reward_name} Gift Card."\
+    .html_safe
   end
 
   def contact_us_message
