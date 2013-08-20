@@ -23,5 +23,22 @@ describe 'user:backfill_registration_provider', skip_in_build: true do
   it 'sets the provider to organic for users without a facebook id' do
     user_without_facebook.reload.provider.should == 'organic'
   end
+end
 
+describe 'user:reset_shortened_referral_link', skip_in_build: true do
+  include_context 'rake'
+
+  before :each do
+    create_user(shortened_referral_link: 'http://example.com', email: 'user1@example.com')
+    create_user(shortened_referral_link: 'http://examples.com', email: 'user2@example.com')
+    create_user(email: 'user3@example.com')
+  end
+
+  it 'sets the shortened_referral_link for all users to null' do
+    subject.invoke
+
+    Plink::UserRecord.all.each do |user|
+      user.shortened_referral_link.should be_nil
+    end
+  end
 end
