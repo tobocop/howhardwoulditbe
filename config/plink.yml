@@ -17,7 +17,7 @@ review:
   card_reverify_url: https://www.plink-qa.com/index.cfm?fuseaction=dialog.additionalInformation
 
 production:
-  image_base_url: ''
+  image_base_url: https://plink-images.s3.amazonaws.com/
   card_add_url: https://www.plink.com/index.cfm?fuseaction=intuit.selectInstitution
   card_change_url: https://www.plink.com/index.cfm?fuseaction=intuit.changeBank
   card_reverify_url: https://www.plink.com/index.cfm?fuseaction=dialog.additionalInformation
