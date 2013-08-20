@@ -66,36 +66,16 @@ private
       FROM walletItems
       INNER JOIN (
         SELECT
-          a.walletItemID,
+          wi.walletItemID,
           CASE
-          WHEN a.walletSlotID = 1 THEN 'join'
-          WHEN a.walletSlotID = 2 AND a.has_transaction = 1 THEN 'transaction'
-          WHEN a.walletSlotID = 3 AND a.has_referral = 1 THEN 'referral'
+          WHEN wi.walletSlotTypeID = 1 THEN 'join'
+          WHEN wi.walletSlotTypeID = 2 THEN 'transaction'
+          WHEN wi.walletSlotTypeID = 3 THEN 'referral'
           END AS unlock_reason
-          FROM (
-            SELECT
-              wi.*,
-              CASE
-                WHEN vqa.userID IS NULL THEN 0
-                ELSE 1
-              END AS has_transaction,
-              CASE
-                WHEN vrc.userID IS NULL THEN 0
-                ELSE 1
-              END AS has_referral
-            FROM walletItems wi
-            INNER JOIN wallets w WITH(NOLOCK) ON wi.walletID = w.walletID
-            LEFT OUTER JOIN (
-              SELECT DISTINCT userID
-              FROM qualifyingAwards WITH(NOLOCK)
-            ) vqa ON w.userID = vqa.userID
-            LEFT OUTER JOIN (
-              SELECT DISTINCT referredBy AS userID
-              FROM referralConversions WITH(NOLOCK)
-            ) vrc ON w.userID = vrc.userID
-            WHERE wi.TYPE <> 'Plink::LockedWalletItemRecord'
-              AND wi.unlock_reason IS NULL
-          ) a
+        FROM walletItems wi
+        INNER JOIN wallets w WITH(NOLOCK) ON wi.walletID = w.walletID
+        WHERE wi.TYPE <> 'Plink::LockedWalletItemRecord'
+        AND wi.unlock_reason IS NULL
       ) query ON walletItems.walletItemID = query.walletItemID
     }
 

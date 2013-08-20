@@ -126,16 +126,6 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
     wallet = create_wallet(user_id: user.id)
     Plink::WalletItemRecord.create!(
       wallet_id: wallet.id,
-      wallet_slot_id: legacy_transaction_lock_slot_id,
-      wallet_slot_type_id: legacy_transaction_lock_slot_type_id
-    )
-    Plink::WalletItemRecord.create!(
-      wallet_id: wallet.id,
-      wallet_slot_id: legacy_referral_lock_slot_id,
-      wallet_slot_type_id: legacy_referral_lock_slot_type_id
-    )
-    Plink::WalletItemRecord.create!(
-      wallet_id: wallet.id,
       wallet_slot_id: legacy_join_lock_slot_id,
       wallet_slot_type_id: legacy_join_lock_slot_type_id
     )
@@ -144,7 +134,6 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
 
   let!(:legacy_transaction_unlock_wallet) {
     user = create_user(email: 'bulldog@example.com')
-    create_qualifying_award(user_id: user.id)
     wallet = create_wallet(user_id: user.id)
     Plink::WalletItemRecord.create!(
       wallet_id: wallet.id,
@@ -158,28 +147,17 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
       wallet_slot_type_id: legacy_transaction_lock_slot_type_id,
       users_award_period_id: 101
     )
-    Plink::WalletItemRecord.create!(
-      wallet_id: wallet.id,
-      wallet_slot_id: legacy_referral_lock_slot_id,
-      wallet_slot_type_id: legacy_referral_lock_slot_type_id
-    )
     wallet
   }
 
   let!(:legacy_referral_unlock_wallet) {
     user = create_user(email: 'eddie@example.com')
-    referral = create_referral(referred_by: user.id)
     wallet = create_wallet(user_id: user.id)
     Plink::WalletItemRecord.create!(
       wallet_id: wallet.id,
       wallet_slot_id: legacy_referral_lock_slot_id,
       wallet_slot_type_id: legacy_referral_lock_slot_type_id,
       users_award_period_id: 200
-    )
-    Plink::WalletItemRecord.create!(
-      wallet_id: wallet.id,
-      wallet_slot_id: legacy_transaction_lock_slot_id,
-      wallet_slot_type_id: legacy_transaction_lock_slot_type_id
     )
     Plink::WalletItemRecord.create!(
       wallet_id: wallet.id,
@@ -192,8 +170,6 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
 
   let!(:legacy_all_unlock_wallet) {
     user = create_user(email: 'lilith@example.com')
-    referral = create_referral(referred_by: user.id)
-    create_qualifying_award(user_id: user.id)
     wallet = create_wallet(user_id: user.id)
     Plink::WalletItemRecord.create!(
       wallet_id: wallet.id,
@@ -257,6 +233,10 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
 
     wallets_with_an_unlock_reason_of_referral.should include legacy_referral_unlock_wallet.walletID
     wallets_with_an_unlock_reason_of_referral.should include legacy_all_unlock_wallet.walletID
+
+    wallets_with_an_unlock_reason_of_referral.should_not include legacy_wallet_join_only.walletID
+    wallets_with_an_unlock_reason_of_referral.should_not include legacy_transaction_unlock_wallet.walletID
+
     Plink::WalletItemRecord.wallets_with_an_unlock_reason_of_referral.size.should == 2
   end
 end
