@@ -13,7 +13,9 @@ module Plink
       :login_type => 'login',
       :card_add_type => 'credentialRegistration',
       :card_change_type => 'cardChange',
-      :facebook_login_type => 'facebookLogin'
+      :facebook_login_type => 'facebookLogin',
+      :offer_activate_type => 'offerWallActivate',
+      :offer_deactivate_type => 'offerWallDeactivate'
     }
 
 
@@ -43,6 +45,14 @@ module Plink
 
     def self.facebook_login_type
       TYPES[:facebook_login_type]
+    end
+
+    def self.offer_activate_type
+      TYPES[:offer_activate_type]
+    end
+
+    def self.offer_deactivate_type
+      TYPES[:offer_deactivate_type]
     end
   end
 end

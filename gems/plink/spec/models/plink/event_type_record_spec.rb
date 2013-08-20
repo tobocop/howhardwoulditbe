@@ -44,5 +44,13 @@ describe Plink::EventTypeRecord do
     it 'returns the string "facebookLogin" for facebook_login_type' do
       Plink::EventTypeRecord.facebook_login_type.should == 'facebookLogin'
     end
+
+    it 'returns the string "offerWallActivate" for offer_activate_type' do
+      Plink::EventTypeRecord.offer_activate_type.should == 'offerWallActivate'
+    end
+
+    it 'returns the string "offerWallDeactivate" for offer_deactivate_type' do
+      Plink::EventTypeRecord.offer_deactivate_type.should == 'offerWallDeactivate'
+    end
   end
 end
