@@ -12,23 +12,7 @@ namespace :wallet_items do
 
   desc 'Sets the unlock_reason for wallet items for legacy users'
   task set_unlock_reason: :environment do
-    # These IDs correspond to the ColdFusion WalletSlotID & WalletSlotTypeID
-    JOIN_UNLOCK_SLOT_ID = 1
-    TRANSACTION_UNLOCK_SLOT_ID = 2
-    REFERRAL_UNLOCK_SLOT_ID = 3
-
-    Plink::WalletItemRecord.legacy_wallet_items_requiring_conversion.each do |wallet_item|
-      case
-        when wallet_item.wallet_slot_id == JOIN_UNLOCK_SLOT_ID
-          wallet_item.unlock_reason = 'join'
-        when wallet_item.wallet_slot_id == TRANSACTION_UNLOCK_SLOT_ID && wallet_item.attributes['has_qualifying_transaction']
-          wallet_item.unlock_reason = 'transaction'
-        when wallet_item.wallet_slot_id == REFERRAL_UNLOCK_SLOT_ID && wallet_item.attributes['has_referral'] == 1
-          wallet_item.unlock_reason = 'referral'
-      end
-
-      wallet_item.save!
-    end
+    set_unlock_reason
   end
 
 private
@@ -73,6 +57,49 @@ private
     HAVING COUNT(1) < 5"
 
     2.times { ActiveRecord::Base.connection.execute(statement) }
+  end
+
+  def set_unlock_reason
+    statement = %Q{
+      UPDATE walletItems
+        SET walletItems.unlock_reason = query.unlock_reason
+      FROM walletItems
+      INNER JOIN (
+        SELECT
+          a.walletItemID,
+          CASE
+          WHEN a.walletSlotID = 1 THEN 'join'
+          WHEN a.walletSlotID = 2 AND a.has_transaction = 1 THEN 'transaction'
+          WHEN a.walletSlotID = 3 AND a.has_referral = 1 THEN 'referral'
+          END AS unlock_reason
+          FROM (
+            SELECT
+              wi.*,
+              CASE
+                WHEN vqa.userID IS NULL THEN 0
+                ELSE 1
+              END AS has_transaction,
+              CASE
+                WHEN vrc.userID IS NULL THEN 0
+                ELSE 1
+              END AS has_referral
+            FROM walletItems wi
+            INNER JOIN wallets w WITH(NOLOCK) ON wi.walletID = w.walletID
+            LEFT OUTER JOIN (
+              SELECT DISTINCT userID
+              FROM qualifyingAwards WITH(NOLOCK)
+            ) vqa ON w.userID = vqa.userID
+            LEFT OUTER JOIN (
+              SELECT DISTINCT referredBy AS userID
+              FROM referralConversions WITH(NOLOCK)
+            ) vrc ON w.userID = vrc.userID
+            WHERE wi.TYPE <> 'Plink::LockedWalletItemRecord'
+              AND wi.unlock_reason IS NULL
+          ) a
+      ) query ON walletItems.walletItemID = query.walletItemID
+    }
+
+    ActiveRecord::Base.connection.execute(statement)
   end
 
 end
