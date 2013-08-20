@@ -11,6 +11,8 @@ namespace :memolink do
         tier.update_attributes(end_date: 1.day.ago)
       end
 
+      next if offers_virtual_currency.active_offer.nil?
+
       rev_share = offers_virtual_currency.active_offer.advertisers_rev_share 
       percent_award_amount = (((rev_share.to_f * 0.75) * 0.4) * 100).round(1)
 

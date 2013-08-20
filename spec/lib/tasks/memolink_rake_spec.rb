@@ -65,6 +65,9 @@ describe 'memolink:convert_to_all_offers', skip_in_build: true do
 
     vitamin_world = create_advertiser(advertiser_name: 'Vitamin World')
     @vitamin_world_offer = create_offer(advertisers_rev_share: 0.08,advertiser_id: vitamin_world.id, start_date: '1900-01-01', offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
+
+    to_break = create_advertiser(advertiser_name: 'break')
+    @to_break_offer = create_offer(advertisers_rev_share: 0.08,advertiser_id: to_break.id, start_date: 1.day.from_now, offers_virtual_currencies: [ new_offers_virtual_currency(virtual_currency_id: virtual_currency.id, tiers: [ new_tier(dollar_award_amount: 0.5, minimum_purchase_amount: 5, end_date: '2999-12-31'), new_tier(dollar_award_amount: 1.5, minimum_purchase_amount: 5, end_date: '2999-12-31') ]) ])
   end
 
   it 'sets the virtual currency to has_all_offers to true' do
