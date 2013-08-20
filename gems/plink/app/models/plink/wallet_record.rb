@@ -17,6 +17,7 @@ module Plink
     has_many :wallet_item_records, class_name: 'Plink::WalletItemRecord', foreign_key: 'walletID'
     has_many :open_wallet_items, class_name: 'Plink::OpenWalletItemRecord', foreign_key: 'walletID'
     has_many :locked_wallet_items, class_name: 'Plink::LockedWalletItemRecord', foreign_key: 'walletID'
+    belongs_to :user, class_name: 'Plink::UserRecord', foreign_key: 'userID'
 
     validates :user_id, presence: true
 
