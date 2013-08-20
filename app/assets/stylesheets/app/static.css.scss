@@ -129,6 +129,10 @@
   }
   section {
     margin-top: 2em;
+
+    &.first {
+      margin-top:17px;
+    }
   }
 
   .top-link {
