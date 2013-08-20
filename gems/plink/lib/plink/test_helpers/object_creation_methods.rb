@@ -415,7 +415,6 @@ module Plink
       PopulatedWalletItemRecord.new(defaults.merge(options))
     end
 
-
     def create_wallet(options = {})
       wallet = new_wallet(options)
       wallet.save!
@@ -428,6 +427,21 @@ module Plink
       }
 
       WalletRecord.new(defaults.merge(options))
+    end
+
+    def create_referral(options = {})
+      referral = new_referral(options)
+      referral.save!
+      referral
+    end
+
+    def new_referral(options = {})
+      defaults = {
+        referred_by: 1,
+        created_user_id: 10
+      }
+
+      ReferralConversionRecord.new(defaults.merge(options))
     end
 
     def apply(object, defaults, overrides)
