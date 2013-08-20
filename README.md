@@ -233,8 +233,8 @@ Deploying with Capistrano
   * You can configure the `ruby` version in `config/deploy/recipes/rbenv.rb'
   * `cap rbenv:install`
 
-- Make sure that `apache` is running:
-  * `cap apache:start`
+- Make sure that `nginx` is running:
+  * `cap nginx:start`
 
 - Cap tasks for first-time setup:
    * `cap deploy:setup`
@@ -255,5 +255,5 @@ Deploying with Capistrano
 ### Quick Reference: `cap` commands
    * Run `cap -T` to see what tasks Capistrano knows about. These all have descriptions in the recipes and should describe what the task will do on the remote.
    * All `recipes` can be found at `config/deploy/recipes/`
-   * `cap apache:{restart:start:stop}`
+   * `cap nginx:{restart:start:stop}`
    * `cap unicorn:{restart:start:stop}`
