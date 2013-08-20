@@ -257,3 +257,10 @@ Deploying with Capistrano
    * All `recipes` can be found at `config/deploy/recipes/`
    * `cap nginx:{restart:start:stop}`
    * `cap unicorn:{restart:start:stop}`
+
+### SSL setup
+   * SCP your ther server cert up to the machine you want to install it on and move it into /etc/ngnix/ssl-certs/[yourdomain]/
+   * Open the ngnix.conf and add the following lines:
+		listen 443 default ssl;
+		ssl_certificate /etc/nginx/ssl-certs/[yourdomain]/[name].crt;
+		ssl_certificate_key /etc/nginx/ssl-certs/[yourdomain]/[name].key;
