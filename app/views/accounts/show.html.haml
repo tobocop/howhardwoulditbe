@@ -35,13 +35,18 @@
           %h3 If you feel your current balance is incorrect, please log out and log back in.
         %hr
 
-        %p Lifetime balance: #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)} #{current_virtual_currency.currency_name}
-
         - if current_user.can_redeem?
           = link_to 'You have enough points to get some loot!', rewards_path, class: 'redeem-link'
 
         = render partial: 'accounts/recent_activity'
 
+        %hr
+
+        .subhead
+          %h2 Lifetime Stats
+        .stat
+          %h3 #{current_virtual_currency.currency_name}
+          %h1.cyan #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)}
     .clear
 
     #card-add-modal.reveal-modal.cf-modal
