@@ -17,7 +17,7 @@
 
     %h2#press-releases.cyan Releases
     - press_releases.each do |release|
-      %p= link_to release[:title], release[:url], class: 'text-link'
+      %p= link_to release[:title], release[:url], class: 'text-link', target: '_blank'
       %em= release[:date]
 
 
