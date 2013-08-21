@@ -24,6 +24,11 @@
     margin: 15px 0px;
     text-align: center;
     @include round-corners(8px);
+
+    .field-container {
+      width: 212px;
+      margin: 0 auto;
+    }
   }
 
   .close-btn {
