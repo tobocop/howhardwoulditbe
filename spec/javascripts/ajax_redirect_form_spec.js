@@ -57,7 +57,7 @@ describe('Plink.ajaxRedirectForm', function () {
         request.response(TestResponses.registration.failure);
 
         expect($('.error-messages').html()).toContain('Im special');
-        expect($('.error-messages').html()).toContain('Please Correct the below errors:');
+        expect($('.error-messages').html()).toContain('Please correct the errors below:');
         expect($('.error-messages').html()).toContain('Please enter a First Name');
       });
     });

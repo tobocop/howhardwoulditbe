@@ -10,7 +10,6 @@ module Plink
       Plink::ActiveIntuitAccountRecord.user_has_account?(user_id)
     end
 
-
     private
 
     def create_intuit_account(account_record)
