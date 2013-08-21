@@ -2,6 +2,13 @@
 @import "app/mixins.css.scss";
 
 .wallet{
+  .offer-logo {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 165px;
+    max-height: 90px;
+  }
+
   h1 {
     font-size: 1.8em;
     font-weight:700;
@@ -61,12 +68,12 @@
 
   .offer{
     background:#FFFFFF;
-  	border: 1px solid #999999;
-  	display: inline-block;
-  	height:105px;
+    border: 1px solid #999999;
+    display: inline-block;
+    height:105px;
     margin: 10px 10px 10px 0px;
-  	position:relative;
-  	width:305px;
+    position:relative;
+    width:305px;
     text-align: center;
     cursor: pointer;
     @include round-corners(8px);
@@ -84,6 +91,14 @@
       height: 103px;
       text-align: center;
       vertical-align: middle;
+
+      .wallet-logo {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 165px;
+        max-height: 90px;
+      }
+
     }
 
     .info {
@@ -125,12 +140,18 @@
 
   .slot {
     background:#FFFFFF;
-  	border: 1px solid #999999;
-  	height:105px;
-  	margin: 5px 17px;
-  	position:relative;
-  	width:305px;
+    border: 1px solid #999999;
+    height:105px;
+    margin: 5px 17px;
+    position:relative;
+    width:305px;
     @include round-corners(8px);
+    .wallet-logo {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 165px;
+      max-height: 95px;
+    }
 
     .img {
       float:left;

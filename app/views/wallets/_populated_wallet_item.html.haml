@@ -2,7 +2,7 @@
   .slot-inner
     .brand
       .ribbon{class: wallet_item.special_offer_type}= wallet_item.special_offer_type_text
-      %img{src: wallet_item.icon_url, alt: wallet_item.icon_description}
+      %img{src: wallet_item.icon_url, class: 'offer-logo', alt: wallet_item.icon_description}
     .info
       %h3 up to
       %h1.numbers= wallet_item.max_currency_award_amount
