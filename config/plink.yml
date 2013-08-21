@@ -1,5 +1,5 @@
 development:
-  image_base_url: ''
+  image_base_url: https://plink-images.s3.amazonaws.com
   card_add_url: http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution
   card_change_url: http://www.plink.dev/index.cfm?fuseaction=intuit.changeBank
   card_reverify_url: http://www.plink.dev/index.cfm?fuseaction=dialog.additionalInformation
@@ -11,10 +11,10 @@ test:
   card_reverify_url: http://www.plink.dev/index.cfm?fuseaction=dialog.additionalInformation
 
 review:
-  image_base_url: https://plink-images.s3.amazonaws.com/
-  card_add_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.changeBank
-  card_reverify_url: https://www.plink-qa.com/index.cfm?fuseaction=dialog.additionalInformation
+  image_base_url: http://plink-images.s3.amazonaws.com/
+  card_add_url: http://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution
+  card_change_url: http://www.plink-qa.com/index.cfm?fuseaction=intuit.changeBank
+  card_reverify_url: http://www.plink-qa.com/index.cfm?fuseaction=dialog.additionalInformation
 
 production:
   image_base_url: https://plink-images.s3.amazonaws.com/
