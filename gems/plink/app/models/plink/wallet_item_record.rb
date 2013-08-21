@@ -37,21 +37,6 @@ module Plink
     scope :open_records, -> { where(type: Plink::OpenWalletItemRecord) }
     scope :populated_records, -> { where(type: Plink::PopulatedWalletItemRecord) }
 
-    scope :legacy_wallet_items_requiring_conversion, -> {
-      select(%Q{
-        #{self.table_name}.*,
-        #{Plink::QualifyingAwardRecord.table_name}.isSuccessful AS has_qualifying_transaction,
-        CASE
-          WHEN #{Plink::ReferralConversionRecord.table_name}.referredBy IS NULL THEN 0
-          ELSE 1
-        END AS has_referral
-      })
-      .joins("INNER JOIN #{Plink::WalletRecord.table_name} ON #{self.table_name}.walletID = #{Plink::WalletRecord.table_name}.walletID")
-      .joins("LEFT OUTER JOIN #{Plink::QualifyingAwardRecord.table_name} ON #{Plink::WalletRecord.table_name}.userID = #{Plink::QualifyingAwardRecord.table_name}.userID")
-      .joins("LEFT OUTER JOIN #{Plink::ReferralConversionRecord.table_name} ON #{Plink::ReferralConversionRecord.table_name}.referredBy = #{Plink::WalletRecord.table_name}.userID")
-      .where("#{self.table_name}.type != 'Plink::LockedWalletItemRecord'")
-    }
-
     def convert_to(klass_name)
       self.type = klass_name
     end
