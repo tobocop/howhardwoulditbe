@@ -99,7 +99,7 @@ describe 'Managing account' do
 
         page.should have_content 'RECENT ACTIVITY'
 
-        within '.activity' do
+        within '.stats-section:nth-of-type(2)' do
           within '.event:nth-of-type(3)' do
             page.should have_content Time.zone.now.to_date.to_s(:month_day)
             page.should have_content 'Walmart Gift Card'
