@@ -120,6 +120,18 @@ describe Plink::WalletRecord do
         end
       end
     end
+
+    describe '.sorted_wallet_item_records' do
+      let!(:wallet) { create_wallet }
+      let!(:second_item) { create_open_wallet_item(wallet_id: wallet.id) }
+      let!(:third_item) { create_locked_wallet_item(wallet_id: wallet.id) }
+      let!(:first_item) { create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 123) }
+
+      it 'returns wallet items sorted by ones that are populated then ones that are unlocked' do
+        ordered_items = [first_item, second_item, third_item]
+        wallet.sorted_wallet_item_records.should == ordered_items
+      end
+    end
   end
 
   describe '.create' do

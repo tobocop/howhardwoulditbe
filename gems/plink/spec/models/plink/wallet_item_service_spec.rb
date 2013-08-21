@@ -16,5 +16,14 @@ describe Plink::WalletItemService do
       wallet_items.length.should == 2
       wallet_items.map(&:class).uniq.should == [Plink::WalletItem]
     end
+
+    it 'uses sorted wallet items' do
+      Plink::WalletItem.any_instance.stub(:new) { double }
+      Plink::WalletRecord.stub(:find) { wallet }
+
+      wallet.should_receive(:sorted_wallet_item_records).and_call_original
+
+      Plink::WalletItemService.new.get_for_wallet_id(wallet.id)
+    end
   end
 end

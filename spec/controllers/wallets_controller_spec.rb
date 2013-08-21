@@ -7,7 +7,7 @@ describe WalletsController do
 
   let(:offer) { new_offer }
   let(:wallet_item) { new_locked_wallet_item }
-  let(:wallet) { stub(id:2, wallet_item_records: [wallet_item]) }
+  let(:wallet) { stub(id:2, sorted_wallet_item_records: [wallet_item]) }
 
   before(:each) do
     set_current_user(id: 5, wallet: wallet)
