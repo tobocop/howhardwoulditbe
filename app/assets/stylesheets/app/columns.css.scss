@@ -2,7 +2,7 @@
 @import "app/mixins.css.scss";
 
 /* LEFT COLUMN STYLES */
-  
+
 .left-column {
   display:inline-block;
   width: 340px;
@@ -94,7 +94,7 @@
 }
 
 /* RIGHT COLUMN STYLES */
-  
+
 .right-column {
   background:#FFFFFF;
   display: inline-block;
@@ -111,19 +111,19 @@
     margin-bottom:15px;
     text-transform:uppercase;
   }
-  
+
   .activity {
     margin:40px 0;
     /*width:640px;*/
 
     .event {
       height:36px;
-      padding: 10px 0px;  
+      padding: 10px 0px;
 
       &.alt {
         background:#fafafa;
       }
-      
+
       .icon {
         float:left;
         padding: 0px 4px;
@@ -145,7 +145,7 @@
         overflow:hidden;
         text-overflow:ellipsis;
         width:57%;
-        
+
       }
 
       .amount {
@@ -163,12 +163,16 @@
       margin:0 10% 20px 0;
     }
   }
-} 
+}
 
 .column-container {
   background: url('/assets/bg.png');
   background-repeat: repeat-y;
   background-position: center;
   height:100%;
+  padding-bottom: 30px;
+}
+
+.no-column-container {
   padding-bottom: 30px;
 }

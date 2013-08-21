@@ -1,29 +1,29 @@
 .layout-inner
+  .no-column-container
+    %p= flash[:error]
 
-  %p= flash[:error]
+    .rewards
+      .message.cf
+        %h1 Choose Your Reward.
+        %h3.cyan= redemption_message(current_user.currency_balance, current_virtual_currency.currency_name).html_safe
+      .message.cf.why-cant-i-redeem
+        %h3.cyan.bold
+          Why can't I redeem for more than $10?
+        %h3.cyan
+          We're updating how our rewards system works to give you more savings. Check back soon!
 
-  .rewards
-    .message.cf
-      %h1 Choose Your Reward.
-      %h3.cyan= redemption_message(current_user.currency_balance, current_virtual_currency.currency_name).html_safe
-    .message.cf.why-cant-i-redeem
-      %h3.cyan.bold
-        Why can't I redeem for more than $10?
-      %h3.cyan
-        We're updating how our rewards system works to give you more savings. Check back soon!
+      - @rewards.each do |reward|
+        .reward.cf
+          .img
+            = image_tag reward.logo_url, alt: reward.name
+          .description
+            %h2.bold #{reward.name.html_safe}
+            %h4= reward.description.html_safe
 
-    - @rewards.each do |reward|
-      .reward.cf
-        .img
-          = image_tag reward.logo_url, alt: reward.name
-        .description
-          %h2.bold #{reward.name.html_safe}
-          %h4= reward.description.html_safe
+          - reward.amounts.reverse.each do |amount|
+            - locals = {amount: amount, reward: reward}
 
-        - reward.amounts.reverse.each do |amount|
-          - locals = {amount: amount, reward: reward}
-
-          - if display_as_available?(@user_has_account, amount.dollar_award_amount)
-            = render :partial => 'shared/active_reward_amount', locals: locals
-          - else
-            = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals
+            - if display_as_available?(@user_has_account, amount.dollar_award_amount)
+              = render :partial => 'shared/active_reward_amount', locals: locals
+            - else
+              = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals
