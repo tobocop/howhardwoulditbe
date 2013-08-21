@@ -20,7 +20,6 @@ class RegistrationsController < ApplicationController
       render json: {redirect_path: wallet_path(link_card: true)}
     else
       render json: {
-        error_message: 'Please correct the errors below:',
         errors: user_registration_form.errors.messages.slice(:first_name, :password, :password_confirmation, :email)
       }, status: 403
     end

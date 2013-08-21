@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
       render json: {redirect_path: redirect_path_for(user)}
     else
       render json: {
-        error_message: 'Please correct the errors below:',
         errors: user_session.errors.messages
       }, status: 403
     end

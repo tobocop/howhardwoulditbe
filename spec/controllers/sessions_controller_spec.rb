@@ -79,7 +79,6 @@ describe SessionsController do
         response.status.should == 403
 
         JSON.parse(response.body).should == {
-          'error_message' => 'Please correct the errors below:',
           'errors' => {
             'email' => ["Email can't be blank"],
             'password' => ["Password can't be blank"],
