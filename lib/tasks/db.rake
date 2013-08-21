@@ -74,7 +74,8 @@ namespace :db do
   namespace :deprecated do
     desc "Remove deprecated tables and columns"
     task remove_tables_and_columns: :environment do
-      #  TABLES:
+      puts "Removing deprecated tables:"
+
       statement = <<-stmnt
         SELECT T.[name] AS [table_name], AC.[name] AS [column_name]
         FROM sys.[tables] AS T
@@ -86,10 +87,43 @@ namespace :db do
         record["table_name"]
       }.uniq
       table_names.each do |table|
+        foreign_key_alters = "SELECT
+            'ALTER TABLE ' + OBJECT_NAME(parent_object_id) +
+            ' DROP CONSTRAINT ' + name 'statement'
+        FROM sys.foreign_keys
+        WHERE referenced_object_id = object_id('#{table}')"
+
+        ActiveRecord::Base.connection.select_all(foreign_key_alters).each do |alter|
+          puts "Alter statement for table: #{alter.inspect}"
+          ActiveRecord::Base.connection.execute(alter['statement'])
+        end
+
+        constraints = "SELECT df.name 'constraint_name', t.name 'table_name',
+          c.NAME 'column_name'
+          FROM sys.default_constraints df
+          INNER JOIN sys.tables t ON df.parent_object_id = t.object_id
+          INNER JOIN sys.columns c ON df.parent_object_id = c.object_id AND df.parent_column_id = c.column_id
+          WHERE t.NAME LIKE '%#{table}%'"
+
+        ActiveRecord::Base.connection.select_all(constraints).each do |constraint|
+          puts "FOUND CONSTRAINT CONSTRAINT: #{constraint}"
+          puts "ALTER TABLE #{constraint["table_name"]} DROP CONSTRAINT #{constraint["constraint_name"]}"
+          constraint_alter = "ALTER TABLE #{constraint["table_name"]} DROP CONSTRAINT #{constraint["constraint_name"]}"
+          ActiveRecord::Base.connection.execute(constraint_alter)
+        end
+
         ActiveRecord::Base.connection.execute("DROP TABLE #{table}")
+        puts "Removed table #{table}"
       end
 
-      # COLUMNS:
+      puts
+      puts '*' * 100
+      puts '*' * 100
+      puts '*' * 100
+      puts
+
+      puts "Removing deprecated columns:"
+
       statement = <<-stmnt
         SELECT T.[name] AS [table_name], AC.[name] AS [column_name]
         FROM sys.[tables] AS T
@@ -108,12 +142,66 @@ namespace :db do
           WHERE c.NAME LIKE '%#{record["column_name"]}%'"
 
         ActiveRecord::Base.connection.select_all(constraints).each do |constraint|
-          constraint_alter = "ALTER TABLE #{record["table_name"]} DROP CONSTRAINT #{constraint["constraint_name"]}"
-          ActiveRecord::Base.connection.execute(constraint_alter)
+          puts "FOUND CONSTRAINT #{constraint}"
+          puts "ALTER TABLE #{constraint["table_name"]} DROP CONSTRAINT #{constraint["constraint_name"]}"
+          constraint_alter = "ALTER TABLE #{constraint["table_name"]} DROP CONSTRAINT #{constraint["constraint_name"]}"
+          if constraint["table_name"].present?
+            begin
+              ActiveRecord::Base.connection.execute(constraint_alter)
+            rescue
+              puts "Could not run alter!!!! #{constraint_alter}"
+            end
+          else
+            puts "Constraint received without a table #{constraint}"
+          end
         end
 
-        column_alter = "ALTER TABLE #{record["table_name"]} DROP COLUMN #{record["column_name"]}"
-        ActiveRecord::Base.connection.execute(column_alter)
+        foreign_keys = "SELECT
+            FK.TABLE_NAME AS 'pk_table_name',
+            CU.COLUMN_NAME AS 'cu_column_name',
+            PK.TABLE_NAME AS 'pk_table_name',
+            PT.COLUMN_NAME AS 'pk_column',
+            C.CONSTRAINT_NAME 'constraint_name'
+          FROM
+              INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C
+          INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK
+              ON C.CONSTRAINT_NAME = FK.CONSTRAINT_NAME
+          INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS PK
+              ON C.UNIQUE_CONSTRAINT_NAME = PK.CONSTRAINT_NAME
+          INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE CU
+              ON C.CONSTRAINT_NAME = CU.CONSTRAINT_NAME
+          INNER JOIN (
+                      SELECT
+                          i1.TABLE_NAME,
+                          i2.COLUMN_NAME
+                      FROM
+                          INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1
+                      INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2
+                          ON i1.CONSTRAINT_NAME = i2.CONSTRAINT_NAME
+                      WHERE
+                          i1.CONSTRAINT_TYPE = 'PRIMARY KEY'
+                     ) PT
+              ON PT.TABLE_NAME = PK.TABLE_NAME
+          WHERE PT.COLUMN_NAME LIKE '%#{record['column_name']}%' OR CU.COLUMN_NAME LIKE '%#{record['column_name']}%'"
+
+        ActiveRecord::Base.connection.select_all(foreign_keys).each do |foreign_key|
+          puts "FOUND FOREIGH KEY #{foreign_key}"
+          puts "ALTER TABLE #{foreign_key["pk_table_name"]} DROP CONSTRAINT #{foreign_key["constraint_name"]}"
+          fk_alter = "ALTER TABLE #{foreign_key["pk_table_name"]} DROP CONSTRAINT #{foreign_key["constraint_name"]}"
+          if foreign_key["pk_table_name"].present?
+            begin
+              ActiveRecord::Base.connection.execute(fk_alter)
+
+              column_alter = "ALTER TABLE #{record["table_name"]} DROP COLUMN #{record["column_name"]}"
+              ActiveRecord::Base.connection.execute(column_alter)
+              puts "Removed column #{record['column_name']}"
+            rescue
+              puts "Could not run alter!!!! #{fk_alter}"
+            end
+          else
+            puts "Constraint received without a table #{fk_alter}"
+          end
+        end
       end
     end
 
