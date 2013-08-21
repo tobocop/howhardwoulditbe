@@ -41,5 +41,16 @@ module Plink
       .wallets_of_users_with_qualifying_transactions
     }
 
+    def self.transaction_unlock_reason
+      UNLOCK_REASONS[:transaction]
+    end
+
+    def self.join_unlock_reason
+      UNLOCK_REASONS[:join]
+    end
+
+    def self.referral_unlock_reason
+      UNLOCK_REASONS[:referral]
+    end
   end
 end

@@ -28,7 +28,13 @@ module Plink
 
     def create_open_wallet_items(wallet)
       1.upto(self.class.default_creation_slot_count) do |i|
-        Plink::OpenWalletItemRecord.create(wallet_id: wallet.id, wallet_slot_id: i, wallet_slot_type_id: self.class.default_wallet_slot_type_id)
+        wallet_item_params = {
+          wallet_id: wallet.id,
+          wallet_slot_id: i,
+          wallet_slot_type_id: self.class.default_wallet_slot_type_id,
+          unlock_reason: Plink::WalletRecord.join_unlock_reason
+        }
+        Plink::OpenWalletItemRecord.create(wallet_item_params)
       end
     end
 

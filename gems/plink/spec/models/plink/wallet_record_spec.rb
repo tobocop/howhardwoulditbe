@@ -132,4 +132,24 @@ describe Plink::WalletRecord do
     end
   end
 
+  context 'constants' do
+    describe '.transaction_unlock_reason' do
+      it 'returns the string transaction for' do
+        Plink::WalletRecord.transaction_unlock_reason.should == 'transaction'
+      end
+    end
+
+    describe '.join_unlock_reason' do
+      it 'returns the string join for' do
+        Plink::WalletRecord.join_unlock_reason.should == 'join'
+      end
+    end
+
+    describe '.referral_unlock_reason' do
+      it 'returns the string referral for' do
+        Plink::WalletRecord.referral_unlock_reason.should == 'referral'
+      end
+    end
+  end
+
 end

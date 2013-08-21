@@ -21,7 +21,7 @@ describe Plink::WalletCreationService do
       service.create_for_user_id(number_of_locked_slots: 1)
     end
 
-    it 'creates x amount of walletItems that are empty' do
+    it 'creates x amount of open walletItems that have an unlock reason of join' do
       Plink::WalletCreationService.stub(:default_creation_slot_count) { 10 }
       Plink::WalletCreationService.stub(:default_wallet_slot_type_id) { 1340 }
 
@@ -31,7 +31,13 @@ describe Plink::WalletCreationService do
       Plink::WalletRecord.stub(:create).and_return { wallet_stub }
 
       1.upto(10) do |i|
-        Plink::OpenWalletItemRecord.should_receive(:create).with(wallet_id: 1423, wallet_slot_id: i, wallet_slot_type_id: 1340)
+        wallet_item_params = {
+          wallet_id: 1423,
+          wallet_slot_id: i,
+          wallet_slot_type_id: 1340,
+          unlock_reason: 'join'
+        }
+        Plink::OpenWalletItemRecord.should_receive(:create).with(wallet_item_params)
       end
 
       service.create_for_user_id(number_of_locked_slots: 1)
