@@ -13,7 +13,7 @@ module HomepageHelper
       'wallet-logos/regal.png',
       'wallet-logos/outback.png',
       'wallet-logos/redrobin.png',
-      'wallet-logos/tacobell.png',
+      'wallet-logos/1800flowers.png',
       'wallet-logos/unitedartists.png',
       'wallet-logos/vitaminworld.png',
       'wallet-logos/quiznos.png'
