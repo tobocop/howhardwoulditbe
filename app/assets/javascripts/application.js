@@ -49,7 +49,7 @@ var Plink = {
 
     Modernizr.load({
       test: Modernizr.input.placeholder,
-      nope: '/assets/jquery.placeholder.js',
+      nope: 'https://jqueryplaceholder.googlecode.com/git/jquery.placeholder-0.3.min.js',
       callback: function () {
         $('input, textarea').placeholder();
       }
