@@ -9,7 +9,8 @@ describe Plink::RewardRecord do
       is_active: true,
       is_tango: false,
       description: 'good reward',
-      logo_url: 'http://example.com/logo'
+      logo_url: 'http://example.com/logo',
+      display_order: 1
     }
   }
 
@@ -21,18 +22,23 @@ describe Plink::RewardRecord do
     Plink::RewardRecord.create(valid_params).should be_persisted
   end
 
-  describe 'live' do
-    before do
-      create_reward(name:'do not find me', is_active: false)
-      @expected = create_reward(name:'find me', is_active: true)
-    end
+  context 'named scopes' do
+    describe 'live' do
+      let!(:second_reward) { create_reward(name:'find me', is_active: true, display_order: 2) }
+      let!(:first_reward) { create_reward(name:'find me', is_active: true, display_order: 1) }
+      let!(:inactive_reward) { create_reward(name:'do not find me', is_active: false) }
 
-    it 'returns active rewards' do
-      rewards = Plink::RewardRecord.live
-      rewards.size.should == 1
-      rewards.should == [@expected]
-    end
+      it 'returns active rewards ordered by display order' do
+        ordered_rewards = [first_reward, second_reward]
 
+        rewards = Plink::RewardRecord.live
+        rewards.size.should == 2
+        rewards.should == ordered_rewards
+        rewards.each do |reward|
+          reward.should_not == inactive_reward
+        end
+      end
+    end
   end
 
   describe 'live_amounts' do

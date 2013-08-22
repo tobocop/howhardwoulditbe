@@ -17,9 +17,10 @@ module Plink
     has_many :live_amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID',
       conditions: ["#{Plink::RewardAmountRecord.table_name}.isActive = ?", true]
 
-    def self.live
+    scope :live, -> {
       where("#{table_name}.isActive = ?", true)
-    end
+      .order("#{table_name}.displayOrder")
+    }
 
   end
 end
