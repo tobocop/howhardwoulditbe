@@ -1,6 +1,7 @@
 @import "colors.css.scss";
 body, input, button{
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-text-stroke: .5px;
 }
 
 .hidden { display: none; }
