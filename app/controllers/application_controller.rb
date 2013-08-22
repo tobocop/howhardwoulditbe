@@ -11,7 +11,6 @@ class ApplicationController < ActionController::Base
       virtual_currency = current_virtual_currency
 
       if virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN
-        sign_out_user
         send_user_to_white_label(virtual_currency.subdomain)
       end
     end
