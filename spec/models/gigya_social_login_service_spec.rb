@@ -128,6 +128,21 @@ describe GigyaSocialLoginService do
             GigyaSocialLoginService.new({gigya_connection: gigya_connection, UID: '123', email: 'bob@example.com', photoURL: 'http://www.example.com/avatar.jpg'}).sign_in_user
           end
         end
+
+        it 'notifies Gigya of a user registration' do
+          notification_params = {site_user_id: 123, gigya_id: 'abc123'}
+          gigya_connection.should_receive(:notify_registration).with(notification_params) {
+            stub(:successful? => true)
+          }
+
+          gigya_params = {
+            gigya_connection: gigya_connection,
+            UID: 'abc123',
+            email: 'bob@example.com',
+            firstName: 'Bob'
+          }
+          GigyaSocialLoginService.new(gigya_params).sign_in_user
+        end
       end
 
       context 'when we cannot find the user by email' do
