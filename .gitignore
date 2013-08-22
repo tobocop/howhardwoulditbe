@@ -24,3 +24,4 @@ tango.yml
 .idea
 .env
 Checkfile
+newrelic.yml
