@@ -103,6 +103,8 @@ GEM
     dotenv (0.8.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    exceptional (2.0.33)
+      rack
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.8)
@@ -256,6 +258,7 @@ DEPENDENCIES
   capybara-webkit (~> 1.0.0)
   coffee-rails (~> 3.2.1)
   database_cleaner (~> 1.0.1)
+  exceptional
   execjs
   foreman
   gigya!

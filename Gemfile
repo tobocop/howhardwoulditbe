@@ -46,4 +46,5 @@ group :production do
   gem 'unicorn'
   gem 'newrelic_rpm'
   gem 'execjs'
+  gem 'exceptional'
 end

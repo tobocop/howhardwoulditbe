@@ -25,3 +25,4 @@ tango.yml
 .env
 Checkfile
 newrelic.yml
+exceptional.yml
