@@ -42,6 +42,11 @@ set_default :newrelic_application_name do
   Capistrano::CLI.password_prompt 'NewRelic Application Name: '
 end
 
+# EXCEPTIONAL:
+set_default :exceptional_api_key do
+  Capistrano::CLI.password_prompt 'Exceptional Application Key: '
+end
+
 namespace :application_keys do
   desc "Generate the application *.yml configuration files"
   task :setup, roles: :app do
@@ -50,6 +55,7 @@ namespace :application_keys do
     template "sendgrid.yml.erb", "#{shared_path}/config/sendgrid.yml"
     template "tango.yml.erb", "#{shared_path}/config/tango.yml"
     template "newrelic.yml.erb", "#{shared_path}/config/newrelic.yml"
+    template "exceptional.yml.erb", "#{shared_path}/config/exceptional.yml"
   end
   after "deploy:setup", "application_keys:setup"
 
@@ -59,6 +65,7 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/sendgrid.yml #{release_path}/config/sendgrid.yml"
     run "ln -nfs #{shared_path}/config/tango.yml #{release_path}/config/tango.yml"
     run "ln -nfs #{shared_path}/config/newrelic.yml #{release_path}/config/newrelic.yml"
+    run "ln -nfs #{shared_path}/config/exceptional.yml #{release_path}/config/exceptional.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
 end
