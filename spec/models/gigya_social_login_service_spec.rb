@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe GigyaSocialLoginService do
-  let(:gigya_connection) { stub(:gigya_connection, delete_user: nil) }
+  let(:gigya_connection) { stub(:gigya_connection, delete_user: nil, notify_registration: true) }
 
   let(:service_params) do
     {
@@ -84,7 +84,7 @@ describe GigyaSocialLoginService do
 
     context 'when gigya_user id is not an integer' do
       context 'when we find the user by email' do
-        let(:user) { stub(avatar_thumbnail_url?: true, new_user?: false) }
+        let(:user) { stub(avatar_thumbnail_url?: true, new_user?: false, id: 123) }
 
         before { Plink::UserService.any_instance.stub(:find_by_email).with('bob@example.com') { user } }
 

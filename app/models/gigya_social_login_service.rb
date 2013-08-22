@@ -58,8 +58,17 @@ class GigyaSocialLoginService
     if user && provider == 'twitter'
       nil
     else
-      user || create_user_from_gigya
+      if user
+        notify_gigya_registration(user)
+      else
+        create_user_from_gigya
+      end
     end
+  end
+
+  def notify_gigya_registration(user)
+    gigya_connection.notify_registration(gigya_id: gigya_id, site_user_id: user.id)
+    user
   end
 
   def create_user_from_gigya
