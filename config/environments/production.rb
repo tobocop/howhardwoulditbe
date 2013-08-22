@@ -37,5 +37,5 @@ PlinkPivotal::Application.configure do
       :password       => sendgrid_keys['password']
   }
 
-  config.contact_email_address = 'pivotal@plink.com'
+  config.contact_email_address = 'support@plink.com'
 end
