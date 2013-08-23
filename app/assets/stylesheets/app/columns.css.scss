@@ -117,40 +117,42 @@
     /*width:640px;*/
 
     .event {
-      height:36px;
+      clear: both;
+      min-height: 36px;
       padding: 10px 0px;
+      width: 100%;
+
+      div {
+        display: inline-block;
+        line-height: 1.2em;
+        vertical-align:text-top;
+      }
 
       &.alt {
         background:#fafafa;
       }
 
+      .date {
+        padding-left: 10px;
+        width: 65px;
+      }
+
+      .description {
+        padding-right:10px;
+        width: 368px;
+      }
+
+      .amount {
+        width:165px;
+      }
+
       .icon {
-        float:left;
-        padding: 0px 4px;
+        padding: 0px 6px;
         width:24px;
 
         &.title {
           text-indent: -99999px;
         }
-      }
-
-      .date {
-        float:left;
-        width:12.5%;
-      }
-
-      .description {
-        float:left;
-        padding-right:10px;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        width:57%;
-
-      }
-
-      .amount {
-        float:left;
-        width:166px;
       }
     }
   }
