@@ -10,9 +10,17 @@ describe Plink::OfferService do
         is_new: true,
         offers_virtual_currencies: [
             new_offers_virtual_currency(
+                virtual_currency_id: 2,
+                promotion_description: 'the description',
+                is_promotion: false,
+                is_active: true,
+                tiers: [new_tier]
+            ),
+            new_offers_virtual_currency(
                 virtual_currency_id: 3,
                 promotion_description: 'the description',
                 is_promotion: true,
+                is_active: true,
                 tiers: [
                     new_tier(
                         dollar_award_amount: 0.52

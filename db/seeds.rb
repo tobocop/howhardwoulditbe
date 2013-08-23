@@ -30,8 +30,8 @@ Plink::WalletRecord.destroy_all
 Plink::UsersAwardPeriodRecord.destroy_all
 
 p 'Creating VirtualCurrency'
-plink_virtual_currency = Plink::VirtualCurrency.create(name: 'Plink points', subdomain: 'www', exchange_rate: 100, site_name: 'Plink', singular_name: 'Plink Point')
 memolink_virtual_currency = Plink::VirtualCurrency.create(name: 'memolink points', subdomain: 'memolink', exchange_rate: 1600, site_name: 'Memolink', singular_name: 'memolink point')
+plink_virtual_currency = Plink::VirtualCurrency.create(name: 'Plink points', subdomain: 'www', exchange_rate: 100, site_name: 'Plink', singular_name: 'Plink Point')
 swagbucks_virtual_currency = Plink::VirtualCurrency.create(name: 'Swag Bucks', subdomain: 'swagbucks', exchange_rate: 100, site_name: 'Swagbucks', singular_name: 'Swag Buck', has_all_offers: true)
 bestbuy_virtual_currency = Plink::VirtualCurrency.create(name: 'Reward Zone<sup>&reg;</sup> points', subdomain: 'bestbuy', exchange_rate: 50, site_name: 'Reward Zone Out & About', singular_name: 'Reward Zone<sup>&reg;</sup> point', has_all_offers: true)
 goodsearch_virtual_currency = Plink::VirtualCurrency.create(name: 'towards your cause', subdomain: 'goodsearch', exchange_rate: 1, site_name: 'Goodswipe', singular_name: 'towards your cause', has_all_offers: true, show_tiers_as_percent: true)

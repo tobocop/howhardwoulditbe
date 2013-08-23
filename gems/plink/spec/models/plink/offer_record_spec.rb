@@ -195,21 +195,25 @@ describe Plink::OfferRecord do
           )
       ]))
 
-      @older_new_offer = create_offer(valid_attributes.merge(detail_text: 'older new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
+      @second_offer = create_offer(valid_attributes.merge(detail_text: 'older new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
               tiers: [new_tier, new_tier]
           )
       ]))
 
-      @most_current_new_offer = create_offer(valid_attributes.merge(detail_text: 'newer new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
+      @first_offer = create_offer(valid_attributes.merge(detail_text: 'newer new one', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, is_new: true, show_on_wall: true, offers_virtual_currencies: [
           create_offers_virtual_currency(
               virtual_currency_id: 13,
               tiers: [new_tier, new_tier]
+          ),
+          create_offers_virtual_currency(
+              virtual_currency_id: 37846,
+              tiers: [new_tier]
           )
       ]))
 
-      @offer_with_no_active_tiers = create_offer(valid_attributes.merge(detail_text: 'no active tiers', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
+      @third_offer = create_offer(valid_attributes.merge(detail_text: 'no active tiers', start_date: 1.day.ago, end_date: 1.day.from_now, is_active: true, show_on_wall: true, offers_virtual_currencies: [
         create_offers_virtual_currency(
           virtual_currency_id: 13,
           tiers: [new_tier(is_active:false)]
@@ -218,9 +222,11 @@ describe Plink::OfferRecord do
     end
 
     it 'returns offers only live offers for the given currency and also offers with no active tiers (for simplicity), ordered by is_new then created_at DESC' do
-      Plink::OfferRecord.live_offers_for_currency(13).should == [@most_current_new_offer, @older_new_offer, @offer_with_no_active_tiers]
+      ordered_offers = [@first_offer, @second_offer, @third_offer]
+      offers = Plink::OfferRecord.live_offers_for_currency(13)
+      offers.should == ordered_offers
+      offers.first.active_offers_virtual_currencies.length.should == 1
     end
-
   end
 
   describe '.for_currency_id' do

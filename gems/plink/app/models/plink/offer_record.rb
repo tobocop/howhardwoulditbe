@@ -44,9 +44,9 @@ module Plink
 
     scope :live_offers_for_currency, ->(currency_id) {
       live
-      .joins(:active_offers_virtual_currencies)
+      .includes(:active_offers_virtual_currencies)
       .where("#{OffersVirtualCurrencyRecord.table_name}.virtualCurrencyID = ?", currency_id)
-      .order('is_new DESC, created DESC')
+      .order("#{table_name}.is_new DESC, #{table_name}.created DESC")
     }
 
     def self.in_wallet(wallet_id)
