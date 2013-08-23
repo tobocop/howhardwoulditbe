@@ -21,7 +21,7 @@ class TrackingObject
     @path_id = options.fetch(:path_id, defaults['PATHID'])
     @campaign_hash = options.fetch(:campaign_hash, defaults['C'])
     @campaign_id = options.fetch(:campaign_id, defaults['CAMPAIGIN_ID'])
-    @ip = options.fetch(:ip, '127.0.0.1')
+    @ip = options.fetch(:ip, '0.0.0.0')
   end
 
   def self.from_params(mixed_case_params = {})
