@@ -2,7 +2,7 @@ module Plink
   class UserCreationService
 
     attr_accessor :avatar_thumbnail_url, :email, :first_name, :number_of_locked_slots,
-      :password_hash, :provider, :salt, :user_record
+      :password_hash, :provider, :ip, :salt, :user_record
 
     def initialize(options = {})
       self.email = options.fetch(:email)
@@ -12,6 +12,7 @@ module Plink
       self.avatar_thumbnail_url = options.fetch(:avatar_thumbnail_url, nil)
       self.number_of_locked_slots = options.fetch(:number_of_locked_slots, 2)
       self.provider = options.fetch(:provider)
+      self.ip = options.fetch(:ip, '0.0.0.0')
 
       set_user_record
     end
@@ -46,7 +47,8 @@ module Plink
         password_hash: self.password_hash,
         salt: self.salt,
         avatar_thumbnail_url: self.avatar_thumbnail_url,
-        provider: self.provider
+        provider: self.provider,
+        ip: self.ip
       }
 
       self.user_record = Plink::UserRecord.new(user_params)

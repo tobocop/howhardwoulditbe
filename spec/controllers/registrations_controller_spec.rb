@@ -11,7 +11,7 @@ describe RegistrationsController do
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
         @user_stub = stub
-        user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob')
+        user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob', ip: '0.0.0.1')
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
       end

@@ -34,7 +34,7 @@ class GigyaLoginHandlerController < ApplicationController
   end
 
   def params_for_service
-    params.merge(gigya_connection: gigya_connection).except(:controller, :action)
+    params.merge(gigya_connection: gigya_connection, ip: request.remote_ip).except(:controller, :action)
   end
 
   def plink_intuit_account_service

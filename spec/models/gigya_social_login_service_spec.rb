@@ -10,7 +10,8 @@ describe GigyaSocialLoginService do
       firstName: 'Bob',
       gigya_connection: gigya_connection,
       photoURL: 'http://example.com/image',
-      provider: 'dogster'
+      provider: 'dogster',
+      ip: '127.9.9.9'
     }
   end
 
@@ -24,6 +25,7 @@ describe GigyaSocialLoginService do
       service.first_name.should == 'Bob'
       service.avatar_thumbnail_url.should == 'http://example.com/image'
       service.provider.should == 'dogster'
+      service.ip.should == '127.9.9.9'
     end
 
     it 'raises if no gigya_connection is provided' do
@@ -146,7 +148,7 @@ describe GigyaSocialLoginService do
       end
 
       context 'when we cannot find the user by email' do
-        let(:user) { stub(id: 123, avatar_thumbnail_url?: true, new_user?: true) }
+        let(:user) { stub(id: 123, avatar_thumbnail_url?: true, new_user?: true, ip: '127.8.8.8') }
 
         before do
           Plink::UserCreationService.stub(:new) { stub(create_user: user) }
@@ -160,6 +162,7 @@ describe GigyaSocialLoginService do
             password_hash:'my-hashed-password',
             salt:'my-salt',
             avatar_thumbnail_url:'http://www.example.com/my-avatar.jpg',
+            ip: '127.8.8.8',
             provider: 'twitter'
           }
           Plink::UserCreationService.should_receive(:new).with(user_params)
@@ -172,6 +175,7 @@ describe GigyaSocialLoginService do
             email: 'bob@example.com',
             firstName: 'Bob',
             photoURL: 'http://www.example.com/my-avatar.jpg',
+            ip: '127.8.8.8',
             provider: 'twitter'
           }
           gigya_social_login_service = GigyaSocialLoginService.new(gigya_params)
@@ -188,7 +192,8 @@ describe GigyaSocialLoginService do
             password_hash: 'my-hashed-password',
             salt: 'my-salt',
             avatar_thumbnail_url: nil,
-            provider: 'twitter'
+            provider: 'twitter',
+            ip: '127.8.8.8'
           }
           Plink::UserCreationService.should_receive(:new).with(user_params) {
             raise(ActiveRecord::RecordInvalid, stub(errors: stub(full_messages: [])))
@@ -200,7 +205,8 @@ describe GigyaSocialLoginService do
             email: 'bob@example.com',
             firstName: '',
             avatar_thumbnail_url: nil,
-            provider: 'twitter'
+            provider: 'twitter',
+            ip: '127.8.8.8'
           }
 
           expect {

@@ -2,7 +2,7 @@ class GigyaSocialLoginService
   class GigyaNotificationError < Exception;
   end
 
-  attr_reader :gigya_id, :email, :first_name, :gigya_connection, :avatar_thumbnail_url, :provider
+  attr_reader :gigya_id, :email, :first_name, :gigya_connection, :avatar_thumbnail_url, :provider, :ip
 
   attr_accessor :user
 
@@ -13,6 +13,7 @@ class GigyaSocialLoginService
     @first_name = params[:firstName]
     @avatar_thumbnail_url = params[:photoURL]
     @provider = params[:provider]
+    @ip = params[:ip]
   end
 
   def sign_in_user
@@ -101,6 +102,7 @@ class GigyaSocialLoginService
       first_name: first_name,
       password_hash: password.hashed_value,
       provider: provider,
+      ip: ip,
       salt: password.salt
     }
   end

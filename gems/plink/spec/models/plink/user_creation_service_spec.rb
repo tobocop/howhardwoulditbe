@@ -7,7 +7,8 @@ describe Plink::UserCreationService do
       password_hash: 'asd',
       salt: 'asd',
       avatar_thumbnail_url: 'http://www.google.com/logo.png',
-      provider: 'organic'
+      provider: 'organic',
+      ip: '192.168.0.1'
   }}
 
   describe 'initialize' do
@@ -41,6 +42,16 @@ describe Plink::UserCreationService do
       }.to raise_exception(KeyError, 'key not found: :provider')
     end
 
+    it 'can be initialized with an IP address' do
+      service = Plink::UserCreationService.new(valid_params)
+      service.ip.should == '192.168.0.1'
+    end
+
+    it 'defaults the up address to 0.0.0.0 if not initialized with one' do
+      service = Plink::UserCreationService.new(valid_params.except(:ip))
+      service.ip.should == '0.0.0.0'
+    end
+
     it 'can be initialized with an avatar_thumbnail_url' do
       service = Plink::UserCreationService.new(valid_params)
       service.avatar_thumbnail_url.should == 'http://www.google.com/logo.png'
@@ -53,11 +64,11 @@ describe Plink::UserCreationService do
   end
 
   describe 'create_user' do
-    let(:user) { stub(id:42, save:true, primary_virtual_currency_id: 54) }
+    let(:user) { double(id:42, save:true, primary_virtual_currency_id: 54) }
 
     before do
       Plink::UserRecord.stub(:new) { user }
-      Plink::WalletCreationService.stub(:new) { stub(create_for_user_id: true) }
+      Plink::WalletCreationService.stub(:new) { double(create_for_user_id: true) }
     end
 
     it 'saves a user record' do
@@ -66,7 +77,7 @@ describe Plink::UserCreationService do
     end
 
     it 'creates the users wallet' do
-      wallet_creation_service = stub
+      wallet_creation_service = double
       Plink::WalletCreationService.should_receive(:new).with(user_id: user.id) { wallet_creation_service  }
       wallet_creation_service.should_receive(:create_for_user_id).with(number_of_locked_slots: 2)
       Plink::UserCreationService.new(valid_params).create_user
@@ -87,13 +98,13 @@ describe Plink::UserCreationService do
 
   describe 'valid' do
     it 'returns true if the user is valid' do
-      user = stub(valid?: true)
+      user = double(valid?: true)
       Plink::UserRecord.stub(:new) {user}
       Plink::UserCreationService.new(valid_params).valid?.should be_true
     end
 
     it 'returns false if the user is not valid' do
-      user = stub(valid?: false)
+      user = double(valid?: false)
       Plink::UserRecord.stub(:new) {user}
       Plink::UserCreationService.new(valid_params).valid?.should be_false
     end
@@ -101,7 +112,7 @@ describe Plink::UserCreationService do
 
   describe 'errors' do
     it 'exposes errors if the user is not valid' do
-      user = stub(first_name:nil, valid?: false, errors: [])
+      user = double(first_name:nil, valid?: false, errors: [])
       Plink::UserRecord.stub(:new) {user}
       user_creation_service = Plink::UserCreationService.new(valid_params)
       user_creation_service.valid?
@@ -111,7 +122,7 @@ describe Plink::UserCreationService do
 
   describe 'id' do
     it 'returns the id of the user' do
-      user = stub(id:243)
+      user = double(id:243)
       Plink::UserRecord.stub(:new) {user}
       user_creation_service = Plink::UserCreationService.new(valid_params)
       user_creation_service.user_id.should == 243

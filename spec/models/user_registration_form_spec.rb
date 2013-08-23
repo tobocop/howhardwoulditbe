@@ -8,7 +8,8 @@ describe UserRegistrationForm do
       first_name: 'Bobo',
       email: 'bobo@example.com',
       virtual_currency_name: 'Plink Points',
-      provider: 'organic'
+      provider: 'organic',
+      ip: '127.1.1.1'
     }
   }
 
@@ -120,7 +121,8 @@ describe UserRegistrationForm do
           first_name: 'Bobo',
           email: 'bobo@example.com',
           salt: 'qwer-qwer-qwer-qwer',
-          provider: 'organic'
+          provider: 'organic',
+          ip: '127.1.1.1'
         }
         Plink::UserCreationService.stub(:new).with(user_params).and_return(user_creation_service_mock)
 
@@ -134,7 +136,8 @@ describe UserRegistrationForm do
           first_name: 'Bobo',
           email: 'bobo@example.com',
           salt: 'qwer-qwer-qwer-qwer',
-          provider: 'organic'
+          provider: 'organic',
+          ip: '127.1.1.1'
         }
         Plink::UserCreationService.should_receive(:new).with(user_params).
           and_return(user_creation_service_mock)

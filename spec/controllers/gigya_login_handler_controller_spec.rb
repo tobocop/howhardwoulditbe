@@ -6,11 +6,20 @@ describe GigyaLoginHandlerController do
     let(:gigya_connection) { stub(:gigya_connection) }
     let(:user) { mock('user', id: 55) }
     let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(55 => true) }
+    let(:new_gigya_social_login_service_params) {
+      {
+        "valid_params" => true,
+        'gigya_connection' => gigya_connection,
+        "ip" => '192.168.0.1'
+      }
+    }
 
     before do
       controller.stub(:gigya_connection) { gigya_connection }
       controller.stub(plink_intuit_account_service: fake_intuit_account_service)
+      request.stub(remote_ip: '192.168.0.1')
     end
+
 
     context 'when successful' do
       context 'and user is found' do
@@ -18,12 +27,38 @@ describe GigyaLoginHandlerController do
         let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: successful_response) }
 
         before do
-          GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }
+          GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
           controller.should_receive(:sign_in_user).with(user)
         end
 
         context 'when user has a linked card' do
           let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(55 => true) }
+
+          it 'initializes GigyaSocialLoginService with the correct params' do
+            GigyaSocialLoginService.unstub(:new)
+
+            gigya_social_login_service_params = {
+              'gigya_id' => '123',
+              'email' => 'test@example.com',
+              'first_name' => 'testing',
+              'photoURL' => 'http://example.com/image.png',
+              'provider' => 'facebook',
+              'gigya_connection' => gigya_connection,
+              'ip' => '192.168.0.1'
+            }
+
+            GigyaSocialLoginService.should_receive(:new).with(gigya_social_login_service_params) { gigya_social_login_service_stub }
+
+            get :create, {
+              gigya_id: '123',
+              email: 'test@example.com',
+              first_name: 'testing',
+              photoURL: 'http://example.com/image.png',
+              provider: 'facebook'
+            }
+
+            response.should redirect_to wallet_path
+          end
 
           it 'redirects to the wallet page' do
             get :create, {valid_params: true}
@@ -55,7 +90,7 @@ describe GigyaLoginHandlerController do
 
         before do
           controller.stub(:track_email_capture_event)
-          GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }
+          GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
         end
 
         it 'calls the track_email_capture_event' do
@@ -78,7 +113,7 @@ describe GigyaLoginHandlerController do
       let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: unsuccessful_response) }
 
       before do
-        GigyaSocialLoginService.stub(:new).with({"valid_params" => true, 'gigya_connection' => gigya_connection}) { gigya_social_login_service_stub }
+        GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
       end
 
       it 'redirects to the homepage' do

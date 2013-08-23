@@ -5,7 +5,7 @@ class UserRegistrationForm
   include ActiveModel::Conversion
 
   attr_accessor :email, :first_name, :password, :password_confirmation,
-    :provider, :user, :user_creation_service, :virtual_currency_name
+    :provider, :user, :user_creation_service, :virtual_currency_name, :ip
 
   validates :password, length: {minimum: 6},
     confirmation: {if: Proc.new {password_confirmation.present?}}
@@ -19,6 +19,7 @@ class UserRegistrationForm
     self.password_confirmation = options[:password_confirmation]
     self.virtual_currency_name = options[:virtual_currency_name]
     self.provider = options[:provider]
+    self.ip = options[:ip]
   end
 
   def save
@@ -60,7 +61,8 @@ class UserRegistrationForm
       email: email,
       password_hash: password.hashed_value,
       salt: password.salt,
-      provider: provider
+      provider: provider,
+      ip: ip
     }
   end
 

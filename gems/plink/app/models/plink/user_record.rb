@@ -15,7 +15,7 @@ module Plink
 
     include Plink::LegacyTimestamps
 
-    attr_accessible :avatar_thumbnail_url, :email, :first_name, :password_hash, :provider,
+    attr_accessible :avatar_thumbnail_url, :email, :first_name, :password_hash, :provider, :ip,
       :salt
 
     alias_attribute :is_subscribed, :isSubscribed
