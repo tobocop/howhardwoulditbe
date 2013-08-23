@@ -20,8 +20,8 @@ module Plink
     def create_user
       Plink::UserRecord.transaction do
         user_record.save
-        Plink::WalletCreationService.new(user_id: user_id).create_for_user_id(number_of_locked_slots: number_of_locked_slots)
         Plink::UsersVirtualCurrencyRecord.create(user_id: user_record.id, start_date: Time.zone.today, virtual_currency_id: user_record.primary_virtual_currency_id)
+        Plink::WalletCreationService.new(user_id: user_id).create_for_user_id(number_of_locked_slots: number_of_locked_slots)
         new_user(user_record)
       end
     end
