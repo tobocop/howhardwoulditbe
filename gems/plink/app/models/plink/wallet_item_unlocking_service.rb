@@ -2,7 +2,7 @@ module Plink
   class WalletItemUnlockingService
 
     def self.unlock_transaction_items_for_eligible_users
-      Plink::WalletRecord.wallets_eligible_for_transaction_unlocks.find_in_batches(batch_size: 1000) do |wallet_batch|
+      Plink::WalletRecord.wallets_eligible_for_transaction_unlocks.find_in_batches(batch_size: 500) do |wallet_batch|
         wallet_batch.each do |wallet|
           self.unlock(wallet, Plink::WalletRecord::UNLOCK_REASONS[:transaction])
         end
