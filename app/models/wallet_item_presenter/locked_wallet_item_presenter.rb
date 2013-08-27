@@ -28,7 +28,7 @@ module WalletItemPresenter
     end
 
     def description
-      'Complete an offer to unlock this slot.'
+      'Complete an offer or refer a friend to unlock this slot.'
     end
   end
 end

@@ -279,7 +279,7 @@ describe 'user signs in' do
 
     page.should have_content 'My Wallet'
     page.should have_content 'This slot is locked.'
-    page.should have_content 'Complete an offer to unlock this slot.'
+    page.should have_content 'Complete an offer or refer a friend to unlock this slot.'
 
     page.execute_script('$.fx.off = true;')
 

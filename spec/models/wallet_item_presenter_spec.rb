@@ -171,7 +171,7 @@ describe WalletItemPresenter do
     end
 
     it 'has a description' do
-      presenter.description.should == 'Complete an offer to unlock this slot.'
+      presenter.description.should == 'Complete an offer or refer a friend to unlock this slot.'
     end
 
     it 'has a JSON representation' do
@@ -182,7 +182,7 @@ describe WalletItemPresenter do
         icon_url: 'http://test.host/icon_lockedslot.png',
         icon_description: 'Locked Slot',
         title: 'This slot is locked.',
-        description: 'Complete an offer to unlock this slot.'
+        description: 'Complete an offer or refer a friend to unlock this slot.'
       }
     end
   end
