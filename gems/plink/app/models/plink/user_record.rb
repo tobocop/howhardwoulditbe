@@ -43,7 +43,7 @@ module Plink
     }
 
     def self.user_ids_with_qualifying_transactions
-      users_with_qualifying_transactions.map(&:userID)
+      users_with_qualifying_transactions.select("DISTINCT #{self.table_name}.userID").map(&:userID)
     end
 
     def self.find_by_email(email)
