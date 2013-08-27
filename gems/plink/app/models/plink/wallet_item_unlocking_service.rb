@@ -2,10 +2,8 @@ module Plink
   class WalletItemUnlockingService
 
     def self.unlock_transaction_items_for_eligible_users
-      Plink::WalletRecord.wallets_eligible_for_transaction_unlocks.find_in_batches(batch_size: 500) do |wallet_batch|
-        wallet_batch.each do |wallet|
-          self.unlock(wallet, Plink::WalletRecord::UNLOCK_REASONS[:transaction])
-        end
+      Plink::WalletRecord.wallets_eligible_for_transaction_unlocks.each do |wallet_id|
+        self.unlock_by_wallet_id(wallet_id, Plink::WalletRecord::UNLOCK_REASONS[:transaction])
       end
     end
 
@@ -16,6 +14,11 @@ module Plink
     end
 
     private
+
+    def self.unlock_by_wallet_id(wallet_id, reason)
+      wallet = Plink::WalletRecord.find(wallet_id)
+      self.unlock(wallet, reason)
+    end
 
     def self.unlock(wallet_record, reason)
       return if wallet_record.locked_wallet_items.empty?

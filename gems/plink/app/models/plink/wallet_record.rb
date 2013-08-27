@@ -16,7 +16,7 @@ module Plink
 
     has_many :wallet_item_records, class_name: 'Plink::WalletItemRecord', foreign_key: 'walletID'
     has_many :sorted_wallet_item_records, class_name: 'Plink::WalletItemRecord',
-      foreign_key: 'walletID', order: 'offersVirtualCurrencyID DESC, unlock_reason DESC'
+             foreign_key: 'walletID', order: 'offersVirtualCurrencyID DESC, unlock_reason DESC'
     has_many :open_wallet_items, class_name: 'Plink::OpenWalletItemRecord', foreign_key: 'walletID'
     has_many :locked_wallet_items, class_name: 'Plink::LockedWalletItemRecord', foreign_key: 'walletID'
     belongs_to :user, class_name: 'Plink::UserRecord', foreign_key: 'userID'
@@ -39,8 +39,20 @@ module Plink
     }
 
     scope :wallets_eligible_for_transaction_unlocks, -> {
-      wallets_without_unlocked_transaction_wallet_items
-      .wallets_of_users_with_qualifying_transactions
+      joins(Plink::WalletRecord.table_name)
+      .where(%Q{EXISTS (
+        SELECT 1
+        FROM #{Plink::QualifyingAwardRecord.table_name}
+        WHERE #{Plink::QualifyingAwardRecord.table_name}.userID = #{Plink::WalletRecord.table_name}.userID
+        )}
+      )
+      .where(%Q{NOT EXISTS (
+        SELECT 1
+        FROM #{Plink::WalletItemRecord.table_name}
+        WHERE #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{self.transaction_unlock_reason}'
+          AND #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
+        )}
+      )
     }
 
     def self.transaction_unlock_reason
