@@ -17,6 +17,10 @@
       .flash-container
         - if flash.notice
           .flash-msg= flash.notice
+        - elsif flash[:error].present?
+          .flash-msg
+            = flash_error_icon(flash[:error])
+            = flash[:error]
 
     = render partial: 'shared/header'
 

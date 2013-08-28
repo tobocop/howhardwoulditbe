@@ -47,4 +47,10 @@ module ApplicationHelper
       </script>".html_safe
     end
   end
+
+  def flash_error_icon(message)
+    haml = "%img{src: '/assets/icon_alert_pink.png', alt: '#{message}', "\
+      "class: 'status-img'}"
+    Haml::Engine.new(haml).render
+  end
 end
