@@ -40,17 +40,19 @@ module Plink
 
     scope :wallets_eligible_for_transaction_unlocks, -> {
       joins(Plink::WalletRecord.table_name)
-      .where(%Q{EXISTS (
-        SELECT 1
-        FROM #{Plink::QualifyingAwardRecord.table_name}
-        WHERE #{Plink::QualifyingAwardRecord.table_name}.userID = #{Plink::WalletRecord.table_name}.userID
+      .where(%Q{
+        EXISTS (
+          SELECT 1
+          FROM #{Plink::QualifyingAwardRecord.table_name}
+          WHERE #{Plink::QualifyingAwardRecord.table_name}.userID = #{Plink::WalletRecord.table_name}.userID
         )}
       )
-      .where(%Q{NOT EXISTS (
-        SELECT 1
-        FROM #{Plink::WalletItemRecord.table_name}
-        WHERE #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{self.transaction_unlock_reason}'
-          AND #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
+      .where(%Q{
+        NOT EXISTS (
+          SELECT 1
+          FROM #{Plink::WalletItemRecord.table_name}
+          WHERE #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{self.transaction_unlock_reason}'
+            AND #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
         )}
       )
     }
