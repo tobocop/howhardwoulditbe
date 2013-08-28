@@ -30,7 +30,6 @@ load 'config/deploy/recipes/nginx'
 load 'config/deploy/recipes/rbenv'
 load 'config/deploy/recipes/application_keys'
 load 'config/deploy/recipes/unicorn'
-load 'config/deploy/recipes/assets'
 load 'config/deploy/recipes/log'
 load 'config/deploy/recipes/gems'
 

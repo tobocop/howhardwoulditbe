@@ -1,57 +1,34 @@
 set_default :unicorn_log, "#{current_path}/log/"
 set_default :unicorn_workers, 3
-set_default :web_timeout, 15
+set_default :web_timeout, Integer(15)
+set_default :unicorn_user, 'deployer'
+set_default :unicorn_pid, "#{shared_path}/pids/unicorn.pid"
+set_default :unicorn_config, "#{current_path}/config/unicorn.rb"
 
 namespace :unicorn do
-  def pid_path
-    "#{shared_path}/pids/unicorn.pid"
+  desc "Setup Unicorn initializer and app configuration"
+  task :setup, roles: :app do
+    run "mkdir -p #{shared_path}/config"
+    template "unicorn.rb.erb", unicorn_config
+    template "unicorn_init.erb", "/tmp/unicorn_init"
+    run "chmod +x /tmp/unicorn_init"
+    run "#{sudo} mv /tmp/unicorn_init /etc/init.d/unicorn_#{application}"
+    run "#{sudo} update-rc.d -f unicorn_#{application} defaults"
   end
+  after "deploy:setup", "unicorn:setup"
 
-  def socket_path
-    "#{shared_path}/sockets/unicorn.sock"
-  end
-
-  def check_pid_path_then_run(command)
-    run <<-CMD
-      if [ -s #{pid_path} ]; then
-        #{command}
-      else
-        echo "Unicorn master worker wasn't found, possibly wasn't started at all. Try run unicorn:start first";
-      fi
-    CMD
-  end
-
-  desc "Starts the Unicorn server"
-  task :start do
-    run "mkdir -p #{File.dirname(pid_path)}"
-    run "mkdir -p #{File.dirname(socket_path)}"
-    run <<-CMD
-      if [ ! -s #{pid_path} ]; then
-        cd #{current_path} ; bundle exec unicorn -c #{current_path}/config/unicorn.rb -p 5000 -D -E #{unicorn_env};
-      else
-        echo "Unicorn is already running at PID: `cat #{pid_path}`";
-      fi
-    CMD
-  end
-
-  desc "Stops Unicorn server"
-  task :stop do
-    check_pid_path_then_run "kill -s QUIT `cat #{pid_path}`;"
-  end
-
-  desc "Hard stops Unicorn server by removing the pid file as well as killing the process"
-  task :hard_stop do
-    check_pid_path_then_run "kill -s QUIT `cat #{pid_path}`;"
-    run "rm #{pid_path}"
-  end
-
-  desc "Zero-downtime restart of Unicorn"
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    check_pid_path_then_run "kill -USR2 `cat #{pid_path}`;"
+  %w[start stop restart].each do |command|
+    desc "#{command} unicorn"
+    task command, roles: :app do
+      run "service unicorn_#{application} #{command}"
+    end
   end
 
   desc "Generate the unicorn configuration files"
   task :setup, roles: :app do
+    template "unicorn_init.erb", "#{shared_path}/config/unicorn_init.sh"
+    run "chmod +x unicorn_#{application}"
+    sudo "ln -nfs #{shared_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
     run "mkdir -p #{shared_path}/config"
     template "unicorn.rb.erb", "#{shared_path}/config/unicorn.rb"
   end
@@ -67,5 +44,4 @@ namespace :unicorn do
   task :symlink_current, roles: :app do
     run "ln -nfs #{shared_path}/config/unicorn.rb #{current_path}/config/unicorn.rb"
   end
-
 end
