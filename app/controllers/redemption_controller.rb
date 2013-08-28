@@ -8,12 +8,10 @@ class RedemptionController < ApplicationController
 
   def create
     if plink_intuit_account_service.user_has_account?(current_user.id)
-      redemption = plink_redemption_service.redeem
-
       if redemption
         redirect_to redemption_path(reward_amount_id: params[:reward_amount_id])
       else
-        flash[:error] = 'You do not have enough points to redeem.' unless redemption
+        flash[:error] = 'You do not have enough points to redeem.' unless flash[:error].present?
         redirect_to rewards_path
       end
     else
@@ -40,5 +38,16 @@ class RedemptionController < ApplicationController
 
   def plink_intuit_account_service
     Plink::IntuitAccountService.new
+  end
+
+  def redemption
+    begin
+      plink_redemption_service.redeem
+    rescue Exception => e
+      ::Exceptional::Catcher.handle(e) if Rails.env.production? || Rails.env.review?
+
+      flash[:error] = 'Unable to reach Tango. Please try again later.'
+      false
+    end
   end
 end

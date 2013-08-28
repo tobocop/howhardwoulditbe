@@ -51,7 +51,6 @@ describe RedemptionController do
       flash[:error].should == 'You must have a linked card to redeem an award.'
     end
 
-
     it 'redirect to the rewards page and also sets a flash error message when a redemption can not be created' do
       fake_reward_redemption_service.stub(redeem: false)
 
@@ -65,6 +64,16 @@ describe RedemptionController do
       fake_reward_redemption_service.should_receive(:redeem)
       post :create, reward_amount_id: 5
       response.should redirect_to redemption_path(reward_amount_id: 5)
+    end
+
+    it 'handles Tango redemption failures with a message to the user' do
+      fake_reward_redemption_service.unstub(:redeem)
+      fake_reward_redemption_service.stub(:redeem).and_raise('Tango Redemption failed')
+
+      post :create, reward_amount_id: 5
+
+      response.should redirect_to rewards_path
+      flash[:error].should == 'Unable to reach Tango. Please try again later.'
     end
   end
 end
