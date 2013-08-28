@@ -155,7 +155,6 @@ describe 'user signs in' do
 
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_content 'wally mart'
-      page.should_not have_link '$5'
     end
 
     click_on 'Rewards'

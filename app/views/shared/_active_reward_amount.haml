@@ -1,4 +1,4 @@
-%a.denomination.available{data: {'reveal-id' => amount.id}}
+%a.denomination.available{data: {'reveal-id' => amount.id}, href: '#'}
   = plink_currency_format(amount.dollar_award_amount)
 
 .modal.reward-amount-confirmation.reveal-modal{style: 'display: none', id: amount.id }
