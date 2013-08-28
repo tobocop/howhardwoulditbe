@@ -27,8 +27,8 @@ namespace :unicorn do
   desc "Generate the unicorn configuration files"
   task :setup, roles: :app do
     template "unicorn_init.erb", "#{shared_path}/config/unicorn_init.sh"
-    run "chmod +x unicorn_#{application}"
     sudo "ln -nfs #{shared_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
+    sudo "chmod +x /etc/init.d/unicorn_#{application}"
     run "mkdir -p #{shared_path}/config"
     template "unicorn.rb.erb", "#{shared_path}/config/unicorn.rb"
   end
