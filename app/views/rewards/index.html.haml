@@ -19,11 +19,11 @@
           .description
             %h2.bold #{reward.name.html_safe}
             %h4= reward.description.html_safe
+          = form_tag '/redemption' do
+            - reward.amounts.reverse.each do |amount|
+              - locals = {amount: amount, reward: reward}
 
-          - reward.amounts.reverse.each do |amount|
-            - locals = {amount: amount, reward: reward}
-
-            - if display_as_available?(@user_has_account, amount.dollar_award_amount)
-              = render :partial => 'shared/active_reward_amount', locals: locals
-            - else
-              = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals
+              - if display_as_available?(@user_has_account, amount.dollar_award_amount)
+                = render :partial => 'shared/active_reward_amount', locals: locals
+              - else
+                = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals

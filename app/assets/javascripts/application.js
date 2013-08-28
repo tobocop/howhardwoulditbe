@@ -59,12 +59,12 @@ var Plink = {
       successEvent: Plink.WalletEvents.successfulAdd,
       failureEvent: Plink.WalletEvents.failure
     }).on(Plink.WalletEvents.successfulAdd, function (e) {
-        $('.modal.offer-details').each(function () {
-          if ($(this).hasClass('open')) {
-            $(this).foundation('reveal', 'close');
-          }
-        });
+      $('.modal.offer-details').each(function () {
+        if ($(this).hasClass('open')) {
+          $(this).foundation('reveal', 'close');
+        }
       });
+    });
 
     $('[data-account-edit-form]').accountEditForm();
 
@@ -72,6 +72,8 @@ var Plink = {
     $('#organic-sign-in-form').ajaxRedirectForm();
 
     $('[data-toggle-selector]').toggler();
+
+    Redemption.init();
 
     try {
       document.domain = Plink.topLevelDomain(document.domain);
