@@ -45,6 +45,11 @@
     padding:3%;
   	width:48%;
     @include round-corners(5px);
+
+    &.narrow {
+      max-width:400px;
+      width:35%;
+    }
   }
 
   .logo {

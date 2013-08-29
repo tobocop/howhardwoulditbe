@@ -1,0 +1,68 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li.selected
+        = link_to 'Contests', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.layout-wrapper
+  .layout-inner
+    .contests
+      %h1 Contests
+      %h3.gray The more you enter, the more you win!
+      
+      .contest
+        .info
+          .title
+            %h2.cyan Win 2 Super Bowl Tickets
+          .image
+            %img{:src => "/assets/contests/contests_FPO.jpg"}
+          .details
+            %h3.strong Prize List
+            %p (1) Lorem ipsum dolar (5) sit ament nocturnal (10) Wutang clan ain't nothing to (25) Straight outta Compton, crazy motherf (100) Ball so hard.
+        .enter
+          .entries
+            %h2 You have
+            %h1.cyan 999
+            %h2 entries.
+            .btn
+              %button.button.primary-action.white-txt SHARE TO ENTER
+            .details
+              %h4 Limit one entry per day
+              %h4 Prizes drawn 9/9/99
+        %footer
+          %h4.strong Contest Rules
+
+      .contest
+        .info
+          .title
+            %h2.cyan Free Lunch for 50 years
+          .image
+            %img{:src => "/assets/contests/contests_FPO.jpg"}
+          .details
+            %h3.strong Prize List
+            %p (1) Lorem ipsum dolar (5) sit ament nocturnal (10) Wutang clan ain't nothing to (25) Straight outta Compton, crazy motherf (100) Ball so hard.
+        .enter
+          .entries
+            %h2 You have
+            %h1.cyan 999
+            %h2 entries.
+            .btn
+              %button.button.primary-action.disabled ENTER TOMORROW
+            .details
+              %h4 Limit one entry per day
+              %h4 Prizes drawn 9/9/99
+        %footer
+          %h4.strong Contest Rules

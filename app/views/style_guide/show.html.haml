@@ -812,7 +812,12 @@
 
       %h3 Unsub Confirm
 
-      = render partial: 'style_guide/email/unsub_confirm'
+      = render partial: 'style_guide/email/unsub_confirm' 
+
+  %section
+    %h2 Change Password
+
+    = render partial: 'style_guide/change_password/change-password' 
 
   %section
 
@@ -847,3 +852,8 @@
       %h3 Forgot PW
 
       = render partial: 'style_guide/static/forgotPW'
+
+  %section
+    %h3 Contests
+
+    =render partial: 'style_guide/contests/contests'    

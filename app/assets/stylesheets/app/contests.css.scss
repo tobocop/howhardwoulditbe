@@ -1,0 +1,118 @@
+@import "app/colors.css.scss";
+@import "app/mixins.css.scss";
+
+.contests {
+  color: $slate;
+  padding-top: 40px;
+
+  h1 {
+    font-size:2em;
+    font-weight:100;
+    margin-bottom:5px;
+    text-transform:uppercase;
+
+    &.cyan {
+      color:$cyan;
+      font-size:4em;
+      font-weight:900;
+      line-height:.9em;
+      margin-bottom:0px;
+    }
+  }
+
+  h2 {
+  	font-size:1.4em;
+  	font-weight:300;
+
+  	&.cyan { 
+  	  color:$cyan;
+  	  font-weight:500;
+  	  text-transform:uppercase;
+  	}
+  }
+
+  h3 {
+  	font-size:1em;
+    font-weight:300;
+
+  	&.gray {
+  	  color:#b3b3b3;
+  	}
+
+  	&.strong {
+  	  font-weight:500;
+      text-transform: uppercase;
+    }
+  }
+
+  h4 {
+  	font-size:.8em;
+  	font-weight:300;
+    line-height:1.4em;
+
+    &.strong {
+      font-weight:500;
+    }
+  }
+
+  p {
+    font-size:1em;
+    font-weight:300;
+    line-height:1.4em;
+  }
+
+  .contest {
+  	display:inline-block;
+  	margin:30px 0;
+  	width:1024px;
+
+  	.info {
+      float:left;
+    	margin-right:80px;
+  	  width:600px;
+
+  	  .title {
+  		  margin:0 0 5px 0;
+  	  }
+
+      .image {
+  	    height:253px;
+  		  margin:0 0 10px 0;
+  	  }
+
+  	  .details {
+  		  margin:0 0 10px 0;
+  	  }
+  	}
+
+  	.enter {
+      display:inline-block;
+  	  margin-top:50px;
+  	  text-align:center;
+  	  width:264px;
+
+  	  .entries {
+  	    padding:20px 0;
+  	  }
+
+  	  .btn {
+  		  margin:10px 0 5px 0;
+  	  }
+
+  	  .details {
+        color:#b3b3b3;
+  	  }
+  	}
+
+    footer{
+      background:#e6e6e6;
+      display:inline-block;
+      height:30px;
+      margin-top:15px;
+      padding:7px 10px 0 10px;
+      width:100%;
+
+      @include round-corners(5px);
+    }
+  }
+}
