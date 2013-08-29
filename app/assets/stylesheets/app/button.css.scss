@@ -34,6 +34,20 @@ $state-range:10%;
       letter-spacing: 2px;
     }
 
+    &.white-txt{
+      color:#FFFFFF;
+      font-size:1.2em;
+      font-weight:700;
+
+      -moz-text-shadow: 1px 1px 3px #000000;
+      -webkit-text-shadow: 1px 1px 3px #000000;
+      text-shadow: 1px 1px 3px #000000;
+      /* For IE 8 */ 
+      -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#000000')";
+      /* For IE 5.5 - 7 */
+      filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#000000');
+    }
+
     &.hover, &:hover{
       background: #c3ca23;
     }
@@ -44,6 +58,7 @@ $state-range:10%;
 
     &.disabled, &:disabled{
       background: $disabled;
+      border: 1px solid $lightgray;
     }
 
 
