@@ -8,6 +8,11 @@ listen 8080, :tcp_nopush => true
 
 timeout <%= Integer(web_timeout || 15) %>
 preload_app true
+worker_processes 3
+
+before_exec do |server|
+   ENV['BUNDLE_GEMFILE'] = "/var/www/plink-www/current/Gemfile"
+end
 
 before_fork do |server, worker|
   ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
