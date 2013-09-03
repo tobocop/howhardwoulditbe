@@ -17,6 +17,7 @@ class PasswordResetRequestForm
   validate do
     unless user
       errors[:base] << 'Sorry this email is not registered with Plink.'
+      errors[:base] << "An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support."
     end
   end
 

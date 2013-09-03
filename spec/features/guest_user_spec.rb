@@ -46,12 +46,12 @@ describe 'guest behavior' do
     visit new_password_reset_request_path
     click_on 'Send Password Reset Instructions'
 
-    page.should have_text 'Sorry this email is not registered with Plink.'
+    page.should have_text "An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support."
 
     visit new_password_reset_request_path
     fill_in 'Email', with: 'notamember@Plink.com'
     click_on 'Send Password Reset Instructions'
-    page.should have_text 'Sorry this email is not registered with Plink.'
+    page.should have_text "An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support."
 
   end
 
