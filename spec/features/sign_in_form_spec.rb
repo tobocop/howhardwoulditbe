@@ -30,6 +30,16 @@ describe 'Sign In form', js: true do
 
     page.should have_content 'Enter the email address associated with your account'
 
+    fill_in 'Email', with: 'invalid+plink@plink.com'
+
+    click_on 'Send Password Reset Instructions'
+
+    page.should have_text("An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support.", count: 1)
+
+    visit new_password_reset_request_path
+
+    page.should have_content 'Enter the email address associated with your account'
+
     fill_in 'Email', with: 'test@plink.com'
 
     click_on 'Send Password Reset Instructions'

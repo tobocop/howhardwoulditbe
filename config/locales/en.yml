@@ -7,6 +7,12 @@ en:
   activemodel:
     errors:
       models:
+        password_reset_request_form:
+          attributes:
+            email:
+              invalid: An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support.
+            user:
+              blank: An email with instructions to reset your password has been sent to the email address provided.  If you don't receive an email within the hour, please contact our member support.
         contact_form:
           attributes:
             email:

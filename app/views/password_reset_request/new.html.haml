@@ -6,9 +6,7 @@
   %p.explanatory Enter the email address associated with your account. We will send you an e-mail containing instructions for how you can reset your password.
 
   - if @password_reset.errors.any?
-    - @password_reset.errors.full_messages.each do |message|
-      %span.error.font= message
-
+    %span.error.font= @password_reset.errors.full_messages.first
   = form_for(@password_reset, url: password_reset_request_path, as: 'password_reset') do |f|
     = f.text_field :email, placeholder: 'Email', class: 'form-field input'
     = f.submit 'Send Password Reset Instructions', class: 'button primary-action'

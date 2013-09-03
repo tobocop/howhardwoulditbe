@@ -14,15 +14,22 @@ describe PasswordResetRequestForm do
   describe 'validation' do
     let(:plink_user_service) { mock("Plink::UserService", find_by_email: nil) }
 
-    it 'returns adds an error when the email is not found' do
+    it 'returns an error when the email is not found' do
       form = PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service)
-      form.should have(1).error_on(:base)
+      form.should_not be_valid
+      form.should have(1).error_on(:user)
+    end
+
+    it 'returns an error when the email is in an invalid format' do
+      form = PasswordResetRequestForm.new({email: 'invalid+plink@example.com'}, plink_user_service)
+      form.should_not be_valid
+      form.should have(1).error_on(:email)
     end
   end
 
   describe '#save' do
     context 'when valid' do
-      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe', id: 3)) }
+      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe', id: 3, valid?: true)) }
       let(:form) { PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service) }
       let(:mock_password_reset) { mock(:password_reset, token: 'token') }
 
