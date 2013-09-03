@@ -55,7 +55,7 @@ describe Plink::User do
       user = Plink::User.new(
         new_user: false,
         user_record: create_user(user_attributes),
-        errors: mock(:errors, empty?: true)
+        errors: double(:errors, empty?: true)
       )
 
       user.should be_valid
