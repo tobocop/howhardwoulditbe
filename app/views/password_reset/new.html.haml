@@ -1,16 +1,22 @@
 - content_for(:container_class, 'slimbox-wrapper')
 
-.slimbox
-  %h3 Reset your password
-
-  - if @password_reset.errors.any?
-    - @password_reset.errors.full_messages.each do |message|
-      %span.error.font= message
-
-  = form_for(@password_reset, url: password_reset_path, as: 'password_reset') do |f|
-    = f.label(:new_password)
-    = f.password_field :new_password
-    = f.label(:new_password_confirmation, 'Confirm new password')
-    = f.password_field :new_password_confirmation
-    = f.hidden_field :token
-    = f.submit 'Reset Password', class: 'primary_action'
+.email
+  .container.narrow
+    %img{ :class => "logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .headline
+      %h1 Reset Your Password
+    - if @password_reset.errors.any?
+      - @password_reset.errors.full_messages.each do |message|
+        %span.error.font= message
+    = form_for(@password_reset, url: password_reset_path, as: 'password_reset') do |f|
+      = f.hidden_field :token
+      .subtext
+        = f.password_field :new_password, class: 'form-field input', placeholder: 'New Password'
+        -#%input.form-field.input{:value => 'New Password'}
+      .subtext
+        -#%input.form-field.input{:value => 'Confirm New Password'}
+        = f.password_field :new_password_confirmation, class: 'form-field input', placeholder: 'Confirm New Password'
+      .subtext
+        %button.button.primary-action Reset Password
+      .subtext
+        %h3= contact_us_message

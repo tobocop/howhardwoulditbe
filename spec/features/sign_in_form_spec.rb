@@ -43,10 +43,10 @@ describe 'Sign In form', js: true do
 
     visit password_reset_url
 
-    page.should have_content 'Reset your password'
+    page.should have_content 'Reset Your Password'
 
-    fill_in 'New password', with: 'goodpassword'
-    fill_in 'Confirm new password', with: 'goodpassword'
+    fill_in 'New Password', with: 'goodpassword'
+    fill_in 'Confirm New Password', with: 'goodpassword'
 
     click_on 'Reset Password'
 
