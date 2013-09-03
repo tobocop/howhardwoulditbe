@@ -16,8 +16,8 @@ describe Plink::TangoRedemptionService do
 
   it 'raises if the response is not successful?' do
     redemption_service = Plink::TangoRedemptionService.new(valid_params)
-    fake_purchase_response = stub(:fake_purchase_response, successful?: false)
-    redemption_service.stub(:card_service).and_return(stub(:card_service, purchase: fake_purchase_response))
+    fake_purchase_response = double(:fake_purchase_response, successful?: false)
+    redemption_service.stub(:card_service).and_return(double(:card_service, purchase: fake_purchase_response))
 
     expect {
       redemption_service.redeem

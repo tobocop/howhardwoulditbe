@@ -23,7 +23,7 @@ module Plink
     end
 
     def redemption_service
-      if user_can_auto_redeem? && reward_record.is_tango
+      if user_can_auto_redeem? && reward_record.is_tango && user_under_redemption_limit?
         tango_redemption_service
       else
         pending_redemption_service
@@ -36,6 +36,10 @@ module Plink
 
     def eligible_redemption_amount?
       reward_amount_record.dollar_award_amount <= Plink::RewardAmount::MAXIMUM_REDEMPTION_VALUE
+    end
+
+    def user_under_redemption_limit?
+      tango_redemption_limit_service.user_under_redemption_limit?
     end
 
     def tango_redemption_service
@@ -72,6 +76,10 @@ module Plink
 
     def qualifying_award_record
       Plink::QualifyingAwardRecord
+    end
+
+    def tango_redemption_limit_service
+      Plink::TangoRedemptionLimitService.new(user_id)
     end
   end
 end

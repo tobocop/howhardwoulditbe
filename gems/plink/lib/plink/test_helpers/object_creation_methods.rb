@@ -1,6 +1,8 @@
 module Plink
   module ObjectCreationMethods
 
+    require 'ostruct'
+
     def new_news_article(options = {})
       defaults = {
         source: 'TechCrunch',
@@ -177,7 +179,7 @@ module Plink
     def new_redemption(options = {})
       defaults = {
         dollar_award_amount: 2.3,
-        reward_id: 2,
+        reward_id: 1,
         user_id: 1,
         is_pending: true,
         is_active: true,
@@ -223,6 +225,7 @@ module Plink
 
     def new_reward_amount(options = {})
       defaults = {
+        reward_id: 1,
         dollar_award_amount: 143,
         is_active: true
       }
@@ -323,6 +326,7 @@ module Plink
         salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
         is_subscribed: true,
         provider: 'organic',
+        hold_redemptions: nil,
         ip: '127.0.0.1'
       }
 
@@ -443,6 +447,43 @@ module Plink
       }
 
       ReferralConversionRecord.new(defaults.merge(options))
+    end
+
+    def new_tango_tracking(options = {})
+      defaults = {
+        user_id: 1,
+        loot_id: 1,
+        card_sku: 'sharknado',
+        card_value: 15.00,
+        recipient_name: 'Banana Hamrick',
+        recipient_email: 'just-hamrick-it@example.com',
+        sent_to_tango_on: 1.hour.ago,
+        response_from_tango_on: 10.minutes.ago,
+        response_type: 'SUCCESS',
+        reference_order_id: '113-083696056-28',
+        card_token: '521e2ff4e536f9.10739555',
+        card_number: 'V732-AM9ABN-WYZR',
+        card_pin: nil
+      }
+
+      TangoTrackingRecord.new(defaults.merge(options))
+    end
+
+    def create_tango_tracking(options = {})
+      tango_tracking = new_tango_tracking(options)
+      tango_tracking.save!
+      tango_tracking
+    end
+
+    def new_tango_redemption_limit(options = {})
+      defaults= {
+        hold_redemptions: nil,
+        user_id: 1,
+        redemption_count: 0,
+        redeemed_in_past_24_hours: nil
+      }
+
+      OpenStruct.new(defaults.merge(options))
     end
 
     def apply(object, defaults, overrides)

@@ -32,7 +32,7 @@ describe Plink::ActiveIntuitAccountRecord do
     active_intuit_account.bank_name.should == 'First bank of derp'
   end
 
-  it 'returns the last 4 nubmers of an account' do
+  it 'returns the last 4 numbers of an account' do
     active_intuit_account.account_number_last_four.should == '5468'
   end
 

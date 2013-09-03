@@ -16,7 +16,7 @@ module Plink
     include Plink::LegacyTimestamps
 
     attr_accessible :avatar_thumbnail_url, :email, :first_name, :password_hash, :provider, :ip,
-      :salt
+      :salt, :hold_redemptions
 
     alias_attribute :is_subscribed, :isSubscribed
 
@@ -36,6 +36,8 @@ module Plink
     validates :provider, inclusion: {in: VALID_PROVIDERS}
 
     before_create :set_default_virtual_currency
+
+    alias_attribute :hold_redemptions, :holdRedemptions
 
     scope :users_with_qualifying_transactions, -> {
       joins('INNER JOIN qualifyingAwards ON qualifyingAwards.userID = users.userID')

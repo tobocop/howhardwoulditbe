@@ -22,6 +22,7 @@ Plink::RewardAmountRecord.destroy_all
 Plink::FreeAwardRecord.destroy_all
 Plink::QualifyingAwardRecord.destroy_all
 Plink::NonQualifyingAwardRecord.destroy_all
+Plink::TangoTrackingRecord.destroy_all
 Plink::RedemptionRecord.destroy_all
 Plink::InstitutionRecord.destroy_all
 Plink::UsersInstitutionRecord.destroy_all
