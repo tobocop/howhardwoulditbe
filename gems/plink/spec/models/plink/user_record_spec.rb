@@ -22,22 +22,22 @@ describe Plink::UserRecord do
       user_record.should have(1).error_on(:first_name)
     end
 
-    it 'ensures first name must only be alphabetical letters' do
+    it 'ensures first name must only be alphabetical letters, numbers, dashes, underscores, or spaces' do
       user_record.first_name = "asb2"
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:first_name)
+      user_record.should be_valid
 
       user_record.first_name = "asb;"
       user_record.should_not be_valid
       user_record.should have(1).error_on(:first_name)
 
       user_record.first_name = '_hunter'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:first_name)
+      user_record.should be_valid
 
       user_record.first_name = '-hunter'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:first_name)
+      user_record.should be_valid
+
+      user_record.first_name = 'banana hamrick'
+      user_record.should be_valid
     end
 
     it 'must have an email address' do

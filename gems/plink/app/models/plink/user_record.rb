@@ -28,7 +28,7 @@ module Plink
     has_many :referral_conversion_records, class_name: 'Plink::ReferralConversionRecord', foreign_key: 'referredBy'
     has_many :qualifying_award_records, class_name: 'Plink::QualifyingAwardRecord', foreign_key: 'userID'
 
-    validates :first_name, presence: true, format: {with: /\A[a-zA-Z]+\z/, if: 'first_name.present?'}
+    validates :first_name, presence: true, format: {with: /\A[a-zA-Z0-9_\- ]+\z/, if: 'first_name.present?'}
     validates :email, presence: true, format: {with: VALID_EMAIL_REGEXP}
     validates :password_hash, :salt, presence: true
     validates :new_password, length: {minimum: 6}, confirmation: true, if: 'new_password.present?'
