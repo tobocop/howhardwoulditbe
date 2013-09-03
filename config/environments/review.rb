@@ -25,7 +25,7 @@ PlinkPivotal::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => "review.plink-qa.com" }
+  config.action_mailer.default_url_options = { :host => "points.plink-qa.com" }
 
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
