@@ -78,8 +78,8 @@ describe Plink::WalletItemRecord do
       end
     end
 
-    describe '.locked' do
-      subject(:locked_scope) { Plink::WalletItemRecord.locked }
+    describe '.locked_records' do
+      subject(:locked_scope) { Plink::WalletItemRecord.locked_records }
 
       let!(:open_wallet_item) { create_open_wallet_item }
       let!(:populated_wallet_item) { create_populated_wallet_item }

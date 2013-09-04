@@ -33,7 +33,7 @@ module Plink
       .where('unlock_reason = ?', Plink::WalletRecord::UNLOCK_REASONS[:referral])
     }
 
-    scope :locked, -> { where(type: Plink::LockedWalletItemRecord) }
+    scope :locked_records, -> { where(type: Plink::LockedWalletItemRecord) }
     scope :open_records, -> { where(type: Plink::OpenWalletItemRecord) }
     scope :populated_records, -> { where(type: Plink::PopulatedWalletItemRecord) }
 
