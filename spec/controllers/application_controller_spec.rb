@@ -70,6 +70,15 @@ describe ApplicationController do
       controller.sign_out_user
       cookies[:PLINKUID].should be_nil
     end
+
+    it 'destroys the CFID and CFTOKEN if present' do
+      cookies[:CFID] = {value: '1234', domain: :all, path: '/'}
+      cookies[:CFTOKEN] = {value: '1234', domain: :all, path: '/'}
+
+      controller.sign_out_user
+      cookies[:CFID].should be_nil
+      cookies[:CFTOKEN].should be_nil
+    end
   end
 
   describe '#current_user' do

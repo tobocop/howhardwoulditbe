@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   def sign_out_user
     expire_user_session
-    expire_auto_login_cookie
+    expire_cookies
   end
 
   def current_user
@@ -108,9 +108,11 @@ class ApplicationController < ActionController::Base
     }
   end
 
-  def expire_auto_login_cookie
-    return unless cookies[login_cookie_key]
-    cookies.delete(login_cookie_key, domain: :all, path: '/')
+  def expire_cookies
+    [login_cookie_key, :CFID, :CFTOKEN].each do |cookie_key|
+      next unless cookies[cookie_key]
+      cookies.delete(cookie_key, domain: :all, path: '/')
+    end
   end
 
   def encode_plink_cookie(unencoded_value)
