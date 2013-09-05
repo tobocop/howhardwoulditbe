@@ -5,7 +5,8 @@ describe Plink::AdvertiserRecord do
   let(:valid_params) {
       {
           advertiser_name: 'nervy',
-          logo_url: 'nerves.jpg'
+          logo_url: 'nerves.jpg',
+          map_search_term: 'weeee'
       }
   }
 
