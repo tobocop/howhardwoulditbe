@@ -9,7 +9,8 @@ module Plink
         :image_base_url,
         :card_add_url,
         :card_change_url,
-        :card_reverify_url
+        :card_reverify_url,
+        :mobile_registration_url
     ]
 
     attr_reader *CONFIGURABLE_OPTIONS
