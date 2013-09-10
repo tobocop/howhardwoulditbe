@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Plink::TangoRedemptionService do
 
-  let(:valid_params) do
+  let(:valid_params) {
     {
       award_code: 'asd',
       reward_name: 'Fake - card',
@@ -12,12 +12,18 @@ describe Plink::TangoRedemptionService do
       first_name: 'test_name',
       email: 'test@example.com'
     }
-  end
+  }
+
+  let(:tango_response_params) {
+    {
+      response_type: 'INS_FUNDS',
+      successful?: false
+    }
+  }
 
   it 'raises if the response is not successful?' do
     redemption_service = Plink::TangoRedemptionService.new(valid_params)
-    fake_purchase_response = double(:fake_purchase_response, successful?: false)
-    redemption_service.stub(:card_service).and_return(double(:card_service, purchase: fake_purchase_response))
+    Plink::TangoTrackingService.any_instance.stub(:purchase).and_return(double(tango_response_params))
 
     expect {
       redemption_service.redeem

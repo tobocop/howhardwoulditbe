@@ -44,7 +44,7 @@ class RedemptionController < ApplicationController
     begin
       plink_redemption_service.redeem
     rescue Exception => e
-      ::Exceptional::Catcher.handle(e) if Rails.env.production? || Rails.env.review?
+      ::Exceptional::Catcher.handle(e) if Rails.env.production?
 
       flash[:error] = 'Unable to reach Tango. Please try again later.'
       false

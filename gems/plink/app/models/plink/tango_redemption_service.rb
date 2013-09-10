@@ -1,6 +1,8 @@
 module Plink
   class TangoRedemptionService
 
+    GIFT_FROM = 'Plink'
+
     def initialize(args = {})
       @award_code = args.fetch(:award_code)
       @reward_name = args.fetch(:reward_name)
@@ -9,6 +11,8 @@ module Plink
       @user_id = args.fetch(:user_id)
       @first_name = args.fetch(:first_name)
       @email = args.fetch(:email)
+
+      @gift_message = "Here's your #{@reward_name}"
     end
 
     def redeem
@@ -21,7 +25,7 @@ module Plink
 
     private
 
-    attr_reader :award_code, :reward_name, :dollar_award_amount, :reward_id, :user_id, :first_name, :email
+    attr_reader :award_code, :dollar_award_amount, :email, :first_name, :gift_message, :reward_id, :reward_name, :user_id
 
     def attributes
       {
@@ -33,20 +37,24 @@ module Plink
       }
     end
 
-    def card_service
-      Tango::CardService.new(Tango::Config.instance)
+    def tango_tracking_service
+      Plink::TangoTrackingService
     end
 
     def deliver_card
-      card_service.purchase(
-          card_sku: award_code,
-          card_value: dollar_award_amount * 100,
-          tango_sends_email: true,
-          recipient_name: first_name,
-          recipient_email: email,
-          gift_message: "Here's your #{reward_name}",
-          gift_from: 'Plink'
+      service = tango_tracking_service.new(
+        award_code: award_code,
+        card_value: dollar_award_amount,
+        gift_message: gift_message,
+        gift_from: GIFT_FROM,
+        recipient_email: email,
+        recipient_name: first_name,
+        reward_id: reward_id,
+        tango_sends_email: true,
+        user_id: user_id
       )
+      service.purchase
+
     end
   end
 end

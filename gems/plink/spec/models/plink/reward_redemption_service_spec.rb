@@ -126,7 +126,7 @@ describe Plink::RewardRedemptionService do
       describe 'if the user is not over the daily limit in redemptions' do
 
         it 'creates the redemption record' do
-          Tango::CardService.any_instance.stub(:purchase) { double(successful?: true) }
+          Plink::TangoTrackingService.any_instance.stub(:purchase) { double(successful?: true) }
 
           Plink::TangoRedemptionService.should_receive(:new).with(
             award_code: reward.award_code,
@@ -164,7 +164,22 @@ describe Plink::RewardRedemptionService do
       end
     end
 
-    context 'via tango' do
+    context 'via Tango' do
+
+      let(:tango_response_params) {
+        {
+          response_type: 'SUCCESS',
+          reference_order_id: '113-094091226-04',
+          card_token: '521008c3bfb3a8.656892554',
+          card_number: 'VZ5T-0RL34L-YYVD',
+          successful?: true
+        }
+      }
+
+      let(:tango_response_mock) { double(tango_response_params) }
+
+      let(:tango_redemption_service) { double(redeem: true) }
+
       before :each do
         create_qualifying_award(user_id: valid_params[:user_id])
         create_qualifying_award(user_id: valid_params[:user_id])
@@ -174,34 +189,11 @@ describe Plink::RewardRedemptionService do
 
         fake_reward = double(:fake_reward, is_tango: true, id: 2, award_code: 'code123', name: 'walmart gift card')
         Plink::RewardRecord.stub(:find).with(2).and_return(fake_reward)
+
       end
 
-      it 'tells tango to redeem the award' do
-        Tango::CardService.any_instance.should_receive(:purchase).with(
-          card_sku: 'code123',
-          card_value: 500,
-          tango_sends_email: true,
-          recipient_name: 'John',
-          recipient_email: 'john@example.com',
-          gift_message: "Here's your walmart gift card",
-          gift_from: 'Plink'
-        ).and_return { double(successful?: true) }
-
-        Plink::RedemptionRecord.stub(:create)
-
-        subject.new(valid_params).redeem
-      end
-
-      it 'creates the redemption record as sent' do
-        Tango::CardService.any_instance.stub(:purchase) { double(successful?: true) }
-
-        Plink::RedemptionRecord.should_receive(:create).with(
-          dollar_award_amount: 5,
-          reward_id: 2,
-          user_id: 3,
-          is_pending: false,
-          sent_on: anything
-        )
+      it 'calls the Tango Redemption Service to redeem the award' do
+        Plink::TangoRedemptionService.any_instance.should_receive(:redeem).and_return { true }
 
         subject.new(valid_params).redeem
       end
