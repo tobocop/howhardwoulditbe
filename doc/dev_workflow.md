@@ -9,7 +9,7 @@ Development & QA
 
 2. Create a branch for the feature if one does not already exist:
 
-    `$git checkout -b featurepl_name`
+    `$git checkout -b feature_name`
 
 3. Make your code changes; put a finishes statement with the Pivotal
 Tracker story ID as the last statement in the commit message, like so:
