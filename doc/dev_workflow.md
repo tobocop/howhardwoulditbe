@@ -1,6 +1,6 @@
 Plink Development Workflow
 ==========================
-Revised 9/4/13, MH
+Revised 9/10/13, MH
 
 Development & QA
 ----------------
@@ -22,13 +22,13 @@ Tracker story ID as the last statement in the commit message, like so:
 
 5. Bring in the current master:
 
-    `$git rebase master`
+    `$git rebase origin/master`
 
 6. Run the build
 
-    `$build.sh`
+    `$./build.sh`
 
-7. Push the branch to a remote branch
+7. Push the branch to a remote branch (if remote branch doesn't already exist.)
 
     `$git push origin feature_name`
 
