@@ -2,6 +2,7 @@ module Plink
   class TangoRedemptionService
 
     GIFT_FROM = 'Plink'
+    PLINK_POINTS_EXCHANGE_RATE = 100
 
     def initialize(args = {})
       @award_code = args.fetch(:award_code)
@@ -44,7 +45,7 @@ module Plink
     def deliver_card
       service = tango_tracking_service.new(
         award_code: award_code,
-        card_value: dollar_award_amount,
+        card_value: (dollar_award_amount * PLINK_POINTS_EXCHANGE_RATE),
         gift_message: gift_message,
         gift_from: GIFT_FROM,
         recipient_email: email,
