@@ -7,6 +7,7 @@ module Plink
     def initialize(options={})
       @award_code = options.fetch(:award_code)
       @card_value = options.fetch(:card_value)
+      @dollar_award_amount = options.fetch(:dollar_award_amount)
       @recipient_email = options.fetch(:recipient_email)
       @recipient_name = options.fetch(:recipient_name)
       @reward_id = options.fetch(:reward_id)
@@ -17,7 +18,7 @@ module Plink
 
       @tracking_record = tango_tracking_record.new(
         card_sku: @award_code,
-        card_value: @card_value,
+        card_value: @dollar_award_amount,
         loot_id: @reward_id,
         recipient_email: @recipient_email,
         recipient_name: @recipient_name,

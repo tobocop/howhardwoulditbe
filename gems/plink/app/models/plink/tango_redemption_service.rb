@@ -46,6 +46,7 @@ module Plink
       service = tango_tracking_service.new(
         award_code: award_code,
         card_value: (dollar_award_amount * PLINK_POINTS_EXCHANGE_RATE),
+        dollar_award_amount: dollar_award_amount,
         gift_message: gift_message,
         gift_from: GIFT_FROM,
         recipient_email: email,

@@ -5,8 +5,9 @@ describe '#new' do
   subject(:tracking_service) { Plink::TangoTrackingService }
   let(:tango_sends_email) { true }
   let(:award_code) { 'fonttard' }
-  let(:card_value) { 1000 }
-  let(:reward_name) { 'HickvilleBucks' }
+  let(:dollar_award_amount) { 10 }
+  let(:card_value) { 100 * dollar_award_amount }
+  let(:reward_name) { 'HicksvilleBucks' }
   let(:gift_message) { "Here's your #{reward_name}" }
   let(:gift_from) { 'Plink' }
   let(:recipient_name) { 'Withakay' }
@@ -22,7 +23,7 @@ describe '#new' do
     Plink::TangoTrackingRecord.stub(:save!).and_return(true)
     Plink::TangoTrackingRecord.should_receive(:new).with(
       card_sku: award_code,
-      card_value: card_value,
+      card_value: dollar_award_amount,
       loot_id: reward_id,
       recipient_email: recipient_email,
       recipient_name: recipient_name,
@@ -33,6 +34,7 @@ describe '#new' do
     subject.new(
       award_code: award_code,
       card_value: card_value,
+      dollar_award_amount: dollar_award_amount,
       gift_from: gift_from,
       gift_message: gift_message,
       recipient_email: recipient_email,
@@ -66,7 +68,8 @@ describe '#purchase' do
     let(:tango_response_mock) { double(tango_response_params) }
     subject (:tracking_service) { Plink::TangoTrackingService.new(
       award_code: 'fontphoria',
-      card_value: 10000,
+      card_value: 1000,
+      dollar_award_amount: 1000,
       gift_from: 'FontHeaven',
       gift_message: "Here's your FontBucks",
       recipient_email: 'KrisAlsoLovesHelvetica@example.com',
@@ -103,7 +106,8 @@ describe '#purchase' do
     let(:tango_response_mock) { double(tango_response_params) }
     subject (:tracking_service) { Plink::TangoTrackingService.new(
       award_code: 'fontphobia',
-      card_value: 10000,
+      card_value: 1000,
+      dollar_award_amount: 10,
       gift_from: 'Fontastic',
       gift_message: "Here's your FontShekels",
       recipient_email: 'fontweasel@example.com',
