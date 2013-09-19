@@ -5,7 +5,7 @@ describe ContestHelper do
     it 'returns a hash with share data' do
       share_data = {
         'title' => 'Claim your share of $1,000 in Gift Cards from Plink',
-        'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Kohl's, Target, Walmart and more!",
+        'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Target, Walmart and more!",
         'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
         'twitter-link' => 'http://example.com/twitter_entry_post',
         'facebook-link' => 'http://example.com/facebook_entry_post',

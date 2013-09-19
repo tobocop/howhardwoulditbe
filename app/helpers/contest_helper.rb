@@ -3,7 +3,7 @@ module ContestHelper
   def contest_share_data(contest_share_link)
     {
       'title' => 'Claim your share of $1,000 in Gift Cards from Plink',
-      'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Kohl's, Target, Walmart and more!",
+      'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Target, Walmart and more!",
       'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
       'twitter-link' => "#{contest_share_link}/twitter_entry_post",
       'facebook-link' => "#{contest_share_link}/facebook_entry_post",
