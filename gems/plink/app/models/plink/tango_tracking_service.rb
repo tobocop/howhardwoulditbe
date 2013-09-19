@@ -37,6 +37,7 @@ module Plink
     def track_purchase(tango_response)
 
       @tracking_record.response_type = tango_response.response_type
+      @tracking_record.response_from_tango_on = DateTime.now
 
       if tango_response.response_type == 'SUCCESS'
         @tracking_record.reference_order_id = tango_response.reference_order_id

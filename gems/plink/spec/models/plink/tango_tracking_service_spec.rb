@@ -90,6 +90,7 @@ describe '#purchase' do
       subject.tracking_record.reference_order_id.should == '113-094091226-04'
       subject.tracking_record.card_token.should == '521008c3bfb3a8.656892554'
       subject.tracking_record.card_number.should == 'VZ5T-0RL34L-YYVD'
+      subject.tracking_record.response_from_tango_on.should_not be_nil
     end
 
   end
