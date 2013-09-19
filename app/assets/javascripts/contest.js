@@ -30,5 +30,8 @@
 $(function () {
   var contest_pages = "#contests-index, #contests-show"
 
-  if ($(contest_pages).length) Contest.bindEvents();
+  if ($(contest_pages).length) {
+    Contest.bindEvents();
+    Plink.InAppNotification.closeInAppNotification();
+  }
 });
