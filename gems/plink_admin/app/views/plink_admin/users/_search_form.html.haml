@@ -1,0 +1,9 @@
+= form_tag path, method: :get do
+  .large-4.columns
+    = text_field_tag :user_id, nil, placeholder: 'User ID', autofocus: 'autofocus'
+  .large-4.columns
+    = text_field_tag :email, nil, placeholder: 'User Email', autofocus: 'autofocus'
+  .large-2.columns
+    = submit_tag 'Search', class: 'button prefix'
+
+%hr

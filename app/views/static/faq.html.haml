@@ -8,7 +8,7 @@
     %h3= contact_us_message
 
   .right-column
-    - faq_items.each do |question, answer|
-      = render 'title_description_block', title: question, description: answer
+    - faq_items.each do |question, answer_and_anchor_name|
+      = render 'faq_description_block', title: question, answer_and_anchor_name: answer_and_anchor_name
 
   .clear

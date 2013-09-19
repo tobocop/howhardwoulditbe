@@ -75,7 +75,16 @@ describe GigyaLoginHandlerController do
 
             response.should redirect_to wallet_path(link_card: true)
           end
+        end
 
+        context 'when the referer is the contests_path' do
+          before { request.env["HTTP_REFERER"] = 'http://test.com/contests' }
+
+          it 'redirects them to the contest path' do
+            get :create, {valid_params: true}
+
+            response.should redirect_to contests_path
+          end
         end
 
         it 'does not track an email creation event' do
@@ -103,6 +112,16 @@ describe GigyaLoginHandlerController do
           get :create, {valid_params: true}
 
           response.should redirect_to wallet_path(link_card: true)
+        end
+
+        context 'when the referer is the contests_path' do
+          before { request.env["HTTP_REFERER"] = 'http://test.com/contests' }
+
+          it 'redirects them back to the contest path' do
+            get :create, {valid_params: true}
+
+            response.should redirect_to contests_path
+          end
         end
       end
     end

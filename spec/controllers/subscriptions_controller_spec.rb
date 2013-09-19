@@ -78,7 +78,7 @@ describe SubscriptionsController do
   describe 'GET unsubscribe' do
     it 'immediately unsubscribes the user for the given email address' do
       mock_plink_user_service.should_receive(:find_by_email).with('mail@example.com').and_return(mock(:user, id: 3))
-      mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: false)
+      mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: 0)
 
       get :unsubscribe, email_address: 'mail@example.com'
 
@@ -92,6 +92,27 @@ describe SubscriptionsController do
       get :unsubscribe, email_address: 'notthere@example.com'
 
       response.should redirect_to root_url
+      flash[:notice].should == 'Email address does not exist in our system.'
+    end
+  end
+
+  describe 'GET contest_unsubscribe' do
+    it 'immediately unsubscribes the user from contest reminders' do
+      mock_plink_user_service.should_receive(:find_by_email).with('mail@example.com').and_return(mock(:user, id: 3))
+      mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, daily_contest_reminder: 0)
+
+      get :contest_unsubscribe, email_address: 'mail@example.com'
+
+      response.should redirect_to contests_url
+      flash[:notice].should == "You've been successfully unsubscribed from future contest notifications."
+    end
+
+    it 'returns notification if the user cannot be found' do
+      mock_plink_user_service.should_receive(:find_by_email).with('notthere@example.com').and_return(nil)
+
+      get :contest_unsubscribe, email_address: 'notthere@example.com'
+
+      response.should redirect_to contests_url
       flash[:notice].should == 'Email address does not exist in our system.'
     end
   end

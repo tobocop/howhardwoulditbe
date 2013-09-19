@@ -1,0 +1,20 @@
+Hey #{@first_name},
+
+It's been a few days since you've entered our contest. Enter daily to increase your chances of winning.
+
+#{contests_url}
+
+Get even MORE entries.
+
+For every friend you refer to Plink, get EXTRA entries everyday. You can invite your friends via Facebook, Twitter, or by sending them your personal referral link:
+
+#{referrer_url(user_id: @user_id, affiliate_id: Rails.application.config.default_contest_affiliate_id)}
+
+Thanks!
+Team Plink
+
+Unsubscribe:
+= edit_subscription_url(email_address: @email_address)
+
+Unsubscribe from contest notifications:
+= contest_unsubscribe_subscription_url(email_address: @email_address)

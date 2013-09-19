@@ -10,8 +10,12 @@ module PlinkAdmin
     end
 
     def search
-      @search_term = params[:email]
-      @users = plink_user_service.search_by_email(@search_term)
+      @search_term = params[:email].present? ? params[:email] : params[:user_id]
+
+      @users = params[:email].present? ?
+        plink_user_service.search_by_email(@search_term) :
+        Array(plink_user_service.find_by_id(@search_term))
+
       render :index
     end
 

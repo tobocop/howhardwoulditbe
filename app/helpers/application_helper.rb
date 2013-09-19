@@ -53,4 +53,15 @@ module ApplicationHelper
       "class: 'status-img'}"
     Haml::Engine.new(haml).render
   end
+
+  def refer_a_friend_data
+    base = 'application.referral.'
+
+    {
+      'title' => t(base + 'title'),
+      'description' => t(base + 'description'),
+      'image' => t(base + 'image'),
+      'share-widget' => true
+    }
+  end
 end

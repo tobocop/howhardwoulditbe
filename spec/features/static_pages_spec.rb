@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'Static pages' do
   before { create_virtual_currency }
+  before { create_contest }
 
   it 'can be reached from the footer' do
     visit '/'

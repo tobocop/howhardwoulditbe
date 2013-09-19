@@ -24,11 +24,15 @@
   	font-size:1.4em;
   	font-weight:300;
 
-  	&.cyan { 
+  	&.cyan {
   	  color:$cyan;
   	  font-weight:500;
   	  text-transform:uppercase;
   	}
+
+    &.margin_bottom {
+      margin-bottom:20px;
+    }
   }
 
   h3 {
@@ -39,6 +43,11 @@
   	  color:#b3b3b3;
   	}
 
+    &.cyan {
+      color:$cyan;
+      margin-bottom:4px;
+    }
+
   	&.strong {
   	  font-weight:500;
       text-transform: uppercase;
@@ -46,12 +55,58 @@
   }
 
   h4 {
-  	font-size:.8em;
+  	font-size:.9em;
   	font-weight:300;
     line-height:1.4em;
 
+    &.bonus {
+      color:$orange;
+      font-size:1em;
+      line-height:1.2em;
+      margin-top:25px;
+      padding:0;
+
+      &.nonlinked {
+        color:$slate;
+      }
+    }
+
     &.strong {
       font-weight:500;
+      margin-top:10px;
+    }
+
+    &.legal {
+      color:#C4C4C4;
+      font-size:.8em;
+      margin-top:15px;
+    }
+  }
+
+  a {
+    color:$cyan;
+    font-weight:300;
+    text-decoration: none;
+
+    &.hover, &:hover {
+      text-decoration:underline;
+    }
+
+    &.active, &:active {
+      color:#2289b5;
+    }
+
+    &.footnote {
+      vertical-align: text-top;
+
+      &.hover, &:hover {
+        font-weight:500;
+        text-decoration: underline;
+      }
+
+      &.active, &:active {
+        color:#2289b5;
+      }
     }
   }
 
@@ -59,6 +114,7 @@
     font-size:1em;
     font-weight:300;
     line-height:1.4em;
+    margin-bottom:15px;
   }
 
   .contest {
@@ -76,8 +132,26 @@
   	  }
 
       .image {
+        background:#444444;
   	    height:253px;
-  		  margin:0 0 10px 0;
+  		  margin:0 0 15px 0;
+        position:relative;
+
+        @include round-corners(12px);
+
+        .overlay-message {
+          color:#FFFFFF;
+          position:absolute;
+          text-align: center;
+          top:42%;
+          width:100%;
+        }
+
+        .disabled {
+          opacity:.2;
+          filter:alpha(opacity=20); /* For IE8 and earlier */
+          -webkit-filter: grayscale(60%);
+        }
   	  }
 
   	  .details {
@@ -87,9 +161,9 @@
 
   	.enter {
       display:inline-block;
-  	  margin-top:50px;
+  	  margin-top:12px;
   	  text-align:center;
-  	  width:264px;
+  	  width:280px;
 
   	  .entries {
   	    padding:20px 0;
@@ -97,11 +171,21 @@
 
   	  .btn {
   		  margin:10px 0 5px 0;
+
+        a {
+          text-transform: uppercase;
+        }
   	  }
 
   	  .details {
         color:#b3b3b3;
+        padding:0 35px;
   	  }
+
+      .results {
+        line-height: 1.5em;
+        padding:20px 0 10px 0;
+      }
   	}
 
     footer{
@@ -109,10 +193,73 @@
       display:inline-block;
       height:30px;
       margin-top:15px;
-      padding:7px 10px 0 10px;
+      padding:5px 10px 0 10px;
+      position:relative;
       width:100%;
 
       @include round-corners(5px);
+
+      .strong {
+        a {
+          color: #000;
+        }
+
+        a:link {
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .without-text {
+        margin-top: 2px;
+      }
+
+      .with-text {
+        margin-top:-19px;
+      }
+
+      .refer {
+        color:$slate;
+        display:inline-block;
+        font-size:.9em;
+        font-weight:300;
+        float:right;
+        margin-right:55px;
+
+        .cyan {
+          color:$cyan;
+          font-weight:500;
+        }
+
+        .btn {
+          position:absolute;
+          float:right;
+          margin-left:10px;
+          right:10px;
+          top:-7px;
+          width:50px;
+        }
+      }
+    }
+  }
+
+  .winners-list {
+    padding:25px;
+
+    .prize {
+      margin-bottom:30px;
+      /*width:380px;*/
+
+      .group {
+        display:inline-block;
+        margin:0;
+        padding:0;
+        vertical-align: text-top;
+        width:90px;
+      }
     }
   }
 }

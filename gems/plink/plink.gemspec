@@ -19,4 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'tango'
 
   s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'shoulda-matchers'
+  s.add_development_dependency 'pry'
 end

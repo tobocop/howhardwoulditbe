@@ -18,7 +18,8 @@ class RegistrationsController < ApplicationController
       track_email_capture_event(user_registration_form.user_id)
       sign_in_user(user_registration_form.user)
 
-      render json: {redirect_path: wallet_path(link_card: true)}
+      path = get_return_to_path || wallet_path(link_card: true)
+      render json: {redirect_path: path}
     else
       render json: {
         errors: user_registration_form.errors.messages.slice(:first_name, :password, :password_confirmation, :email)

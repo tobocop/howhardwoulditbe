@@ -1,0 +1,25 @@
+.entries
+  %h2 You have
+  %h1.cyan#js-contest-entries= "#{entries[:total]}"
+  %h2#js-entry-or-entries= "#{entry_or_entries(entries[:total])}."
+  - if user.logged_in?
+    .btn
+      = disabled_or_active_share_button(entries[:share_state], contest.id, user.id)
+    = form_tag "/contests/#{contest.id}/entries", id: 'js-contest-entry', style: 'display: none;' do
+      = hidden_field_tag :contest_id, contest.id
+  - else
+    .btn
+      = link_to 'Join', '#', data: {'reveal-id' => 'registration-form'}, class: 'link button join', rel: 'nofollow', class: 'button primary-action white-txt'
+    .btn
+      = link_to 'Sign In', '#', data: {'reveal-id' => 'sign-in-form-modal'}, class: 'link button sign-in', rel: 'nofollow', class: 'button primary-action white-txt'
+  .details
+    %h4#js-entry-subtext= entries_subtext(entries[:share_state], entries[:shared])
+    %h4= "Prizes drawn #{contest.end_date}"
+  -if user_has_linked_card
+    %h4.bonus Because you linked a card to your Plink account, you'll get 5x entries per share.
+  -elsif user.logged_in?
+    %h4.bonus.nonlinked
+      Get 5x entries per day when you
+      = link_to 'link a credit or debit card.', '#', data: { 'reveal-id' => 'card-add-modal' }
+    #card-add-modal.reveal-modal.cf-modal
+      = render partial: 'shared/card_add_modal', locals: {card_modal_url: card_link_url}

@@ -9,23 +9,10 @@ module Plink
       @errors = attributes.fetch(:errors, [])
     end
 
-    delegate :id,
-             :first_name,
-             :email,
-             :current_balance,
-             :currency_balance,
-             :lifetime_balance,
-             :can_redeem?,
-             :wallet,
-             :avatar_thumbnail_url,
-             :salt,
-             :is_subscribed,
-             :password_hash,
-             :primary_virtual_currency_id,
-             :provider,
-             :open_wallet_item,
-             :update_attributes,
-             to: :user_record
+    delegate :avatar_thumbnail_url, :can_redeem?, :currency_balance, :current_balance,
+      :daily_contest_reminder, :email, :first_name, :id, :is_subscribed, :lifetime_balance,
+      :open_wallet_item, :opt_in_to_daily_contest_reminders!, :password_hash, :primary_virtual_currency_id, :provider, :salt,
+      :update_attributes, :wallet, to: :user_record
 
     def new_user?
       new_user

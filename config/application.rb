@@ -20,8 +20,8 @@ module PlinkPivotal
     config.assets.version = '1.0'
     config.exceptions_app = self.routes
 
-    # Heroku deployment requirement
     config.default_affiliate_id = 1264
+    config.default_contest_affiliate_id = 1431
 
     # Set application to the same timezone as the production database; Mountain Time
     config.time_zone = 'Mountain Time (US & Canada)'

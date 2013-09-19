@@ -1,0 +1,13 @@
+#sign-in-form-modal.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
+  = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
+  %h2.font.modal-h2 How do you want to sign in?
+  .bg-element
+    #social-login
+    = image_tag 'btn_gigya_email.gif', data: {'toggle-selector' => '#organic-sign-in-form'}, alt: 'Sign in with Email', class: 'email-sign-in-button'
+    .field-container
+      = form_tag(plink_session_path, id: 'organic-sign-in-form', class: 'hidden') do
+        .error-messages
+        = text_field_tag 'user_session[email]', '', class: 'form-field input', placeholder: 'Email'
+        = password_field_tag 'user_session[password]', '', class: 'form-field input', placeholder: 'Password'
+        = button_tag 'Sign In', class: 'button primary-action narrow'
+  = link_to 'Forgot Password?', new_password_reset_request_path, class: 'text-link'

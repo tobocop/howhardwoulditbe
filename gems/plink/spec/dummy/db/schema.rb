@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816155107) do
+ActiveRecord::Schema.define(:version => 20130911132137) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -299,6 +299,13 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.boolean  "isActive",                      :default => true, :null => false
   end
 
+  create_table "authentication_tokens", :force => true do |t|
+    t.string   "token"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "user_id",    :limit => 8
+  end
+
   create_table "awardTypes", :primary_key => "awardTypeID", :force => true do |t|
     t.string   "awardType",         :limit => 500,                                                    :null => false
     t.string   "awardCode",         :limit => 100,                                                    :null => false
@@ -492,6 +499,25 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.boolean  "isActive",                                 :default => true, :null => false
   end
 
+  create_table "client_applications", :force => true do |t|
+    t.string   "name"
+    t.integer  "virtual_currency_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  create_table "contests", :force => true do |t|
+    t.string   "description"
+    t.string   "image",                :limit => 100
+    t.string   "prize",                :limit => 100
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.string   "terms_and_conditions"
+    t.string   "entry_method"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+  end
+
   create_table "dm_dates", :id => false, :force => true do |t|
     t.integer  "dm_dateKey",                      :null => false
     t.datetime "date"
@@ -504,6 +530,17 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.string   "quarter",           :limit => 20
     t.string   "dayOfWeek",         :limit => 20
     t.datetime "firstMondayOfWeek"
+  end
+
+  create_table "entries", :force => true do |t|
+    t.integer  "contest_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.string   "provider",         :limit => 25
+    t.integer  "computed_entries"
+    t.integer  "multiplier"
+    t.integer  "referral_entries"
   end
 
   create_table "errorLog", :primary_key => "errorLogID", :force => true do |t|
@@ -655,8 +692,10 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.string   "image_url"
     t.string   "title"
     t.integer  "display_order"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.string   "name"
+    t.boolean  "is_active",     :default => true
   end
 
   create_table "institutions", :primary_key => "institutionID", :force => true do |t|
@@ -1110,16 +1149,19 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.string   "logoURL",                 :limit => 500
     t.boolean  "isEligibleForFreeAwards",                                               :default => true,                  :null => false
     t.boolean  "showOnWall",                                                            :default => true,                  :null => false
+    t.boolean  "is_new"
   end
 
   create_table "offersVirtualCurrencies", :primary_key => "offersVirtualCurrencyID", :force => true do |t|
-    t.integer  "offerID",                             :null => false
-    t.integer  "virtualCurrencyID",                   :null => false
+    t.integer  "offerID",                                 :null => false
+    t.integer  "virtualCurrencyID",                       :null => false
     t.integer  "displayOrder"
-    t.datetime "created",                             :null => false
-    t.datetime "modified",                            :null => false
-    t.boolean  "isActive",          :default => true, :null => false
+    t.datetime "created",                                 :null => false
+    t.datetime "modified",                                :null => false
+    t.boolean  "isActive",              :default => true, :null => false
     t.text     "detailText"
+    t.boolean  "is_promotion"
+    t.text     "promotion_description"
   end
 
   create_table "optIns", :primary_key => "optInId", :force => true do |t|
@@ -1201,6 +1243,15 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.boolean  "isActive",                         :default => true, :null => false
   end
 
+  create_table "password_resets", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "token",      :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "password_resets", ["token"], :name => "index_password_resets_on_token", :unique => true
+
   create_table "path_page_attributes", :force => true do |t|
     t.integer "path_page_type_id",                                   :null => false
     t.string  "element_id",                                          :null => false
@@ -1269,6 +1320,26 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.boolean  "is_active",                      :default => true,  :null => false
   end
 
+  create_table "plink_admin_admins", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.integer  "failed_attempts",        :default => 0
+    t.string   "unlock_token"
+    t.datetime "locked_at"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  add_index "plink_admin_admins", ["email"], :name => "index_plink_admin_admins_on_email", :unique => true
+
   create_table "postbackResults", :primary_key => "postbackResultID", :force => true do |t|
     t.integer  "userID",         :limit => 8,                       :null => false
     t.string   "awardID",        :limit => 50,                      :null => false
@@ -1288,6 +1359,14 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.text     "info"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "preferences", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.boolean  "value",      :default => true
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "promotions", :primary_key => "promotionID", :force => true do |t|
@@ -1850,7 +1929,9 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
     t.boolean  "intuitRegistrationComplete",                 :default => false
     t.string   "gigya_uid"
     t.string   "avatar_thumbnail_url"
+    t.string   "shortened_referral_link"
     t.string   "provider",                    :limit => 15
+    t.boolean  "daily_contest_reminder"
   end
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|
@@ -2086,17 +2167,18 @@ ActiveRecord::Schema.define(:version => 20130816155107) do
   end
 
   create_table "walletItems", :primary_key => "walletItemID", :force => true do |t|
-    t.integer  "walletID",                                               :null => false
+    t.integer  "walletID",                                                :null => false
     t.integer  "advertiserID_old"
     t.integer  "virtualCurrencyID_old"
     t.integer  "usersAwardPeriodID",      :limit => 8
-    t.datetime "created",                                                :null => false
-    t.datetime "modified",                                               :null => false
-    t.boolean  "isActive",                             :default => true, :null => false
-    t.integer  "walletSlotID",                                           :null => false
-    t.integer  "walletSlotTypeID",                                       :null => false
+    t.datetime "created",                                                 :null => false
+    t.datetime "modified",                                                :null => false
+    t.boolean  "isActive",                              :default => true, :null => false
+    t.integer  "walletSlotID",                                            :null => false
+    t.integer  "walletSlotTypeID",                                        :null => false
     t.integer  "offersVirtualCurrencyID"
     t.string   "type"
+    t.string   "unlock_reason",           :limit => 15
   end
 
   create_table "walletItemsHistory", :primary_key => "walletItemHistoryID", :force => true do |t|

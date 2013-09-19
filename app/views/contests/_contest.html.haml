@@ -1,0 +1,49 @@
+.contests
+  %h1 Contests
+  %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
+
+  .contest
+    .info
+      .title
+        %h2.cyan= contest.description
+      .image
+        %img{src: contest.image}
+      .details
+        %h3.strong= "Prize List - Prizes drawn on #{contest.end_date}"
+        %p= contest.prize
+        %h4.legal
+          NO PURCHASE NECESSARY.
+          = link_to 'See Contest Rules for details.', nil, data: {'reveal-id' => 'terms-and-conditions'}
+          Void where prohibited. Maximum of 300 entries per day.
+    .enter
+      -if contest.started?
+        = render partial: 'contests/entries', locals: { entries: entries, user: user, contest: contest, user_has_linked_card: user_has_linked_card, card_link_url: card_link_url}
+      -else
+        Contest has not started yet, please check back soon.
+
+    %footer
+      - if user.logged_in?
+        = form_tag "/contests/#{contest.id}/toggle_opt_in_to_daily_reminder" do
+          - checked = user.daily_contest_reminder ? 'checked' : nil
+          = check_box_tag :daily_contest_reminder, 1, checked, id: 'js-toggle-daily-email', class: 'checkbox'
+        %h4 Remind me to re-enter this contest via email
+      %div{class: "refer #{user.logged_in? ? 'with-text' : 'without-text'}"}
+        - extra_entries = user_has_linked_card ? 2*50 : 2*10
+        Get up to
+        - if user.logged_in?
+          = contest_social_referral_link("#{extra_entries} EXTRA ENTRIES", user.id)
+        - else
+          = link_to "#{extra_entries} EXTRA ENTRIES", faq_referral_path, class: 'cyan'
+        per day for each friend referral
+        = link_to '&#8224;'.html_safe, faq_referral_path, target: '_blank', class: 'footnote'
+        .btn
+          .button.nav.tall
+            - image_path = 'icon_refer.png'
+            - if user.logged_in?
+              = contest_social_referral_image(image_path, user.id)
+            - else
+              = link_to image_tag(image_path), faq_referral_path
+
+  .reveal-modal.medium#terms-and-conditions
+    = contest.terms_and_conditions.html_safe
+    = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'

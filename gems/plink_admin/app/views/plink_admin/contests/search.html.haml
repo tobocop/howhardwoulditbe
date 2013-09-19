@@ -1,0 +1,29 @@
+.row.collapse
+  = render partial: 'plink_admin/users/search_form', locals: {path: search_contests_path}
+
+.row.collapse.search-results
+  - if @search_term.present?
+    %p= "Searched for: #{@search_term}"
+
+  - if @contest.present? && @users.present?
+    %table.large-12.columns
+      %thead
+        %tr
+          %th ID
+          %th Email
+          %th First Name
+          %th Current Balance
+          %th Lifetime Balance
+          %th Primary Currency
+          %th Actions
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td= user.id
+            %td= user.email
+            %td= user.first_name
+            %td= user.current_balance
+            %td= user.lifetime_balance
+            %td= user.primary_virtual_currency_id
+            %td
+              = link_to 'Get contest stats &raquo;'.html_safe, plink_admin.contest_stats_path(contest_id: @contest.id, user_id: user.id)

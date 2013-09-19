@@ -14,12 +14,12 @@ class GigyaLoginHandlerController < ApplicationController
 
       if response.new_user?
         track_email_capture_event(user.id)
-        redirect_to wallet_path(link_card: true)
+        redirect_to get_return_to_path || wallet_path(link_card: true)
       else
-        redirect_to redirect_path_for(user)
+        redirect_to get_return_to_path || redirect_path_for(user)
       end
     else
-      redirect_to root_path, notice: response.message
+      redirect_to get_return_to_path || root_path, notice: response.message
     end
   end
 

@@ -1,0 +1,25 @@
+- if contest.errors.any?
+  .alert-box.alert
+    - contest.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(contest, url: url, as: 'contest') do |f|
+  = f.label :description
+  = f.text_field :description
+  = f.label :image, 'Image URL'
+  = f.text_field :image
+  = f.label :prize
+  = f.text_field :prize
+  = f.label :terms_and_conditions, 'Terms'
+  = f.text_field :terms_and_conditions
+  = f.label :start_time, 'Start Time'
+  .dateselect
+    = f.datetime_select :start_time
+  = f.label :end_time, 'End Time'
+  .dateselect
+    = f.datetime_select :end_time
+
+  = f.submit button_text, class: 'button small'
+
+= link_to 'Cancel', contests_path, class: 'button small secondary'
+

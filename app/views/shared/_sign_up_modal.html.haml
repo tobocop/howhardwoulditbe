@@ -1,0 +1,18 @@
+#registration-form.modal.sign-in-modal.reveal-modal{style: 'display: none;'}
+  = image_tag 'btn_close.png', :alt => 'Close', class:'close-btn close-reveal-modal'
+  %h1.font.modal-text.h1 Join Plink
+  %h2.font.modal-text.h2 Your days of not earning unlimited rewards are over.
+  .bg-element
+    #social-registration
+    = image_tag 'btn_gigya_email_join.gif', data: {'toggle-selector' => '#organic-registration-form'}, alt: 'Register with Email', class: 'email-sign-in-button'
+    .field-container
+      = form_tag(registrations_path, id: 'organic-registration-form', class: 'hidden', data: {'error-template-selector' => '#registration-error-template'}) do
+        .error-messages
+        = text_field_tag :first_name, '', class: 'form-field input', placeholder: 'First Name'
+        = text_field_tag :email, '', class: 'form-field input', placeholder: 'Email'
+        = password_field_tag :password, '', class: 'form-field input', placeholder: 'Password'
+        = password_field_tag :password_confirmation, '', class: 'form-field input', placeholder: 'Verify Password'
+        = button_tag 'Start Earning Rewards', class: 'button primary-action narrow'
+
+  %h3.font.modal-h3
+    %a.text-link{href: '#', data: {'reveal-id' => 'sign-in-form-modal'}} Already have an account?

@@ -1,4 +1,6 @@
 class AccountsController < ApplicationController
+  include CardLinkExtensions
+
   before_filter :require_authentication
 
   def show
@@ -8,7 +10,7 @@ class AccountsController < ApplicationController
     @user_has_account = !!@bank_account
     @currency_activity = plink_currency_activity_service.get_for_user_id(current_user.id).map { |debit_credit| CurrencyActivityPresenter.build_currency_activity(debit_credit) }
 
-    @card_link_url = plink_card_link_url_generator.create_url(referrer_id: session[:referrer_id], affiliate_id: session[:affiliate_id])
+    @card_link_url = plink_card_link_url_generator.create_url(card_link_referral_params)
     @card_change_url = plink_card_link_url_generator.change_url
     @card_reverify_url = plink_card_link_url_generator.card_reverify_url
   end
@@ -57,9 +59,4 @@ class AccountsController < ApplicationController
   def plink_intuit_account_service
     Plink::IntuitAccountService.new
   end
-
-  def plink_card_link_url_generator
-    Plink::CardLinkUrlGenerator.new(Plink::Config.instance)
-  end
-
 end

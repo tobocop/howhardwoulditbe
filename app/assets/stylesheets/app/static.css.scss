@@ -6,7 +6,6 @@
   margin: 0 auto;
   padding-bottom:20px;
   width: 1024px;
- 
 
   h1 {
     font-size: 3.2em;
@@ -36,6 +35,10 @@
     font-weight: 300;
     line-height: 1.5em;
     margin-top: 8px;
+
+    &.strong {
+      font-weight:500;
+    }
   }
 
   p {
@@ -199,6 +202,12 @@
       font-weight: 500;
     }
   }
+}
+
+.contest-terms {
+  margin: 0 auto;
+  padding:5%;
+  width:90%;
 }
 
 .error-page {

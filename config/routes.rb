@@ -1,7 +1,4 @@
 PlinkPivotal::Application.routes.draw do
-
-  mount PlinkAdmin::Engine => '/plink_admin'
-
   resource :account, only: [:show, :update], controller: :accounts
 
   resources :registrations, only: [:new, :create]
@@ -19,12 +16,19 @@ PlinkPivotal::Application.routes.draw do
 
   resource :subscription, only: [:edit, :update] do
     get :unsubscribe, on: :member
+    get :contest_unsubscribe, on: :member
   end
 
   resource :contact, controller: 'contact', only: [:create] do
     get :new
     get :thank_you
   end
+
+  resources :contests, only: [:index, :show] do
+    resources :entries, only: [:create]
+    post :toggle_opt_in_to_daily_reminder
+  end
+
 
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request
   resource :password_reset, only: [:new, :create], controller: :password_reset
@@ -38,6 +42,7 @@ PlinkPivotal::Application.routes.draw do
 
   match '/handle_gigya_login', to: 'gigya_login_handler#create', as: :gigya_login_handler, via: :get
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get
+  match '/contest/refer/:user_id/aid/:affiliate_id/contest/:contest_id/(:source)', to: 'contest_referrals#new', as: :contest_referral, via: :get
 
   match "/style_guide", to: "style_guide#show", via: :get
   match "/home/plink_video", to: "home#plink_video", via: :get
@@ -46,4 +51,6 @@ PlinkPivotal::Application.routes.draw do
 
   match "/500", to: "errors#general_error"
   match "/404", to: "errors#not_found"
+
+  mount PlinkAdmin::Engine => '/plink_admin'
 end

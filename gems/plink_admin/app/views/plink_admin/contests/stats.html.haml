@@ -1,0 +1,43 @@
+%p= "Contest ID: #{@contest.id}"
+%p= "Contest Description: #{@contest.description}"
+%ul
+  %li= "Start Date: #{@contest.start_time.to_date}"
+  %li= "End Date: #{@contest.end_time.to_date}"
+
+%hr
+
+%table.large-12.columns
+  %thead
+    %tr
+      %th entry ID
+      %th Date
+      %th Provider
+      %th Multiplier
+      %th Referral Entries
+      %th Total Entries
+  %tbody
+    - @entries.each do |entry|
+      %tr
+        %td= entry.id
+        %td= entry.created_at.to_date
+        %td= entry.provider
+        %td= entry.multiplier
+        %td= entry.referral_entries
+        %td= entry.computed_entries
+
+%hr
+
+%h4 Add Entries for this user
+
+.row
+  = form_tag plink_admin.contest_entries_path(contest_id: @contest.id, user_id: @user_id), id: 'js-contest-entry-form' do
+    .large-2.columns
+      %span Multiplier:
+      %span#js-multiplier{'data-multiplier' => @multiplier}= "#{@multiplier}"
+    .large-1.columns
+      = text_field_tag :number_of_entries, nil, placeholder: '#', autofocus: 'autofocus'
+    .large-2.columns
+      %span Total:
+      %span#js-total-entries 0
+    .large-7.columns
+      = submit_tag 'Submit'

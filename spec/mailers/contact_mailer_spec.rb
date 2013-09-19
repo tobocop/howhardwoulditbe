@@ -4,13 +4,13 @@ describe ContactMailer do
   describe 'create_contact_email' do
     it 'sends a contact email from the user' do
       email = ContactMailer.contact_email(
-          {
-              from: 'bob@example.com',
-              category: 'sorcery',
-              message_text: 'i like to magic',
-              first_name: 'Merlin',
-              last_name: 'Haggard'
-          }
+        {
+          from: 'bob@example.com',
+          category: 'sorcery',
+          message_text: 'i like to magic',
+          first_name: 'Merlin',
+          last_name: 'Haggard'
+        }
       ).deliver
 
       ActionMailer::Base.deliveries.count.should == 1

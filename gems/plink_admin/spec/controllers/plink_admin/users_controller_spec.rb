@@ -18,7 +18,8 @@ describe PlinkAdmin::UsersController do
   end
 
   describe 'GET search' do
-    let(:mock_user_service) { mock(:user_service, search_by_email: []) }
+    let(:user_mock) { mock(:user) }
+    let(:mock_user_service) { mock(:user_service, search_by_email: [user_mock]) }
 
     before do
       controller.stub(plink_user_service: mock_user_service)
@@ -27,7 +28,15 @@ describe PlinkAdmin::UsersController do
     it 'searches by the email param' do
       get :search, email: 'user@example.com'
 
-      assigns(:users).should == []
+      assigns(:users).should == [user_mock]
+    end
+
+    it 'searches by the id param' do
+      mock_user_service.should_receive(:find_by_id).with('1').and_return(user_mock)
+
+      get :search, user_id: 1
+
+      assigns(:users).should == [user_mock]
     end
 
     it 'assigns the search term' do

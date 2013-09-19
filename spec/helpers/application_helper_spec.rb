@@ -22,4 +22,14 @@ describe ApplicationHelper do
       helper.plink_currency_format(1.00).should == "$1"
     end
   end
+
+  describe '#refer_a_friend_data' do
+    it 'returns a hash with the keys title, description, image, share-widget' do
+      refer_a_friend_data = helper.refer_a_friend_data
+      refer_a_friend_data.should have_key 'title'
+      refer_a_friend_data.should have_key 'description'
+      refer_a_friend_data.should have_key 'image'
+      refer_a_friend_data.should have_key 'share-widget'
+    end
+  end
 end

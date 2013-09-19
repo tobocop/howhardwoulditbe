@@ -9,7 +9,8 @@ describe Plink::User do
       avatar_thumbnail_url: 'www.example.com/some_avatar',
       salt: 'angelinajolie',
       password_hash: 'somehashything',
-      provider: 'twitter'
+      provider: 'twitter',
+      daily_contest_reminder: false
     }
   end
 
@@ -47,6 +48,7 @@ describe Plink::User do
     user.wallet.open_wallet_items.size.should == 1
     user.open_wallet_item.should be
     user.provider.should == 'twitter'
+    user.daily_contest_reminder.should be_false
     user.should respond_to(:update_attributes)
   end
 

@@ -18,7 +18,7 @@
         %button.button.nav.sign-in{ href: referrer_url(user_id: current_user.id, affiliate_id: Rails.application.config.default_affiliate_id),
           data: { 'share-widget' => true,
                   'title' => "I just redeemed a #{plink_currency_format(@reward.amounts.first.dollar_award_amount)} #{@reward.name} from Plink!",
-                  'description' => share_message_body,
+                  'description' => t('application.referral.description'),
                   'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg'} }
           Share
     %hr

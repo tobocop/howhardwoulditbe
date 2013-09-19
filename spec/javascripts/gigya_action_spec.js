@@ -1,5 +1,5 @@
 describe('Plink.GigyaAction', function () {
-  var element = $('<a href="http://example.com/" data-title="my-title" data-description="my-description" data-image="http://example.com/my-image.jpg"></a>')
+  var element = $('<a href="http://example.com/" data-customprovider-link="http://notexample.com" data-title="my-title" data-description="my-description" data-image="http://example.com/my-image.jpg"></a>')
   var action_mock = {setTitle: function() {}, setLinkBack: function() {}, setDescription: function() {}, addMediaItem: function() {}};
 
   beforeEach(function () {
@@ -23,6 +23,13 @@ describe('Plink.GigyaAction', function () {
       spyOn(action_mock, 'setLinkBack');
       action = Plink.GigyaAction.create(element);
       expect(action.setLinkBack).toHaveBeenCalledWith('http://example.com/');
+    });
+
+
+    it('sets the linkback based on provider if passed in', function() {
+      spyOn(action_mock, 'setLinkBack');
+      action = Plink.GigyaAction.create(element, 'customprovider');
+      expect(action.setLinkBack).toHaveBeenCalledWith('http://notexample.com');
     });
 
     it('sets the description', function() {

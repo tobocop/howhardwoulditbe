@@ -106,6 +106,13 @@
       %p If a user's Plink account is inactive for 90 days or longer, meaning that that a user does not log-in to the Plink site or complete any qualifying transactions with Plink partners for any period of 90 days or longer, Plink reserves the right to deactivate that user's Plink account. When an account is deactivated, a Plink user is no longer eligible to earn rewards from Plink. A user can reactivate their Plink account by #{link_to 'contacting us', contact_path, class: 'text-link'} or by re-linking a credit or debit card to their existing Plink account.
     %hr
     .content
+      %h2.cyan Contest Official Rules
+      %p= "Click #{link_to 'here', nil, data: {'reveal-id' => 'terms-and-conditions'} } to see Plink's Official Contest Rules".html_safe
+      .reveal-modal.medium#terms-and-conditions
+        = @contest.terms_and_conditions.html_safe
+        = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'
+    %hr
+    .content
       %h2.cyan Waiver and Severability
       %p The failure of Plink to enforce any right or provision of these Terms will not be deemed a waiver of such right or provision. In the event that any provision of these Terms is held to be invalid or unenforceable, the remaining provisions of these Terms will remain in full force and effect.
     %hr

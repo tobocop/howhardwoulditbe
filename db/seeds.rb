@@ -29,6 +29,7 @@ Plink::UsersInstitutionRecord.destroy_all
 Plink::WalletItemRecord.destroy_all
 Plink::WalletRecord.destroy_all
 Plink::UsersAwardPeriodRecord.destroy_all
+Plink::ContestRecord.destroy_all
 
 p 'Creating VirtualCurrency'
 memolink_virtual_currency = Plink::VirtualCurrency.create(name: 'memolink points', subdomain: 'memolink', exchange_rate: 1600, site_name: 'Memolink', singular_name: 'memolink point')
@@ -225,3 +226,6 @@ create_redemption(reward_id: amazon_reward.id, user_id: qa_user.id, dollar_award
 
 p 'Creating News Articles'
 create_news_article(title: 'Yay! Plink!', source: 'TechCrunch', source_link: 'http://techcrunch.com/plink', is_active: true, published_on: 1.day.ago)
+
+p 'Creating Contest'
+create_contest(start_time: 1.day.ago.to_date, end_time: 100.days.from_now)

@@ -29,12 +29,23 @@ class SubscriptionsController < ApplicationController
 
   def unsubscribe
     user = retrieve_user(params[:email_address])
-    plink_user_service.update_subscription_preferences(user.id, is_subscribed: false) if user.logged_in?
+    plink_user_service.update_subscription_preferences(user.id, is_subscribed: 0) if user.logged_in?
 
     if user.logged_in?
       redirect_to root_url, notice: 'You have been un-subscribed.'
     else
       redirect_to root_url, notice: 'Email address does not exist in our system.'
+    end
+  end
+
+  def contest_unsubscribe
+    user = retrieve_user(params[:email_address])
+    plink_user_service.update_subscription_preferences(user.id, daily_contest_reminder: 0) if user.logged_in?
+
+    if user.logged_in?
+      redirect_to contests_url, notice: "You've been successfully unsubscribed from future contest notifications."
+    else
+      redirect_to contests_url, notice: 'Email address does not exist in our system.'
     end
   end
 

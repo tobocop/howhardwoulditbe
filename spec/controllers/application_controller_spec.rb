@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 require 'plink/test_helpers/fake_services/fake_user_service'
 
 describe ApplicationController do
@@ -191,7 +192,7 @@ describe ApplicationController do
     end
   end
 
-  describe '.user_registration_form' do
+  describe '#user_registration_form' do
     it 'returns a new registration form object' do
       mock_reg_form = mock("UserRegistationForm")
       UserRegistrationForm.should_receive(:new).and_return { mock_reg_form }
@@ -231,4 +232,70 @@ describe ApplicationController do
       end
     end
   end
+
+  describe '#get_return_to_path' do
+    it 'returns nil if there is no referer' do
+      controller.get_return_to_path.should be_nil
+    end
+
+    context 'contest referer' do
+      it 'returns nil if the referer is not the contests_path' do
+        request.env["HTTP_REFERER"] = 'http://test.com/not_contests'
+        controller.get_return_to_path.should be_nil
+      end
+
+      it 'returns the contests path if the referer is the contests_path' do
+        request.env["HTTP_REFERER"] = 'http://test.com/contests'
+        controller.get_return_to_path.should == contests_path
+      end
+
+      it 'returns the specific contest if the referer has a contest id' do
+        request.env["HTTP_REFERER"] = 'http://test.com/contests/1'
+        controller.get_return_to_path.should == contest_path(1)
+      end
+    end
+  end
+
+  describe '#display_contest_notification?' do
+
+    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'davidhashelhoff') }
+
+    it 'returns false if a user is not logged in' do
+      controller.stub(current_user: mock(:logged_out_user, logged_in?: false))
+      get :index
+
+      controller.display_contest_notification?.should be_false
+    end
+
+    it 'returns false if the user is not from the www subdomain' do
+      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'swag'))
+      get :index
+
+      controller.sign_in_user(user)
+
+      controller.display_contest_notification?.should be_false
+    end
+
+    it 'returns false if the contest notification has been dismissed previously' do
+      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
+      request.cookies['contest_notification'] = 1
+      get :index
+
+      controller.display_contest_notification?.should be_false
+    end
+
+    it 'does not display the contest notification if the user has entered the contest today' do
+      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
+      Plink::EntryRecord.stub(:entries_today_for_user) { mock(exists?: true) }
+
+      get :index
+
+      controller.display_contest_notification?.should be_false
+
+    end
+  end
+
 end

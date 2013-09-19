@@ -76,6 +76,47 @@ class ApplicationController < ActionController::Base
     @_user_registration_form ||= UserRegistrationForm.new
   end
 
+  def get_return_to_path
+    return nil unless request.referer.present?
+
+    referer_path = URI(request.referer).path
+
+    if referer_path.match(/^#{contests_path}/)
+      id = referer_path.match(/[1-9]$/)
+      id ? contest_path(id) : contests_path
+    else
+      nil
+    end
+  end
+
+  def display_contest_notification?
+
+    case
+      when ! user_logged_in?
+        false
+      when current_virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN
+        false
+      when contest_cookie_present?
+        false
+      when has_contest_entries_today?
+        false
+      else
+        true
+    end
+
+  end
+
+  def contest_share_link
+    contest = Plink::ContestRecord.current
+    return if contest.nil?
+
+    contest_referral_url(
+      user_id: current_user.id,
+      affiliate_id: Rails.application.config.default_contest_affiliate_id,
+      contest_id: contest.id
+    )
+  end
+
   private
 
   def send_user_to_white_label(subdomain)
@@ -98,14 +139,17 @@ class ApplicationController < ActionController::Base
     Plink::UserService.new
   end
 
-  def set_auto_login_cookie(password_hash)
+  def set_auto_login_cookie(password_hash, options={})
     encoded_hash = encode_plink_cookie(password_hash)
 
-    cookies[login_cookie_key] = {
+    defaults = {
       value: encoded_hash,
       domain: :all,
       path: '/'
     }
+
+    cookies[login_cookie_key] = defaults.merge(options)
+
   end
 
   def expire_cookies
@@ -126,4 +170,13 @@ class ApplicationController < ActionController::Base
   def login_cookie_key
     :PLINKUID
   end
+
+  def has_contest_entries_today?
+    Plink::EntryRecord.entries_today_for_user(current_user.id).exists?
+  end
+
+  def contest_cookie_present?
+    !cookies['contest_notification'].blank?
+  end
+
 end

@@ -22,6 +22,9 @@
             = flash_error_icon(flash[:error])
             = flash[:error]
 
+    - if controller.display_contest_notification?
+      = render partial: 'shared/social/in_app_note'
+
     = render partial: 'shared/header'
 
     .layout-wrapper.main-content

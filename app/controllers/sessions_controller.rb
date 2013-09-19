@@ -27,7 +27,9 @@ class SessionsController < ApplicationController
   private
 
   def redirect_path_for(user)
-    if plink_intuit_account_service.user_has_account?(user.id)
+    if get_return_to_path.present?
+      get_return_to_path
+    elsif plink_intuit_account_service.user_has_account?(user.id)
       wallet_path
     else
       wallet_path(link_card: true)

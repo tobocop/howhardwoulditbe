@@ -114,41 +114,14 @@ describe Plink::UserRecord do
     end
   end
 
-  describe 'named scopes' do
-    describe '.users_with_qualifying_transactions' do
-      let(:users_with_qualifying_transactions) { Plink::UserRecord.users_with_qualifying_transactions }
-      it 'returns users who have a qualifying transaction' do
-        qualifying_user = create_user
-        create_qualifying_award(user_id: qualifying_user.id)
-
-        users_with_qualifying_transactions.should include qualifying_user
-      end
-
-      it 'does not return users who do not have a qualifying transaction' do
-        non_qualifying_user = create_user
-        users_with_qualifying_transactions.should_not include non_qualifying_user
-      end
-    end
-  end
-
-  describe '.user_ids_with_qualifying_transactions' do
-    let(:user_ids_with_qualifying_transactions) { Plink::UserRecord.user_ids_with_qualifying_transactions }
-    it 'returns users who have a qualifying transaction' do
-      qualifying_user = create_user
-      create_qualifying_award(user_id: qualifying_user.id)
-
-      user_ids_with_qualifying_transactions.should include qualifying_user.id
-    end
-
-    it 'does not return users who do not have a qualifying transaction' do
-      non_qualifying_user = create_user
-      user_ids_with_qualifying_transactions.should_not include non_qualifying_user.id
-    end
-  end
-
   it 'allows assignment of avatar_thumbnail_url' do
     user_record.update_attributes(avatar_thumbnail_url: 'test123')
     user_record.avatar_thumbnail_url.should == 'test123'
+  end
+
+  it 'allows mass assignment of daily_contest_reminder' do
+    user_record.update_attributes(daily_contest_reminder: true)
+    user_record.daily_contest_reminder.should be_true
   end
 
   it 'has a primary virtual currency' do
@@ -194,7 +167,40 @@ describe Plink::UserRecord do
     user_record.open_wallet_item.should == nil
   end
 
-  describe 'class methods' do
+  describe 'named scopes' do
+    describe '.users_with_qualifying_transactions' do
+      let(:users_with_qualifying_transactions) { Plink::UserRecord.users_with_qualifying_transactions }
+      it 'returns users who have a qualifying transaction' do
+        qualifying_user = create_user
+        create_qualifying_award(user_id: qualifying_user.id)
+
+        users_with_qualifying_transactions.should include qualifying_user
+      end
+
+      it 'does not return users who do not have a qualifying transaction' do
+        non_qualifying_user = create_user
+        users_with_qualifying_transactions.should_not include non_qualifying_user
+      end
+    end
+  end
+
+  describe '.user_ids_with_qualifying_transactions' do
+    let(:user_ids_with_qualifying_transactions) { Plink::UserRecord.user_ids_with_qualifying_transactions }
+    it 'returns users who have a qualifying transaction' do
+      qualifying_user = create_user
+      create_qualifying_award(user_id: qualifying_user.id)
+
+      user_ids_with_qualifying_transactions.should include qualifying_user.id
+    end
+
+    it 'does not return users who do not have a qualifying transaction' do
+      non_qualifying_user = create_user
+      user_ids_with_qualifying_transactions.should_not include non_qualifying_user.id
+    end
+  end
+
+
+  describe '.find_by_email' do
     it 'finds a user by their email address' do
       user = create_user
       Plink::UserRecord.find_by_email(user.email).should == user
@@ -261,6 +267,39 @@ describe Plink::UserRecord do
       user_record.save
 
       user_record.password_hash.should == old_user_password_hash
+    end
+  end
+
+  describe '#opt_in_to_daily_contest_reminders!' do
+    let(:user) { create_user }
+
+    it 'updates the user\'s daily contest reminder setting to true' do
+      user.opt_in_to_daily_contest_reminders!
+
+      user.daily_contest_reminder.should be_true
+    end
+
+    it 'changes the opt in even if the user is invalid' do
+      user.update_attribute(:first_name, nil)
+      user.should_not be_valid
+      user.daily_contest_reminder.should be_nil
+
+      user.opt_in_to_daily_contest_reminders!
+
+      user.should_not be_valid
+      user.daily_contest_reminder.should be_true
+    end
+
+    it 'sets the value from the optional boolean parameter' do
+      user.opt_in_to_daily_contest_reminders!(false)
+
+      user.daily_contest_reminder.should be_false
+    end
+
+    it 'raises an exception if the optional parameter is not a boolean' do
+      expect {
+        user.opt_in_to_daily_contest_reminders!('stuff')
+      }.to raise_error ArgumentError
     end
   end
 end

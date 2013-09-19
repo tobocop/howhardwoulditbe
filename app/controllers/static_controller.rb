@@ -3,6 +3,7 @@ class StaticController < ApplicationController
   end
 
   def terms
+    @contest ||= ContestPresenter.new(contest: Plink::ContestRecord.current)
   end
 
   def privacy

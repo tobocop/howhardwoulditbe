@@ -1,6 +1,5 @@
 module Plink
   module ObjectCreationMethods
-
     require 'ostruct'
 
     def new_news_article(options = {})
@@ -327,7 +326,8 @@ module Plink
         is_subscribed: true,
         provider: 'organic',
         hold_redemptions: nil,
-        ip: '127.0.0.1'
+        ip: '127.0.0.1',
+        daily_contest_reminder: nil
       }
 
       Plink::UserRecord.new { |user| apply(user, defaults, options) }
@@ -485,6 +485,43 @@ module Plink
 
       OpenStruct.new(defaults.merge(options))
     end
+
+    def create_contest(options = {})
+      contest = new_contest(options)
+      contest.save!
+      contest
+    end
+
+    def new_contest(options = {})
+      defaults = {
+        description: 'This is a contest\'s description',
+        image: '/assets/profile.jpg',
+        prize: 'This is the prize - a car!',
+        start_time: 10.days.ago.to_date,
+        end_time: 10.days.from_now.to_date,
+        terms_and_conditions: 'This is a set of terms and conditions'
+      }
+
+      ContestRecord.new(defaults.merge(options))
+    end
+
+    def create_entry(options = {})
+      new_entry(options).tap(&:save!)
+    end
+
+    def new_entry(options = {})
+      defaults = {
+        user_id: 1,
+        contest_id: 1,
+        provider: 'twitter',
+        multiplier: 1,
+        computed_entries: 1,
+        referral_entries: 0
+      }
+
+      Plink::EntryRecord.new { |entry| apply(entry, defaults, options) }
+    end
+
 
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)

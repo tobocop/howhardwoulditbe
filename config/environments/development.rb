@@ -39,7 +39,6 @@ PlinkPivotal::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
       :port => "25",
       :address => "localhost",

@@ -70,6 +70,16 @@ describe SessionsController do
 
         cookies['plink_gigya'].should == 'myvalue123'
       end
+
+      it 'returns the user to the contests path if that is where they were referred from' do
+        fake_intuit_account_service = Plink::FakeIntuitAccountService.new(123 => true)
+        request.env["HTTP_REFERER"] = 'http://test.com/contests'
+
+        post :create, {user_session: {email: 'bob@example.com', password: 'test123'}}
+
+        JSON.parse(response.body).should == {"redirect_path" => contests_path}
+
+      end
     end
 
     describe 'user was not signed in' do

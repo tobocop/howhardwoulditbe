@@ -5,8 +5,8 @@ describe Plink::CardLinkUrlGenerator do
   subject { Plink::CardLinkUrlGenerator.new(Plink::Config.instance)}
 
   describe '.create_url' do
-    it 'returns the bare URL if referrer_id is blank' do
-      subject.create_url(referrer_id: '').should == 'http://example.com/card_add'
+    it 'returns the bare add card URL if no parameters are present' do
+      subject.create_url({}).should == 'http://example.com/card_add'
     end
 
     it 'returns the add card URL with a referrer ID if one is present' do
@@ -18,12 +18,27 @@ describe Plink::CardLinkUrlGenerator do
       subject.create_url(referrer_id: 123).should == 'http://example.com/card_add?test=123&refer=123'
     end
 
-    it 'returns the bare add card URL if only an affiliate ID is present' do
-      subject.create_url(affiliate_id: 456).should == 'http://example.com/card_add'
+    it 'returns the add card URL with a subID2 if sub_id_two is present' do
+      subject.create_url(sub_id_two: 'tracking_param').should == 'http://example.com/card_add?subID2=tracking_param'
     end
 
     it 'returns the add card URL with a referrer ID and an affiliate ID if both are present' do
-      subject.create_url(referrer_id: 123, affiliate_id: 456).should == 'http://example.com/card_add?refer=123&aid=456'
+      url_params = {
+        referrer_id: 123,
+        affiliate_id: 456
+      }
+
+      subject.create_url(url_params).should == 'http://example.com/card_add?refer=123&aid=456'
+    end
+
+    it 'returns the add card URL with a referrer ID, sub_id_two, and an affiliate ID if all are present' do
+      url_params = {
+        referrer_id: 123,
+        affiliate_id: 456,
+        sub_id_two: 'asd'
+      }
+
+      subject.create_url(url_params).should == 'http://example.com/card_add?refer=123&aid=456&subID2=asd'
     end
   end
 

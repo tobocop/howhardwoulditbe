@@ -15,10 +15,18 @@ module Plink
 
     include Plink::LegacyTimestamps
 
-    attr_accessible :avatar_thumbnail_url, :email, :first_name, :password_hash, :provider, :ip,
-      :salt, :hold_redemptions
+    attr_accessible :avatar_thumbnail_url, :daily_contest_reminder, :email, :first_name,
+      :hold_redemptions, :ip, :password_hash, :provider, :salt
 
+    alias_attribute :email, :emailAddress
+    alias_attribute :first_name, :firstName
     alias_attribute :is_subscribed, :isSubscribed
+    # Legacy naming for password_hash is password, which is kinda confusing.
+    alias_attribute :password_hash, :password
+    alias_attribute :salt, :passwordSalt
+
+    delegate :can_redeem?, :currency_balance, :current_balance, :lifetime_balance,
+      to: :user_balance
 
     belongs_to :primary_virtual_currency, class_name: 'Plink::VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
     has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
@@ -56,22 +64,6 @@ module Plink
       find_by_userID(id)
     end
 
-    def first_name=(first_name)
-      self.firstName = first_name
-    end
-
-    def first_name
-      firstName
-    end
-
-    def email=(email)
-      self.emailAddress = email
-    end
-
-    def email
-      emailAddress
-    end
-
     def new_password=(unhashed_password)
       @new_password = unhashed_password
 
@@ -94,45 +86,18 @@ module Plink
       @new_password_confirmation
     end
 
-    # Legacy naming for password_hash is password, which is kinda confusing.
-    def password_hash=(password_hash)
-      self.password = password_hash
-    end
-
-    def password_hash
-      password
-    end
-
-    def salt=(salt)
-      self.passwordSalt = salt
-    end
-
-    def salt
-      passwordSalt
-    end
-
-    def current_balance
-      user_balance.current_balance
-    end
-
-    def currency_balance
-      user_balance.currency_balance
-    end
-
-    def lifetime_balance
-      user_balance.lifetime_balance
-    end
-
-    def can_redeem?
-      user_balance.can_redeem?
-    end
-
     def primary_virtual_currency_id
       primaryVirtualCurrencyID
     end
 
     def open_wallet_item
       open_wallet_items.first
+    end
+
+    def opt_in_to_daily_contest_reminders!(state=true)
+      raise ArgumentError, 'can only set boolean values' unless state == !!state
+
+      update_attribute(:daily_contest_reminder, state)
     end
 
     private

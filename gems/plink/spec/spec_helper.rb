@@ -3,6 +3,8 @@ ENV["RAILS_ENV"] = 'test'
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
+require 'shoulda-matchers'
+require 'pry'
 
 require 'plink/test_helpers/object_creation_methods'
 require 'plink/test_helpers/shared_example_groups'

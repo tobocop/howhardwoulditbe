@@ -4,7 +4,7 @@ describe RegistrationsController do
   describe "#create" do
     describe "on save" do
       let(:gigya) { mock }
-      let(:cookie_stub) { stub(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
+      let(:cookie_stub) { double(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
 
       before do
         controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
@@ -16,7 +16,7 @@ describe RegistrationsController do
         controller.stub(:sign_in_user)
       end
 
-      it "should sign the user in upon success" do
+      it "signs the user in upon success" do
         controller.stub(:plink_event_service) {stub(create_email_capture: true)}
         controller.stub(:tracking_params) {stub(to_hash: true)}
 
@@ -53,6 +53,16 @@ describe RegistrationsController do
         )
 
         xhr :post, :create
+      end
+
+      it 'returns the user to the contests path if that is where they were referred from' do
+        request.env["HTTP_REFERER"] = 'http://test.com/contests'
+        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
+        controller.stub(:tracking_params) {stub(to_hash: true)}
+
+        xhr :post, :create
+
+        JSON.parse(response.body).should == {'redirect_path' => contests_path}
       end
     end
 

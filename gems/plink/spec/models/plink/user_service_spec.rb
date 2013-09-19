@@ -42,7 +42,7 @@ describe Plink::UserService do
 
   describe '#find_by_password_hash' do
     let!(:user) { create_user(email: 'woozle@example.com', password_hash: 'poohcorner') }
-    
+
     it 'returns a user with the same password hash if present' do
       found_user = subject.find_by_password_hash('poohcorner')
       found_user.should be_instance_of Plink::User
@@ -82,7 +82,7 @@ describe Plink::UserService do
       user.password_hash.should_not == returned_user.password_hash
     end
 
-    it 'does not update if the passwords dont match' do
+    it 'does not update if the passwords don\'t match' do
       returned_user = subject.update_password(user.id, {new_password: 'joseph', new_password_confirmation: 'josep'})
 
       returned_user.errors.should_not be_empty
@@ -101,8 +101,9 @@ describe Plink::UserService do
   end
 
   describe '#update_subscription_preferences' do
+    let(:user) { create_user(first_name: 'Billy', password: 'pazz123') }
+
     it 'updates the is_subscribed attribute on the user with the given value' do
-      user = create_user(first_name: 'Billy', password: 'pazz123')
       subject.update_subscription_preferences(user.id, is_subscribed: '1')
 
       subject.find_by_id(user.id).is_subscribed.should == true
@@ -112,13 +113,26 @@ describe Plink::UserService do
       subject.find_by_id(user.id).is_subscribed.should == false
     end
 
-    it 'does not raise if you dont pass in a is_subscribed value' do
-      user = create_user(first_name: 'Billy', password: 'pazz123')
-
+    it 'does not raise if you don\'t pass in a is_subscribed value' do
       expect {
         subject.update_subscription_preferences(user.id, is_subscribed: nil)
       }.to_not raise_exception
+    end
 
+    it 'updates the daily_contest_reminder attribute on the user with the given value' do
+      subject.update_subscription_preferences(user.id, daily_contest_reminder: '1')
+
+      subject.find_by_id(user.id).daily_contest_reminder.should == true
+
+      subject.update_subscription_preferences(user.id, daily_contest_reminder: '0')
+
+      subject.find_by_id(user.id).daily_contest_reminder.should == false
+    end
+
+    it 'does not raise if you don\'t pass in a daily_contest_reminder value' do
+      expect {
+        subject.update_subscription_preferences(user.id, daily_contest_reminder: nil)
+      }.to_not raise_exception
     end
   end
 end
