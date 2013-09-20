@@ -17,7 +17,7 @@ module FaqHelper
       t(base + 'what_will_happen_if_i_return_title') => {answer: t(base + 'what_will_happen_if_i_return_text')},
       t(base + 'why_do_i_have_to_reverify_multiple_times_title') => {answer: t(base + 'why_do_i_have_to_reverify_multiple_times_text')},
       t(base + 'i_saw_promotion_for_a_brand_not_in_my_list_title') => {answer: t(base + 'i_saw_promotion_for_a_brand_not_in_my_list_text')},
-      "I redeemed my points for a gift card, how and when will I receive it?" => {answer: "Most gift cards are sent via email within 24 - 48 hours of being ordered. Gift cards are sent from our gift card provider, Tango Card, or directly from the gift card carrier. If you've waited long a long time and still have not received your gift card, please contact us and we'd be happy to resend it."},
+      "I redeemed my points for a gift card, how and when will I receive it?" => {answer: "Most gift cards are sent via email within 24 - 48 hours of being ordered. Gift cards are sent from our gift card provider, Tango Card, or directly from the gift card carrier. If you've waited a long time and still have not received your gift card, please contact us and we'd be happy to resend it."},
       "Is there a limit to how many times I can get double or triple points during the promotional period?" => {answer: "There is a limit to the number of bonus points you can get during a promotion. During any promotional period (from when it starts to the expiration date), you may earn up to 2500 bonus points, unless otherwise stated in the promotion. Please read the promotion details for each promotion to find out more."}
     }
   end
