@@ -20,7 +20,13 @@ module Plink
 
     def new_campaign(options = {})
       defaults = {
-        campaign_hash: 'AHASH'
+        name: 'Campaign Name',
+        media_type: 'My type',
+        creative: 'A creative description',
+        is_incent: false,
+        start_date: 1.day.ago,
+        end_date: 1.day.from_now,
+        campaign_hash: 'DERP'
       }
 
       Plink::CampaignRecord.new { |campaign| apply(campaign, defaults, options) }

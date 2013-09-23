@@ -1,0 +1,24 @@
+= link_to 'Create New Campaign', new_campaign_path, class: 'button small'
+
+%table.campaign-list
+  %thead
+    %th ID
+    %th Name
+    %th Media Type
+    %th Creative
+    %th Is Incent
+    %th Campaign Hash
+    %th Start Date
+    %th End Date
+  %tbody
+    - @campaigns.each do |campaign|
+      %tr.campaign-item
+        %td= campaign.id
+        %td= link_to campaign.name, edit_campaign_path(campaign)
+        %td= campaign.media_type
+        %td= campaign.creative
+        %td= campaign.is_incent
+        %td= campaign.campaign_hash
+        %td= campaign.start_date
+        %td= campaign.end_date
+

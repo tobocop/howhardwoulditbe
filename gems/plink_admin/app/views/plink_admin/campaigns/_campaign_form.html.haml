@@ -1,0 +1,26 @@
+- if campaign.errors.any?
+  .alert-box.alert
+    - campaign.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(campaign, url: url, as: 'campaign') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :media_type, 'Media Type'
+  = f.text_field :media_type
+  = f.label :creative
+  = f.text_field :creative
+  = f.label :is_incent, 'Is Incented'
+  = f.check_box :is_incent
+  = f.label :start_date, 'Start Date'
+  .dateselect
+    = f.date_select :start_date
+
+  = f.label :end_date, 'End Date'
+  .dateselect
+    = f.date_select :end_date
+
+  = f.submit button_text, class: 'button small'
+
+= link_to 'Cancel', campaigns_path, class: 'button small secondary'
+

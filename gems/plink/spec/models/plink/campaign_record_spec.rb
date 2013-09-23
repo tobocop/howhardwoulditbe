@@ -3,6 +3,12 @@ require 'spec_helper'
 describe Plink::CampaignRecord do
   let(:valid_params) {
     {
+      name: 'Campaign Name',
+      media_type: 'My type',
+      creative: 'A creative description',
+      is_incent: false,
+      start_date: 1.day.ago,
+      end_date: 1.day.from_now,
       campaign_hash: 'DERP'
     }
   }
@@ -13,6 +19,12 @@ describe Plink::CampaignRecord do
 
   it 'can be persisted' do
     Plink::CampaignRecord.create(valid_params).should be_persisted
+  end
+
+  it 'is invalid without a name' do
+    campaign = Plink::CampaignRecord.new
+    campaign.should_not be_valid
+    campaign.should have(1).error_on(:name)
   end
 
   describe 'by_campaign_hash' do
