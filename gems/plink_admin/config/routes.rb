@@ -21,8 +21,9 @@ PlinkAdmin::Engine.routes.draw do
 
   resources :contests do
     get :search, on: :collection
-    get :stats
+    get :user_entry_stats
     post :entries
+    get :statistics
   end
 
   root to: 'admin#home'

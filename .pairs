@@ -1,14 +1,10 @@
 pairs:
-  hg: Hunter Gillane; hgillane
   tr: Toby Rumans; trumans
   jy: Joe Yakich; jyakich
-  cd: Chris Diller; cdiller
-  br: Brian Rose; brose
   mh: Matt Hamrick; mhamrick
   km: Kris McDonald; kmcdonald
-  aw: Alex Welch; awelch
   ak: Andreas Kavountzis; akavountzis
-  ab: Adam Berlin; aberlin
+  bt: Bryan Tyler, btyler
 email:
   prefix: pair
   domain: pivotallabs.com

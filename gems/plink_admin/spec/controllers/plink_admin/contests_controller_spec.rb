@@ -125,17 +125,17 @@ describe PlinkAdmin::ContestsController do
     end
   end
 
-  describe 'GET stats' do
+  describe 'GET user_entry_stats' do
     let!(:user) { create_user}
 
     it 'returns the contest corresponding to the id parameter' do
-      get :stats, contest_id: contest.id
+      get :user_entry_stats, contest_id: contest.id
 
       assigns(:contest).should == contest
     end
 
     it 'returns the user_id' do
-      get :stats, user_id: user.id, contest_id: contest.id
+      get :user_entry_stats, user_id: user.id, contest_id: contest.id
 
       assigns(:contest).should == contest
     end
@@ -143,7 +143,7 @@ describe PlinkAdmin::ContestsController do
     it 'returns the multiplier' do
       Plink::ContestEntryService.stub(:user_multiplier).and_return(1)
 
-      get :stats, user_id: user.id, contest_id: contest.id
+      get :user_entry_stats, user_id: user.id, contest_id: contest.id
 
       assigns(:multiplier).should == 1
     end
@@ -151,14 +151,14 @@ describe PlinkAdmin::ContestsController do
     it 'returns all entries' do
       entry = create_entry(contest_id: contest.id, user_id: user.id)
 
-      get :stats, user_id: user.id, contest_id: contest.id
+      get :user_entry_stats, user_id: user.id, contest_id: contest.id
 
       assigns(:entries).should include entry
     end
 
     it 'raises an exception if no contest_id is given' do
       expect {
-        get :stats
+        get :user_entry_stats
       }.to raise_error ActiveRecord::RecordNotFound
     end
   end
@@ -190,6 +190,61 @@ describe PlinkAdmin::ContestsController do
 
         flash[:notice].should include 'Could not add entries:'
       end
+    end
+  end
+
+  describe 'GET statistics' do
+    let!(:contest) { create_contest }
+    let!(:second_contest) { create_contest(start_time: 10.years.from_now, end_time: 11.years.from_now) }
+    let(:stats_return) {
+      {
+        entries: [],
+        emails_and_link_cards: []
+      }
+    }
+
+    it 'returns all contests' do
+      PlinkAdmin::ContestQueryService.stub(:get_statistics).and_return(stats_return)
+
+      get :statistics
+
+      assigns(:contests).should include Plink::ContestRecord.first
+      assigns(:contests).should include Plink::ContestRecord.last
+    end
+
+    it 'returns statistics' do
+      PlinkAdmin::ContestQueryService.stub(:get_statistics).and_return(stats_return)
+
+      get :statistics
+
+      assigns(:statistics).should == stats_return.stringify_keys
+    end
+
+    it 'calls the query service for data about the contest' do
+      PlinkAdmin::ContestQueryService.should_receive(:get_statistics).
+      with(contest.id.to_s)
+
+      get :statistics, contest_id: contest.id
+    end
+
+    it 'changes to getting data for a different contest if a change_contest_id is given' do
+      PlinkAdmin::ContestQueryService.should_receive(:get_statistics).
+      with(second_contest.id.to_s)
+
+      get :statistics, contest_id: contest.id, change_contest_id: second_contest.id
+
+      assigns(:contest).should == second_contest
+    end
+
+    it 'defaults to using the current contest if no contest_id is given' do
+      Plink::ContestRecord.should_receive(:current).and_call_original
+
+      PlinkAdmin::ContestQueryService.should_receive(:get_statistics).
+      with(contest.id).and_return(stats_return)
+
+      get :statistics
+
+      assigns(:contest).should == contest
     end
   end
 end

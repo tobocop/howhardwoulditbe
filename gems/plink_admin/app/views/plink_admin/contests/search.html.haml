@@ -26,4 +26,4 @@
             %td= user.lifetime_balance
             %td= user.primary_virtual_currency_id
             %td
-              = link_to 'Get contest stats &raquo;'.html_safe, plink_admin.contest_stats_path(contest_id: @contest.id, user_id: user.id)
+              = link_to 'Get contest stats &raquo;'.html_safe, plink_admin.user_entry_stats_path(contest_id: @contest.id, user_id: user.id)

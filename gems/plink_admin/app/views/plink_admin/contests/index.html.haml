@@ -1,7 +1,6 @@
 .row.collapse
   = render partial: 'plink_admin/users/search_form', locals: {path: search_contests_path}
 
-= link_to 'Create New Contest', new_contest_path, class: 'button small'
 %table.contest-list
   %thead
     %th Edit
@@ -10,6 +9,7 @@
     %th Prize
     %th Start Time
     %th End Time
+    %th Contest Statistics
   %tbody
     - @contests.each do |contest|
       %tr.contest-item
@@ -19,4 +19,8 @@
         %td= contest.prize
         %td= contest.start_time
         %td= contest.end_time
+        %td= link_to 'Statistics', plink_admin.contest_statistics_path(contest.id)
 
+%hr
+
+= link_to 'Create New Contest', plink_admin.new_contest_path, class: 'button small'

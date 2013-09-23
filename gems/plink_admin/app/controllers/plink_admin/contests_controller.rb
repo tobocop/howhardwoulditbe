@@ -43,7 +43,7 @@ module PlinkAdmin
         Array(plink_user_service.find_by_id(@search_term))
     end
 
-    def stats
+    def user_entry_stats
       setup_entries_data(params[:user_id], params[:contest_id])
     end
 
@@ -64,7 +64,15 @@ module PlinkAdmin
         "Successfully awarded #{computed_entries} entries." :
         "Could not add entries: #{entry.errors.full_messages.join(' ')}"
 
-      render :stats
+      render :user_entry_stats
+    end
+
+    def statistics
+      contest_id = params[:change_contest_id] || params[:contest_id] || current_contest_id
+
+      @contest = Plink::ContestRecord.select(contest_select).find(contest_id)
+      @contests ||= Plink::ContestRecord.select(contest_select).all
+      @statistics = PlinkAdmin::ContestQueryService.get_statistics(contest_id)
     end
 
   private
@@ -80,5 +88,12 @@ module PlinkAdmin
       @entries = Plink::EntryRecord.where(user_id: @user_id, contest_id: @contest.id)
     end
 
+    def current_contest_id
+      @contest_id ||= Plink::ContestRecord.current.id
+    end
+
+    def contest_select
+      [:description, :end_time, :id, :start_time]
+    end
   end
 end

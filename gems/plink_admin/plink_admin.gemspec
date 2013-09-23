@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'tiny_tds', '0.5.1'
   s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
   s.add_dependency 'haml-rails', '~> 0.4'
+  s.add_dependency 'activerecord-redshift-adapter'
 
   s.add_development_dependency 'rspec-rails', '2.13.2'
   s.add_development_dependency 'capybara', '2.1.0'

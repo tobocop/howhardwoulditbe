@@ -1,0 +1,69 @@
+= form_tag plink_admin.contest_statistics_path, method: :get do
+  .row
+    .large-6.columns
+      .row.collapse
+        .small-10.columns
+          - options = options_for_select(@contests.map{|c| ["#{c.id}: #{c.description[0..35]} #{present_date(c.start_time)} - #{present_date(c.end_time)}".html_safe, c.id]}, @contest.id)
+          = select_tag :change_contest_id, options
+        .small-2.columns
+          = submit_tag 'Submit'
+
+%hr
+
+%h4= "Contest ##{@contest.id}"
+%h4= "Start Date: #{present_date(@contest.start_time)}"
+%h4= "End Date: #{present_date(@contest.end_time)}"
+
+%hr
+
+- if @statistics && @statistics[:entries].present?
+  %table.contest-list
+    %thead
+      %th= present_column_name('entry_source')
+      %th= present_column_name('admin_users')
+      %th= present_column_name('admin_posts')
+      %th= present_column_name('admin_entries')
+      %th= present_column_name('facebook_users')
+      %th= present_column_name('facebook_posts')
+      %th= present_column_name('facebook_entries')
+      %th= present_column_name('twitter_users')
+      %th= present_column_name('twitter_posts')
+      %th= present_column_name('twitter_entries')
+      %th= present_column_name('total_users')
+      %th= present_column_name('total_posts')
+      %th= present_column_name('total_entries')
+    %tbody
+      - number_of_data_points = @statistics[:entries].length
+      - @statistics[:entries].each_with_index do |stat, index|
+        %tr.contest-item{class: index == number_of_data_points - 1 ? 'last-row' : nil}
+          %td= stat['entry_source']
+          %td= stat['admin_users']
+          %td= stat['admin_posts']
+          %td= stat['admin_entries']
+          %td= stat['facebook_users']
+          %td= stat['facebook_posts']
+          %td= stat['facebook_entries']
+          %td= stat['twitter_users']
+          %td= stat['twitter_posts']
+          %td= stat['twitter_entries']
+          %td= stat['total_users']
+          %td= stat['total_posts']
+          %td= stat['total_entries']
+- else
+  %p No results found for Contest Entry Source.
+
+
+- if @statistics && @statistics[:emails_and_linked_cards].present?
+  %table.contest-list
+    %thead
+      %th= present_column_name('registration_source')
+      %th= present_column_name('email_captures')
+      %th= present_column_name('linked_cards')
+    %tbody
+      - @statistics[:emails_and_linked_cards].each do |stat|
+        %tr.contest-item
+          %td= stat['registration_source'].gsub('_', ' ').capitalize
+          %td= stat['email_captures']
+          %td= stat['linked_cards']
+- else
+  %p No results found for Emails and Linked Cards.

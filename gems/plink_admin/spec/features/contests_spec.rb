@@ -4,11 +4,10 @@ describe 'Contests' do
 
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')
+    sign_in_admin(email: 'admin@example.com', password: 'pazzword')
   end
 
-  it 'can be created by an admins' do
-    sign_in_admin(email: 'admin@example.com', password: 'pazzword')
-
+  it 'can be created by an admin' do
     click_link 'Contests'
 
     click_on 'Create New Contest'
@@ -54,5 +53,55 @@ describe 'Contests' do
         page.should have_content 'Bombs'
       end
     end
+  end
+
+  it 'shows statistics' do
+    PlinkAdmin::ContestQueryService.stub(:get_statistics).and_return({
+      :entries=>
+        [{"entry_source"=>"other",
+          "admin_entries"=>"275",
+          "facebook_entries"=>"160",
+          "twitter_entries"=>"162",
+          "total_entries"=>"597"}],
+      :emails_and_linked_cards=>
+        [{"registration_source"=>"facebook_entry_post",
+          "email_captures"=>"4",
+          "linked_cards"=>"2"},
+         {"registration_source"=>"twitter_entry_post",
+          "email_captures"=>"3",
+          "linked_cards"=>"1"}]
+    })
+    contest = create_contest
+
+    click_link 'Contests'
+
+    click_link 'Statistics'
+
+    page.should have_content'Entry Source'
+    page.should have_content 'other'
+
+    page.should have_content 'Facebook Entries'
+    page.should have_content 160
+
+    page.should have_content 'Twitter Entries'
+    page.should have_content 162
+
+    page.should have_content 'Admin Entries'
+    page.should have_content 275
+
+    page.should have_content 'Total Entries'
+    page.should have_content 597
+
+    page.should have_content 'Registration Source'
+    page.should have_content 'Email Captures'
+    page.should have_content 'Linked Cards'
+
+    page.should have_content 'Facebook entry post'
+    page.should have_content 4
+    page.should have_content 2
+
+    page.should have_content 'Twitter entry post'
+    page.should have_content 3
+    page.should have_content 1
   end
 end
