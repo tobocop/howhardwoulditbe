@@ -25,13 +25,6 @@ class UserRegistrationForm
   def save
     return unless valid?
     self.user = user_creation_service.create_user
-
-    UserRegistrationMailer.welcome(
-      email: user.email,
-      first_name: user.first_name,
-      virtual_currency_name: virtual_currency_name
-    ).deliver
-
     true
   end
 

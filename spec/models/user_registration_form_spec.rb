@@ -110,9 +110,6 @@ describe UserRegistrationForm do
       let(:mock_mail) {mock(:welcome_email)}
 
       before do
-        mock_mail.stub(:deliver)
-        UserRegistrationMailer.stub(:welcome).and_return(mock_mail)
-
         password = mock(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
         Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
 
@@ -150,14 +147,14 @@ describe UserRegistrationForm do
         user_registration_form.save.should be_true
       end
 
-      it 'emails the user a welcome email' do
-        mock_mail.should_receive(:deliver)
+      it 'does not email the user a welcome email' do
         user_params = {
           email: 'bobo@example.com',
           first_name: 'Bobo',
           virtual_currency_name: 'Plink Points'
         }
-        UserRegistrationMailer.should_receive(:welcome).with(user_params).and_return(mock_mail)
+
+        UserRegistrationMailer.should_not_receive(:welcome).with(user_params)
 
         user_registration_form.save
       end

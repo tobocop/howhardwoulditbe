@@ -44,14 +44,6 @@ describe 'User signup workflow' do
 
       page.should have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
 
-      email = ActionMailer::Base.deliveries.last
-
-      [email.html_part, email.text_part].each do |email_part|
-        email_string = Capybara.string(email_part.body.to_s)
-
-        email_string.should have_content 'Welcome and thanks for signing up for Plink'
-      end
-
       page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
       click_on 'Wallet'
