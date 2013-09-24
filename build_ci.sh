@@ -8,8 +8,7 @@ time sudo apt-get install freetds-dev -y
 time bundle install --deployment --path vendor/bundle
 
 
-time bundle exec rake db:migrate
-time bundle exec rake db:test:prepare
+time bundle exec rake db:test:load
 time bundle exec rake db:udfs:create
 time bundle exec rake db:views:create
 
