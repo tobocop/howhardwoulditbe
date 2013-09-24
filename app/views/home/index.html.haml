@@ -31,6 +31,8 @@
           Redeem points for
           %br
           cash and gift cards
+    .video-btn
+      %button.button.home-video{data: {'reveal-id' => 'plink-video-modal', 'reveal-ajax' => '/home/plink_video'}} Watch a short video for more info
 
   .partners
     %h2.light.cyan Our Partners
@@ -89,4 +91,5 @@
       .logo
         =image_tag 'home_press_gigaom.jpg'
 
+= render "welcome_video_modal"
 = render partial: 'shared/pixels/steelhouse', locals: {additional_info: @steelhouse_additional_info}
