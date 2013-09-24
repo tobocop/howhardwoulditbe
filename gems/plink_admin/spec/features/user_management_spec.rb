@@ -6,12 +6,21 @@ describe 'User Management' do
     @user = create_user(first_name: 'oldmanjumbo', email: 'jumbalaya@example.com')
   end
 
-  it 'lets an admin find users by email' do
+  it 'lets an admin find users by email & user_id' do
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
 
     click_on 'Find Users'
 
     fill_in 'email', with: 'jumbalaya@example.com'
+    click_on 'Search'
+
+    within '.search-results' do
+      page.should have_content 'oldmanjumbo'
+    end
+
+    click_on 'Find Users'
+
+    fill_in 'user_id', with: @user.id
     click_on 'Search'
 
     within '.search-results' do
