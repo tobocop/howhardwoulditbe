@@ -3,7 +3,9 @@ PlinkAdmin::Engine.routes.draw do
   devise_for :admins, :class_name => "PlinkAdmin::Admin", skip: [:passwords, :registrations, :unlock], module: :devise
 
   resources :hero_promotions, except: :destroy
+  resources :affiliates, except: :destroy
   resources :campaigns, except: :destroy
+  resources :landing_pages, except: :destroy
 
   resources :users, only: [:index] do
     get :search, on: :collection

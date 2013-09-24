@@ -18,6 +18,19 @@ module Plink
       new_news_article(options).tap(&:save!)
     end
 
+    def new_landing_page(options = {})
+      defaults = {
+        name: 'My Landing Page',
+        partial_path: '/_hereitis.html.haml'
+      }
+
+      Plink::LandingPageRecord.new { |landing_page| apply(landing_page, defaults, options) }
+    end
+
+    def create_landing_page(options = {})
+      new_landing_page(options).tap(&:save!)
+    end
+
     def new_campaign(options = {})
       defaults = {
         name: 'Campaign Name',
@@ -34,6 +47,25 @@ module Plink
 
     def create_campaign(options = {})
       new_campaign(options).tap(&:save!)
+    end
+
+    def new_affiliate(options = {})
+      defaults = {
+        name: 'Created name',
+        has_incented_card_registration: false,
+        card_registration_dollar_award_amount: 1.34,
+        has_incented_join: false,
+        join_dollar_award_amount: 1.34,
+        card_add_pixel: '<img src="http://example.com/image.png />',
+        email_add_pixel: '<img src="http://example.com/image.png />',
+        disclaimer_text: 'some disclaimer stuff'
+      }
+
+      Plink::AffiliateRecord.new { |affiliate| apply(affiliate, defaults, options) }
+    end
+
+    def create_affiliate(options = {})
+      new_affiliate(options).tap(&:save!)
     end
 
     def new_event_type(options = {})

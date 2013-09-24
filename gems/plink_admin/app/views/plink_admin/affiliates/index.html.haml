@@ -1,0 +1,15 @@
+= link_to 'Create New Affiliate', new_affiliate_path, class: 'button small'
+
+%table.affiliate-list
+  %thead
+    %th ID
+    %th Name
+    %th Card Add Award Amount
+    %th Join Award Amoung
+  %tbody
+    - @affiliates.each do |affiliate|
+      %tr.affiliate-item
+        %td= affiliate.id
+        %td= link_to affiliate.name, edit_affiliate_path(affiliate)
+        %td= number_to_currency(affiliate.card_registration_dollar_award_amount)
+        %td= number_to_currency(affiliate.join_dollar_award_amount)

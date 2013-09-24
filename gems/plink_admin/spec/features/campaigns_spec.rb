@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Contests' do
+describe 'Campaigns' do
 
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')

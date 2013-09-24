@@ -1,0 +1,23 @@
+- if affiliate.errors.any?
+  .alert-box.alert
+    - affiliate.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(affiliate, url: url, as: 'affiliate') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :card_registration_dollar_award_amount, 'Incented Linked Card Amount'
+  = f.text_field :card_registration_dollar_award_amount
+  = f.label :join_dollar_award_amount, 'Incented Join Amount'
+  = f.text_field :join_dollar_award_amount
+  = f.label :email_add_pixel, 'Email Conversion Pixel'
+  = f.text_area :email_add_pixel
+  = f.label :card_add_pixel, 'Card Conversion Pixel'
+  = f.text_area :card_add_pixel
+  = f.label :disclaimer_text, 'Disclaimer Text'
+  = f.text_area :disclaimer_text
+
+  = f.submit button_text, class: 'button small'
+
+= link_to 'Cancel', affiliates_path, class: 'button small secondary'
+
