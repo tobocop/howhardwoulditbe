@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130930221402) do
-
+ActiveRecord::Schema.define(:version => 20130924153808) do
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
     t.integer  "uia_account_id",                :limit => 8,                                                     :null => false
@@ -469,6 +468,26 @@ ActiveRecord::Schema.define(:version => 20130930221402) do
     t.integer  "virtual_currency_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "contest_prize_levels", :force => true do |t|
+    t.integer  "contest_id"
+    t.integer  "award_count"
+    t.integer  "dollar_amount"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "contest_winners", :force => true do |t|
+    t.integer  "contest_id"
+    t.integer  "user_id"
+    t.integer  "prize_level_id"
+    t.integer  "admin_user_id"
+    t.boolean  "winner"
+    t.boolean  "rejected"
+    t.datetime "finalized"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "contests", :force => true do |t|

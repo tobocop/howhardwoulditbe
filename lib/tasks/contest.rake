@@ -39,6 +39,45 @@ namespace :contest do
     stars; puts "[#{Time.zone.now}] End of three day reminder email."
   end
 
+  desc 'Create contest prize levels for a given contest_id'
+  task :create_prize_levels_for_contest, [:contest_id] => :environment do |t, args|
+    contest_id = args[:contest_id]
+    raise ArgumentError.new('contest_id is required') unless contest_id.present?
+
+    if contest_id == 1
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 250, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 100, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 50, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 20, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 10, award_count: 16)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 5, award_count: 60)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 2, award_count: 50)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 1, award_count: 20)
+    end
+  end
+
+  desc 'Choose contest winners for a given contest_id'
+  task :select_winners_for_contest, [:contest_id] => :environment do |t, args|
+    contest_id = args[:contest_id]
+    raise ArgumentError.new('contest_id is required') unless contest_id.present?
+
+    cumulative_entries_by_user =
+      Plink::ContestWinningService.cumulative_non_plink_entries_by_user(contest_id)
+    raise Exception.new("ERROR: Less than 300 entrants present! Cannot pick winners.") if cumulative_entries_by_user.length < 300
+
+    outcome_table = Plink::ContestWinningService.generate_outcome_table(cumulative_entries_by_user)
+
+    total_entries =
+      Plink::ContestWinningService.total_non_plink_entries_for_contest(contest_id)
+
+    winners = Plink::ContestWinningService.choose_winners(total_entries, outcome_table)
+
+    receiving_prize = winners.first(150)
+    Plink::ContestWinningService.create_prize_winners!(contest_id, receiving_prize)
+
+    alternates = winners.last(150)
+    Plink::ContestWinningService.create_alternates!(contest_id, alternates)
+  end
 end
 
 def users_with_contest_reminders_who_have_not_entered_recently(last_entered_date)

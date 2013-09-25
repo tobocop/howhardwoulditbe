@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130911132137) do
+ActiveRecord::Schema.define(:version => 20130924153808) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -89,28 +89,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.string "password_salt"
     t.string "permissions"
     t.string "is_active"
-  end
-
-  create_table "advertiserCampaigns_old", :primary_key => "advertiserCampaignID", :force => true do |t|
-    t.integer  "advertiserID",                                                                           :null => false
-    t.integer  "campaignID",                                                                             :null => false
-    t.datetime "beginDate"
-    t.datetime "endDate"
-    t.decimal  "revShare",                              :precision => 12, :scale => 6,                   :null => false
-    t.integer  "daysInAwardPeriod",                                                    :default => 14,   :null => false
-    t.string   "url",                   :limit => 1000,                                                  :null => false
-    t.integer  "createdBy",                                                            :default => 0,    :null => false
-    t.datetime "created",                                                                                :null => false
-    t.integer  "modifiedBy",                                                           :default => 0,    :null => false
-    t.datetime "modified",                                                                               :null => false
-    t.boolean  "isActive",                                                             :default => true, :null => false
-    t.decimal  "cpaAmount",                             :precision => 12, :scale => 6
-    t.decimal  "displayOrder",                          :precision => 18, :scale => 0
-    t.string   "logoURL",               :limit => 500
-    t.string   "advertiserName",        :limit => 500
-    t.string   "shortDescription",      :limit => 500
-    t.text     "terms"
-    t.decimal  "minimumPurchaseAmount",                 :precision => 12, :scale => 6
   end
 
   create_table "advertisers", :primary_key => "advertiserID", :force => true do |t|
@@ -225,14 +203,10 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.integer  "usersBankProductID",                                                                            :null => false
     t.integer  "usersBankID",                                                                                   :null => false
     t.integer  "advertiserID"
-    t.integer  "advertiserCampaignID_old",    :limit => 8
     t.integer  "usersAwardPeriodID"
     t.datetime "awardPeriodBeginDate"
     t.datetime "awardPeriodEndDate"
     t.decimal  "advertisersRevShare",                         :precision => 12, :scale => 6
-    t.integer  "campaignID_old"
-    t.datetime "campaignBeginDate_old"
-    t.datetime "campaignEndDate_old"
     t.integer  "advertisersSearchTermID"
     t.string   "advertisersSearchTerm",       :limit => 200
     t.integer  "advertisersExcludeTermID"
@@ -250,18 +224,15 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.integer  "affiliateID"
     t.string   "subID",                       :limit => 100
     t.boolean  "isPendingReview",                                                            :default => false, :null => false
-    t.boolean  "inCampaignPeriod_old",                                                       :default => false, :null => false
     t.boolean  "inUserAwardPeriod",                                                          :default => false, :null => false
     t.integer  "awardOrder"
     t.integer  "virtualCurrencyID"
-    t.decimal  "cpaAmount_old",                               :precision => 12, :scale => 6
     t.datetime "created",                                                                                       :null => false
     t.decimal  "minimumPurchaseAmount",                       :precision => 12, :scale => 6
     t.boolean  "is2x"
     t.boolean  "is3x"
     t.boolean  "isOverMinimumAmount"
     t.integer  "eventID",                     :limit => 8
-    t.decimal  "awardAmount_old",                             :precision => 18, :scale => 8
     t.boolean  "hasMondayBonus",                                                             :default => false
     t.decimal  "exchangeRate",                                :precision => 9,  :scale => 3
     t.datetime "cardActivationBeginDate"
@@ -429,19 +400,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.boolean  "isActive",                  :default => true,  :null => false
   end
 
-  create_table "campaigns_old", :primary_key => "campaignID", :force => true do |t|
-    t.string   "internalCampaignName",  :limit => 250,                   :null => false
-    t.string   "externalCampaignName",  :limit => 250,                   :null => false
-    t.integer  "createdBy",                            :default => 0,    :null => false
-    t.datetime "created",                                                :null => false
-    t.integer  "modifiedBy",                           :default => 0,    :null => false
-    t.datetime "modified",                                               :null => false
-    t.boolean  "isActive",                             :default => true, :null => false
-    t.integer  "virtualCurrencyID",                                      :null => false
-    t.integer  "campaignLandingPageID",                :default => 1,    :null => false
-    t.integer  "campaignTypeID",                                         :null => false
-  end
-
   create_table "charities", :primary_key => "charityID", :force => true do |t|
     t.string   "charity",           :limit => 300,                    :null => false
     t.string   "description",       :limit => 1000
@@ -506,14 +464,33 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.datetime "updated_at",          :null => false
   end
 
+  create_table "contest_prize_levels", :force => true do |t|
+    t.integer  "contest_id"
+    t.integer  "award_count"
+    t.integer  "dollar_amount"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "contest_winners", :force => true do |t|
+    t.integer  "contest_id"
+    t.integer  "user_id"
+    t.integer  "prize_level_id"
+    t.integer  "admin_user_id"
+    t.boolean  "winner"
+    t.boolean  "rejected"
+    t.datetime "finalized"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "contests", :force => true do |t|
     t.string   "description"
     t.string   "image",                :limit => 100
-    t.string   "prize",                :limit => 100
+    t.text     "prize"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.string   "terms_and_conditions"
-    t.string   "entry_method"
+    t.text     "terms_and_conditions"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
@@ -541,6 +518,7 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.integer  "computed_entries"
     t.integer  "multiplier"
     t.integer  "referral_entries"
+    t.string   "source",           :limit => 50
   end
 
   create_table "errorLog", :primary_key => "errorLogID", :force => true do |t|
@@ -574,20 +552,18 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
   end
 
   create_table "events", :primary_key => "eventID", :force => true do |t|
-    t.integer  "userID",                   :limit => 8
-    t.integer  "eventTypeID",                                               :null => false
-    t.integer  "campaignID_old"
-    t.integer  "advertiserCampaignID_old"
+    t.integer  "userID",                  :limit => 8
+    t.integer  "eventTypeID",                                              :null => false
     t.integer  "affiliateID"
-    t.string   "subID",                    :limit => 100
-    t.string   "ip",                       :limit => 15
-    t.datetime "created",                                                   :null => false
-    t.datetime "modified",                                                  :null => false
-    t.boolean  "isActive",                                :default => true, :null => false
-    t.string   "subID2",                   :limit => 200
-    t.string   "subID3",                   :limit => 200
-    t.string   "subID4",                   :limit => 200
-    t.integer  "pathID",                                  :default => 0,    :null => false
+    t.string   "subID",                   :limit => 100
+    t.string   "ip",                      :limit => 15
+    t.datetime "created",                                                  :null => false
+    t.datetime "modified",                                                 :null => false
+    t.boolean  "isActive",                               :default => true, :null => false
+    t.string   "subID2",                  :limit => 200
+    t.string   "subID3",                  :limit => 200
+    t.string   "subID4",                  :limit => 200
+    t.integer  "pathID",                                 :default => 0,    :null => false
     t.integer  "offersVirtualCurrencyID"
     t.integer  "campaignID"
   end
@@ -1041,7 +1017,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
   create_table "loot", :primary_key => "lootID", :force => true do |t|
     t.string   "name",              :limit => 500,                                                   :null => false
     t.decimal  "exchangeRate",                      :precision => 18, :scale => 6
-    t.decimal  "faceValue_old",                     :precision => 18, :scale => 6
     t.string   "awardCode",         :limit => 100,                                                   :null => false
     t.string   "redemptionMessage", :limit => 1000
     t.datetime "created"
@@ -1687,8 +1662,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.integer  "usersBankProductAccountID",   :limit => 8,                                                      :null => false
     t.integer  "usersBankProductID",          :limit => 8,                                                      :null => false
     t.integer  "usersBankID",                                                                                   :null => false
-    t.integer  "advertiserCampaignID_old",    :limit => 8
-    t.integer  "campaignID_old"
     t.integer  "yodleeCategoryID",                                                                              :null => false
     t.integer  "usersAwardPeriodID",          :limit => 8,                                                      :null => false
     t.string   "advertisersSearchTerm",       :limit => 200,                                                    :null => false
@@ -1703,8 +1676,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.decimal  "transactionAmount",                           :precision => 20, :scale => 6,                    :null => false
     t.string   "currencyCode",                :limit => 10,                                                     :null => false
     t.string   "yodleeCategorizationKeyword", :limit => 300,                                                    :null => false
-    t.datetime "campaignBeginDate_old"
-    t.datetime "campaignEndDate_old"
     t.string   "yodleeTransactionType",       :limit => 300,                                                    :null => false
     t.integer  "affiliateID"
     t.string   "subID",                       :limit => 100
@@ -1715,7 +1686,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.datetime "modified",                                                                                      :null => false
     t.boolean  "isActive",                                                                   :default => true,  :null => false
     t.integer  "virtualCurrencyID",                                                                             :null => false
-    t.decimal  "cpaAmount_old",                               :precision => 12, :scale => 6
     t.decimal  "minimumPurchaseAmount",                       :precision => 12, :scale => 6
     t.boolean  "is2x"
     t.boolean  "is3x"
@@ -1882,9 +1852,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.string   "lastName",                    :limit => 250
     t.string   "username",                    :limit => 250
     t.string   "passwordSalt",                :limit => 250
-    t.string   "yodleeUsername",              :limit => 250
-    t.string   "yodleePassword",              :limit => 250
-    t.integer  "yodleePasswordVersion",                      :default => 0,     :null => false
     t.string   "password",                    :limit => 250
     t.string   "emailAddress",                :limit => 250
     t.boolean  "isMale"
@@ -1925,7 +1892,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
     t.datetime "lastAccountSummarySentOn"
     t.boolean  "isForceDeactivated",                         :default => false
     t.boolean  "holdRedemptions"
-    t.integer  "oauthTokenID_old",            :limit => 8
     t.boolean  "intuitRegistrationComplete",                 :default => false
     t.string   "gigya_uid"
     t.string   "avatar_thumbnail_url"
@@ -1936,16 +1902,12 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|
     t.integer  "userID",                     :limit => 8,                                                  :null => false
-    t.decimal  "revShare_old",                            :precision => 12, :scale => 6
     t.datetime "beginDate",                                                                                :null => false
     t.datetime "endDate",                                                                                  :null => false
     t.datetime "created",                                                                                  :null => false
     t.datetime "modified",                                                                                 :null => false
     t.boolean  "isActive",                                                               :default => true, :null => false
-    t.decimal  "cpaAmount_old",                           :precision => 12, :scale => 6
     t.integer  "eventID",                    :limit => 8
-    t.decimal  "dollarAwardAmount_old",                   :precision => 12, :scale => 6
-    t.decimal  "minimumPurchaseAmount_old",               :precision => 12, :scale => 6
     t.decimal  "advertisersRevShare",                     :precision => 12, :scale => 6,                   :null => false
     t.integer  "offers_virtual_currency_id", :limit => 8
   end
@@ -2168,8 +2130,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
 
   create_table "walletItems", :primary_key => "walletItemID", :force => true do |t|
     t.integer  "walletID",                                                :null => false
-    t.integer  "advertiserID_old"
-    t.integer  "virtualCurrencyID_old"
     t.integer  "usersAwardPeriodID",      :limit => 8
     t.datetime "created",                                                 :null => false
     t.datetime "modified",                                                :null => false
@@ -2183,8 +2143,6 @@ ActiveRecord::Schema.define(:version => 20130911132137) do
 
   create_table "walletItemsHistory", :primary_key => "walletItemHistoryID", :force => true do |t|
     t.integer  "walletID",                                               :null => false
-    t.integer  "advertiserID_old"
-    t.integer  "virtualCurrencyID_old"
     t.integer  "usersAwardPeriodID",      :limit => 8
     t.datetime "created",                                                :null => false
     t.datetime "modified",                                               :null => false

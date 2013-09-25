@@ -653,6 +653,21 @@ module Plink
       Plink::EntryRecord.new { |entry| apply(entry, defaults, options) }
     end
 
+    def create_contest_prize_level(options = {})
+      prize_level = new_contest_prize_level(options)
+      prize_level.save!
+      prize_level
+    end
+
+    def new_contest_prize_level(options = {})
+      defaults = {
+        award_count: 1,
+        contest_id: 1,
+        dollar_amount: 100
+      }
+
+      Plink::ContestPrizeLevelRecord.new { |entry| apply(entry, defaults, options) }
+    end
 
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
