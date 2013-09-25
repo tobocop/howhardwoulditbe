@@ -92,6 +92,11 @@
       text-decoration:underline;
     }
 
+    &.disabled {
+      text-decoration: none;
+      cursor: default;
+    }
+
     &.active, &:active {
       color:#2289b5;
     }
