@@ -285,7 +285,7 @@ describe 'user signs in' do
     page.find('.slot.locked').click
 
     within '.modal' do
-      page.should have_content 'This slot will unlock after your first qualified partner purchase'
+      page.should have_content 'One wallet slot will unlock after your first qualified purchase* and one slot will open with your first friend referral**.'
       page.find('.close-btn').click
     end
 
