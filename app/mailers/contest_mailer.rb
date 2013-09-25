@@ -1,6 +1,6 @@
 class ContestMailer < ActionMailer::Base
 
-  default from: Rails.application.config.contact_email_address
+  default from: 'info@plink.com', return_path: 'bounces@plink.com'
 
   def daily_reminder_email(args)
     @first_name = args[:first_name]
@@ -8,6 +8,7 @@ class ContestMailer < ActionMailer::Base
 
     mail(
       to: args[:email],
+      reply_to: 'support@plink.com',
       subject: 'Enter Today - $1,000 Up For Grabs'
     )
   end
@@ -18,6 +19,7 @@ class ContestMailer < ActionMailer::Base
 
     mail(
       to: args[:email],
+      reply_to: 'support@plink.com',
       subject: 'Your $1,000 entries expire today'
     )
   end

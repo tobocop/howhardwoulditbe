@@ -13,7 +13,9 @@ describe ContestMailer do
       ActionMailer::Base.deliveries.count.should == 1
 
       email.to.should == ['user@example.com']
-      email.from.should == [Rails.application.config.contact_email_address]
+      email.from.should == ['info@plink.com']
+      email.reply_to.should == ['support@plink.com']
+      email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'Enter Today - $1,000 Up For Grabs'
 
       [email.html_part, email.text_part].each do |part|
@@ -36,7 +38,9 @@ describe ContestMailer do
       ActionMailer::Base.deliveries.count.should == 1
 
       email.to.should == ['user@example.com']
-      email.from.should == [Rails.application.config.contact_email_address]
+      email.from.should == ['info@plink.com']
+      email.reply_to.should == ['support@plink.com']
+      email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'Your $1,000 entries expire today'
 
       [email.html_part, email.text_part].each do |part|
