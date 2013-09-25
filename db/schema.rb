@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130923205947) do
+ActiveRecord::Schema.define(:version => 20130925170050) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1456,6 +1456,23 @@ ActiveRecord::Schema.define(:version => 20130923205947) do
     t.string   "userAction", :limit => 500, :null => false
     t.datetime "created",                   :null => false
     t.datetime "modified",                  :null => false
+  end
+
+  create_table "registration_links", :force => true do |t|
+    t.integer  "affiliate_id"
+    t.integer  "campaign_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_active"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "registration_links_landing_pages", :force => true do |t|
+    t.integer  "registration_link_id"
+    t.integer  "landing_page_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "retailFraudBucket", :primary_key => "retailFraudBucketId", :force => true do |t|

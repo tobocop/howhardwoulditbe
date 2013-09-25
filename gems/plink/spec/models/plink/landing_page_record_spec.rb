@@ -10,6 +10,9 @@ describe Plink::LandingPageRecord do
 
   subject { Plink::LandingPageRecord.new(valid_params) }
 
+  it { should have_many(:registration_link_landing_page_records) }
+  it { should have_many(:registration_link_records).through(:registration_link_landing_page_records) }
+
   it 'can be persisted' do
     Plink::LandingPageRecord.create(valid_params).should be_persisted
   end

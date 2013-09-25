@@ -3,11 +3,9 @@
   %thead
     %th Name
     %th Partial Path
-    %th Preview
   %tbody
     - @landing_pages.each do |landing_page|
       %tr.landing_page-item
         %td= link_to landing_page.name, edit_landing_page_path(landing_page)
         %td= landing_page.partial_path
-        %td preview (coming in later story)
 

@@ -31,6 +31,36 @@ module Plink
       new_landing_page(options).tap(&:save!)
     end
 
+    def new_registration_link(options = {})
+      defaults = {
+        affiliate_id: 123,
+        campaign_id: 123,
+        start_date: 1.day.ago,
+        end_date: 1.day.from_now,
+        is_active: true
+      }
+
+      Plink::RegistrationLinkRecord.new { |registration_link| apply(registration_link, defaults, options) }
+    end
+
+    def create_registration_link(options = {})
+      new_registration_link(options).tap(&:save!)
+    end
+
+    def new_registration_link_landing_page(options = {})
+      defaults = {
+        registration_link_id: 1,
+        landing_page_id: 2
+      }
+
+      Plink::RegistrationLinkLandingPageRecord.new { |registration_link_landing_page| apply(registration_link_landing_page, defaults, options) }
+    end
+
+    def create_registration_link_landing_page(options = {})
+      new_registration_link_landing_page(options).tap(&:save!)
+    end
+
+
     def new_campaign(options = {})
       defaults = {
         name: 'Campaign Name',

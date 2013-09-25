@@ -6,6 +6,7 @@ PlinkAdmin::Engine.routes.draw do
   resources :affiliates, except: :destroy
   resources :campaigns, except: :destroy
   resources :landing_pages, except: :destroy
+  resources :registration_links, except: :destroy
 
   resources :users, only: [:index] do
     get :search, on: :collection

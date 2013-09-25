@@ -1,5 +1,6 @@
 module PlinkAdmin
   class CampaignsController < ApplicationController
+    require 'digest/sha1'
 
     def index
       @campaigns = Plink::CampaignRecord.all
@@ -10,7 +11,7 @@ module PlinkAdmin
     end
 
     def create
-      @campaign = Plink::CampaignRecord.create(params[:campaign])
+      @campaign = Plink::CampaignRecord.create(campaign_params)
 
       if @campaign.persisted?
         redirect_to campaigns_path
@@ -31,6 +32,13 @@ module PlinkAdmin
       else
         render 'edit'
       end
+    end
+
+  private
+
+    def campaign_params
+      campaign_params = params[:campaign]
+      campaign_params.merge(campaign_hash: Digest::SHA1.hexdigest(params[:campaign][:name]))
     end
   end
 end

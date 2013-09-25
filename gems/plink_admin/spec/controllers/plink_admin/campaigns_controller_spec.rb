@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'digest/sha1'
 
 describe PlinkAdmin::CampaignsController do
   let(:admin) { create_admin }
@@ -44,11 +45,18 @@ describe PlinkAdmin::CampaignsController do
       post :create, {campaign: campaign_params}
       campaign = Plink::CampaignRecord.last
       campaign.name.should == 'Here we go'
+      campaign.campaign_hash.should == Digest::SHA1.hexdigest(campaign.name)
+
       response.should redirect_to '/campaigns'
     end
 
     it 're-renders the new form when the record cannot be persisted' do
-      Plink::CampaignRecord.should_receive(:create).with({ 'name' => 'created name' }).and_return(double(persisted?: false))
+      create_params = {
+         'name' => 'created name',
+         'campaign_hash' => Digest::SHA1.hexdigest('created name')
+      }
+
+      Plink::CampaignRecord.should_receive(:create).with(create_params).and_return(double(persisted?: false))
 
       post :create, {campaign: {name: 'created name'}}
 
