@@ -25,6 +25,7 @@ module Plink
                     :sub_id_three,
                     :sub_id_four,
                     :path_id,
+                    :landing_page_id,
                     :ip,
                     :is_active
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::EventService do
-
+  let(:user_id) { 456 }
   let(:default_params) {
     {
       affiliate_id: 123,
@@ -10,22 +10,16 @@ describe Plink::EventService do
       sub_id_three: nil,
       sub_id_four: nil,
       path_id: '1',
-      campaign_hash: 'MYSUPERAWESOMEHASH',
+      campaign_id: 23,
+      landing_page_id: 12,
       ip: '127.0.0.1'
     }
   }
 
-  let(:user_id) { 456 }
-
   describe '.create_email_capture' do
-
-    before :each do
-      @event_type = create_event_type(name: 'emailCapture')
-      Plink::EventService.any_instance.stub(:email_event_type) {'emailCapture'}
-    end
+    let(:event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
 
     it 'should be successful' do
-      campaign = create_campaign(campaign_hash: 'MYSUPERAWESOMEHASH')
       Plink::EventRecord.should_receive(:create).with(
         user_id: user_id,
         affiliate_id: 123,
@@ -34,27 +28,55 @@ describe Plink::EventService do
         sub_id_three: nil,
         sub_id_four: nil,
         path_id: '1',
-        campaign_id: campaign.id,
-        event_type_id: @event_type.id,
+        campaign_id: 23,
+        landing_page_id: 12,
+        event_type_id: event_type.id,
         ip: '127.0.0.1'
       )
       Plink::EventService.new.create_email_capture(user_id, default_params)
     end
 
-    it 'should be successful when no campaigns exist' do
+    #this is for legacy code that should be removed with #57665410
+      it 'should be successful without a campaign_id and with a campaign_hash' do
+        campaign = create_campaign(campaign_hash: 'AWESOME')
+
+        Plink::EventRecord.should_receive(:create).with(
+          user_id: user_id,
+          affiliate_id: 123,
+          sub_id: nil,
+          sub_id_two: nil,
+          sub_id_three: nil,
+          sub_id_four: nil,
+          path_id: '1',
+          campaign_id: campaign.id,
+          landing_page_id: nil,
+          event_type_id: event_type.id,
+          ip: '127.0.0.1'
+        )
+        new_params = default_params.except!(:campaign_id, :landing_page_id).merge(campaign_hash:'AWESOME')
+        Plink::EventService.new.create_email_capture(user_id, new_params)
+      end
+  end
+
+  describe '.create_registration_start' do
+    let(:event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
+
+    it 'should be successful' do
       Plink::EventRecord.should_receive(:create).with(
-        user_id: user_id,
+        user_id: 0,
         affiliate_id: 123,
         sub_id: nil,
         sub_id_two: nil,
         sub_id_three: nil,
         sub_id_four: nil,
         path_id: '1',
-        campaign_id: nil,
-        event_type_id: @event_type.id,
+        campaign_id: 23,
+        landing_page_id: 12,
+        event_type_id: event_type.id,
         ip: '127.0.0.1'
       )
-      Plink::EventService.new.create_email_capture(user_id, default_params)
+
+      Plink::EventService.new.create_registration_start(default_params)
     end
   end
 

@@ -11,5 +11,9 @@ module Plink
     attr_accessible :affiliate_id, :campaign_id, :start_date, :end_date, :is_active, :landing_page_records
 
     validates_presence_of :affiliate_id, :campaign_id
+
+    def live?
+      Date.current >= start_date.to_date && Date.current <= end_date.to_date
+    end
   end
 end

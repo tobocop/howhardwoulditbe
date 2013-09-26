@@ -9,7 +9,8 @@ describe TrackingObject do
     'subID4' => 'Subid 4',
     'pathID' => '123',
     'c' => 'BIGLONGHASH',
-    'campaign_id' => 234
+    'campaign_id' => 234,
+    'landing_page_id' => 2
   }}
 
   describe '.new' do
@@ -24,6 +25,7 @@ describe TrackingObject do
       tracking_object.path_id.should == '123'
       tracking_object.ip.should == '175.125.35.1'
       tracking_object.campaign_id.should == 234
+      tracking_object.landing_page_id.should == 2
     end
 
     it 'can be initialized with a blank hash and use defaults' do
@@ -36,6 +38,7 @@ describe TrackingObject do
       tracking_object.path_id.should == '1'
       tracking_object.campaign_hash.should == nil
       tracking_object.campaign_id.should == nil
+      tracking_object.landing_page_id.should == nil
     end
   end
 
@@ -50,6 +53,7 @@ describe TrackingObject do
       my_hash[:path_id].should == '123'
       my_hash[:campaign_hash].should == 'BIGLONGHASH'
       my_hash[:campaign_id].should == 234
+      my_hash[:landing_page_id].should == 2
     end
 
     it 'can build a hash without all the valid params' do
@@ -62,6 +66,7 @@ describe TrackingObject do
       my_hash[:path_id].should == '1'
       my_hash[:campaign_hash].should == nil
       my_hash[:campaign_id].should == nil
+      my_hash[:landing_page_id].should == nil
     end
   end
 

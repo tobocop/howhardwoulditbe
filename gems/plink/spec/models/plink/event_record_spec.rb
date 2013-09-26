@@ -12,6 +12,7 @@ describe Plink::EventRecord do
       sub_id_three: 'three',
       sub_id_four: 'four',
       path_id: 1,
+      landing_page_id: 1,
       ip: '127.0.0.1',
       is_active: true
     }

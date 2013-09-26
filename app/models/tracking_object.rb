@@ -8,7 +8,8 @@ class TrackingObject
               :path_id,
               :campaign_hash,
               :ip,
-              :campaign_id
+              :campaign_id,
+              :landing_page_id
 
   def initialize(options)
     defaults = self.class.defaults
@@ -21,6 +22,7 @@ class TrackingObject
     @path_id = options.fetch(:path_id, defaults['PATHID'])
     @campaign_hash = options.fetch(:campaign_hash, defaults['C'])
     @campaign_id = options.fetch(:campaign_id, defaults['CAMPAIGIN_ID'])
+    @landing_page_id = options.fetch(:landing_page_id, defaults['LANDING_PAGE_ID'])
     @ip = options.fetch(:ip, '0.0.0.0')
   end
 
@@ -40,7 +42,8 @@ class TrackingObject
       sub_id_four: options.fetch('SUBID4'),
       path_id: options.fetch('PATHID'),
       campaign_hash: options.fetch('C'),
-      campaign_id: options.fetch('CAMPAIGN_ID')
+      campaign_id: options.fetch('CAMPAIGN_ID'),
+      landing_page_id: options.fetch('LANDING_PAGE_ID')
     )
   end
 
@@ -54,6 +57,7 @@ class TrackingObject
       path_id: path_id,
       campaign_hash: campaign_hash,
       campaign_id: campaign_id,
+      landing_page_id: landing_page_id,
       ip: ip
     }
   end
@@ -90,7 +94,8 @@ class TrackingObject
       'SUBID4' => nil,
       'PATHID' => '1',
       'C' => nil,
-      'CAMPAIGN_ID' => nil
+      'CAMPAIGN_ID' => nil,
+      'LANDING_PAGE_ID' => nil
     }
   end
 

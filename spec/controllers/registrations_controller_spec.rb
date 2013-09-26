@@ -49,6 +49,7 @@ describe RegistrationsController do
           path_id: '1',
           campaign_hash: nil,
           campaign_id: nil,
+          landing_page_id: nil,
           ip: request.remote_ip
         )
 

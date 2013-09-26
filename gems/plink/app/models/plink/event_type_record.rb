@@ -8,6 +8,7 @@ module Plink
     attr_accessible :name
 
     TYPES = {
+      :registration_start_type => 'pathStarted',
       :email_capture_type => 'userRegistration',
       :impression_type => 'impression',
       :login_type => 'login',
@@ -18,9 +19,12 @@ module Plink
       :offer_deactivate_type => 'offerWallDeactivate'
     }
 
-
     def self.for_name(name)
       where('name = ?', name).first
+    end
+
+    def self.registration_start_type
+      TYPES[:registration_start_type]
     end
 
     def self.email_capture_type

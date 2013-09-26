@@ -183,6 +183,7 @@ create_reward(name: 'Barnes and Noble Gift Card', terms: 'legal terms', logo_url
 create_reward(name: 'Airline Miles', terms: 'legal terms', logo_url: '/assets/gift-cards/airlinemiles.png', amounts: [ new_reward_amount(dollar_award_amount: 10, is_active: true), new_reward_amount(dollar_award_amount: 15, is_active: true), new_reward_amount(dollar_award_amount: 25, is_active: true), new_reward_amount(dollar_award_amount: 50, is_active: true), new_reward_amount(dollar_award_amount: 100, is_active: true)], description: "Redeem Plink Points for airline miles or points to the following programs: Alaskan Airlines Milage, American Airlines Advantage, Frontier Early Returns, Hawaiian Miles, and more.")
 
 p 'Creating event types'
+create_event_type(name: Plink::EventTypeRecord.registration_start_type)
 create_event_type(name: Plink::EventTypeRecord.email_capture_type)
 create_event_type(name: Plink::EventTypeRecord.impression_type)
 create_event_type(name: Plink::EventTypeRecord.login_type)

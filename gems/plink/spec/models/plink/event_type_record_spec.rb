@@ -21,6 +21,10 @@ describe Plink::EventTypeRecord do
   end
 
   context 'types' do
+    it 'returns the string "pathStarted" for registration_start_type' do
+      Plink::EventTypeRecord.registration_start_type.should == 'pathStarted'
+    end
+
     it 'returns the string "userRegistration" for email_type' do
       Plink::EventTypeRecord.email_capture_type.should == 'userRegistration'
     end

@@ -34,4 +34,36 @@ describe Plink::RegistrationLinkRecord do
       registration_link_record.should have(1).error_on(:campaign_id)
     end
   end
+
+  describe '.live' do
+    let(:registration_link_record) { new_registration_link }
+
+    it 'returns true if today is between the start_date and end_date' do
+      registration_link_record.start_date = 1.day.ago
+      registration_link_record.end_date = 1.day.from_now
+      registration_link_record.live?.should be_true
+    end
+
+    it 'returns true if today is on the start_date' do
+      registration_link_record.start_date = Time.zone.now.to_date
+      registration_link_record.live?.should be_true
+    end
+
+    it 'returns true if today is on end_date' do
+      registration_link_record.end_date = Time.zone.now.to_date
+      registration_link_record.live?.should be_true
+    end
+
+    it 'returns false if today is before the start_date' do
+      registration_link_record.start_date = 1.day.from_now
+
+      registration_link_record.live?.should be_false
+    end
+
+    it 'returns false if today is after the end_date' do
+      registration_link_record.end_date = 1.day.ago
+
+      registration_link_record.live?.should be_false
+    end
+  end
 end

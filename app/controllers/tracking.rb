@@ -3,6 +3,10 @@ module Tracking
     plink_event_service.create_email_capture(user_id, tracking_params.to_hash)
   end
 
+  def track_registration_start_event
+    plink_event_service.create_registration_start(tracking_params.to_hash)
+  end
+
   def steelhouse_additional_info
     tracking_params.steelhouse_additional_info(current_virtual_currency.id)
   end

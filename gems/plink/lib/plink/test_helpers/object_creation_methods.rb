@@ -110,6 +110,28 @@ module Plink
       new_event_type(options).tap(&:save!)
     end
 
+    def new_event(options = {})
+      defaults = {
+        event_type_id: 1,
+        user_id: 1,
+        affiliate_id: 1,
+        campaign_id: 2,
+        sub_id: 'one',
+        sub_id_two: 'two',
+        sub_id_three: 'three',
+        sub_id_four: 'four',
+        path_id: 1,
+        ip: '127.0.0.1',
+        is_active: true
+      }
+
+      Plink::EventRecord.new { |event| apply(event, defaults, options) }
+    end
+
+    def create_event(options = {})
+      new_event(options).tap(&:save!)
+    end
+
     def new_award_type(options = {})
       defaults = {
         award_code: 'ASD',

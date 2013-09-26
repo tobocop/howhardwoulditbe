@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925170050) do
+ActiveRecord::Schema.define(:version => 20130926001308) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -555,6 +555,7 @@ ActiveRecord::Schema.define(:version => 20130925170050) do
     t.integer  "pathID",                                  :default => 0,    :null => false
     t.integer  "offersVirtualCurrencyID"
     t.integer  "campaignID"
+    t.integer  "landing_page_id"
   end
 
   create_table "facebookPermissions", :primary_key => "facebookPermissionID", :force => true do |t|
