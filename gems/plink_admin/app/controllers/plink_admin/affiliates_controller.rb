@@ -13,8 +13,10 @@ module PlinkAdmin
       @affiliate = Plink::AffiliateRecord.create(affiliate_params)
 
       if @affiliate.persisted?
+        flash[:notice] = 'Affiliate created successfully'
         redirect_to affiliates_path
       else
+        flash.now[:notice] = 'Affiliate could not be created'
         render 'new'
       end
     end
@@ -27,8 +29,10 @@ module PlinkAdmin
       @affiliate = Plink::AffiliateRecord.find(params[:id])
 
       if @affiliate.update_attributes(affiliate_params)
+        flash[:notice] = 'Affiliate updated'
         redirect_to affiliates_path
       else
+        flash.now[:notice] = 'Affiliate could not be updated'
         render 'edit'
       end
     end

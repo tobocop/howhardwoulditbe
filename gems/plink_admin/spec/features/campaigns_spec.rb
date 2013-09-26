@@ -15,6 +15,8 @@ describe 'Campaigns' do
 
     click_on 'Create'
 
+    page.should have_content 'Campaign could not be created'
+
     within '.alert-box.alert' do
       page.should have_content "Name can't be blank"
     end
@@ -22,6 +24,8 @@ describe 'Campaigns' do
     fill_in 'Name', with: 'My Campaign'
 
     click_on 'Create'
+
+    page.should have_content 'Campaign created successfully'
 
     within '.campaign-list' do
       within '.campaign-item:nth-of-type(1)' do
@@ -36,6 +40,8 @@ describe 'Campaigns' do
     fill_in 'Name', with: 'The better campaign'
 
     click_on 'Update'
+
+    page.should have_content 'Campaign updated'
 
     within '.campaign-list' do
       within '.campaign-item:nth-of-type(1)' do

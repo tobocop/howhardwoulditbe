@@ -15,15 +15,19 @@ describe 'Landing Pages' do
 
     click_on 'Create'
 
+    page.should have_content 'Landing page could not be created'
+
     within '.alert-box.alert' do
       page.should have_content "Name can't be blank"
       page.should have_content "Partial path can't be blank"
     end
 
     fill_in 'Name', with: 'landing on awesome'
-    fill_in 'Partial path', with: 'mypartial.haml.html'
+    fill_in 'Partial name', with: 'mypartial.haml.html'
 
     click_on 'Create'
+
+    page.should have_content 'Landing page created successfully'
 
     within '.landing_page-list' do
       within '.landing_page-item:nth-of-type(1)' do
@@ -37,9 +41,11 @@ describe 'Landing Pages' do
     page.should have_content 'Edit Landing Page'
 
     fill_in 'Name', with: 'Updated landing page'
-    fill_in 'Partial path', with: 'myupdatedpartial.haml.html'
+    fill_in 'Partial name', with: 'myupdatedpartial.haml.html'
 
     click_on 'Update'
+
+    page.should have_content 'Landing page updated'
 
     within '.landing_page-list' do
       within '.landing_page-item:nth-of-type(1)' do

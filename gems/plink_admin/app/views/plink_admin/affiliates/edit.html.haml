@@ -1,3 +1,7 @@
-%h1 Edit Affiliate
+%h1= "Edit Affiliate - #{@affiliate.id}"
 
 = render partial: 'affiliate_form', locals: {button_text: 'Update', affiliate: @affiliate, url: affiliate_path(@affiliate)}
+
+%h2 Associated Links
+
+= render partial: 'plink_admin/registration_links/list', locals: {registration_links: @affiliate.registration_link_records}

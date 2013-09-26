@@ -1,0 +1,39 @@
+%h1= "Edit Registration Link - #{@registration_link.id}"
+
+= form_tag registration_link_path(@registration_link), method: :put do
+  %div
+    Registration Link:
+    = link_to generate_registration_link_url(@registration_link.id), generate_registration_link_url(@registration_link.id), target: '_blank'
+  .clear
+  %br
+  .one_third
+    Affiliate
+    %br
+    = @registration_link.affiliate_record.name
+    = link_to '- edit', edit_affiliate_path(@registration_link.affiliate_record)
+  .one_third
+    Campaign
+    %br
+    = @registration_link.campaign_record.name
+    = link_to '- edit', edit_campaign_path(@registration_link.campaign_record)
+  .one_third
+    - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
+    - landing_page_selected_options = @registration_link.landing_page_records.collect {|landing_page| landing_page.id}
+    = label_tag :landing_page_ids, 'Landing Pages (randomly chosen for users)'
+    = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, landing_page_selected_options), multiple: :true, size: 10
+  .clear
+
+  = label_tag :start_date, 'Start Date'
+  .dateselect
+    = date_select 'start_date', :start_date, default: @registration_link.start_date
+  = label_tag :end_date, 'End Date (This is the last day the link will be valid)'
+  .dateselect
+    = date_select 'end_date', :end_date, default: @registration_link.end_date
+
+  = label_tag :is_active, 'Active'
+  = check_box_tag :is_active, true, @registration_link.is_active
+  %br
+
+  = submit_tag 'Update', class: 'button small'
+
+= link_to 'Cancel', registration_links_path, class: 'button small secondary'

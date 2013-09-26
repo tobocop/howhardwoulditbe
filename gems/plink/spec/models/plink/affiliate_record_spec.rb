@@ -16,6 +16,8 @@ describe Plink::AffiliateRecord do
 
   subject { Plink::AffiliateRecord.new(valid_params) }
 
+  it { should have_many(:registration_link_records) }
+
   it 'can be persisted' do
     Plink::AffiliateRecord.create(valid_params).should be_persisted
   end

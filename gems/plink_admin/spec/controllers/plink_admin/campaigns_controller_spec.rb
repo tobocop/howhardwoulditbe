@@ -46,6 +46,7 @@ describe PlinkAdmin::CampaignsController do
       campaign = Plink::CampaignRecord.last
       campaign.name.should == 'Here we go'
       campaign.campaign_hash.should == Digest::SHA1.hexdigest(campaign.name)
+      flash[:notice].should == 'Campaign created successfully'
 
       response.should redirect_to '/campaigns'
     end
@@ -59,6 +60,8 @@ describe PlinkAdmin::CampaignsController do
       Plink::CampaignRecord.should_receive(:create).with(create_params).and_return(double(persisted?: false))
 
       post :create, {campaign: {name: 'created name'}}
+
+      flash[:notice].should == 'Campaign could not be created'
 
       response.should render_template 'new'
     end
@@ -80,6 +83,7 @@ describe PlinkAdmin::CampaignsController do
     it 'updates the record and redirects to the listing when successful' do
       put :update, {id: campaign.id, campaign: {name: 'updated name'}}
       campaign.reload.name.should == 'updated name'
+      flash[:notice].should == 'Campaign updated'
       response.should redirect_to '/campaigns'
     end
 
@@ -89,6 +93,7 @@ describe PlinkAdmin::CampaignsController do
 
       put :update, {id: campaign.id, campaign: {name: 'updated name'}}
 
+      flash[:notice].should == 'Campaign could not be updated'
       response.should render_template 'edit'
     end
   end

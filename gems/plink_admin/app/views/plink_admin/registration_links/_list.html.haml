@@ -1,0 +1,28 @@
+%table.registration_link-list
+  %thead
+    %th ID
+    %th Affiliate
+    %th Campaign
+    %th Landing Pages
+    %th Start Date
+    %th End Date
+    %th Is Active
+    %th Link
+    %th Edit
+  %tbody
+    - registration_links.each do |registration_link|
+      %tr.registration_link-item
+        %td= registration_link.id
+        %td= "#{registration_link.affiliate_record.id} - #{registration_link.affiliate_record.name}"
+        %td= "#{registration_link.campaign_record.id} - #{registration_link.campaign_record.name}"
+        %td
+          - if registration_link.landing_page_records
+            - registration_link.landing_page_records.each do |landing_page|
+              %span= "#{landing_page.id} - #{landing_page.name}"
+              %br
+        %td= registration_link.start_date.to_date
+        %td= registration_link.end_date.to_date
+        %td= registration_link.is_active
+        %td= link_to generate_registration_link_url(registration_link.id), generate_registration_link_url(registration_link.id), target: '_blank'
+        %td= link_to 'Edit', edit_registration_link_path(registration_link)
+

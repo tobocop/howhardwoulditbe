@@ -7,8 +7,8 @@ module Plink
     end
 
     def create_email_capture(user_id, tracking_params = {})
-      #this is for legacy code that should be removed with #57665410
-       if tracking_params[:campaign_id] == nil && tracking_params[:campaign_hash] != nil
+      #TODO: this is for legacy code that should be removed with #57665410
+       if tracking_params[:campaign_id].nil? && tracking_params[:campaign_hash].present?
          tracking_params[:campaign_id] = get_campaign_id(tracking_params[:campaign_hash])
        end
 

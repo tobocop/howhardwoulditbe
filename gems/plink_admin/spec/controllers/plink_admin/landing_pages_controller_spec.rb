@@ -44,6 +44,8 @@ describe PlinkAdmin::LandingPagesController do
       landing_page = Plink::LandingPageRecord.last
       landing_page.name.should == 'Here we go'
       landing_page.partial_path.should == 'my_page.html.haml'
+      flash[:notice].should == 'Landing page created successfully'
+
       response.should redirect_to '/landing_pages'
     end
 
@@ -52,6 +54,7 @@ describe PlinkAdmin::LandingPagesController do
 
       post :create, {landing_page: {name: 'created name', partial_path: 'path.html.haml'}}
 
+      flash[:notice].should == 'Landing page could not be created'
       response.should render_template 'new'
     end
   end
@@ -72,6 +75,7 @@ describe PlinkAdmin::LandingPagesController do
     it 'updates the record and redirects to the listing when successful' do
       put :update, {id: landing_page.id, landing_page: {name: 'updated name'}}
       landing_page.reload.name.should == 'updated name'
+      flash[:notice].should == 'Landing page updated'
       response.should redirect_to '/landing_pages'
     end
 
@@ -81,6 +85,7 @@ describe PlinkAdmin::LandingPagesController do
 
       put :update, {id: landing_page.id, landing_page: {name: 'updated name'}}
 
+      flash[:notice].should == 'Landing page could not be updated'
       response.should render_template 'edit'
     end
   end

@@ -36,7 +36,7 @@ describe Plink::EventService do
       Plink::EventService.new.create_email_capture(user_id, default_params)
     end
 
-    #this is for legacy code that should be removed with #57665410
+    #TODO: this is for legacy code that should be removed with #57665410
       it 'should be successful without a campaign_id and with a campaign_hash' do
         campaign = create_campaign(campaign_hash: 'AWESOME')
 

@@ -54,6 +54,7 @@ describe PlinkAdmin::AffiliatesController do
       affiliate.card_add_pixel.should == '<img src="http://example.com/image.png />'
       affiliate.email_add_pixel.should == '<img src="http://example.com/image.png />'
       affiliate.disclaimer_text.should == 'some disclaimer stuff'
+      flash[:notice].should == 'Affiliate created successfully'
 
       response.should redirect_to '/affiliates'
     end
@@ -63,6 +64,7 @@ describe PlinkAdmin::AffiliatesController do
 
       post :create, {affiliate: {name: 'created name'}}
 
+      flash[:notice].should == 'Affiliate could not be created'
       response.should render_template 'new'
     end
   end
@@ -83,6 +85,7 @@ describe PlinkAdmin::AffiliatesController do
     it 'updates the record and redirects to the listing when successful' do
       put :update, {id: affiliate.id, affiliate: {name: 'updated name'}}
       affiliate.reload.name.should == 'updated name'
+      flash[:notice].should == 'Affiliate updated'
       response.should redirect_to '/affiliates'
     end
 
@@ -92,6 +95,7 @@ describe PlinkAdmin::AffiliatesController do
 
       put :update, {id: affiliate.id, affiliate: {name: 'updated name'}}
 
+      flash[:notice].should == 'Affiliate could not be updated'
       response.should render_template 'edit'
     end
   end

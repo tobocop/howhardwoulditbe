@@ -12,6 +12,7 @@ module Plink
     alias_attribute :email_add_pixel, :emailAddPixel
     alias_attribute :disclaimer_text, :disclaimerText
     
+    has_many :registration_link_records, class_name: 'Plink::RegistrationLinkRecord', foreign_key: 'affiliate_id'
 
     attr_accessible :name, :has_incented_card_registration, :card_registration_dollar_award_amount, :has_incented_join,
       :join_dollar_award_amount, :card_add_pixel, :email_add_pixel, :disclaimer_text

@@ -1,5 +1,9 @@
 %h1 New Registration Link
 
+- if @error.present?
+  .alert-box.alert
+    %p= @error
+
 = form_tag registration_links_path, method: :post do
   .one_third
     - affiliate_select_options = @affiliates.collect {|affiliate| ["#{affiliate.id} - #{affiliate.name}", affiliate.id]}

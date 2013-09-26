@@ -6,7 +6,7 @@
 = form_for(landing_page, url: url, as: 'landing_page') do |f|
   = f.label :name
   = f.text_field :name
-  = f.label :partial_path
+  = f.label :partial_path, 'Partial name'
   = f.text_field :partial_path
 
   = f.submit button_text, class: 'button small'
