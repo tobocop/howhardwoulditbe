@@ -44,7 +44,7 @@ namespace :contest do
     contest_id = args[:contest_id]
     raise ArgumentError.new('contest_id is required') unless contest_id.present?
 
-    if contest_id == 1
+    if contest_id == 1 || contest_id == '1'
       Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 250, award_count: 1)
       Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 100, award_count: 1)
       Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 50, award_count: 1)
