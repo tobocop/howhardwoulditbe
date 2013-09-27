@@ -18,13 +18,11 @@ describe 'Contests' do
   end
 
   context 'site navigation' do
-    it 'doesn\'t add a link for a non-logged in user' do
+    it 'adds a link to the contests page for logged in users', js: true do
       visit root_path
 
       page.should_not have_link 'Contests'
-    end
 
-    it 'adds a link to the contests page for logged in users', js: true do
       user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')
       create_wallet(user_id: user.id)
       sign_in('user@example.com', 'pass1word')
@@ -112,7 +110,7 @@ describe 'Contests' do
         current_path.should == '/wallet'
       end
 
-      it 'links to the Referral Program section of the FAQ from the referral text' do
+      it 'links to the Referral Program section of the FAQ' do
         page.should have_content 'Get up to 20 EXTRA ENTRIES per day for each friend referral'
         page.should have_link '20 EXTRA ENTRIES'
 
@@ -120,9 +118,9 @@ describe 'Contests' do
 
         current_path.should == faq_static_path
         URI.parse(current_url).fragment.should == 'referral-program'
-      end
 
-      it 'links to the Referral Program section of the FAQ from the referral icon' do
+        visit contest_path(contest)
+
         page.find("[src='/assets/icon_refer.png']").click
 
         current_path.should == faq_static_path
@@ -157,15 +155,11 @@ describe 'Contests' do
         within 'div[gigid]' do
           page.should have_content 'Join Plink for free and receive a $5 gift card'
         end
-      end
 
-      context 'entering the contest' do
-        before { click_link 'share to enter' }
+        click_link 'share to enter'
 
-        it 'presents the share modal' do
-          within 'div[gigid]' do
-            page.should have_content 'Share with your friends'
-          end
+        within 'div[gigid]' do
+          page.should have_content 'Share with your friends'
         end
       end
     end
