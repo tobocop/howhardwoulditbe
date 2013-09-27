@@ -96,6 +96,7 @@ describe GigyaLoginHandlerController do
       context 'and user is a new user' do
         let(:successful_response) { mock('success response', success?: true, new_user?: true) }
         let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: mock('user', id: 87, password_hash: 'asd'), sign_in_user: successful_response) }
+        let!(:registration_event) { create_event(user_id: nil) }
 
         before do
           controller.stub(:track_email_capture_event)
@@ -106,6 +107,20 @@ describe GigyaLoginHandlerController do
           controller.should_receive(:track_email_capture_event).with(87)
 
           get :create, {valid_params: true}
+        end
+
+        it 'updates the registration_start event if the id is present in the session' do
+          session[:registration_start_event_id] = registration_event.id
+
+          get :create, {valid_params: true}
+
+          registration_event.reload.user_id.should == 87
+        end
+
+        it 'does not update the registration_start event if the id is not present in the session' do
+          get :create, {valid_params: true}
+
+          registration_event.reload.user_id.should be_nil
         end
 
         it 'signs the user in' do

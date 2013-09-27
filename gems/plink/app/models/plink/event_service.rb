@@ -21,6 +21,11 @@ module Plink
       campaign ? campaign.id : nil
     end
 
+    def update_event_user_id(event_id, user_id)
+      event = Plink::EventRecord.find(event_id)
+      event.update_attribute(:user_id, user_id)
+    end
+
   private
 
     def create_event(user_id, event_type_id, options = {})

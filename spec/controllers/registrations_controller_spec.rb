@@ -5,8 +5,12 @@ describe RegistrationsController do
     describe "on save" do
       let(:gigya) { mock }
       let(:cookie_stub) { double(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
+      let!(:registration_event) { create_event(user_id: nil) }
 
       before do
+        create_event_type(name: Plink::EventTypeRecord.registration_start_type)
+        create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+
         controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
@@ -14,12 +18,11 @@ describe RegistrationsController do
         user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob', ip: '0.0.0.1')
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
+        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
+        controller.stub(:tracking_params) {stub(to_hash: true)}
       end
 
       it "signs the user in upon success" do
-        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
-        controller.stub(:tracking_params) {stub(to_hash: true)}
-
         controller.should_receive(:sign_in_user).with(@user_stub)
 
         xhr :post, :create
@@ -28,15 +31,15 @@ describe RegistrationsController do
       end
 
       it "notifies Gigya of a new user log in" do
-        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
-        controller.stub(:tracking_params) {stub(to_hash: true)}
-
         gigya.should_receive(:notify_login).with(site_user_id: 123, first_name: 'bob', email: 'test@example.com', new_user: true) { cookie_stub }
 
         xhr :post, :create
       end
 
       it 'tracks an email capture event' do
+        controller.unstub(:plink_event_service)
+        controller.unstub(:tracking_params)
+
         controller.stub(:session_params) { {affiliate_id: 23986} }
         TrackingObject.should_receive(:new).with(affiliate_id: 23986, ip: request.remote_ip).and_call_original
         Plink::EventService.any_instance.should_receive(:create_email_capture).with(
@@ -56,10 +59,25 @@ describe RegistrationsController do
         xhr :post, :create
       end
 
+      it 'updates the registration_start event if the id is present in the session' do
+        controller.unstub(:plink_event_service)
+        controller.unstub(:tracking_params)
+
+        session[:registration_start_event_id] = registration_event.id
+
+        xhr :post, :create
+
+        registration_event.reload.user_id.should == 123
+      end
+
+      it 'does not update the registration_start event if the id is not present in the session' do
+        xhr :post, :create
+
+        registration_event.reload.user_id.should be_nil
+      end
+
       it 'returns the user to the contests path if that is where they were referred from' do
         request.env["HTTP_REFERER"] = 'http://test.com/contests'
-        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
-        controller.stub(:tracking_params) {stub(to_hash: true)}
 
         xhr :post, :create
 

@@ -13,6 +13,7 @@ class GigyaLoginHandlerController < ApplicationController
       sign_in_user(user)
 
       if response.new_user?
+        update_registration_start_event(user.id)
         track_email_capture_event(user.id)
         redirect_to get_return_to_path || wallet_path(link_card: true)
       else

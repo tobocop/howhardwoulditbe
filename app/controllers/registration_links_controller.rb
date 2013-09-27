@@ -7,8 +7,7 @@ class RegistrationLinksController < ApplicationController
     redirect_to root_path unless @registration_path.live?
 
     session[:tracking_params] = TrackingObject.from_params(build_tracking_params(@registration_path)).to_hash
-
-    track_registration_start_event
+    store_registration_start_event_id(track_registration_start_event.id)
   end
 
 private

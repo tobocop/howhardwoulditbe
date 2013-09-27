@@ -25,18 +25,18 @@ describe 'Registering through a registration link' do
     it 'shows the user one of the landing pages' do
       visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 
-      tracked_event = Plink::EventRecord.order('eventID desc').first
+      registration_start_event = Plink::EventRecord.order('eventID desc').first
 
-      tracked_event.event_type_id.should == registration_start_event_type.id
-      tracked_event.campaign_id.should == campaign.id
-      tracked_event.affiliate_id.should == affiliate.id
-      tracked_event.sub_id.should == 'one'
-      tracked_event.sub_id_two.should == 'two'
-      tracked_event.sub_id_three.should == 'three'
-      tracked_event.sub_id_four.should == 'four'
-      tracked_event.path_id.should == 1
-      tracked_event.landing_page_id.should == landing_page.id
-      tracked_event.is_active.should be_true
+      registration_start_event.event_type_id.should == registration_start_event_type.id
+      registration_start_event.campaign_id.should == campaign.id
+      registration_start_event.affiliate_id.should == affiliate.id
+      registration_start_event.sub_id.should == 'one'
+      registration_start_event.sub_id_two.should == 'two'
+      registration_start_event.sub_id_three.should == 'three'
+      registration_start_event.sub_id_four.should == 'four'
+      registration_start_event.path_id.should == 1
+      registration_start_event.landing_page_id.should == landing_page.id
+      registration_start_event.is_active.should be_true
 
       page.should have_content 'An example custom landing page'
 
@@ -55,18 +55,21 @@ describe 'Registering through a registration link' do
 
       page.should have_content 'Welcome, Frud!'
 
-      tracked_event = Plink::EventRecord.order('eventID desc').first
+      email_capture_event = Plink::EventRecord.order('eventID desc').first
 
-      tracked_event.event_type_id.should == email_capture_event_type.id
-      tracked_event.campaign_id.should == campaign.id
-      tracked_event.affiliate_id.should == affiliate.id
-      tracked_event.sub_id.should == 'one'
-      tracked_event.sub_id_two.should == 'two'
-      tracked_event.sub_id_three.should == 'three'
-      tracked_event.sub_id_four.should == 'four'
-      tracked_event.path_id.should == 1
-      tracked_event.landing_page_id.should == landing_page.id
-      tracked_event.is_active.should be_true
+      email_capture_event.event_type_id.should == email_capture_event_type.id
+      email_capture_event.campaign_id.should == campaign.id
+      email_capture_event.affiliate_id.should == affiliate.id
+      email_capture_event.sub_id.should == 'one'
+      email_capture_event.sub_id_two.should == 'two'
+      email_capture_event.sub_id_three.should == 'three'
+      email_capture_event.sub_id_four.should == 'four'
+      email_capture_event.path_id.should == 1
+      email_capture_event.landing_page_id.should == landing_page.id
+      email_capture_event.is_active.should be_true
+
+      registration_start_event.reload
+      registration_start_event.user_id.should == email_capture_event.user_id
     end
   end
 end

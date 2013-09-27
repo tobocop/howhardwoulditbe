@@ -80,6 +80,22 @@ describe Plink::EventService do
     end
   end
 
+  describe '.update_event_user_id' do
+    let!(:event) { create_event(user_id: nil) }
+
+    it 'looks up the event by the event_id passed in' do
+      Plink::EventRecord.should_receive(:find).with(5).and_return { double(update_attribute: true) }
+
+      Plink::EventService.new.update_event_user_id(5, 3)
+    end
+
+    it 'updates an event with the passed in user_id' do
+      Plink::EventService.new.update_event_user_id(event.id, 3)
+
+      event.reload.user_id.should == 3
+    end
+  end
+
   describe '.get_campaign_id' do
     before :each do
       @expected_campaign = create_campaign(campaign_hash: 'HASHY')

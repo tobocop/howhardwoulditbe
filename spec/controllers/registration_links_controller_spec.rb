@@ -52,18 +52,18 @@ describe RegistrationLinksController do
       before  { get :show, url_params }
 
       it 'sets the tracking_params affiliate_id in the session to what it is for the current registration link' do
-          session[:tracking_params][:affiliate_id].should == affiliate.id
+        session[:tracking_params][:affiliate_id].should == affiliate.id
       end
 
       it 'sets the tracking_params campaign_id in the session to what it is for the current registration link' do
-          session[:tracking_params][:campaign_id].should == campaign.id
+        session[:tracking_params][:campaign_id].should == campaign.id
       end
 
       it 'sets the tracking_params in the session to what was passed in via the url for subids' do
-          session[:tracking_params][:sub_id].should == 'Subid 1'
-          session[:tracking_params][:sub_id_two].should == 'Subid 2'
-          session[:tracking_params][:sub_id_three].should == 'Subid 3'
-          session[:tracking_params][:sub_id_four].should == 'Subid 4'
+        session[:tracking_params][:sub_id].should == 'Subid 1'
+        session[:tracking_params][:sub_id_two].should == 'Subid 2'
+        session[:tracking_params][:sub_id_three].should == 'Subid 3'
+        session[:tracking_params][:sub_id_four].should == 'Subid 4'
       end
 
       it 'tracks a registration start event' do
@@ -76,6 +76,11 @@ describe RegistrationLinksController do
         event.sub_id_two.should == 'Subid 2'
         event.sub_id_three.should == 'Subid 3'
         event.sub_id_four.should == 'Subid 4'
+      end
+
+      it 'sets the session registration_start_event_id to the tracked events id' do
+        event = Plink::EventRecord.last
+        session[:registration_start_event_id].should == event.id
       end
     end
   end
