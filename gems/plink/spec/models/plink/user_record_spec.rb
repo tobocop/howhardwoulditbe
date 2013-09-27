@@ -3,7 +3,47 @@ require 'spec_helper'
 describe Plink::UserRecord do
   subject(:user_record) { new_user }
 
+  it { should allow_mass_assignment_of(:avatar_thumbnail_url) }
+  it { should allow_mass_assignment_of(:birthday) }
+  it { should allow_mass_assignment_of(:city) }
+  it { should allow_mass_assignment_of(:daily_contest_reminder) }
+  it { should allow_mass_assignment_of(:email) }
+  it { should allow_mass_assignment_of(:first_name) }
+  it { should allow_mass_assignment_of(:is_male) }
+  it { should allow_mass_assignment_of(:hold_redemptions) }
+  it { should allow_mass_assignment_of(:ip) }
+  it { should allow_mass_assignment_of(:password_hash) }
+  it { should allow_mass_assignment_of(:provider) }
+  it { should allow_mass_assignment_of(:salt) }
+  it { should allow_mass_assignment_of(:state) }
+  it { should allow_mass_assignment_of(:username) }
+  it { should allow_mass_assignment_of(:zip) }
+
   it_should_behave_like(:legacy_timestamps)
+
+  let(:valid_params) {
+    {
+      avatar_thumbnail_url: 'http://example.com/image.png',
+      birthday: 1.day.ago,
+      city: 'Denver',
+      daily_contest_reminder: true,
+      email: 'bob@example.com',
+      first_name: 'jerry',
+      is_male: true,
+      hold_redemptions: true,
+      ip: '127.0.0.1',
+      password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
+      provider: 'twitter',
+      salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
+      state: 'Colorado',
+      username: 'bobby tables',
+      zip: '80204'
+    }
+  }
+
+  it 'can be persisted' do
+    Plink::UserRecord.create(valid_params).should be_persisted
+  end
 
   it 'provides a better interface to the legacy field names' do
     user = new_user(is_subscribed: true)
@@ -12,15 +52,10 @@ describe Plink::UserRecord do
   end
 
   describe 'validations' do
-    it 'be valid' do
-      user_record.should be_valid
-    end
-
-    it 'must have a first name' do
-      user_record.first_name = nil
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:first_name)
-    end
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:email) }
+    it { should validate_presence_of(:password_hash) }
+    it { should validate_presence_of(:salt) }
 
     it 'ensures first name must only be alphabetical letters, numbers, dashes, underscores, or spaces' do
       user_record.first_name = "asb2"
@@ -38,12 +73,6 @@ describe Plink::UserRecord do
 
       user_record.first_name = 'banana hamrick'
       user_record.should be_valid
-    end
-
-    it 'must have an email address' do
-      user_record.email = nil
-      user_record.should_not be_valid
-      user_record.should have(2).error_on(:email)
     end
 
     it 'validates the format of the email address' do
@@ -65,18 +94,6 @@ describe Plink::UserRecord do
 
       user_record.email = 'foo@example.c'
       user_record.should be_valid
-    end
-
-    it 'must have a password hash' do
-      user_record.password_hash = nil
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:password_hash)
-    end
-
-    it 'must have a salt' do
-      user_record.salt = nil
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:salt)
     end
 
     it 'validates new password' do
@@ -112,16 +129,6 @@ describe Plink::UserRecord do
       user_record.provider = 'organic'
       user_record.should be_valid
     end
-  end
-
-  it 'allows assignment of avatar_thumbnail_url' do
-    user_record.update_attributes(avatar_thumbnail_url: 'test123')
-    user_record.avatar_thumbnail_url.should == 'test123'
-  end
-
-  it 'allows mass assignment of daily_contest_reminder' do
-    user_record.update_attributes(daily_contest_reminder: true)
-    user_record.daily_contest_reminder.should be_true
   end
 
   it 'has a primary virtual currency' do
@@ -249,8 +256,8 @@ describe Plink::UserRecord do
 
   describe '#new_password=' do
     it 'changes the password to the hashed version of the new password if it is valid' do
-      mock_password = mock(:password, hashed_value: 'abcdefgh', salt: '12345678')
-      Plink::Password.stub(:new).with(unhashed_password: 'abc1234').and_return(mock_password)
+      double_password = double(:password, hashed_value: 'abcdefgh', salt: '12345678')
+      Plink::Password.stub(:new).with(unhashed_password: 'abc1234').and_return(double_password)
 
       user_record.new_password = 'abc1234'
       user_record.new_password_confirmation = 'abc1234'

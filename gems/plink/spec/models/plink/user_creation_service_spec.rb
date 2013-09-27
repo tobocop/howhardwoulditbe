@@ -4,6 +4,12 @@ describe Plink::UserCreationService do
   let (:valid_params) {{
       email: 'test@test.com',
       first_name: 'derp',
+      username: 'bobberson',
+      birthday: Time.zone.local(1995, 02, 07),
+      is_male: true,
+      state: 'CO',
+      city: 'Denver',
+      zip: '80204',
       password_hash: 'asd',
       salt: 'asd',
       avatar_thumbnail_url: 'http://www.google.com/logo.png',
@@ -73,6 +79,7 @@ describe Plink::UserCreationService do
 
     it 'saves a user record' do
       Plink::UserRecord.should_receive(:new).with(valid_params) { user }
+      user.should_receive(:save)
       Plink::UserCreationService.new(valid_params).create_user
     end
 
@@ -90,8 +97,8 @@ describe Plink::UserCreationService do
 
     it 'returns the created user' do
       created_user = Plink::UserCreationService.new(valid_params).create_user
-      created_user.id.should == user.id
       created_user.should be_instance_of Plink::User
+      created_user.id.should == user.id
       created_user.new_user?.should be_true
     end
   end

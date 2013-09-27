@@ -2,7 +2,8 @@ class GigyaSocialLoginService
   class GigyaNotificationError < Exception;
   end
 
-  attr_reader :gigya_id, :email, :first_name, :gigya_connection, :avatar_thumbnail_url, :provider, :ip
+  attr_reader :avatar_thumbnail_url, :birthday, :city, :email, :first_name, :gender,
+    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :state, :zip
 
   attr_accessor :user
 
@@ -11,6 +12,12 @@ class GigyaSocialLoginService
     @gigya_id = params[:UID]
     @email = params[:email]
     @first_name = params[:firstName]
+    @nickname = blank_to_nil(params[:nickname])
+    @gender = blank_to_nil(params[:gender])
+    @state = blank_to_nil(params[:state])
+    @city = blank_to_nil(params[:city])
+    @zip = blank_to_nil(params[:zip])
+    @birthday = parse_birthday(params[:birthYear], params[:birthMonth], params[:birthDay])
     @avatar_thumbnail_url = params[:photoURL]
     @provider = params[:provider]
     @ip = params[:ip]
@@ -51,7 +58,15 @@ class GigyaSocialLoginService
     end
   end
 
-  private
+private
+
+  def parse_birthday(year, month, day)
+    begin
+      Time.zone.local(year.to_i, month.to_i, day.to_i)
+    rescue ArgumentError
+      nil
+    end
+  end
 
   def find_or_create_user_by_email(email)
     user = plink_user_service.find_by_email(email)
@@ -100,10 +115,26 @@ class GigyaSocialLoginService
       avatar_thumbnail_url: avatar_thumbnail_url,
       email: email,
       first_name: first_name,
+      username: nickname,
+      birthday: birthday,
+      is_male: is_male,
+      state: state,
+      city: city,
+      zip: zip,
       password_hash: password.hashed_value,
       provider: provider,
       ip: ip,
       salt: password.salt
     }
+  end
+
+  def is_male
+    return true if gender == 'm'
+    return false if gender == 'f'
+    nil
+  end
+
+  def blank_to_nil(param)
+    param.blank? ? nil : param
   end
 end

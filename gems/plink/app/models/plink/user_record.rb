@@ -15,24 +15,28 @@ module Plink
 
     include Plink::LegacyTimestamps
 
-    attr_accessible :avatar_thumbnail_url, :daily_contest_reminder, :email, :first_name,
-      :hold_redemptions, :ip, :password_hash, :provider, :salt
+    attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
+      :first_name, :is_male, :hold_redemptions, :ip, :password_hash, :provider, :salt, :state,
+      :username, :zip
 
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
     alias_attribute :is_subscribed, :isSubscribed
-    # Legacy naming for password_hash is password, which is kinda confusing.
+    alias_attribute :is_male, :isMale
     alias_attribute :password_hash, :password
     alias_attribute :salt, :passwordSalt
+    alias_attribute :primary_virtual_currency_id, :primaryVirtualCurrencyID
+    alias_attribute :hold_redemptions, :holdRedemptions
+    alias_attribute :zip, :homeZipCode
 
     delegate :can_redeem?, :currency_balance, :current_balance, :lifetime_balance,
       to: :user_balance
 
     belongs_to :primary_virtual_currency, class_name: 'Plink::VirtualCurrency', foreign_key: 'primaryVirtualCurrencyID'
     has_one :wallet, class_name: 'Plink::WalletRecord', foreign_key: 'userID'
+    has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
     has_many :wallet_item_records, through: :wallet
     has_many :open_wallet_items, through: :wallet
-    has_one :user_balance, class_name: 'Plink::UserBalance', foreign_key: 'userID'
     has_many :referral_conversion_records, class_name: 'Plink::ReferralConversionRecord', foreign_key: 'referredBy'
     has_many :qualifying_award_records, class_name: 'Plink::QualifyingAwardRecord', foreign_key: 'userID'
 
@@ -40,12 +44,10 @@ module Plink
     validates :email, presence: true, format: {with: VALID_EMAIL_REGEXP}
     validates :password_hash, :salt, presence: true
     validates :new_password, length: {minimum: 6}, confirmation: true, if: 'new_password.present?'
-    validate :email_is_not_in_database
     validates :provider, inclusion: {in: VALID_PROVIDERS}
+    validate :email_is_not_in_database
 
     before_create :set_default_virtual_currency
-
-    alias_attribute :hold_redemptions, :holdRedemptions
 
     scope :users_with_qualifying_transactions, -> {
       joins('INNER JOIN qualifyingAwards ON qualifyingAwards.userID = users.userID')
@@ -86,10 +88,6 @@ module Plink
       @new_password_confirmation
     end
 
-    def primary_virtual_currency_id
-      primaryVirtualCurrencyID
-    end
-
     def open_wallet_item
       open_wallet_items.first
     end
@@ -100,7 +98,7 @@ module Plink
       update_attribute(:daily_contest_reminder, state)
     end
 
-    private
+  private
 
     def email_is_not_in_database
       if emailAddress_changed? && self.class.find_by_email(email)
