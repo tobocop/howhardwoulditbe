@@ -2,7 +2,7 @@
 
 %h4= "Locked Wallet Items: #{@user.wallet_item_records.locked_records.count}"
 %ol
-  - @user.wallet_item_records.locked.each do |wallet_item|
+  - @user.wallet_item_records.locked_records.each do |wallet_item|
     %li.locked-wallet-items
       = "Open Slot for reason of: "
       = open_slot_link('referral', wallet_item.id)
