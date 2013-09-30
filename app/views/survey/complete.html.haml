@@ -1,0 +1,11 @@
+.email
+  .container
+    %img{ :class => "logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .headline
+      %h1 Thank you for your thoughts!
+    %h2 Your bonus points will be awarded within 7 days.
+    .login
+      .btn
+        =link_to 'Take me to Plink', root_path, class:'button primary-action'
+    %h3= contact_us_message
+

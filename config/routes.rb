@@ -45,9 +45,9 @@ PlinkPivotal::Application.routes.draw do
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get
   match '/contest/refer/:user_id/aid/:affiliate_id/contest/:contest_id/(:source)', to: 'contest_referrals#new', as: :contest_referral, via: :get
 
-  match "/style_guide", to: "style_guide#show", via: :get
-  match "/style_guide/emails", to: "style_guide#emails", via: :get
-  match "/home/plink_video", to: "home#plink_video", via: :get
+  match '/style_guide', to: 'style_guide#show', via: :get
+  match '/home/plink_video', to: 'home#plink_video', via: :get
+  match '/survey_complete', to: 'survey#complete', via: :get, as: :survey_complete
 
   root to: "home#index"
 
