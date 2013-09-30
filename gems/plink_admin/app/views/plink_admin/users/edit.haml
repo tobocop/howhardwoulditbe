@@ -1,6 +1,6 @@
 %h3 Unlock Locked Wallet Items
 
-%h4= "Locked Wallet Items: #{@user.wallet_item_records.locked.count}"
+%h4= "Locked Wallet Items: #{@user.wallet_item_records.locked_records.count}"
 %ol
   - @user.wallet_item_records.locked.each do |wallet_item|
     %li.locked-wallet-items
