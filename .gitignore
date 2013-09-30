@@ -3,8 +3,8 @@
 capybara-*.html
 .rspec
 .DS_Store
-/.bundle
-/vendor/bundle
+**/.bundle
+**/vendor/bundle
 /log/*
 *.log
 /tmp/*
