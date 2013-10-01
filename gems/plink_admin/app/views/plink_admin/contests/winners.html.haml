@@ -1,0 +1,73 @@
+%h4= "Winners [#{@winners.map{|winner| winner.last.length}.reduce(0, :+)}]"
+
+%hr
+
+= form_tag contest_accept_winners_path do
+  - @prize_levels.each do |prize_level|
+    %h5= "Prize Level: $#{prize_level.dollar_amount} [#{@winners[prize_level.id].length}]"
+    .contest-user-list
+      = link_to 'Hide', nil, class: 'js-toggle-contest-winners-table'
+      %table.contest-winners-toggleable-table
+        %thead
+          %th User ID
+          %th Entries
+          %th Institution
+          %th Email
+          %th Fishy
+          %th Remove
+        %tbody
+          - @winners[prize_level.id].each do |winner|
+            %tr
+              %td= winner.user_id
+              %td= winner.entries
+              %td= winner.institution
+              %td= winner.email
+              %td= winner.fishy == 1 ? 'yes' : 'no'
+              %td= link_to 'Remove', plink_admin.contest_remove_winner_path(contest_winner_id: winner.contest_winners_id), class: 'js-remove-contest-winner', data: {contest_winners_id: winner.contest_winners_id}
+              = hidden_field_tag 'user_ids[]', winner.user_id
+
+  = submit_tag 'Select As Winners'
+
+%hr
+
+%h4= "Alternates [#{@alternates.length}]"
+
+.contest-user-list
+  = link_to 'Hide', nil, class: 'js-toggle-contest-winners-table'
+  %table.contest-winners-toggleable-table
+    %thead
+      %th User ID
+      %th Entries
+      %th Institution
+      %th Email
+      %th Fishy
+    %tbody
+      - @alternates.each do |alternate|
+        %tr
+          %td= alternate.user_id
+          %td= alternate.entries
+          %td= alternate.institution
+          %td= alternate.email
+          %td= alternate.fishy == 1 ? 'yes' : 'no'
+
+%hr
+
+%h4= "Rejected [#{@rejected.length}]"
+
+.contest-user-list
+  = link_to 'Hide', nil, class: 'js-toggle-contest-winners-table'
+  %table.contest-winners-toggleable-table
+    %thead
+      %th User ID
+      %th Entries
+      %th Institution
+      %th Email
+      %th Fishy
+    %tbody
+      - @rejected.each do |reject|
+        %tr
+          %td= reject.user_id
+          %td= reject.entries
+          %td= reject.institution
+          %td= reject.email
+          %td= reject.fishy == 1 ? 'yes' : 'no'

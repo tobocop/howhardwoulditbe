@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'Contests' do
-
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
@@ -25,6 +24,7 @@ describe 'Contests' do
     fill_in 'Image URL', with: 'http://example.com/image.png'
     fill_in 'Prize', with: 'All of the bananas'
     fill_in 'Terms', with: 'You must defeat the banana hamrick'
+    select(1.year.from_now.year.to_s, :from => 'contest_end_time_1i')
 
     click_on 'Create'
 
@@ -110,5 +110,25 @@ describe 'Contests' do
     page.should have_content 'Other'
     page.should have_content 'N/A'
     page.should have_content 5
+  end
+
+  it 'allows the admin to remove users who should not be able to win the contest' do
+    contest = create_contest(end_time: 1.day.from_now)
+    user = create_user
+    entry = create_entry(user_id: user.id, contest_id: contest.id)
+    contest.update_attributes(end_time: Time.zone.now)
+    prize_level = create_contest_prize_level(contest_id: contest.id)
+    winner = create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: prize_level.id)
+    other_winner = create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: prize_level.id)
+
+    click_link 'Contests'
+
+    click_link 'Accept'
+
+    page.should have_content 'Winners [2]'
+    page.should have_button 'Select As Winners'
+
+    first('.js-remove-contest-winner').click
+    current_path.should == "/contests/#{contest.id}/remove_winner"
   end
 end

@@ -4,8 +4,8 @@ module Plink
 
     has_many :entry_records, class_name: 'Plink::EntryRecord', foreign_key: 'contest_id'
 
-    attr_accessible :description, :end_time, :entry_method, :image, :prize, :start_time,
-      :terms_and_conditions
+    attr_accessible :description, :end_time, :entry_method, :finalized_at, :image, :prize,
+      :start_time, :terms_and_conditions
     attr_reader :start_time_overlaps_existing_range, :end_time_overlaps_existing_range,
       :end_time_less_than_start_time
 

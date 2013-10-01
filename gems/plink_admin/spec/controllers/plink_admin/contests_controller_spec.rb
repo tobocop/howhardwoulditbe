@@ -247,4 +247,122 @@ describe PlinkAdmin::ContestsController do
       assigns(:contest).should == contest
     end
   end
+
+  describe 'GET winners' do
+    it 'returns an empty collection if not provided a contest_id' do
+      get :winners
+
+      assigns(:prize_levels).should be_empty
+      assigns(:winners).should be_empty
+      assigns(:alternates).should be_empty
+      assigns(:rejected).should be_empty
+    end
+
+    it 'returns the set of prize levels for the given contest' do
+      Plink::ContestPrizeLevelRecord.should_receive(:where).with(contest_id: 1.to_s).
+        and_return(double)
+
+      get :winners, contest_id: 1
+
+      assigns(:prize_levels).should_not be_nil
+    end
+
+    it 'returns the set of prize winners for the given contest' do
+      PlinkAdmin::ContestQueryService.should_receive(:winning_users_grouped_by_prize_level).
+        with(1.to_s).and_return(double)
+
+      get :winners, contest_id: 1
+
+      assigns(:winners).should_not be_nil
+    end
+
+    it 'returns the set of alternates for the given contest' do
+      PlinkAdmin::ContestQueryService.should_receive(:alternates).with(1.to_s).
+        and_return(double)
+
+      get :winners, contest_id: 1
+
+      assigns(:alternates).should_not be_nil
+    end
+
+    it 'returns the set of rejected winners for the given contest' do
+      PlinkAdmin::ContestQueryService.should_receive(:rejected).with(1.to_s).
+        and_return(double)
+
+      get :winners, contest_id: 1
+
+      assigns(:rejected).should_not be_nil
+    end
+  end
+
+  describe 'GET remove_winner' do
+    let(:contest_id) { 1 }
+    let(:contest_winner_id) { 3 }
+
+    before do
+      Plink::ContestWinningService.should_receive(:remove_winning_record_and_update_prizes).
+        with(contest_id.to_s, contest_winner_id.to_s, anything).and_return(nil)
+    end
+    it 'renders the winners view' do
+      get :remove_winner, contest_id: contest_id, contest_winner_id: contest_winner_id
+
+      response.should render_template :winners
+    end
+
+    it 'calls the Contest Winning Service to remove the winner and update the others' do
+      get :remove_winner, contest_id: contest_id, contest_winner_id: contest_winner_id
+    end
+
+    it 'returns the same variables as GET winners' do
+      Plink::ContestPrizeLevelRecord.should_receive(:where).with(contest_id: contest_id.to_s).
+        and_return(double)
+      PlinkAdmin::ContestQueryService.should_receive(:winning_users_grouped_by_prize_level).
+        with(contest_id.to_s).and_return(double)
+      PlinkAdmin::ContestQueryService.should_receive(:alternates).with(contest_id.to_s).
+        and_return(double)
+      PlinkAdmin::ContestQueryService.should_receive(:rejected).with(contest_id.to_s).
+        and_return(double)
+
+      get :remove_winner, contest_id: contest_id, contest_winner_id: contest_winner_id
+
+      assigns(:prize_levels).should_not be_nil
+      assigns(:winners).should_not be_nil
+      assigns(:alternates).should_not be_nil
+      assigns(:rejected).should_not be_nil
+    end
+  end
+
+  describe 'POST accept_winners' do
+    let(:contest_id) { 1 }
+
+    context 'with less than 150 user ids' do
+      before { post :accept_winners, contest_id: contest_id, user_ids: [1,2,3] }
+
+      it 'returns an error if there are less than 150 user ids' do
+        assigns(:errors).should == { 'message' => 'Must have 150 winners.' }
+      end
+
+      it 'renders the winners template' do
+        response.should render_template :winners
+      end
+    end
+
+    it 'calls the Contest Winning Service to finalize the results of the contest' do
+      winner_ids = Array(1..150)
+      Plink::ContestWinningService.should_receive(:finalize_results!).
+        with(contest_id.to_s, winner_ids.map(&:to_s), anything)
+
+      post :accept_winners, contest_id: contest_id, user_ids: winner_ids
+    end
+
+    it 'renders the contests index with a flash message' do
+      Plink::ContestWinningService.should_receive(:finalize_results!).and_return(nil)
+      winner_ids = Array(1..150)
+
+      post :accept_winners, contest_id: contest_id, user_ids: winner_ids
+
+      response.should redirect_to '/contests'
+      flash[:notice].should_not be_nil
+    end
+  end
 end

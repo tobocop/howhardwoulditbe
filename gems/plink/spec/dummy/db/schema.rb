@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130924153808) do
+ActiveRecord::Schema.define(:version => 20131001190200) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -493,6 +493,7 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.text     "terms_and_conditions"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
+    t.datetime "finalized"
   end
 
   create_table "dm_dates", :id => false, :force => true do |t|

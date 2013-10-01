@@ -13,7 +13,7 @@ module PlinkAdmin
       @contest = Plink::ContestRecord.create(params[:contest])
 
       if @contest.persisted?
-        redirect_to contests_path
+        redirect_to plink_admin.contests_path
       else
         render 'new'
       end
@@ -27,7 +27,7 @@ module PlinkAdmin
       @contest = Plink::ContestRecord.find(params[:id])
 
       if @contest.update_attributes(params[:contest])
-        redirect_to contests_path
+        redirect_to plink_admin.contests_path
       else
         render 'edit'
       end
@@ -75,6 +75,30 @@ module PlinkAdmin
       @statistics = PlinkAdmin::ContestQueryService.get_statistics(contest_id)
     end
 
+    def winners
+      setup_winners_data(params[:contest_id])
+    end
+
+    def remove_winner
+      Plink::ContestWinningService.remove_winning_record_and_update_prizes(params[:contest_id], params[:contest_winner_id], current_admin.id)
+
+      setup_winners_data(params[:contest_id])
+
+      render :winners
+    end
+
+    def accept_winners
+      if params[:user_ids].length < 150
+        @errors = {message: 'Must have 150 winners.'}
+        render :winners and return
+      end
+
+      Plink::ContestWinningService.finalize_results!(params[:contest_id], params[:user_ids], current_admin.id)
+
+      flash[:notice] = 'Winners accepted.'
+      redirect_to plink_admin.contests_path
+    end
+
   private
 
     def plink_user_service
@@ -94,6 +118,13 @@ module PlinkAdmin
 
     def contest_select
       [:description, :end_time, :id, :start_time]
+    end
+
+    def setup_winners_data(contest_id)
+      @prize_levels = Plink::ContestPrizeLevelRecord.where(contest_id: contest_id)
+      @winners = PlinkAdmin::ContestQueryService.winning_users_grouped_by_prize_level(contest_id)
+      @alternates = PlinkAdmin::ContestQueryService.alternates(contest_id)
+      @rejected = PlinkAdmin::ContestQueryService.rejected(contest_id)
     end
   end
 end

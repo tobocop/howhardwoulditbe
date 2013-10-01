@@ -53,6 +53,15 @@ describe Plink::ContestRecord do
     end
   end
 
+  it { should allow_mass_assignment_of(:description) }
+  it { should allow_mass_assignment_of(:end_time) }
+  it { should allow_mass_assignment_of(:entry_method) }
+  it { should allow_mass_assignment_of(:finalized_at) }
+  it { should allow_mass_assignment_of(:image) }
+  it { should allow_mass_assignment_of(:prize) }
+  it { should allow_mass_assignment_of(:start_time) }
+  it { should allow_mass_assignment_of(:terms_and_conditions) }
+
   context 'named scopes' do
     describe '.other_contests_within_time' do
       let!(:expected_contest) { create_contest(valid_attributes) }

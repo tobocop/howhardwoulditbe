@@ -633,7 +633,7 @@ module Plink
         terms_and_conditions: 'This is a set of terms and conditions'
       }
 
-      ContestRecord.new(defaults.merge(options))
+      Plink::ContestRecord.new(defaults.merge(options))
     end
 
     def create_entry(options = {})
@@ -651,6 +651,23 @@ module Plink
       }
 
       Plink::EntryRecord.new { |entry| apply(entry, defaults, options) }
+    end
+
+    def create_contest_winner(options = {})
+      new_contest_winner(options).tap(&:save!)
+    end
+
+    def new_contest_winner(options = {})
+      defaults = {
+        user_id: 1,
+        contest_id: 1,
+        finalized_at: nil,
+        prize_level_id: nil,
+        rejected: false,
+        winner: false
+      }
+
+      Plink::ContestWinnerRecord.new { |entry| apply(entry, defaults, options) }
     end
 
     def create_contest_prize_level(options = {})

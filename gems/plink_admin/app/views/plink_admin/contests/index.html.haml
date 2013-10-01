@@ -10,16 +10,26 @@
     %th Start Time
     %th End Time
     %th Contest Statistics
+    %th Winners
   %tbody
     - @contests.each do |contest|
       %tr.contest-item
-        %td= link_to 'Edit', edit_contest_path(contest)
+        - if contest.ended?
+          %td N/A
+        - else
+          %td= link_to 'Edit', edit_contest_path(contest)
         %td= contest.description
         %td= image_tag contest.image
         %td= contest.prize
         %td= contest.start_time
         %td= contest.end_time
         %td= link_to 'Statistics', plink_admin.contest_statistics_path(contest.id)
+        - if contest.finalized_at.present?
+          %td Winners Selected
+        - elsif contest.ended?
+          %td= link_to 'Accept', plink_admin.contest_winners_path(contest.id)
+        - else
+          %td Contest in Progress
 
 %hr
 

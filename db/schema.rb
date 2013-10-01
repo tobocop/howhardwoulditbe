@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130924153808) do
+ActiveRecord::Schema.define(:version => 20131004043142) do
+
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
     t.integer  "uia_account_id",                :limit => 8,                                                     :null => false
@@ -88,6 +89,28 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.string "password_salt"
     t.string "permissions"
     t.string "is_active"
+  end
+
+  create_table "advertiserCampaigns_old", :primary_key => "advertiserCampaignID", :force => true do |t|
+    t.integer  "advertiserID",                                                                           :null => false
+    t.integer  "campaignID",                                                                             :null => false
+    t.datetime "beginDate"
+    t.datetime "endDate"
+    t.decimal  "revShare",                              :precision => 12, :scale => 6,                   :null => false
+    t.integer  "daysInAwardPeriod",                                                    :default => 14,   :null => false
+    t.string   "url",                   :limit => 1000,                                                  :null => false
+    t.integer  "createdBy",                                                            :default => 0,    :null => false
+    t.datetime "created",                                                                                :null => false
+    t.integer  "modifiedBy",                                                           :default => 0,    :null => false
+    t.datetime "modified",                                                                               :null => false
+    t.boolean  "isActive",                                                             :default => true, :null => false
+    t.decimal  "cpaAmount",                             :precision => 12, :scale => 6
+    t.decimal  "displayOrder",                          :precision => 18, :scale => 0
+    t.string   "logoURL",               :limit => 500
+    t.string   "advertiserName",        :limit => 500
+    t.string   "shortDescription",      :limit => 500
+    t.text     "terms"
+    t.decimal  "minimumPurchaseAmount",                 :precision => 12, :scale => 6
   end
 
   create_table "advertisers", :primary_key => "advertiserID", :force => true do |t|
@@ -227,7 +250,7 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.integer  "affiliateID"
     t.string   "subID",                       :limit => 100
     t.boolean  "isPendingReview",                                                            :default => false, :null => false
-    t.boolean  "inCampaignPeriod_old",                                                                          :null => false
+    t.boolean  "inCampaignPeriod_old",                                                       :default => false, :null => false
     t.boolean  "inUserAwardPeriod",                                                          :default => false, :null => false
     t.integer  "awardOrder"
     t.integer  "virtualCurrencyID"
@@ -406,6 +429,19 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.boolean  "isActive",                   :default => true,  :null => false
   end
 
+  create_table "campaigns_old", :primary_key => "campaignID", :force => true do |t|
+    t.string   "internalCampaignName",  :limit => 250,                   :null => false
+    t.string   "externalCampaignName",  :limit => 250,                   :null => false
+    t.integer  "createdBy",                            :default => 0,    :null => false
+    t.datetime "created",                                                :null => false
+    t.integer  "modifiedBy",                           :default => 0,    :null => false
+    t.datetime "modified",                                               :null => false
+    t.boolean  "isActive",                             :default => true, :null => false
+    t.integer  "virtualCurrencyID",                                      :null => false
+    t.integer  "campaignLandingPageID",                :default => 1,    :null => false
+    t.integer  "campaignTypeID",                                         :null => false
+  end
+
   create_table "charities", :primary_key => "charityID", :force => true do |t|
     t.string   "charity",           :limit => 300,                    :null => false
     t.string   "description",       :limit => 1000
@@ -470,6 +506,12 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.datetime "updated_at",          :null => false
   end
 
+  create_table "contest_blacklisted_emails", :force => true do |t|
+    t.string   "email_pattern"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "contest_prize_levels", :force => true do |t|
     t.integer  "contest_id"
     t.integer  "award_count"
@@ -485,7 +527,7 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.integer  "admin_user_id"
     t.boolean  "winner"
     t.boolean  "rejected"
-    t.datetime "finalized"
+    t.datetime "finalized_at"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -499,6 +541,7 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.text     "terms_and_conditions"
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
+    t.datetime "finalized_at"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -1677,6 +1720,27 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.decimal  "percentAwardAmount",      :precision => 5,  :scale => 2
   end
 
+  create_table "tmp_vw_bad_freeAwardsTodaysCount", :id => false, :force => true do |t|
+    t.integer  "awardCount"
+    t.integer  "weightlessRedemptionTypeID"
+    t.string   "weightlessRedemptionType",   :limit => 100
+    t.datetime "simpleDate"
+  end
+
+  create_table "tmp_vw_freeAwardsPreviousWeekSummary", :id => false, :force => true do |t|
+    t.integer "awardCount"
+    t.integer "weightlessRedemptionTypeID"
+    t.string  "weightlessRedemptionType",   :limit => 100
+    t.string  "simpleDate",                 :limit => 8
+  end
+
+  create_table "tmp_vw_good_freeAwardsTodaysCount", :id => false, :force => true do |t|
+    t.integer  "awardCount"
+    t.integer  "weightlessRedemptionTypeID"
+    t.string   "weightlessRedemptionType",   :limit => 100
+    t.datetime "simpleDate"
+  end
+
   create_table "transactionDownloadJobs", :primary_key => "transactionDownloadJobID", :force => true do |t|
     t.integer  "startUserID", :limit => 8,                    :null => false
     t.integer  "endUserID",   :limit => 8,                    :null => false
@@ -1914,9 +1978,9 @@ ActiveRecord::Schema.define(:version => 20130924153808) do
     t.datetime "deactivationDate"
     t.string   "userAgent",                   :limit => 500
     t.integer  "createdBy",                                  :default => 0,     :null => false
-    t.datetime "created"
+    t.datetime "created",                                                       :null => false
     t.integer  "modifiedBy",                                 :default => 0,     :null => false
-    t.datetime "modified"
+    t.datetime "modified",                                                      :null => false
     t.boolean  "isActive",                                   :default => true,  :null => false
     t.integer  "initialCampaignID"
     t.boolean  "hasFailedBank",                              :default => false, :null => false

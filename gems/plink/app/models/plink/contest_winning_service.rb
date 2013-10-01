@@ -65,5 +65,84 @@ module Plink
         Plink::ContestWinnerRecord.create!(user_id: user_id, contest_id: contest_id, prize_level_id: nil, rejected: false, winner: false)
       end
     end
+
+    def self.remove_winning_record_and_update_prizes(contest_id, contest_winner_record_id, admin_id)
+      raise ArgumentError.new('contest_id is required') if contest_id.blank?
+      raise ArgumentError.new('contest_winner_record_id is required') if contest_winner_record_id.blank?
+
+      prize_level_id = remove_winner(contest_winner_record_id, admin_id)
+
+      winners_and_first_alternate = winners_and_first_alternate(contest_id, prize_level_id)
+
+      update_prize_levels!(winners_and_first_alternate, prize_level_id)
+    end
+
+    def self.finalize_results!(contest_id, user_ids, admin_user_id)
+      if user_ids.length != 150
+        raise ArgumentError.new('Not enough users to finalize contest results.')
+      end
+
+      Plink::ContestWinnerRecord.where('contest_id = ? AND user_id IN (?)',  contest_id, user_ids).
+        update_all({
+          finalized_at: Time.zone.now,
+          winner: true,
+          rejected: false,
+          admin_user_id: admin_user_id
+        })
+
+      Plink::ContestWinnerRecord.where(contest_id: contest_id).where(finalized_at: nil).
+        where('prize_level_id IS NULL').update_all({
+          finalized_at: Time.zone.now,
+          winner: false,
+          rejected: true,
+          admin_user_id: admin_user_id
+        })
+
+      Plink::ContestRecord.find(contest_id).update_attributes(finalized_at: Time.zone.now)
+    end
+
+  private
+
+    def self.remove_winner(contest_winner_record_id, admin_id)
+      to_be_removed = Plink::ContestWinnerRecord.find(contest_winner_record_id)
+      prize_level_id = to_be_removed.prize_level_id
+
+      to_be_removed.update_attributes({
+        admin_user_id: admin_id,
+        rejected: true,
+        winner: false,
+        finalized_at: Time.zone.now,
+        prize_level_id: nil
+      })
+
+      prize_level_id
+    end
+
+    def self.winners_and_first_alternate(contest_id, prize_level_id)
+      winners = Plink::ContestWinnerRecord.
+        where(contest_id: contest_id).
+        where('prize_level_id >= ?', prize_level_id).
+        order('id ASC')
+
+      first_alternate = Plink::ContestWinnerRecord.
+        where(contest_id: contest_id).
+        where('prize_level_id IS NULL').
+        where('finalized_at IS NULL').
+        where(rejected: false).
+        order('id ASC').
+        first
+
+      winners << first_alternate
+    end
+
+    def self.update_prize_levels!(winners, prize_level_id)
+      prize_levels = Plink::ContestPrizeLevelRecord.where('id >= ?', prize_level_id).order('id ASC')
+      prize_levels.each do |prize_level|
+        prize_level.award_count.times do
+          winner = winners.shift
+          winner.update_attributes(prize_level_id: prize_level.id)
+        end
+      end
+    end
   end
 end

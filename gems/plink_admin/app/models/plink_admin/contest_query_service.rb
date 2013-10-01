@@ -193,5 +193,67 @@ module PlinkAdmin
       ) l
       ORDER BY 3;"
     end
+
+    def self.winning_users_grouped_by_prize_level(contest_id)
+        select_and_joins(contest_id).
+        where('contest_winners.prize_level_id IS NOT NULL').
+        group(group).
+        order('contest_winners.id ASC').
+        group_by {|winner| winner.prize_level_id }
+    end
+
+    def self.alternates(contest_id)
+        select_and_joins(contest_id).
+        where('contest_winners.prize_level_id IS NULL').
+        where('contest_winners.finalized_at IS NULL').
+        group(group).
+        order('contest_winners.id ASC')
+    end
+
+    def self.rejected(contest_id)
+        select_and_joins(contest_id).
+        where('contest_winners.rejected = ?', true).
+        group(group).
+        order('contest_winners.id ASC')
+    end
+
+  private
+
+    def self.select
+      <<-END
+        users.userID user_id,
+        SUM(entries.computed_entries) entries,
+        institutionName AS institution,
+        users.emailAddress,
+        contest_winners.prize_level_id prize_level_id,
+        (CASE WHEN intuit_fishy_transactions.id IS NOT NULL THEN 1 ELSE 0 END) fishy,
+        contest_winners.id contest_winners_id
+      END
+    end
+
+    def self.select_and_joins(contest_id)
+      Plink::UserRecord.
+        select(select).
+        joins('INNER JOIN contest_winners ON users.userID = contest_winners.user_id').
+        joins('INNER JOIN entries ON users.userID = entries.user_id AND entries.user_id = contest_winners.user_id').
+        joins('LEFT JOIN contest_prize_levels ON contest_prize_levels.id = contest_winners.prize_level_id').
+        joins('LEFT JOIN usersInstitutions ON users.userID = usersInstitutions.userID').
+        joins('LEFT JOIN institutions ON usersInstitutions.institutionID = institutions.institutionID').
+        joins('LEFT JOIN intuit_fishy_transactions ON users.userID = intuit_fishy_transactions.user_id AND is_active = 1').
+        where('contest_winners.contest_id = ? AND entries.contest_id = ?', contest_id, contest_id)
+    end
+
+    def self.group
+      <<-END
+        users.userID,
+        users.emailAddress,
+        institutionName,
+        dollar_amount,
+        contest_winners.id,
+        contest_winners.prize_level_id,
+        intuit_fishy_transactions.id,
+        contest_winners.id
+      END
+    end
   end
 end
