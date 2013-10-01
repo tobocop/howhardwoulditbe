@@ -1,0 +1,15 @@
+- if share_page.errors.any?
+  .alert-box.alert
+    - share_page.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(share_page, url: url, as: 'share_page') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :partial_path, 'Partial name'
+  = f.text_field :partial_path
+
+  = f.submit button_text, class: 'button small'
+
+= link_to 'Cancel', share_pages_path, class: 'button small secondary'
+

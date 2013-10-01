@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130930195210) do
+ActiveRecord::Schema.define(:version => 20130930221402) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1555,6 +1555,13 @@ ActiveRecord::Schema.define(:version => 20130930195210) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "share_pages", :force => true do |t|
+    t.string   "name"
+    t.string   "partial_path"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "social_networks", :force => true do |t|
     t.string  "name"

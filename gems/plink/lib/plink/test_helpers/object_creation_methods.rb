@@ -31,6 +31,19 @@ module Plink
       new_landing_page(options).tap(&:save!)
     end
 
+    def new_share_page(options = {})
+      defaults = {
+        name: 'My Share Page',
+        partial_path: '/_hereitis.html.haml'
+      }
+
+      Plink::SharePageRecord.new { |share_page| apply(share_page, defaults, options) }
+    end
+
+    def create_share_page(options = {})
+      new_share_page(options).tap(&:save!)
+    end
+
     def new_registration_link(options = {})
       defaults = {
         affiliate_id: 123,
