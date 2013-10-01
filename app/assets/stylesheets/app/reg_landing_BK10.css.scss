@@ -1,0 +1,55 @@
+@import "app/colors.css.scss";
+@import "app/mixins.css.scss";
+
+.reg-landing-bk10 {
+
+  text-align:center;
+
+  h1 {
+    color:#FFFFFF;
+    font-size: 4em;
+    font-weight:900;
+    margin-bottom:8px;
+  }
+
+  h2 {
+    color:#FFFFFF;
+    font-size:1.7em;
+    line-height:1.3em;
+    letter-spacing:3px;
+
+    &.light{
+      font-weight:300;
+    }
+
+    &.thin{
+      font-weight:100;
+    }
+
+    &.cyan{
+      color:$cyan;
+    }
+  }
+  
+  .feature {
+    background-color:#000000;
+    background-image: url('/assets/feature_bg_500h.jpg');
+    background-position:center;
+    background-repeat:no-repeat;
+    height:500px;
+    padding:38px;
+    width:100%;
+  }
+
+  .offer-details {
+    color:#FFFFFF;
+    font-size:1em;
+    font-weight:100;
+    letter-spacing: 2px;
+    line-height: 1.3em;
+
+    width:100%;
+    max-width:730px;
+    margin:0 auto;
+  }
+}

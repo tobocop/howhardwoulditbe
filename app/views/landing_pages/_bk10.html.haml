@@ -1,15 +1,19 @@
-.reg-landing
+.home.reg-landing-bk10
   .feature
-    %h1 Make any purchase at Burger King and get a $10 Gift Card
-    %h2.light
-      Join Plink and start earning rewards at
+    %h1 
+      Free $10 Gift Card with any 
       %br
-      over 70,000 locations nationwide.
+      purchase at Burger King
+    %h2.light 
+      It gets even better - choose your free $10 Gift Card and 
+      %br
+      start earning rewards at over 75,000 locations nationwide. 
     .join-btn
       = link_to 'Join Plink for FREE!', '#', data: {'reveal-id' => 'registration-form'}, class: 'button primary-action large'
+    .offer-details This is a private offer for new members only. Burger King purchase must be made by 10/6 to qualify. Gift cards will be awarded within 7 business days of when the transaction is posted. Limit of one $10 bonus per new member account.  
 
   .how
-    %h2.thin How Plink Works
+    %h2.thin How Plink Works 
     .icon-wrapper
       .icon
         =image_tag 'home_how1.png'
@@ -20,17 +24,17 @@
       .icon
         =image_tag 'home_how2.png'
         %h4
-          Earn Plink Points when
+          Make a purchase at
           %br
-          you make purchases at
-          %br
-          our partner locations
+          Burger King
       .icon
         =image_tag 'home_how3.png'
         %h4
-          Redeem points for
+          Receive a $10 Gift Card
           %br
-          cash and gift cards
+          of your choice within
+          %br
+          7 business days
     .video-btn
       %button.button.home-video{data: {'reveal-id' => 'plink-video-modal', 'reveal-ajax' => '/home/plink_video'}} Watch a short video for more info
 
