@@ -4,8 +4,19 @@ class UserRegistrationMailer < PlinkMailer
     @virtual_currency_name = args.fetch(:virtual_currency_name)
     @email_address = args.fetch(:email)
 
-    mail(to: @email_address,
-         subject: 'Welcome to Plink'
+    mail(
+      to: @email_address,
+      subject: 'Welcome to Plink'
+    )
+  end
+
+  def complete_registration(args)
+    @first_name = args.fetch(:first_name)
+    @email_address = args.fetch(:email)
+
+    mail(
+      to: @email_address,
+      subject: 'Important Account Information - Your registration is incomplete'
     )
   end
 end

@@ -98,6 +98,11 @@ GEM
     coffee-script-source (1.6.3)
     daemons (1.1.9)
     database_cleaner (1.0.1)
+    delayed_job (4.0.0)
+      activesupport (>= 3.0, < 4.1)
+    delayed_job_active_record (4.0.0)
+      activerecord (>= 3.0, < 4.1)
+      delayed_job (>= 3.0, < 4.1)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -263,7 +268,9 @@ DEPENDENCIES
   capybara (~> 2.1.0)
   capybara-webkit (~> 1.0.0)
   coffee-rails (~> 3.2.1)
+  daemons (~> 1.1.9)
   database_cleaner (~> 1.0.1)
+  delayed_job_active_record (~> 4.0.0)
   exceptional
   execjs
   foreman

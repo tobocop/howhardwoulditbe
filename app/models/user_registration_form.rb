@@ -25,6 +25,9 @@ class UserRegistrationForm
   def save
     return unless valid?
     self.user = user_creation_service.create_user
+
+    AfterUserRegistration.delay(run_at: 20.minutes.from_now).send_complete_your_registration_email(user.id)
+
     true
   end
 

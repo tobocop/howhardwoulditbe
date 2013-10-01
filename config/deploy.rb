@@ -1,5 +1,6 @@
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
+require "delayed/recipes"
 
 # User:
 set :user, 'deployer'
@@ -32,6 +33,7 @@ load 'config/deploy/recipes/application_keys'
 load 'config/deploy/recipes/unicorn'
 load 'config/deploy/recipes/log'
 load 'config/deploy/recipes/gems'
+load 'config/deploy/recipes/delayed_job'
 
 # Deployment Tasks:
 before :deploy, 'deploy:setup'

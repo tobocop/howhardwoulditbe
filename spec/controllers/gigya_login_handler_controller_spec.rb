@@ -95,12 +95,15 @@ describe GigyaLoginHandlerController do
 
       context 'and user is a new user' do
         let(:successful_response) { mock('success response', success?: true, new_user?: true) }
-        let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: mock('user', id: 87, password_hash: 'asd'), sign_in_user: successful_response) }
+        let(:user_double) { double('user', id: 87, password_hash: 'asd', first_name: 'bobby', email: 'tables@sql.com') }
+        let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user_double, sign_in_user: successful_response) }
         let!(:registration_event) { create_event(user_id: nil) }
 
         before do
           controller.stub(:track_email_capture_event)
           GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
+          mock_delay = double('mock_delay').as_null_object
+          AfterUserRegistration.stub(:delay).and_return(mock_delay)
         end
 
         it 'calls the track_email_capture_event' do
@@ -121,6 +124,14 @@ describe GigyaLoginHandlerController do
           get :create, {valid_params: true}
 
           registration_event.reload.user_id.should be_nil
+        end
+
+        it 'delays sending a complete your registration email' do
+          mock_delay = double('mock_delay').as_null_object
+          AfterUserRegistration.should_receive(:delay).and_return(mock_delay)
+          mock_delay.should_receive(:send_complete_your_registration_email).with(87)
+
+          get :create, {valid_params: true}
         end
 
         it 'signs the user in' do

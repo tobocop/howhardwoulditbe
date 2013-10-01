@@ -15,6 +15,7 @@ class GigyaLoginHandlerController < ApplicationController
       if response.new_user?
         update_registration_start_event(user.id)
         track_email_capture_event(user.id)
+        mail_user(user.id)
         redirect_to get_return_to_path || wallet_path(link_card: true)
       else
         redirect_to get_return_to_path || redirect_path_for(user)
@@ -24,7 +25,11 @@ class GigyaLoginHandlerController < ApplicationController
     end
   end
 
-  private
+private
+
+  def mail_user(user_id)
+    AfterUserRegistration.delay(run_at: 20.minutes.from_now).send_complete_your_registration_email(user_id)
+  end
 
   def redirect_path_for(user)
     if plink_intuit_account_service.user_has_account?(user.id)

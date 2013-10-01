@@ -30,7 +30,6 @@ PlinkPivotal::Application.routes.draw do
     post :toggle_opt_in_to_daily_reminder
   end
 
-
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request
   resource :password_reset, only: [:new, :create], controller: :password_reset
 
