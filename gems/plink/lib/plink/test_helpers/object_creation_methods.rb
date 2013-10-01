@@ -60,6 +60,19 @@ module Plink
       new_registration_link_landing_page(options).tap(&:save!)
     end
 
+    def new_registration_link_mapping(options = {})
+      defaults = {
+        affiliate_id: 3,
+        campaign_id: 4,
+        registration_link_id: 1
+      }
+
+      Plink::RegistrationLinkMappingRecord.new { |registration_link_mapping| apply(registration_link_mapping, defaults, options) }
+    end
+
+    def create_registration_link_mapping(options = {})
+      new_registration_link_mapping(options).tap(&:save!)
+    end
 
     def new_campaign(options = {})
       defaults = {

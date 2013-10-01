@@ -23,6 +23,7 @@ module Plink
     alias_attribute :first_name, :firstName
     alias_attribute :is_subscribed, :isSubscribed
     alias_attribute :is_male, :isMale
+    # Legacy naming for password_hash is password, which is kinda confusing.
     alias_attribute :password_hash, :password
     alias_attribute :salt, :passwordSalt
     alias_attribute :primary_virtual_currency_id, :primaryVirtualCurrencyID

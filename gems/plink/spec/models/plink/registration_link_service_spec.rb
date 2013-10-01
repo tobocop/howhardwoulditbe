@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::RegistrationLinkService do
-  describe '#get_registration_path_by_registration_link_id' do
+  describe '.get_registration_path_by_registration_link_id' do
     let(:landing_page) { create_landing_page(partial_path: 'mypath.html.haml') }
 
     let!(:registration_link) {

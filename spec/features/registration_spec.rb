@@ -4,24 +4,23 @@ describe 'Registering through a registration link' do
   let!(:registration_start_event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
   let!(:email_capture_event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
 
+  let(:affiliate) { create_affiliate }
+  let(:campaign) { create_campaign(campaign_hash: 'willbedeprecated') }
+  let(:landing_page) { create_landing_page(partial_path: 'example.html.haml') }
+
+  let!(:registration_link) {
+    create_registration_link(
+      affiliate_id: affiliate.id,
+      campaign_id: campaign.id,
+      landing_page_records: [landing_page]
+    )
+  }
+
   before do
     create_virtual_currency
   end
 
   context 'with custom landing pages', js:true do
-    let(:affiliate) { create_affiliate }
-    let(:campaign) { create_campaign }
-    let(:landing_page) { create_landing_page(partial_path: 'example.html.haml') }
-
-    let!(:registration_link) {
-      create_registration_link(
-        affiliate_id: affiliate.id,
-        campaign_id: campaign.id,
-        landing_page_records: [landing_page]
-      )
-    }
-
-
     it 'shows the user one of the landing pages' do
       visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 
@@ -70,6 +69,34 @@ describe 'Registering through a registration link' do
 
       registration_start_event.reload
       registration_start_event.user_id.should == email_capture_event.user_id
+    end
+  end
+
+  context 'deprecated paths', js:true do
+    before do
+      create_registration_link_mapping(affiliate_id: affiliate.id, campaign_id: campaign.id, registration_link_id: registration_link.id)
+    end
+
+    it 'forwards to a new registration link' do
+      visit deprecated_registration_link_path('aid' => affiliate.id, 'c' => 'willbedeprecated', 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
+
+      page.should have_content 'An example custom landing page'
+
+      page.current_path.should == registration_link_path(registration_link)
+
+      registration_start_event = Plink::EventRecord.order('eventID desc').first
+
+      registration_start_event.event_type_id.should == registration_start_event_type.id
+      registration_start_event.campaign_id.should == campaign.id
+      registration_start_event.affiliate_id.should == affiliate.id
+      registration_start_event.sub_id.should == 'one'
+      registration_start_event.sub_id_two.should == 'two'
+      registration_start_event.sub_id_three.should == 'three'
+      registration_start_event.sub_id_four.should == 'four'
+      registration_start_event.path_id.should == 1
+      registration_start_event.landing_page_id.should == landing_page.id
+      registration_start_event.is_active.should be_true
+
     end
   end
 end

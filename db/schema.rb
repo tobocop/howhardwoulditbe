@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130930164406) do
+ActiveRecord::Schema.define(:version => 20130930195210) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1473,6 +1473,12 @@ ActiveRecord::Schema.define(:version => 20130930164406) do
     t.string   "userAction", :limit => 500, :null => false
     t.datetime "created",                   :null => false
     t.datetime "modified",                  :null => false
+  end
+
+  create_table "registration_link_mappings", :force => true do |t|
+    t.integer "affiliate_id"
+    t.integer "campaign_id"
+    t.integer "registration_link_id"
   end
 
   create_table "registration_links", :force => true do |t|

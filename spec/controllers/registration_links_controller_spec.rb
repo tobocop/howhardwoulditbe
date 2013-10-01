@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RegistrationLinksController do
   let(:landing_page) { create_landing_page(partial_path: 'path.html.haml') }
   let(:affiliate) { create_affiliate }
-  let(:campaign) { create_campaign }
+  let(:campaign) { create_campaign(campaign_hash: 'fordeprecation') }
 
   let!(:registration_link) {
     create_registration_link(
@@ -25,6 +25,7 @@ describe RegistrationLinksController do
 
   describe 'GET show' do
     let!(:registration_start_event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
+    let!(:virtual_currency) { create_virtual_currency }
 
     it 'redirects to the homepage if the registration_path is not live' do
       get :show, id: expired_registration_link.id
@@ -82,6 +83,37 @@ describe RegistrationLinksController do
         event = Plink::EventRecord.last
         session[:registration_start_event_id].should == event.id
       end
+
+      it 'should assign the steelhouse additional info string' do
+        assigns(:steelhouse_additional_info).should == "&affiliateid=#{affiliate.id},&subid=subid 1,&subid2=subid 2,&subid3=subid 3,&subid4=subid 4,&campaignid=#{campaign.id},&pathid=1,&virtualcurrencyid=#{virtual_currency.id},"
+      end
+    end
+  end
+
+  describe 'GET deprecated' do
+    let(:url_params) {
+      {
+        'subID' => 'Subid1',
+        'subID2' => 'Subid2',
+        'subID3' => 'Subid3',
+        'subID4' => 'Subid4',
+        aid: affiliate.id,
+        c: campaign.campaign_hash
+      }
+    }
+
+    before do
+      create_registration_link_mapping(affiliate_id: affiliate.id, campaign_id: campaign.id, registration_link_id: registration_link.id)
+    end
+
+    it 'looks up a registration link by affiliate_id and campaign_hash and forwards the user to the new link' do
+      get :deprecated, url_params
+      response.should redirect_to "/registration_links/#{registration_link.id}?subID2=Subid2&subID3=Subid3&subID4=Subid4&subID=Subid1"
+    end
+
+    it 'redirects to the homepage if a link cannot be found' do
+      get :deprecated, url_params.except(:aid)
+      response.should be_redirect
     end
   end
 end

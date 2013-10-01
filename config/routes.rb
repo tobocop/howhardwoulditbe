@@ -43,6 +43,7 @@ PlinkPivotal::Application.routes.draw do
   match '/handle_gigya_login', to: 'gigya_login_handler#create', as: :gigya_login_handler, via: :get
   match '/refer/:user_id/aid/:affiliate_id', to: 'referrals#create', as: :referrer, via: :get
   match '/contest/refer/:user_id/aid/:affiliate_id/contest/:contest_id/(:source)', to: 'contest_referrals#new', as: :contest_referral, via: :get
+  match '/deprecated_link', to: 'registration_links#deprecated', as: :deprecated_registration_link, via: :get
 
   match '/style_guide', to: 'style_guide#show', via: :get
   match '/home/plink_video', to: 'home#plink_video', via: :get

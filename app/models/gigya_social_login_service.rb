@@ -129,9 +129,13 @@ private
   end
 
   def is_male
-    return true if gender == 'm'
-    return false if gender == 'f'
-    nil
+    if gender == 'm'
+      true
+    elsif gender == 'f'
+      false
+    else
+      nil
+    end
   end
 
   def blank_to_nil(param)
