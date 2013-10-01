@@ -1,6 +1,14 @@
 require 'spec_helper'
 
 describe Plink::OfferRecord do
+  it { should allow_mass_assignment_of(:advertiser_name) }
+  it { should allow_mass_assignment_of(:advertiser_id) }
+  it { should allow_mass_assignment_of(:advertisers_rev_share) }
+  it { should allow_mass_assignment_of(:detail_text) }
+  it { should allow_mass_assignment_of(:end_date) }
+  it { should allow_mass_assignment_of(:is_active) }
+  it { should allow_mass_assignment_of(:start_date) }
+
   let(:valid_attributes) {
     {
         advertiser_name: 'Gap',

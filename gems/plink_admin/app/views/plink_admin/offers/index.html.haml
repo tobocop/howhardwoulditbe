@@ -1,0 +1,15 @@
+%table.offer-list
+  %thead
+    %th ID
+    %th Advertiser
+    %th End Date
+    %th Edit
+  %tbody
+    - @offers.each do |offer|
+      %tr.offer-item
+        %td= offer.id
+        %td= offer.advertiser.advertiser_name
+        %td= offer.end_date
+        %td= link_to 'Edit', edit_offer_path(offer)
+
+
