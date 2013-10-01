@@ -158,6 +158,7 @@ describe UserRegistrationForm do
         }
 
         UserRegistrationMailer.should_not_receive(:welcome).with(user_params)
+      end
 
       it 'delays sending a complete your registration email' do
         mock_delay = double('mock_delay').as_null_object
