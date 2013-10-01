@@ -33,13 +33,32 @@ describe PlinkAdmin::OffersController do
   end
 
   describe 'PUT update' do
-    let(:end_date) { { 'end_date(1i)'=>'2013', 'end_date(2i)'=>'9', 'end_date(3i)'=>'25'} }
+    let(:end_date) {
+      {
+        'end_date(1i)'=>"#{8.days.from_now.year}",
+        'end_date(2i)'=>"#{8.days.from_now.month}",
+        'end_date(3i)'=>"#{8.days.from_now.day}"
+      }
+    }
 
     it 'updates the record and redirects to the listing when successful' do
       put :update, {id: offer.id, offer: end_date}
-      offer.reload.end_date.should == Time.zone.local(2013, 9, 25)
+      offer.reload.end_date.should == Time.zone.local(8.days.from_now.year, 8.days.from_now.month, 8.days.from_now.day)
       flash[:notice].should == 'Offer end date updated'
       response.should redirect_to '/offers'
+    end
+
+    it 'does not update the record if the end date is earlier then 8 days from now' do
+      date_params = {
+        'end_date(1i)'=>"#{7.days.from_now.year}",
+        'end_date(2i)'=>"#{7.days.from_now.month}",
+        'end_date(3i)'=>"#{7.days.from_now.day}"
+      }
+
+      put :update, {id: offer.id, offer: date_params}
+
+      flash[:notice].should == 'Offer could not be updated. The end date for the offer needs to be at least 8 days from today.'
+      response.should render_template 'edit'
     end
 
     it 're-renders the edit form when the record cannot be updated' do
