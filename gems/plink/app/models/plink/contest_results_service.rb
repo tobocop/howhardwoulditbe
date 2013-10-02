@@ -19,11 +19,11 @@ module Plink
     end
 
     def grand_prize_winners_list
-      @grand_prize_winners.map { |w| w.display_name }.join(', ')
+      @grand_prize_winners.map { |winner| winner.display_name }.join(', ')
     end
 
     def second_prize_winners_list
-      @second_prize_winners.map { |w| w.display_name }.join(', ')
+      @second_prize_winners.map { |winner| winner.display_name }.join(', ')
     end
 
     def winners
@@ -33,16 +33,16 @@ module Plink
 
       previous_amount = @prepared_results.first.dollar_amount
 
-      @prepared_results.each do |r|
-        next if r.rejected? || ! r.winner?
+      @prepared_results.each do |result|
+        next if result.rejected? || !result.winner?
 
-        if previous_amount != r.dollar_amount
+        if previous_amount != result.dollar_amount
           winners << [ previous_amount, amount_group.dup ]
           amount_group.clear
-          previous_amount = r.dollar_amount
+          previous_amount = result.dollar_amount
         end
 
-        amount_group << r.display_name
+        amount_group << result.display_name
       end
 
       winners << [ previous_amount, amount_group.dup ] if amount_group.size > 0
@@ -54,6 +54,7 @@ module Plink
       Plink::ContestWinnerRecord.for_contest(@contest_id).order('dollar_amount DESC, winner, rejected')
     end
 
+    # TODO: This probably needs refactoring. See https://github.com/plinkinc/plink-pivotal/commit/848d2f21312d817d3adb7aef1d132a1b270501d3
     def prepare_contest_results
       results = all_results_for_contest
       starting_amount = results.first.attributes['dollar_amount']

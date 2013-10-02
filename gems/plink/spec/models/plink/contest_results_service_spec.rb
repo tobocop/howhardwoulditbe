@@ -3,40 +3,39 @@ require 'spec_helper'
 describe 'Plink::ContestResultsService' do
   let(:finalized_timestamp) { 20.minutes.ago }
   let(:contest) { create_contest(end_time: 2.days.ago, finalized_at: finalized_timestamp) }
-  let(:grand_prize_winner) { create_user(email: 'andy@example.com', first_name: 'Andy', last_name: 'Dufresne') }
-  let(:second_prize_winner) { create_user(email: 'red@example.com', first_name: 'Ellis Boyd', last_name: 'Redding') }
-  let(:another_second_prize_winner) { create_user(email: 'brooks@example.com', first_name: 'Brooks Hatlen') }
-  let(:another_winner) { create_user(email: 'heywood@example.com', first_name: 'Heywood') }
-  let(:alternate) { create_user(email: 'tommy@example.com', first_name: 'Tommy') }
-  let(:rejected_user) { create_user(email: 'norton@example.com', first_name: 'Samuel', last_name: 'Norton') }
-  let(:random_user) { create_user(email: 'byron@example.com', first_name: 'Byron Hadley') }
   let(:grand_prize) { create_contest_prize_level(contest_id: contest.id) }
   let(:second_prize) { create_contest_prize_level(contest_id: contest.id, dollar_amount: 50) }
   let(:another_prize) { create_contest_prize_level(contest_id: contest.id, dollar_amount: 2) }
 
-  let!(:rejected_user_contest_record) {
-    create_contest_winner(user_id: rejected_user.id, contest_id: contest.id, prize_level_id: nil, winner: false, rejected: true, finalized_at: finalized_timestamp)
-  }
+  let!(:rejected_user_contest_record) do
+    user = create_user(email: 'norton@example.com', first_name: 'Samuel', last_name: 'Norton')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: nil, winner: false, rejected: true, finalized_at: finalized_timestamp)
+  end
 
-  let!(:alternate_user_contest_record) {
-    create_contest_winner(user_id: alternate.id, contest_id: contest.id, prize_level_id: nil, winner: false, finalized_at: finalized_timestamp)
-  }
+  let!(:alternate_user_contest_record) do
+    user = create_user(email: 'tommy@example.com', first_name: 'Tommy')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: nil, winner: false, finalized_at: finalized_timestamp)
+  end
 
-  let!(:another_winner_contest_record) {
-    create_contest_winner(user_id: another_winner.id, contest_id: contest.id, prize_level_id: another_prize.id, winner: true, finalized_at: finalized_timestamp)
-  }
+  let!(:another_winner_contest_record) do
+    user = create_user(email: 'heywood@example.com', first_name: 'Heywood')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: another_prize.id, winner: true, finalized_at: finalized_timestamp)
+  end
 
-  let!(:another_second_prize_contest_record) {
-    create_contest_winner(user_id: another_second_prize_winner.id, contest_id: contest.id, prize_level_id: second_prize.id, winner: true, finalized_at: finalized_timestamp)
-  }
+  let!(:another_second_prize_contest_record) do
+    user = create_user(email: 'brooks@example.com', first_name: 'Brooks Hatlen')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: second_prize.id, winner: true, finalized_at: finalized_timestamp)
+  end
 
-  let!(:second_prize_contest_record) {
-    create_contest_winner(user_id: second_prize_winner.id, contest_id: contest.id, prize_level_id: second_prize.id, winner: true, finalized_at: finalized_timestamp)
-  }
+  let!(:second_prize_contest_record) do
+    user = create_user(email: 'red@example.com', first_name: 'Ellis Boyd', last_name: 'Redding')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: second_prize.id, winner: true, finalized_at: finalized_timestamp)
+  end
 
-  let!(:grand_prize_contest_record) {
-    create_contest_winner(user_id: grand_prize_winner.id, contest_id: contest.id, prize_level_id: grand_prize.id, winner: true, finalized_at: finalized_timestamp)
-  }
+  let!(:grand_prize_contest_record) do
+    user = create_user(email: 'andy@example.com', first_name: 'Andy', last_name: 'Dufresne')
+    create_contest_winner(user_id: user.id, contest_id: contest.id, prize_level_id: grand_prize.id, winner: true, finalized_at: finalized_timestamp)
+  end
 
   let(:service) { Plink::ContestResultsService.new(contest.id) }
 

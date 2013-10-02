@@ -10,6 +10,8 @@
 .enter
   .results
     .details
+    -# TODO: This probably needs refactoring to remove the service call and replace it with passed-in variables.
+    -# See https://github.com/plinkinc/plink-pivotal/commit/848d2f21312d817d3adb7aef1d132a1b270501d3
     -if contest.finalized?
       %h4= 'CONTEST WINNERS'
       %h2= '$250 Gift Card:'
@@ -17,7 +19,7 @@
       %h2= '$100 Gift Card:'
       %h2{class: 'cyan margin_bottom'}= contest_results_service.second_prize_winners_list
       .results
-        = link_to 'View the complete list of winners →', nil,  data: {'reveal-id' => 'winners-list'}
+        = link_to 'View the complete list of winners &rarr;'.html_safe, nil,  data: {'reveal-id' => 'winners-list'}
     -else
       %h2{class: 'margin_bottom'}= 'This contest has ended. Check back soon to see the winners list.'
     .btn

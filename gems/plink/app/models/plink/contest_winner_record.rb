@@ -10,6 +10,7 @@ module Plink
     validates_presence_of :contest_id, :user_id
     validates :rejected, :winner, inclusion: { in: [true, false] }
 
+    # TODO: This should probably be moved to a service. See https://github.com/plinkinc/plink-pivotal/commit/848d2f21312d817d3adb7aef1d132a1b270501d3
     scope :for_contest, ->(contest_id) {
       select('contest_winners.*, contests.finalized_at AS contest_finalized_at, contest_prize_levels.dollar_amount, users.firstName AS first_name, users.lastName AS last_name').
       joins('INNER JOIN users ON contest_winners.user_id = users.userID').
