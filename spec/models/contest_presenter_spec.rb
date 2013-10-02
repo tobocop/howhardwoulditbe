@@ -32,6 +32,7 @@ describe ContestPresenter do
       presenter.end_date.should == end_time.strftime('%_m/%-d/%y')
       presenter.terms_and_conditions.should == 'This is a set of terms and conditions that apply to this contest specifically'
       presenter.started?.should == true
+      presenter.ended?.should == false
     end
   end
 end

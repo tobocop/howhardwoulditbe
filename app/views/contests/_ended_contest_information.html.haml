@@ -1,0 +1,33 @@
+.info
+  .title
+    %h2.cyan= 'CONTEST RESULTS'
+  .image
+    = image_tag contest.image, class: 'disabled'
+    .overlay-message
+      %h1 This contest has ended
+  .details
+    %h3.strong= "This contest ended on #{contest.end_date}"
+.enter
+  .results
+    .details
+    -if contest.finalized?
+      %h4= 'CONTEST WINNERS'
+      %h2= '$250 Gift Card:'
+      %h2{class: 'cyan margin_bottom'}= contest_results_service.grand_prize_winners_list
+      %h2= '$100 Gift Card:'
+      %h2{class: 'cyan margin_bottom'}= contest_results_service.second_prize_winners_list
+      .results
+        = link_to 'View the complete list of winners →', nil,  data: {'reveal-id' => 'winners-list'}
+    -else
+      %h2{class: 'margin_bottom'}= 'This contest has ended. Check back soon to see the winners list.'
+    .btn
+      = link_to 'ENTER NEXT CONTEST', contests_path, {class: 'button primary-action white-txt'}
+
+.reveal-modal.medium#winners-list
+  .winners-list
+    - contest_results_service.winners.each do |prize_level_result|
+      .prize
+        %h3{class: 'cyan'}= "#{plink_currency_format(prize_level_result[0])} in Plink Points"
+        - prize_level_result[1].each do |name|
+          %h3= name.html_safe
+  = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'

@@ -13,6 +13,9 @@ class ContestsController < ApplicationController
 
   def show
     @contest = create_contest_presenter(Plink::ContestRecord.find(params[:id]))
+    @contest_results_service = create_contest_results_service(@contest.id)
+    @contest_results_service.prepare_contest_results if @contest.finalized?
+
     instantiate_contest_data(@contest.id)
 
     if params[:card_linked]
@@ -59,5 +62,9 @@ class ContestsController < ApplicationController
 
   def user_entries_today(contest_id)
     Plink::EntryRecord.entries_today_for_user_and_contest(current_user.id, contest_id)
+  end
+
+  def create_contest_results_service(contest_id)
+    Plink::ContestResultsService.new(contest_id)
   end
 end

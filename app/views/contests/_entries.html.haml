@@ -14,7 +14,6 @@
       = link_to 'Sign In', '#', data: {'reveal-id' => 'sign-in-form-modal'}, class: 'link button sign-in', rel: 'nofollow', class: 'button primary-action white-txt'
   .details
     %h4#js-entry-subtext= entries_subtext(entries[:share_state], entries[:shared])
-    %h4= "Prizes drawn #{contest.end_date}"
   -if user_has_linked_card
     %h4.bonus Because you linked a card to your Plink account, you'll get 5x entries per share.
   -elsif user.logged_in?

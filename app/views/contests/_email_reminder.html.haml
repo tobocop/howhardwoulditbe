@@ -1,0 +1,4 @@
+= form_tag "/contests/#{contest.id}/toggle_opt_in_to_daily_reminder" do
+  - checked = user.daily_contest_reminder ? 'checked' : nil
+  = check_box_tag :daily_contest_reminder, 1, checked, id: 'js-toggle-daily-email', class: 'checkbox'
+%h4 Remind me to re-enter this contest via email

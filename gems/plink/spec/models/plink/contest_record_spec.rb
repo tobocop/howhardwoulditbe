@@ -8,7 +8,8 @@ describe Plink::ContestRecord do
       prize: 'The prize is a new car',
       start_time: 2.days.ago.to_date,
       end_time: 2.days.from_now.to_date,
-      terms_and_conditions: 'There are a ton of terms and conditions'
+      terms_and_conditions: 'There are a ton of terms and conditions',
+      finalized_at: nil
     }
   }
 
@@ -129,5 +130,23 @@ describe Plink::ContestRecord do
       contest = new_contest(start_time: 1.day.from_now.to_date)
       contest.started?.should be_false
     end
+  end
+
+  describe '#finalized?' do
+    it 'returns true if the results of a contest have been accepted and prizes distributed' do
+      contest = new_contest(finalized_at: 1.hour.ago)
+      contest.finalized?.should be_true
+    end
+
+    it 'returns false if the results of a contest have not been accepted' do
+      contest = new_contest
+      contest.finalized?.should be_false
+    end
+
+    it 'returns false if finalized is NULL' do
+      contest = new_contest(finalized_at: nil)
+      contest.finalized?.should be_false
+    end
+
   end
 end

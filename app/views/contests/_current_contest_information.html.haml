@@ -1,0 +1,24 @@
+.info
+  .title
+    %h2.cyan= contest.description
+    .image
+      = image_tag contest.image
+  .details
+    %h3.strong= "Prizes drawn on #{contest.end_date}"
+    %p= contest.prize
+    %h4.legal
+      NO PURCHASE NECESSARY.
+      = link_to 'See Contest Rules for details.', nil, data: {'reveal-id' => 'terms-and-conditions'}
+      Void where prohibited. Maximum of 300 entries per day.
+.enter
+  -if contest.started?
+    = render partial: 'contests/entries',                |
+      locals: {                                          |
+        entries: entries,                                |
+        user: user,                                      |
+        contest: contest,                                |
+        user_has_linked_card: user_has_linked_card,      |
+        card_link_url: card_link_url                     |
+      }                                                  |
+  -else
+    Contest has not started yet, please check back soon.

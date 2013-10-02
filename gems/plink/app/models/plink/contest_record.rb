@@ -39,7 +39,11 @@ module Plink
       Time.zone.now > start_time
     end
 
-  private
+    def finalized?
+      finalized_at.present?
+    end
+
+    private
 
     def start_time_is_not_between_existing_range
       if start_time

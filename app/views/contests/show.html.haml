@@ -1,2 +1,9 @@
 .layout-inner
-  = render partial: 'contest', locals: {contest: @contest, entries: @entries, user_has_linked_card: @user_has_linked_card, card_link_url: @card_link_url, user: @user}
+  = render partial: 'contest', locals: {                  |
+    contest: @contest,                                    |
+    entries: @entries,                                    |
+    user_has_linked_card: @user_has_linked_card,          |
+    card_link_url: @card_link_url,                        |
+    user: @user,                                          |
+    contest_results_service: @contest_results_service     |
+  }                                                       |

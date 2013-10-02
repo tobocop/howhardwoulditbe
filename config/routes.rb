@@ -26,6 +26,7 @@ PlinkPivotal::Application.routes.draw do
   end
 
   resources :contests, only: [:index, :show] do
+    resources :results, only: [:index]
     resources :entries, only: [:create]
     post :toggle_opt_in_to_daily_reminder
   end

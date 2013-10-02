@@ -16,11 +16,12 @@ module Plink
     include Plink::LegacyTimestamps
 
     attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
-      :first_name, :is_male, :hold_redemptions, :ip, :password_hash, :provider, :salt, :state,
-      :username, :zip
+      :first_name, :hold_redemptions, :ip, :is_male,  :last_name, :password_hash, :provider,
+      :salt, :state, :username, :zip
 
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
+    alias_attribute :last_name, :lastName
     alias_attribute :is_subscribed, :isSubscribed
     alias_attribute :is_male, :isMale
     # Legacy naming for password_hash is password, which is kinda confusing.

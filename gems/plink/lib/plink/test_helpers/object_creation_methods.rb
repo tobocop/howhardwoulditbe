@@ -437,6 +437,7 @@ module Plink
       defaults = {
         email: 'test@example.com',
         first_name: 'Joe',
+        last_name: nil,
         password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
         salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
         is_subscribed: true,
@@ -630,7 +631,8 @@ module Plink
         prize: 'This is the prize - a car!',
         start_time: 10.days.ago.to_date,
         end_time: 10.days.from_now.to_date,
-        terms_and_conditions: 'This is a set of terms and conditions'
+        terms_and_conditions: 'This is a set of terms and conditions',
+        finalized_at: nil
       }
 
       Plink::ContestRecord.new(defaults.merge(options))
@@ -684,6 +686,24 @@ module Plink
       }
 
       Plink::ContestPrizeLevelRecord.new { |entry| apply(entry, defaults, options) }
+    end
+
+    def new_contest_winner(options = {})
+      defaults = {
+        user_id: 1,
+        contest_id: 1,
+        prize_level_id: 1,
+        admin_user_id: 1,
+        winner: true,
+        rejected: false,
+        finalized_at: nil
+      }
+
+      Plink::ContestWinnerRecord.new { |entry| apply(entry, defaults, options) }
+    end
+
+    def create_contest_winner(options = {})
+      new_contest_winner(options).tap(&:save!)
     end
 
     def apply(object, defaults, overrides)
