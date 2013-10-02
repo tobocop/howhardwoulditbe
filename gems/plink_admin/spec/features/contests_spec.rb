@@ -69,7 +69,10 @@ describe 'Contests' do
           "linked_cards"=>"2"},
          {"registration_source"=>"twitter_entry_post",
           "email_captures"=>"3",
-          "linked_cards"=>"1"}]
+          "linked_cards"=>"1"},
+         {"registration_source"=>"other",
+          "email_captures"=>"-",
+          "linked_cards"=>"5"}]
     })
     contest = create_contest
 
@@ -103,5 +106,9 @@ describe 'Contests' do
     page.should have_content 'Twitter entry post'
     page.should have_content 3
     page.should have_content 1
+
+    page.should have_content 'Other'
+    page.should have_content '-'
+    page.should have_content 5
   end
 end

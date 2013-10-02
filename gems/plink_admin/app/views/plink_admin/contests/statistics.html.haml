@@ -60,8 +60,9 @@
       %th= present_column_name('email_captures')
       %th= present_column_name('linked_cards')
     %tbody
-      - @statistics[:emails_and_linked_cards].each do |stat|
-        %tr.contest-item
+      - number_of_data_points = @statistics[:emails_and_linked_cards].length
+      - @statistics[:emails_and_linked_cards].each_with_index do |stat, index|
+        %tr.contest-item{class: index == number_of_data_points - 1 ? 'last-row' : nil}
           %td= stat['registration_source'].gsub('_', ' ').capitalize
           %td= stat['email_captures']
           %td= stat['linked_cards']

@@ -131,30 +131,67 @@ module PlinkAdmin
     end
 
     def self.email_captures_and_linked_cards(contest_id)
-      "SELECT
-        r.sub_id_1 AS registration_source,
-        COUNT(r.user_id) AS email_captures,
-        COUNT(l.user_id) AS linked_cards
+      "SELECT r.sub_id_1 AS registration_source,
+              COUNT( r.user_id ) AS email_captures,
+              COUNT( DISTINCT l.user_id ) AS linked_cards
       FROM
       (
-        SELECT
-          r.user_id,
-          r.sub_id_1
-        FROM   ft_registrations r
-        WHERE  r.affiliate_id = 1431
-          AND  r.join_rank = 1
-          AND  REPLACE(r.sub_id_2, 'contest_id_', '') = #{contest_id}
+        SELECT  r.user_id,
+            r.sub_id_1
+        FROM  ft_registrations r
+        WHERE r.affiliate_id = 1431
+        AND   r.join_rank = 1
+        AND   r.sub_id_2 = 'contest_id_#{contest_id}'
       ) r
       LEFT JOIN
       (
-        SELECT
-          l.user_id,
-          MIN( l.created_at )
-        FROM ft_linked_cards l
-        GROUP BY l.user_id
+        SELECT  DISTINCT l.user_id
+        FROM  ft_linked_cards l
+        WHERE l.link_rank = 1
+        AND   l.sub_id_2 = 'contest_id_#{contest_id}'
       ) l
       ON r.user_id = l.user_id
-      GROUP BY  r.sub_id_1;"
+      GROUP BY  r.sub_id_1
+
+      UNION
+
+      SELECT  'other' AS registration_source,
+          NULL  AS email_captures,
+          COUNT( l.user_id ) AS linked_cards
+      FROM
+      (
+        SELECT  u.user_id
+        FROM  dm_users u
+        WHERE u.join_affiliate <> 1431
+      ) u
+      LEFT JOIN
+      (
+        SELECT  DISTINCT l.user_id
+        FROM  ft_linked_cards l
+        WHERE l.sub_id_2 = 'contest_id_#{contest_id}'
+        AND   l.link_rank = 1
+      ) l
+      ON u.user_id = l.user_id
+
+      UNION
+
+      SELECT  'grand_total' AS registration_source,
+          r.email_captures AS email_captures,
+          l.linked_cards AS linked_cards
+      FROM(
+        SELECT  COUNT( DISTINCT r.user_id ) AS email_captures
+        FROM  ft_registrations r
+        WHERE   r.affiliate_id = 1431
+        AND   r.sub_id_2 = 'contest_id_#{contest_id}'
+        AND   r.join_rank = 1
+      ) r,
+      (
+        SELECT  COUNT( DISTINCT l.user_id ) AS linked_cards
+        FROM  ft_linked_cards l
+        WHERE l.sub_id_2 = 'contest_id_#{contest_id}'
+        AND   l.link_rank = 1
+      ) l
+      ORDER BY 3;"
     end
   end
 end
