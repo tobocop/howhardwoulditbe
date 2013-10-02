@@ -10,6 +10,8 @@ module Plink
     def remove_offer
       item = wallet_item_for_offer
       if item
+        users_award_period = Plink::UsersAwardPeriodRecord.find(item.users_award_period_id)
+        users_award_period.update_attributes(end_date: Date.current)
         WalletItemHistoryRecord.clone_from_wallet_item(item)
         item.unassign_offer
       else

@@ -13,14 +13,15 @@ describe Plink::RemoveOfferFromWalletService do
 
 
   describe '#remove_offer' do
-    let(:user) { stub }
-    let(:offer_virtual_currency_for_user) { stub }
+    let(:user) { double }
+    let(:offer_virtual_currency_for_user) { double }
+    let(:users_award_period) { create_users_award_period }
+    let!(:wallet_item) { double(users_award_period_id: users_award_period.id, unassign_offer: true) }
 
-    subject { Plink::RemoveOfferFromWalletService.new(user: user, offer: stub) }
+    subject { Plink::RemoveOfferFromWalletService.new(user: user, offer: double) }
 
     context 'when a user has the offer virtual currency in their wallet' do
       it 'nils out offers_virtual_currency_id on wallet_item' do
-        wallet_item = stub
         Plink::WalletItemHistoryRecord.stub(:clone_from_wallet_item)
         wallet_item.should_receive(:unassign_offer)
         subject.stub(:wallet_item_for_offer) { wallet_item }
@@ -28,16 +29,20 @@ describe Plink::RemoveOfferFromWalletService do
         subject.remove_offer
       end
 
-      class Plink::WalletItemHistoryRecord
-      end
-
       it 'clones itself to a WalletItemHistoryRecord' do
-        wallet_item = stub
-        wallet_item.stub(:unassign_offer)
         Plink::WalletItemHistoryRecord.should_receive(:clone_from_wallet_item).with(wallet_item)
         subject.stub(:wallet_item_for_offer) { wallet_item }
 
         subject.remove_offer
+      end
+
+      it 'sets the usersAwardPeriod.endDate to the current date/time' do
+        Plink::WalletItemHistoryRecord.stub(:clone_from_wallet_item)
+        subject.stub(:wallet_item_for_offer) { wallet_item }
+
+        subject.remove_offer
+
+        users_award_period.reload.end_date.to_date.should == Date.current
       end
     end
 

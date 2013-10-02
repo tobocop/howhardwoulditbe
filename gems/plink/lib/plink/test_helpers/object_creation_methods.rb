@@ -550,6 +550,21 @@ module Plink
       WalletRecord.new(defaults.merge(options))
     end
 
+    def new_users_award_period(options = {})
+      defaults = {
+        advertisers_rev_share: 0.5,
+        begin_date: Time.zone.today,
+        offers_virtual_currency_id: 3,
+        user_id: 1
+      }
+
+      Plink::UsersAwardPeriodRecord.new { |uap| apply(uap, defaults, options) }
+    end
+
+    def create_users_award_period(options = {})
+      new_users_award_period(options).tap(&:save!)
+    end
+
     def create_referral(options = {})
       referral = new_referral(options)
       referral.save!

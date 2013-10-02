@@ -1,7 +1,21 @@
 require 'spec_helper'
 
 describe Plink::UsersAwardPeriodRecord do
-  let(:valid_params) { { user_id: 1, begin_date: Time.zone.today, advertisers_rev_share: 0.5, offers_virtual_currency_id: 3 } }
+  it { should allow_mass_assignment_of(:advertisers_rev_share) }
+  it { should allow_mass_assignment_of(:begin_date) }
+  it { should allow_mass_assignment_of(:end_date) }
+  it { should allow_mass_assignment_of(:offers_virtual_currency_id) }
+  it { should allow_mass_assignment_of(:user_id) }
+
+  let(:valid_params) {
+    {
+      advertisers_rev_share: 0.5,
+      begin_date: Time.zone.today,
+      offers_virtual_currency_id: 3,
+      user_id: 1
+    }
+  }
+
   subject { Plink::UsersAwardPeriodRecord.new(valid_params) }
 
   it_should_behave_like(:legacy_timestamps)
