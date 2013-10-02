@@ -64,7 +64,7 @@
       - @statistics[:emails_and_linked_cards].each_with_index do |stat, index|
         %tr.contest-item{class: index == number_of_data_points - 1 ? 'last-row' : nil}
           %td= stat['registration_source'].gsub('_', ' ').capitalize
-          %td= stat['email_captures']
+          %td= stat['email_captures'].nil? ? 'N/A' : stat['email_captures']
           %td= stat['linked_cards']
 - else
   %p No results found for Emails and Linked Cards.

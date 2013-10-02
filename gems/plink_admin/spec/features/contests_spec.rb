@@ -71,7 +71,7 @@ describe 'Contests' do
           "email_captures"=>"3",
           "linked_cards"=>"1"},
          {"registration_source"=>"other",
-          "email_captures"=>"-",
+          "email_captures"=>nil,
           "linked_cards"=>"5"}]
     })
     contest = create_contest
@@ -108,7 +108,7 @@ describe 'Contests' do
     page.should have_content 1
 
     page.should have_content 'Other'
-    page.should have_content '-'
+    page.should have_content 'N/A'
     page.should have_content 5
   end
 end
