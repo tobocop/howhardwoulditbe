@@ -32,6 +32,23 @@ class ContestsController < ApplicationController
     render json: {}, status: status
   end
 
+  def results
+    redirect_to contest_path(params[:contest_id])
+  end
+
+  def results_from_email
+    email_address = params[:email_address]
+    user = email_address.present? ?
+      present_user(Plink::UserService.new.find_by_email(email_address)) : current_user
+
+    if user.logged_in?
+      session[:current_user_id] = user.id
+      redirect_to contest_results_path
+    else
+      redirect_to root_url, notice: 'Email address does not exist in our system.'
+    end
+  end
+
   private
 
   def instantiate_contest_data(contest_id)

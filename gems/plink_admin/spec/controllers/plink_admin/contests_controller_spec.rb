@@ -300,7 +300,7 @@ describe PlinkAdmin::ContestsController do
     let(:contest_winner_id) { 3 }
 
     before do
-      Plink::ContestWinningService.should_receive(:remove_winning_record_and_update_prizes).
+      PlinkAdmin::ContestWinningService.should_receive(:remove_winning_record_and_update_prizes).
         with(contest_id.to_s, contest_winner_id.to_s, anything).and_return(nil)
     end
     it 'renders the winners view' do
@@ -334,6 +334,7 @@ describe PlinkAdmin::ContestsController do
 
   describe 'POST accept_winners' do
     let(:contest_id) { 1 }
+    let(:winner_ids) { Array(1..150) }
 
     context 'with less than 150 user ids' do
       before { post :accept_winners, contest_id: contest_id, user_ids: [1,2,3] }
@@ -348,16 +349,26 @@ describe PlinkAdmin::ContestsController do
     end
 
     it 'calls the Contest Winning Service to finalize the results of the contest' do
-      winner_ids = Array(1..150)
-      Plink::ContestWinningService.should_receive(:finalize_results!).
+      PlinkAdmin::ContestWinningService.should_receive(:finalize_results!).
         with(contest_id.to_s, winner_ids.map(&:to_s), anything)
+
+      PlinkAdmin::ContestWinningService.stub(:notify_winners!).and_return(nil)
+
+      post :accept_winners, contest_id: contest_id, user_ids: winner_ids
+    end
+
+    it 'calls the Contest Winning Service to emails all winners' do
+      PlinkAdmin::ContestWinningService.stub(:finalize_results!).and_return(nil)
+
+      PlinkAdmin::ContestWinningService.should_receive(:notify_winners!).with(contest_id.to_s).
+        and_return(nil)
 
       post :accept_winners, contest_id: contest_id, user_ids: winner_ids
     end
 
     it 'renders the contests index with a flash message' do
-      Plink::ContestWinningService.should_receive(:finalize_results!).and_return(nil)
-      winner_ids = Array(1..150)
+      PlinkAdmin::ContestWinningService.stub(:finalize_results!).and_return(nil)
+      PlinkAdmin::ContestWinningService.stub(:notify_winners!).and_return(nil)
 
       post :accept_winners, contest_id: contest_id, user_ids: winner_ids
 

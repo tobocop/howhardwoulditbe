@@ -62,21 +62,21 @@ namespace :contest do
     raise ArgumentError.new('contest_id is required') unless contest_id.present?
 
     cumulative_entries_by_user =
-      Plink::ContestWinningService.cumulative_non_plink_entries_by_user(contest_id)
+      PlinkAdmin::ContestWinningService.cumulative_non_plink_entries_by_user(contest_id)
     raise Exception.new("ERROR: Less than 300 entrants present! Cannot pick winners.") if cumulative_entries_by_user.length < 300
 
-    outcome_table = Plink::ContestWinningService.generate_outcome_table(cumulative_entries_by_user)
+    outcome_table = PlinkAdmin::ContestWinningService.generate_outcome_table(cumulative_entries_by_user)
 
     total_entries =
-      Plink::ContestWinningService.total_non_plink_entries_for_contest(contest_id)
+      PlinkAdmin::ContestWinningService.total_non_plink_entries_for_contest(contest_id)
 
-    winners = Plink::ContestWinningService.choose_winners(total_entries, outcome_table)
+    winners = PlinkAdmin::ContestWinningService.choose_winners(total_entries, outcome_table)
 
     receiving_prize = winners.first(150)
-    Plink::ContestWinningService.create_prize_winners!(contest_id, receiving_prize)
+    PlinkAdmin::ContestWinningService.create_prize_winners!(contest_id, receiving_prize)
 
     alternates = winners.last(150)
-    Plink::ContestWinningService.create_alternates!(contest_id, alternates)
+    PlinkAdmin::ContestWinningService.create_alternates!(contest_id, alternates)
   end
 end
 

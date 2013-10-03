@@ -80,7 +80,7 @@ module PlinkAdmin
     end
 
     def remove_winner
-      Plink::ContestWinningService.remove_winning_record_and_update_prizes(params[:contest_id], params[:contest_winner_id], current_admin.id)
+      PlinkAdmin::ContestWinningService.remove_winning_record_and_update_prizes(params[:contest_id], params[:contest_winner_id], current_admin.id)
 
       setup_winners_data(params[:contest_id])
 
@@ -93,7 +93,8 @@ module PlinkAdmin
         render :winners and return
       end
 
-      Plink::ContestWinningService.finalize_results!(params[:contest_id], params[:user_ids], current_admin.id)
+      PlinkAdmin::ContestWinningService.finalize_results!(params[:contest_id], params[:user_ids], current_admin.id)
+      PlinkAdmin::ContestWinningService.notify_winners!(params[:contest_id])
 
       flash[:notice] = 'Winners accepted.'
       redirect_to plink_admin.contests_path

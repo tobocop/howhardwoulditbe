@@ -26,9 +26,10 @@ PlinkPivotal::Application.routes.draw do
   end
 
   resources :contests, only: [:index, :show] do
-    resources :results, only: [:index]
     resources :entries, only: [:create]
     post :toggle_opt_in_to_daily_reminder
+    get :results
+    get :results_from_email, action: :results_from_email, as: :results_from_email
   end
 
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request

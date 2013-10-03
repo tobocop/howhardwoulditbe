@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Plink::ContestWinningService do
-  let(:contest_winning_service) { Plink::ContestWinningService }
+describe PlinkAdmin::ContestWinningService do
+  let(:contest_winning_service) { PlinkAdmin::ContestWinningService }
   let(:contest) { create_contest }
 
   describe '.total_non_plink_entries_for_contest' do
@@ -236,6 +236,45 @@ describe Plink::ContestWinningService do
       contest_winning_service.finalize_results!(contest.id, winning_user_ids, 1)
 
       contest.reload.finalized_at.to_date.should == Time.zone.today
+    end
+  end
+
+  describe '.notify_winners!' do
+    let(:contest_id) { 1 }
+    let(:user) { create_user }
+    let(:prize_level_id) { 3 }
+
+    it 'should send an email to all contest prize winners' do
+      # Stub in class from parent Application
+      class ContestMailer
+      end
+      ContestMailer.should_receive(:winner_email).exactly(1).times.and_return(double(deliver: true))
+
+      winner = create_contest_winner({
+        user_id: user.id,
+        contest_id: contest_id,
+        prize_level_id: prize_level_id,
+        winner: true,
+        rejected: false,
+        finalized_at: Time.zone.now
+      })
+
+      contest_winning_service.notify_winners!(contest_id)
+    end
+
+    it 'should not email contest alternates' do
+      winner = create_contest_winner({
+        user_id: user.id,
+        contest_id: contest_id,
+        prize_level_id: nil,
+        winner: false,
+        rejected: true,
+        finalized_at: Time.zone.now
+      })
+
+      contest_winning_service.notify_winners!(contest_id)
+
+      ActionMailer::Base.deliveries.should be_empty
     end
   end
 end

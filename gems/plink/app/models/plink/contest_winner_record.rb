@@ -2,8 +2,10 @@ module Plink
   class ContestWinnerRecord < ActiveRecord::Base
     self.table_name = 'contest_winners'
 
-    has_one :contest, class_name: Plink::ContestRecord
-    has_one :user, class_name: Plink::UserRecord, foreign_key: 'userID'
+    belongs_to :contest, class_name: Plink::ContestRecord, foreign_key: 'contest_id'
+    belongs_to :prize_level, class_name: Plink::ContestPrizeLevelRecord, foreign_key: 'prize_level_id'
+    belongs_to :user, class_name: Plink::UserRecord, foreign_key: 'user_id'
+
     attr_accessible :admin_user_id, :contest_id, :finalized_at,
       :prize_level_id, :rejected, :user_id, :winner
 

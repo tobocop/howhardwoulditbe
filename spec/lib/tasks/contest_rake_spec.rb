@@ -207,7 +207,7 @@ describe 'contest:create_prize_levels_for_contest', skip_in_build: true do
   end
 end
 
-describe 'contest:select_winners_for_contest', skip_in_build: true do
+describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true do
   include_context 'rake'
 
   it 'requires a contest_id argument' do

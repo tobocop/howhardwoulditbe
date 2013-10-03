@@ -3,7 +3,6 @@ require 'spec_helper'
 describe ContestMailer do
   describe 'daily_reminder_email' do
     it 'sends a reminder to the user to enter the contest after' do
-
       email = ContestMailer.daily_reminder_email(
         first_name: 'Merlin',
         email: 'user@example.com',
@@ -28,7 +27,6 @@ describe ContestMailer do
 
   describe 'three_day_reminder_email' do
     it 'sends a reminder to the user to enter the contest after' do
-
       email = ContestMailer.three_day_reminder_email(
         first_name: 'Merlin',
         email: 'user@example.com',
@@ -47,6 +45,29 @@ describe ContestMailer do
         body = Capybara.string(part.body.to_s)
         body.should have_content 'Hey Merlin'
         body.should have_content "It's been a few days since you've entered our contest. Enter daily to increase your chances of winning."
+      end
+    end
+  end
+
+  describe 'winner_email' do
+    it 'sends an email indicating that the person has won the contest' do
+      email = ContestMailer.winner_email(
+        first_name: 'Merlin',
+        email: 'user@example.com',
+        user_id: 2,
+        contest_id: 1
+      ).deliver
+
+      ActionMailer::Base.deliveries.count.should == 1
+
+      email.to.should == ['user@example.com']
+      email.from.should == ['info@plink.com']
+      email.subject.should == 'Contest Winners Announced!! See if you won!'
+
+      [email.html_part, email.text_part].each do |part|
+        body = Capybara.string(part.body.to_s)
+        body.should have_content "Congratulations! You've won a prize from our $1,000 Giveaway!"
+        body.should have_content "The Plink $1,000 Giveaway has ended and its time to claim your prize."
       end
     end
   end

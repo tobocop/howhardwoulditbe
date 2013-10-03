@@ -1,0 +1,18 @@
+Hey #{@first_name},
+
+Congratulations! You've won a prize from our $1,000 Giveaway!
+
+The Plink $1,000 Giveaway has ended and its time to claim your prize.
+
+Find out what I've won:
+= contest_results_from_email_url(contest_id: @contest_id, email_address: @email_address)
+
+For every friend you refer to Plink, get EXTRA entries everyday. You can invite your friends via Facebook, Twitter, or by sending them your personal referral link:
+
+#{referrer_url(user_id: @user_id, affiliate_id: Rails.application.config.default_contest_affiliate_id)}
+
+Thanks!
+Team Plink
+
+Unsubscribe:
+= edit_subscription_url(email_address: @email_address)

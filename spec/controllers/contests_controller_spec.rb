@@ -236,4 +236,43 @@ describe ContestsController do
       response.status.should == 422
     end
   end
+
+  describe 'GET results' do
+    it 'should redirect to the contest path' do
+      contest_id = 1
+
+      get :results, contest_id: contest_id
+
+      response.should redirect_to contest_path(contest_id)
+    end
+  end
+
+  describe 'GET results_from_email' do
+    let(:contest_id) { 1 }
+
+    context 'with an email for an existing user' do
+      let!(:user) { create_user(email: 'test@plink.com') }
+
+      it 'redirects them to the contest path' do
+        get :results_from_email, contest_id: contest_id, email_address: 'test@plink.com'
+
+        response.should redirect_to contest_results_path(contest_id)
+      end
+    end
+
+    context 'with an email address not in the database' do
+      it 'redirects the user to the index' do
+        get :results_from_email, contest_id: contest_id, email_address: 'randomstuff@plink.com'
+
+        response.should redirect_to root_path
+      end
+
+      it 'tells the user their email address does not exist' do
+        get :results_from_email, contest_id: contest_id, email_address: 'randomstuff@plink.com'
+
+        flash[:notice].should == 'Email address does not exist in our system.'
+      end
+    end
+
+  end
 end
