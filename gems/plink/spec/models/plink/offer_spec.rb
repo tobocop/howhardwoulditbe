@@ -9,6 +9,7 @@ describe Plink::Offer do
       @plink_offer = create_offer(
         detail_text: 'one text',
         is_new: true,
+        end_date: 1.day.ago.to_date,
         advertiser_id: advertiser.id,
         offers_virtual_currencies: [
           new_offers_virtual_currency(
@@ -65,6 +66,7 @@ describe Plink::Offer do
       subject.image_url.should == 'fake.jpg'
       subject.id.should == @plink_offer.id
       subject.max_dollar_award_amount.should == 1.43
+      subject.end_date.should == 1.day.ago.to_date
     end
 
     describe '#tiers_by_minimum_purchase_amount' do

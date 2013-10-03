@@ -15,6 +15,28 @@ namespace :wallet_items do
     set_unlock_reason
   end
 
+  desc 'Removes all expired offers from users wallets and end dates their associated tiers'
+  task remove_expired_offers: :environment do
+    expired_offers = Plink::OfferRecord.where('endDate < ? AND endDate > ?', Date.current, 7.days.ago.to_date)
+
+    expired_offers.each do |expired_offer|
+      expired_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
+
+        offers_virtual_currency.tiers.each do |tier_record|
+          tier_record.update_attributes(:end_date => expired_offer.end_date)
+        end
+
+        user_with_offer_in_wallet = Plink::UserRecord
+        .includes(:wallet_item_records)
+        .where('walletItems.offersVirtualCurrencyID = ?', offers_virtual_currency.id)
+
+        user_with_offer_in_wallet.each do |user_record|
+          Plink::RemoveOfferFromWalletService.new(user_record.id, expired_offer.id).remove_offer
+        end
+      end
+    end
+  end
+
 private
 
   def update_populated_and_open_wallet_item_records

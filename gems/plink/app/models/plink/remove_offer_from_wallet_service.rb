@@ -1,10 +1,10 @@
 module Plink
   class RemoveOfferFromWalletService
-    attr_accessor :offer, :user
+    attr_accessor :offer_record, :user_record
 
-    def initialize(params)
-      self.user = params.fetch(:user)
-      self.offer = params.fetch(:offer)
+    def initialize(user_id, offer_id)
+      self.user_record = Plink::UserRecord.find(user_id)
+      self.offer_record = Plink::OfferRecord.find(offer_id)
     end
 
     def remove_offer
@@ -19,6 +19,8 @@ module Plink
       end
     end
 
+  private
+
     def wallet_item_for_offer
       offers_virtual_currency = offer_virtual_currency_for_user
       if offers_virtual_currency
@@ -29,11 +31,11 @@ module Plink
     end
 
     def wallet
-      user.wallet
+      Plink::Wallet.new(user_record.wallet)
     end
 
     def offer_virtual_currency_for_user
-      offer.active_offers_virtual_currencies.detect { |ovc| ovc.virtual_currency_id == user.primary_virtual_currency_id }
+      offer_record.active_offers_virtual_currencies.detect { |ovc| ovc.virtual_currency_id == user_record.primary_virtual_currency_id }
     end
   end
 end

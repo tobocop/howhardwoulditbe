@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Plink::WalletRecord do
+  it { should allow_mass_assignment_of(:user_id) }
+  it { should allow_mass_assignment_of(:wallet_item_records) }
 
   let(:valid_params) {
     {

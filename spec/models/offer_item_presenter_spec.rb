@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false) }
+  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 1.day.from_now.to_date) }
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:view_context) { stub(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
@@ -40,6 +40,12 @@ describe OfferItemPresenter do
   describe 'special_offer_type_text' do
     it 'returns the special offer type text' do
       presenter.special_offer_type_text.should be_nil
+    end
+  end
+
+  describe 'end_date' do
+    it 'returns the end_date formatted' do
+      presenter.end_date.should == 1.day.from_now.strftime('%-m/%-d/%y')
     end
   end
 

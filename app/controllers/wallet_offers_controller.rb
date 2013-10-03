@@ -16,16 +16,20 @@ class WalletOffersController < ApplicationController
   end
 
   def destroy
-    offer = Plink::OfferRecord.find(params[:id])
-    removal_service = Plink::RemoveOfferFromWalletService.new(user: current_user, offer: offer)
+    removal_service = Plink::RemoveOfferFromWalletService.new(current_user.id, offer_id)
     if removal_service.remove_offer
+      offer = Plink::OfferRecord.find(offer_id)
       render json: {wallet: presented_wallet_items, removed_wallet_item: removed_wallet_item(offer)}
     else
       render nothing: true, status: :internal_server_error
     end
   end
 
-  private
+private
+
+  def offer_id
+    params[:id].to_i
+  end
 
   def removed_wallet_item(offer_record)
     user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)

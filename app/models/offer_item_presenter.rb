@@ -1,12 +1,12 @@
 class OfferItemPresenter
-  attr_reader :offer, :virtual_currency, :view_context, :linked, :signed_in
+  attr_reader :linked, :offer, :signed_in, :view_context, :virtual_currency
 
   def initialize(offer, options={})
-    @offer = offer
-    @virtual_currency = options.fetch(:virtual_currency)
-    @view_context = options.fetch(:view_context)
     @linked = options.fetch(:linked)
+    @offer = offer
     @signed_in = options.fetch(:signed_in)
+    @view_context = options.fetch(:view_context)
+    @virtual_currency = options.fetch(:virtual_currency)
   end
 
   def id
@@ -40,6 +40,10 @@ class OfferItemPresenter
     elsif offer.is_promotion
       'Get double points when you make a qualifying purchase at this partner.'
     end
+  end
+
+  def end_date
+    offer.end_date.strftime('%-m/%-d/%y')
   end
 
   def image_url

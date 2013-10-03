@@ -19,39 +19,39 @@ describe "wallet_items:migrate", skip_in_build: true do
 
   context 'number of wallet items should = 5' do
     it 'inserts 2 locked slots for existing users with 3 wallet item slots' do
-      3.times {create_legacy_wallet_item('open')}
+      3.times { create_legacy_wallet_item('open') }
 
       subject.invoke
 
       wallet_items = Plink::WalletItemRecord.all
 
-      grouped_items = wallet_items.map(&:type).group_by {|elem| elem }
+      grouped_items = wallet_items.map(&:type).group_by { |elem| elem }
       grouped_items['Plink::LockedWalletItemRecord'].length.should == 2
 
       wallet_items.should have(5).items
     end
 
     it 'inserts 1 locked slot for existing users with 4 wallet item slots' do
-      4.times {create_legacy_wallet_item('open')}
+      4.times { create_legacy_wallet_item('open') }
 
       subject.invoke
 
       wallet_items = Plink::WalletItemRecord.all
 
-      grouped_items = wallet_items.map(&:type).group_by {|elem| elem }
+      grouped_items = wallet_items.map(&:type).group_by { |elem| elem }
       grouped_items['Plink::LockedWalletItemRecord'].length.should == 1
 
       wallet_items.should have(5).items
     end
 
     it 'inserts 0 locked slots for existing users with 5 wallet item slots' do
-      5.times {create_legacy_wallet_item('open')}
+      5.times { create_legacy_wallet_item('open') }
 
       subject.invoke
 
       wallet_items = Plink::WalletItemRecord.all
 
-      grouped_items = wallet_items.map(&:type).group_by {|elem| elem }
+      grouped_items = wallet_items.map(&:type).group_by { |elem| elem }
       grouped_items['Plink::LockedWalletItemRecord'].should be_nil
 
       wallet_items.should have(5).items
@@ -239,4 +239,125 @@ describe 'wallet_items:set_unlock_reason', skip_in_build: true do
 
     Plink::WalletItemRecord.wallets_with_an_unlock_reason_of_referral.size.should == 2
   end
+
 end
+
+describe "wallet_items:remove_expired_offers", skip_in_build: true do
+  include_context "rake"
+
+  let(:virtual_currency) { create_virtual_currency }
+
+  let(:valid_offer_offers_virtual_currency) { create_offers_virtual_currency(virtual_currency_id: virtual_currency.id) }
+  let!(:valid_offer) {
+    create_offer(
+      end_date: Date.current,
+      offers_virtual_currencies: [valid_offer_offers_virtual_currency]
+    )
+  }
+  let!(:valid_offer_tier_one) { create_tier(offers_virtual_currency_id: valid_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+  let!(:valid_offer_tier_two) { create_tier(offers_virtual_currency_id: valid_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+
+  let(:expired_offer_offers_virtual_currency) { create_offers_virtual_currency(virtual_currency_id: virtual_currency.id) }
+  let!(:expired_offer) {
+    create_offer(
+      end_date: Date.yesterday.midnight,
+      offers_virtual_currencies: [expired_offer_offers_virtual_currency]
+    )
+  }
+  let!(:expired_offer_tier_one) { create_tier(offers_virtual_currency_id: expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+  let!(:expired_offer_tier_two) { create_tier(offers_virtual_currency_id: expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+
+  let(:another_expired_offer_offers_virtual_currency) { create_offers_virtual_currency(virtual_currency_id: virtual_currency.id) }
+  let!(:another_expired_offer) {
+    create_offer(
+      end_date: Date.yesterday.midnight,
+      offers_virtual_currencies: [another_expired_offer_offers_virtual_currency]
+    )
+  }
+  let!(:another_expired_offer_tier_one) { create_tier(offers_virtual_currency_id: another_expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+  let!(:another_expired_offer_tier_two) { create_tier(offers_virtual_currency_id: another_expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+
+  let(:user_with_expired_offer) { create_user(email: 'foo@example.com') }
+  let(:other_user_with_expired_offer) { create_user(email: 'ichabod@example.com') }
+  let(:user_without_expired_offer) { create_user(email: 'loser@example.com') }
+
+  before do
+    [user_with_expired_offer, other_user_with_expired_offer, user_without_expired_offer].each do |user|
+      create_wallet(
+        user_id: user.id,
+        wallet_item_records: [new_open_wallet_item, new_open_wallet_item]
+      )
+    end
+
+    Plink::AddOfferToWalletService.new(user: user_with_expired_offer, offer: expired_offer).add_offer
+    Plink::AddOfferToWalletService.new(user: user_with_expired_offer, offer: another_expired_offer).add_offer
+    Plink::AddOfferToWalletService.new(user: other_user_with_expired_offer, offer: expired_offer).add_offer
+    Plink::AddOfferToWalletService.new(user: other_user_with_expired_offer, offer: valid_offer).add_offer
+    Plink::AddOfferToWalletService.new(user: user_without_expired_offer, offer: valid_offer).add_offer
+  end
+
+  it 'removes offers that have expired from every wallet' do
+    Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(3).times.and_call_original
+
+    subject.invoke
+
+    grouped_items = user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+    grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
+    grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
+
+    grouped_items = other_user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+    grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
+    grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
+
+    grouped_items = user_without_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+    grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
+    grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
+  end
+
+  it 'only removes offers that have an end_date before today and within the last 7 days' do
+    Plink::OfferRecord.should_receive(:where).with('endDate < ? AND endDate > ?', Date.current, 7.days.ago.to_date).and_return([])
+
+    subject.invoke
+  end
+
+  it 'end dates all tiers associated to the offer through its offers virtual currencies' do
+    expired_offer_tier_one.end_date.should_not == expired_offer.end_date
+    expired_offer_tier_two.end_date.should_not == expired_offer.end_date
+    another_expired_offer_tier_one.end_date.should_not == another_expired_offer.end_date
+    another_expired_offer_tier_two.end_date.should_not == another_expired_offer.end_date
+    valid_offer_tier_one.end_date.should_not == valid_offer.end_date
+    valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+
+    subject.invoke
+
+    expired_offer_tier_one.reload.end_date.should == expired_offer.end_date
+    expired_offer_tier_two.reload.end_date.should == expired_offer.end_date
+    another_expired_offer_tier_one.reload.end_date.should == another_expired_offer.end_date
+    another_expired_offer_tier_two.reload.end_date.should == another_expired_offer.end_date
+    valid_offer_tier_one.end_date.should_not == valid_offer.end_date
+    valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+  end
+
+  it 'end dates the users_award_period' do
+    expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
+    another_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, another_expired_offer_offers_virtual_currency.id).first
+    other_users_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
+    other_users_non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, valid_offer_offers_virtual_currency.id).first
+    non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_without_expired_offer.id, valid_offer_offers_virtual_currency.id).first
+
+    expiring_users_award_period.end_date.should > Date.current.midnight
+    another_expiring_users_award_period.end_date.should > Date.current.midnight
+    other_users_expiring_users_award_period.end_date.should > Date.current.midnight
+    other_users_non_expiring_users_award_period.end_date.should > Date.current.midnight
+    non_expiring_users_award_period.end_date.should > Date.current.midnight
+
+    subject.invoke
+
+    expiring_users_award_period.reload.end_date.should == Date.current.midnight
+    another_expiring_users_award_period.reload.end_date.should == Date.current.midnight
+    other_users_expiring_users_award_period.reload.end_date.should == Date.current.midnight
+    other_users_non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
+    non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
+  end
+end
+

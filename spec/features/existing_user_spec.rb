@@ -37,7 +37,7 @@ describe 'user signs in' do
 
     @burger_king_offer = create_offer(advertiser_id: burger_king.id,
                                       start_date: 1.day.ago,
-                                      end_date: 1.day.from_now,
+                                      end_date: Time.zone.local(2020, 2, 1),
                                       is_active: true,
                                       is_new: true,
                                       show_on_wall: true,
@@ -218,6 +218,8 @@ describe 'user signs in' do
           page.should have_content '$25'
           page.should have_content '300 Plink Points'
         end
+
+        page.should have_content 'This offer is only available through 2/1/20'
       end
 
       page.should have_content 'You have to spend 2.50 to get this'

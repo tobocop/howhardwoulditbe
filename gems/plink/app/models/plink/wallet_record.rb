@@ -12,7 +12,7 @@ module Plink
 
     alias_attribute :user_id, :userID
 
-    attr_accessible :user_id
+    attr_accessible :user_id, :wallet_item_records
 
     has_many :wallet_item_records, class_name: 'Plink::WalletItemRecord', foreign_key: 'walletID'
     has_many :sorted_wallet_item_records, class_name: 'Plink::WalletItemRecord',
