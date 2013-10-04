@@ -10,9 +10,9 @@ class Gigya
     def self.from_json(json)
       json_params = parse_json(json)
       new({
-              status_code: json_params['statusCode'],
-              error_code: json_params['errorCode']
-          })
+        status_code: json_params['statusCode'],
+        error_code: json_params['errorCode']
+      })
     end
 
     def self.parse_json(json)

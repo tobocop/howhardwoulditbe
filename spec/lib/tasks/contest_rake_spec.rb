@@ -253,3 +253,42 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
     Plink::ContestWinnerRecord.where(user_id: force_deactivated_user.id).should be_empty
   end
 end
+
+describe 'contest:post_on_winners_behalf', skip_in_build: true, flaky: true do
+  include_context 'rake'
+
+  let!(:contest) { create_contest }
+  let!(:user) { create_user }
+
+  it 'requires a contest_id argument' do
+    expect {
+      subject.invoke
+    }.to raise_error ArgumentError
+  end
+
+  context 'with a successful call to Gigya' do
+    it 'logs it' do
+      create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
+      gigya_response = double(error_code: 0, status_code: 200)
+      Gigya.any_instance.stub(:set_facebook_status).and_return(gigya_response)
+
+      output = capture_stdout { subject.invoke(1) }
+      output.should =~ /POSTING TO GIGYA: user_id: /
+      output.should =~ /SUCCESSFUL POST TO GIGYA:/
+    end
+  end
+
+  context 'with a failed request' do
+    it 'logs the status code and error code' do
+      create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.hour.ago, prize_level_id: 2)
+      gigya_response = double(error_code: 1, status_code: 400)
+      Gigya.any_instance.stub(:set_facebook_status).and_return(gigya_response)
+
+      output = capture_stdout { subject.invoke(1) }
+      output.should =~ /POSTING TO GIGYA:/
+      output.should =~ /LOGGED ERRORS: error_code: 1 status_code: 400/
+    end
+  end
+end
+
+

@@ -78,6 +78,35 @@ namespace :contest do
     alternates = winners.last(150)
     PlinkAdmin::ContestWinningService.create_alternates!(contest_id, alternates)
   end
+
+  desc 'Post on Contest Winner\'s Facebook wall on their behalf'
+  task :post_on_winners_behalf, [:contest_id] => :environment do |t, args|
+    contest_id = args[:contest_id]
+    raise ArgumentError.new('contest_id is required') unless contest_id.present?
+
+    default_affiliate_id = Rails.application.config.default_contest_affiliate_id
+    gigya = Gigya.new(Gigya::Config.instance)
+
+    users_to_post_for = Plink::UserRecord.select([:userID]).
+      joins('INNER JOIN contest_winners ON users.userID = contest_winners.user_id AND contest_winners.prize_level_id IS NOT NULL').
+      where('contest_winners.id = ?', contest_id).
+      where('contest_winners.finalized_at IS NOT NULL AND contest_winners.winner = ?', true).
+      group(:userID)
+
+    users_to_post_for.each do |user|
+      puts "[#{Time.zone.now}] POSTING TO GIGYA: user_id: #{user.userID}"
+      url = Rails.application.routes.url_helpers.contest_referral_url(user_id: user.userID, affiliate_id: default_affiliate_id, contest_id: contest_id)
+      facebook_status = "I just won my share of $1,000 in gift cards from Plink. I can choose gift cards from places like Amazon.com, Target, Walmart and more! See what I won! #{url}."
+
+      response = gigya.set_facebook_status(user.userID, facebook_status)
+
+      if response.error_code == 0 && response.status_code == 200
+        puts "[#{Time.zone.now}] SUCCESSFUL POST TO GIGYA: user_id: #{user.id}"
+      else
+        puts "[#{Time.zone.now}] ISSUE WITH GIGYA: user_id: #{user.id} LOGGED ERRORS: error_code: #{response.error_code} status_code: #{response.status_code}"
+      end
+    end
+  end
 end
 
 def users_with_contest_reminders_who_have_not_entered_recently(last_entered_date)

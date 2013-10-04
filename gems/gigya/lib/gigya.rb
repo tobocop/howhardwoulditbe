@@ -54,4 +54,16 @@ class Gigya
 
     Gigya::GigyaResponse.from_json(response.body)
   end
+
+  def set_facebook_status(gigya_id, status)
+    params = {
+      format: 'json',
+      uid: gigya_id,
+      status: status
+    }
+
+    response = Gigya::Http.new(config, api_method: 'socialize.setStatus', url_params: params).perform_request
+
+    Gigya::GigyaResponse.from_json(response.body)
+  end
 end

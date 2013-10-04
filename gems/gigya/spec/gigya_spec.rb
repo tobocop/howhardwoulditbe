@@ -4,7 +4,6 @@ describe Gigya do
   let(:gigya) { Gigya.new(Gigya::Config.instance) }
 
   describe '#notify_login' do
-
     let(:mock_params) { {first_name: 'bob', email: 'bob@example.com', site_user_id: 12334} }
 
     it 'raises when a site_user_id is not passed in' do
@@ -82,6 +81,21 @@ describe Gigya do
       Gigya::GigyaResponse.stub(:from_json).with('somejson') { response_stub }
 
       response = gigya.delete_user('1234')
+      response.should == response_stub
+    end
+  end
+
+  describe '#set_facebook_status' do
+    let(:mock_params) { {gigya_id: '123-456', site_user_id: 123}}
+    it 'calls gigya to update the user\'s facebook status' do
+      http_stub = stub
+      Gigya::Http.stub(:new).with(gigya.config, api_method: 'socialize.setStatus', url_params: {format: 'json', uid: '1234', status: 'This is a status for Facebook'}) { http_stub }
+      http_stub.stub(:perform_request) { stub(body: 'somejson') }
+
+      response_stub = stub
+      Gigya::GigyaResponse.stub(:from_json).with('somejson') { response_stub }
+
+      response = gigya.set_facebook_status('1234', 'This is a status for Facebook')
       response.should == response_stub
     end
   end

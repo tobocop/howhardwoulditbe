@@ -66,3 +66,14 @@ if ENV['CI']
 else
   Capybara.javascript_driver = :webkit
 end
+
+def capture_stdout(&block)
+  original_stdout = $stdout
+  $stdout = fake = StringIO.new
+  begin
+    yield
+  ensure
+    $stdout = original_stdout
+  end
+  fake.string
+end
