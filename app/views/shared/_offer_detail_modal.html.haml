@@ -7,7 +7,8 @@
       .offer-points
         %h1= tier[:points_in_currency]
         %h2= tier[:description]
-    .expiration-date= "This offer is only available through #{presenter.end_date}"
+    -#TODO: put this back in once Marc has approved launch
+    -#.expiration-date= "This offer is only available through #{presenter.end_date}"
 
   .message.reason.wallet_full.hidden
     You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
