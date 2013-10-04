@@ -125,7 +125,7 @@ class PlinkAdmin::ContestWinningService
         contest_id: contest_id,
         user_id: winner.user.id
       }
-      ContestMailer.winner_email(email_args).deliver
+      ContestMailer.delay.winner_email(email_args)
     end
   end
 
