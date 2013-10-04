@@ -172,8 +172,10 @@ describe Plink::ContestRecord do
 
     it 'returns a contest if there is a last finalized contest' do
       contest.update_attributes(end_time: 20.minutes.ago, finalized_at: Time.zone.now)
+      older_contest = create_contest(start_time: 21.years.ago, end_time: 20.years.ago, finalized_at: 2.years.ago)
 
       Plink::ContestRecord.last_finalized.should == contest
+      Plink::ContestRecord.last_finalized.should_not == older_contest
     end
   end
 end
