@@ -22,8 +22,8 @@
             = flash_error_icon(flash[:error])
             = flash[:error]
 
-    - if controller.display_contest_notification?
-      = render partial: 'shared/social/in_app_note'
+    - if @notification.present?
+      = render partial: "shared/social/#{@notification[:partial]}"
 
     = render partial: 'shared/header'
 

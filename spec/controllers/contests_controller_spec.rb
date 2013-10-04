@@ -16,6 +16,18 @@ describe ContestsController do
       assigns(:user).should be_present
     end
 
+    it 'responds with a contest' do
+      get :index
+
+      assigns(:contest).should be_present
+    end
+
+    it 'responds with a contest_results_service' do
+      get :index
+
+      assigns(:contest_results_service).should be_present
+    end
+
     context 'with an unauthenticated user' do
       before do
         session[:tracking_params] = {sub_id_three: contest.id}
@@ -25,7 +37,6 @@ describe ContestsController do
       it 'responds sucessfully' do
         response.should be_success
       end
-
 
       it 'responds with 0 points' do
         assigns(:entries)[:total].should == 0

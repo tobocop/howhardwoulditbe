@@ -147,6 +147,33 @@ describe Plink::ContestRecord do
       contest = new_contest(finalized_at: nil)
       contest.finalized?.should be_false
     end
+  end
 
+  describe '.last_completed' do
+    let!(:contest) { create_contest }
+
+    it 'returns nil if there is no previous finalized contest' do
+      Plink::ContestRecord.last_completed.should be_nil
+    end
+
+    it 'returns a contest if there is a last finalized contest' do
+      contest.update_attributes(end_time: 20.minutes.ago, finalized_at: nil)
+
+      Plink::ContestRecord.last_completed.should == contest
+    end
+  end
+
+  describe '#last_finalized' do
+    let!(:contest) { create_contest }
+
+    it 'returns nil if there is no previous finalized contest' do
+      Plink::ContestRecord.last_finalized.should be_nil
+    end
+
+    it 'returns a contest if there is a last finalized contest' do
+      contest.update_attributes(end_time: 20.minutes.ago, finalized_at: Time.zone.now)
+
+      Plink::ContestRecord.last_finalized.should == contest
+    end
   end
 end

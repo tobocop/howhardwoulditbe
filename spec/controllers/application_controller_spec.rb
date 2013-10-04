@@ -34,7 +34,9 @@ describe ApplicationController do
     end
 
     it 'does not redirect if the user is not logged in' do
-      controller.stub(current_user: mock(:logged_out_user, logged_in?: false))
+      controller.stub(:contest_notification_for_user).and_return(false)
+      controller.stub(current_user: mock(:logged_out_user, logged_in?: false, id: 1, primary_virtual_currency_id: 3))
+
       get :index
 
       response.body.should == 'ok'
@@ -207,7 +209,11 @@ describe ApplicationController do
       let!(:valid_cookie) { set_auto_login_cookie(valid_user.password_hash) }
 
       it 'auto logs in the user if a valid cookie is found' do
+        controller.stub(:redirect_white_label_members).and_return(false)
+        controller.stub(:contest_notification_for_user).and_return(false)
+
         get :index
+
         controller.user_logged_in?.should be_true
       end
     end
@@ -256,46 +262,34 @@ describe ApplicationController do
     end
   end
 
-  describe '#display_contest_notification?' do
+  describe '#contest_notification_for_user' do
+    let(:presenter_stub) {
+      {template: 'stuff', data: {'other_stuff' => true}}
+    }
 
-    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'davidhashelhoff') }
+    it 'does not show a notification to white-list users' do
+      controller.stub(:current_virtual_currency).and_return(double(subdomain: 'random'))
 
-    it 'returns false if a user is not logged in' do
-      controller.stub(current_user: mock(:logged_out_user, logged_in?: false))
       get :index
 
-      controller.display_contest_notification?.should be_false
+      assigns(:notification).should be_nil
     end
 
-    it 'returns false if the user is not from the www subdomain' do
-      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
-      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'swag'))
+    it 'sets the notification if the user should see one' do
+      controller.stub(:current_user).and_return(double(id: 1, logged_in?: true))
+      controller.stub(:current_virtual_currency).and_return(double(subdomain: 'www'))
+      controller.stub(:contest_cookie_present?).and_return(false)
+      ContestNotificationPresenter.stub(:for_user).and_return(presenter_stub)
+
       get :index
 
-      controller.sign_in_user(user)
-
-      controller.display_contest_notification?.should be_false
+      assigns(:notification).should == presenter_stub.stringify_keys
     end
 
-    it 'returns false if the contest notification has been dismissed previously' do
-      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
-      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
-      request.cookies['contest_notification'] = 1
+    it 'does not show a notification if there is not a user logged in' do
       get :index
 
-      controller.display_contest_notification?.should be_false
-    end
-
-    it 'does not display the contest notification if the user has entered the contest today' do
-      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
-      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
-      Plink::EntryRecord.stub(:entries_today_for_user) { mock(exists?: true) }
-
-      get :index
-
-      controller.display_contest_notification?.should be_false
-
+      assigns(:notification).should be_nil
     end
   end
-
 end

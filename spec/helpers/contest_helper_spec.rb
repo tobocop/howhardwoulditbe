@@ -112,7 +112,7 @@ describe ContestHelper do
     end
   end
 
-  describe 'contest_social_referral_link' do
+  describe '#contest_social_referral_link' do
     context 'with a user_id' do
       it 'returns a link populated with the given text, appropriate class, and refer_a_friend_data' do
         helper.stub(:refer_a_friend_data).and_return({
@@ -134,7 +134,7 @@ describe ContestHelper do
     end
   end
 
-  describe 'contest_social_referral_image' do
+  describe '#contest_social_referral_image' do
     context 'with a user_id' do
       it 'returns a link populated with the given image path, border of 0, and refer_a_friend_data' do
         helper.stub(:refer_a_friend_data).and_return({
@@ -156,13 +156,48 @@ describe ContestHelper do
     end
   end
 
-  describe 'contest_social_referral_url' do
+  describe '#contest_social_referral_url' do
     it 'returns a referral link when a user_id is present' do
       helper.contest_social_referral_url(150).should == 'http://test.host/refer/150/aid/1431'
     end
 
     it 'returns a link to the referral section of the FAQ when a user_id is not present' do
       helper.contest_social_referral_url(nil).should == '/faq#referral-program'
+    end
+  end
+
+  describe '#contest_winner_share_data' do
+    it 'returns a hash with share data for the contest winner' do
+      share_data = {
+        'title' => 'I just won a Plink contest! You can be a Winner, too.',
+        'description' => "I just won $10 in gift cards from Plink! Join Plink today and enter for your chance to win.",
+        'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
+        'twitter-link' => "http://example.com/twitter_winning_entry_post",
+        'facebook-link' => "http://example.com/facebook_winning_entry_post",
+        'contest-winner-share-widget' => true
+      }
+
+      helper.contest_winner_share_data('http://example.com', 10).should == share_data
+    end
+  end
+
+  describe '#contest_winner_share' do
+    let(:anchor_tag) { "<a href=\"http://test.host/contest/refer/23/aid/1431/contest/1\" class=\"button primary-action\" data-contest-winner-share-widget=\"true\" data-description=\"\" data-facebook-link=\"facebook-link\" data-image=\"\" data-title=\"\" data-twitter-link=\"twitter-link\">Tell Your Friends</a>"}
+
+    before do
+      helper.stub(:contest_winner_share_data).and_return({
+        'title' => '',
+        'description' => '',
+        'image' => '',
+        'twitter-link' => 'twitter-link',
+        'facebook-link' => 'facebook-link',
+        'contest-winner-share-widget' => true
+      })
+    end
+
+    it 'returns a contest share link' do
+      link = "#{anchor_tag}</a>"
+      assert_dom_equal(link, helper.contest_winner_share(1,23,3))
     end
   end
 end

@@ -90,5 +90,16 @@ module Plink
       end
     end
 
+    def self.points_and_dollars_for_user_and_contest(user_id, contest_id)
+      dollar_amount = Plink::ContestWinnerRecord.select(:dollar_amount).
+        joins('INNER JOIN contest_prize_levels ON contest_winners.prize_level_id = contest_prize_levels.id').
+        where(user_id: user_id, contest_id: contest_id).pluck(:dollar_amount).first
+
+      {
+        dollars: dollar_amount.to_i,
+        points: dollar_amount.to_i * Plink::TangoRedemptionService::PLINK_POINTS_EXCHANGE_RATE
+      }
+    end
+
   end
 end

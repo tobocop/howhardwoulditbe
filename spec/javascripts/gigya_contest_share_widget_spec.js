@@ -16,6 +16,7 @@ describe('Plink.GigyaContestShareWidget', function () {
       '<div id="js-entry-subtext"></div>' +
       '<input class="checkbox" id="js-toggle-daily-email" name="daily_contest_reminder" type="checkbox" value="1" checked>' +
       '<a href="/dummy" id="js-share-to-enter" data-contest-share-widget="true" class="white-txt">Share to Enter</a>' +
+      '<a href="/dummy" data-contest-winner-share-widget="true" class="white-txt">Share to Enter As a Winner</a>' +
       '<form id="js-contest-entry" style="display:none;"><input type="hidden" value="1234" name="contest_id" id="contest_id"><input name="authenticity_token" type="hidden" value="abcde"></form>'
       );
     spy = spyOn(Plink.GigyaContestShareWidget, '_cardLinkProcessComplete');
@@ -37,6 +38,18 @@ describe('Plink.GigyaContestShareWidget', function () {
         enabledProviders: 'facebook,twitter',
         onSendDone: Plink.GigyaContestShareWidget._onSendDone,
         onError: Plink.GigyaContestShareWidget._onError
+      };
+
+      expect(window.gigya.socialize.showShareUI).toHaveBeenCalledWith(expected_params);
+
+      $('[data-contest-winner-share-widget]').trigger('click');
+
+      var expected_params = {
+        userAction: 'widget',
+        facebookUserAction: 'widget',
+        twitterUserAction: 'widget',
+        enabledProviders: 'facebook,twitter',
+        onSendDone: Plink.InAppNotification.hideContestNotification
       };
 
       expect(window.gigya.socialize.showShareUI).toHaveBeenCalledWith(expected_params);

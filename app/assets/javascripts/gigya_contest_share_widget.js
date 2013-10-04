@@ -2,6 +2,7 @@
   exports.Plink.GigyaContestShareWidget = {
     setup: function () {
       $(document).on('click', '[data-contest-share-widget]', this._clickHandler);
+      $(document).on('click', '[data-contest-winner-share-widget]', this._clickHandlerWithoutErrorCallbacks);
       $(document).on('cardLinkProcessComplete', this._cardLinkProcessComplete);
     },
 
@@ -19,6 +20,24 @@
         enabledProviders: Plink.Config.enabledProviders,
         onSendDone: Plink.GigyaContestShareWidget._onSendDone,
         onError: Plink.GigyaContestShareWidget._onError
+      });
+
+      return false;
+    },
+
+    _clickHandlerWithoutErrorCallbacks: function (event) {
+      $(".flash-container").empty();
+
+      var defaultAction = Plink.GigyaAction.create(event.target);
+      var facebookAction = Plink.GigyaAction.create(event.target, 'facebook');
+      var twitterAction = Plink.GigyaAction.create(event.target, 'twitter');
+
+      gigya.socialize.showShareUI({
+        userAction: defaultAction,
+        facebookUserAction: facebookAction,
+        twitterUserAction: twitterAction,
+        enabledProviders: Plink.Config.enabledProviders,
+        onSendDone: Plink.InAppNotification.hideContestNotification
       });
 
       return false;
@@ -109,7 +128,7 @@
 })(window);
 
 $(function () {
-  if ($("#contests-index, #contests-show, #notification-share").length){
+  if ($("#contests-index, #contests-show, #notification-share, .in-app-note").length){
     Plink.GigyaContestShareWidget.setup();
   }
 });

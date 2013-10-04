@@ -3,8 +3,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :current_virtual_currency, :user_logged_in?, :user_registration_form
 
-  before_filter :redirect_white_label_members
   before_filter :auto_login_from_cookie
+  before_filter :contest_notification_for_user
+  before_filter :redirect_white_label_members
 
   def redirect_white_label_members
     if current_user.logged_in?
@@ -89,23 +90,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def display_contest_notification?
-
-    case
-      when ! user_logged_in?
-        false
-      when current_virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN
-        false
-      when contest_cookie_present?
-        false
-      when has_contest_entries_today?
-        false
-      else
-        true
-    end
-
-  end
-
   def contest_share_link
     contest = Plink::ContestRecord.current
     return if contest.nil?
@@ -117,7 +101,18 @@ class ApplicationController < ActionController::Base
     )
   end
 
-  private
+  def contest_notification_for_user
+    user_id = current_user.id
+    return false if user_id.blank?
+
+    if current_virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN || contest_cookie_present?
+      return
+    else
+      @notification = ContestNotificationPresenter.for_user(user_id, params[:contest_id])
+    end
+  end
+
+private
 
   def send_user_to_white_label(subdomain)
     redirect_to white_label_url_for(subdomain)
@@ -149,7 +144,6 @@ class ApplicationController < ActionController::Base
     }
 
     cookies[login_cookie_key] = defaults.merge(options)
-
   end
 
   def expire_cookies
@@ -178,5 +172,4 @@ class ApplicationController < ActionController::Base
   def contest_cookie_present?
     !cookies['contest_notification'].blank?
   end
-
 end

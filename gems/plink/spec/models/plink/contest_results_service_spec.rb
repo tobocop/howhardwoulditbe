@@ -102,4 +102,33 @@ describe 'Plink::ContestResultsService' do
       winners[2][1].should == [ 'Heywood' ]
     end
   end
+
+  describe '.points_and_dollars_for_user_and_contest' do
+    let!(:contest) { create_contest }
+    let!(:user) { create_user }
+
+    it 'returns 0 when given nil for both arguments' do
+      Plink::ContestResultsService.points_and_dollars_for_user_and_contest(nil, nil).should == {
+        dollars: 0,
+        points: 0
+      }
+    end
+
+    it 'returns 0 when the user does not have a contest winner record' do
+      Plink::ContestResultsService.points_and_dollars_for_user_and_contest(user.id, contest.id).should == {
+        dollars: 0,
+        points: 0
+      }
+    end
+
+    it 'returns the number of plink points and the dollar_amount when the user has a contest_winner_record' do
+      prize_level = create_contest_prize_level(dollar_amount: 25, contest_id: contest.id)
+      create_contest_winner(prize_level_id: prize_level.id, user_id: user.id, contest_id: contest.id)
+
+      Plink::ContestResultsService.points_and_dollars_for_user_and_contest(user.id, contest.id).should == {
+        dollars: 25,
+        points: 2500
+      }
+    end
+  end
 end

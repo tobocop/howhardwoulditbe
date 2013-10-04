@@ -44,6 +44,14 @@ module Plink
       finalized_at.present?
     end
 
+    def self.last_completed
+      where('finalized_at IS NULL AND end_time < ?', Time.zone.now).first
+    end
+
+    def self.last_finalized
+      where('finalized_at IS NOT NULL').order('end_time DESC').first
+    end
+
     private
 
     def start_time_is_not_between_existing_range

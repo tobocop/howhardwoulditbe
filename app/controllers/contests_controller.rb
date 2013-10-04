@@ -3,7 +3,11 @@ class ContestsController < ApplicationController
   include Tracking
 
   def index
-    @contest = create_contest_presenter(Plink::ContestRecord.current)
+    contest_record = Plink::ContestRecord.current || Plink::ContestRecord.last_completed || Plink::ContestRecord.last_finalized
+    @contest = create_contest_presenter(contest_record)
+    @contest_results_service = create_contest_results_service(@contest.id)
+    @contest_results_service.prepare_contest_results if @contest.finalized?
+
     instantiate_contest_data(@contest.id)
 
     if params[:card_linked]

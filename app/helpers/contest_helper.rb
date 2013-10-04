@@ -1,5 +1,4 @@
 module ContestHelper
-
   def contest_share_data(contest_share_link)
     {
       'title' => 'Claim your share of $1,000 in Gift Cards from Plink',
@@ -80,6 +79,27 @@ module ContestHelper
 
   def faq_referral_path
     faq_static_path(anchor: 'referral-program')
+  end
+
+  def contest_winner_share_data(contest_share_link, dollar_amount)
+    {
+      'title' => 'I just won a Plink contest! You can be a Winner, too.',
+      'description' => "I just won $#{dollar_amount} in gift cards from Plink! Join Plink today and enter for your chance to win.",
+      'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
+      'twitter-link' => "#{contest_share_link}/twitter_winning_entry_post",
+      'facebook-link' => "#{contest_share_link}/facebook_winning_entry_post",
+      'contest-winner-share-widget' => true
+    }
+  end
+
+  def contest_winner_share(contest_id, user_id, dollar_amount)
+    base_referral_url = contest_referral_url(user_id: user_id, affiliate_id: default_affiliate_id, contest_id: contest_id)
+    options = {
+      data: contest_winner_share_data(base_referral_url, dollar_amount),
+      class: 'button primary-action'
+    }
+
+    link_to 'Tell Your Friends', base_referral_url, options
   end
 
 private
