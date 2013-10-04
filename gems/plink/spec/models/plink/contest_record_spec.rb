@@ -163,7 +163,7 @@ describe Plink::ContestRecord do
     end
   end
 
-  describe '#last_finalized' do
+  describe '.last_finalized' do
     let!(:contest) { create_contest }
 
     it 'returns nil if there is no previous finalized contest' do
