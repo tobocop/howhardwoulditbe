@@ -4,6 +4,7 @@ PATH
     plink_admin (0.0.1)
       activerecord-redshift-adapter
       activerecord-sqlserver-adapter (= 3.2.10)
+      delayed_job_active_record
       devise (= 2.2.4)
       haml-rails (~> 0.4)
       rails (= 3.2.13)
@@ -63,6 +64,11 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     coderay (1.0.9)
+    delayed_job (4.0.0)
+      activesupport (>= 3.0, < 4.1)
+    delayed_job_active_record (4.0.0)
+      activerecord (>= 3.0, < 4.1)
+      delayed_job (>= 3.0, < 4.1)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)

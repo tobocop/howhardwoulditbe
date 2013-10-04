@@ -280,7 +280,7 @@ describe PlinkAdmin::ContestWinningService do
       # Stub in class from parent Application
       class ContestMailer
       end
-      ContestMailer.should_receive(:winner_email).exactly(1).times.and_return(double(deliver: true))
+      ContestMailer.should_receive(:delay).exactly(1).times.and_return(double(winner_email: true))
 
       winner = create_contest_winner({
         user_id: user.id,

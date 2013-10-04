@@ -1,5 +1,5 @@
 class ContestMailer < ActionMailer::Base
-  default from: 'info@plink.com', return_path: 'bounces@plink.com'
+  default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def daily_reminder_email(args)
     @first_name = args[:first_name]
