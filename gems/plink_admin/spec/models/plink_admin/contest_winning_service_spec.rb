@@ -9,20 +9,52 @@ describe PlinkAdmin::ContestWinningService do
       user = create_user(email: 'plinky@plink.com')
       create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
 
-      contest_winning_service.total_non_plink_entries_for_contest(contest.id)
+      contest_winning_service.total_non_plink_entries_for_contest(contest.id).should == 0
+    end
+
+    it 'does not return users whose email is on the contest email blacklist' do
+      user = create_user(email: 'special@unique.com')
+      create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
+      create_contest_blacklisted_email(email_pattern: 'special@unique.com')
+
+      contest_winning_service.total_non_plink_entries_for_contest(contest.id).should == 0
+    end
+
+    it 'excludes users by a wild-card on the sending domain' do
+      user = create_user(email: 'special@unique.com')
+      create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
+      create_contest_blacklisted_email(email_pattern: '%unique.com')
+
+      contest_winning_service.total_non_plink_entries_for_contest(contest.id).should == 0
     end
 
     it 'returns the sum of computed_entries for all users without a plink.com email' do
       user = create_user(email: 'plinky@example.com')
       create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
 
-      contest_winning_service.total_non_plink_entries_for_contest(contest.id)
+      contest_winning_service.total_non_plink_entries_for_contest(contest.id).should == 10
     end
   end
 
   describe '.cumulative_non_plink_entries_by_user' do
     it 'excludes users with a plink.com email address' do
       plink_user = create_user(email: 'plink@plink.com')
+
+      contest_winning_service.cumulative_non_plink_entries_by_user(contest.id).should be_empty
+    end
+
+    it 'excludes users whose email is on the contest email blacklist' do
+      user = create_user(email: 'special@unique.com')
+      create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
+      create_contest_blacklisted_email(email_pattern: 'special@unique.com')
+
+      contest_winning_service.cumulative_non_plink_entries_by_user(contest.id).should be_empty
+    end
+
+    it 'excludes users by a wild-card on the sending domain' do
+      user = create_user(email: 'special@unique.com')
+      create_entry(contest_id: contest.id, user_id: user.id, provider: 'admin', computed_entries: 10)
+      create_contest_blacklisted_email(email_pattern: '%unique.com')
 
       contest_winning_service.cumulative_non_plink_entries_by_user(contest.id).should be_empty
     end

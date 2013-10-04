@@ -1,18 +1,30 @@
 class PlinkAdmin::ContestWinningService
   def self.total_non_plink_entries_for_contest(contest_id)
-    Plink::EntryRecord.joins('INNER JOIN users ON user_id = userID').
+    query = Plink::EntryRecord.joins('INNER JOIN users ON user_id = userID').
       where('emailAddress NOT LIKE ?', '%plink.com%').
-      where(contest_id: contest_id).sum('computed_entries')
+      where(contest_id: contest_id)
+
+    Plink::ContestBlacklistedEmailRecord.all.each do |blacklisted|
+      query = query.where('emailAddress NOT LIKE ?', blacklisted.email_pattern)
+    end
+
+    query.sum('computed_entries')
   end
 
   def self.cumulative_non_plink_entries_by_user(contest_id)
-    Plink::EntryRecord.select("user_id, SUM(computed_entries) AS 'entries',
+    query = Plink::EntryRecord.select("user_id, SUM(computed_entries) AS 'entries',
       (SELECT SUM(computed_entries) FROM entries e INNER JOIN users u ON e.user_id = u.userID AND u.emailAddress NOT LIKE '%plink.com%' WHERE e.user_id <= entries.user_id) AS 'cumulative_entries'").
       joins('INNER JOIN users ON userID = user_id').
       where(contest_id: contest_id).
       where('emailAddress NOT LIKE ?', '%plink.com%').
       group(:user_id, :userID).
       order('user_id ASC')
+
+    Plink::ContestBlacklistedEmailRecord.all.each do |blacklisted|
+      query = query.where('emailAddress NOT LIKE ?', blacklisted.email_pattern)
+    end
+
+    query
   end
 
   def self.generate_outcome_table(cumulative_entries_by_user)

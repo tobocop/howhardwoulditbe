@@ -688,6 +688,20 @@ module Plink
       Plink::ContestPrizeLevelRecord.new { |entry| apply(entry, defaults, options) }
     end
 
+    def create_contest_blacklisted_email(options = {})
+      contest_blacklisted_email = new_contest_blacklisted_email(options)
+      contest_blacklisted_email.save!
+      contest_blacklisted_email
+    end
+
+    def new_contest_blacklisted_email(options = {})
+      defaults = {
+        email_pattern: 'blockme@test.com'
+      }
+
+      Plink::ContestBlacklistedEmailRecord.new { |entry| apply(entry, defaults, options) }
+    end
+
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|
