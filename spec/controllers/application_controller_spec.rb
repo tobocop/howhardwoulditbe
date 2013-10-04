@@ -267,7 +267,7 @@ describe ApplicationController do
       {template: 'stuff', data: {'other_stuff' => true}}
     }
 
-    it 'does not show a notification to white-list users' do
+    it 'does not show a notification to white label users' do
       controller.stub(:current_virtual_currency).and_return(double(subdomain: 'random'))
 
       get :index
