@@ -130,80 +130,112 @@ describe 'contest:create_prize_levels_for_contest', skip_in_build: true do
     }.to raise_error ArgumentError
   end
 
-  it 'creates 1 prize for $250' do
-    subject.invoke(1)
+  context 'contest_id 1' do
+    it 'creates 1 prize for $250' do
+      subject.invoke(1)
 
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 250)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 1
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 250)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 1
+    end
+
+    it 'creates 1 prize for $100' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 100)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 1
+    end
+
+    it 'creates 1 prize for $50' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 50)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 1
+    end
+
+    it 'creates 1 prize for $20' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 20)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 1
+    end
+
+    it 'creates 16 prizes for 10' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 10)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 16
+    end
+
+    it 'creates 60 prizes for $5' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 5)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 60
+    end
+
+    it 'creates 50 prizes for $2' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 2)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 50
+    end
+
+    it 'creates 20 prizes for $1' do
+      subject.invoke(1)
+
+      prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 1)
+      prize_levels.count.should == 1
+      prize_levels.first.award_count.should == 20
+    end
+
+    it 'creates a total of 150 prizes' do
+      subject.invoke(1)
+
+      Plink::ContestPrizeLevelRecord.sum(:award_count).should == 150
+    end
+
+    it 'creates $1000 worth of prizes' do
+      subject.invoke(1)
+
+      Plink::ContestPrizeLevelRecord.sum('dollar_amount * award_count').should == 1000
+    end
   end
 
-  it 'creates 1 prize for $100' do
-    subject.invoke(1)
+  context 'contest_id 2' do
+    let(:prize_levels) {
+      [
+        {dollar_amount: 350, number_of_winners: 1},
+        {dollar_amount: 100, number_of_winners: 1},
+        {dollar_amount: 50, number_of_winners: 1},
+        {dollar_amount: 25, number_of_winners: 1},
+        {dollar_amount: 5, number_of_winners: 20},
+        {dollar_amount: 2, number_of_winners: 50},
+        {dollar_amount: 1, number_of_winners: 76},
+      ]
+    }
 
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 100)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 1
-  end
+    it 'creates the prize levels for contest 2' do
+      subject.invoke(2)
 
-  it 'creates 1 prize for $50' do
-    subject.invoke(1)
+      prize_levels.each do |prize_level|
+        created_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: prize_level[:dollar_amount])
+        created_levels.count.should == 1
+        created_levels.first.award_count.should == prize_level[:number_of_winners]
+      end
+    end
 
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 50)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 1
-  end
+    it 'creates $801 worth of prizes' do
+      subject.invoke(2)
 
-  it 'creates 1 prize for $20' do
-    subject.invoke(1)
-
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 20)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 1
-  end
-
-  it 'creates 16 prizes for 10' do
-    subject.invoke(1)
-
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 10)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 16
-  end
-
-  it 'creates 60 prizes for $5' do
-    subject.invoke(1)
-
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 5)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 60
-  end
-
-  it 'creates 50 prizes for $2' do
-    subject.invoke(1)
-
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 2)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 50
-  end
-
-  it 'creates 20 prizes for $1' do
-    subject.invoke(1)
-
-    prize_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: 1)
-    prize_levels.count.should == 1
-    prize_levels.first.award_count.should == 20
-  end
-
-  it 'creates a total of 150 prizes' do
-    subject.invoke(1)
-
-    Plink::ContestPrizeLevelRecord.sum(:award_count).should == 150
-  end
-
-  it 'creates $1000 worth of prizes' do
-    subject.invoke(1)
-
-    Plink::ContestPrizeLevelRecord.sum('dollar_amount * award_count').should == 1000
+      Plink::ContestPrizeLevelRecord.sum('dollar_amount * award_count').should == 801
+    end
   end
 end
 
