@@ -10,6 +10,13 @@ en:
         description: "I just won a Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win."
       winners_automatic_post:
         status: "I just won a prize in the Plink Spooktacular Halloween Giveaway!  I might have even won the iPad 2 – See what I won! %{url}."
+      emails:
+        daily_reminder_email:
+          subject: Enter Today - Apple iPad 2 Up For Grabs
+        three_day_reminder_email:
+          subject: Your Halloween Spooktacular entries expire today
+        winner_email:
+          subject: Halloween Spooktacular Winners Announced!! See if you won!
     referral:
       title: Join Plink for free and receive a $5 gift card
       description: Join Plink for free and receive a $5 gift card of your choice when you link a card. Earn the rewards you deserve every time you shop or dine out at Plink locations.

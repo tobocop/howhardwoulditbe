@@ -8,7 +8,7 @@ class ContestMailer < ActionMailer::Base
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: 'Enter Today - $1,000 Up For Grabs'
+      subject: t('application.contests.emails.daily_reminder_email.subject')
     )
   end
 
@@ -19,7 +19,7 @@ class ContestMailer < ActionMailer::Base
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: 'Your $1,000 entries expire today'
+      subject: t('application.contests.emails.three_day_reminder_email.subject')
     )
   end
 
@@ -33,7 +33,7 @@ class ContestMailer < ActionMailer::Base
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: 'Contest Winners Announced!! See if you won!'
+      subject: t('application.contests.emails.winner_email.subject')
     )
   end
 end
