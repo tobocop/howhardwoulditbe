@@ -1,8 +1,9 @@
 module ContestHelper
   def contest_share_data(contest_share_link)
+    base = 'application.contests.entry_post.'
     {
-      'title' => 'Claim your share of $1,000 in Gift Cards from Plink',
-      'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Target, Walmart and more!",
+      'title' => t(base + 'title'),
+      'description' => t(base + 'description'),
       'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
       'twitter-link' => "#{contest_share_link}/twitter_entry_post",
       'facebook-link' => "#{contest_share_link}/facebook_entry_post",
@@ -82,9 +83,10 @@ module ContestHelper
   end
 
   def contest_winner_share_data(contest_share_link, dollar_amount)
+    base = 'application.contests.winners_post.'
     {
-      'title' => 'I just won a Plink contest! You can be a Winner, too.',
-      'description' => "I just won $#{dollar_amount} in gift cards from Plink! Join Plink today and enter for your chance to win.",
+      'title' => t(base + 'title'),
+      'description' => t(base + 'description'),
       'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
       'twitter-link' => "#{contest_share_link}/twitter_winning_entry_post",
       'facebook-link' => "#{contest_share_link}/facebook_winning_entry_post",

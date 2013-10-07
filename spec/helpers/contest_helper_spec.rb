@@ -4,8 +4,8 @@ describe ContestHelper do
   describe '#contest_share_data' do
     it 'returns a hash with share data' do
       share_data = {
-        'title' => 'Claim your share of $1,000 in Gift Cards from Plink',
-        'description' => "Enter the Plink $1,000 Giveaway and win your share of $1,000 in gift cards at places like Amazon.com, Target, Walmart and more!",
+        'title' => "Win an iPad 2 in Plink's Spooktacular Halloween Giveaway",
+        'description' => "Enter Plink's Spooktacular Halloween Giveaway to win an Apple iPad 2. No tricks, only treats - even if you don't win the iPad, you'll still have a chance to win the other 149 prizes!",
         'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
         'twitter-link' => 'http://example.com/twitter_entry_post',
         'facebook-link' => 'http://example.com/facebook_entry_post',
@@ -170,7 +170,7 @@ describe ContestHelper do
     it 'returns a hash with share data for the contest winner' do
       share_data = {
         'title' => 'I just won a Plink contest! You can be a Winner, too.',
-        'description' => "I just won $10 in gift cards from Plink! Join Plink today and enter for your chance to win.",
+        'description' => "I just won a Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win.",
         'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
         'twitter-link' => "http://example.com/twitter_winning_entry_post",
         'facebook-link' => "http://example.com/facebook_winning_entry_post",

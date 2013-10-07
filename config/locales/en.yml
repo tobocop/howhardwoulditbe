@@ -2,6 +2,14 @@ en:
   application:
     contests:
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
+      entry_post:
+        title: "Win an iPad 2 in Plink's Spooktacular Halloween Giveaway"
+        description: "Enter Plink's Spooktacular Halloween Giveaway to win an Apple iPad 2. No tricks, only treats - even if you don't win the iPad, you'll still have a chance to win the other 149 prizes!"
+      winners_post:
+        title: I just won a Plink contest! You can be a Winner, too.
+        description: "I just won a Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win."
+      winners_automatic_post:
+        status: "I just won a prize in the Plink Spooktacular Halloween Giveaway!  I might have even won the iPad 2 – See what I won! %{url}."
     referral:
       title: Join Plink for free and receive a $5 gift card
       description: Join Plink for free and receive a $5 gift card of your choice when you link a card. Earn the rewards you deserve every time you shop or dine out at Plink locations.
