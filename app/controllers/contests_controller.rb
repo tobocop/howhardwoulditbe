@@ -5,26 +5,18 @@ class ContestsController < ApplicationController
   def index
     contest_record = Plink::ContestRecord.current || Plink::ContestRecord.last_completed || Plink::ContestRecord.last_finalized
     @contest = create_contest_presenter(contest_record)
-    @contest_results_service = create_contest_results_service(@contest.id)
-    @contest_results_service.prepare_contest_results if @contest.finalized?
 
-    instantiate_contest_data(@contest.id)
+    instantiate_contest_data(@contest)
 
-    if params[:card_linked]
-      flash.now[:notice] = t('application.contests.card_linked')
-    end
+    flash.now[:notice] = t('application.contests.card_linked') if params[:card_linked]
   end
 
   def show
     @contest = create_contest_presenter(Plink::ContestRecord.find(params[:id]))
-    @contest_results_service = create_contest_results_service(@contest.id)
-    @contest_results_service.prepare_contest_results if @contest.finalized?
 
-    instantiate_contest_data(@contest.id)
+    instantiate_contest_data(@contest)
 
-    if params[:card_linked]
-      flash.now[:notice] = t('application.contests.card_linked')
-    end
+    flash.now[:notice] = t('application.contests.card_linked') if params[:card_linked]
   end
 
   def toggle_opt_in_to_daily_reminder
@@ -55,22 +47,25 @@ class ContestsController < ApplicationController
 
   private
 
-  def instantiate_contest_data(contest_id)
+  def instantiate_contest_data(contest)
     @current_tab = 'contests'
 
+    @contest_results_service = create_contest_results_service(contest.id)
+    @contest_results_service.prepare_contest_results if contest.finalized?
+
     @user = current_user
-    @card_link_url = plink_card_link_url_generator.create_url(card_link_url_params(contest_id))
+    @card_link_url = plink_card_link_url_generator.create_url(card_link_url_params(contest.id))
     @user_has_linked_card = Plink::IntuitAccountService.new.user_has_account?(current_user.id)
 
-    current_entries = EntriesPresenter.new(user_entries_today(contest_id))
+    current_entries = EntriesPresenter.new(user_entries_today(contest.id))
 
     @entries = {
-      total: Plink::ContestEntryService.total_entries(contest_id, current_user.id),
+      total: Plink::ContestEntryService.total_entries(contest.id, current_user.id),
       share_state: current_entries.share_state,
-      shared: Plink::ContestEntryService.total_entries_via_share(current_user.id, contest_id, @user_has_linked_card, current_entries.unshared_provider_count)
+      shared: Plink::ContestEntryService.total_entries_via_share(current_user.id, contest.id, @user_has_linked_card, current_entries.unshared_provider_count)
     }
 
-    session[:tracking_params] = contest_tracking_params(contest_id).to_hash
+    session[:tracking_params] = contest_tracking_params(contest.id).to_hash
   end
 
   def card_link_url_params(contest_id)

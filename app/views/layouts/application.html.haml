@@ -23,7 +23,7 @@
             = flash[:error]
 
     - if @notification.present?
-      = render partial: "shared/social/#{@notification[:partial]}"
+      = render partial: "shared/social/#{@notification[:partial]}", locals: {notification: @notification}
 
     = render partial: 'shared/header'
 

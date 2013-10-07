@@ -1,4 +1,4 @@
-class ContestNotificationPresenter
+class ContestNotification
   def self.for_user(user_id, contest_id=nil)
     if Plink::EntryRecord.entries_today_for_user(user_id).exists?
       nil

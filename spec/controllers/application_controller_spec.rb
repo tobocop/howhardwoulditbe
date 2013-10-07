@@ -263,7 +263,7 @@ describe ApplicationController do
   end
 
   describe '#contest_notification_for_user' do
-    let(:presenter_stub) {
+    let(:notification) {
       {template: 'stuff', data: {'other_stuff' => true}}
     }
 
@@ -279,11 +279,11 @@ describe ApplicationController do
       controller.stub(:current_user).and_return(double(id: 1, logged_in?: true))
       controller.stub(:current_virtual_currency).and_return(double(subdomain: 'www'))
       controller.stub(:contest_cookie_present?).and_return(false)
-      ContestNotificationPresenter.stub(:for_user).and_return(presenter_stub)
+      ContestNotification.stub(:for_user).and_return(notification)
 
       get :index
 
-      assigns(:notification).should == presenter_stub.stringify_keys
+      assigns(:notification).should == notification.stringify_keys
     end
 
     it 'does not show a notification if there is not a user logged in' do

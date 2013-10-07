@@ -108,7 +108,7 @@ class ApplicationController < ActionController::Base
     if current_virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN || contest_cookie_present?
       return
     else
-      @notification = ContestNotificationPresenter.for_user(user_id, params[:contest_id])
+      @notification = ContestNotification.for_user(user_id, params[:contest_id])
     end
   end
 

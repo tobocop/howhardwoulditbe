@@ -1,15 +1,6 @@
 .in-app-note
   =image_tag('/assets/btn_close.png', class: 'close-btn', alt: 'Close', id: 'contest-notification')
 
-  - if true
-    %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
-    %h1 Congratulations!
-    %h2 You've won XXXXXX Plink Points.
-    .btn
-      %button.button.primary-action Tell Your Friends
-    .link
-      = link_to 'View Full Contest Results &rarr;'.html_safe, contest_results_path(@contest)
-  - else
-    Enter our contest today for your share of $1,000 in Gift Cards
-    .btn
-      =link_to('GO TO CONTEST', contests_path, class: 'button primary-action', id: 'contest-results')
+  Enter our contest today for your share of $1,000 in Gift Cards
+  .btn
+    =link_to('GO TO CONTEST', contests_path, class: 'button primary-action', id: 'contest-results')
