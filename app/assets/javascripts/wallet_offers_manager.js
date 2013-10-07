@@ -19,6 +19,7 @@
       base._defer(function () {
         base.$el.find('[data-in-wallet]').removeAttr('data-in-wallet');
         base.$el.find('[data-remove-from-wallet]').removeClass('disabled');
+        base.$el.find('[data-add-to-wallet]').removeClass('disabled');
       });
 
       $(base.walletItemsBucket.getPopulatedWalletItems()).each(function (index, el) {
@@ -47,7 +48,10 @@
       e.preventDefault();
       var $target = $(e.currentTarget);
 
-      base._addItemToWallet($target);
+      if (!$target.hasClass('disabled')) {
+        $target.addClass('disabled');
+        base._addItemToWallet($target);
+      }
     };
 
     base._handleWalletRemoveClick = function (e) {

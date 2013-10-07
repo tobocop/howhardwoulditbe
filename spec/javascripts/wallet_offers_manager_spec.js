@@ -78,7 +78,6 @@ describe('Plink.walletOffersManager', function () {
       expect($('#wallet_items_bucket').find('.populated-wallet-item').length).toEqual(1);
     })
 
-
     it("triggers the onSuccess event", function () {
       var fakeResponse = successfulResponse;
       var fakejqXHR = {done: function (callback) {
@@ -93,6 +92,20 @@ describe('Plink.walletOffersManager', function () {
       $('#wallet_items_management').walletOffersManager();
       $('[data-add-to-wallet]').click();
       expect(successFunction).toHaveBeenCalled();
+    })
+
+    it("does not call the ajax function if the button is disabled", function() {
+      var fakeResponse = successfulResponse;
+      var fakejqXHR = {done: function (callback) {
+        callback(fakeResponse);
+        return fakejqXHR;
+      }, error: jasmine.createSpy()};
+      spyOn($, "ajax").andReturn(fakejqXHR);
+
+      $('[data-add-to-wallet]').addClass('disabled');
+      $('[data-add-to-wallet]').click();
+
+      expect($.ajax).not.toHaveBeenCalled();
     })
 
     describe("Failed add attempt", function () {
@@ -134,11 +147,7 @@ describe('Plink.walletOffersManager', function () {
 
         expect($('.reason').hasClass('hidden')).toBeFalsy();
         expect($('.add-call-to-action').hasClass('hidden')).toBeTruthy();
-
-
-
       });
-
     });
   });
 
