@@ -270,7 +270,8 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true, flaky: true do
     it 'logs it' do
       create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
       gigya_response = double(error_code: 0, status_code: 200)
-      Gigya.any_instance.stub(:set_facebook_status).and_return(gigya_response)
+      Gigya.any_instance.stub(:set_facebook_status).with(anything, /\/facebook_winning_entry_post/).
+        and_return(gigya_response)
 
       output = capture_stdout { subject.invoke(1) }
       output.should =~ /POSTING TO GIGYA: user_id: /

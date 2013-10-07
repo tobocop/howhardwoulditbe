@@ -96,6 +96,7 @@ namespace :contest do
     users_to_post_for.each do |user|
       puts "[#{Time.zone.now}] POSTING TO GIGYA: user_id: #{user.userID}"
       url = Rails.application.routes.url_helpers.contest_referral_url(user_id: user.userID, affiliate_id: default_affiliate_id, contest_id: contest_id)
+      url = url + '/facebook_winning_entry_post'
       facebook_status = "I just won my share of $1,000 in gift cards from Plink. I can choose gift cards from places like Amazon.com, Target, Walmart and more! See what I won! #{url}."
 
       response = gigya.set_facebook_status(user.userID, facebook_status)
