@@ -73,12 +73,12 @@ describe TrackingObject do
   describe '.steelhouse_additional_info' do
     it 'generates the additional info string for a steelhouse pixel' do
       steelhouse_additional_info = TrackingObject.from_params(valid_options).steelhouse_additional_info(123)
-      steelhouse_additional_info.should == '&affiliateid=1732,&subid=subid 1,&subid2=subid 2,&subid3=subid 3,&subid4=subid 4,&campaignid=234,&pathid=123,&virtualcurrencyid=123,'
+      steelhouse_additional_info.should == '&affiliateid=1732,&subid=subid 1,&subid2=subid 2,&subid3=subid 3,&subid4=subid 4,&campaignid=234,&virtualcurrencyid=123,&landing_page_id=2,'
     end
 
     it 'generates the additional info string for a steelhouse pixel without valid_options' do
       steelhouse_additional_info = TrackingObject.from_params({}).steelhouse_additional_info(123)
-      steelhouse_additional_info.should == '&affiliateid=1,&subid=,&subid2=,&subid3=,&subid4=,&campaignid=,&pathid=1,&virtualcurrencyid=123,'
+      steelhouse_additional_info.should == '&affiliateid=1,&subid=,&subid2=,&subid3=,&subid4=,&campaignid=,&virtualcurrencyid=123,&landing_page_id=,'
     end
   end
 

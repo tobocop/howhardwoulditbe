@@ -70,8 +70,8 @@ class TrackingObject
       subid3: sub_id_three || '',
       subid4: sub_id_four || '',
       campaignid: campaign_id || '',
-      pathid: path_id,
-      virtualcurrencyid: virtual_currency_id
+      virtualcurrencyid: virtual_currency_id,
+      landing_page_id: landing_page_id || ''
     }
 
     additional_info = ''

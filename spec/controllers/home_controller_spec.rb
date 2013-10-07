@@ -20,8 +20,9 @@ describe HomeController do
 
     it 'should assign the steelhouse additional info string' do
       controller.stub(:user_logged_in?) { false }
+      TrackingObject.any_instance.should_receive(:steelhouse_additional_info).and_call_original
       get :index
-      assigns(:steelhouse_additional_info).should == '&affiliateid=1,&subid=,&subid2=,&subid3=,&subid4=,&campaignid=,&pathid=1,&virtualcurrencyid=1,'
+      assigns(:steelhouse_additional_info).should be_present
     end
   end
 
