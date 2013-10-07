@@ -31,6 +31,11 @@ module Plink
       tiers.min_by(&:minimum_purchase_amount)
     end
 
+    def is_expiring?
+      @end_date.to_date - Time.zone.now.to_date <= 7
+    end
+    alias_method :is_expiring, :is_expiring?
+
     private
 
     def offer_tiers(offer_record, virtual_currency_id)
@@ -38,7 +43,11 @@ module Plink
     end
 
     def detail_text_for_offer(offer_record)
-      offer_record.offers_virtual_currencies.first.detail_text || offer_record.detail_text
+      if offer_record.offers_virtual_currencies.empty?
+        offer_record.detail_text
+      else
+        offer_record.offers_virtual_currencies.first.detail_text || offer_record.detail_text
+      end
     end
   end
 end

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 1.day.from_now.to_date) }
+  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 8.days.from_now.to_date, is_expiring?: false) }
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:view_context) { stub(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
@@ -33,7 +33,7 @@ describe OfferItemPresenter do
 
   describe 'special_offer_type' do
     it 'returns the string to be used as a css class' do
-      presenter.special_offer_type.should be_nil
+      presenter.special_offer_type.should == 'ribbon'
     end
   end
 
@@ -45,7 +45,7 @@ describe OfferItemPresenter do
 
   describe 'end_date' do
     it 'returns the end_date formatted' do
-      presenter.end_date.should == 1.day.from_now.strftime('%-m/%-d/%y')
+      presenter.end_date.should == 8.days.from_now.strftime('%-m/%-d/%y')
     end
   end
 
@@ -58,13 +58,33 @@ describe OfferItemPresenter do
 
     describe 'special_offer_type' do
       it 'returns the string to be used as a css class' do
-        presenter.special_offer_type.should == 'ribbon-new-offer'
+        presenter.special_offer_type.should == 'ribbon ribbon-new-offer'
       end
     end
 
     describe 'special_offer_type_text' do
       it 'returns the special offer type text' do
         presenter.special_offer_type_text.should == 'New Partner!'
+      end
+    end
+  end
+
+  context 'when the offer is expiring in the next 7 days' do
+    before do
+      offer.stub(:is_expiring?).and_return(true)
+    end
+
+    let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
+
+    describe 'special_offer_type' do
+      it 'returns the string to be used as a css class' do
+        presenter.special_offer_type.should == 'expiring-flag'
+      end
+    end
+
+    describe 'special_offer_type_text' do
+      it 'returns the special offer type text' do
+        presenter.special_offer_type_text.should == 'Expiring'
       end
     end
   end
@@ -78,7 +98,7 @@ describe OfferItemPresenter do
 
     describe 'special_offer_type' do
       it 'returns the string to be used as a css class' do
-        presenter.special_offer_type.should == 'ribbon-promo-offer'
+        presenter.special_offer_type.should == 'ribbon ribbon-promo-offer'
       end
     end
 
@@ -99,7 +119,7 @@ describe OfferItemPresenter do
 
     describe 'special_offer_type' do
       it 'returns the string to be used as a css class' do
-        presenter.special_offer_type.should == 'ribbon-new-offer'
+        presenter.special_offer_type.should == 'ribbon ribbon-new-offer'
       end
     end
 
@@ -232,6 +252,7 @@ describe OfferItemPresenter do
       offer.stub(detail_text: 'Earn $virtualCurrencyName$')
       offer.stub(minimum_purchase_amount_tier: '$5')
       offer.stub(:tiers_by_minimum_purchase_amount).and_return([])
+      offer.stub(:is_expiring?).and_return(false)
       Plink::StringSubstituter.stub(:gsub).and_return('Earn Plink points at this location')
       view_context.stub(:wallet_offers_path).with({offer_id: 32}).and_return('wallet/offer/path/32')
       view_context.stub(:link_to).with('Add To My Wallet',
@@ -245,7 +266,7 @@ describe OfferItemPresenter do
         name: 'BK Whopper',
         dom_id: 'offer_32',
         modal_dom_id: 'offer-details-32',
-        special_offer_type: nil,
+        special_offer_type: 'ribbon',
         special_offer_type_text: nil,
         image_url: '/images/burger_king.png',
         image_description: 'BK Whopper',
@@ -253,7 +274,8 @@ describe OfferItemPresenter do
         currency_name: 'Plink points',
         description: 'Earn Plink points at this location',
         tiers: [],
-        call_to_action_link: '<a href="#bla">bla</a>'
+        call_to_action_link: '<a href="#bla">bla</a>',
+        is_offer_expiring?: false
       }
     end
   end

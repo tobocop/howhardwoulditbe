@@ -1,6 +1,7 @@
 .offer{ data: {'offer-id' => presenter.id, 'reveal-id' => presenter.modal_dom_id}, id: presenter.dom_id }
   .offer-inner
-    .ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
+    %div{ class: presenter.special_offer_type }
+      %p= presenter.special_offer_type_text
     .brand
       %img{src: presenter.image_url, class: 'offer-logo', alt: presenter.image_description}
     .info

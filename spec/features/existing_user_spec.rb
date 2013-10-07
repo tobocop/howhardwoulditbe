@@ -221,6 +221,7 @@ describe 'user signs in' do
 
         #TODO: put this back in once Marc has approved launch
         #page.should have_content 'This offer is only available through 2/1/20'
+        page.should have_content 'This offer expires on 2/1/20'
       end
 
       page.should have_content 'You have to spend 2.50 to get this'

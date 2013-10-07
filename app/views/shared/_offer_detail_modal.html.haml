@@ -1,14 +1,17 @@
 .modal.offer-details.reveal-modal{style: 'display: none', id: presenter.modal_dom_id}
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-  .modal-ribbon{class: presenter.special_offer_type}= presenter.special_offer_type_text
+  %div{ class: presenter.modal_special_offer_type }
+    %p= presenter.special_offer_type_text
   %img{src: presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'}
   .bg-element
     - presenter.tiers.each do |tier|
       .offer-points
         %h1= tier[:points_in_currency]
         %h2= tier[:description]
-    -#TODO: put this back in once Marc has approved launch
-    -#.expiration-date= "This offer is only available through #{presenter.end_date}"
+    - if presenter.is_offer_expiring?
+      .expiration-date.soon= "This offer expires on #{presenter.end_date}"
+    - else
+      .expiration-date= "This offer expires on #{presenter.end_date}"
 
   .message.reason.wallet_full.hidden
     You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.

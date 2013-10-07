@@ -26,12 +26,22 @@ class OfferItemPresenter
   end
 
   def special_offer_type
-    if offer.is_new
-      'ribbon-new-offer'
-    elsif offer.is_promotion
-      'ribbon-promo-offer'
+    case
+      when offer.is_new then 'ribbon ribbon-new-offer'
+      when offer.is_promotion then 'ribbon ribbon-promo-offer'
+      when offer.is_expiring? then 'expiring-flag'
+      else
+        'ribbon'
     end
+  end
 
+  def modal_special_offer_type
+    case
+      when offer.is_new then 'modal-ribbon ribbon-new-offer'
+      when offer.is_promotion then 'modal-ribbon ribbon-promo-offer'
+      else
+        'modal-ribbon'
+    end
   end
 
   def special_offer_type_text
@@ -39,6 +49,8 @@ class OfferItemPresenter
       'New Partner!'
     elsif offer.is_promotion
       'Get double points when you make a qualifying purchase at this partner.'
+    elsif offer.is_expiring?
+      'Expiring'
     end
   end
 
@@ -114,7 +126,12 @@ class OfferItemPresenter
       currency_name: currency_name,
       description: description,
       tiers: tiers,
-      call_to_action_link: call_to_action_link
+      call_to_action_link: call_to_action_link,
+      is_offer_expiring?: is_offer_expiring?
     }
+  end
+
+  def is_offer_expiring?
+    offer.is_expiring?
   end
 end

@@ -129,7 +129,7 @@ describe Plink::Offer do
 
     before do
       @plink_offer = create_offer(
-        detail_text: 'one text',
+        detail_text: 'New and improved',
         advertiser_id: advertiser.id,
         offers_virtual_currencies: [
           new_offers_virtual_currency(
@@ -158,4 +158,60 @@ describe Plink::Offer do
       subject.minimum_purchase_amount_tier.should == nil
     end
   end
+
+  describe '.is_expiring?' do
+    let(:unexpired_offer) do
+      offer = create_offer(advertiser_id: 900)
+
+      Plink::Offer.new(
+        offer_record: offer,
+        virtual_currency_id: 1,
+        name: 'Spackle Mart',
+        image_url: 'awkward.jpg',
+        is_new: true,
+        promotion_description: 'Give the gift of spackle',
+        offers_virtual_currencies: [create_offers_virtual_currency(detail_text: 'Spackle! Spackle! Spackle!')]
+      )
+    end
+
+    let(:expired_offer) do
+      offer = create_offer(advertiser_id: 901, start_date: 20.days.ago, end_date: 8.days.ago)
+      Plink::Offer.new(
+        offer_record: offer,
+        virtual_currency_id: 1,
+        name: 'Ukulele Mart',
+        image_url: 'awkward.jpg',
+        is_new: true,
+        promotion_description: 'See our vast collection of travel ukuleles!',
+        offers_virtual_currencies: [create_offers_virtual_currency(detail_text: 'Ukuleles are the future of music.')]
+      )
+    end
+
+    let(:soon_to_be_expired_offer) do
+      offer = create_offer(advertiser_id: 902, start_date: 25.days.ago, end_date: 6.days.ago)
+      Plink::Offer.new(
+        offer_record: offer,
+        virtual_currency_id: 1,
+        name: 'Beanie Mart',
+        image_url: 'awkward.jpg',
+        is_new: true,
+        promotion_description: 'If you liked it then you should have put a beanie on it.',
+        offers_virtual_currencies: [create_offers_virtual_currency(detail_text: 'Beanies are the future of headgear.')]
+      )
+    end
+
+    it 'returns true for an offer that is expiring in under 7 days' do
+      soon_to_be_expired_offer.is_expiring?.should be_true
+    end
+
+    it 'returns false for an offer that will not be expiring in the next 7 days' do
+      unexpired_offer.is_expiring?.should be_false
+    end
+
+    it 'returns true for an offer that has already expired' do
+      expired_offer.is_expiring?.should be_true
+    end
+
+  end
+
 end
