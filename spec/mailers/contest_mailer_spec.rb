@@ -55,7 +55,8 @@ describe ContestMailer do
         first_name: 'Merlin',
         email: 'user@example.com',
         user_id: 2,
-        contest_id: 1
+        contest_id: 1,
+        user_token: 'abcde12345'
       ).deliver
 
       ActionMailer::Base.deliveries.count.should == 1
@@ -65,9 +66,10 @@ describe ContestMailer do
       email.subject.should == 'Contest Winners Announced!! See if you won!'
 
       [email.html_part, email.text_part].each do |part|
-        body = Capybara.string(part.body.to_s)
-        body.should have_content "Congratulations! You've won a prize from our $1,000 Giveaway!"
-        body.should have_content "The Plink $1,000 Giveaway has ended and its time to claim your prize."
+        body = part.body.to_s
+        body.should =~ /Congratulations! You've won a prize from our \$1,000 Giveaway!/
+        body.should =~ /The Plink \$1,000 Giveaway has ended and its time to claim your prize\./
+        body.should =~ /abcde12345/
       end
     end
   end

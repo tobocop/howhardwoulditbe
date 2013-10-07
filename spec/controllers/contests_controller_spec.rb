@@ -260,30 +260,46 @@ describe ContestsController do
 
   describe 'GET results_from_email' do
     let(:contest_id) { 1 }
+    let(:user) {create_user}
+    let(:user_auto_login_record) { create_user_auto_login(user_id: user.id) }
 
-    context 'with an email for an existing user' do
-      let!(:user) { create_user(email: 'test@plink.com') }
-
-      it 'redirects them to the contest path' do
-        get :results_from_email, contest_id: contest_id, email_address: 'test@plink.com'
+    context 'for a hash corresponding to a user' do
+      it 'redirects them to the contest results path' do
+        get :results_from_email, contest_id: contest_id, user_token: user_auto_login_record.user_token
 
         response.should redirect_to contest_results_path(contest_id)
       end
+
+      it 'redirects them to the contest results path if the user is already logged in' do
+        controller.stub(:contest_notification_for_user).and_return(nil)
+        controller.stub(:redirect_white_label_members).and_return(nil)
+
+        set_current_user
+
+        get :results_from_email, contest_id: contest_id, user_token: 'notavalidone'
+
+        response.should redirect_to contest_results_path(contest_id)
+      end
+
+      it 'signs the user in if a token matches' do
+        controller.should_receive(:sign_in_user).and_call_original
+
+        get :results_from_email, contest_id: contest_id, user_token: user_auto_login_record.user_token
+      end
     end
 
-    context 'with an email address not in the database' do
-      it 'redirects the user to the index' do
-        get :results_from_email, contest_id: contest_id, email_address: 'randomstuff@plink.com'
+    context 'for a hash that does not correspond to a user' do
+      it 'redirects them to the homepage' do
+        get :results_from_email, contest_id: contest_id, user_token: 'notavalidtoken'
 
         response.should redirect_to root_path
       end
 
-      it 'tells the user their email address does not exist' do
-        get :results_from_email, contest_id: contest_id, email_address: 'randomstuff@plink.com'
+      it 'shows them a flash message indicating that the link has expired' do
+        get :results_from_email, contest_id: contest_id, user_token: 'notavalidtoken'
 
-        flash[:notice].should == 'Email address does not exist in our system.'
+        flash[:notice].should == 'Link expired.'
       end
     end
-
   end
 end

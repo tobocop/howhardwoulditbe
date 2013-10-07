@@ -119,11 +119,14 @@ class PlinkAdmin::ContestWinningService
       where(winner: true, rejected: false)
 
     winners.each do |winner|
+      user_token = Plink::UserAutoLoginRecord.create(user_id: winner.user.id, expires_at: 2.days.from_now).user_token
+
       email_args = {
         email: winner.user.email,
         first_name: winner.user.first_name,
         contest_id: contest_id,
-        user_id: winner.user.id
+        user_id: winner.user.id,
+        user_token: user_token
       }
       ContestMailer.delay.winner_email(email_args)
     end

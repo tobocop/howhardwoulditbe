@@ -702,6 +702,20 @@ module Plink
       Plink::ContestBlacklistedEmailRecord.new { |entry| apply(entry, defaults, options) }
     end
 
+    def create_user_auto_login(options = {})
+      new_user_auto_login(options).tap(&:save!)
+    end
+
+    def new_user_auto_login(options = {})
+      defaults = {
+        user_id: 1,
+        user_token: '123456789ABCDEfghij',
+        expires_at: 2.days.from_now
+      }
+
+      Plink::UserAutoLoginRecord.new { |auto_login| apply(auto_login, defaults, options) }
+    end
+
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|

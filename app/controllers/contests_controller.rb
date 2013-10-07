@@ -33,15 +33,13 @@ class ContestsController < ApplicationController
   end
 
   def results_from_email
-    email_address = params[:email_address]
-    user = email_address.present? ?
-      present_user(Plink::UserService.new.find_by_email(email_address)) : current_user
+    user = AutoLoginService.find_by_user_token(params[:user_token])
+    sign_in_user(user) if user.present?
 
-    if user.logged_in?
-      session[:current_user_id] = user.id
+    if current_user.logged_in?
       redirect_to contest_results_path
     else
-      redirect_to root_url, notice: 'Email address does not exist in our system.'
+      redirect_to root_url, notice: 'Link expired.'
     end
   end
 

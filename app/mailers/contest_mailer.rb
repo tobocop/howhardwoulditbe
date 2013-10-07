@@ -24,10 +24,11 @@ class ContestMailer < ActionMailer::Base
   end
 
   def winner_email(args)
-    @first_name = args[:first_name]
-    @email_address = args[:email]
     @contest_id = args[:contest_id]
+    @email_address = args[:email]
+    @first_name = args[:first_name]
     @user_id = args[:user_id]
+    @user_token = args[:user_token]
 
     mail(
       to: args[:email],

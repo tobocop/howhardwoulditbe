@@ -42,7 +42,7 @@
                           %br
                           The Plink $1,000 Giveaway has ended and its time to claim your prize.
                         %p{style: "color:#FFFFFF; font-size:16px;"}
-                          = link_to "Find out what I've won", contest_results_from_email_url(contest_id: @contest_id, email_address: @email_address)
+                          = link_to "Find out what I've won", contest_results_from_email_url(contest_id: @contest_id, user_token: @user_token)
                 %repeater
                   %layout
                     %table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0"}

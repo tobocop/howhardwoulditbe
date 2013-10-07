@@ -276,10 +276,9 @@ describe PlinkAdmin::ContestWinningService do
     let(:user) { create_user }
     let(:prize_level_id) { 3 }
 
+    before { class ContestMailer ; end }
+
     it 'should send an email to all contest prize winners' do
-      # Stub in class from parent Application
-      class ContestMailer
-      end
       ContestMailer.should_receive(:delay).exactly(1).times.and_return(double(winner_email: true))
 
       winner = create_contest_winner({
@@ -307,6 +306,25 @@ describe PlinkAdmin::ContestWinningService do
       contest_winning_service.notify_winners!(contest_id)
 
       ActionMailer::Base.deliveries.should be_empty
+    end
+
+    it 'creates an auto login entry for the user' do
+      ContestMailer.should_receive(:delay).and_return(double(winner_email: true))
+
+      winner = create_contest_winner({
+        user_id: user.id,
+        contest_id: contest_id,
+        prize_level_id: prize_level_id,
+        winner: true,
+        rejected: false,
+        finalized_at: Time.zone.now
+      })
+
+      Plink::UserAutoLoginRecord.should_receive(:create).
+        with(user_id: user.id, expires_at: kind_of(ActiveSupport::TimeWithZone)).
+        and_return(double(user_token: 'asd'))
+
+      contest_winning_service.notify_winners!(contest_id)
     end
   end
 end
