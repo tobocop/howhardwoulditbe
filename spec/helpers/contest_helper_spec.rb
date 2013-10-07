@@ -200,4 +200,20 @@ describe ContestHelper do
       assert_dom_equal(link, helper.contest_winner_share(1,23,3))
     end
   end
+
+  describe '#groups_for_number_of_winners' do
+    it 'raises an ArgumentError when given nil' do
+      expect {
+        helper.groups_for_number_of_winners(nil)
+      }.to raise_error ArgumentError
+    end
+
+    it 'returns 8 if given 16 or less' do
+      helper.groups_for_number_of_winners(16).should == 8
+    end
+
+    it 'returns 10 otherwise' do
+      helper.groups_for_number_of_winners(17).should == 10
+    end
+  end
 end

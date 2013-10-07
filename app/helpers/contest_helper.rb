@@ -102,6 +102,16 @@ module ContestHelper
     link_to 'Tell Your Friends', base_referral_url, options
   end
 
+  def groups_for_number_of_winners(number_of_winners)
+    raise ArgumentError if number_of_winners.blank?
+
+    if number_of_winners <= 16
+      8
+    else
+      10
+    end
+  end
+
 private
 
   def default_affiliate_id

@@ -27,9 +27,17 @@
 
 .reveal-modal.medium#winners-list
   .winners-list
-    - contest_results_service.winners.each do |prize_level_result|
+    - contest_results_service.winners.each_with_index do |prize_level_result, index|
       .prize
-        %h3{class: 'cyan'}= "#{plink_currency_format(prize_level_result[0])} in Plink Points"
-        - prize_level_result[1].each do |name|
-          %h3= name.html_safe
+        - points = number_with_delimiter(100 * prize_level_result[0], :delimiter => ',')
+        - dollars = plink_currency_format(prize_level_result[0])
+        - group_size = groups_for_number_of_winners(prize_level_result[1].length)
+
+        %h3.cyan.strong= "#{(index +1).ordinalize} Prize:"
+        %h3.cyan= "#{points} Plink Points (#{dollars})"
+
+        - prize_level_result[1].each_slice(group_size) do |group|
+          .group
+            - group.each do |name|
+              %h4= name.html_safe
   = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'
