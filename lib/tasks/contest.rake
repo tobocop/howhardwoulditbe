@@ -99,7 +99,7 @@ namespace :contest do
 
     users_to_post_for = Plink::UserRecord.select([:userID]).
       joins('INNER JOIN contest_winners ON users.userID = contest_winners.user_id AND contest_winners.prize_level_id IS NOT NULL').
-      where('contest_winners.id = ?', contest_id).
+      where('contest_winners.contest_id = ?', contest_id).
       where('contest_winners.finalized_at IS NOT NULL AND contest_winners.winner = ?', true).
       group(:userID)
 

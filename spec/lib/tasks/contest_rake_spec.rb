@@ -286,7 +286,7 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
   end
 end
 
-describe 'contest:post_on_winners_behalf', skip_in_build: true, flaky: true do
+describe 'contest:post_on_winners_behalf', skip_in_build: true do
   include_context 'rake'
 
   let!(:contest) { create_contest }
@@ -305,7 +305,7 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true, flaky: true do
       Gigya.any_instance.stub(:set_facebook_status).with(anything, /\/facebook_winning_entry_post/).
         and_return(gigya_response)
 
-      output = capture_stdout { subject.invoke(1) }
+      output = capture_stdout { subject.invoke(contest.id) }
       output.should =~ /POSTING TO GIGYA: user_id: /
       output.should =~ /SUCCESSFUL POST TO GIGYA:/
     end
@@ -317,7 +317,7 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true, flaky: true do
       gigya_response = double(error_code: 1, status_code: 400)
       Gigya.any_instance.stub(:set_facebook_status).and_return(gigya_response)
 
-      output = capture_stdout { subject.invoke(1) }
+      output = capture_stdout { subject.invoke(contest.id) }
       output.should =~ /POSTING TO GIGYA:/
       output.should =~ /LOGGED ERRORS: error_code: 1 status_code: 400/
     end
