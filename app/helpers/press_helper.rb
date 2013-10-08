@@ -2,6 +2,11 @@ module PressHelper
   def press_releases
     [
       {
+        date: 'August 21, 2013',
+        title: 'New Rewards Program Earns Donations for Charities and Schools with Everyday  Credit  or  Debit Card  Purchases',
+        url: 'https://s3.amazonaws.com/prod.tracker2/resource/22918984/Goodswipe_-_Plink_Press_Release.pdf?AWSAccessKeyId=AKIAIKWOAN6H4H3QMJ6Q&Expires=1381259264&Signature=xJkSjrX6u9w5dwIK6Onw6wjvcbw%3D'
+      },
+      {
         date: 'July 31, 2013',
         title: 'Plink Nominated for 2013 APEX Award',
         url: 'https://s3.amazonaws.com/plink-press/Plink_2013_APEX_Award.pdf'
