@@ -60,7 +60,7 @@ describe 'user signs in' do
           new_reward_amount(dollar_award_amount: 5, is_active: true),
           new_reward_amount(dollar_award_amount: 10, is_active: true),
           new_reward_amount(dollar_award_amount: 15, is_active: false),
-          new_reward_amount(dollar_award_amount: 20, is_active: true)
+          new_reward_amount(dollar_award_amount: 30, is_active: true)
         ]
     )
 

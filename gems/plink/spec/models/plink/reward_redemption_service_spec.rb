@@ -13,8 +13,8 @@ describe Plink::RewardRedemptionService do
       subject.new(valid_params.merge(user_balance: 4.5)).redeem.should be_false
     end
 
-    it 'returns false if the redemption amount is more than $10' do
-      Plink::RewardAmountRecord.stub(:find).and_return (double(dollar_award_amount: 10.01, reward_id: 3))
+    it 'returns false if the redemption amount is more than $25' do
+      Plink::RewardAmountRecord.stub(:find).and_return (double(dollar_award_amount: 25.01, reward_id: 3))
 
       subject.new(valid_params.merge(user_balance: 100)).redeem.should be_false
     end

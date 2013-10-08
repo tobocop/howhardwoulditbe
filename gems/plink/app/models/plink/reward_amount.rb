@@ -3,7 +3,7 @@ module Plink
 
     attr_reader :id, :dollar_award_amount
 
-    MAXIMUM_REDEMPTION_VALUE = 10
+    MAXIMUM_REDEMPTION_VALUE = 25
 
     def initialize(reward_amount_record)
       @id = reward_amount_record.id
