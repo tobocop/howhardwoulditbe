@@ -20,9 +20,22 @@ class EntriesPresenter
     end
   end
 
+  def providers
+    entry_records.map(&:provider)
+  end
+
+  def available_providers
+    (social_providers - providers.uniq).join(',')
+  end
+
   def unshared_provider_count
-    providers = Plink::EntryRecord::PROVIDERS.values - [Plink::EntryRecord::PROVIDERS[:admin]]
-    (providers - entry_records.map(&:provider).uniq).length
+    (social_providers - providers.uniq).length
+  end
+
+private
+
+  def social_providers
+    Plink::EntryRecord::PROVIDERS.values - [Plink::EntryRecord::PROVIDERS[:admin]]
   end
 
 end

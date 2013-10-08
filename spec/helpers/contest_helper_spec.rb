@@ -9,38 +9,48 @@ describe ContestHelper do
         'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
         'twitter-link' => 'http://example.com/twitter_entry_post',
         'facebook-link' => 'http://example.com/facebook_entry_post',
-        'contest-share-widget' => true
+        'contest-share-widget' => true,
+        'providers' => 'this_is_a_provider'
       }
 
-      helper.contest_share_data('http://example.com').should == share_data
+      helper.contest_share_data('http://example.com', 'this_is_a_provider').should == share_data
     end
   end
 
   describe '#disabled_or_active_share_button' do
-    before do
-      helper.stub(:contest_share_data).and_return({
+    let(:contest_data) {
+      {
         'title' => '',
         'description' => '',
         'image' => '',
         'twitter-link' => 'twitter-link',
         'facebook-link' => 'facebook-link',
         'contest-share-widget' => true
-      })
-    end
+      }
+    }
 
     context 'with additional entry opportunities today' do
-      let(:open_anchor_tag) { "<a href=\"http://test.host/contest/refer/23/aid/1431/contest/2\" class=\"button primary-action white-txt\" data-contest-share-widget=\"true\" data-description=\"\" data-facebook-link=\"facebook-link\" data-image=\"\" data-title=\"\" data-twitter-link=\"twitter-link\" id=\"js-share-to-enter\">"}
+      let(:open_anchor_tag) { %Q[<a href="http://test.host/contest/refer/23/aid/1431/contest/2" class="button primary-action white-txt" data-contest-share-widget="true" data-description="" data-facebook-link="facebook-link" data-image="" data-title="" data-twitter-link="twitter-link" id="js-share-to-enter"] }
 
       it 'returns a contest referral link with "share to enter"' do
-        link = "#{open_anchor_tag}share to enter</a>"
+        contest_share = {'providers' => 'facebook,twitter'}
+        helper.stub(:contest_share_data).and_return(contest_data.merge(contest_share))
+        link = %Q[#{open_anchor_tag} data-providers="#{contest_share['providers']}">share to enter</a>]
+
         assert_dom_equal(link, helper.disabled_or_active_share_button('share_to_enter', 2, 23))
       end
       it 'returns a link with "share on facebook" to the contest_id passed in' do
-        link = "#{open_anchor_tag}share on facebook</a>"
+        contest_share = {'providers' => 'facebook'}
+        helper.stub(:contest_share_data).and_return(contest_data.merge(contest_share))
+        link = %Q[#{open_anchor_tag} data-providers="#{contest_share['providers']}">share on facebook</a>]
+
         assert_dom_equal(link, helper.disabled_or_active_share_button('share_on_facebook', 2, 23))
       end
       it 'returns a link with "share on twitter" to the contest_id passed in' do
-        link = "#{open_anchor_tag}share on twitter</a>"
+        contest_share = {'providers' => 'twitter'}
+        helper.stub(:contest_share_data).and_return(contest_data.merge(contest_share))
+        link = %Q[#{open_anchor_tag} data-providers="#{contest_share['providers']}">share on twitter</a>]
+
         assert_dom_equal(link, helper.disabled_or_active_share_button('share_on_twitter', 2, 23))
       end
     end
@@ -50,6 +60,18 @@ describe ContestHelper do
         link = "<a class=\"button primary-action disabled\" id=\"js-share-to-enter\">enter tomorrow</a>"
         assert_dom_equal(link, helper.disabled_or_active_share_button('enter_tomorrow', nil, nil))
       end
+    end
+  end
+
+  describe '#entry_providers' do
+    it 'returns facebook and twitter when given share_to_enter' do
+      helper.entry_providers('share_to_enter').should == 'facebook,twitter'
+    end
+    it 'returns facebook and twitter when given share_on_facebook' do
+      helper.entry_providers('share_on_facebook').should == 'facebook'
+    end
+    it 'returns twitter when given share_on_twitter' do
+      helper.entry_providers('share_on_twitter').should == 'twitter'
     end
   end
 
@@ -82,17 +104,6 @@ describe ContestHelper do
       text = 'Get 2 entries when you share on Facebook and Twitter'
 
       helper.entries_subtext('share_to_enter', 2).should == text
-    end
-  end
-
-  describe '#entry_or_entries(number)' do
-    it 'returns "entry" when it is 1' do
-      helper.entry_or_entries(1).should == 'entry'
-    end
-
-    it 'returns "entries" otherwise"' do
-      helper.entry_or_entries(0).should == 'entries'
-      helper.entry_or_entries(20937).should == 'entries'
     end
   end
 

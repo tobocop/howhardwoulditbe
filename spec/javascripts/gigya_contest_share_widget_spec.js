@@ -15,7 +15,7 @@ describe('Plink.GigyaContestShareWidget', function () {
       '<a id="js-share-to-enter"></a>' +
       '<div id="js-entry-subtext"></div>' +
       '<input class="checkbox" id="js-toggle-daily-email" name="daily_contest_reminder" type="checkbox" value="1" checked>' +
-      '<a href="/dummy" id="js-share-to-enter" data-contest-share-widget="true" class="white-txt">Share to Enter</a>' +
+      '<a href="/dummy" id="js-share-to-enter" data-contest-share-widget="true" class="white-txt" data-providers="facebook,twitter">Share to Enter</a>' +
       '<a href="/dummy" data-contest-winner-share-widget="true" class="white-txt">Share to Enter As a Winner</a>' +
       '<form id="js-contest-entry" style="display:none;"><input type="hidden" value="1234" name="contest_id" id="contest_id"><input name="authenticity_token" type="hidden" value="abcde"></form>'
       );
@@ -157,6 +157,12 @@ describe('Plink.GigyaContestShareWidget', function () {
 
       expect(document.getElementById('js-toggle-daily-email').checked).toBe(true);
     });
+
+    it('updates the available providers', function() {
+      Plink.GigyaContestShareWidget._onEntrySucess({available_providers: 'facebook'});
+
+      expect($("#js-share-to-enter").data().providers).toBe('facebook');
+    });
   });
 
   describe('#_onEntryFailure',  function () {
@@ -177,6 +183,30 @@ describe('Plink.GigyaContestShareWidget', function () {
       Plink.GigyaContestShareWidget._onEntryFailure({responseText: '{"errors": "This is an error message", "disable_submission": "true"}'});
 
       expect(Plink.GigyaContestShareWidget._disableShareButton).toHaveBeenCalled();
+    });
+  });
+
+  describe('#_updateShareButtonText', function() {
+    it('updates the share button with the given text', function(){
+      Plink.GigyaContestShareWidget._updateShareButtonText('stuff')
+
+      expect($('#js-share-to-enter').html()).toBe('stuff')
+    });
+  });
+
+  describe('#_updateEntriesSubText', function() {
+    it('updates the entries sub-text with the given text', function(){
+      Plink.GigyaContestShareWidget._updateEntriesSubText('stuff')
+
+      expect($('#js-entry-subtext').html()).toBe('stuff')
+    });
+  });
+
+  describe('#_updateProviders', function() {
+    it('updates the providers for the share link with the given text', function(){
+      Plink.GigyaContestShareWidget._updateProviders('stuff')
+
+      expect($('#js-share-to-enter').data().providers).toBe('stuff')
     });
   });
 

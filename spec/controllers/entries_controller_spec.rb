@@ -54,6 +54,10 @@ describe EntriesController do
         it 'returns the set_checkbox attribute' do
           JSON.parse(response.body)['set_checkbox'].should be_present
         end
+
+        it 'returns the providers the user has not posted on' do
+          JSON.parse(response.body)['available_providers'].should == 'facebook'
+        end
       end
 
       context 'with a successful request on facebook and twitter' do

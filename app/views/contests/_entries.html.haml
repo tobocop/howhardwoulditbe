@@ -1,7 +1,7 @@
 .entries
   %h2 You have
   %h1.cyan#js-contest-entries= "#{entries[:total]}"
-  %h2#js-entry-or-entries= "#{entry_or_entries(entries[:total])}."
+  %h2#js-entry-or-entries= "#{'entry'.pluralize(entries[:total])}."
   - if user.logged_in?
     .btn
       = disabled_or_active_share_button(entries[:share_state], contest.id, user.id)

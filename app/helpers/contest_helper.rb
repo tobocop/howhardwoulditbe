@@ -1,5 +1,5 @@
 module ContestHelper
-  def contest_share_data(contest_share_link)
+  def contest_share_data(contest_share_link, providers)
     base = 'application.contests.entry_post.'
     {
       'title' => t(base + 'title'),
@@ -7,7 +7,8 @@ module ContestHelper
       'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg',
       'twitter-link' => "#{contest_share_link}/twitter_entry_post",
       'facebook-link' => "#{contest_share_link}/facebook_entry_post",
-      'contest-share-widget' => true
+      'contest-share-widget' => true,
+      'providers' => providers
     }
   end
 
@@ -16,7 +17,7 @@ module ContestHelper
     when 'share_to_enter', 'share_on_twitter', 'share_on_facebook'
       base_referral_url = contest_referral_url(user_id: user_id, affiliate_id: default_affiliate_id, contest_id: contest_id)
       options = {
-        data: contest_share_data(base_referral_url),
+        data: contest_share_data(base_referral_url, entry_providers(state)),
         id: 'js-share-to-enter',
         class: 'button primary-action white-txt'
       }
@@ -26,6 +27,14 @@ module ContestHelper
       options = {class: 'button primary-action disabled', id: 'js-share-to-enter'}
 
       content_tag :a, entry_button_text(state), options
+    end
+  end
+
+  def entry_providers(share_state)
+    case share_state
+      when 'share_to_enter'    then 'facebook,twitter'
+      when 'share_on_twitter'  then 'twitter'
+      when 'share_on_facebook' then 'facebook'
     end
   end
 
@@ -42,18 +51,14 @@ module ContestHelper
         build_entries_statement(entries, 'Facebook and Twitter')
       when 'share_on_twitter'
         build_entries_statement(entries, 'Twitter')
-      when'share_on_facebook'
+      when 'share_on_facebook'
         build_entries_statement(entries, 'Facebook')
       end
     end
   end
 
-  def entry_or_entries(number)
-    number == 1 ? 'entry' : 'entries'
-  end
-
   def build_entries_statement(count, network_string)
-    "Get #{count} #{entry_or_entries(count)} when you share on #{network_string}"
+    "Get #{pluralize(count, 'entry')} when you share on #{network_string}"
   end
 
   def contest_social_referral_link(text, user_id)

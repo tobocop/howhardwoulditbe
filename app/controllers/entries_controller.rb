@@ -5,9 +5,7 @@ class EntriesController < ApplicationController
 
   def create
     new_entries = Plink::ContestEntryService.enter(params[:contest_id], current_user.id, parse_providers_param, {entry_source: session[:contest_source]})
-
-    valid_entries = valid_entries(new_entries)
-    entry_count = entry_count(valid_entries)
+    entry_count = entry_count(valid_entries(new_entries))
 
     if entry_count > 0
       presenter = EntriesPresenter.new(entries_for_today(current_user.id, params[:contest_id]))
@@ -17,10 +15,11 @@ class EntriesController < ApplicationController
         incremental_entries: entry_count,
         total_entries: total_entries,
         disable_submission: disable_submission,
-        providers: valid_entries.map(&:provider),
+        providers: presenter.providers,
         button_text: entry_button_text(presenter.share_state),
-        sub_text: entries_subtext(presenter.share_state, entries),
-        set_checkbox: set_daily_reminders_for_current_user
+        sub_text: view_context.entries_subtext(presenter.share_state, entries),
+        set_checkbox: set_daily_reminders_for_current_user,
+        available_providers: presenter.available_providers
       }
     else
       result = {errors: extract_errors(new_entries), disable_submission: disable_submission}

@@ -9,15 +9,15 @@
     _clickHandler: function (event) {
       $(".flash-container").empty();
 
-      var defaultAction = Plink.GigyaAction.create(event.target);
-      var facebookAction = Plink.GigyaAction.create(event.target, 'facebook');
-      var twitterAction = Plink.GigyaAction.create(event.target, 'twitter');
+      var defaultAction = Plink.GigyaAction.create(event.target),
+          facebookAction = Plink.GigyaAction.create(event.target, 'facebook'),
+          twitterAction = Plink.GigyaAction.create(event.target, 'twitter');
 
       gigya.socialize.showShareUI({
         userAction: defaultAction,
         facebookUserAction: facebookAction,
         twitterUserAction: twitterAction,
-        enabledProviders: Plink.Config.enabledProviders,
+        enabledProviders: $(this).data().providers,
         onSendDone: Plink.GigyaContestShareWidget._onSendDone,
         onError: Plink.GigyaContestShareWidget._onError
       });
@@ -86,6 +86,7 @@
 
       Plink.GigyaContestShareWidget._updateShareButtonText(resp.button_text);
       Plink.GigyaContestShareWidget._updateEntriesSubText(resp.sub_text);
+      Plink.GigyaContestShareWidget._updateProviders(resp.available_providers);
 
       if (resp.disable_submission) Plink.GigyaContestShareWidget._disableShareButton();
       if (resp.set_checkbox) Contest.setDailyEmailCheckBox(true);
@@ -111,6 +112,10 @@
 
     _updateEntriesSubText: function(text) {
       $('#js-entry-subtext').html(text);
+    },
+
+    _updateProviders: function (provider_list) {
+      $('#js-share-to-enter').data({providers: provider_list});
     },
 
     _disableShareButton: function() {
