@@ -4,22 +4,22 @@ module PressHelper
       {
         date: 'July 31, 2013',
         title: 'Plink Nominated for 2013 APEX Award',
-        url: '/downloads/Plink_2013_APEX_Award.pdf'
+        url: 'https://s3.amazonaws.com/plink-press/Plink_2013_APEX_Award.pdf'
       },
       {
         date: 'July 25, 2013',
         title: 'Plink Honored With eTail "Rising Stars" Award',
-        url: '/downloads/Plink_2013_eTail_Rising_Stars_Award.pdf'
+        url: 'https://s3.amazonaws.com/plink-press/Plink_2013_eTail_Rising_Stars_Award.pdf'
       },
       {
         date: 'April 23, 2013',
         title: 'Plink Extends Online-To-Offline Rewards Program to Mobile',
-        url: '/downloads/Mobile_App_Press_Release__April_2013.pdf'
+        url: 'https://s3.amazonaws.com/plink-press/Mobile_App_Press_Release__April_2013.pdf'
       },
       {
         date: 'April 19, 2013',
         title: 'Plink Congratulates 1st Annual Member of the Year',
-        url: '/downloads/Plink_MOTY_Press_Release__April_2013__FINAL.pdf'
+        url: 'https://s3.amazonaws.com/plink-press/Plink_MOTY_Press_Release__April_2013__FINAL.pdf'
       },
       {
         date: 'March 12, 2013',
@@ -34,7 +34,7 @@ module PressHelper
       {
         date: 'January 24, 2013',
         title: "Plink Adds Greg Fox as Vice President of Sales and Business Development",
-        url: '/downloads/Greg_Fox_January_2013.pdf'
+        url: 'https://s3.amazonaws.com/plink-press/Greg_Fox_January_2013.pdf'
       }
     ]
   end
