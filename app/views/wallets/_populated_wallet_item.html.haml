@@ -1,7 +1,7 @@
 .slot.filled{data: {'reveal-id' => wallet_item.modal_dom_id, 'template-name' => wallet_item.template_name}}
   .slot-inner
     .brand
-      .ribbon{class: wallet_item.special_offer_type}= wallet_item.special_offer_type_text
+      %div{class: wallet_item.special_offer_type}= wallet_item.special_offer_type_text
       %img{src: wallet_item.icon_url, class: 'offer-logo', alt: wallet_item.icon_description}
     .info
       %h3 up to

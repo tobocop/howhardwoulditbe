@@ -14,13 +14,13 @@ describe WalletItemPresenter do
     end
 
     it 'has the correct special offer type' do
-      offer_stub = stub(is_new: false, is_promotion: false)
+      offer_stub = stub(is_new: false, is_promotion: false, is_expiring?: false)
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
       presenter.special_offer_type.should be_nil
     end
 
     it 'has the correct special offer type text' do
-      offer_stub = stub(is_new: false, is_promotion: false)
+      offer_stub = stub(is_new: false, is_promotion: false, is_expiring?: false)
       Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
       presenter.special_offer_type_text.should be_nil
     end
@@ -33,7 +33,7 @@ describe WalletItemPresenter do
       end
 
       it 'has the correct special offer type' do
-        presenter.special_offer_type.should == 'ribbon-new-offer'
+        presenter.special_offer_type.should == 'ribbon ribbon-new-offer'
       end
 
       it 'has the correct special offer type text' do
@@ -49,11 +49,27 @@ describe WalletItemPresenter do
       end
 
       it 'has the correct special offer type' do
-        presenter.special_offer_type.should == 'ribbon-promo-offer'
+        presenter.special_offer_type.should == 'ribbon ribbon-promo-offer'
       end
 
       it 'has the correct special offer type text' do
         presenter.special_offer_type_text.should == 'Get double points when you make a qualifying purchase at this partner.'
+      end
+    end
+
+    context 'with an expiring offer' do
+      let(:offer_stub) { stub(is_new: false, is_promotion: false, is_expiring?: true) }
+
+      before do
+        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      end
+
+      it 'has the correct special offer type' do
+        presenter.special_offer_type.should == 'expiring-flag'
+      end
+
+      it 'has the correct special offer type text' do
+        presenter.special_offer_type_text.should == 'Expiring'
       end
     end
 
@@ -98,7 +114,7 @@ describe WalletItemPresenter do
 
       JSON.parse(presenter.to_json).symbolize_keys.should == {
         template_name: 'populated_wallet_item',
-        special_offer_type: 'ribbon-new-offer',
+        special_offer_type: 'ribbon ribbon-new-offer',
         modal_dom_id: 'offer-details-2',
         special_offer_type_text: 'New Partner!',
         icon_url: '/my_custom_image.png',

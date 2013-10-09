@@ -32,7 +32,7 @@ describe WalletOffersController do
 
         wallet_items_service = stub
         wallet_item = Plink::WalletItem.new(new_populated_wallet_item)
-        fake_offer = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', is_new: false, is_promotion: false, max_dollar_award_amount: 30, id: 8)
+        fake_offer = stub(:fake_offer, image_url: 'booyah.jpg', name: 'Best Buy', is_new: false, is_promotion: false, max_dollar_award_amount: 30, id: 8, is_expiring?: false)
         wallet_item.stub(:offer) { fake_offer }
         wallet_items_service.should_receive(:get_for_wallet_id).with(3) { [wallet_item] }
 
@@ -113,7 +113,7 @@ describe WalletOffersController do
         'icon_url' => '/something.jpg',
         'modal_dom_id' => 'offer-details-7',
         'icon_description' => 'Amazon',
-        'special_offer_type' => 'ribbon-new-offer',
+        'special_offer_type' => 'ribbon ribbon-new-offer',
         'special_offer_type_text' => 'New Partner!',
         'currency_name' => 'Bit Bucks',
         'max_currency_award_amount' => 24,

@@ -22,9 +22,11 @@ module WalletItemPresenter
 
     def special_offer_type
       if wallet_item.offer.is_new
-        'ribbon-new-offer'
+        'ribbon ribbon-new-offer'
       elsif wallet_item.offer.is_promotion
-        'ribbon-promo-offer'
+        'ribbon ribbon-promo-offer'
+      elsif wallet_item.offer.is_expiring?
+        'expiring-flag'
       end
     end
 
@@ -33,6 +35,8 @@ module WalletItemPresenter
         'New Partner!'
       elsif wallet_item.offer.is_promotion
         'Get double points when you make a qualifying purchase at this partner.'
+      elsif wallet_item.offer.is_expiring?
+        'Expiring'
       end
     end
 
