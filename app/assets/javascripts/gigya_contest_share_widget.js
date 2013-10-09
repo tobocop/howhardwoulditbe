@@ -3,7 +3,6 @@
     setup: function () {
       $(document).on('click', '[data-contest-share-widget]', this._clickHandler);
       $(document).on('click', '[data-contest-winner-share-widget]', this._clickHandlerWithoutErrorCallbacks);
-      $(document).on('cardLinkProcessComplete', this._cardLinkProcessComplete);
     },
 
     _clickHandler: function (event) {
@@ -125,10 +124,6 @@
       $("#js-share-to-enter").removeAttr('href');
       $("#js-share-to-enter").html('Enter tomorrow');
     },
-
-    _cardLinkProcessComplete: function() {
-      window.location.href = window.location.href + '?card_linked=true';
-    }
   }
 })(window);
 

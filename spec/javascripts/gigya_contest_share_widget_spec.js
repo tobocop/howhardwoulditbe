@@ -19,7 +19,6 @@ describe('Plink.GigyaContestShareWidget', function () {
       '<a href="/dummy" data-contest-winner-share-widget="true" class="white-txt">Share to Enter As a Winner</a>' +
       '<form id="js-contest-entry" style="display:none;"><input type="hidden" value="1234" name="contest_id" id="contest_id"><input name="authenticity_token" type="hidden" value="abcde"></form>'
       );
-    spy = spyOn(Plink.GigyaContestShareWidget, '_cardLinkProcessComplete');
   });
 
   describe('#setup', function () {
@@ -53,12 +52,6 @@ describe('Plink.GigyaContestShareWidget', function () {
       };
 
       expect(window.gigya.socialize.showShareUI).toHaveBeenCalledWith(expected_params);
-    });
-
-    it('initializes a handler for cardLinkProcessComplete', function() {
-      Plink.GigyaContestShareWidget.setup();
-      $(document).trigger('cardLinkProcessComplete');
-      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -219,10 +212,4 @@ describe('Plink.GigyaContestShareWidget', function () {
       expect($("#js-share-to-enter").html()).toBe("Enter tomorrow")
     });
   });
-
-  describe('#__cardLinkProcessComplete', function () {
-    // this is pending because the refresh messes up jasmine
-    xit('refreshes the page with card_linked=true');
-  });
-
 });
