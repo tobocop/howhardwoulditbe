@@ -97,6 +97,12 @@
       display: none;
     }
   }
+
+  .contest-terms {
+    margin: 0 auto;
+    padding:5%;
+    width:90%;
+  }
 }
 
 .left-column {
@@ -202,12 +208,6 @@
       font-weight: 500;
     }
   }
-}
-
-.contest-terms {
-  margin: 0 auto;
-  padding:5%;
-  width:90%;
 }
 
 .error-page {
