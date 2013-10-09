@@ -11,7 +11,7 @@
 })(window);
 
 $(function () {
-  if ($("#contests-show").length){
+  if ($("#contests-show, #contests-index").length){
     Plink.ContestPageCfCallbacks.setup();
   }
 });
