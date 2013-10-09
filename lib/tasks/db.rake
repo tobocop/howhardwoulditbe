@@ -1,4 +1,18 @@
 namespace :db do
+  desc 'Creates an MS SQL database based on an argument'
+  task :create_ms_sql, [:database_name] => :environment do |t, args|
+    db_name = args[:database_name]
+    raise ArgumentError.new('database_name is required') unless db_name.present?
+    ActiveRecord::Base.connection.execute("CREATE DATABASE #{db_name}")
+  end
+
+  task :drop_ms_sql, [:database_name] => :environment do |t, args|
+    db_name = args[:database_name]
+    raise ArgumentError.new('database_name is required') unless db_name.present?
+    ActiveRecord::Base.connection.execute("DROP DATABASE #{db_name}")
+  end
+
+
   namespace :views do
 
     desc 'Creates the views in the DB'
