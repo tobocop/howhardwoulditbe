@@ -149,8 +149,6 @@ describe OfferItemPresenter do
     end
   end
 
-  context 'when the offer is expiring '
-
   describe 'image_url' do
     it 'generates the image url' do
       offer.should_receive(:image_url)
