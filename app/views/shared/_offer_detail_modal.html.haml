@@ -2,7 +2,7 @@
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
   %div{ class: presenter.modal_special_offer_type }
     %p= presenter.special_offer_type_text
-  %img{src: presenter.image_url, alt: presenter.image_description, class: 'wallet-logo'}
+  %img{src: presenter.image_url, alt: presenter.image_description, class: 'offer-logo'}
   .bg-element
     - presenter.tiers.each do |tier|
       .offer-points
