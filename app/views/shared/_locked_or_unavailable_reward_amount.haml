@@ -1,4 +1,4 @@
-- if amount.dollar_award_amount > 10
+- if amount.dollar_award_amount > max_reward_amount
   .denomination.locked
     = plink_currency_format(amount.dollar_award_amount)
     .flag-locked

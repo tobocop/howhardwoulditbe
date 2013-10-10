@@ -4,6 +4,7 @@ class RewardsController < ApplicationController
     @rewards = create_reward_presenters(plink_reward_service.get_live_rewards)
     @user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
     @current_tab = 'rewards'
+    @max_reward_amount = Plink::RewardAmount::MAXIMUM_REDEMPTION_VALUE
   end
 
   private

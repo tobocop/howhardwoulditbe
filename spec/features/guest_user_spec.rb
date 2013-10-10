@@ -31,7 +31,8 @@ describe 'guest behavior' do
         new_reward_amount(dollar_award_amount: 5, is_active: true),
         new_reward_amount(dollar_award_amount: 10, is_active: true),
         new_reward_amount(dollar_award_amount: 15, is_active: false),
-        new_reward_amount(dollar_award_amount: 20, is_active: true)
+        new_reward_amount(dollar_award_amount: 25, is_active: true),
+        new_reward_amount(dollar_award_amount: 50, is_active: true)
       ]
     )
 
@@ -111,6 +112,11 @@ describe 'guest behavior' do
     page.should have_content '$5'
     page.should have_content '$10'
     page.should_not have_content '$15'
+
+    within '.denomination.locked', match: :first do
+      page.should_not have_content '$25'
+      page.should have_content '$50'
+    end
 
     page.should_not have_content 'Should Not Exist Gift Card'
 

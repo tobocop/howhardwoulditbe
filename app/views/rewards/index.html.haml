@@ -19,7 +19,7 @@
             %h4= reward.description.html_safe
           = form_tag '/redemption' do
             - reward.amounts.reverse.each do |amount|
-              - locals = {amount: amount, reward: reward}
+              - locals = {amount: amount, reward: reward, max_reward_amount: @max_reward_amount}
 
               - if display_as_available?(@user_has_account, amount.dollar_award_amount)
                 = render :partial => 'shared/active_reward_amount', locals: locals
