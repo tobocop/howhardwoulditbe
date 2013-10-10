@@ -1,0 +1,73 @@
+@import "app/colors.css.scss";
+@import "app/mixins.css.scss";
+
+.reg-landing-contest{
+
+  text-align:center;
+
+  h1 {
+    color:$cyan;
+    font-size: 3.2em;
+    font-weight:700;
+    margin-bottom:8px;
+  }
+
+  h2 {
+    color:#FFFFFF;
+    font-size:1.5em;
+    line-height:1.2em;
+    letter-spacing:3px;
+
+    &.light{
+      color:$slate;
+      font-weight:300;
+    }
+
+    &.thin{
+      font-weight:100;
+    }
+
+    &.cyan{
+      color:$cyan;
+    }
+  }
+
+  .join-btn {
+    margin:0;
+    padding:20px 20px 20px 0;
+    width:340px;
+
+    &.bottom{
+      margin:0 auto;
+      margin-bottom:-72px;
+    }
+  }
+  
+  .feature {
+    background-color:#f1f1f1;
+    background-image: url('http://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_contest.jpg');
+    background-position:center;
+    background-repeat:no-repeat;
+    height:500px;
+    padding:68px 0px 38px 240px;
+    width:100%;
+    text-align: left;
+
+    .messaging {
+      margin: 0 auto;
+      position:relative;
+      width:750px;
+    }
+  }
+
+  .offer-details {
+    color:$slate;
+    font-size:1em;
+    font-weight:100;
+    letter-spacing: 2px;
+    line-height: 1.3em;
+
+    width:100%;
+    max-width:740px;
+  }
+}

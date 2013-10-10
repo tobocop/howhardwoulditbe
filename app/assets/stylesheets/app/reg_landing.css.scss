@@ -33,12 +33,19 @@
   
   .feature {
     background-color:#000000;
-    background-image: url('http://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h.jpg');
     background-position:center;
     background-repeat:no-repeat;
     height:500px;
     padding:38px;
     width:100%;
+
+    &.default {
+      background-image: url('http://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h.jpg');
+    }
+
+    &.staples {
+      background-image: url('http://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_staples.jpg');
+    }
   }
 
   .offer-details {
