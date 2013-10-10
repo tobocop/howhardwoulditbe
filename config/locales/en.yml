@@ -10,6 +10,8 @@ en:
         description: "I just won a Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win."
       winners_automatic_post:
         status: "I just won a prize in the Plink Spooktacular Halloween Giveaway!  I might have even won the iPad 2 – See what I won! %{url}."
+      in_app_notification:
+        enter_today: Enter our contest today for a chance to win an iPad 2!
       emails:
         daily_reminder_email:
           subject: Enter Today - Apple iPad 2 Up For Grabs
