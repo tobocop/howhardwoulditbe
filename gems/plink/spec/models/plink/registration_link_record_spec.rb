@@ -1,21 +1,47 @@
 require 'spec_helper'
 
 describe Plink::RegistrationLinkRecord do
+  let(:landing_page_record) { create_landing_page }
   let(:valid_params) {
     {
       affiliate_id: 123,
       campaign_id: 123,
-      start_date: 1.day.ago,
       end_date: 1.day.from_now,
-      is_active: true
+      is_active: true,
+      landing_page_records: [landing_page_record],
+      start_date: 1.day.ago,
     }
   }
+
+  it { should allow_mass_assignment_of(:affiliate_id) }
+  it { should allow_mass_assignment_of(:campaign_id) }
+  it { should allow_mass_assignment_of(:start_date) }
+  it { should allow_mass_assignment_of(:end_date) }
+  it { should allow_mass_assignment_of(:is_active) }
+  it { should allow_mass_assignment_of(:landing_page_records) }
+  it { should allow_mass_assignment_of(:share_flow) }
+  it { should allow_mass_assignment_of(:share_page_records) }
+
+  it { should validate_presence_of(:landing_page_records) }
+  it 'validates the presence of share_pages_records if it is a share_flow' do
+    record = Plink::RegistrationLinkRecord.new(valid_params)
+    record.share_flow = 'true'
+    record.valid?.should be_false
+    record.should have(1).error_on(:share_page_records)
+  end
+
+  it 'has a share_flow virtual attributes' do
+    Plink::RegistrationLinkRecord.new.respond_to? :share_flow
+  end
 
   it { should have_one(:affiliate_record) }
   it { should have_one(:campaign_record) }
 
   it { should have_many(:registration_link_landing_page_records) }
   it { should have_many(:landing_page_records).through(:registration_link_landing_page_records) }
+
+  it { should have_many(:registration_link_share_page_records) }
+  it { should have_many(:share_page_records).through(:registration_link_share_page_records) }
 
   it 'can be persisted' do
     Plink::RegistrationLinkRecord.create(valid_params).should be_persisted

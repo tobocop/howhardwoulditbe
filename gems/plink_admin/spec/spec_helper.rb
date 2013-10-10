@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'plink_admin/test_helpers/object_creation_methods'
 require 'plink/test_helpers/object_creation_methods'
+require 'capybara/webkit'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -48,4 +49,5 @@ RSpec.configure do |config|
     end
   end
 
+  Capybara.javascript_driver = :webkit
 end

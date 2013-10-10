@@ -18,24 +18,25 @@
   }
 }
 
-.one_third {
-  width:32%;
-  float:left;
-  padding-right:1%;
-}
-
-.clear {
-  clear:both;
-}
-
 .dateselect select {
   width:100px;
 }
 
+.hidden {
+  display: none;
+}
+
 //
-// Admin Contest Statistics:
+// Contest Statistics:
 //
 .last-row {
   font-weight: bold;
   font-style: italic;
+}
+
+//
+// Registration Links:
+//
+.extra-margin-top {
+  margin-top: 25px !important;
 }

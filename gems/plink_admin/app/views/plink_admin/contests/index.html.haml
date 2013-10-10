@@ -21,8 +21,8 @@
         %td= contest.description
         %td= image_tag contest.image
         %td= contest.prize
-        %td= contest.start_time
-        %td= contest.end_time
+        %td= present_as_date(contest.start_time)
+        %td= present_as_date(contest.end_time)
         %td= link_to 'Statistics', plink_admin.contest_statistics_path(contest.id)
         - if contest.finalized_at.present?
           %td Winners Selected

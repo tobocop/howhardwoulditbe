@@ -98,6 +98,30 @@ en:
   activerecord:
     errors:
       models:
+        plink/contest_record:
+          attributes:
+            start_time_overlaps_existing_range:
+              invalid: A contest cannot start during another running contest
+            end_time_overlaps_existing_range:
+              invalid: A contest cannot end during another running contest
+            end_time_less_than_start_time:
+              invalid: A contest cannot end before it starts
+        plink/entry_record:
+          attributes:
+            facebook_entries_exceeded:
+              invalid: Entries exceeded for Facebook
+            twitter_entries_exceeded:
+              invalid: Entries exceeded for Twitter
+            contest_has_ended:
+              invalid: This contest has already ended
+            contest_has_not_started:
+              invalid: This contest has not started yet
+        plink/registration_link_record:
+          attributes:
+            landing_page_records:
+              blank: Please select a landing page
+            share_page_records:
+              blank: Please select a share page
         plink/user_record:
           attributes:
             first_name:
@@ -110,21 +134,3 @@ en:
             new_password:
               confirmation: New password doesn't match confirmation
               too_short: New password must be at least 6 characters long
-        plink/entry_record:
-          attributes:
-            facebook_entries_exceeded:
-              invalid: Entries exceeded for Facebook
-            twitter_entries_exceeded:
-              invalid: Entries exceeded for Twitter
-            contest_has_ended:
-              invalid: This contest has already ended
-            contest_has_not_started:
-              invalid: This contest has not started yet
-        plink/contest_record:
-          attributes:
-            start_time_overlaps_existing_range:
-              invalid: A contest cannot start during another running contest
-            end_time_overlaps_existing_range:
-              invalid: A contest cannot end during another running contest
-            end_time_less_than_start_time:
-              invalid: A contest cannot end before it starts

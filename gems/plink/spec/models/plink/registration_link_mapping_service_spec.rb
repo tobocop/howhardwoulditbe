@@ -3,10 +3,12 @@ require 'spec_helper'
 describe Plink::RegistrationLinkMappingService do
   let(:affiliate) { create_affiliate }
   let(:campaign) { create_campaign(campaign_hash: 'fordeprication') }
+  let(:landing_page) { create_landing_page(name: 'stuff') }
   let!(:registration_link) {
     create_registration_link(
       affiliate_id: affiliate.id,
-      campaign_id: campaign.id
+      campaign_id: campaign.id,
+      landing_page_records: [landing_page]
     )
   }
 

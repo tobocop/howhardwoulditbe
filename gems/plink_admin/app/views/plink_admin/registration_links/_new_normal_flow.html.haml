@@ -1,0 +1,18 @@
+.normal{style: params[:share_flow] == 'false' ? nil : 'hidden'}
+  = form_tag registration_links_path, method: :post do
+    .row.extra-margin-top
+      = hidden_field_tag :share_flow, false
+
+      .large-4.columns
+        - affiliate_select_options = @affiliates.collect {|affiliate| ["#{affiliate.id} - #{affiliate.name}", affiliate.id]}
+        = label_tag :affiliate_ids, 'Affiliates (one link generated per affiliate)'
+        = select_tag 'affiliate_ids[]', options_for_select(affiliate_select_options, params[:affiliate_ids]), multiple: :true, size: 10
+      .large-4.columns
+        - campaign_select_options = @campaigns.collect {|campaign| ["#{campaign.id} - #{campaign.name}", campaign.id]}
+        = label_tag :campaign_id, 'Campaign'
+        = select_tag :campaign_id, options_for_select(campaign_select_options)
+      .large-4.columns
+        - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
+        = label_tag :landing_page_ids, 'Landing Pages (randomly chosen for users)'
+        = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, params[:landing_page_ids]), multiple: :true, size: 10
+    = render partial: 'new_dates_and_submit'

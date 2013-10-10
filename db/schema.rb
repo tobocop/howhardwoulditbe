@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009221408) do
+ActiveRecord::Schema.define(:version => 20131010134207) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1512,6 +1512,13 @@ ActiveRecord::Schema.define(:version => 20131009221408) do
   create_table "registration_links_landing_pages", :force => true do |t|
     t.integer  "registration_link_id"
     t.integer  "landing_page_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "registration_links_share_pages", :force => true do |t|
+    t.integer  "registration_link_id"
+    t.integer  "share_page_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end

@@ -3,7 +3,7 @@
     .large-6.columns
       .row.collapse
         .small-10.columns
-          - options = options_for_select(@contests.map{|c| ["#{c.id}: #{c.description[0..35]} #{present_date(c.start_time)} - #{present_date(c.end_time)}".html_safe, c.id]}, @contest.id)
+          - options = options_for_select(@contests.map{|c| ["#{c.id}: #{c.description[0..35]} #{present_as_date(c.start_time)} - #{present_as_date(c.end_time)}".html_safe, c.id]}, @contest.id)
           = select_tag :change_contest_id, options
         .small-2.columns
           = submit_tag 'Submit'
@@ -11,8 +11,8 @@
 %hr
 
 %h4= "Contest ##{@contest.id}"
-%h4= "Start Date: #{present_date(@contest.start_time)}"
-%h4= "End Date: #{present_date(@contest.end_time)}"
+%h4= "Start Date: #{present_as_date(@contest.start_time)}"
+%h4= "End Date: #{present_as_date(@contest.end_time)}"
 
 %hr
 

@@ -7,7 +7,7 @@ module Plink
         .where(affiliate_id: affiliate_id)
         .where(campaign_id: campaign_id)
         .first
-      
+
       mapping ? mapping.registration_link_record : false
     end
   end

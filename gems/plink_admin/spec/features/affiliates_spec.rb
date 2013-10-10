@@ -78,8 +78,8 @@ describe 'Affiliates' do
         within '.registration_link-item:nth-of-type(1)' do
           page.should have_content registration_link.id
           page.should have_content 'Limp Bizkit forever'
-          page.should have_content 1.day.ago.to_date
-          page.should have_content 1.day.from_now.to_date
+          page.should have_content 1.day.ago.to_date.strftime('%-m/%-d/%y')
+          page.should have_content 1.day.from_now.to_date.strftime('%-m/%-d/%y')
           page.should have_content true
 
           click_link 'Edit'
