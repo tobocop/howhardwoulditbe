@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 8.days.from_now.to_date, is_expiring?: false) }
+  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 8.days.from_now.to_date, is_expiring?: false, show_end_date: true) }
   let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
   let(:view_context) { stub(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
@@ -43,9 +43,26 @@ describe OfferItemPresenter do
     end
   end
 
+  describe 'end_date_text' do
+    it 'returns the end date text if the offer is set to display end date text' do
+      presenter.end_date_text.should == "This offer is only available through #{presenter.end_date}"
+    end
+  end
+
   describe 'end_date' do
     it 'returns the end_date formatted' do
       presenter.end_date.should == 8.days.from_now.strftime('%-m/%-d/%y')
+    end
+  end
+
+  context 'when the offer does not have expiration text' do
+    let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 1.day.from_now.to_date, show_end_date: false) }
+    let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
+
+    describe 'end_date_text' do
+      it 'returns nil as the end_date_text' do
+        presenter.end_date_text.should be_nil
+      end
     end
   end
 

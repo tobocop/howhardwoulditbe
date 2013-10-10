@@ -3,6 +3,7 @@
     %th ID
     %th Advertiser
     %th End Date
+    %th Displayed End Date
     %th Edit
   %tbody
     - @offers.each do |offer|
@@ -10,6 +11,7 @@
         %td= offer.id
         %td= offer.advertiser.advertiser_name
         %td= offer.end_date
+        %td= offer.show_end_date
         %td= link_to 'Edit', edit_offer_path(offer)
 
 

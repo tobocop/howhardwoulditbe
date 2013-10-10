@@ -13,7 +13,8 @@ module Plink
     alias_attribute :advertisers_rev_share, :advertisersRevShare
     alias_attribute :start_date=, :startDate=
 
-    attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text, :end_date, :is_active, :start_date
+    attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text, :end_date, :is_active,
+      :show_end_date, :start_date
 
     has_many :offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID'
     has_many :active_offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID', conditions: ["#{Plink::OffersVirtualCurrencyRecord.table_name}.isActive = ?", true]

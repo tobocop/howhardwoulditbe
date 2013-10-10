@@ -14,6 +14,8 @@
   .dateselect
     = f.label :end_date, 'End Date'
     = f.date_select :end_date, start_year: Time.zone.now.year, end_year: Time.zone.now.year + 5
+    = f.label :show_end_date, 'Show end date to users'
+    = f.check_box :show_end_date
 
   = f.submit 'Update', class: 'button small'
 

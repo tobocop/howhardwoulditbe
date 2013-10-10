@@ -7,6 +7,7 @@ describe Plink::OfferRecord do
   it { should allow_mass_assignment_of(:detail_text) }
   it { should allow_mass_assignment_of(:end_date) }
   it { should allow_mass_assignment_of(:is_active) }
+  it { should allow_mass_assignment_of(:show_end_date) }
   it { should allow_mass_assignment_of(:start_date) }
 
   let(:valid_attributes) {

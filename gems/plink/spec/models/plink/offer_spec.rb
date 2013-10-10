@@ -11,6 +11,7 @@ describe Plink::Offer do
         is_new: true,
         end_date: 1.day.ago.to_date,
         advertiser_id: advertiser.id,
+        show_end_date: true,
         offers_virtual_currencies: [
           new_offers_virtual_currency(
             virtual_currency_id: 3,
@@ -51,6 +52,7 @@ describe Plink::Offer do
           name: 'cold wavy',
           image_url: 'fake.jpg',
           is_new: true,
+          show_end_date: true,
           promotion_description: 'good offer'
         }
       )
@@ -67,6 +69,7 @@ describe Plink::Offer do
       subject.id.should == @plink_offer.id
       subject.max_dollar_award_amount.should == 1.43
       subject.end_date.should == 1.day.ago.to_date
+      subject.show_end_date.should == true
     end
 
     describe '#tiers_by_minimum_purchase_amount' do

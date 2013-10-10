@@ -14,8 +14,13 @@ module PlinkAdmin
       @offer = Plink::OfferRecord.find(params[:id])
 
       if end_date >= 8.days.from_now.to_date
-        if @offer.update_attribute(:end_date, end_date)
-          flash[:notice] = 'Offer end date updated'
+        update_params = {
+          end_date: end_date,
+          show_end_date: params[:offer][:show_end_date]
+        }
+
+        if @offer.update_attributes(update_params)
+          flash[:notice] = 'Offer updated'
           redirect_to offers_path
         else
           flash.now[:notice] = 'Offer could not be updated'

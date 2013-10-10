@@ -18,13 +18,14 @@ module Plink
       offer_records.map do |offer_record|
         Offer.new(
           {
-            offer_record: offer_record,
-            virtual_currency_id: virtual_currency_id,
-            name: offer_record.advertiser.advertiser_name,
             image_url: offer_record.advertiser.logo_url,
             is_new: offer_record.is_new,
             is_promotion: offer_record.active_offers_virtual_currencies.first.try(:is_promotion),
-            promotion_description: offer_record.active_offers_virtual_currencies.first.try(:promotion_description)
+            name: offer_record.advertiser.advertiser_name,
+            offer_record: offer_record,
+            promotion_description: offer_record.active_offers_virtual_currencies.first.try(:promotion_description),
+            show_end_date: offer_record.show_end_date,
+            virtual_currency_id: virtual_currency_id
           }
         )
       end

@@ -42,6 +42,7 @@ describe 'user signs in' do
                                       is_new: true,
                                       show_on_wall: true,
                                       detail_text: 'You have to spend $minimumPurchaseAmount$ to get this',
+                                      show_end_date: true,
                                       offers_virtual_currencies: [
                                         new_offers_virtual_currency(
                                           virtual_currency_id: virtual_currency.id,
@@ -219,9 +220,7 @@ describe 'user signs in' do
           page.should have_content '300 Plink Points'
         end
 
-        #TODO: put this back in once Marc has approved launch
-        #page.should have_content 'This offer is only available through 2/1/20'
-        page.should have_content 'This offer expires on 2/1/20'
+        page.should have_content 'This offer is only available through 2/1/20'
       end
 
       page.should have_content 'You have to spend 2.50 to get this'

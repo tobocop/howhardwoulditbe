@@ -8,6 +8,7 @@ describe Plink::OfferService do
         detail_text: 'one text',
         advertiser_id: advertiser.id,
         is_new: true,
+        show_end_date: true,
         offers_virtual_currencies: [
             new_offers_virtual_currency(
                 virtual_currency_id: 2,
@@ -45,6 +46,7 @@ describe Plink::OfferService do
       offer.image_url.should == 'fake.jpg'
       offer.is_new.should be_true
       offer.is_promotion.should be_true
+      offer.show_end_date.should be_true
 
       offers.map(&:class).should == [Plink::Offer]
     end

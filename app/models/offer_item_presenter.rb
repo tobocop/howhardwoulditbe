@@ -54,6 +54,10 @@ class OfferItemPresenter
     end
   end
 
+  def end_date_text
+    "This offer is only available through #{end_date}" if offer.show_end_date
+  end
+
   def end_date
     offer.end_date.strftime('%-m/%-d/%y')
   end

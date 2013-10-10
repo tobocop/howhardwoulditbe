@@ -33,18 +33,21 @@ describe PlinkAdmin::OffersController do
   end
 
   describe 'PUT update' do
-    let(:end_date) {
+    let(:offer_params) {
       {
         'end_date(1i)'=>"#{8.days.from_now.year}",
         'end_date(2i)'=>"#{8.days.from_now.month}",
-        'end_date(3i)'=>"#{8.days.from_now.day}"
+        'end_date(3i)'=>"#{8.days.from_now.day}",
+        show_end_date: true
       }
     }
 
     it 'updates the record and redirects to the listing when successful' do
-      put :update, {id: offer.id, offer: end_date}
+      put :update, {id: offer.id, offer: offer_params}
+
       offer.reload.end_date.should == Time.zone.local(8.days.from_now.year, 8.days.from_now.month, 8.days.from_now.day)
-      flash[:notice].should == 'Offer end date updated'
+      offer.show_end_date.should be_true
+      flash[:notice].should == 'Offer updated'
       response.should redirect_to '/offers'
     end
 
@@ -63,9 +66,9 @@ describe PlinkAdmin::OffersController do
 
     it 're-renders the edit form when the record cannot be updated' do
       Plink::OfferRecord.should_receive(:find).with(offer.id.to_s).and_return(offer)
-      offer.should_receive(:update_attribute).and_return(false)
+      offer.should_receive(:update_attributes).and_return(false)
 
-      put :update, {id: offer.id, offer: end_date}
+      put :update, {id: offer.id, offer: offer_params}
 
       flash[:notice].should == 'Offer could not be updated'
       response.should render_template 'edit'

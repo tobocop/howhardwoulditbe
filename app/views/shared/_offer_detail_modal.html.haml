@@ -9,9 +9,9 @@
         %h1= tier[:points_in_currency]
         %h2= tier[:description]
     - if presenter.is_offer_expiring?
-      .expiration-date.soon= "This offer expires on #{presenter.end_date}"
+      .expiration-date.soon= presenter.end_date_text
     - else
-      .expiration-date= "This offer expires on #{presenter.end_date}"
+      .expiration-date= presenter.end_date_text
 
   .message.reason.wallet_full.hidden
     You don't have any open slots in your Plink Wallet. To add this offer, remove one of the offers currently in your Plink Wallet.
