@@ -27,6 +27,24 @@
       = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, landing_page_selected_options), multiple: :true, size: 10
 >>>>>>> Admin can create a link for a Facebook share registration flow
 
+= form_tag registration_link_path(@registration_link), method: :put do
+  .row
+    .large-3.columns
+      Affiliate
+      %br
+      = @registration_link.affiliate_record.name
+      = link_to '- edit', edit_affiliate_path(@registration_link.affiliate_record)
+    .large-3.columns
+      Campaign
+      %br
+      = @registration_link.campaign_record.name
+      = link_to '- edit', edit_campaign_path(@registration_link.campaign_record)
+    .large-3.columns
+      - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
+      - landing_page_selected_options = @registration_link.landing_page_records.collect {|landing_page| landing_page.id}
+      = label_tag :landing_page_ids, 'Landing Pages (randomly chosen for users)'
+      = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, landing_page_selected_options), multiple: :true, size: 10
+
 - if @error.present?
   .alert-box.alert
     %p= @error
