@@ -4,6 +4,8 @@ class ReferralsController < ApplicationController
     session[:referrer_id] = params[:user_id].to_i
     session[:affiliate_id] = params[:affiliate_id].to_i
 
+    session[:tracking_params] = referral_tracking_params
+
     if is_mobile?
       redirect_to mobile_reg_path(session)
     else
@@ -11,7 +13,13 @@ class ReferralsController < ApplicationController
     end
   end
 
-  private
+private
+
+  def referral_tracking_params
+    TrackingObject.new({
+      affiliate_id: params[:affiliate_id]
+    }).to_hash
+  end
 
   def mobile_reg_path(url_params)
     Plink::Config.instance.mobile_registration_url +
