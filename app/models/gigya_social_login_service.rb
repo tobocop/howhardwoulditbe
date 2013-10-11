@@ -3,24 +3,26 @@ class GigyaSocialLoginService
   end
 
   attr_reader :avatar_thumbnail_url, :birthday, :city, :email, :first_name, :gender,
-    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :state, :zip
+    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :response_message, :state,
+    :zip
 
   attr_accessor :user
 
   def initialize(params)
-    @gigya_connection = params.fetch(:gigya_connection)
-    @gigya_id = params[:UID]
+    @avatar_thumbnail_url = params[:photoURL]
+    @birthday = parse_birthday(params[:birthYear], params[:birthMonth], params[:birthDay])
+    @city = blank_to_nil(params[:city])
     @email = params[:email]
     @first_name = params[:firstName]
-    @nickname = blank_to_nil(params[:nickname])
     @gender = blank_to_nil(params[:gender])
-    @state = blank_to_nil(params[:state])
-    @city = blank_to_nil(params[:city])
-    @zip = blank_to_nil(params[:zip])
-    @birthday = parse_birthday(params[:birthYear], params[:birthMonth], params[:birthDay])
-    @avatar_thumbnail_url = params[:photoURL]
-    @provider = params[:provider]
+    @gigya_connection = params.fetch(:gigya_connection)
+    @gigya_id = params[:UID]
     @ip = params[:ip]
+    @nickname = blank_to_nil(params[:nickname])
+    @provider = params[:provider]
+    @state = blank_to_nil(params[:state])
+    @zip = blank_to_nil(params[:zip])
+    @response_message = 'Sorry, that email has already been registered. Please use a different email.'
   end
 
   def sign_in_user
@@ -36,7 +38,7 @@ class GigyaSocialLoginService
       GigyaLoginResponse.new(true, user.new_user?)
     else
       gigya_connection.delete_user(gigya_id)
-      GigyaLoginResponse.new(false, false, 'Sorry, that email has already been registered. Please use a different email.')
+      GigyaLoginResponse.new(false, false, response_message)
     end
   end
 
@@ -88,12 +90,17 @@ private
   end
 
   def create_user_from_gigya
-    user = Plink::UserCreationService.new(user_params).create_user
-    response = gigya_connection.notify_registration(gigya_id: gigya_id, site_user_id: user.id)
+    user_creation_service = Plink::UserCreationService.new(user_params)
+    if user_creation_service.valid?
+      user = user_creation_service.create_user
+      response = gigya_connection.notify_registration(gigya_id: gigya_id, site_user_id: user.id)
 
-    raise GigyaNotificationError unless response.successful?
-
-    user
+      raise GigyaNotificationError unless response.successful?
+      user
+    else
+      @response_message = "Sorry, your user registration failed. Please register through our form instead of #{provider}."
+      nil
+    end
   end
 
   def update_user_thumbnail(user)
