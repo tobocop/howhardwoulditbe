@@ -234,8 +234,9 @@ describe PlinkAdmin::RegistrationLinksController do
         end_date: { 'end_date(1i)'=>'2013', 'end_date(2i)'=>'9', 'end_date(3i)'=>'25' }
       }
     }
+    let(:share_page) { create_share_page }
 
-    it 'updates the record and redirects to the listing when successful' do
+    it 'updates the record and redirects to the index' do
       put :update, registration_link_update_params
 
       registration_link.reload
@@ -243,6 +244,18 @@ describe PlinkAdmin::RegistrationLinksController do
       registration_link.landing_page_records.should == [first_landing_page, second_landing_page]
       registration_link.start_date.should == Time.zone.local(2013, 9, 23)
       registration_link.end_date.should == Time.zone.local(2013, 9, 25)
+
+      flash[:notice].should == 'Registration link updated'
+      response.should redirect_to '/registration_links'
+    end
+
+    it 'updates a share_flows record and redirects the user to the index' do
+      params = registration_link_update_params.merge({
+        share_flow: 'true',
+        share_page_ids: [share_page]
+      })
+
+      put :update, params
 
       flash[:notice].should == 'Registration link updated'
       response.should redirect_to '/registration_links'
@@ -256,13 +269,19 @@ describe PlinkAdmin::RegistrationLinksController do
       registration_link.campaign_id.should == 45
     end
 
-    it 'redirects to the edit form when the record cannot be updated' do
+    it 'renders the edit form when the record cannot be updated' do
       Plink::RegistrationLinkRecord.any_instance.should_receive(:update_attributes).and_return(false)
 
       put :update, registration_link_update_params
 
       flash[:notice].should == 'Could not update registration link'
-      response.should redirect_to "/registration_links/#{registration_link.id}/edit"
+      response.should render_template :edit
+    end
+
+    it 'returns errors when the record cannot be updated' do
+      put :update, registration_link_update_params.except(:landing_page_ids)
+
+      assigns(:error).should_not be_blank
     end
   end
 end

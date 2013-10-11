@@ -44,25 +44,30 @@ module PlinkAdmin
     end
 
     def edit
+      registration_link_data
       @registration_link = Plink::RegistrationLinkRecord.find(params[:id])
       @landing_pages = Plink::LandingPageRecord.all
     end
 
     def update
-      registration_link = Plink::RegistrationLinkRecord.find(params[:id])
+      @registration_link = Plink::RegistrationLinkRecord.find(params[:id])
       update_params = {
         is_active: params[:is_active],
         start_date: parse_date('start_date'),
         end_date: parse_date('end_date'),
-        landing_page_records: landing_pages(params[:landing_page_ids])
+        landing_page_records: landing_pages(params[:landing_page_ids]),
+        share_page_records: share_pages(params[:share_page_ids]),
+        share_flow: params[:share_flow]
       }
 
-      if registration_link.update_attributes(update_params)
+      if @registration_link.update_attributes(update_params)
         flash[:notice] = 'Registration link updated'
         redirect_to registration_links_path
       else
+        registration_link_data
+        @error = extract_errors(Array(@registration_link))
         flash[:notice] = 'Could not update registration link'
-        redirect_to edit_registration_link_path(registration_link)
+        render :edit
       end
     end
 
