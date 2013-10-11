@@ -78,10 +78,31 @@
       margin-right:auto;
       width:100%;
 
-      .icon {
-       margin:30px 5%;
+      .step {
         display:inline-block;
+        margin:30px 5%;
         vertical-align: top;
+
+        .icon {
+          background: url('/assets/home_sprite_how_press.png');
+          background-repeat: none;
+          display:block;
+          height:122px;
+          margin:0 auto;
+          width:122px;
+
+          &.one {
+            background-position: 0px 0px;
+          }
+
+          &.two {
+            background-position: 122px 0px;
+          }
+
+          &.three {
+            background-position: 244px 0px;
+          }
+        }
       }
     }
 
@@ -101,17 +122,89 @@
 
     .brand-wrapper {
       margin:30px auto;
-      max-width:900px;
-      width:70%;
+      width:900px;
 
       .brand {
-       background:#FFFFFF;
-       border: 1px solid #CAD5DA;
-       display:inline-block;
-       height:120px;
-       margin:-1px -3px 0px -2px;
-       padding:14px 0px;
-       width:200px;
+        background: url('/assets/home_sprite_logos.png');
+        background-repeat: none;
+        border: 1px solid #CAD5DA;
+        display:inline-block;
+        height:120px;
+        margin:-2px -3px 0px -2px;
+        width:200px;
+
+        &.seveneleven {
+          @include offset(0);
+        }
+        &.eastbay {
+          @include offset(1);
+        }
+        &.flowers {
+          @include offset(2);
+        }
+        &.dunkindonuts {
+          @include offset(3);
+        }
+        &.gap {
+          @include offset(4);
+        }
+        &.footaction {
+          @include offset(5);
+        }
+        &.burgerking {
+          @include offset(6);
+        }
+        &.quiznos {
+          @include offset(7);
+        }
+        &.redrobin {
+          @include offset(8);
+        }
+        &.kmart {
+          @include offset(9);
+        }
+        &.footlocker {
+          @include offset(10);
+        }
+        &.champs {
+          @include offset(11);
+        }
+        &.puritanspride {
+          @include offset(12);
+        }
+        &.vitaminworld {
+          @include offset(13);
+        }
+        &.unitedartists {
+          @include offset(14);
+        }
+        &.edwards {
+          @include offset(15);
+        }
+        &.dollargeneral {
+          @include offset(16);
+        }
+        &.sears {
+          @include offset(17);
+        }
+        &.outback {
+          @include offset(18);
+        }
+        &.regal {
+          @include offset(19);
+        }
+        &.oldnavy {
+          @include offset(20);
+        }
+        &.ftd {
+          @include offset(21);
+        }
+        &.advanceautoparts {
+          @include offset(22);
+        }
+        &.staples {
+          @include offset(23);
+        }
       }
     }
 
@@ -132,8 +225,9 @@
     .text {
       color:#FFFFFF;
       margin: 10px auto;
-      max-width:660px;
-      width:45%;
+      /*max-width:660px;
+      width:45%;*/
+      width:660px;
     }
 
     .logos {
@@ -147,8 +241,8 @@
       @include round-corners(10px);
 
       .logo {
-       display:inline-block;
-       margin:0px 1%;
+        display:inline-block;
+        margin:0px 1%;
       }
     }
   }
@@ -159,13 +253,51 @@
     padding:50px 30px 10px 30px;
 
     .logo-wrapper {
+      height:54px;
       margin:0px auto;
       max-width:1024px;
     }
 
     .logo {
-      display: inline-block;
-      padding:0px 2%;
+      background: url('/assets/home_sprite_how_press.png');
+      background-repeat: none;
+      height:54px;
+      margin:0px 23px;
+
+      &.text {
+        background:none;
+        display:inline-block;
+        font-weight:300;
+        font-size:1em;
+        height:40px;
+        width:80px;
+      }
+
+      &.washpo {
+        background-position: 0px 108px;
+        display:inline-block;
+        width:184px;
+      }
+      &.forbes {
+        background-position: 181px 108px;
+        display:inline-block;
+        width:86px;
+      }
+      &.techcrunch {
+        background-position: 94px 108px;
+        display:inline-block;
+        width:69px;
+      }
+      &.bloomberg {
+        background-position: 0px 54px;
+        display:inline-block;
+        width:173px;
+      }
+      &.gigaom {
+        background-position: 190px 54px;
+        display:inline-block;
+        width:117px;
+      }
     }
 
     hr {
