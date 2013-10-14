@@ -9,7 +9,8 @@ describe UserRegistrationForm do
       email: 'bobo@example.com',
       virtual_currency_name: 'Plink Points',
       provider: 'organic',
-      ip: '127.1.1.1'
+      ip: '127.1.1.1',
+      user_agent: 'My Awesome Browser'
     }
   }
 
@@ -108,19 +109,21 @@ describe UserRegistrationForm do
     context 'when successful' do
       let(:user_creation_service_mock) { mock(:user_creation_service, valid?: true) }
       let(:mock_mail) {mock(:welcome_email)}
-
-      before do
-        password = mock(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
-        Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
-
-        user_params = {
+      let(:user_params) {
+        {
           password_hash: '1234790dfghjkl;',
           first_name: 'Bobo',
           email: 'bobo@example.com',
           salt: 'qwer-qwer-qwer-qwer',
           provider: 'organic',
-          ip: '127.1.1.1'
+          ip: '127.1.1.1',
+          user_agent: 'My Awesome Browser'
         }
+      }
+
+      before do
+        password = mock(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
+        Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
         Plink::UserCreationService.stub(:new).with(user_params).and_return(user_creation_service_mock)
 
         user_mock = mock(:user, id: 14, email: 'bobo@example.com', first_name: 'Bobo')
@@ -131,19 +134,10 @@ describe UserRegistrationForm do
       end
 
       it 'calls save on the user_creation_service when valid' do
-        user_params = {
-          password_hash: '1234790dfghjkl;',
-          first_name: 'Bobo',
-          email: 'bobo@example.com',
-          salt: 'qwer-qwer-qwer-qwer',
-          provider: 'organic',
-          ip: '127.1.1.1'
-        }
         Plink::UserCreationService.should_receive(:new).with(user_params).
           and_return(user_creation_service_mock)
 
-        user_mock = mock(:user,
-          email: 'bobo@example.com', first_name: 'Bobo', id: 3)
+        user_mock = mock(:user, email: 'bobo@example.com', first_name: 'Bobo', id: 3)
 
         user_creation_service_mock.should_receive(:create_user).and_return(user_mock)
 
@@ -151,13 +145,9 @@ describe UserRegistrationForm do
       end
 
       it 'does not email the user a welcome email' do
-        user_params = {
-          email: 'bobo@example.com',
-          first_name: 'Bobo',
-          virtual_currency_name: 'Plink Points'
-        }
-
         UserRegistrationMailer.should_not_receive(:welcome).with(user_params)
+
+        user_registration_form.save
       end
 
       it 'delays sending a complete your registration email' do

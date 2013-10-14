@@ -17,6 +17,7 @@ describe Plink::UserRecord do
   it { should allow_mass_assignment_of(:salt) }
   it { should allow_mass_assignment_of(:state) }
   it { should allow_mass_assignment_of(:username) }
+  it { should allow_mass_assignment_of(:user_agent) }
   it { should allow_mass_assignment_of(:zip) }
 
   it_should_behave_like(:legacy_timestamps)
@@ -37,6 +38,7 @@ describe Plink::UserRecord do
       salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
       state: 'Colorado',
       username: 'bobby tables',
+      user_agent: 'chrome',
       zip: '80204'
     }
   }

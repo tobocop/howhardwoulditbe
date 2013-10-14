@@ -3,8 +3,7 @@ class GigyaSocialLoginService
   end
 
   attr_reader :avatar_thumbnail_url, :birthday, :city, :email, :first_name, :gender,
-    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :response_message, :state,
-    :zip
+    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :state, :user_agent, :zip
 
   attr_accessor :user
 
@@ -21,6 +20,7 @@ class GigyaSocialLoginService
     @nickname = blank_to_nil(params[:nickname])
     @provider = params[:provider]
     @state = blank_to_nil(params[:state])
+    @user_agent = params[:user_agent]
     @zip = blank_to_nil(params[:zip])
     @response_message = 'Sorry, that email has already been registered. Please use a different email.'
   end
@@ -120,18 +120,19 @@ private
 
     {
       avatar_thumbnail_url: avatar_thumbnail_url,
+      birthday: birthday,
+      city: city,
       email: email,
       first_name: first_name,
-      username: nickname,
-      birthday: birthday,
+      ip: ip,
       is_male: is_male,
-      state: state,
-      city: city,
-      zip: zip,
       password_hash: password.hashed_value,
       provider: provider,
-      ip: ip,
-      salt: password.salt
+      salt: password.salt,
+      state: state,
+      username: nickname,
+      user_agent: user_agent,
+      zip: zip
     }
   end
 

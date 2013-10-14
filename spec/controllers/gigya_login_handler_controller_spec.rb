@@ -8,9 +8,10 @@ describe GigyaLoginHandlerController do
     let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(55 => true) }
     let(:new_gigya_social_login_service_params) {
       {
-        "valid_params" => true,
+        'valid_params' => true,
         'gigya_connection' => gigya_connection,
-        "ip" => '192.168.0.1'
+        'ip' => '192.168.0.1',
+        'user_agent' => 'my agent'
       }
     }
 
@@ -18,8 +19,8 @@ describe GigyaLoginHandlerController do
       controller.stub(:gigya_connection) { gigya_connection }
       controller.stub(plink_intuit_account_service: fake_intuit_account_service)
       request.stub(remote_ip: '192.168.0.1')
+      request.stub(user_agent: 'my agent')
     end
-
 
     context 'when successful' do
       context 'and user is found' do
@@ -44,7 +45,8 @@ describe GigyaLoginHandlerController do
               'photoURL' => 'http://example.com/image.png',
               'provider' => 'facebook',
               'gigya_connection' => gigya_connection,
-              'ip' => '192.168.0.1'
+              'ip' => '192.168.0.1',
+              'user_agent' => 'my agent'
             }
 
             GigyaSocialLoginService.should_receive(:new).with(gigya_social_login_service_params) { gigya_social_login_service_stub }

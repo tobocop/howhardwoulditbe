@@ -22,7 +22,27 @@ describe RegistrationsController do
         controller.stub(:tracking_params) {stub(to_hash: true)}
       end
 
-      it "signs the user in upon success" do
+      it 'creates a new UserRegistrationForm' do
+        create_params = {
+          first_name: 'bob',
+          email: 'myemail@example.com',
+          password: 'password',
+          password_confirmation: 'password'
+        }
+
+        UserRegistrationForm.should_receive(:new).with(
+          create_params.merge(
+            virtual_currency_name: 'Plionk Points',
+            provider: 'organic',
+            ip: request.remote_ip,
+            user_agent: request.user_agent
+          )
+        )
+
+        xhr :post, :create, create_params
+      end
+
+      it 'signs the user in upon success' do
         controller.should_receive(:sign_in_user).with(@user_stub)
 
         xhr :post, :create

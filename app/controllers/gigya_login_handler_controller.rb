@@ -40,7 +40,11 @@ private
   end
 
   def params_for_service
-    params.merge(gigya_connection: gigya_connection, ip: request.remote_ip).except(:controller, :action)
+    params.merge(
+      gigya_connection: gigya_connection,
+      ip: request.remote_ip,
+      user_agent: request.user_agent
+    ).except(:controller, :action)
   end
 
   def plink_intuit_account_service

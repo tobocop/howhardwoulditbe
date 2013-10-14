@@ -2,19 +2,20 @@ require 'spec_helper'
 
 describe Plink::UserCreationService do
   let (:valid_params) {{
+      avatar_thumbnail_url: 'http://www.google.com/logo.png',
+      birthday: Time.zone.local(1995, 02, 07),
+      city: 'Denver',
       email: 'test@test.com',
       first_name: 'derp',
-      username: 'bobberson',
-      birthday: Time.zone.local(1995, 02, 07),
+      ip: '192.168.0.1',
       is_male: true,
-      state: 'CO',
-      city: 'Denver',
-      zip: '80204',
       password_hash: 'asd',
-      salt: 'asd',
-      avatar_thumbnail_url: 'http://www.google.com/logo.png',
       provider: 'organic',
-      ip: '192.168.0.1'
+      salt: 'asd',
+      state: 'CO',
+      username: 'bobberson',
+      user_agent: 'my browser',
+      zip: '80204'
   }}
 
   describe 'initialize' do

@@ -17,18 +17,19 @@ module Plink
 
     attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
       :first_name, :hold_redemptions, :ip, :is_male,  :last_name, :password_hash, :provider,
-      :salt, :state, :username, :zip
+      :salt, :state, :username, :user_agent, :zip
 
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
-    alias_attribute :last_name, :lastName
-    alias_attribute :is_subscribed, :isSubscribed
+    alias_attribute :hold_redemptions, :holdRedemptions
     alias_attribute :is_male, :isMale
+    alias_attribute :is_subscribed, :isSubscribed
+    alias_attribute :last_name, :lastName
     # Legacy naming for password_hash is password, which is kinda confusing.
     alias_attribute :password_hash, :password
-    alias_attribute :salt, :passwordSalt
     alias_attribute :primary_virtual_currency_id, :primaryVirtualCurrencyID
-    alias_attribute :hold_redemptions, :holdRedemptions
+    alias_attribute :salt, :passwordSalt
+    alias_attribute :user_agent, :userAgent
     alias_attribute :zip, :homeZipCode
 
     delegate :can_redeem?, :currency_balance, :current_balance, :lifetime_balance,

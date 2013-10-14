@@ -5,21 +5,22 @@ describe GigyaSocialLoginService do
 
   let(:service_params) do
     {
-      UID: 'abc123',
-      email: 'bob@example.com',
-      firstName: 'Bob',
-      nickname: 'bobberson',
       birthDay: '7',
       birthMonth: '2',
       birthYear: '1995',
-      gender: 'm',
-      state: 'CO',
       city: 'Denver',
-      zip: '80204',
+      email: 'bob@example.com',
+      firstName: 'Bob',
+      gender: 'm',
       gigya_connection: gigya_connection,
+      ip: '127.9.9.9',
+      nickname: 'bobberson',
       photoURL: 'http://example.com/image',
       provider: 'dogster',
-      ip: '127.9.9.9'
+      state: 'CO',
+      UID: 'abc123',
+      user_agent: 'cool browser',
+      zip: '80204'
     }
   end
 
@@ -40,6 +41,7 @@ describe GigyaSocialLoginService do
       service.avatar_thumbnail_url.should == 'http://example.com/image'
       service.provider.should == 'dogster'
       service.ip.should == '127.9.9.9'
+      service.user_agent.should == 'cool browser'
     end
 
     it 'raises if no gigya_connection is provided' do
@@ -78,7 +80,6 @@ describe GigyaSocialLoginService do
       service = GigyaSocialLoginService.new(service_params.merge(zip:''))
       service.zip.should be_nil
     end
-
   end
 
   describe '#sign_in_user' do
@@ -196,38 +197,40 @@ describe GigyaSocialLoginService do
         let(:user) { stub(id: 123, avatar_thumbnail_url?: true, new_user?: true, ip: '127.8.8.8') }
         let(:user_params) {
           {
+            avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg',
+            birthday: Time.zone.local(1995, 02, 07),
+            city: 'Denver',
             email: 'bob@example.com',
             first_name: 'Bob',
-            username: 'bobberson',
-            birthday: Time.zone.local(1995, 02, 07),
-            is_male: true,
-            state: 'CO',
-            city: 'Denver',
-            zip: '80204',
-            password_hash: 'my-hashed-password',
-            salt: 'my-salt',
-            avatar_thumbnail_url: 'http://www.example.com/my-avatar.jpg',
             ip: '127.8.8.8',
-            provider: 'twitter'
+            is_male: true,
+            password_hash: 'my-hashed-password',
+            provider: 'twitter',
+            salt: 'my-salt',
+            state: 'CO',
+            username: 'bobberson',
+            user_agent: 'my user agent',
+            zip: '80204'
           }
         }
         let(:gigya_params) {
           {
-            gigya_connection: gigya_connection,
-            UID: 'abc123',
-            email: 'bob@example.com',
-            firstName: 'Bob',
-            nickname: 'bobberson',
             birthDay: '7',
             birthMonth: '2',
             birthYear: '1995',
-            gender: 'm',
-            state: 'CO',
             city: 'Denver',
-            zip: '80204',
-            photoURL: 'http://www.example.com/my-avatar.jpg',
+            email: 'bob@example.com',
+            firstName: 'Bob',
+            gender: 'm',
+            gigya_connection: gigya_connection,
             ip: '127.8.8.8',
-            provider: 'twitter'
+            nickname: 'bobberson',
+            photoURL: 'http://www.example.com/my-avatar.jpg',
+            provider: 'twitter',
+            state: 'CO',
+            UID: 'abc123',
+            user_agent: 'my user agent',
+            zip: '80204'
           }
         }
 

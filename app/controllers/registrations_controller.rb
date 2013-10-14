@@ -10,7 +10,8 @@ class RegistrationsController < ApplicationController
       password_confirmation: params[:password_confirmation],
       virtual_currency_name: current_virtual_currency.currency_name,
       provider: 'organic',
-      ip: request.remote_ip
+      ip: request.remote_ip,
+      user_agent: request.user_agent
     )
 
     if user_registration_form.save
