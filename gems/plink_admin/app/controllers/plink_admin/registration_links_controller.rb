@@ -14,12 +14,13 @@ module PlinkAdmin
       if params[:affiliate_ids]
         registration_link_params = {
           campaign_id: params[:campaign_id],
-          is_active: params[:is_active],
-          share_flow: params[:share_flow],
-          start_date: parse_date('start_date'),
           end_date: parse_date('end_date'),
+          is_active: params[:is_active],
           landing_page_records: landing_pages(params[:landing_page_ids]),
-          share_page_records: share_pages(params[:share_page_ids])
+          mobile_detection_on: params[:mobile_detection_on],
+          share_flow: params[:share_flow],
+          share_page_records: share_pages(params[:share_page_ids]),
+          start_date: parse_date('start_date')
         }
 
         registration_links = params[:affiliate_ids].map do |affiliate_id|
@@ -56,6 +57,7 @@ module PlinkAdmin
         start_date: parse_date('start_date'),
         end_date: parse_date('end_date'),
         landing_page_records: landing_pages(params[:landing_page_ids]),
+        mobile_detection_on: params[:mobile_detection_on],
         share_page_records: share_pages(params[:share_page_ids]),
         share_flow: params[:share_flow]
       }

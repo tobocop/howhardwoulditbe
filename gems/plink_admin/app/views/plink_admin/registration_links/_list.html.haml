@@ -7,6 +7,7 @@
     %th Share Pages
     %th Start Date
     %th End Date
+    %th Mobile Detection
     %th Is Active
     %th Link
     %th Edit
@@ -34,6 +35,7 @@
             %span (default)
         %td= present_as_date(registration_link.start_date)
         %td= present_as_date(registration_link.end_date)
+        %td= "mobile detection #{registration_link.mobile_detection_on? ? 'on' : 'off'}"
         %td= registration_link.is_active
         %td= link_to generate_registration_link_url(registration_link.id), generate_registration_link_url(registration_link.id), target: '_blank'
         %td= link_to 'Edit', edit_registration_link_path(registration_link)

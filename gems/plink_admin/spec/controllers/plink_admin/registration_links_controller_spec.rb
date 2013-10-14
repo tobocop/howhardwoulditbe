@@ -68,7 +68,8 @@ describe PlinkAdmin::RegistrationLinksController do
         is_active: true,
         landing_page_ids:[first_landing_page.id, second_landing_page.id],
         start_date: { 'start_date(1i)'=>'2013', 'start_date(2i)'=>'9', 'start_date(3i)'=>'23' },
-        end_date: { 'end_date(1i)'=>'2013', 'end_date(2i)'=>'9', 'end_date(3i)'=>'25' }
+        end_date: { 'end_date(1i)'=>'2013', 'end_date(2i)'=>'9', 'end_date(3i)'=>'25' },
+        mobile_detection_on: true
       }
     }
 
@@ -94,6 +95,12 @@ describe PlinkAdmin::RegistrationLinksController do
       registration_links.map(&:campaign_id).uniq.should == [2]
     end
 
+    it 'sets is_active to the same for all created registration_links' do
+      post :create, registration_link_params
+
+      registration_links.map(&:is_active).uniq.should == [true]
+    end
+
     it 'sets the start_date to the same for all created registration_links' do
       post :create, registration_link_params
 
@@ -106,10 +113,10 @@ describe PlinkAdmin::RegistrationLinksController do
       registration_links.map(&:end_date).uniq.should == [Time.zone.local(2013, 9, 25)]
     end
 
-    it 'sets is_active to the same for all created registration_links' do
+    it 'sets the mobile_detection_on to the same for all created registration_links' do
       post :create, registration_link_params
 
-      registration_links.map(&:is_active).uniq.should == [true]
+      registration_links.map(&:mobile_detection_on).uniq.should == [true]
     end
 
     it 'creates groupings of landing pages for each link' do
@@ -219,10 +226,11 @@ describe PlinkAdmin::RegistrationLinksController do
       create_registration_link(
         affiliate_id: 44,
         campaign_id: 45,
+        end_date: 1.day.from_now,
         is_active: true,
         landing_page_records: [first_landing_page],
-        start_date: 1.day.ago,
-        end_date: 1.day.from_now
+        mobile_detection_on: true,
+        start_date: 1.day.ago
       )
     }
     let!(:registration_link_update_params) {
@@ -230,6 +238,7 @@ describe PlinkAdmin::RegistrationLinksController do
         id: registration_link.id,
         is_active: false,
         landing_page_ids:[first_landing_page.id, second_landing_page.id],
+        mobile_detection_on: false,
         start_date: { 'start_date(1i)'=>'2013', 'start_date(2i)'=>'9', 'start_date(3i)'=>'23' },
         end_date: { 'end_date(1i)'=>'2013', 'end_date(2i)'=>'9', 'end_date(3i)'=>'25' }
       }
@@ -244,6 +253,7 @@ describe PlinkAdmin::RegistrationLinksController do
       registration_link.landing_page_records.should == [first_landing_page, second_landing_page]
       registration_link.start_date.should == Time.zone.local(2013, 9, 23)
       registration_link.end_date.should == Time.zone.local(2013, 9, 25)
+      registration_link.mobile_detection_on.should be_false
 
       flash[:notice].should == 'Registration link updated'
       response.should redirect_to '/registration_links'

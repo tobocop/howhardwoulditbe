@@ -9,6 +9,7 @@ describe Plink::RegistrationLinkRecord do
       end_date: 1.day.from_now,
       is_active: true,
       landing_page_records: [landing_page_record],
+      mobile_detection_on: true,
       start_date: 1.day.ago,
     }
   }
@@ -19,6 +20,7 @@ describe Plink::RegistrationLinkRecord do
   it { should allow_mass_assignment_of(:end_date) }
   it { should allow_mass_assignment_of(:is_active) }
   it { should allow_mass_assignment_of(:landing_page_records) }
+  it { should allow_mass_assignment_of(:mobile_detection_on) }
   it { should allow_mass_assignment_of(:share_flow) }
   it { should allow_mass_assignment_of(:share_page_records) }
 

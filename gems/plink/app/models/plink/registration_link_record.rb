@@ -12,7 +12,8 @@ module Plink
     has_many :share_page_records, class_name: 'Plink::SharePageRecord', through: :registration_link_share_page_records
 
     attr_accessible :affiliate_id, :campaign_id, :end_date, :is_active,
-      :landing_page_records, :share_flow, :share_page_records, :start_date
+      :landing_page_records, :mobile_detection_on, :share_flow, :share_page_records,
+      :start_date
 
     attr_accessor :share_flow
 
