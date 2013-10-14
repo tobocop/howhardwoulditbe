@@ -7,6 +7,11 @@
         %span.h2.bold
           #{plink_currency_format(@reward.amounts.first.dollar_award_amount)} #{@reward.name.html_safe}.
     .details
+      - if @reward.deliver_by_email?
+        %h3 Your Plink reward will be delivered to your Plink-registered email in 1-3 days, unless otherwise specified in the Terms of the gift card description.
+      - else
+        %h3  #{@reward.name.html_safe} gift cards will be delivered via USPS. Please look for your gift card to arrive in the mail within a week of your redemption.
+      %br
       %h3= @reward.description.html_safe
       %br
       = link_to "Go To My Wallet >", wallet_path
