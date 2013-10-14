@@ -1,6 +1,7 @@
 class ContestsController < ApplicationController
   include CardLinkExtensions
   include Tracking
+  include AutoLoginExtensions
 
   def index
     contest_record = Plink::ContestRecord.current || Plink::ContestRecord.last_completed || Plink::ContestRecord.last_finalized
@@ -33,14 +34,7 @@ class ContestsController < ApplicationController
   end
 
   def results_from_email
-    user = AutoLoginService.find_by_user_token(params[:user_token])
-    sign_in_user(user) if user.present?
-
-    if current_user.logged_in?
-      redirect_to contest_results_path
-    else
-      redirect_to root_url, notice: 'Link expired.'
-    end
+    auto_login_user(params[:user_token], contest_results_path)
   end
 
   private

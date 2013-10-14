@@ -11,6 +11,7 @@ PlinkPivotal::Application.routes.draw do
 
   resource :wallet, only: [:show] do
     resources :offers, only: [:create, :destroy], controller: 'wallet_offers'
+    get :login_from_email, action: :login_from_email, as: :login_from_email
   end
 
   resource :redemption, only: [:show, :create], controller: :redemption
@@ -48,6 +49,7 @@ PlinkPivotal::Application.routes.draw do
   match '/deprecated_link', to: 'registration_links#deprecated', as: :deprecated_registration_link, via: :get
 
   match '/style_guide', to: 'style_guide#show', via: :get
+  match '/style_guide/emails', to: 'style_guide#emails', via: :get
   match '/home/plink_video', to: 'home#plink_video', via: :get
   match '/survey_complete', to: 'survey#complete', via: :get, as: :survey_complete
 

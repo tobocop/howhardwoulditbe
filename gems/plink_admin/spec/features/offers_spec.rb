@@ -6,7 +6,14 @@ describe 'offers' do
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
     
     advertiser = create_advertiser(advertiser_name: 'borger king')
-    create_offer(advertisers_rev_share: 0.08, advertiser_id: advertiser.id, start_date: '1900-01-01', end_date: 8.days.from_now, show_end_date:false)
+    create_offer(
+      advertisers_rev_share: 0.08,
+      advertiser_id: advertiser.id,
+      start_date: '1900-01-01',
+      end_date: 8.days.from_now,
+      show_end_date: false,
+      send_expiring_soon_reminder: false
+    )
   end
 
   it 'can have its expiration_date edited by admins' do
@@ -15,7 +22,8 @@ describe 'offers' do
     within '.offer-list' do
       within '.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
-        page.should have_content 'false'
+        page.should have_content 'not showing'
+        page.should have_content 'not sending'
 
         click_on 'Edit'
       end
@@ -29,6 +37,7 @@ describe 'offers' do
 
     select 1.year.from_now.year, from: 'offer[end_date(1i)]'
     check 'Show end date to users'
+    check 'Notify users of expiration 7 days before'
 
     click_on 'Update'
 
@@ -38,7 +47,8 @@ describe 'offers' do
       within '.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
         page.should have_content '2014'
-        page.should have_content 'true'
+        page.should have_content 'showing date'
+        page.should have_content 'sending email'
       end
     end
   end

@@ -1,0 +1,14 @@
+Hey #{@first_name},
+
+As a friendly reminder, the #{@advertiser_name} offer will be expiring soon.  Don't forget, go to #{@advertiser_name} before #{@end_date} and take advantage of the Plink Points you can earn with your purchase.
+
+#{@end_date} will be the last day to earn Plink Points at #{@advertiser_name}.
+
+Update My Wallet Now:
+=login_from_email_wallet_url(user_token: @user_token)
+
+Thanks!
+Team Plink
+
+Unsubscribe:
+= edit_subscription_url(email_address: @email_address)

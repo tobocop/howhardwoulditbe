@@ -28,17 +28,17 @@
                 %table{width: "100%", border: "0", cellspacing: "0", cellpadding: "0"}
                   %tr
                     %td.headercell
-                      =link_to image_tag('https://plink-email.s3.amazonaws.com/marketing/v3/Expiring/feature_expired.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), "!!!INSERT WALLET URL!!!"
+                      =link_to image_tag('http://plink-email.s3.amazonaws.com/marketing/v3/Expiring/feature_expiring.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), login_from_email_wallet_url(user_token: @user_token)
 
                 %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
                   %tr
                     %td.promocell{bgcolor: "#404041", width: "600"}
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#FFFFFF; font-size:18px;"} Hey #{@first_name}
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Great news - you’ve got an open wallet slot!
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Since the [Advertiser_Name] offer just expired, you’ve got room in your Plink wallet for a new offer!
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Be a smarter shopper, fill your wallet & maximize your Plink potential today!
-                        =link_to 'Update My Wallet Now >', "!!!INSERT WALLET URL!!!", style: "font-family:Helvetica,Arial,sans-serif;"
+                        %p{style: "color:#FFFFFF; font-size:16px;"} As a friendly reminder, the #{@advertiser_name} offer will be expiring soon.  Don't forget, go to #{@advertiser_name} before #{@end_date} and take advantage of the Plink Points you can earn with your purchase.
+                        %p{style: "color:#FFFFFF; font-size:16px;"} #{@end_date} will be the last day to earn Plink Points at #{@advertiser_name}.
+                        %p{style: "color:#FFFFFF; font-size:16px;"}
+                          =link_to 'Update My Wallet Now >', login_from_email_wallet_url(user_token: @user_token)
 
           =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"divider", border: "0", style: "display:block;", width: "1", height: "10"}
 

@@ -12,7 +12,6 @@ namespace :db do
     ActiveRecord::Base.connection.execute("DROP DATABASE #{db_name}")
   end
 
-
   namespace :views do
 
     desc 'Creates the views in the DB'

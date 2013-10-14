@@ -28,17 +28,18 @@
                 %table{width: "100%", border: "0", cellspacing: "0", cellpadding: "0"}
                   %tr
                     %td.headercell
-                      =link_to image_tag('https://plink-email.s3.amazonaws.com/marketing/v3/Expiring/feature_expired.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), "!!!INSERT WALLET URL!!!"
+                      =link_to image_tag('https://plink-email.s3.amazonaws.com/marketing/v3/Expiring/feature_expired.jpg'), login_from_email_wallet_url(user_token: @user_token), {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}
 
                 %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
                   %tr
                     %td.promocell{bgcolor: "#404041", width: "600"}
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#FFFFFF; font-size:18px;"} Hey #{@first_name}
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Great news - you’ve got an open wallet slot!
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Since the [Advertiser_Name] offer just expired, you’ve got room in your Plink wallet for a new offer!
+                        %p{style: "color:#FFFFFF; font-size:16px;"} Great news - you've got an open wallet slot!
+                        %p{style: "color:#FFFFFF; font-size:16px;"} Since the #{@advertiser_name} offer just expired, you've got room in your Plink wallet for a new offer!
                         %p{style: "color:#FFFFFF; font-size:16px;"} Be a smarter shopper, fill your wallet & maximize your Plink potential today!
-                        =link_to 'Update My Wallet Now >', "!!!INSERT WALLET URL!!!", style: "font-family:Helvetica,Arial,sans-serif;"
+                        -#=link_to 'Update My Wallet Now >', "!!!INSERT WALLET URL!!!", style: "font-family:Helvetica,Arial,sans-serif;"
+                        =link_to 'Update My Wallet Now >', login_from_email_wallet_url(user_token: @user_token), style: "font-family:Helvetica,Arial,sans-serif;"
 
           =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"divider", border: "0", style: "display:block;", width: "1", height: "10"}
 
@@ -56,6 +57,8 @@
                           %td.footershow{width: "380", valign: "top"}
 
                             =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "0"}
+                            %br
+                            %br
                             %p.reminder{style: "color:#a6a6a6;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;"}
                               %strong Need some help?
                               If you have any questions, please contact us at
@@ -86,4 +89,5 @@
                               2000 S. Colorado Blvd. Tower 1<br> Suite 7000 <br>Denver, CO 80222
                 =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "25"}
                 %br
+
 

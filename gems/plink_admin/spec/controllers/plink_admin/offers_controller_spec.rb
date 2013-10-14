@@ -38,6 +38,7 @@ describe PlinkAdmin::OffersController do
         'end_date(1i)'=>"#{8.days.from_now.year}",
         'end_date(2i)'=>"#{8.days.from_now.month}",
         'end_date(3i)'=>"#{8.days.from_now.day}",
+        send_expiring_soon_reminder: true,
         show_end_date: true
       }
     }
@@ -47,6 +48,7 @@ describe PlinkAdmin::OffersController do
 
       offer.reload.end_date.should == Time.zone.local(8.days.from_now.year, 8.days.from_now.month, 8.days.from_now.day)
       offer.show_end_date.should be_true
+      offer.send_expiring_soon_reminder.should be_true
       flash[:notice].should == 'Offer updated'
       response.should redirect_to '/offers'
     end

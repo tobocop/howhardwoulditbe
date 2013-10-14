@@ -20,4 +20,19 @@ describe AutoLoginService do
       AutoLoginService.find_by_user_token(user_auto_login_record.user_token).should be_nil
     end
   end
+
+  describe '.generate_token' do
+    it 'creates an auto login token for a user that expires in 2 days by user_id' do
+      Plink::UserAutoLoginRecord.should_receive(:create).with(
+        user_id: 4,
+        expires_at: instance_of(ActiveSupport::TimeWithZone)
+      ).and_return( double(user_token: 'asd') )
+      AutoLoginService.generate_token(4)
+    end
+
+    it 'returns the user_token' do
+      token = AutoLoginService.generate_token(4)
+      Plink::UserAutoLoginRecord.last.user_token.should == token
+    end
+  end
 end

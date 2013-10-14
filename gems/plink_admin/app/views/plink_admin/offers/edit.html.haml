@@ -16,6 +16,8 @@
     = f.date_select :end_date, start_year: Time.zone.now.year, end_year: Time.zone.now.year + 5
     = f.label :show_end_date, 'Show end date to users'
     = f.check_box :show_end_date
+    = f.label :send_expiring_soon_reminder, 'Notify users of expiration 7 days before'
+    = f.check_box :send_expiring_soon_reminder
 
   = f.submit 'Update', class: 'button small'
 

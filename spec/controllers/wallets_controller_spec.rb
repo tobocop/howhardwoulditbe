@@ -9,8 +9,7 @@ describe WalletsController do
   let(:wallet_item) { new_locked_wallet_item }
   let(:wallet) { stub(id:2, sorted_wallet_item_records: [wallet_item]) }
 
-  before(:each) do
-    set_current_user(id: 5, wallet: wallet)
+  before do
     set_virtual_currency({id: 1})
 
     controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
@@ -24,6 +23,10 @@ describe WalletsController do
   end
 
   describe '#show' do
+    before do
+      set_current_user(id: 5, wallet: wallet)
+    end
+
     it 'redirects to the home page if the user is not logged in' do
       set_current_user(logged_in?: false)
       get :show
@@ -71,6 +74,50 @@ describe WalletsController do
         get :show
         assigns(:wallet_items).length.should == 1
         assigns(:wallet_items).first.should be_instance_of WalletItemPresenter::LockedWalletItemPresenter
+      end
+    end
+  end
+
+  describe 'GET login_from_email' do
+    let(:user) {create_user}
+    let(:user_auto_login_record) { create_user_auto_login(user_id: user.id) }
+
+    context 'for a hash corresponding to a user' do
+      it 'redirects them to the wallet path' do
+        get :login_from_email, user_token: user_auto_login_record.user_token
+
+        response.should redirect_to wallet_path
+      end
+
+      it 'redirects them to the wallet path if the user is already logged in' do
+        controller.stub(:contest_notification_for_user).and_return(nil)
+        controller.stub(:redirect_white_label_members).and_return(nil)
+
+        set_current_user
+
+        get :login_from_email, user_token: 'notavalidone'
+
+        response.should redirect_to wallet_path
+      end
+
+      it 'signs the user in if a token matches' do
+        controller.should_receive(:sign_in_user).and_call_original
+
+        get :login_from_email, user_token: user_auto_login_record.user_token
+      end
+    end
+
+    context 'for a hash that does not correspond to a user' do
+      it 'redirects them to the homepage' do
+        get :login_from_email, user_token: 'notavalidtoken'
+
+        response.should redirect_to root_path
+      end
+
+      it 'shows them a flash message indicating that the link has expired' do
+        get :login_from_email, user_token: 'notavalidtoken'
+
+        flash[:notice].should == 'Link expired.'
       end
     end
   end

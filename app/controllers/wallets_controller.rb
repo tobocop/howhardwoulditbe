@@ -1,8 +1,9 @@
 class WalletsController < ApplicationController
   include CardLinkExtensions
   include WalletExtensions
+  include AutoLoginExtensions
 
-  before_filter :require_authentication
+  before_filter :require_authentication, only: :show
 
   def show
     @current_tab = 'wallet'
@@ -12,6 +13,10 @@ class WalletsController < ApplicationController
     @card_link_url = plink_card_link_url_generator.create_url(card_link_referral_params)
     @offers = present_offers(plink_offer_service.get_available_offers_for(wallet_id, current_virtual_currency.id), @user_has_account)
     @all_offers = present_offers(plink_offer_service.get_live_offers(current_virtual_currency.id), @user_has_account)
+  end
+
+  def login_from_email
+    auto_login_user(params[:user_token], wallet_path)
   end
 
   private

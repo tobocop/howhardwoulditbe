@@ -4,6 +4,7 @@
     %th Advertiser
     %th End Date
     %th Displayed End Date
+    %th Sending Expiration Reminder
     %th Edit
   %tbody
     - @offers.each do |offer|
@@ -11,7 +12,8 @@
         %td= offer.id
         %td= offer.advertiser.advertiser_name
         %td= offer.end_date
-        %td= offer.show_end_date
+        %td= offer.show_end_date ? 'showing date' : 'not showing'
+        %td= offer.send_expiring_soon_reminder ? 'sending email' : 'not sending'
         %td= link_to 'Edit', edit_offer_path(offer)
 
 
