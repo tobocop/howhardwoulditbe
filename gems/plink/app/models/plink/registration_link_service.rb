@@ -6,7 +6,7 @@ module Plink
     end
 
   private
-    
+
     def self.create_registration_path(registration_link_record)
       Plink::RegistrationPath.new(registration_link_record)
     end

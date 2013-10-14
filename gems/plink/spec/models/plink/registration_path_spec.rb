@@ -7,7 +7,8 @@ describe Plink::RegistrationPath do
     create_registration_link(
       affiliate_id: 3,
       campaign_id: 4,
-      landing_page_records: [landing_page_one, landing_page_two]
+      landing_page_records: [landing_page_one, landing_page_two],
+      mobile_detection_on: true
     )
   }
 
@@ -21,11 +22,32 @@ describe Plink::RegistrationPath do
     registration_path.campaign_id.should == 4
   end
 
-  describe '.live?' do
+  describe '#live?' do
     it 'calls the registration link record' do
       registration_link.should_receive(:live?).and_return(true)
       registration_path = Plink::RegistrationPath.new(registration_link)
       registration_path.live?.should be_true
+    end
+  end
+
+  describe '#mobile_detection_on?' do
+    let(:non_mobile_registration_link) {
+      create_registration_link(
+        affiliate_id: 3,
+        campaign_id: 4,
+        landing_page_records: [landing_page_one, landing_page_two],
+        mobile_detection_on: false
+      )
+    }
+
+    it 'returns true if the record is flagged to have mobile detection' do
+      registration_path = Plink::RegistrationPath.new(registration_link)
+      registration_path.mobile_detection_on?.should be_true
+    end
+
+    it 'returns false if the record is not flagged to have mobile detection' do
+      registration_path = Plink::RegistrationPath.new(non_mobile_registration_link)
+      registration_path.mobile_detection_on?.should be_false
     end
   end
 end

@@ -10,10 +10,7 @@ module Plink
       @landing_page_id = landing_page.id
     end
 
-    delegate :affiliate_id, :campaign_id, to: :registration_link_record
-
-    def live?
-      registration_link_record.live?
-    end
+    delegate :affiliate_id, :campaign_id, :live?, :mobile_detection_on?,
+      to: :registration_link_record
   end
 end

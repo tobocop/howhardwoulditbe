@@ -9,7 +9,6 @@ describe Plink::RegistrationLinkService do
         landing_page_records: [landing_page]
       )
     }
-    
 
     it 'returns a RegistrationPath record by registration_link_id' do
       registration_path = Plink::RegistrationLinkService.get_registration_path_by_registration_link_id(registration_link.id)

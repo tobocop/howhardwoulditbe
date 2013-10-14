@@ -11,7 +11,8 @@ describe RegistrationLinksController do
       campaign_id: campaign.id,
       start_date: 1.day.ago,
       end_date: 1.day.from_now,
-      landing_page_records: [landing_page]
+      landing_page_records: [landing_page],
+      mobile_detection_on: false
     )
   }
 
@@ -37,6 +38,50 @@ describe RegistrationLinksController do
       get :show, id: registration_link.id
       assigns(:registration_path).should be_present
       assigns(:registration_path).landing_page_partial.should == 'path.html.haml'
+    end
+
+    context 'mobile detection' do
+      let!(:mobile_registration_link) {
+        create_registration_link(
+          affiliate_id: affiliate.id,
+          campaign_id: campaign.id,
+          start_date: 1.day.ago,
+          end_date: 1.day.from_now,
+          landing_page_records: [landing_page],
+          mobile_detection_on: true
+        )
+      }
+
+      let(:url_params) {
+        {
+          'subID' => 'SubidOne',
+          'subID2' => 'SubidTwo',
+          'subID3' => 'SubidThree',
+          'subID4' => 'SubidFour',
+          'randomParameter' => 'willbeforwarded',
+          id: mobile_registration_link.id
+        }
+      }
+
+      it 'redirects the user to the cf mobile registration path with all url params' do
+        request.user_agent = 'Mobile'
+
+        get :show, url_params
+
+        response.location.should =~ /http:\/\/www\.plink\.dev\/index\.cfm\?fuseaction=mobile\.register/
+        response.location.should =~ /aid=#{affiliate.id}/
+        response.location.should =~ /campaignID=#{campaign.id}/
+        response.location.should =~ /subID=SubidOne/
+        response.location.should =~ /subID2=SubidTwo/
+        response.location.should =~ /subID3=SubidThree/
+        response.location.should =~ /subID4=SubidFour/
+        response.location.should =~ /randomParameter=willbeforwarded/
+      end
+
+      it 'does not redirect when a user is not on a mobile browser' do
+        get :show, url_params
+        response.should_not be_redirect
+      end
     end
 
     context 'tracking' do
