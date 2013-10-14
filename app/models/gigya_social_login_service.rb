@@ -3,7 +3,8 @@ class GigyaSocialLoginService
   end
 
   attr_reader :avatar_thumbnail_url, :birthday, :city, :email, :first_name, :gender,
-    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :state, :user_agent, :zip
+    :gigya_connection, :gigya_id, :ip, :nickname, :provider, :response_message, :state,
+    :user_agent, :zip
 
   attr_accessor :user
 

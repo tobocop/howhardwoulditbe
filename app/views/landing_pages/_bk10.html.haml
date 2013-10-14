@@ -13,22 +13,22 @@
     .offer-details This is a private offer for new members only. Burger King purchase must be made by 10/13 to qualify. Gift cards will be awarded within 7 business days of when the transaction is posted. Limit of one $10 bonus per new member account.  
 
   .how
-    %h2.thin How Plink Works 
+    %h2.thin How Plink Works
     .icon-wrapper
-      .icon
-        =image_tag 'home_how1.png'
+      .step
+        .icon.one
         %h4
           Link your credit or
           %br
           debit card
-      .icon
-        =image_tag 'home_how2.png'
+      .step
+        .icon.two
         %h4
           Make a purchase at
           %br
           Burger King
-      .icon
-        =image_tag 'home_how3.png'
+      .step
+        .icon.three
         %h4
           Receive a $10 Gift Card
           %br
@@ -82,18 +82,17 @@
 
   .press
     .logo-wrapper
-      .logo
-        %h3 As seen in:
-      .logo
-        =image_tag 'home_press_washpo.jpg'
-      .logo
-        =image_tag 'home_press_forbes.jpg'
-      .logo
-        =image_tag 'home_press_tc.jpg'
-      .logo
-        =image_tag 'home_press_bloomberg.jpg'
-      .logo
-        =image_tag 'home_press_gigaom.jpg'
+      .logo.text
+        As seen in:
+        %br
+        %br
+      .logo.washpo
+      .logo.forbes
+      .logo.techcrunch
+      .logo.bloomberg
+      .logo.gigaom
+    %hr
+
 
 = render "home/welcome_video_modal"
 = render partial: 'shared/pixels/steelhouse', locals: {additional_info: @steelhouse_additional_info}

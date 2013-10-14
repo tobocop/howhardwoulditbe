@@ -11,24 +11,24 @@
         Hurry, contest ends Friday, November 1st at 3:00pm MST. Good Luck! NO PURCHASE NECESSARY. See Contest Rules for details. Void where prohibited.
 
   .how
-    %h2.thin How Plink Works 
+    %h2.thin How Plink Works
     .icon-wrapper
-      .icon
-        =image_tag 'home_how1.png'
+      .step
+        .icon.one
         %h4
           Link your credit or
           %br
           debit card
-      .icon
-        =image_tag 'home_how2.png'
+      .step
+        .icon.two
         %h4
           Earn Plink Points when
           %br
           you make purchases at
           %br
           our partner locations
-      .icon
-        =image_tag 'home_how3.png'
+      .step
+        .icon.three
         %h4
           Redeem points for
           %br
@@ -40,8 +40,8 @@
     %h2.light.cyan Our Partners
     %h3 Earn Plink points when you make a purchase at any of our partner locations.
     .brand-wrapper
-      - ordered_partner_logos.each do |logo|
-        = render partial: 'home/partner', locals: {logo_url: logo}
+      - ordered_partner_logos.each do |sprite_class|
+        = render partial: 'home/partner', locals: {sprite_class: sprite_class}
     .partners-btn
       = link_to 'See all of our partners', offers_path, class: 'button home-partners'
     .partners-btn
@@ -80,18 +80,16 @@
 
   .press
     .logo-wrapper
-      .logo
-        %h3 As seen in:
-      .logo
-        =image_tag 'home_press_washpo.jpg'
-      .logo
-        =image_tag 'home_press_forbes.jpg'
-      .logo
-        =image_tag 'home_press_tc.jpg'
-      .logo
-        =image_tag 'home_press_bloomberg.jpg'
-      .logo
-        =image_tag 'home_press_gigaom.jpg'
+      .logo.text
+        As seen in:
+        %br
+        %br
+      .logo.washpo
+      .logo.forbes
+      .logo.techcrunch
+      .logo.bloomberg
+      .logo.gigaom
+    %hr
 
 = render "home/welcome_video_modal"
 = render partial: 'shared/pixels/steelhouse', locals: {additional_info: @steelhouse_additional_info}
