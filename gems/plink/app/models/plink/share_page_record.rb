@@ -7,4 +7,3 @@ module Plink
     validates_presence_of :name, :partial_path
   end
 end
-

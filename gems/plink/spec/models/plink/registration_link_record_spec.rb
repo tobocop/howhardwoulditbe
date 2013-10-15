@@ -63,7 +63,7 @@ describe Plink::RegistrationLinkRecord do
     end
   end
 
-  describe '.live' do
+  describe '#live?' do
     let(:registration_link_record) { new_registration_link }
 
     it 'returns true if today is between the start_date and end_date' do
@@ -92,6 +92,22 @@ describe Plink::RegistrationLinkRecord do
       registration_link_record.end_date = 1.day.ago
 
       registration_link_record.live?.should be_false
+    end
+  end
+
+  describe '#share_flow?' do
+    let(:registration_link_record) { new_registration_link }
+
+    it 'returns true if there are share page records' do
+      registration_link_record.stub(:share_page_records).and_return([double])
+
+      registration_link_record.share_flow?.should be_true
+    end
+
+    it 'returns false if there are not share page records' do
+      registration_link_record.stub(:share_page_records).and_return([])
+
+      registration_link_record.share_flow?.should be_false
     end
   end
 end

@@ -16,7 +16,15 @@ class GigyaLoginHandlerController < ApplicationController
         update_registration_start_event(user.id)
         track_email_capture_event(user.id)
         mail_user(user.id)
-        redirect_to get_return_to_path || wallet_path(link_card: true)
+
+        path =
+          if session[:share_page_id].present? && params[:loginProvider] == 'facebook'
+            share_page_path(id: session[:share_page_id])
+          else
+            get_return_to_path || wallet_path(link_card: true)
+          end
+
+        redirect_to path
       else
         redirect_to get_return_to_path || redirect_path_for(user)
       end

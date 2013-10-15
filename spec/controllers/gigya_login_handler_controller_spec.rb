@@ -103,7 +103,7 @@ describe GigyaLoginHandlerController do
 
         before do
           controller.stub(:track_email_capture_event)
-          GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
+          GigyaSocialLoginService.stub(:new).and_return(gigya_social_login_service_stub)
           mock_delay = double('mock_delay').as_null_object
           AfterUserRegistration.stub(:delay).and_return(mock_delay)
         end
@@ -151,9 +151,26 @@ describe GigyaLoginHandlerController do
             response.should redirect_to contests_path
           end
         end
+
+        context 'as part of a facebook share flow from a registration link' do
+          it 'redirects to the share_page_path when provider is facebook' do
+            session[:share_page_id] = 1
+
+            get :create, {valid_params: true, loginProvider: 'facebook', share_page_id: 1}
+
+            response.should redirect_to share_page_path(id: 1)
+          end
+
+          it 'does not redirect to the share_page_path when provider is not facebook' do
+            session[:share_page_id] = 1
+
+            get :create, {valid_params: true, loginProvider: 'other', share_page_id: 1}
+
+            response.should_not redirect_to share_page_path(id: 1)
+          end
+        end
       end
     end
-
 
     context 'when the notification to gigya is not successful' do
       let(:unsuccessful_response) { mock('success response', success?: false, message: 'you did it wrong', new_user?: false) }

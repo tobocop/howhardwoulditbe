@@ -2,12 +2,15 @@ class RegistrationLinksController < ApplicationController
   include Tracking
 
   def show
-    @registration_path = Plink::RegistrationLinkService.get_registration_path_by_registration_link_id(params[:id])
+    @registration_flow = Plink::RegistrationLinkService.get_registration_flow_by_registration_link_id(params[:id])
 
-    redirect_to root_path unless @registration_path.live?
-    redirect_to cf_mobile_registration(@registration_path) if is_mobile?(@registration_path)
+    redirect_to root_path unless @registration_flow.live?
+    redirect_to cf_mobile_registration(@registration_flow) if is_mobile?(@registration_flow)
 
-    session[:tracking_params] = TrackingObject.from_params(build_tracking_params(@registration_path)).to_hash
+    session[:share_page_id] = @registration_flow.share_flow? ?
+      @registration_flow.share_page_id : nil
+
+    session[:tracking_params] = TrackingObject.from_params(build_tracking_params(@registration_flow)).to_hash
     store_registration_start_event_id(track_registration_start_event.id)
 
     @steelhouse_additional_info = steelhouse_additional_info
@@ -25,17 +28,17 @@ class RegistrationLinksController < ApplicationController
 
 private
 
-  def cf_mobile_registration(registration_path)
-    new_query_string = "&aid=#{registration_path.affiliate_id}" + "&campaignID=#{registration_path.campaign_id}" + "&" + request.query_string
+  def cf_mobile_registration(registration_flow)
+    new_query_string = "&aid=#{registration_flow.affiliate_id}" + "&campaignID=#{registration_flow.campaign_id}" + "&" + request.query_string
 
     Plink::Config.instance.mobile_registration_url + new_query_string
   end
 
-  def build_tracking_params(registration_path)
+  def build_tracking_params(registration_flow)
     trackable_params.merge(
-      aid: registration_path.affiliate_id,
-      campaign_id: registration_path.campaign_id,
-      landing_page_id: registration_path.landing_page_id
+      aid: registration_flow.affiliate_id,
+      campaign_id: registration_flow.campaign_id,
+      landing_page_id: registration_flow.landing_page_id
     )
   end
 
@@ -43,7 +46,7 @@ private
     params.except(:controller, :action, :c, :aid)
   end
 
-  def is_mobile?(registration_path)
-    request.user_agent =~ /Mobile|webOS/i && registration_path.mobile_detection_on?
+  def is_mobile?(registration_flow)
+    request.user_agent =~ /Mobile|webOS/i && registration_flow.mobile_detection_on?
   end
 end

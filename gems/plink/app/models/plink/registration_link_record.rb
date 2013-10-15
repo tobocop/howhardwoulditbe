@@ -25,5 +25,9 @@ module Plink
     def live?
       Date.current >= start_date.to_date && Date.current <= end_date.to_date
     end
+
+    def share_flow?
+      share_page_records.present?
+    end
   end
 end
