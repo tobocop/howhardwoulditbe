@@ -1,0 +1,26 @@
+.facebook{class: registration_link.share_flow? ? nil: 'hidden'}
+  = form_tag registration_link_path(registration_link), method: :put do
+    = hidden_field_tag :share_flow, true
+    .row.extra-margin-top
+      .columns.large-3
+        Affiliate
+        %br
+        = registration_link.affiliate_record.name
+        = link_to '- edit', edit_affiliate_path(registration_link.affiliate_record)
+      .columns.large-3
+        Campaign
+        %br
+        = registration_link.campaign_record.name
+        = link_to '- edit', edit_campaign_path(registration_link.campaign_record)
+      .columns.large-3
+        - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
+        - landing_page_selected_options = registration_link.landing_page_records.collect {|landing_page| landing_page.id}
+        = label_tag :landing_page_ids, 'Landing Pages (randomly chosen for users)'
+        = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, landing_page_selected_options), multiple: :true, size: 10
+      .columns.large-3
+        - share_page_select_options = @share_pages.collect {|share_page| ["#{share_page.id} - #{share_page.name}", share_page.id]}
+        - share_page_selected_options = registration_link.share_page_records.collect {|share_page| share_page.id}
+        = label_tag :share_page_ids, 'Share Pages (randomly chosen for users)'
+        = select_tag 'share_page_ids[]', options_for_select(share_page_select_options, share_page_selected_options), multiple: :true, size: 10
+
+    = render partial: 'edit_dates_and_submit', locals: {registration_link: registration_link}

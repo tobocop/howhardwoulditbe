@@ -104,6 +104,13 @@ describe Plink::RegistrationLinkRecord do
       registration_link_record.share_flow?.should be_true
     end
 
+    it 'returns true if there are not share page records but the virtual attribute is set' do
+      registration_link_record.stub(:share_page_records).and_return([double])
+      registration_link_record.share_flow = 'true'
+
+      registration_link_record.share_flow?.should be_true
+    end
+
     it 'returns false if there are not share page records' do
       registration_link_record.stub(:share_page_records).and_return([])
 

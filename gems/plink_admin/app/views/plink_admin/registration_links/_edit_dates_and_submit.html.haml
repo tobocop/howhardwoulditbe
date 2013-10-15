@@ -1,0 +1,21 @@
+.row.extra-margin-top
+  .large-4.columns
+    = label_tag :start_date, 'Start Date'
+    .dateselect
+      = date_select 'start_date', :start_date, default: registration_link.start_date
+  .large-4.columns
+    = label_tag :end_date, 'End Date (Last day link is valid)'
+    .dateselect
+      = date_select 'end_date', :end_date, default: registration_link.end_date
+  .large-2.columns
+    = label_tag :mobile_detection_on, 'Enable Mobile Detection'
+    = check_box_tag :mobile_detection_on, true, @registration_link.mobile_detection_on
+  .large-2.columns
+    = label_tag :is_active, 'Active'
+    = check_box_tag :is_active, true, registration_link.is_active
+    %br
+
+.row.extra-margin-top.right
+  = submit_tag 'Update', class: 'button small'
+
+  = link_to 'Cancel', registration_links_path, class: 'button small secondary'

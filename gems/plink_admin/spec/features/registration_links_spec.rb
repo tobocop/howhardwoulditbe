@@ -54,10 +54,17 @@ describe 'Registration Links' do
     page.should have_content campaign.name
     page.should have_content 'URL:'
 
-    select 'monster', from: 'landing_page_ids[]'
-    uncheck 'Enable Mobile Detection'
+    find("#flow_type_normal").should be_checked
+    find("#flow_type_facebook").should_not be_checked
 
-    click_on 'Update'
+    choose('Facebook Share')
+    within '.facebook' do
+      select 'monster', from: 'landing_page_ids[]'
+      select 'hero', from: 'share_page_ids[]'
+      uncheck 'Enable Mobile Detection'
+
+      click_on 'Update'
+    end
 
     page.should have_content 'Registration link updated'
 
@@ -67,6 +74,7 @@ describe 'Registration Links' do
         page.should have_content "#{campaign.id} - Limp Bizkit forever"
         page.should have_content "#{landing_page_two.id} - monster"
         page.should have_content 'mobile detection off'
+        page.should have_content "#{share_page.id} - hero"
       end
     end
 

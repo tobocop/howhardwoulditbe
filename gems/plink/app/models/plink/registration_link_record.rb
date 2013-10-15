@@ -27,7 +27,7 @@ module Plink
     end
 
     def share_flow?
-      share_page_records.present?
+      share_flow == 'true' || share_page_records.present?
     end
   end
 end

@@ -1,5 +1,16 @@
 %h1= "Edit Registration Link - #{@registration_link.id}"
 
+.flow-type-selection
+  = form_tag nil, method: :get do
+    .row
+      %p Select a flow type:
+      .large-6.columns
+        = radio_button_tag :flow_type, 'normal', @registration_link.share_flow? ? false : true, class: 'js-flow-type'
+        = label_tag :flow_type_normal, 'Normal', value: 'normal'
+      .large-6.columns
+        = radio_button_tag :flow_type, 'facebook', @registration_link.share_flow? ? true : false, class: 'js-flow-type'
+        = label_tag :flow_type_facebook, 'Facebook Share', value: 'facebook'
+
 %div
   URL:
   = link_to generate_registration_link_url(@registration_link.id), generate_registration_link_url(@registration_link.id), target: '_blank'
@@ -10,51 +21,5 @@
   .alert-box.alert
     %p= @error
 
-= form_tag registration_link_path(@registration_link), method: :put do
-  - share_page = params[:share_flow] == 'true' || @registration_link.share_page_records.present?
-  = hidden_field_tag :share_flow, share_page ? true : false
-  - column_size = share_page  ? 'large-3' : 'large-4'
-  .row.extra-margin-top
-    .columns{class: column_size}
-      Affiliate
-      %br
-      = @registration_link.affiliate_record.name
-      = link_to '- edit', edit_affiliate_path(@registration_link.affiliate_record)
-    .columns{class: column_size}
-      Campaign
-      %br
-      = @registration_link.campaign_record.name
-      = link_to '- edit', edit_campaign_path(@registration_link.campaign_record)
-    .columns{class: column_size}
-      - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
-      - landing_page_selected_options = @registration_link.landing_page_records.collect {|landing_page| landing_page.id}
-      = label_tag :landing_page_ids, 'Landing Pages (randomly chosen for users)'
-      = select_tag 'landing_page_ids[]', options_for_select(landing_page_select_options, landing_page_selected_options), multiple: :true, size: 10
-    - if share_page
-      .columns.large-3
-        - share_page_select_options = @share_pages.collect {|share_page| ["#{share_page.id} - #{share_page.name}", share_page.id]}
-        - share_page_selected_options = @registration_link.share_page_records.collect {|share_page| share_page.id}
-        = label_tag :share_page_ids, 'Share Pages (randomly chosen for users)'
-        = select_tag 'share_page_ids[]', options_for_select(share_page_select_options, share_page_selected_options), multiple: :true, size: 10
-
-  .row.extra-margin-top
-    .large-4.columns
-      = label_tag :start_date, 'Start Date'
-      .dateselect
-        = date_select 'start_date', :start_date, default: @registration_link.start_date
-    .large-4.columns
-      = label_tag :end_date, 'End Date (Last day link is valid)'
-      .dateselect
-        = date_select 'end_date', :end_date, default: @registration_link.end_date
-    .large-2.columns
-      = label_tag :mobile_detection_on, 'Enable Mobile Detection'
-      = check_box_tag :mobile_detection_on, true, @registration_link.mobile_detection_on
-    .large-2.columns
-      = label_tag :is_active, 'Active'
-      = check_box_tag :is_active, true, @registration_link.is_active
-      %br
-
-  .row.extra-margin-top.right
-    = submit_tag 'Update', class: 'button small'
-
-    = link_to 'Cancel', registration_links_path, class: 'button small secondary'
+= render partial: 'edit_normal_flow', locals: {registration_link: @registration_link}
+= render partial: 'edit_facebook_flow', locals: {registration_link: @registration_link}
