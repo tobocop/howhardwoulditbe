@@ -6,7 +6,7 @@ describe 'Registering through a registration link' do
 
   let(:affiliate) { create_affiliate }
   let(:campaign) { create_campaign(campaign_hash: 'willbedeprecated') }
-  let(:landing_page) { create_landing_page(partial_path: 'example.html.haml') }
+  let(:landing_page) { create_landing_page(partial_path: 'example') }
 
   let!(:registration_link) {
     create_registration_link(
@@ -71,40 +71,39 @@ describe 'Registering through a registration link' do
       registration_start_event.user_id.should == email_capture_event.user_id
     end
 
-    context 'with a share page' do
-      it 'shows a share page if there is one' do
-        share_page = create_share_page(partial_path: 'example.html.haml')
-        registration_link.share_page_records << share_page
+    it 'shows a share page if there is one' do
+      share_page = create_share_page(partial_path: 'example')
+      registration_link.share_page_records << share_page
 
-        visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
+      visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 
-        first('.header-button').click_link('Join')
+      first('.header-button').click_link('Join')
 
-        # Use email since auth via FB cannot be integration tested with capybara
-        share_page = share_page_path(registration_link.share_page_records.first)
-        ApplicationController.any_instance.stub(:get_return_to_path).and_return(share_page)
-        within '.sign-in-modal' do
-          page.find('img[alt="Register with Email"]').click
+      # Use email since auth via FB cannot be integration tested with capybara
+      share_page = share_page_path(registration_link.share_page_records.first)
+      ApplicationController.any_instance.stub(:get_return_to_path).and_return(share_page)
+      within '.sign-in-modal' do
+        page.find('img[alt="Register with Email"]').click
 
-          fill_in 'First Name', with: 'Frud'
-          fill_in 'Email', with: 'furd@example.com'
-          fill_in 'Password', with: 'pass1word'
-          fill_in 'Verify Password', with: 'pass1word'
+        fill_in 'First Name', with: 'Frud'
+        fill_in 'Email', with: 'furd@example.com'
+        fill_in 'Password', with: 'pass1word'
+        fill_in 'Verify Password', with: 'pass1word'
 
-          click_on 'Start Earning Rewards'
-        end
-
-        page.should have_link 'See my wallet'
-
-        click_on 'I Want to Share'
-
-        page.should have_css '[gigid="showShareUI"]'
-
-        # This event is triggered via a successful user share on Gigya:
-        page.execute_script('$(document).trigger("Plink.GigyaShareFlowWidget._onSendDone()");')
-
-        page.should have_content 'Welcome, Frud!'
+        click_on 'Start Earning Rewards'
       end
+
+      page.should have_link 'Take me to my wallet'
+      page.should have_xpath "//a[@href='/wallet?link_card=true']"
+
+      click_on 'I Want to Share'
+
+      page.should have_css '[gigid="showShareUI"]'
+
+      # This event is triggered via a successful user share on Gigya:
+      page.execute_script('$(document).trigger("Plink.GigyaShareFlowWidget._onSendDone()");')
+
+      page.should have_content 'Welcome, Frud!'
     end
   end
 

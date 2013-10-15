@@ -1,3 +1,3 @@
 - referral_link = referrer_url(user_id: user_id, affiliate_id: affiliate_id)
 = link_to 'I Want to Share', referral_link, data: {'title' => 'This appears as the post title', 'description' => 'This is the description for a post', 'image' => 'http://plink-images.s3.amazonaws.com/plink_logo/90x90.jpg', 'twitter-link' => referral_link, 'facebook-link' => referral_link, 'facebook-share-flow-share-widget' => true}
-= link_to 'See my wallet'
+= link_to 'Take me to my wallet', wallet_path(link_card: true)
