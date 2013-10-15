@@ -7,7 +7,8 @@ module Plink
     UNLOCK_REASONS = {
       transaction: 'transaction',
       join: 'join',
-      referral: 'referral'
+      referral: 'referral',
+      promotion: 'promotion'
     }
 
     alias_attribute :user_id, :userID
@@ -27,32 +28,26 @@ module Plink
       joins(:locked_wallet_items)
     }
 
-    scope :wallets_of_users_with_qualifying_transactions, -> {
-      where('userID IN (?)', Plink::UserRecord.user_ids_with_qualifying_transactions)
-    }
-
-    scope :wallets_without_unlocked_transaction_wallet_items, -> {
-      joins("LEFT JOIN #{Plink::WalletItemRecord.table_name}
-        ON #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
-        AND #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{transaction_unlock_reason}'")
-      .where("#{Plink::WalletItemRecord.table_name}.unlock_reason IS NULL")
-    }
-
-    scope :wallets_eligible_for_transaction_unlocks, -> {
-      joins(Plink::WalletRecord.table_name)
+    scope :wallets_eligible_for_promotional_unlocks, -> {
+      self.wallets_without_item_unlocked(self.promotion_unlock_reason)
       .where(%Q{
         EXISTS (
           SELECT 1
-          FROM #{Plink::QualifyingAwardRecord.table_name}
-          WHERE #{Plink::QualifyingAwardRecord.table_name}.userID = #{Plink::WalletRecord.table_name}.userID
+          FROM intuit_transactions
+          WHERE intuit_transactions.user_id = wallets.userID
+            AND intuit_transactions.post_date > '2013-10-17'
+            AND intuit_transactions.post_date < '2013-10-31'
         )}
       )
+    }
+
+    scope :wallets_eligible_for_transaction_unlocks, -> {
+      self.wallets_without_item_unlocked(self.transaction_unlock_reason)
       .where(%Q{
-        NOT EXISTS (
+        EXISTS (
           SELECT 1
-          FROM #{Plink::WalletItemRecord.table_name}
-          WHERE #{Plink::WalletItemRecord.table_name}.unlock_reason = '#{self.transaction_unlock_reason}'
-            AND #{Plink::WalletRecord.table_name}.walletID = #{Plink::WalletItemRecord.table_name}.walletID
+          FROM qualifyingAwards
+          WHERE qualifyingAwards.userID = wallets.userID
         )}
       )
     }
@@ -67,6 +62,23 @@ module Plink
 
     def self.referral_unlock_reason
       UNLOCK_REASONS[:referral]
+    end
+
+    def self.promotion_unlock_reason
+      UNLOCK_REASONS[:promotion]
+    end
+
+  private
+
+    def self.wallets_without_item_unlocked(unlock_reason)
+      where(%Q{
+        NOT EXISTS (
+          SELECT 1
+          FROM walletItems
+          WHERE walletItems.unlock_reason = '#{unlock_reason}'
+            AND wallets.walletID = walletItems.walletID
+        )}
+      )
     end
   end
 end

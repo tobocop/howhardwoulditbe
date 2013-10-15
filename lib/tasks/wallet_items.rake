@@ -1,4 +1,14 @@
 namespace :wallet_items do
+  desc "Unlock wallet items for users who have a qualifying transaction"
+  task unlock_transaction_wallet_item: :environment do
+    Plink::WalletItemUnlockingService.unlock_transaction_items_for_eligible_users
+  end
+
+  desc 'Unlocks wallet items during the promotional period'
+  task unlock_promotional_wallet_items: :environment do
+    Plink::WalletItemUnlockingService.unlock_promotional_items_for_eligible_users
+  end
+
   desc 'Removes all expired offers from users wallets and end dates their associated tiers'
   task remove_expired_offers: :environment do
     expired_offers = offers_with_end_date_between_given_dates(7.days.ago.to_date, Date.current)

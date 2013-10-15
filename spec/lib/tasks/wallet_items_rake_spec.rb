@@ -1,4 +1,117 @@
 require 'spec_helper'
+
+describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
+  include_context 'rake'
+
+  let!(:user_with_no_qualified_transactions) { create_user(email: 'cosmo@example.com') }
+  let!(:no_qualified_transactions_wallet) { create_wallet(user_id: user_with_no_qualified_transactions.id) }
+  let!(:no_qualified_locked_wallet_item) { create_locked_wallet_item(wallet_id: no_qualified_transactions_wallet.id) }
+
+  let!(:user_with_pending_qualified_transactions) { create_user(email: 'newman@example.com') }
+  let!(:pending_qualified_transactions_wallet) { create_wallet(user_id: user_with_pending_qualified_transactions.id) }
+  let!(:pending_user_locked_item1) { create_locked_wallet_item(wallet_id: pending_qualified_transactions_wallet.id) }
+  let!(:pending_user_locked_item2) { create_open_wallet_item(wallet_id: pending_qualified_transactions_wallet.id) }
+  let!(:pending_user_locked_item3) { create_qualifying_award(user_id: user_with_pending_qualified_transactions.id) }
+
+  let!(:user_previously_unlocked) { create_user(email: 'elaine@example.com') }
+  let!(:previously_unlocked_wallet) { create_wallet(user_id: user_previously_unlocked.id) }
+  let!(:previously_unlocked_award) { create_qualifying_award(user_id: user_previously_unlocked.id) }
+  let!(:previously_unlocked_item) { create_open_wallet_item(wallet_id: previously_unlocked_wallet.id, unlock_reason: 'transaction') }
+
+  it 'does not unlock wallet items for users without qualifying transactions' do
+    no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+    no_qualified_transactions_wallet.open_wallet_items.should be_empty
+
+    subject.invoke
+
+    no_qualified_transactions_wallet.reload
+    no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+    no_qualified_transactions_wallet.open_wallet_items.should be_empty
+  end
+
+  it 'unlocks wallet items for eligible users' do
+    pending_qualified_transactions_wallet.open_wallet_items.size.should == 1
+    pending_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+
+    subject.invoke
+
+    pending_qualified_transactions_wallet.reload
+    pending_qualified_transactions_wallet.open_wallet_items.size.should == 2
+    pending_qualified_transactions_wallet.locked_wallet_items.size.should == 0
+  end
+
+  it 'does not unlock wallet items for users who had previously unlocked' do
+    previously_unlocked_wallet.open_wallet_items.size.should == 1
+    previously_unlocked_wallet.locked_wallet_items.should be_empty
+
+    subject.invoke
+
+    previously_unlocked_wallet.reload
+    previously_unlocked_wallet.open_wallet_items.size.should == 1
+    previously_unlocked_wallet.locked_wallet_items.should be_empty
+  end
+end
+
+describe 'wallet_items:unlock_promotional_wallet_items' do
+  include_context 'rake'
+
+  let(:good_post_date) { Time.parse('2013-10-26') }
+  let(:too_early_post_date) { Time.parse('2013-10-14') }
+  let(:too_late_post_date) { Time.parse('2013-10-31') }
+
+  let(:eligible_user) do
+    user = create_user(email: 'von_damme@example.com')
+    create_wallet(user_id: user.id)
+    create_intuit_transaction(user_id: user.id, post_date: good_post_date)
+    user
+  end
+
+  let(:second_eligible_user) do
+    user = create_user(email: 'rambo@example.com')
+    create_wallet(user_id: user.id)
+    create_intuit_transaction(user_id: user.id, post_date: good_post_date)
+    user
+  end
+
+  let(:no_transaction_user) do
+    user = create_user(email: 'machete@example.com')
+    create_wallet(user_id: user.id)
+    user
+  end
+
+  let(:previously_unlocked_user) do
+    user = create_user(email: 'dolph@example.com')
+    wallet = create_wallet(user_id: user.id)
+    create_open_wallet_item(wallet_id: wallet.id, unlock_reason: 'promotion')
+    create_intuit_transaction(user_id: user.id, post_date: good_post_date)
+    user
+  end
+
+  let(:ineligible_transaction_user) do
+    user = create_user(email: 'willis@example.com')
+    create_wallet(user_id: user.id)
+    create_intuit_transaction(user_id: user.id, post_date: too_early_post_date)
+    create_intuit_transaction(user_id: user.id, post_date: too_late_post_date)
+    user
+  end
+
+  it 'unlocks slots for the users that are eligible' do
+    eligible_user.open_wallet_items.length.should == 0
+    second_eligible_user.open_wallet_items.length.should == 0
+    no_transaction_user.open_wallet_items.length.should == 0
+    previously_unlocked_user.open_wallet_items.length.should == 1
+    ineligible_transaction_user.open_wallet_items.length.should == 0
+
+    subject.invoke
+
+    eligible_user.reload.open_wallet_items.length.should == 1
+    second_eligible_user.reload.open_wallet_items.length.should == 1
+    no_transaction_user.reload.open_wallet_items.length.should == 0
+    previously_unlocked_user.reload.open_wallet_items.length.should == 1
+    ineligible_transaction_user.reload.open_wallet_items.length.should == 0
+  end
+end
+
 describe "wallet_items:remove_expired_offers", skip_in_build: true do
   include_context "rake"
 
@@ -217,3 +330,4 @@ describe "wallet_items:notify_users_of_expiring_offers" do
     ActionMailer::Base.deliveries.first.to.should == [user_with_expiring_offer.email]
   end
 end
+

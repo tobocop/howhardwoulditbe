@@ -11,6 +11,7 @@ describe Plink::WalletRecord do
   }
 
   subject { Plink::WalletRecord.new(valid_params) }
+
   it_should_behave_like(:legacy_timestamps)
 
   describe 'named scopes' do
@@ -39,60 +40,36 @@ describe Plink::WalletRecord do
       end
     end
 
-    describe '.wallets_of_users_with_qualifying_transactions' do
-
-      let!(:user) { create_user(email: 'callisto@example.com') }
+    describe '.wallets_eligible_for_promotional_unlocks' do
+      let!(:user) { create_user(email: 'ares@example.com') }
       let!(:wallet) { create_wallet(user_id: user.id) }
       let!(:foo) { 3.times { |i| create_open_wallet_item(wallet_id: wallet.id) } }
 
-      subject(:wallets_of_users_with_qualifying_transactions) { Plink::WalletRecord.wallets_of_users_with_qualifying_transactions }
+      subject(:wallets_eligible_for_promotional_unlocks) { Plink::WalletRecord.wallets_eligible_for_promotional_unlocks }
 
-      context 'for users who have a qualifying transaction' do
-        let!(:locked_wallet_item_transaction) { create_locked_wallet_item(wallet_id: wallet.id) }
-        let!(:qualifying_transaction) { create_qualifying_award(user_id: user.id) }
-
-        it 'returns a collection of wallets that include the user\'s wallet' do
-          wallets_of_users_with_qualifying_transactions.should include wallet
-        end
+      it 'returns wallets for users who have an intuit transaction within the promotional dates and have not unlocked the promotion slot' do
+        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-18'))
+        wallets_eligible_for_promotional_unlocks.should include wallet
       end
 
-      context 'for users who do not have a qualifying transaction' do
-        let!(:locked_wallet_item_transaction) { create_locked_wallet_item(wallet_id: wallet.id) }
-
-        it 'returns a collection of wallets that do not include the user' 's wallet' do
-          wallets_of_users_with_qualifying_transactions.should_not include wallet
-        end
+      it 'does not return wallets that have an intuit transaction within the promotional dates and have already unlocked the promotion slot' do
+        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-18'))
+        create_open_wallet_item(wallet_id: wallet.id, unlock_reason: 'promotion')
+        wallets_eligible_for_promotional_unlocks.should_not include wallet
       end
 
-    end
-
-    describe '.wallets_without_unlocked_transaction_wallet_items' do
-
-      let!(:user) { create_user(email: 'callisto@example.com') }
-      let!(:wallet) { create_wallet(user_id: user.id) }
-      let!(:foo) { 3.times { |i| create_open_wallet_item(wallet_id: wallet.id) } }
-
-      subject(:wallets_without_unlocked_transaction_wallet_items) { Plink::WalletRecord.wallets_without_unlocked_transaction_wallet_items }
-
-      context 'for users who have a transaction locked wallet item' do
-
-        it 'returns a collection of walletID values that does not include their wallet' do
-          create_locked_wallet_item(wallet_id: wallet.id, unlock_reason: 'transaction')
-          wallets_without_unlocked_transaction_wallet_items.should_not include wallet.id
-        end
+      it 'does not return wallets that have an intuit transaction posted after 10/30/2013' do
+        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-31'))
+        wallets_eligible_for_promotional_unlocks.should_not include wallet
       end
 
-      context 'for users who do not have a transaction locked wallet item' do
-
-        it 'returns a collection of walletID values that includes their wallet' do
-          create_locked_wallet_item(wallet_id: wallet.id)
-          wallets_without_unlocked_transaction_wallet_items.should_not include wallet.id
-        end
+      it 'does not return wallets that have an intuit transaction posted before 10/17/2013' do
+        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-16'))
+        wallets_eligible_for_promotional_unlocks.should_not include wallet
       end
     end
 
     describe '.wallets_eligible_for_transaction_unlocks' do
-
       let!(:user) { create_user(email: 'ares@example.com') }
       let!(:wallet) { create_wallet(user_id: user.id) }
       let!(:foo) { 3.times { |i| create_open_wallet_item(wallet_id: wallet.id) } }
@@ -100,14 +77,14 @@ describe Plink::WalletRecord do
       subject(:wallets_eligible_for_transaction_unlocks) { Plink::WalletRecord.wallets_eligible_for_transaction_unlocks }
 
       context 'for users who have not unlocked any wallet items' do
-        it 'returns a collection of walletID values that does not include their wallet' do
+        it 'returns a collection of wallets that does not include their wallet' do
           create_locked_wallet_item(wallet_id: wallet.id)
           wallets_eligible_for_transaction_unlocks.should_not include wallet
         end
       end
 
       context 'for users who have a qualifying transaction and have not unlocked the transaction slot' do
-        it 'returns a collection of walletID values that includes their wallet' do
+        it 'returns a collection of wallets that includes their wallet' do
           create_qualifying_award(user_id: user.id)
           create_locked_wallet_item(wallet_id: wallet.id)
           wallet.reload
@@ -116,7 +93,8 @@ describe Plink::WalletRecord do
       end
 
       context 'for users who have a qualifying transaction, but have already unlocked the transaction slot' do
-        it 'returns a collection of walletID values that does not include their wallet' do
+        it 'returns a collection of wallets that does not include their wallet' do
+          create_qualifying_award(user_id: user.id)
           create_locked_wallet_item(wallet_id: wallet.id, unlock_reason: 'transaction')
           wallets_eligible_for_transaction_unlocks.should_not include wallet
         end
@@ -148,22 +126,27 @@ describe Plink::WalletRecord do
 
   context 'constants' do
     describe '.transaction_unlock_reason' do
-      it 'returns the string transaction for' do
+      it 'returns the string transaction' do
         Plink::WalletRecord.transaction_unlock_reason.should == 'transaction'
       end
     end
 
     describe '.join_unlock_reason' do
-      it 'returns the string join for' do
+      it 'returns the string join' do
         Plink::WalletRecord.join_unlock_reason.should == 'join'
       end
     end
 
     describe '.referral_unlock_reason' do
-      it 'returns the string referral for' do
+      it 'returns the string referral' do
         Plink::WalletRecord.referral_unlock_reason.should == 'referral'
       end
     end
-  end
 
+    describe '.promotion_unlock_reason' do
+      it 'returns the string promotion' do
+        Plink::WalletRecord.promotion_unlock_reason.should == 'promotion'
+      end
+    end
+  end
 end

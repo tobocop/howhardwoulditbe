@@ -1,6 +1,6 @@
 module WalletHelper
-  def show_promotional_wallet_item
-    Time.zone.now < end_promotion_date
+  def show_promotional_wallet_item(wallet)
+    Time.zone.now < end_promotion_date && !wallet.has_unlocked_promotion_slot
   end
 
 private

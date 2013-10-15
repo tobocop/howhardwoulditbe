@@ -20,7 +20,7 @@
         #wallet_items_bucket
           - @wallet_items.each do |wallet_item|
             = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
-        -if show_promotional_wallet_item
+        -if show_promotional_wallet_item(current_user.wallet)
           = render partial: 'wallets/promotional_wallet_item'
 
       .right-column
