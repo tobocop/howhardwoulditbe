@@ -20,6 +20,8 @@
         #wallet_items_bucket
           - @wallet_items.each do |wallet_item|
             = render partial: "#{wallet_item.partial}", locals: { wallet_item: wallet_item }
+        -if show_promotional_wallet_item
+          = render partial: 'wallets/promotional_wallet_item'
 
       .right-column
         .subhead
@@ -28,7 +30,6 @@
         #offers_bucket
           = render partial: 'shared/offer_item', collection: @offers, as: :presenter, locals: {button_label: 'Add to wallet'}
           = render partial: 'shared/offer_detail_modal', collection: @all_offers, as: :presenter
-
 
     .clear
 

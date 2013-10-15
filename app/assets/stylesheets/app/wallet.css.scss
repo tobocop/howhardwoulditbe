@@ -150,7 +150,6 @@
     text-transform: uppercase;
     top:4px;
     width:70px;
-    z-index: 99;
   }
 
   .expiration-date {
@@ -258,7 +257,7 @@
     .remove-call-to-action{ display: block; }
   }
 
-  #locked-slot-modal {
+  #locked-slot-modal, #locked-promotional-slot-modal {
     width: 570px;
     margin-left: -285px;
     padding: 30px;
