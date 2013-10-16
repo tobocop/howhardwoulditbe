@@ -28,15 +28,14 @@
                 %table{width: "100%", border: "0", cellspacing: "0", cellpadding: "0"}
                   %tr
                     %td.headercell
-                      =link_to image_tag('https://plink-email.s3.amazonaws.com/marketing/v3/Expiring/feature_expired.jpg', {border: "0", alt: "An offer in your wallet has expired.", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), "!!!INSERT WALLET URL!!!"
+                      =link_to image_tag('https://plink-email.s3.amazonaws.com/marketing/v3/new_wallet_slot/feature_new_wallet_slot.jpg', {border: "0", alt: "You've unlocked a new wallet slot!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), "!!!INSERT WALLET URL!!!"
 
                 %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
                   %tr
                     %td.promocell{bgcolor: "#404041", width: "600"}
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#FFFFFF; font-size:18px;"} Hey #{@first_name}
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Great news - you’ve got an open wallet slot!
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Since the [Advertiser_Name] offer just expired, you’ve got room in your Plink wallet for a new offer!
+                        %p{style: "color:#FFFFFF; font-size:16px;"} Congratulations! You've unlocked a new wallet slot. 
                         %p{style: "color:#FFFFFF; font-size:16px;"} Be a smarter shopper, fill your wallet & maximize your Plink potential today!
                         =link_to 'Update My Wallet Now >', "!!!INSERT WALLET URL!!!", style: "font-family:Helvetica,Arial,sans-serif;"
 
