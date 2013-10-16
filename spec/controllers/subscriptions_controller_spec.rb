@@ -19,7 +19,7 @@ describe SubscriptionsController do
   describe 'PUT update' do
     context 'json response' do
       before do
-        set_current_user(id: 3)
+        mock_plink_user_service.stub(:find_by_email).and_return(mock(:user, id: 3))
       end
 
       it 'updates the users email preferences with the given value' do
@@ -32,45 +32,22 @@ describe SubscriptionsController do
     end
 
     context 'html response' do
+      it 'redirects to the home page if the user cannot be found' do
+        mock_plink_user_service.stub(:find_by_email).with('foo@example.com').and_return(nil)
 
-      context 'with a current user' do
-        before do
-          mock_plink_user_service.stub(:find_by_email).with('foo@example.com').and_return(mock(:user, id: 3))
-          mock_plink_user_service.stub(:update_subscription_preferences).with(3, is_subscribed: '0')
-        end
+        put :update, email_address: 'foo@example.com', is_subscribed: '0'
 
-        it 'redirects to the home page with a flash message' do
-          put :update, email_address: 'foo@example.com', is_subscribed: '0'
-
-          response.should redirect_to root_url
-          flash[:notice].should == 'Your subscription preferences have been successfully updated.'
-        end
-
-        it 'updates the users subscription' do
-          mock_plink_user_service.should_receive(:find_by_email).with('foo@example.com').and_return(mock(:user, id: 3))
-          mock_plink_user_service.should_receive(:update_subscription_preferences).with(3, is_subscribed: '0')
-
-          put :update, email_address: 'foo@example.com', is_subscribed: '0'
-        end
+        response.should redirect_to root_url
+        flash[:notice].should == 'Email address does not exist in our system.'
       end
 
-      context 'without a current user' do
-        it 'redirects to the home page if the user cannot be found' do
-          mock_plink_user_service.stub(:find_by_email).with('foo@example.com').and_return(nil)
+      it 'redirects to the home page if an email is not provided and the user is not logged in' do
+        mock_plink_user_service.should_receive(:find_by_email).with(nil)
 
-          put :update, email_address: 'foo@example.com', is_subscribed: '0'
+        put :update, is_subscribed: '0'
 
-          response.should redirect_to root_url
-          flash[:notice].should == 'Email address does not exist in our system.'
-        end
-
-        it 'redirects to the home page if an email is not provided and the user is not logged in' do
-
-          put :update, is_subscribed: '0'
-
-          response.should redirect_to root_url
-          flash[:notice].should == 'Email address does not exist in our system.'
-        end
+        response.should redirect_to root_url
+        flash[:notice].should == 'Email address does not exist in our system.'
       end
     end
   end

@@ -38,6 +38,7 @@
   %h4 Email Preferences
   = form_tag subscription_path, data: {method: 'put'} do
     = hidden_field_tag :is_subscribed, '0', id: 'hidden_is_subscribed'
+    = hidden_field_tag :email_address, current_user.email
     = check_box_tag :is_subscribed, '1', current_user.is_subscribed?, class: 'checkbox'
     %label.label{for: 'is_subscribed'} I want to hear about deals and promotions from Plink via email.
 %hr
