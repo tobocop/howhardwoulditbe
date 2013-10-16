@@ -2,6 +2,11 @@ module PressHelper
   def press_releases
     [
       {
+        date: 'October 16, 2013',
+        title: 'ad:tech New York Startup Spotlight Finalists Announced',
+        url: 'http://www.businesswire.com/news/home/20131016005139/en/adtech-York-Startup-Spotlight-Finalists-Announced'
+      },
+      {
         date: 'August 21, 2013',
         title: 'New Rewards Program Earns Donations for Charities and Schools with Everyday  Credit  or  Debit Card  Purchases',
         url: 'https://s3.amazonaws.com/prod.tracker2/resource/22918984/Goodswipe_-_Plink_Press_Release.pdf?AWSAccessKeyId=AKIAIKWOAN6H4H3QMJ6Q&Expires=1381259264&Signature=xJkSjrX6u9w5dwIK6Onw6wjvcbw%3D'
