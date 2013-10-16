@@ -94,7 +94,7 @@ describe PlinkAdmin::ContestsController do
   describe 'GET search' do
     let!(:user) { create_user(email: 'test@example.com') }
 
-    it 'gets the first contest record' do
+    it 'gets the current contest record' do
       get :search, email: 'something@example.com'
 
       assigns(:contest).should == contest

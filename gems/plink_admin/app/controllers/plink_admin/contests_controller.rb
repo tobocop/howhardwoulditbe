@@ -36,7 +36,7 @@ module PlinkAdmin
     def search
       @search_term = params[:email].present? ? params[:email] : params[:user_id]
 
-      @contest = Plink::ContestRecord.first
+      @contest = Plink::ContestRecord.current || Plink::ContestRecord.last_completed || Plink::ContestRecord.last_finalized
 
       @users = params[:email].present? ?
         plink_user_service.search_by_email(@search_term) :
