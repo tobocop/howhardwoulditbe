@@ -1,0 +1,1 @@
+ActiveRecord::ConnectionAdapters::SQLServerAdapter.retry_deadlock_victim = true
