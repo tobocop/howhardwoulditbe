@@ -38,4 +38,6 @@ PlinkPivotal::Application.configure do
   }
 
   config.contact_email_address = 'support@plink.com'
+
+  config.force_ssl = true
 end
