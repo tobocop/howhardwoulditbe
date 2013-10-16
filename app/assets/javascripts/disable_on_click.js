@@ -5,7 +5,7 @@
     $el.click(function(e) {
       if ($el.hasClass('disabled')) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopImmediatePropagation();
       } else {
         $el.addClass('disabled').attr('disabled', 'disabled');
       }
