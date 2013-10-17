@@ -5,6 +5,7 @@
     %th Campaign
     %th Landing Pages
     %th Share Pages
+    %th Share Stats
     %th Start Date
     %th End Date
     %th Mobile Detection
@@ -25,14 +26,15 @@
           - else
             %span (default)
         %td
-          - if registration_link.share_page_records.present?
-            - registration_link.share_page_records.each do |landing_page|
-              %span= "#{landing_page.id} - #{landing_page.name}"
+          - if registration_link.share_flow?
+            - registration_link.share_page_records.each do |share_page|
+              %span= "#{share_page.id} - #{share_page.name}"
               %br
-          - elsif !registration_link.share_flow
+          - elsif !registration_link.share_flow?
             %span N/A
           - else
             %span (default)
+        %td= registration_link.share_flow? ? link_to('Stats', plink_admin.share_statistics_registration_link_path(registration_link)) : 'N/A'
         %td= present_as_date(registration_link.start_date)
         %td= present_as_date(registration_link.end_date)
         %td= "mobile detection #{registration_link.mobile_detection_on? ? 'on' : 'off'}"

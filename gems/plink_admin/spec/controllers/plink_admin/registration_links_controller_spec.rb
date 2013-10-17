@@ -294,4 +294,24 @@ describe PlinkAdmin::RegistrationLinksController do
       assigns(:error).should_not be_blank
     end
   end
+
+  describe 'GET share_statistics' do
+    let(:registration_link) { create_registration_link(landing_page_records: [landing_page]) }
+
+    it 'is successful' do
+      get :share_statistics, id: registration_link.id
+
+      response.should be_success
+    end
+
+    it 'gathers data from the SharePageRecord and SharePageTrackingRecord' do
+      value = {registration_link_id: 15, share_page_id: 1, shared: false, count: 3}
+      response_data = [value]
+      Plink::SharePageRecord.stub_chain(:select, :joins, :where, :group, :order).and_return(response_data)
+
+      get :share_statistics, id: registration_link.id
+
+      assigns(:results).should == {1 => [value.stringify_keys]}
+    end
+  end
 end

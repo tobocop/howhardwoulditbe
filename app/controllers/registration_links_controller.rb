@@ -7,8 +7,8 @@ class RegistrationLinksController < ApplicationController
     redirect_to root_path unless @registration_flow.live?
     redirect_to cf_mobile_registration(@registration_flow) if is_mobile?(@registration_flow)
 
-    session[:share_page_id] = @registration_flow.share_flow? ?
-      @registration_flow.share_page_id : nil
+    session[:registration_link_id] = params[:id]
+    session[:share_page_id] = @registration_flow.share_flow? ? @registration_flow.share_page_id : nil
 
     session[:tracking_params] = TrackingObject.from_params(build_tracking_params(@registration_flow)).to_hash
     store_registration_start_event_id(track_registration_start_event.id)

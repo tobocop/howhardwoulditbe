@@ -75,31 +75,24 @@ describe 'Registration Links' do
         page.should have_content "#{landing_page_two.id} - monster"
         page.should have_content 'mobile detection off'
         page.should have_content "#{share_page.id} - hero"
+
+        Plink::SharePageRecord.stub_chain(:select, :joins, :where, :group, :order).
+          and_return([{registration_link_id: 15, share_page_id: 1, shared: false, count: 3}])
+        click_link 'Stats'
       end
     end
 
-    click_on 'Create New Registration Links'
+    page.should have_content "Share Results for registration link ID:"
 
-    choose('Facebook Share')
-    within '.facebook' do
-      click_on 'Create'
+    within '.registration-link-share-stats' do
+      page.should have_content 'Share Page ID'
+      page.should have_content '1'
+
+      page.should have_content 'Shared?'
+      page.should have_content 'Decline'
+
+      page.should have_content 'Count'
+      page.should have_content '3'
     end
-
-    page.should have_content 'Failed to create any registration links'
-
-    within '.alert-box.alert' do
-      page.should have_content 'Please select an affiliate'
-    end
-
-    within '.facebook' do
-      select 'the first one', from: 'affiliate_ids[]'
-      select 'Limp Bizkit forever', from: 'campaign_id'
-      select 'cookie', from: 'landing_page_ids[]'
-      select 'hero', from: 'share_page_ids[]'
-
-      click_on 'Create'
-    end
-
-    page.should have_content 'Successfully created 1 registration link(s)'
   end
 end

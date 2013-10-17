@@ -73,6 +73,17 @@ module PlinkAdmin
       end
     end
 
+    def share_statistics
+      results = Plink::SharePageRecord.
+        select([:registration_link_id, :share_page_id, :shared, 'COUNT(1) AS count']).
+        joins('INNER JOIN share_page_tracking ON share_pages.id = share_page_tracking.share_page_id').
+        where('registration_link_id = ?', params[:id]).
+        group([:registration_link_id, :share_page_id, :shared]).
+        order('share_page_id ASC, shared DESC')
+
+      @results = results.group_by{|result| result[:share_page_id]}
+    end
+
   private
 
     def registration_link_data

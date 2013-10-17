@@ -1,0 +1,20 @@
+%h4= "Share Results for registration link ID: #{params[:id]}"
+
+- if @results.present?
+  %table.registration-link-share-stats
+    %thead
+      %th Share Page ID
+      %th Shared?
+      %th Count
+      %th Proportion
+    %tbody
+      - @results.each_pair  do |share_page_id, share_page_records|
+        - total = share_page_records.inject(0){|sum, share_page_record| sum += share_page_record[:count]}
+        - share_page_records.each do |record|
+          %tr
+            %td= share_page_id
+            %td= present_share_state(record[:shared])
+            %td= record[:count]
+            %td.right= present_proportion(record[:count], total)
+- else
+  %p No results found

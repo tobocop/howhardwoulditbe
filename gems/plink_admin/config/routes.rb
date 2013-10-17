@@ -7,7 +7,9 @@ PlinkAdmin::Engine.routes.draw do
   resources :campaigns, except: :destroy
   resources :landing_pages, except: :destroy
   resources :share_pages, except: :destroy
-  resources :registration_links, except: :destroy
+  resources :registration_links, except: [:destroy] do
+    get :share_statistics, on: :member
+  end
   resources :offers, only: [:index, :edit, :update]
 
   resources :users, only: [:index] do

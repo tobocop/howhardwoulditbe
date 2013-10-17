@@ -74,6 +74,7 @@ var Plink = {
     $('[data-toggle-selector]').toggler();
 
     Redemption.init();
+    SharePages.init();
 
     try {
       document.domain = Plink.topLevelDomain(document.domain);

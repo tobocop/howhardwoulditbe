@@ -4,7 +4,10 @@ PlinkPivotal::Application.routes.draw do
   resources :registrations, only: [:new, :create]
   resources :offers, only: :index
   resources :registration_links, only: [:show]
-  resources :share_pages, only: [:show]
+  resources :share_pages, only: [:show] do
+    get :create_share_tracking_record, on: :member
+    get :update_share_tracking_record, on: :member
+  end
   resource :session, only: [:new, :create, :destroy], as: :plink_session
   resource :tracking, only: [:new], controller: 'tracking'
 
