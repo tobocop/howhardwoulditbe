@@ -59,15 +59,15 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
   let(:too_early_post_date) { Time.parse('2013-10-14') }
   let(:too_late_post_date) { Time.parse('2013-10-31') }
 
-  let(:eligible_user) do
-    user = create_user(email: 'von_damme@example.com')
+  let!(:eligible_user) do
+    user = create_user(email: 'von_damme@example.com', first_name: 'Jean-Claude')
     create_wallet(user_id: user.id)
     create_intuit_transaction(user_id: user.id, post_date: good_post_date)
     user
   end
 
-  let(:second_eligible_user) do
-    user = create_user(email: 'rambo@example.com')
+  let!(:second_eligible_user) do
+    user = create_user(email: 'rambo@example.com', first_name: 'John')
     create_wallet(user_id: user.id)
     create_intuit_transaction(user_id: user.id, post_date: good_post_date)
     user
@@ -95,6 +95,14 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     user
   end
 
+  let(:valid_wallet_item_params) {
+    {
+      wallet_slot_id: 1,
+      wallet_slot_type_id: 1,
+      unlock_reason: 'promotion'
+    }
+  }
+
   it 'unlocks slots for the users that are eligible' do
     eligible_user.open_wallet_items.length.should == 0
     second_eligible_user.open_wallet_items.length.should == 0
@@ -109,6 +117,44 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     no_transaction_user.reload.open_wallet_items.length.should == 0
     previously_unlocked_user.reload.open_wallet_items.length.should == 1
     ineligible_transaction_user.reload.open_wallet_items.length.should == 0
+  end
+
+  it 'sets the reason for the unlocked slot as promotion' do
+    eligible_user.open_wallet_items.map(&:unlock_reason).should_not include('promotion')
+    second_eligible_user.open_wallet_items.map(&:unlock_reason).should_not include('promotion')
+
+    subject.invoke
+
+    eligible_user.reload.open_wallet_items.map(&:unlock_reason).should include('promotion')
+    second_eligible_user.reload.open_wallet_items.map(&:unlock_reason).should include('promotion')
+  end
+
+  it 'creates an open wallet item for eligible users' do
+    Plink::OpenWalletItemRecord.should_receive(:create).with(valid_wallet_item_params.merge(wallet_id: eligible_user.wallet.id))
+    Plink::OpenWalletItemRecord.should_receive(:create).with(valid_wallet_item_params.merge(wallet_id: second_eligible_user.wallet.id))
+    subject.invoke
+  end
+
+  it 'emails eligible users letting them know they have a newly-opened slot' do
+    delay_double = double(unlock_promotional_wallet_item_email: true)
+
+    Plink::UserAutoLoginRecord.should_receive(:create).twice.and_return(double(user_token:'asd'))
+
+    PromotionalWalletItemMailer.should_receive(:delay).twice.and_return(delay_double)
+
+    delay_double.should_receive(:unlock_promotional_wallet_item_email).with(
+      first_name: 'Jean-Claude',
+      email: 'von_damme@example.com',
+      user_token: 'asd'
+    )
+
+    delay_double.should_receive(:unlock_promotional_wallet_item_email).with(
+      first_name: 'John',
+      email: 'rambo@example.com',
+      user_token: 'asd'
+    )
+
+    subject.invoke
   end
 end
 

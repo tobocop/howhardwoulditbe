@@ -7,18 +7,6 @@ module Plink
       end
     end
 
-    def self.unlock_promotional_items_for_eligible_users
-      Plink::WalletRecord.wallets_eligible_for_promotional_unlocks.each do |wallet_record|
-        wallet_item_params = {
-          wallet_id: wallet_record.id,
-          wallet_slot_id: 1,
-          wallet_slot_type_id: 1,
-          unlock_reason: Plink::WalletRecord.promotion_unlock_reason
-        }
-        Plink::OpenWalletItemRecord.create(wallet_item_params)
-      end
-    end
-
     def self.unlock_wallet_item_record(wallet_item_record, reason)
       wallet_item_record.unlock_reason = reason
       wallet_item_record.type = 'Plink::OpenWalletItemRecord'

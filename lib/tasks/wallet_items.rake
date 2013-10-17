@@ -6,7 +6,21 @@ namespace :wallet_items do
 
   desc 'Unlocks wallet items during the promotional period'
   task unlock_promotional_wallet_items: :environment do
-    Plink::WalletItemUnlockingService.unlock_promotional_items_for_eligible_users
+    Plink::WalletRecord.select('users.firstName, users.emailAddress, wallets.*').wallets_eligible_for_promotional_unlocks.joins(:user).each do |wallet_record|
+      wallet_item_params = {
+        wallet_id: wallet_record.id,
+        wallet_slot_id: 1,
+        wallet_slot_type_id: 1,
+        unlock_reason: Plink::WalletRecord.promotion_unlock_reason
+      }
+      Plink::OpenWalletItemRecord.create(wallet_item_params)
+      user_token = AutoLoginService.generate_token(wallet_record.user_id)
+      PromotionalWalletItemMailer.delay.unlock_promotional_wallet_item_email(
+        first_name: wallet_record.attributes['firstName'],
+        email: wallet_record.attributes['emailAddress'],
+        user_token: user_token
+      )
+    end
   end
 
   desc 'Removes all expired offers from users wallets and end dates their associated tiers'
