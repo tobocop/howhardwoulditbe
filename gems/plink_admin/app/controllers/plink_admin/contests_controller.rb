@@ -123,9 +123,9 @@ module PlinkAdmin
 
     def setup_winners_data(contest_id)
       @prize_levels = Plink::ContestPrizeLevelRecord.where(contest_id: contest_id)
-      @winners = PlinkAdmin::ContestQueryService.winning_users_grouped_by_prize_level(contest_id)
-      @alternates = PlinkAdmin::ContestQueryService.alternates(contest_id)
-      @rejected = PlinkAdmin::ContestQueryService.rejected(contest_id)
+      @winners = PlinkAdmin::ContestWinningQueryService.winning_users_grouped_by_prize_level(contest_id)
+      @alternates = PlinkAdmin::ContestWinningQueryService.alternates(contest_id)
+      @rejected = PlinkAdmin::ContestWinningQueryService.rejected(contest_id)
     end
   end
 end

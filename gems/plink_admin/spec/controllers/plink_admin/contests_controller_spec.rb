@@ -268,7 +268,7 @@ describe PlinkAdmin::ContestsController do
     end
 
     it 'returns the set of prize winners for the given contest' do
-      PlinkAdmin::ContestQueryService.should_receive(:winning_users_grouped_by_prize_level).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:winning_users_grouped_by_prize_level).
         with(1.to_s).and_return(double)
 
       get :winners, contest_id: 1
@@ -277,7 +277,7 @@ describe PlinkAdmin::ContestsController do
     end
 
     it 'returns the set of alternates for the given contest' do
-      PlinkAdmin::ContestQueryService.should_receive(:alternates).with(1.to_s).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:alternates).with(1.to_s).
         and_return(double)
 
       get :winners, contest_id: 1
@@ -286,7 +286,7 @@ describe PlinkAdmin::ContestsController do
     end
 
     it 'returns the set of rejected winners for the given contest' do
-      PlinkAdmin::ContestQueryService.should_receive(:rejected).with(1.to_s).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:rejected).with(1.to_s).
         and_return(double)
 
       get :winners, contest_id: 1
@@ -316,11 +316,11 @@ describe PlinkAdmin::ContestsController do
     it 'returns the same variables as GET winners' do
       Plink::ContestPrizeLevelRecord.should_receive(:where).with(contest_id: contest_id.to_s).
         and_return(double)
-      PlinkAdmin::ContestQueryService.should_receive(:winning_users_grouped_by_prize_level).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:winning_users_grouped_by_prize_level).
         with(contest_id.to_s).and_return(double)
-      PlinkAdmin::ContestQueryService.should_receive(:alternates).with(contest_id.to_s).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:alternates).with(contest_id.to_s).
         and_return(double)
-      PlinkAdmin::ContestQueryService.should_receive(:rejected).with(contest_id.to_s).
+      PlinkAdmin::ContestWinningQueryService.should_receive(:rejected).with(contest_id.to_s).
         and_return(double)
 
       get :remove_winner, contest_id: contest_id, contest_winner_id: contest_winner_id

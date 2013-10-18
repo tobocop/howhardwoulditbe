@@ -745,6 +745,43 @@ module Plink
       new_intuit_transaction(options).tap(&:save!)
     end
 
+    def new_intuit_fishy_transaction(options = {})
+      defaults = {
+        account_id: 1,
+        advertiser_id: 1827,
+        amount: -123.02,
+        hashed_value: 'aoishd',
+        intuit_transaction_id: 8123467,
+        is_fishy: true,
+        is_intuit_pending: true,
+        is_in_wallet: true,
+        is_nonqualified: false,
+        is_over_minimum_amount: true,
+        is_qualified: true,
+        is_return: true,
+        is_search_pattern_pending: false,
+        job_id: 123,
+        offer_id: 3,
+        offers_virtual_currency_id: 1,
+        payee_name: 'taco derp',
+        post_date: 3.days.ago,
+        search_pattern_id: 1,
+        task_id: 1,
+        tier_id: 1,
+        uia_account_id: 1,
+        user_id: 1,
+        users_institution_id: 1,
+        users_virtual_currency_id: 1,
+        virtual_currency_id: 1
+      }
+
+      Plink::IntuitTransactionRecord.new { |intuit_transaction| apply(intuit_transaction, defaults, options) }
+    end
+
+    def create_intuit_fishy_transaction(options = {})
+      new_intuit_transaction(options).tap(&:save!)
+    end
+
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|
