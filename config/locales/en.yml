@@ -27,6 +27,8 @@ en:
       faq:
         what_is_plink_title: What is Plink?
         what_is_plink_text: "Plink is a rewards program that allows you to earn rewards for dining out and shopping offline. You select where you want to eat or shop, and Plink activates those offers on your credit or debit card. It's easy and safe!"
+        what_is_a_qualified_purchase_title: "What is a 'qualified purchase?'"
+        what_is_a_qualified_purchase_text: "A purchase is considered qualified when it meets or exceeds the minimum spend requirement and is in your Plink wallet at the time of purchase."
         how_long_does_it_take_title: "How long does it take to get points after I make a purchase?"
         how_long_does_it_take_text: "It can be as fast as a day or as long as a week depending on your bank and where you made the purchase. If you have waited that long and still don't have the points, please contact us with your Plink-registered email address and purchase information including the date, where you went and how much you spent."
         can_spouse_and_i_have_accounts_title: "Can my spouse and I both have a Plink account?"
@@ -55,6 +57,10 @@ en:
         why_do_i_have_to_reverify_multiple_times_text: "Generally you get those if your bank has multiple security questions. You'll likely get a reverification email a few times until we have all of your security answers on file. You will also have to reverify if you change any of your login information for your bank."
         i_saw_promotion_for_a_brand_not_in_my_list_title: "I saw a promotion for a specific brand that isn't in my list of Plink merchants. Can I participate?"
         i_saw_promotion_for_a_brand_not_in_my_list_text: "Occasionally Plink runs test brands to different groups of Plink members. If you ever see or hear about a specific Plink partner that isn't in your list of participating merchants please contact us and we will happily add them to your Plink account."
+        how_do_i_receive_gift_cards_title: "I redeemed my points for a gift card, how and when will I receive it?"
+        how_do_i_receive_gift_cards_text: "There is a limit to the number of bonus points you can get during a promotion. During any promotional period (from when it starts to the expiration date), you may earn up to 2500 bonus points, unless otherwise stated in the promotion. Please read the promotion details for each promotion to find out more."
+        is_there_a_double_points_limit_title: "Is there a limit to how many times I can get double or triple points during the promotional period?"
+        is_there_a_double_points_limit_text: "There is a limit to the number of bonus points you can get during a promotion. During any promotional period (from when it starts to the expiration date), you may earn up to 2500 bonus points, unless otherwise stated in the promotion. Please read the promotion details for each promotion to find out more."
   errors:
     format: "%{message}"
   activemodel:
