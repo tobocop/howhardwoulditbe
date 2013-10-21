@@ -2,8 +2,6 @@ require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe GigyaLoginHandlerController do
-  it_should_behave_like(:lyris_extensions)
-
   describe '#create' do
     let(:gigya_connection) { stub(:gigya_connection) }
     let(:user) { mock('user', id: 55) }
@@ -20,7 +18,8 @@ describe GigyaLoginHandlerController do
     before do
       controller.stub(:gigya_connection) { gigya_connection }
       controller.stub(plink_intuit_account_service: fake_intuit_account_service)
-      controller.stub(add_to_lyris: true)
+      controller.stub(add_user_to_lyris: true)
+      controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
       request.stub(remote_ip: '192.168.0.1')
       request.stub(user_agent: 'my agent')
     end
@@ -140,7 +139,11 @@ describe GigyaLoginHandlerController do
         end
 
         it 'calls to add the user to lyris' do
-          controller.should_receive(:add_to_lyris).with(87, 'tables@sql.com')
+          controller.unstub(:add_user_to_lyris)
+          delay_double = double(:add_to_lyris)
+          Lyris::UserService.should_receive(:delay).and_return(delay_double)
+          delay_double.should_receive(:add_to_lyris).with(87, 'tables@sql.com', 'Plionk Points')
+
           get :create, {valid_params: true}
         end
 

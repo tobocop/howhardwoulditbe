@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe RegistrationsController do
-  it_should_behave_like(:lyris_extensions)
-
   describe "#create" do
     describe "on save" do
       let(:gigya) { mock }
@@ -22,7 +20,7 @@ describe RegistrationsController do
         controller.stub(:sign_in_user)
         controller.stub(:plink_event_service) {stub(create_email_capture: true)}
         controller.stub(:tracking_params) {stub(to_hash: true)}
-        controller.stub(add_to_lyris: true)
+        controller.stub(add_user_to_lyris: true)
       end
 
       it 'creates a new UserRegistrationForm' do
@@ -100,7 +98,10 @@ describe RegistrationsController do
       end
 
       it 'calls to add the user to lyris' do
-        controller.should_receive(:add_to_lyris).with(123, 'test@example.com')
+        controller.unstub(:add_user_to_lyris)
+        delay_double = double(:add_to_lyris)
+        Lyris::UserService.should_receive(:delay).and_return(delay_double)
+        delay_double.should_receive(:add_to_lyris).with(123, 'test@example.com', 'Plionk Points')
         xhr :post, :create
       end
 

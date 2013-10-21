@@ -1,7 +1,6 @@
 class RegistrationsController < ApplicationController
 
   include Tracking
-  include LyrisExtensions
 
   def create
     user_registration_form = UserRegistrationForm.new(
@@ -18,8 +17,8 @@ class RegistrationsController < ApplicationController
     if user_registration_form.save
       notify_gigya(user_registration_form)
       handle_events(user_registration_form.user_id)
-      add_to_lyris(user_registration_form.user_id, user_registration_form.email)
       sign_in_user(user_registration_form.user)
+      add_user_to_lyris(user_registration_form.user_id, user_registration_form.email, current_virtual_currency.currency_name)
 
       path = get_return_to_path || wallet_path(link_card: true)
       render json: {redirect_path: path}
@@ -40,5 +39,9 @@ private
   def handle_events(user_id)
     update_registration_start_event(user_id)
     track_email_capture_event(user_id)
+  end
+
+  def add_user_to_lyris(user_id, email, currency_name)
+    Lyris::UserService.delay.add_to_lyris(user_id, email, currency_name)
   end
 end

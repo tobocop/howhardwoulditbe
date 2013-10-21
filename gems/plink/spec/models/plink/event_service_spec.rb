@@ -20,13 +20,11 @@ describe Plink::EventService do
     let!(:card_add_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
 
     it 'returns the event associated to a user linking a card' do
-      user = create_user
+      create_event(user_id: user_id)
+      created_event = create_event(user_id: user_id, event_type_id: card_add_event_type.id)
+      create_event(user_id: user_id)
 
-      create_event(user_id: user.id)
-      created_event = create_event(user_id: user.id, event_type_id: card_add_event_type.id)
-      create_event(user_id: user.id)
-
-      event = Plink::EventService.get_card_add_event(user.id)
+      event = Plink::EventService.get_card_add_event(user_id)
       event.id.should == created_event.id
       event.event_type_id.should == card_add_event_type.id
     end
@@ -40,13 +38,11 @@ describe Plink::EventService do
     let!(:email_capture_event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
 
     it 'returns the event associated to a user linking a card' do
-      user = create_user
+      create_event(user_id: user_id)
+      created_event = create_event(user_id: user_id, event_type_id: email_capture_event_type.id)
+      create_event(user_id: user_id)
 
-      create_event(user_id: user.id)
-      created_event = create_event(user_id: user.id, event_type_id: email_capture_event_type.id)
-      create_event(user_id: user.id)
-
-      event = Plink::EventService.get_email_capture_event(user.id)
+      event = Plink::EventService.get_email_capture_event(user_id)
       event.id.should == created_event.id
       event.event_type_id.should == email_capture_event_type.id
     end

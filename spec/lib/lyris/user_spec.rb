@@ -49,10 +49,14 @@ describe Lyris::User do
     }
     let(:http_double) { double(perform_request: double(body: valid_xml_response)) }
 
+    before do
+      lyris_user.stub(demographic_xml: 'xml_data')
+      lyris_user.stub(removal_xml: 'removal_xml')
+      http_double.should_receive(:perform_request)
+    end
+
     describe '#add_to_list' do
       it 'calls the lyris http object' do
-        lyris_user.stub(demographic_xml: 'xml_data')
-
         Lyris::Http.should_receive(:new).with(
           lyris_config,
           'record',
@@ -63,17 +67,30 @@ describe Lyris::User do
           }
         ).and_return(http_double)
 
-        http_double.should_receive(:perform_request)
-
         response = lyris_user.add_to_list
-        response.should be_a Lyris::LyrisResponse
+        response.should be_a Lyris::Response
+      end
+    end
+
+    describe '#update' do
+      it 'calls the lyris http object' do
+        Lyris::Http.should_receive(:new).with(
+          lyris_config,
+          'record',
+          'update',
+          {
+            email: 'toby@testing.com',
+            additional_xml: 'xml_data'
+          }
+        ).and_return(http_double)
+
+        response = lyris_user.update
+        response.should be_a Lyris::Response
       end
     end
 
     describe '#remove_from_list' do
       it 'calls the lyris http object' do
-        lyris_user.stub(removal_xml: 'removal_xml')
-
         Lyris::Http.should_receive(:new).with(
           lyris_config,
           'record',
@@ -84,10 +101,8 @@ describe Lyris::User do
           }
         ).and_return(http_double)
 
-        http_double.should_receive(:perform_request)
-
         response = lyris_user.remove_from_list
-        response.should be_a Lyris::LyrisResponse
+        response.should be_a Lyris::Response
       end
     end
   end

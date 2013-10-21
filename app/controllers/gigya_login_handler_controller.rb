@@ -1,7 +1,6 @@
 class GigyaLoginHandlerController < ApplicationController
 
   include Tracking
-  include LyrisExtensions
 
   def create
     gigya_login_service = GigyaSocialLoginService.new(params_for_service)
@@ -17,7 +16,7 @@ class GigyaLoginHandlerController < ApplicationController
         update_registration_start_event(user.id)
         track_email_capture_event(user.id)
         mail_user(user.id)
-        add_to_lyris(user.id, user.email)
+        add_user_to_lyris(user.id, user.email, current_virtual_currency.currency_name)
 
         path =
           if session[:share_page_id].present? && params[:loginProvider] == 'facebook'
@@ -59,5 +58,9 @@ private
 
   def plink_intuit_account_service
     @plink_intuit_account_service ||= Plink::IntuitAccountService.new
+  end
+
+  def add_user_to_lyris(user_id, email, currency_name)
+    Lyris::UserService.delay.add_to_lyris(user_id, email, currency_name)
   end
 end

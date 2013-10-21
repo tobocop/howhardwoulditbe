@@ -1,8 +1,7 @@
 require 'active_support/core_ext/hash/conversions'
 
 module Lyris
-  class LyrisResponse
-
+  class Response
     attr_reader :lyris_response_hash
 
     def initialize(response_xml)

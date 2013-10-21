@@ -30,6 +30,10 @@ module Lyris
       call_lyris('add', demographic_xml)
     end
 
+    def update
+      call_lyris('update', demographic_xml)
+    end
+
     def remove_from_list
       call_lyris('update', removal_xml)
     end
@@ -42,7 +46,7 @@ module Lyris
         additional_xml: additional_xml
       }
       lyris_http_return = Lyris::Http.new(config, 'record', activity, options).perform_request
-      Lyris::LyrisResponse.new(lyris_http_return.body)
+      Lyris::Response.new(lyris_http_return.body)
     end
 
     def removal_xml
@@ -63,13 +67,17 @@ module Lyris
         <DATA type="demographic" id="35743">#{boolean_to_on_off(is_subscribed)}</DATA>
         <DATA type="demographic" id="2">#{last_name}</DATA>
         <DATA type="demographic" id="57721">#{registration_affiliate_id}</DATA>
-        <DATA type="demographic" id="57728">#{registration_date}</DATA>
+        <DATA type="demographic" id="57728">#{parse_lyris_date(registration_date)}</DATA>
         <DATA type="demographic" id="6">#{state}</DATA>
         <DATA type="demographic" id="35630">#{user_id}</DATA>
         <DATA type="demographic" id="61695">#{user_id_ends_with}</DATA>
         <DATA type="demographic" id="39583">#{virtual_currency}Points</DATA>
         <DATA type="demographic" id="7">#{zip}</DATA>
       }
+    end
+
+    def parse_lyris_date(date)
+      date.strftime('%m/%d/%Y')
     end
 
     def boolean_to_on_off(value)

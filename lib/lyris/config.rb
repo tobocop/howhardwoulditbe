@@ -4,9 +4,9 @@ module Lyris
     include Singleton
 
     CONFIGURABLE_OPTIONS = [
-        :site_id,
-        :password,
-        :mailing_list_id
+      :site_id,
+      :password,
+      :mailing_list_id
     ]
 
     attr_reader *CONFIGURABLE_OPTIONS
