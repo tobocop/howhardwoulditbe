@@ -3,9 +3,10 @@ require 'spec_helper'
 describe Lyris::UserDataCollector do
 
   let!(:virtual_currency) { create_virtual_currency(name: 'plop points') }
+  let(:birthday) { 10.years.ago.to_date }
   let(:user) {
     create_user(
-      birthday: 10.years.ago.to_date,
+      birthday: birthday,
       first_name: 'Melvin',
       is_male: 1,
       last_name: 'Hammrick',
@@ -67,7 +68,7 @@ describe Lyris::UserDataCollector do
       it 'converts the data to a hash' do
         data_hash = lyris_user_data_collector.to_hash
         data_hash[:bank_registered].should be_true
-        data_hash[:birthday].to_date.should == 10.years.ago.to_date
+        data_hash[:birthday].should == birthday
         data_hash[:first_name].should == 'Melvin'
         data_hash[:gender].should == 'Male'
         data_hash[:incentivized_on_card_reg].should be_true
@@ -87,7 +88,7 @@ describe Lyris::UserDataCollector do
       let(:user_without_data) {
         create_user(
           email: 'bananas@plink.com',
-          birthday: 10.years.ago.to_date,
+          birthday: birthday,
           first_name: 'Melvin',
           is_male: 1,
           last_name: 'Hammrick',

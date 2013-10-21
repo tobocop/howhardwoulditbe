@@ -47,19 +47,6 @@ set_default :exceptional_api_key do
   Capistrano::CLI.password_prompt 'Exceptional Application Key: '
 end
 
-# LYRIS:
-set_default :lyris_site_id do
-  Capistrano::CLI.password_prompt 'Lyris site id: '
-end
-
-set_default :lyris_password do
-  Capistrano::CLI.password_prompt 'Lyris password: '
-end
-
-set_default :lyris_mailing_list_id do
-  Capistrano::CLI.password_prompt 'Lyris mailing list id: '
-end
-
 namespace :application_keys do
   desc "Generate the application *.yml configuration files"
   task :setup, roles: :app do
@@ -69,7 +56,6 @@ namespace :application_keys do
     template "tango.yml.erb", "#{shared_path}/config/tango.yml"
     template "newrelic.yml.erb", "#{shared_path}/config/newrelic.yml"
     template "exceptional.yml.erb", "#{shared_path}/config/exceptional.yml"
-    template "lyris.yml.erb", "#{shared_path}/config/lyris.yml"
   end
   after "deploy:setup", "application_keys:setup"
 
@@ -83,4 +69,21 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/lyris.yml #{release_path}/config/lyris.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
+
+  task :setup_lyris, roles: :app do
+    set_default :lyris_site_id do
+      Capistrano::CLI.password_prompt 'Lyris site id: '
+    end
+
+    set_default :lyris_password do
+      Capistrano::CLI.password_prompt 'Lyris password: '
+    end
+
+    set_default :lyris_mailing_list_id do
+      Capistrano::CLI.password_prompt 'Lyris mailing list id: '
+    end
+
+    template "lyris.yml.erb", "#{shared_path}/config/lyris.yml"
+  end
+  after "application_keys:setup", "application_keys:setup_lyris"
 end

@@ -23,12 +23,12 @@ describe Lyris::User do
 
   subject(:lyris_user) {Lyris::User.new(lyris_config, email, valid_data)}
 
-  it 'can be added and removed form the lyris list' do
-    lyris_response = lyris_user.add_to_list
-    lyris_response.should be_successful
+  it 'manages a user on the lyris list', flaky: true do
+    lyris_add_response = lyris_user.add_to_list
+    lyris_add_response.should be_successful
 
-    lyris_response = lyris_user.remove_from_list
-    lyris_response.should be_successful
+    lyris_removal_response = lyris_user.remove_from_list
+    lyris_removal_response.should be_successful
   end
 end
 
