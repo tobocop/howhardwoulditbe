@@ -6,6 +6,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'rspec/retry'
+require 'shared_example_groups/lyris_extensions_spec'
 require 'plink/test_helpers/object_creation_methods'
 require 'plink/test_helpers/shared_example_groups'
 require 'plink_admin/test_helpers/object_creation_methods'

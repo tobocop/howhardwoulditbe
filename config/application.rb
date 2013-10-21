@@ -26,6 +26,7 @@ module PlinkPivotal
     # Set application to the same timezone as the production database; Mountain Time
     config.time_zone = 'Mountain Time (US & Canada)'
     config.active_record.default_timezone = :local
+    config.autoload_paths += %W(#{config.root}/lib)
 
     config.after_initialize do
       Rails.application.routes.default_url_options = Rails.application.config.action_mailer.default_url_options

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'Registering through a registration link' do
   let!(:registration_start_event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
   let!(:email_capture_event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
+  let!(:card_add_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
 
   let(:affiliate) { create_affiliate }
   let(:campaign) { create_campaign(campaign_hash: 'willbedeprecated') }

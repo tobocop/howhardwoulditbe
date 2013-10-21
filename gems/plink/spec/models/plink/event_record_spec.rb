@@ -22,6 +22,8 @@ describe Plink::EventRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
+  it { should belong_to(:affiliate_record) }
+
   it 'can be created' do
     Plink::EventRecord.create(valid_params).should be_persisted
   end

@@ -15,6 +15,7 @@ describe 'contest referral' do
   before do
     create_virtual_currency
     @event_type = create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+    create_event_type(name: Plink::EventTypeRecord.card_add_type)
   end
 
   it 'tracks the referal for a contest', js: true do

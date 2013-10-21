@@ -9,7 +9,8 @@ gem 'haml-rails', '~> 0.4'
 gem 'thin'
 gem 'jquery-rails', '~> 3.0.1'
 gem 'delayed_job_active_record', '~> 4.0.0'
-gem "daemons", "~> 1.1.9"
+gem 'daemons', '~> 1.1.9'
+gem 'nokogiri',  '~> 1.6.0'
 
 gem 'gigya', path: 'gems/gigya'
 gem 'plink', path: 'gems/plink'

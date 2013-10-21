@@ -1,6 +1,7 @@
 class GigyaLoginHandlerController < ApplicationController
 
   include Tracking
+  include LyrisExtensions
 
   def create
     gigya_login_service = GigyaSocialLoginService.new(params_for_service)
@@ -16,6 +17,7 @@ class GigyaLoginHandlerController < ApplicationController
         update_registration_start_event(user.id)
         track_email_capture_event(user.id)
         mail_user(user.id)
+        add_to_lyris(user.id, user.email)
 
         path =
           if session[:share_page_id].present? && params[:loginProvider] == 'facebook'

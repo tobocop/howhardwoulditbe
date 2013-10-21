@@ -1,6 +1,7 @@
 class RegistrationsController < ApplicationController
 
   include Tracking
+  include LyrisExtensions
 
   def create
     user_registration_form = UserRegistrationForm.new(
@@ -17,6 +18,7 @@ class RegistrationsController < ApplicationController
     if user_registration_form.save
       notify_gigya(user_registration_form)
       handle_events(user_registration_form.user_id)
+      add_to_lyris(user_registration_form.user_id, user_registration_form.email)
       sign_in_user(user_registration_form.user)
 
       path = get_return_to_path || wallet_path(link_card: true)

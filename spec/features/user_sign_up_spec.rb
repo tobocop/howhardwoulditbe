@@ -5,6 +5,7 @@ describe 'User signup workflow' do
   before do
     create_virtual_currency
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+    create_event_type(name: Plink::EventTypeRecord.card_add_type)
   end
 
   context 'organic registration' do

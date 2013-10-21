@@ -281,6 +281,7 @@ DEPENDENCIES
   jquery-rails (~> 3.0.1)
   launchy (= 2.3.0)
   newrelic_rpm
+  nokogiri (~> 1.6.0)
   plink!
   plink_admin!
   pry

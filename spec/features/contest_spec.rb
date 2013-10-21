@@ -16,6 +16,7 @@ describe 'Contests' do
     ApplicationController.any_instance.stub(:contest_notification_for_user).and_return(false)
     create_virtual_currency
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
+    create_event_type(name: Plink::EventTypeRecord.card_add_type)
   end
 
   context 'site navigation' do

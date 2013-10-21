@@ -3,6 +3,8 @@ echo -e "test:\n adapter: $DB_ADAPTER\n database: $CONNECTION_DB_NAME\n host: $D
 cp config/database.yml gems/plink/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
 
+touch config/lyris.yml
+echo -e "test:\n site_id: $LYRIS_SITE_ID\n password: $LYRIS_PASSWORD\n mailing_list_id: $LYRIS_MAILING_LIST_ID" > config/lyris.yml
 touch config/gigya_keys.yml
 echo -e "test:\n gigya_api_key: $GIGYA_API_KEY\n gigya_secret: $GIGYA_SECRET" > config/gigya_keys.yml
 touch gems/gigya/integration_spec/support/gigya_keys.yml

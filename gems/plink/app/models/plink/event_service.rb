@@ -1,6 +1,16 @@
 module Plink
   class EventService
 
+    def self.get_card_add_event(user_id)
+      card_add_event_type_record = get_event_type_record(Plink::EventTypeRecord.card_add_type)
+      get_event_by_user_id_and_type(user_id, card_add_event_type_record.id)
+    end
+
+    def self.get_email_capture_event(user_id)
+      email_capture_event_type_record = get_event_type_record(Plink::EventTypeRecord.email_capture_type)
+      get_event_by_user_id_and_type(user_id, email_capture_event_type_record.id)
+    end
+
     def create_registration_start(tracking_params = {})
       event_type = get_event_type(registration_start_event_type)
       create_event(0, event_type.id, tracking_params)
@@ -27,6 +37,16 @@ module Plink
     end
 
   private
+
+    def self.get_event_type_record(type)
+      Plink::EventTypeRecord.where(name: type).first
+    end
+
+    def self.get_event_by_user_id_and_type(user_id, event_type_id)
+      Plink::EventRecord.where('userID = ?', user_id)
+        .where('eventTypeID = ?', event_type_id)
+        .first
+    end
 
     def create_event(user_id, event_type_id, options = {})
       Plink::EventRecord.create(
