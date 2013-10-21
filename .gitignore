@@ -28,6 +28,7 @@ database.yml
 sendgrid.yml
 gigya_keys.yml
 tango.yml
+lyris.yml
 .DS_Store
 .idea
 .env
