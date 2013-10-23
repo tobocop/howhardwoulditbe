@@ -1,16 +1,16 @@
 .home.reg-landing
-  .feature.staples
-    %h1 
+  .feature.halloween
+    %h1.shadow
       Free $10 Gift Card with any
       %br
-      purchase at Staples
-    %h2.light 
+      purchase at Dollar General
+    %h2.shadow
       It gets even better - choose your free $10 Gift Card and
       %br
       start earning rewards at over 75,000 locations nationwide.
     .join-btn
       = link_to 'Join Plink for FREE!', '#', data: {'reveal-id' => 'registration-form'}, class: 'button primary-action large'
-    .offer-details This is a private offer for new members only. Staples purchase must be made by 11/3 to qualify. Gift cards will be awarded within 7 business days of when the transaction is posted. Limit of one $10 bonus per new member account.
+    .offer-details This is a private offer for new members only. Dollar General purchase must be made by 11/3 to qualify. Gift cards will be awarded within 7 business days of when the transaction is posted. Limit of one $10 bonus per new member account.
 
   .how
     %h2.thin How Plink Works
@@ -42,8 +42,22 @@
     %h2.light.cyan Our Partners
     %h3 Earn Plink points when you make a purchase at any of our partner locations.
     .brand-wrapper
-      - ordered_partner_logos.each do |sprite_class|
-        = render partial: 'home/partner', locals: {sprite_class: sprite_class}
+      .brand.burgerking
+      .brand.staples
+      .brand.dollargeneral
+      .brand.dunkindonuts
+      .brand.sears
+      .brand.gap
+      .brand.kmart
+      .brand.footlocker
+      .brand.regal
+      .brand.outback
+      .brand.redrobin
+      .brand.flowers
+      .brand.champs
+      .brand.vitaminworld
+      .brand.quiznos
+      .brand.advanceautoparts
     .partners-btn
       = link_to 'See all of our partners', offers_path, class: 'button home-partners'
     .partners-btn
@@ -82,7 +96,7 @@
 
   .press
     .logo-wrapper
-      .logo.text
+      .logo.text 
         As seen in:
         %br
         %br
@@ -91,7 +105,6 @@
       .logo.techcrunch
       .logo.bloomberg
       .logo.gigaom
-    %hr
 
 = render "home/welcome_video_modal"
 = render partial: 'shared/pixels/steelhouse', locals: {additional_info: @steelhouse_additional_info}

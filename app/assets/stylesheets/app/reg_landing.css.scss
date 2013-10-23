@@ -17,18 +17,6 @@
     font-size:1.7em;
     line-height:1.3em;
     letter-spacing:3px;
-
-    &.light{
-      font-weight:300;
-    }
-
-    &.thin{
-      font-weight:100;
-    }
-
-    &.cyan{
-      color:$cyan;
-    }
   }
   
   .feature {
@@ -50,6 +38,10 @@
     &.landsend {
       background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_landsend.jpg');
     }
+
+    &.halloween {
+      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_halloween.jpg');
+    }
   }
 
   .offer-details {
@@ -62,5 +54,35 @@
     width:100%;
     max-width:740px;
     margin:0 auto;
+  }
+
+  .shadow {
+      -moz-text-shadow: 2px 2px 3px #000000;
+      -webkit-text-shadow: 2px 2px 3px #000000;
+      text-shadow: 2px 2px 3px #000000;
+      /* For IE 8 */ 
+      -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+      /* For IE 5.5 - 7 */
+      filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+  }
+
+  .slate{
+    color:$slate;
+  }
+
+  .black{
+    color:#000000;
+  }
+
+  .light{
+    font-weight:300;
+  }
+
+  .thin{
+    font-weight:100;
+  }
+
+  .cyan{
+    color:$cyan;
   }
 }
