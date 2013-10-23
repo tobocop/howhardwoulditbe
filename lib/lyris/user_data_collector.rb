@@ -43,19 +43,23 @@ module Lyris
     end
 
     def incentivized_on_card_reg?
-      if account_add_event && account_add_event.affiliate_record
-        account_add_event.affiliate_record.has_incented_card_registration
+      if email_capture_affiliate?
+        email_capture_event.affiliate_record.has_incented_card_registration
       else
         false
       end
     end
 
     def incentivized_on_join?
-      if email_capture_event && email_capture_event.affiliate_record
+      if email_capture_affiliate?
         email_capture_event.affiliate_record.has_incented_join
       else
         false
       end
+    end
+
+    def email_capture_affiliate?
+      email_capture_event && email_capture_event.affiliate_record
     end
 
     def registration_affiliate_id

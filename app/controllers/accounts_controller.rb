@@ -24,6 +24,7 @@ class AccountsController < ApplicationController
           new_password_confirmation: params.delete(:new_password_confirmation)
         )
       else
+        update_email_in_lyris(current_user.email, params[:email]) if updating_email?(params)
         plink_user = plink_user_service.update(current_user.id, updatable_user_attributes(params))
       end
 
@@ -37,11 +38,19 @@ class AccountsController < ApplicationController
     end
   end
 
-  private
+private
+
+  def update_email_in_lyris(old_email, new_email)
+    Lyris::UserService.delay.update_users_email(old_email, new_email)
+  end
 
   def displayable_user_hash(attrs)
     attrs[:first_name] = attrs[:first_name][0..UserPresenter::FIRST_NAME_DISPLAY_LENGTH] if attrs[:first_name].present?
     attrs
+  end
+
+  def updating_email?(parameters)
+    parameters[:email].present? && parameters[:email] != current_user.email
   end
 
   def updating_password?(parameters)

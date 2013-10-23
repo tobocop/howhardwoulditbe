@@ -2,8 +2,8 @@ module Lyris
   class User
     attr_reader :bank_registered, :birthday, :config, :email, :first_name, :gender,
       :incentivized_on_card_reg, :incentivized_on_join, :is_subscribed, :last_name,
-      :registration_affiliate_id, :registration_date, :state, :user_id, :user_id_ends_with,
-      :virtual_currency, :zip
+      :new_email, :registration_affiliate_id, :registration_date, :state, :user_id,
+      :user_id_ends_with, :virtual_currency, :zip
 
     def initialize(config, email, demographic_data={})
       @config = config
@@ -17,6 +17,7 @@ module Lyris
       @incentivized_on_join = demographic_data[:incentivized_on_join]
       @is_subscribed = demographic_data[:is_subscribed]
       @last_name = demographic_data[:last_name]
+      @new_email = demographic_data[:new_email]
       @registration_affiliate_id = demographic_data[:registration_affiliate_id]
       @registration_date = demographic_data[:registration_date]
       @state = demographic_data[:state]
@@ -34,6 +35,10 @@ module Lyris
       call_lyris('update', demographic_xml)
     end
 
+    def update_email
+      call_lyris('update', email_update_xml) if new_email.present?
+    end
+
     def remove_from_list
       call_lyris('update', removal_xml)
     end
@@ -49,17 +54,18 @@ module Lyris
       Lyris::Response.new(lyris_http_return.body)
     end
 
+    def email_update_xml
+      %Q{<DATA type="extra" id="new_email">#{new_email}</DATA>}
+    end
+
     def removal_xml
-      %Q{
-        <DATA type="extra" id="state">trashed</DATA>
-      }
+      %Q{<DATA type="extra" id="state">trashed</DATA>}
     end
 
     def demographic_xml
-      %Q{
-        <DATA type="extra" id="state">#{is_subscribed ? 'active' : 'unsubscribed'}</DATA>
+      %Q{<DATA type="extra" id="state">#{is_subscribed ? 'active' : 'unsubscribed'}</DATA>
         <DATA type="demographic" id="57722">#{boolean_to_on_off(bank_registered)}</DATA>
-        <DATA type="demographic" id="57720">#{birthday}-04-15</DATA>
+        <DATA type="demographic" id="57720">#{parse_lyris_date(birthday)}</DATA>
         <DATA type="demographic" id="1">#{first_name}</DATA>
         <DATA type="demographic" id="11">#{gender}</DATA>
         <DATA type="demographic" id="61623">#{boolean_to_on_off(incentivized_on_card_reg)}</DATA>
@@ -72,12 +78,11 @@ module Lyris
         <DATA type="demographic" id="35630">#{user_id}</DATA>
         <DATA type="demographic" id="61695">#{user_id_ends_with}</DATA>
         <DATA type="demographic" id="39583">#{virtual_currency}Points</DATA>
-        <DATA type="demographic" id="7">#{zip}</DATA>
-      }
+        <DATA type="demographic" id="7">#{zip}</DATA>}
     end
 
     def parse_lyris_date(date)
-      date.strftime('%m/%d/%Y')
+      date.strftime('%m/%d/%Y') if date
     end
 
     def boolean_to_on_off(value)

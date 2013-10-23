@@ -34,6 +34,7 @@ describe Lyris::User do
     lyris_user.incentivized_on_join.should == true
     lyris_user.is_subscribed.should == true
     lyris_user.last_name.should == 'derpston'
+    lyris_user.new_email.should be_nil
     lyris_user.registration_affiliate_id.should == 2
     lyris_user.registration_date.should == 1.day.ago.to_date
     lyris_user.state.should == 'CO'
@@ -50,9 +51,9 @@ describe Lyris::User do
     let(:http_double) { double(perform_request: double(body: valid_xml_response)) }
 
     before do
-      lyris_user.stub(demographic_xml: 'xml_data')
-      lyris_user.stub(removal_xml: 'removal_xml')
-      http_double.should_receive(:perform_request)
+      Lyris::User.any_instance.stub(demographic_xml: 'xml_data')
+      Lyris::User.any_instance.stub(removal_xml: 'removal_xml')
+      Lyris::User.any_instance.stub(email_update_xml: 'email_xml')
     end
 
     describe '#add_to_list' do
@@ -66,6 +67,7 @@ describe Lyris::User do
             additional_xml: 'xml_data'
           }
         ).and_return(http_double)
+        http_double.should_receive(:perform_request)
 
         response = lyris_user.add_to_list
         response.should be_a Lyris::Response
@@ -83,8 +85,34 @@ describe Lyris::User do
             additional_xml: 'xml_data'
           }
         ).and_return(http_double)
+        http_double.should_receive(:perform_request)
 
         response = lyris_user.update
+        response.should be_a Lyris::Response
+      end
+    end
+
+    describe '#update_email' do
+      it 'returns nil if no new e-mail is set' do
+        lyris_user = Lyris::User.new(lyris_config, email, {})
+        lyris_user.update_email.should be_nil
+      end
+
+      it 'calls the lyris http object' do
+        Lyris::Http.should_receive(:new).with(
+          lyris_config,
+          'record',
+          'update',
+          {
+            email: 'toby@testing.com',
+            additional_xml: 'email_xml'
+          }
+        ).and_return(http_double)
+        http_double.should_receive(:perform_request)
+
+        lyris_user = Lyris::User.new(lyris_config, email, {new_email: 'email@plink.com'})
+        lyris_user.new_email.should == 'email@plink.com'
+        response = lyris_user.update_email
         response.should be_a Lyris::Response
       end
     end
@@ -100,6 +128,7 @@ describe Lyris::User do
             additional_xml: 'removal_xml'
           }
         ).and_return(http_double)
+        http_double.should_receive(:perform_request)
 
         response = lyris_user.remove_from_list
         response.should be_a Lyris::Response

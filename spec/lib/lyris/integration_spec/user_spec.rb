@@ -2,6 +2,7 @@ require 'spec_helper'
 describe Lyris::User do
   let(:lyris_config) {Lyris::Config.instance}
   let(:email) { "automated-#{Time.zone.now.to_i}@testing.com" }
+  let(:new_email) { "automated-new-#{Time.zone.now.to_i}@testing.com" }
   let(:valid_data) {
     {
       bank_registered: true,
@@ -12,6 +13,7 @@ describe Lyris::User do
       incentivized_on_join: true,
       is_subscribed: true,
       last_name: 'derpston',
+      new_email: new_email,
       registration_affiliate_id: 2,
       registration_date: 1.day.ago.to_date,
       state: 'CO',
@@ -41,6 +43,10 @@ describe Lyris::User do
     lyris_update_response = lyris_user.update
     lyris_update_response.should be_successful
 
+    lyris_update_email_response = lyris_user.update_email
+    lyris_update_email_response.should be_successful
+
+    lyris_user = Lyris::User.new(lyris_config, new_email, valid_data)
     lyris_removal_response = lyris_user.remove_from_list
     lyris_removal_response.should be_successful
   end

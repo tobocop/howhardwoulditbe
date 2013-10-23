@@ -100,16 +100,13 @@ describe AccountsController do
   describe 'PUT update' do
 
     let(:fake_user_service) { mock(:user_service) }
-
-    before do
-      @user = set_current_user(id: 10)
-    end
+    let(:user) { set_current_user(id: 10, email: 'goo@example.com') }
 
     context 'when successful' do
       before do
         controller.stub(plink_user_service: fake_user_service)
         fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(@user)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(user)
       end
 
       it 'updates the user with the given attributes' do
@@ -128,7 +125,7 @@ describe AccountsController do
       end
 
       it 'returns a JSON response with a truncated first name' do
-        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmynizzleforizzle'}).and_return(@user)
+        fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Hoobastankmynizzleforizzle'}).and_return(user)
         put :update, email: 'goo@example.com', first_name: 'Hoobastankmynizzleforizzle', password: 'password'
 
         body = JSON.parse(response.body)
@@ -137,10 +134,26 @@ describe AccountsController do
 
       context 'when the updating password' do
         it 'updates the password via the user service' do
-          fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(@user)
+          fake_user_service.should_receive(:update_password).with(10, new_password: '123456', new_password_confirmation: '123456').and_return(user)
           fake_user_service.should_not_receive(:update)
 
           put :update, password: 'password', new_password: '123456', new_password_confirmation: '123456'
+        end
+      end
+
+      context 'when updating the email address' do
+        let(:user) { set_current_user(id: 10, email: 'goo@example.com') }
+
+        before do
+          fake_user_service.stub(:update).with(10, {'email' => 'goober@example.com'}).and_return(user)
+        end
+
+        it 'updates the e-mail in lyris' do
+          delay_double = double(:update_users_email)
+          Lyris::UserService.should_receive(:delay).and_return(delay_double)
+          delay_double.should_receive(:update_users_email).with('goo@example.com', 'goober@example.com')
+
+          put :update, email: 'goober@example.com', password: 'password'
         end
       end
     end
