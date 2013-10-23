@@ -6,7 +6,7 @@ namespace :wallet_items do
 
   desc 'Unlocks wallet items during the promotional period'
   task unlock_promotional_wallet_items: :environment do
-    Plink::WalletRecord.select('users.firstName, users.emailAddress, wallets.*').wallets_eligible_for_promotional_unlocks.joins(:user).each do |wallet_record|
+    users_eligible_for_promotional_wallet_item.each do |wallet_record|
       wallet_item_params = {
         wallet_id: wallet_record.id,
         wallet_slot_id: 1,
@@ -75,6 +75,13 @@ namespace :wallet_items do
   end
 
 private
+
+  def users_eligible_for_promotional_wallet_item
+    Plink::WalletRecord.select('users.firstName, users.emailAddress, wallets.*')
+      .wallets_eligible_for_promotional_unlocks
+      .joins(:user)
+      .where('users.primaryVirtualCurrencyID = ?', Plink::VirtualCurrency.default.id)
+  end
 
   def user_with_offer_in_wallet(offers_virtual_currency_id)
     Plink::UserRecord.includes(:wallet_item_records).where('walletItems.offersVirtualCurrencyID = ?', offers_virtual_currency_id)

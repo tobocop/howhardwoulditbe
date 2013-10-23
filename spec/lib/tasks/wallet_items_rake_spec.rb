@@ -58,6 +58,8 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
   let(:good_post_date) { Time.parse('2013-10-26') }
   let(:too_early_post_date) { Time.parse('2013-10-14') }
   let(:too_late_post_date) { Time.parse('2013-10-31') }
+  let!(:primary_virtual_currency) { create_virtual_currency(subdomain: 'www') }
+  let!(:swagbucks_virtual_currency) { create_virtual_currency(subdomain: 'swagbucks') }
 
   let!(:eligible_user) do
     user = create_user(email: 'von_damme@example.com', first_name: 'Jean-Claude')
@@ -73,13 +75,22 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     user
   end
 
-  let(:no_transaction_user) do
+  let!(:no_transaction_user) do
     user = create_user(email: 'machete@example.com')
     create_wallet(user_id: user.id)
     user
   end
 
-  let(:previously_unlocked_user) do
+  let!(:wrong_vc_user) do
+    user = create_user(email: 'machete_dos@example.com')
+    user.primary_virtual_currency = swagbucks_virtual_currency
+    user.save
+    create_wallet(user_id: user.id)
+    create_intuit_transaction(user_id: user.id, post_date: good_post_date)
+    user
+  end
+
+  let!(:previously_unlocked_user) do
     user = create_user(email: 'dolph@example.com')
     wallet = create_wallet(user_id: user.id)
     create_open_wallet_item(wallet_id: wallet.id, unlock_reason: 'promotion')
@@ -87,7 +98,7 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     user
   end
 
-  let(:ineligible_transaction_user) do
+  let!(:ineligible_transaction_user) do
     user = create_user(email: 'willis@example.com')
     create_wallet(user_id: user.id)
     create_intuit_transaction(user_id: user.id, post_date: too_early_post_date)
@@ -107,6 +118,7 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     eligible_user.open_wallet_items.length.should == 0
     second_eligible_user.open_wallet_items.length.should == 0
     no_transaction_user.open_wallet_items.length.should == 0
+    wrong_vc_user.open_wallet_items.length.should == 0
     previously_unlocked_user.open_wallet_items.length.should == 1
     ineligible_transaction_user.open_wallet_items.length.should == 0
 
@@ -115,6 +127,7 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     eligible_user.reload.open_wallet_items.length.should == 1
     second_eligible_user.reload.open_wallet_items.length.should == 1
     no_transaction_user.reload.open_wallet_items.length.should == 0
+    wrong_vc_user.reload.open_wallet_items.length.should == 0
     previously_unlocked_user.reload.open_wallet_items.length.should == 1
     ineligible_transaction_user.reload.open_wallet_items.length.should == 0
   end
