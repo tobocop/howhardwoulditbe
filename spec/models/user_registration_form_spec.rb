@@ -10,7 +10,10 @@ describe UserRegistrationForm do
       virtual_currency_name: 'Plink Points',
       provider: 'organic',
       ip: '127.1.1.1',
-      user_agent: 'My Awesome Browser'
+      user_agent: 'My Awesome Browser',
+      state: 'CO',
+      city: 'Denver',
+      zip: '80222'
     }
   }
 
@@ -117,7 +120,10 @@ describe UserRegistrationForm do
           salt: 'qwer-qwer-qwer-qwer',
           provider: 'organic',
           ip: '127.1.1.1',
-          user_agent: 'My Awesome Browser'
+          user_agent: 'My Awesome Browser',
+          state: 'CO',
+          city: 'Denver',
+          zip: '80222'
         }
       }
 

@@ -4,6 +4,7 @@ describe 'offers' do
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
+
     advertiser = create_advertiser(advertiser_name: 'borger king')
     create_offer(
       advertisers_rev_share: 0.08,

@@ -3,15 +3,19 @@ class RegistrationsController < ApplicationController
   include Tracking
 
   def create
+    location_data = get_location_data
     user_registration_form = UserRegistrationForm.new(
-      first_name: params[:first_name],
+      city: location_data[:city],
       email: params[:email],
+      first_name: params[:first_name],
+      ip: request.remote_ip,
       password: params[:password],
       password_confirmation: params[:password_confirmation],
-      virtual_currency_name: current_virtual_currency.currency_name,
       provider: 'organic',
-      ip: request.remote_ip,
-      user_agent: request.user_agent
+      state: location_data[:state],
+      user_agent: request.user_agent,
+      virtual_currency_name: current_virtual_currency.currency_name,
+      zip: location_data[:zip]
     )
 
     if user_registration_form.save
@@ -30,6 +34,10 @@ class RegistrationsController < ApplicationController
   end
 
 private
+
+  def get_location_data
+    Geoip::LocationLookup.by_ip(request.remote_ip)
+  end
 
   def notify_gigya(user_registration_form)
     notification = gigya_connection.notify_login(site_user_id: user_registration_form.user_id, first_name: user_registration_form.first_name, email: user_registration_form.email, new_user: true)

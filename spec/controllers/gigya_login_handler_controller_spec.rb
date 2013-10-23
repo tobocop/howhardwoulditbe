@@ -30,7 +30,7 @@ describe GigyaLoginHandlerController do
         let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: successful_response) }
 
         before do
-          GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
+          GigyaSocialLoginService.stub(:new).and_return(gigya_social_login_service_stub)
           controller.should_receive(:sign_in_user).with(user)
         end
 
@@ -39,16 +39,20 @@ describe GigyaLoginHandlerController do
 
           it 'initializes GigyaSocialLoginService with the correct params' do
             GigyaSocialLoginService.unstub(:new)
+            Geoip::LocationLookup.stub(:by_ip).and_return({ state:'CO', city:'Denver', zip:'80202' })
 
             gigya_social_login_service_params = {
-              'gigya_id' => '123',
+              'city' => 'Denver',
               'email' => 'test@example.com',
               'first_name' => 'testing',
+              'gigya_connection' => gigya_connection,
+              'gigya_id' => '123',
+              'ip' => '192.168.0.1',
               'photoURL' => 'http://example.com/image.png',
               'provider' => 'facebook',
-              'gigya_connection' => gigya_connection,
-              'ip' => '192.168.0.1',
-              'user_agent' => 'my agent'
+              'state' => 'CO',
+              'user_agent' => 'my agent',
+              'zip' => '80202'
             }
 
             GigyaSocialLoginService.should_receive(:new).with(gigya_social_login_service_params) { gigya_social_login_service_stub }
@@ -188,7 +192,7 @@ describe GigyaLoginHandlerController do
       let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: unsuccessful_response) }
 
       before do
-        GigyaSocialLoginService.stub(:new).with(new_gigya_social_login_service_params) { gigya_social_login_service_stub }
+        GigyaSocialLoginService.stub(:new).and_return( gigya_social_login_service_stub )
       end
 
       it 'redirects to the homepage' do

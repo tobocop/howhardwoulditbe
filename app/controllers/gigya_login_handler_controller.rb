@@ -49,11 +49,19 @@ private
   end
 
   def params_for_service
+    location_data = get_location_data
     params.merge(
+      city: location_data[:city],
       gigya_connection: gigya_connection,
       ip: request.remote_ip,
-      user_agent: request.user_agent
+      state: location_data[:state],
+      user_agent: request.user_agent,
+      zip: location_data[:zip]
     ).except(:controller, :action)
+  end
+
+  def get_location_data
+    Geoip::LocationLookup.by_ip(request.remote_ip)
   end
 
   def plink_intuit_account_service
