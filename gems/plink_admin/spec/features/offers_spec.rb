@@ -4,7 +4,6 @@ describe 'offers' do
   before do
     create_admin(email: 'admin@example.com', password: 'pazzword')
     sign_in_admin(email: 'admin@example.com', password: 'pazzword')
-    
     advertiser = create_advertiser(advertiser_name: 'borger king')
     create_offer(
       advertisers_rev_share: 0.08,
@@ -29,6 +28,8 @@ describe 'offers' do
       end
     end
 
+    select 7.days.from_now.year, from: 'offer[end_date(1i)]'
+    select 7.days.from_now.strftime("%B"), from: 'offer[end_date(2i)]'
     select 7.days.from_now.day, from: 'offer[end_date(3i)]'
 
     click_on 'Update'
