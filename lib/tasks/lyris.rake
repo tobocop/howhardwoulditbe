@@ -3,7 +3,10 @@ namespace :lyris do
   task update_modified_users: :environment do
     plink_users_modified_yesterday.each do |user|
       lyris_data = Lyris::UserDataCollector.new(user.id, user.primary_virtual_currency.name)
-      lyris_response = Lyris::User.new(Lyris::Config.instance, user.email, lyris_data.to_hash).update
+      lyris_user = Lyris::User.new(Lyris::Config.instance, user.email, lyris_data.to_hash)
+
+      lyris_response = lyris_user.update
+      lyris_response = lyris_user.add_to_list if lyris_response.data == "Can't find email address"
 
       if !lyris_response.successful? && Rails.env.production?
         msg = "lyris_rake#update_modified_users failed for user_id: #{user.id}, email: #{user.email}, error #{lyris_response.data}"
