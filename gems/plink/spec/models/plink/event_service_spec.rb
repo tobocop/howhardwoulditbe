@@ -37,7 +37,7 @@ describe Plink::EventService do
   describe '.get_email_capture_event' do
     let!(:email_capture_event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
 
-    it 'returns the event associated to a user linking a card' do
+    it 'returns the event associated to a users email capture' do
       create_event(user_id: user_id)
       created_event = create_event(user_id: user_id, event_type_id: email_capture_event_type.id)
       create_event(user_id: user_id)
