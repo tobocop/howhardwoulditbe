@@ -16,39 +16,34 @@ describe Plink::EventService do
     }
   }
 
-  describe '.get_card_add_event' do
-    let!(:card_add_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
-
-    it 'returns the event associated to a user linking a card' do
-      create_event(user_id: user_id)
-      created_event = create_event(user_id: user_id, event_type_id: card_add_event_type.id)
-      create_event(user_id: user_id)
-
-      event = Plink::EventService.get_card_add_event(user_id)
-      event.id.should == created_event.id
-      event.event_type_id.should == card_add_event_type.id
-    end
-
-    it 'returns nil if no event exists' do
-      Plink::EventService.get_card_add_event(2348967234).should be_nil
-    end
-  end
-
-  describe '.get_email_capture_event' do
+  context 'get events' do
     let!(:email_capture_event_type) { create_event_type(name: Plink::EventTypeRecord.email_capture_type) }
+    let!(:email_capture_event) { create_event(user_id: user_id, event_type_id: email_capture_event_type.id) }
+    let!(:card_add_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
+    let!(:card_add_event) { create_event(user_id: user_id, event_type_id: card_add_event_type.id) }
 
-    it 'returns the event associated to a users email capture' do
-      create_event(user_id: user_id)
-      created_event = create_event(user_id: user_id, event_type_id: email_capture_event_type.id)
-      create_event(user_id: user_id)
+    describe '.get_card_add_event' do
+      it 'returns the event associated to a user linking a card' do
+        event = Plink::EventService.get_card_add_event(user_id)
+        event.id.should == card_add_event.id
+        event.event_type_id.should == card_add_event_type.id
+      end
 
-      event = Plink::EventService.get_email_capture_event(user_id)
-      event.id.should == created_event.id
-      event.event_type_id.should == email_capture_event_type.id
+      it 'returns nil if no event exists' do
+        Plink::EventService.get_card_add_event(2348967234).should be_nil
+      end
     end
 
-    it 'returns nil if no event exists' do
-      Plink::EventService.get_email_capture_event(2348967234).should be_nil
+    describe '.get_email_capture_event' do
+      it 'returns the event associated to a users email capture' do
+        event = Plink::EventService.get_email_capture_event(user_id)
+        event.id.should == email_capture_event.id
+        event.event_type_id.should == email_capture_event_type.id
+      end
+
+      it 'returns nil if no event exists' do
+        Plink::EventService.get_email_capture_event(2348967234).should be_nil
+      end
     end
   end
 
