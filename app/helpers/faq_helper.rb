@@ -5,6 +5,7 @@ module FaqHelper
       t(base + 'what_is_plink_title') => {answer: t(base + 'what_is_plink_text')},
       t(base + 'what_is_a_qualified_purchase_title') => {answer: t(base + 'what_is_a_qualified_purchase_text')},
       t(base + 'how_long_does_it_take_title') => {answer: t(base + 'how_long_does_it_take_text')},
+      t(base + 'what_if_i_dont_get_my_points_title') => {answer: t(base+ 'what_if_i_dont_get_my_points_text')},
       t(base + 'can_spouse_and_i_have_accounts_title') => {answer: t(base + 'can_spouse_and_i_have_accounts_text')},
       t(base + 'why_cant_i_find_my_bank_title') => {answer: t(base + 'why_cant_i_find_my_bank_text')},
       t(base + 'why_does_plink_need_my_login_title') => {answer: t(base + 'why_does_plink_need_my_login_text')},
