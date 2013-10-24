@@ -31,16 +31,20 @@
       background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h.jpg');
     }
 
-    &.staples {
-      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_staples.jpg');
+    &.aap {
+      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_aap.jpg');
+    }
+
+    &.halloween {
+      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_halloween.jpg');
     }
 
     &.landsend {
       background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_landsend.jpg');
     }
 
-    &.halloween {
-      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_halloween.jpg');
+    &.staples {
+      background-image: url('https://plink-images.s3.amazonaws.com/landingPage/feature_bg_500h_staples.jpg');
     }
   }
 
@@ -57,13 +61,13 @@
   }
 
   .shadow {
-      -moz-text-shadow: 2px 2px 3px #000000;
-      -webkit-text-shadow: 2px 2px 3px #000000;
-      text-shadow: 2px 2px 3px #000000;
-      /* For IE 8 */ 
-      -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
-      /* For IE 5.5 - 7 */
-      filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+    -moz-text-shadow: 2px 2px 3px #000000;
+    -webkit-text-shadow: 2px 2px 3px #000000;
+    text-shadow: 2px 2px 3px #000000;
+    /* For IE 8 */ 
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
   }
 
   .slate{
@@ -84,5 +88,9 @@
 
   .cyan{
     color:$cyan;
+  }
+
+  .size-3em {
+    font-size: 3em;
   }
 }
