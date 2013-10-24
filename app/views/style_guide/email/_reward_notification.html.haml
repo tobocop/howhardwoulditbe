@@ -1,0 +1,111 @@
+%html
+  %head
+    %title Plink | Reward Notification
+    = render partial: 'shared/email_css'
+
+  %body{bgcolor: "#e4e4e4", topmargin: "0", leftmargin: "0", marginheight: "0", marginwidth: "0", style: "-webkit-font-smoothing: antialiased;width:100% !important;background:#e4e4e4;-webkit-text-size-adjust:none;"}
+    %table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0", bgcolor: "#e4e4e4"}
+      %tr
+        %td{bgcolor: "#e4e4e4", width: "100%"}
+          %table.table{bgcolor: "#e4e4e4", width: "600", cellpadding: "0", cellspacing: "0", border: "0", align: "center"}
+            %tr
+              %td.cell{width: "600"}
+                %table.table{width: "600", cellpadding: "0", cellspacing: "0", border: "0"}
+                  %tr
+                    %td.logocell{width: "250", bgcolor: "#e4e4e4"}
+                      =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"hide", border: "0", style: "display:block;", width: "1", height: "1"}
+                      =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/logo1.gif', {border: "0", width: "73", height: "49", alt: "Plink", style: "-ms-interpolation-mode:bicubic;"}
+                      =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"hide", border: "0", style: "display:block;", width: "1", height: "1"}
+                    %td.hide{align: "right", width: "350", style: "color:#a6a6a6;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;", valign: "top", bgcolor: "#e4e4e4"}
+                      =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "15"}
+                      %span You just earned Plink Points!
+                      %br
+                      %br
+                      %span{style: "font-size:12px;"}
+                        =link_to 'Mark as spam', unsubscribe_subscription_url(email_address: @email_address)
+
+                =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacerblue_600.gif', {class:"divider_blue", border: "0", style: "display:block;", width: "600", height: "5"}
+
+                %table{width: "100%", bgcolor: "#FFFFFF", border: "0", cellspacing: "0", cellpadding: "0"}
+                  %tr
+                    %td.headercell
+                      =image_tag('http://plink-email.s3.amazonaws.com/marketing/v3/App_Emails/reward_note.jpg', {border: "0", alt: "You just earned Plink Points!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "85", id: "screenshot"})
+
+                %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
+                  %tr
+                    %td.promocell{bgcolor: "#FFFFFF", width: "600"}
+                      %multiline{label: "Main feature intro"}
+                        %p{style: "color:#404042; font-size:16px;"} Hey #{@first_name}
+                        %p{style: "color:#404042; font-size:16px;"} You've just earned some Plink Points. Nice work!
+                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
+                          • 70 Plink Points
+                          %span{style:"font-weight:normal"} for visiting Burger King
+                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
+                          • 150 Plink Points
+                          %span{style:"font-weight:normal"} for visiting Illegal Pete's
+                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
+                          • 70 Plink Points
+                          %span{style:"font-weight:normal"} for visiting Burger King
+                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
+                          • 150 Plink Points
+                          %span{style:"font-weight:normal"} for visiting Staples
+                        %p{style: "color:#404042; font-size:16px;"} 
+                          Your current balance is 
+                          %span{style:"font-weight:bold"} #{@currentBalanceDisplay}
+                          Plink Points.
+                        %p{style: "color:#404042; font-size:14px;"} 
+                          Questions about earning or redeeming? See our
+                          %span
+                            =link_to 'FAQ.', "https://points.plink.com/faq", style: "font-family:Helvetica,Arial,sans-serif;"
+
+
+          =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"divider", border: "0", style: "display:block;", width: "1", height: "10"}
+
+          %table{width: "100%", cellpadding: "0", cellspacing: "0", border: "0", bgcolor: "#e4e4e4"}
+            %tr
+              %td
+
+                =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "5"}
+
+                %table.table{width: "600", cellpadding: "0", cellspacing: "0", border: "0", align: "center"}
+                  %tr
+                    %td.cell{width: "600", bgcolor: "#e4e4e4"}
+                      %table.table{width: "600", cellpadding: "0", cellspacing: "0", border: "0"}
+                        %tr
+                          %td.footershow{width: "380", valign: "top"}
+
+                            =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "0"}
+                            =link_to 'Unsubscribe',contest_unsubscribe_subscription_url(email_address: @email_address), style: "color:#a6a6a6;font-family:Helvetica,Arial,sans-serif;font-size:12px;"
+                            %br
+                            %br
+                            %p.reminder{style: "color:#a6a6a6;font-size:12px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:15px;padding-top:0;padding-bottom:0;line-height:18px;"}
+                              %strong Need some help?
+                              If you have any questions, please contact us at
+                              =link_to 'support@plink.com', 'mailto:support@plink.com'
+                              and we"d be happy to help you out.
+
+                            %p{style: "color:#989795;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                              %preferences{style: "color:#989795;text-decoration:none; font-size:10px;"}
+                                *The merchants represented are not sponsors of the Plink program or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. Please visit each company"s website for additional terms and conditions.
+                                %br
+                                %br
+                                *Amazon.com is not a sponsor of this promotion. Except as required by law, Amazon.com Gift Cards ("GCs") cannot be transferred for value or redeemed for cash. GCs may be used only for purchases of eligible goods on Amazon.com or certain of its affiliated websites. For complete terms and conditions, see www.amazon.com/gc-legal. GCs are issued by ACI Gift Cards, Inc., a Washington corporation. Â©,Â®,â„¢ Amazon.com Inc. and/or its affiliates, 2013. No expiration date or service fees.
+
+                          %td.hide{align: "right", width: "220", style: "color:#a6a6a6;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;", valign: "top"}
+
+                            %table{cellpadding: "0", cellspacing: "0", border: "0"}
+                              %tr
+                                %td
+                                  =link_to image_tag('http://plink-email.s3.amazonaws.com/marketing/v3/global/twitter.gif', {border: "0", style: "display:block;", width: "42", height: "32", alt: "Follow, us on Twitter"}), "http://twitter.com/plinkdotcom"
+                                %td
+                                  =link_to image_tag('http://plink-email.s3.amazonaws.com/marketing/v3/global/facebook.gif', {border: "0", style: "display:block;", width: "32", height: "32", alt: "Visit, us on Facebook"}), 'https://www.facebook.com/plinkdotcom'
+
+                            =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "10"}
+                            %br
+                            %p{style: "color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:bold;"}
+                              Plink
+                            %p{style: "color:#b3b3b3;font-size:11px;line-height:15px;font-family:Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:normal;"}
+                              2000 S. Colorado Blvd. Tower 1<br> Suite 7000 <br>Denver, CO 80222
+                =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "25"}
+                %br
+
