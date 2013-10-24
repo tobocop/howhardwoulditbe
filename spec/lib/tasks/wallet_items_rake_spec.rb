@@ -106,14 +106,6 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     user
   end
 
-  let(:valid_wallet_item_params) {
-    {
-      wallet_slot_id: 1,
-      wallet_slot_type_id: 1,
-      unlock_reason: 'promotion'
-    }
-  }
-
   it 'unlocks slots for the users that are eligible' do
     eligible_user.open_wallet_items.length.should == 0
     second_eligible_user.open_wallet_items.length.should == 0
@@ -143,8 +135,11 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
   end
 
   it 'creates an open wallet item for eligible users' do
-    Plink::OpenWalletItemRecord.should_receive(:create).with(valid_wallet_item_params.merge(wallet_id: eligible_user.wallet.id))
-    Plink::OpenWalletItemRecord.should_receive(:create).with(valid_wallet_item_params.merge(wallet_id: second_eligible_user.wallet.id))
+    Plink::WalletItemService.should_receive(:create_open_wallet_item)
+      .with(eligible_user.wallet.id, 'promotion')
+    Plink::WalletItemService.should_receive(:create_open_wallet_item)
+      .with(second_eligible_user.wallet.id, 'promotion')
+
     subject.invoke
   end
 

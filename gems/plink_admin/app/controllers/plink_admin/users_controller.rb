@@ -7,6 +7,8 @@ module PlinkAdmin
 
     def edit
       @user = Plink::UserRecord.find(params[:id])
+      @unlock_reasons = Plink::WalletRecord::UNLOCK_REASONS
+      @wallet_id = @user.wallet.id
     end
 
     def search

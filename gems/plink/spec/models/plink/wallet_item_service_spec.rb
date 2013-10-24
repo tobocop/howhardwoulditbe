@@ -1,10 +1,23 @@
 require 'spec_helper'
 
 describe Plink::WalletItemService do
+  describe '.create_open_wallet_item' do
+    it 'creates an open wallet item from a wallet_id and an unlock_reason' do
+      create_args = {
+        wallet_id: 14,
+        wallet_slot_id: 1,
+        wallet_slot_type_id: 1,
+        unlock_reason: 'join'
+      }
+      Plink::OpenWalletItemRecord.should_receive(:create).with(create_args)
 
-  describe 'get_for_user_id' do
-    let(:user) {create_user}
-    let(:wallet) {create_wallet(user_id:user.id)}
+      Plink::WalletItemService.create_open_wallet_item(14, 'join')
+    end
+  end
+
+  describe '#get_for_user_id' do
+    let(:user) { create_user }
+    let(:wallet) { create_wallet(user_id: user.id) }
 
     before do
       create_open_wallet_item(wallet_id: wallet.id)

@@ -9,11 +9,21 @@ describe PlinkAdmin::UsersController do
 
   describe 'GET edit' do
     let(:user) { create_user }
+    let!(:wallet) { create_wallet(user_id: user.id) }
+    let(:unlock_reasons) { {"transaction"=>"transaction", "join"=>"join", "referral"=>"referral", "promotion"=>"promotion"} }
 
-    it 'returns the user whose :id is passed as a parameter' do
-      get :edit, id: user.id
+    before { get :edit, id: user.id }
 
+    it 'assigns user to the user whose :id is passed as a parameter' do
       assigns(:user).should == user
+    end
+
+    it 'assigns unlock_reasons' do
+      assigns(:unlock_reasons).should == unlock_reasons
+    end
+
+    it 'assigns wallet_id to the users wallet.id' do
+      assigns(:wallet_id).should == user.wallet.id
     end
   end
 

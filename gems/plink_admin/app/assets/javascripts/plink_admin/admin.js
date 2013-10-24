@@ -17,8 +17,29 @@ var Admin = {
     })
 
     return false;
+  },
+
+  giveWalletItem : function(e) {
+    var $this = $(this),
+        unlock_reason = $(this).data().unlockReason,
+        wallet_record_id = $(this).data().walletRecordId;
+
+    $.ajax({
+      url: '/plink_admin/wallet_items/' + wallet_record_id + '/give_open_wallet_item_with_reason',
+      method: "POST",
+      data: { unlock_reason : unlock_reason },
+      success: function(resp) {
+        $this.parent().html(resp.message);
+      },
+      error: function(xhr) {
+        $this.parent().html($.parseJSON(xhr.responseText).message);
+      }
+    })
+
+    return false;
   }
 };
 
 // Bind events:
 $(document).on('click', '.js-user-edit-open-wallet-item-slot', Admin.unlockWalletItem);
+$(document).on('click', '.js-user-edit-give-open-wallet-item', Admin.giveWalletItem);

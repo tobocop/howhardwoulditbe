@@ -21,6 +21,7 @@ PlinkAdmin::Engine.routes.draw do
 
   resources :wallet_items, except: :destroy do
     post :unlock_wallet_item_with_reason, on: :member
+    post :give_open_wallet_item_with_reason, on: :member
   end
 
   resources :contests do

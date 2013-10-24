@@ -7,13 +7,8 @@ namespace :wallet_items do
   desc 'Unlocks wallet items during the promotional period'
   task unlock_promotional_wallet_items: :environment do
     users_eligible_for_promotional_wallet_item.each do |wallet_record|
-      wallet_item_params = {
-        wallet_id: wallet_record.id,
-        wallet_slot_id: 1,
-        wallet_slot_type_id: 1,
-        unlock_reason: Plink::WalletRecord.promotion_unlock_reason
-      }
-      Plink::OpenWalletItemRecord.create(wallet_item_params)
+      Plink::WalletItemService.create_open_wallet_item(wallet_record.id, Plink::WalletRecord.promotion_unlock_reason)
+
       user_token = AutoLoginService.generate_token(wallet_record.user_id)
       PromotionalWalletItemMailer.delay.unlock_promotional_wallet_item_email(
         first_name: wallet_record.attributes['firstName'],
