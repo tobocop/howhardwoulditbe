@@ -3,12 +3,13 @@ module Plink
     self.table_name = 'users'
     self.primary_key = 'userID'
 
+    INVALID_CHARACTERS = '+ \t'
     VALID_EMAIL_REGEXP = /
-    ^[^+]+             # One or more not '+' signs
-    @                  # @ sign is mandatory
-    .+                 # One or more characters
-    \.                 # A literal dot
-    .+                 # One or more characters
+    ^[^#{INVALID_CHARACTERS}]+           # One or more not invalid characters
+    @                                    # @ sign is mandatory
+    [^#{INVALID_CHARACTERS}]+            # One or more not invalid characters
+    \.                                   # A literal dots
+    [^#{INVALID_CHARACTERS}]+            # One or more not invalid characters
     $/x
 
     VALID_PROVIDERS = %w[facebook organic twitter]

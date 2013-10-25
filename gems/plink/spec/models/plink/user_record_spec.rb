@@ -77,25 +77,55 @@ describe Plink::UserRecord do
       user_record.should be_valid
     end
 
-    it 'validates the format of the email address' do
-      user_record.email = 'foo'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:email)
+    context 'email validations' do
+      it 'validates that all parts of the email exist' do
+        user_record.email = 'foo'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
 
-      user_record.email = 'foo@'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:email)
+        user_record.email = 'foo@'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
 
-      user_record.email = 'foo@example'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:email)
+        user_record.email = 'foo@example'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
 
-      user_record.email = 'foo@example.'
-      user_record.should_not be_valid
-      user_record.should have(1).error_on(:email)
+        user_record.email = 'foo@example.'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
 
-      user_record.email = 'foo@example.c'
-      user_record.should be_valid
+        user_record.email = 'foo@example.c'
+        user_record.should be_valid
+      end
+
+      it 'validates no spaces can be present in the email' do
+        user_record.email = 'foo @example.c'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+
+        user_record.email = 'foo@ex ample.c'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+
+        user_record.email = 'foo@example.co m'
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+      end
+
+      it 'validates no tabs can be present in the email' do
+        user_record.email = "\tfoo@example.c"
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+
+        user_record.email = "foo@ex\tample.c"
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+
+        user_record.email = "foo@example.c\t"
+        user_record.should_not be_valid
+        user_record.should have(1).error_on(:email)
+      end
     end
 
     it 'validates new password' do
