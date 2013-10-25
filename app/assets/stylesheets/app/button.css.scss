@@ -60,9 +60,6 @@ $state-range:10%;
       background: $disabled;
       border: 1px solid $lightgray;
     }
-
-
-
   }
 
   &.nav {
@@ -142,18 +139,17 @@ $state-range:10%;
       background-position: left center ;
       background-color:$bg-facebook;
 
-        &.hover, &:hover{
-          background-color: darken($bg-facebook, $state-range);
-        }
+      &.hover, &:hover{
+        background-color: darken($bg-facebook, $state-range);
+      }
 
-        &.active, &:active{
-          background-color: lighten($bg-facebook, $state-range);
-        }
+      &.active, &:active{
+        background-color: lighten($bg-facebook, $state-range);
+      }
 
-        &.disabled, &:disabled{
-          background-color: $disabled;
-        }
-
+      &.disabled, &:disabled{
+        background-color: $disabled;
+      }
     }
 
     &.twitter {
@@ -163,18 +159,17 @@ $state-range:10%;
       background-position: left center ;
       background-color:$bg-twitter;
 
-        &.hover, &:hover{
-          background-color: darken($bg-twitter, $state-range);
-        }
+      &.hover, &:hover{
+        background-color: darken($bg-twitter, $state-range);
+      }
 
-        &.active, &:active{
-          background-color: lighten($bg-twitter, $state-range);
-        }
+      &.active, &:active{
+        background-color: lighten($bg-twitter, $state-range);
+      }
 
-        &.disabled, &:disabled{
-          background-color: $disabled;
-        }
-
+      &.disabled, &:disabled{
+        background-color: $disabled;
+      }
     }
 
     &.email {
@@ -184,19 +179,46 @@ $state-range:10%;
       background-position: left center ;
       background-color:$bg-email;
 
-        &.hover, &:hover{
-          background-color: darken($bg-email, $state-range);
-        }
+      &.hover, &:hover{
+        background-color: darken($bg-email, $state-range);
+      }
 
-        &.active, &:active{
-          background-color: $slate;
-        }
+      &.active, &:active{
+        background-color: $slate;
+      }
 
-        &.disabled, &:disabled{
-          background-color: $disabled;
-        }
+      &.disabled, &:disabled{
+        background-color: $disabled;
+      }
+    }
+  }
+
+  &.negative-action {
+    border: 1px solid $slate;
+    color:#FFFFFF;
+    padding: 0 0;
+    height: 34px;
+    text-align: center;
+    line-height: 32px;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1em;
+    letter-spacing: 1.5px;
+    @include vertical-bg-gradient(#808080, #404042);
+    @include round-corners(5px);
+
+    &.hover, &:hover{
+      background: #404042;
     }
 
+    &.active, &:active{
+      background: #808080;
+    }
+
+    &.disabled, &:disabled{
+      background: $disabled;
+      border: 1px solid $lightgray;
+    }
   }
 
   &.wallet-add {

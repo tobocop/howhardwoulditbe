@@ -75,6 +75,9 @@ describe GigyaLoginHandlerController do
           let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(55 => false) }
 
           it 'redirects to the wallet path with the link card param' do
+            # TODO: Remove when card reg is cut over from CF
+            Rails.env.stub(:production?).and_return(true)
+
             get :create, {valid_params: true}
 
             response.should redirect_to wallet_path(link_card: true)
@@ -149,6 +152,9 @@ describe GigyaLoginHandlerController do
         end
 
         it 'signs the user in' do
+          # TODO: Remove when card reg is cut over from CF
+          Rails.env.stub(:production?).and_return(true)
+
           get :create, {valid_params: true}
 
           response.should redirect_to wallet_path(link_card: true)

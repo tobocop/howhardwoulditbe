@@ -1,0 +1,80 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner
+        .left-column.no-float
+          .steps.first.centered
+            .font-p9em.font-lightgray.font-italic Let's Get Started
+          .steps.active
+            .circle
+              .text 1
+            Find your bank or credit card provider.
+          .steps
+            .circle.offset
+              .text 2
+            Connect it to Plink.
+          .steps.last
+            .circle.offset
+              .text 3
+            Choose a card.
+
+        .right-column.pad-left-86
+          .font-p9em.font-lightgray.font-w300.font-italic Step 1 of 3
+          .spacer-top-24
+            .font-1p5em Enter your bank's name.
+            .form-container
+              %input.form-field.input{:value => ''}
+            .button-container
+              %button.button.primary-action Search
+          .spacer-top-32
+            .font-1p5em Or choose from these popular banks:
+            .banks
+              .result
+                = link_to 'Result Number One', '#', class:'text-link'
+              .result
+                = link_to 'Chase', '#', class:'text-link'
+              .result
+                = link_to 'Bank of America', '#', class:'text-link'
+              .result
+                = link_to 'Discover', '#', class:'text-link'
+              .result
+                = link_to 'American Express', '#', class:'text-link'
+              .result
+                = link_to 'Fifth Third', '#', class:'text-link'
+              .result
+                = link_to 'PNC', '#', class:'text-link'
+            .banks
+              .result
+                = link_to 'Result Number Eight', '#', class:'text-link'
+              .result
+                = link_to 'Chase', '#', class:'text-link'
+              .result
+                = link_to 'Bank of America', '#', class:'text-link'
+              .result
+                = link_to 'Discover', '#', class:'text-link'
+              .result
+                = link_to 'American Express', '#', class:'text-link'
+              .result
+                = link_to 'Wells Fargo', '#', class:'text-link'
+              .result
+                = link_to 'Huntington', '#', class:'text-link'
+        .clear

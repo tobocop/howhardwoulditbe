@@ -1,6 +1,112 @@
 @import "app/colors.css.scss";
 @import "app/mixins.css.scss";
 
+/* ******  FAMILY  ****** */
+
+.font-georgia {
+  font-family: Georgia, Times, "Times New Roman", serif;
+}
+
+/* ******  SIZE  ****** */
+
+.font-p8em {
+  font-size:.8em;
+  line-height: 1em;
+}
+
+.font-p9em {
+  font-size:.9em;
+  line-height: 1.2em;
+}
+
+.font-1em {
+  font-size:1em;
+  line-height: 1.2em;
+}
+
+.font-1p2em {
+  font-size:1.2em;
+  line-height: 1.2em;
+}
+
+.font-1p4em {
+  font-size:1.4em;
+  line-height: 1.2em;
+}
+
+.font-1p5em {
+  font-size:1.5em;
+  line-height: 1.2em;
+}
+
+.font-1p6em {
+  font-size:1.6em;
+  line-height: 1.2em;
+}
+
+.font-2em {
+  font-size:2em;
+  line-height: 1.2em;
+}
+
+.font-height1p5 {
+  line-height:1.5em;
+}
+
+.font-height2 {
+  line-height:2em;
+}
+
+.font-kern1 {
+  letter-spacing: 1px;
+}
+
+.font-kern2 {
+  letter-spacing: 2px;
+}
+
+/* ******  COLOR  ****** */
+
+.font-gray {
+  color:$lightgray;
+}
+
+.font-lightgray {
+  color:#b3b3b3;
+}
+
+.font-slate {
+  color:$slate;
+}
+
+.font-cyan {
+  color:$cyan;
+}
+
+/* ******  WEIGHT  ****** */
+
+.font-w200 {
+  font-weight: 200;
+}
+
+.font-w300 {
+  font-weight: 300;
+}
+
+.font-w500 {
+  font-weight: 500;
+}
+
+/* ******  STYLE  ****** */
+
+.font-italic {
+  font-style: italic;
+}
+
+.font-uppercase {
+  text-transform: uppercase;
+}
+
 .font{
   &.error{
     color:$red;

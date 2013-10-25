@@ -172,4 +172,12 @@ private
   def contest_cookie_present?
     !cookies['contest_notification'].blank?
   end
+
+  # TODO: Remove when card reg is cut over from CF
+  # This method keeps production behavior consistent during the development
+  # of the new Rails-based card reg. This was included to allow for the card reg
+  # development branch to be deployable earlier
+  def link_card_or_institution_search
+    Rails.env.production? ? wallet_path(link_card: true) : institution_search_path
+  end
 end

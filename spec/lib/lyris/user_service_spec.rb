@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Lyris::UserService do
-  module Exceptional ; class Catcher ; end ; end
-
   let(:ip) {'127.0.0.1'}
   let(:user_data) { {my_data: 'derp', ip: ip} }
   let(:lyris_user_double) { double(add_to_list: true, update_email: true) }

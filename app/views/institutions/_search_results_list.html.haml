@@ -1,0 +1,17 @@
+.spacer-top-24
+  .result-title Most Common
+  .banks
+    .result
+      = link_to results.first.name.html_safe, '#', class: 'text-link'
+    - if results[1].present?
+      .result
+        = link_to results[1].name.html_safe, '#', class: 'text-link'
+.spacer-top-24
+  - if results.size > 2
+    .result-title= "All Results (#{pluralize(results.size - 2, 'Match')})"
+    %hr
+    .banks.result-list
+      - results[2..-1].each do |institution|
+        .result
+          = link_to institution.name.html_safe, '#', class: 'text-link'
+  %hr

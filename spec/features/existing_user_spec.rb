@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'user signs in' do
-  before(:each) do
+  before do
     Tango::CardService.stub(:new).and_return(stub(:fake_card_service, purchase: stub(successful?: true)))
 
     create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg', display_order: 1, title: 'You want this.')

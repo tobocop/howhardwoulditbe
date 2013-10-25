@@ -137,6 +137,9 @@ describe 'Contests' do
 
     context 'for an unauthenticated user', js:true do
       it 'only forwards the user to the contest page if the user logs in from the contest page' do
+        # TODO: Remove when card reg is cut over from CF
+        Rails.env.stub(:production?).and_return(true)
+
         visit '/'
 
         page.should have_content "Join"

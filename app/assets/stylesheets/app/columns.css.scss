@@ -9,6 +9,10 @@
   vertical-align: top;
   float: left;
 
+  &.no-float {
+    float:none;
+  }
+
   &.static {
     background-color:#FFFFFF;
   }
@@ -102,6 +106,10 @@
   width:664px;
   padding:30px 0 0 20px;
   vertical-align: top;
+
+  &.pad-left-86 {
+    padding-left:86px;
+  }
 
   .headline{
     margin-bottom:30px;

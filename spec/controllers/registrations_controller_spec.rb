@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RegistrationsController do
   describe "#create" do
     describe "on save" do
-      let(:gigya) { mock }
+      let(:gigya) { double }
       let(:cookie_stub) { double(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
       let!(:registration_event) { create_event(user_id: nil) }
 
@@ -11,7 +11,7 @@ describe RegistrationsController do
         create_event_type(name: Plink::EventTypeRecord.registration_start_type)
         create_event_type(name: Plink::EventTypeRecord.email_capture_type)
 
-        controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
+        controller.stub(current_virtual_currency: double(:virtual_currency, currency_name: 'Plionk Points'))
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
         @user_stub = stub
@@ -44,6 +44,8 @@ describe RegistrationsController do
       end
 
       it 'signs the user in upon success' do
+        # TODO: Remove when card reg is cut over from CF
+        Rails.env.stub(:production?).and_return(true)
         controller.should_receive(:sign_in_user).with(@user_stub)
 
         xhr :post, :create
@@ -117,7 +119,7 @@ describe RegistrationsController do
 
     describe "when registration has errors" do
       before do
-        controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
+        controller.stub(current_virtual_currency: double(:virtual_currency, currency_name: 'Plionk Points'))
       end
 
       it "should return an erroneous json response" do

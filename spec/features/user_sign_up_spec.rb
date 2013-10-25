@@ -10,6 +10,9 @@ describe 'User signup workflow' do
 
   context 'organic registration' do
     it 'should create an account, email the user, and drop the user on the wallet page', js: true do
+      # TODO: Remove when card reg is cut over from CF
+      Rails.env.stub(:production?).and_return(true)
+
       visit '/'
 
       click_link 'Join'
@@ -65,6 +68,9 @@ describe 'User signup workflow' do
   end
 
   context 'social registration' do
+    # TODO: Remove when card reg is cut over from CF
+    before { Rails.env.stub(:production?).and_return(true) }
+
     after(:each) do
       delete_users_from_gigya
     end

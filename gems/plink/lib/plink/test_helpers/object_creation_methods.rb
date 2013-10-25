@@ -203,6 +203,21 @@ module Plink
       Plink::InstitutionRecord.new { |institution| apply(institution, defaults, options) }
     end
 
+    def create_users_institution(options = {})
+      new_users_institution(options).tap(&:save!)
+    end
+
+    def new_users_institution(options = {})
+      defaults = {
+        hash_check: 'hashy',
+        institution_id: 1,
+        intuit_institution_login_id: 3,
+        user_id: 1
+      }
+
+      Plink::UsersInstitutionRecord.new { |institution| apply(institution, defaults, options) }
+    end
+
     def create_user_reverification(options = {})
       new_user_reverification(options).tap(&:save!)
     end

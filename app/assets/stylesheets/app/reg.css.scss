@@ -1,0 +1,168 @@
+@import "app/colors.css.scss";
+@import "app/mixins.css.scss";
+
+.reg{
+
+  .steps {
+    border-top: 2px solid #c7cacd;
+    color: $lightgray;
+    font-weight:300;
+    line-height:1.2em;
+    word-wrap: break-word;
+    padding: 30px 28px;
+    width:340px;
+
+    &.first {
+      border-top:none;
+    }
+
+    &.last {
+      border-bottom: 2px solid #c7cacd;
+    }
+
+    &.centered {
+      text-align: center;
+    }
+
+    &.active {
+      background:#FFFFFF;
+      border-left:2px solid #c7cacd;
+      color:$slate;
+      font-weight:500;
+      height:100%;
+      width:342px;
+
+      .circle {
+        border:1px solid $slate;
+
+        .text {
+          color:$cyan;
+        }
+      }
+    }
+
+    .circle {
+      border:1px solid $lightgray;
+      float:left;
+      height:32px;
+      margin-right:10px;
+      text-align:center;
+      width:32px;
+      @include round-corners(50%);
+
+      &.offset {
+        margin-top:-7px;
+      }
+
+      .text {
+        margin-top:.35em;
+      }
+    }
+  }
+
+  .spacer-top-8 {
+    margin-top:8px;
+  }
+
+  .spacer-top-24 {
+    margin-top:24px;
+  }
+
+  .spacer-top-32 {
+    margin-top:32px;
+  }
+
+  .spacer-top-96 {
+    margin-top:96px;
+  }
+
+  .form-container {
+    display:inline-block;
+    margin-top:8px;
+    width:320px;
+  }
+
+  .button-container{
+    display:inline-block;
+    margin-left:6px;
+    vertical-align: baseline;
+    width:90px;
+
+    &.no-margin {
+      margin:0;
+    }
+
+    &.vert-align-top {
+      vertical-align: top;
+    }
+
+    &.width-170 {
+      width:170px;
+    }
+  }
+
+  .banks {
+    display:inline-block;
+    font-size:.9em;
+    font-weight:300;
+    width:250px;
+    vertical-align: text-top;
+
+    &.result-list {
+      max-height:400px;
+      overflow-y: scroll;
+      overflow-y: auto;  /* for IE8 */
+      width:100%;
+    }
+    .result {
+      display:block;
+      margin:12px 80px 12px 0px;
+    }
+
+    .text-link {
+      text-decoration: none;
+    }
+  }
+
+  .result-title {
+    color:#808080;
+    font-size:.9em;
+    font-weight:300;
+    text-transform: uppercase;
+
+    &.error {
+      color:#FF0000;
+    }
+  }
+
+  .gray-box {
+    background:#f2f2f2;
+    color:$lightgray;
+    padding:10px;
+    width:100%;
+    @include round-corners(5px);
+  }
+
+  .reg-bank-logo {
+    display:inline-block;
+    max-height:250px;
+    max-width:300px;
+  }
+
+  .card-select-container {
+    display:inline-block;
+    margin-bottom:8px;
+    padding:10px;
+
+    &.alt {
+      background:#f2f2f2;
+      width:100%;
+      @include round-corners(5px);
+    }
+  }
+
+  .card-info {
+    display:inline-block;
+    margin-left:15px;
+  }
+}

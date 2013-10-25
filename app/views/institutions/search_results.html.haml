@@ -1,0 +1,25 @@
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner
+        .left-column.no-float
+          = render partial: 'step_one_active'
+        .right-column.pad-left-86
+          .font-p9em.font-lightgray.font-w300.font-italic Step 1 of 3
+          .spacer-top-24
+            .font-1p5em= "#{@results.present? ? "Here's what we found for:" : "We couldn't find anything."}"
+            = render partial: 'search_form', locals: {show_clear_button: true, value: params[:institution_name]}
+            - if @results.present?
+              = render partial: 'search_results_list', locals: {results: @results}
+            - else
+              .spacer-top-24
+                .result-title Your search returned no results.
+              .spacer-top-24
+                .font-1em Did you mean one of these banks?
+                = render partial: 'most_popular_list', locals: {most_popular: @most_popular}
+                %hr
+            .spacer-top-24
+              .result-title Can't find your bank or credit card provider?
+            .spacer-top-8
+              .font-p9em.font-lightgray.font-w300 While Plink works with most banks, there are still a few that we don't support. If you'd like to participate in the Plink program, please try searching for a different debit or credit card provider.
+        .clear

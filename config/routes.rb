@@ -1,4 +1,6 @@
 PlinkPivotal::Application.routes.draw do
+  root to: "home#index"
+
   resource :account, only: [:show, :update], controller: :accounts
 
   resources :registrations, only: [:new, :create]
@@ -37,6 +39,11 @@ PlinkPivotal::Application.routes.draw do
     get :results_from_email, action: :results_from_email, as: :results_from_email
   end
 
+  get '/institutions/search', to: 'institutions#search', as: 'institution_search'
+  if !Rails.env.production?
+    post '/institutions/search_results', to: 'institutions#search_results', as: 'institution_search_results'
+  end
+
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request
   resource :password_reset, only: [:new, :create], controller: :password_reset
 
@@ -56,8 +63,6 @@ PlinkPivotal::Application.routes.draw do
   match '/style_guide/emails', to: 'style_guide#emails', via: :get
   match '/home/plink_video', to: 'home#plink_video', via: :get
   match '/survey_complete', to: 'survey#complete', via: :get, as: :survey_complete
-
-  root to: "home#index"
 
   match "/500", to: "errors#general_error"
   match "/404", to: "errors#not_found"

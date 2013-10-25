@@ -1,0 +1,11 @@
+- total = most_popular.length
+- first_column_size = (total / 2).ceil
+.banks
+  - most_popular[0..first_column_size - 1].each do |institution|
+    .result
+      = link_to institution.name.html_safe, '#', class: 'text-link'
+- if total > 1
+  .banks
+    - most_popular[first_column_size..-1].each do |institution|
+      .result
+        = link_to institution.name.html_safe, '#', class: 'text-link'

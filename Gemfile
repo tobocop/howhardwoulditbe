@@ -17,6 +17,9 @@ gem 'plink', path: 'gems/plink'
 gem 'tango', path: 'gems/tango'
 gem 'plink_admin', path: 'gems/plink_admin'
 
+gem 'aggcat'
+gem 'tire'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'

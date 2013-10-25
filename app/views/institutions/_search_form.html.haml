@@ -1,0 +1,8 @@
+= form_tag institution_search_results_path do
+  .form-container
+    = text_field_tag :institution_name, value, class: 'form-field input', placeholder: 'Enter bank name or URL'
+  .button-container
+    = submit_tag 'Search', class: 'button primary-action'
+  - if show_clear_button
+    .button-container
+      = submit_tag 'Clear', class: 'button negative-action', id: 'js-clear-search-box'

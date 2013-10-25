@@ -1,0 +1,16 @@
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner
+        .left-column.no-float
+          = render partial: 'step_one_active'
+        .right-column.pad-left-86
+          .font-p9em.font-lightgray.font-w300.font-italic Step 1 of 3
+          .spacer-top-24
+            .font-1p5em Enter your bank's name.
+            = render partial: 'search_form', locals: {show_clear_button: false, value: nil}
+          .spacer-top-32
+            .font-1p5em Or choose from these popular banks:
+            = render partial: 'most_popular_list', locals: {most_popular: @most_popular}
+            %hr
+        .clear

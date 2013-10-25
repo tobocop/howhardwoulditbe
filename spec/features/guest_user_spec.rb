@@ -143,6 +143,9 @@ describe 'guest behavior' do
 
     page.current_path.should == '/'
 
+    # TODO: Remove when card reg is cut over from CF
+    Rails.env.stub(:production?).and_return(true)
+
     within '.sign-in-modal' do
       page.find('img[alt="Register with Email"]').click
 

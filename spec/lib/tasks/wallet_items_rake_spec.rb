@@ -106,6 +106,14 @@ describe 'wallet_items:unlock_promotional_wallet_items' do
     user
   end
 
+  let(:valid_wallet_item_params) {
+    {
+      wallet_slot_id: 1,
+      wallet_slot_type_id: 1,
+      unlock_reason: 'promotion'
+    }
+  }
+
   it 'unlocks slots for the users that are eligible' do
     eligible_user.open_wallet_items.length.should == 0
     second_eligible_user.open_wallet_items.length.should == 0

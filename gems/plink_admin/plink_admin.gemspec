@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml-rails', '~> 0.4'
   s.add_dependency 'activerecord-redshift-adapter'
   s.add_dependency 'delayed_job_active_record'
+  s.add_dependency 'tire'
 
   s.add_development_dependency 'rspec-rails', '2.13.2'
   s.add_development_dependency 'capybara', '2.1.0'

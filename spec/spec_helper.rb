@@ -77,3 +77,5 @@ def capture_stdout(&block)
   end
   fake.string
 end
+
+module Exceptional ; class Catcher ; def self.handle(exception) ; end ; end ; end

@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+#TODO: Remove when card registration is entirely in Rails
 describe 'Linking a card' do
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
