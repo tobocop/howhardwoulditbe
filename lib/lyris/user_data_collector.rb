@@ -43,19 +43,11 @@ module Lyris
     end
 
     def incentivized_on_card_reg?
-      if email_capture_affiliate?
-        email_capture_event.affiliate_record.has_incented_card_registration
-      else
-        false
-      end
+      email_capture_affiliate? ? email_capture_event.affiliate_record.has_incented_card_registration : false
     end
 
     def incentivized_on_join?
-      if email_capture_affiliate?
-        email_capture_event.affiliate_record.has_incented_join
-      else
-        false
-      end
+      email_capture_affiliate? ? email_capture_event.affiliate_record.has_incented_join : false
     end
 
     def email_capture_affiliate?

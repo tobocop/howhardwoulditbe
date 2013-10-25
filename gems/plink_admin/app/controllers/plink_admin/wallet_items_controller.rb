@@ -25,8 +25,6 @@ module PlinkAdmin
         msg = 'Unable to open wallet item record'
         render json: {message: msg}, status: :unprocessable_entity
       end
-
     end
-
   end
 end

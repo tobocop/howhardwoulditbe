@@ -111,7 +111,6 @@ describe Lyris::User do
         http_double.should_receive(:perform_request)
 
         lyris_user = Lyris::User.new(lyris_config, email, {new_email: 'email@plink.com'})
-        lyris_user.new_email.should == 'email@plink.com'
         response = lyris_user.update_email
         response.should be_a Lyris::Response
       end

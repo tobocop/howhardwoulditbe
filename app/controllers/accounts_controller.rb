@@ -24,11 +24,11 @@ class AccountsController < ApplicationController
           new_password_confirmation: params.delete(:new_password_confirmation)
         )
       else
-        update_email_in_lyris(current_user.email, params[:email]) if updating_email?(params)
         plink_user = plink_user_service.update(current_user.id, updatable_user_attributes(params))
       end
 
       if plink_user.valid?
+        update_email_in_lyris(current_user.email, params[:email]) if updating_email?(params)
         render json: displayable_user_hash(updatable_user_attributes(params))
       else
         render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => plink_user.errors.messages}, status: 403
