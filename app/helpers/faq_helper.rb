@@ -11,6 +11,7 @@ module FaqHelper
       t(base + 'why_does_plink_need_my_login_title') => {answer: t(base + 'why_does_plink_need_my_login_text')},
       t(base + 'why_is_plink_safe_title') => {answer: t(base + 'why_is_plink_safe_text')},
       t(base + 'can_i_add_more_than_one_card_title') => {answer: t(base + 'can_i_add_more_than_one_card_text')},
+      t(base + 'will_i_get_points_if_i_change_card_title') => {answer: t(base + 'will_i_get_points_if_i_change_card_text')},
       t(base + 'how_do_you_know_Ive_made_a_purchase_title') => {answer: t(base + 'how_do_you_know_Ive_made_a_purchase_text')},
       t(base + 'can_i_earn_rewards_multiple_time_title') => {answer: t(base + 'can_i_earn_rewards_multiple_time_text')},
       t(base + 'why_do_i_have_to_revalidate_title') => {answer: t(base + 'why_do_i_have_to_revalidate_text')},

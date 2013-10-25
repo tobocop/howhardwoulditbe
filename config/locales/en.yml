@@ -63,6 +63,8 @@ en:
         how_do_i_receive_gift_cards_text: "Most gift cards are sent via email within 24 - 48 hours of being ordered. Gift cards are sent from our gift card provider, Tango Card, or directly from the gift card carrier. If you've waited that long and still have not received your gift card, please contact us and we'd be happy to resend it."
         is_there_a_double_points_limit_title: "Is there a limit to how many times I can get double or triple points during the promotional period?"
         is_there_a_double_points_limit_text: "There is a limit to the number of bonus points you can get during a promotion. During any promotional period (from when it starts to the expiration date), you may earn up to 2500 bonus points, unless otherwise stated in the promotion. Please read the promotion details for each promotion to find out more."
+        will_i_get_points_if_i_change_card_title: "Will I still get points for a purchase if I change my credit or debit card?"
+        will_i_get_points_if_i_change_card_text: "You should always wait to change your credit or debit card until you've received all the points from any purchases you've made at Plink partner locations. Once you change your card, we will only award points for transactions made on the new card. If you have pending purchases on your current card, please wait to change your card until the points have posted to your Plink account."
   errors:
     format: "%{message}"
   activemodel:
