@@ -1,8 +1,9 @@
 module Lyris
   class UserService
     def self.add_to_lyris(user_id, email, currency_name)
-      lyris_data = Lyris::UserDataCollector.new(user_id, currency_name)
-      lyris_response = Lyris::User.new(lyris_config, email, lyris_data.to_hash).add_to_list
+      lyris_data = Lyris::UserDataCollector.new(user_id, currency_name).to_hash
+      Plink::UserService.new.update(user_id, get_location_data(lyris_data[:ip]))
+      lyris_response = Lyris::User.new(lyris_config, email, lyris_data).add_to_list
 
       if !lyris_response.successful? && Rails.env.production?
         msg = "lyris_extensions#add_to_lyris failed for user_id: #{user_id}, email: #{email}, error #{lyris_response.data}"
@@ -20,6 +21,10 @@ module Lyris
     end
 
   private
+
+    def self.get_location_data(ip)
+      Geoip::LocationLookup.by_ip(ip)
+    end
 
     def self.lyris_config
       Lyris::Config.instance

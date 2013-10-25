@@ -7,8 +7,9 @@ describe Lyris::UserDataCollector do
   let(:user) {
     create_user(
       birthday: birthday,
-      first_name: 'Melvin',
+      first_name: 'Max',
       is_male: 1,
+      ip: '154.68.1.2',
       last_name: 'Hammrick',
       state: 'CO',
       zip: 80204
@@ -69,10 +70,11 @@ describe Lyris::UserDataCollector do
         data_hash = lyris_user_data_collector.to_hash
         data_hash[:bank_registered].should be_true
         data_hash[:birthday].should == birthday.to_time
-        data_hash[:first_name].should == 'Melvin'
+        data_hash[:first_name].should == 'Max'
         data_hash[:gender].should == 'Male'
         data_hash[:incentivized_on_card_reg].should be_true
         data_hash[:incentivized_on_join].should be_true
+        data_hash[:ip].should == '154.68.1.2'
         data_hash[:is_subscribed].should be_true
         data_hash[:last_name].should == 'Hammrick'
         data_hash[:registration_affiliate_id].should == affiliate.id
@@ -89,7 +91,8 @@ describe Lyris::UserDataCollector do
         create_user(
           email: 'bananas@plink.com',
           birthday: birthday,
-          first_name: 'Melvin',
+          first_name: 'Max',
+          ip: '154.68.1.2',
           is_male: 1,
           last_name: 'Hammrick',
           state: 'CO',
@@ -105,6 +108,7 @@ describe Lyris::UserDataCollector do
         data_hash[:incentivized_on_card_reg].should be_false
         data_hash[:incentivized_on_join].should be_false
         data_hash[:is_subscribed].should be_true
+        data_hash[:ip].should == '154.68.1.2'
         data_hash[:last_name].should == 'Hammrick'
         data_hash[:registration_affiliate_id].should == 0
         data_hash[:registration_date].should == nil

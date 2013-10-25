@@ -10,7 +10,7 @@ module Plink
     end
 
     delegate :avatar_thumbnail_url, :birthday, :can_redeem?, :currency_balance, :current_balance,
-      :daily_contest_reminder, :email, :first_name, :id, :is_male, :is_subscribed, :last_name,
+      :daily_contest_reminder, :email, :first_name, :id, :ip, :is_male, :is_subscribed, :last_name,
       :lifetime_balance, :open_wallet_item, :opt_in_to_daily_contest_reminders!, :password_hash,
       :primary_virtual_currency_id, :provider, :salt, :state, :update_attributes, :wallet,
       :zip, to: :user_record

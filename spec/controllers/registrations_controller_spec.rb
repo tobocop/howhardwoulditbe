@@ -6,7 +6,6 @@ describe RegistrationsController do
       let(:gigya) { mock }
       let(:cookie_stub) { double(cookie_name: 'plink_gigya', cookie_value: 'myvalue123', cookie_path: '/', cookie_domain: 'gigya.com') }
       let!(:registration_event) { create_event(user_id: nil) }
-      let(:location_data) { {state: 'CO', city: 'Denver', zip: '80222'} }
 
       before do
         create_event_type(name: Plink::EventTypeRecord.registration_start_type)
@@ -22,14 +21,6 @@ describe RegistrationsController do
         controller.stub(:plink_event_service) {stub(create_email_capture: true)}
         controller.stub(:tracking_params) {stub(to_hash: true)}
         controller.stub(add_user_to_lyris: true)
-        controller.stub(get_location_data: location_data)
-      end
-
-      it 'gets the users location data' do
-        controller.unstub(:get_location_data)
-        Geoip::LocationLookup.should_receive(:by_ip).with(request.remote_ip).and_return(location_data)
-
-        xhr :post, :create
       end
 
       it 'creates a new UserRegistrationForm' do
@@ -45,10 +36,7 @@ describe RegistrationsController do
             virtual_currency_name: 'Plionk Points',
             provider: 'organic',
             ip: request.remote_ip,
-            user_agent: request.user_agent,
-            state: 'CO',
-            city: 'Denver',
-            zip: '80222'
+            user_agent: request.user_agent
           )
         )
 
@@ -113,7 +101,8 @@ describe RegistrationsController do
         controller.unstub(:add_user_to_lyris)
         delay_double = double(:add_to_lyris)
         Lyris::UserService.should_receive(:delay).and_return(delay_double)
-        delay_double.should_receive(:add_to_lyris).with(123, 'test@example.com', 'Plionk Points')
+        delay_double.should_receive(:add_to_lyris)
+          .with(123, 'test@example.com', 'Plionk Points')
         xhr :post, :create
       end
 

@@ -9,6 +9,7 @@ describe Plink::User do
       email: 'test@test.com',
       first_name: 'George',
       id: 123,
+      ip: '123.34.234.2',
       is_male: true,
       last_name: 'Kramer',
       password_hash: 'somehashything',
@@ -46,6 +47,7 @@ describe Plink::User do
     user.errors.should == []
     user.first_name.should == 'George'
     user.id.should == 123
+    user.ip.should == '123.34.234.2'
     user.is_male.should be_true
     user.is_subscribed.should == true
     user.last_name.should == 'Kramer'

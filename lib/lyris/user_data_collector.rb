@@ -19,6 +19,7 @@ module Lyris
         gender: gender,
         incentivized_on_card_reg: incentivized_on_card_reg?,
         incentivized_on_join: incentivized_on_join?,
+        ip: user.ip,
         is_subscribed: user.is_subscribed,
         last_name: user.last_name,
         registration_affiliate_id: registration_affiliate_id,

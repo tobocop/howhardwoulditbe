@@ -3,12 +3,36 @@ require 'spec_helper'
 describe Lyris::UserService do
   module Exceptional ; class Catcher ; end ; end
 
-  let(:user_data) { {my_data: 'derp'} }
+  let(:ip) {'127.0.0.1'}
+  let(:user_data) { {my_data: 'derp', ip: ip} }
   let(:lyris_user_double) { double(add_to_list: true, update_email: true) }
   let(:lyris_success_response) { double(successful?: true, data: 'email added') }
   let(:lyris_error_response) { double(successful?: false, data: 'email could not be added') }
 
   describe '#add_to_lyris' do
+    let(:location_data) { {state: 'CO', city: 'Denver', zip: 80201} }
+    let(:user_service_double) { double(update: true) }
+
+    before do
+      Lyris::UserService.stub(:get_location_data).and_return(location_data)
+      Plink::UserService.stub(new: user_service_double)
+    end
+
+    it 'updates the users location data' do
+      Lyris::UserService.unstub(:get_location_data)
+      Lyris::UserDataCollector.stub(new: user_data)
+      Lyris::User.stub(new: lyris_user_double)
+      lyris_user_double.stub(add_to_list: lyris_success_response)
+
+      Geoip::LocationLookup.should_receive(:by_ip)
+        .with(ip)
+        .and_return(location_data)
+      user_service_double.should_receive(:update)
+        .with(23, location_data)
+
+      Lyris::UserService.add_to_lyris(23, 'lyris_user@exmaple.com', 'lyris vc')
+    end
+
     it 'can add users to the lyris list' do
       Lyris::UserDataCollector.should_receive(:new).with(
         23, 'lyris vc'

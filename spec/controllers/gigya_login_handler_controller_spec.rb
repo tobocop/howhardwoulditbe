@@ -39,10 +39,8 @@ describe GigyaLoginHandlerController do
 
           it 'initializes GigyaSocialLoginService with the correct params' do
             GigyaSocialLoginService.unstub(:new)
-            Geoip::LocationLookup.stub(:by_ip).and_return({ state:'CO', city:'Denver', zip:'80202' })
 
             gigya_social_login_service_params = {
-              'city' => 'Denver',
               'email' => 'test@example.com',
               'first_name' => 'testing',
               'gigya_connection' => gigya_connection,
@@ -50,9 +48,7 @@ describe GigyaLoginHandlerController do
               'ip' => '192.168.0.1',
               'photoURL' => 'http://example.com/image.png',
               'provider' => 'facebook',
-              'state' => 'CO',
               'user_agent' => 'my agent',
-              'zip' => '80202'
             }
 
             GigyaSocialLoginService.should_receive(:new).with(gigya_social_login_service_params) { gigya_social_login_service_stub }
@@ -146,7 +142,8 @@ describe GigyaLoginHandlerController do
           controller.unstub(:add_user_to_lyris)
           delay_double = double(:add_to_lyris)
           Lyris::UserService.should_receive(:delay).and_return(delay_double)
-          delay_double.should_receive(:add_to_lyris).with(87, 'tables@sql.com', 'Plionk Points')
+          delay_double.should_receive(:add_to_lyris)
+            .with(87, 'tables@sql.com', 'Plionk Points')
 
           get :create, {valid_params: true}
         end
