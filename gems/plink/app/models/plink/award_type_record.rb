@@ -9,6 +9,7 @@ module Plink
     alias_attribute :email_message, :emailMessage
     alias_attribute :dollar_amount, :dollarAmount
 
-    attr_accessible :award_code, :award_display_name, :award_type, :is_active, :email_message, :dollar_amount
+    attr_accessible :award_code, :award_display_name, :award_type, :is_active,
+        :email_message, :dollar_amount
   end
 end

@@ -36,7 +36,8 @@ class CurrencyActivityPresenter
     @icon_description = options[:icon_description]
   end
 
-  delegate :dollar_award_amount, :currency_award_amount, :display_currency_name, :award_display_name, to: :debits_credit
+  delegate :dollar_award_amount, :currency_award_amount, :display_currency_name,
+    :award_display_name, to: :debits_credit
 
   def display_date
     debits_credit.awarded_on.to_s(:month_day)

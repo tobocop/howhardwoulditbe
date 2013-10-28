@@ -13,7 +13,6 @@ describe Plink::ActiveIntuitAccountRecord do
   end
 
   describe 'self.has_account?(user_id)' do
-
     it 'returns false if there is no record with the given user id' do
       Plink::ActiveIntuitAccountRecord.user_has_account?(100).should == false
     end
