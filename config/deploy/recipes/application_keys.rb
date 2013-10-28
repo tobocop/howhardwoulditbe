@@ -67,6 +67,7 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/newrelic.yml #{release_path}/config/newrelic.yml"
     run "ln -nfs #{shared_path}/config/exceptional.yml #{release_path}/config/exceptional.yml"
     run "ln -nfs #{shared_path}/config/lyris.yml #{release_path}/config/lyris.yml"
+    run "ln -nfs #{shared_path}/config/elasticsearch.yml #{release_path}/config/elasticsearch.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
 
