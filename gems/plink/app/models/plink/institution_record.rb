@@ -9,6 +9,7 @@ module Plink
     include ::Tire::Model::Callbacks
 
     alias_attribute :hash_value, :hashValue
+    alias_attribute :institution_id, :institutionID
     alias_attribute :intuit_institution_id, :intuitInstitutionID
     alias_attribute :is_active, :isActive
     alias_attribute :is_supported, :isSupported

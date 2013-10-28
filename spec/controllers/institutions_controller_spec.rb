@@ -65,4 +65,30 @@ describe InstitutionsController do
       response.should redirect_to root_path
     end
   end
+
+  describe 'GET authorization_form' do
+    before { Plink::InstitutionRecord.stub(:where).and_return([double]) }
+
+    it 'is successful' do
+      get :authorization_form, id: 1
+
+      response.should be_success
+    end
+
+    it 'renders the authorization_form' do
+      get :authorization_form, id: 1
+
+      response.should render_template 'authorization_form'
+    end
+
+    it 'redirects the user if given an invalid institution id' do
+      Plink::InstitutionRecord.unstub(:where)
+      Plink::InstitutionRecord.should_receive(:where).with(institutionID: 1.to_s).and_return([])
+
+      get :authorization_form, id: 1
+
+      response.should redirect_to institution_search_path
+      flash[:error].should == 'Invalid institution provided. Please try again.'
+    end
+  end
 end

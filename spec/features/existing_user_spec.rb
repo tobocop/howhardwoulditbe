@@ -292,20 +292,6 @@ describe 'user signs in' do
       page.find('.close-btn').click
     end
 
-    #TODO: remove after 10/27/2013
-    within '.slot.locked.promotional' do
-      page.should have_content 'This slot is locked.'
-      page.should have_content 'Make a qualifying purchase at any Plink location by 10/27/13'
-    end
-
-    page.find('.slot.locked.promotional').click
-
-    within '.modal' do
-      page.should have_content 'This wallet slot will unlock after you make a qualified purchase* at any Plink location by Sunday 10/27/13.'
-      page.should have_content '* A purchase is considered qualified when it meets or exceeds the minimum spend requirement and is in your Plink wallet at the time of purchase.'
-      page.find('.close-btn').click
-    end
-
     click_on 'Rewards'
     current_path.should == '/rewards'
     page.should have_css('img[src="/assets/header_logo.png"]')

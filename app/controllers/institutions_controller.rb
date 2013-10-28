@@ -16,6 +16,15 @@ class InstitutionsController < ApplicationController
     end
   end
 
+  def authorization_form
+    @institution = Plink::InstitutionRecord.where(institutionID: params[:id])
+
+    if @institution.blank?
+      flash[:error] = 'Invalid institution provided. Please try again.'
+      redirect_to institution_search_path
+    end
+  end
+
 private
 
   def most_popular

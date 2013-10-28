@@ -42,6 +42,7 @@ PlinkPivotal::Application.routes.draw do
   get '/institutions/search', to: 'institutions#search', as: 'institution_search'
   if !Rails.env.production?
     post '/institutions/search_results', to: 'institutions#search_results', as: 'institution_search_results'
+    get '/institutions/authorization_form/:id', to: 'institutions#authorization_form', as: 'institution_authorization_form'
   end
 
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request

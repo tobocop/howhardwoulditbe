@@ -18,7 +18,12 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please provide a bank name or URL'
 
-    institutions = [double(name: 'DMX Bank'), double(name: 'Bank of Tupac'), double(name: 'ZZ Top Bank')]
+    tupac_bank = create_institution(name: 'Bank of Tupac')
+    institutions = [
+      tupac_bank,
+      double(name: 'DMX Bank', institution_id: 12),
+      double(name: 'ZZ Top Bank', institution_id: 13)
+    ]
     Plink::InstitutionRecord.should_receive(:search).and_return(institutions)
 
     fill_in 'institution_name', with: 'bank'
@@ -28,13 +33,17 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'MOST COMMON'
     within '.banks:not(.result-list)' do
-      page.should have_content 'DMX Bank'
       page.should have_content 'Bank of Tupac'
+      page.should have_content 'DMX Bank'
     end
 
     page.should have_content 'ALL RESULTS (1 MATCH)'
     within '.banks.result-list' do
       page.should have_content 'ZZ Top Bank'
     end
+
+    click_on 'Bank of Tupac'
+
+    page.should have_content 'Please login to your Chase Bank account.'
   end
 end
