@@ -10,6 +10,7 @@ describe Plink::QualifyingAwardRecord do
       users_virtual_currency_id: 2,
       virtual_currency_id: 2,
       advertiser_id: 23,
+      is_active: true,
       is_successful: true,
       is_notification_successful: true
     }

@@ -37,23 +37,13 @@
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#404042; font-size:16px;"} Hey #{@first_name}
                         %p{style: "color:#404042; font-size:16px;"} You've just earned some Plink Points. Nice work!
-                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
-                          &middot; 70 Plink Points
-                          %span{style:"font-weight:normal"} for visiting Burger King
-                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
-                          &middot; 150 Plink Points
-                          %span{style:"font-weight:normal"} for visiting Illegal Pete's
-                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
-                          &middot; 70 Plink Points
-                          %span{style:"font-weight:normal"} for visiting Burger King
-                        %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}
-                          &middot; 150 Plink Points
-                          %span{style:"font-weight:normal"} for visiting Staples
+                        - @rewards.each do |reward|
+                          %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}= "&middot; #{reward.currency_award_amount} Plink Points for #{reward.award_display_name}"
                         %p{style: "color:#404042; font-size:16px;"}
                           Your current balance is
-                          %span{style:"font-weight:bold"} #{@currentBalanceDisplay}
+                          %span{style:"font-weight:bold"} #{@user_currency_balance}
                           Plink Points.
-                        =link_to "Go to Plink >", wallet_path, style: "font-family:Helvetica,Arial,sans-serif;"
+                        =link_to "Go to Plink >", login_from_email_wallet_url(user_token: @user_token), {style: "font-family:Helvetica,Arial,sans-serif;"}
 
 
           =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"divider", border: "0", style: "display:block;", width: "1", height: "10"}

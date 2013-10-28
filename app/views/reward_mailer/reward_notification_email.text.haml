@@ -1,0 +1,16 @@
+Hey #{@first_name},
+
+You've just earned some Plink Points. Nice work!
+
+- @rewards.each do |reward|
+  = "#{reward.currency_award_amount} Plink Points for #{reward.award_display_name}"
+
+= "Your current balance is #{@user_currency_balance} Plink Points"
+
+=login_from_email_wallet_url(user_token: @user_token)
+
+Thanks!
+Team Plink
+
+Unsubscribe:
+= edit_subscription_url(email_address: @email_address)
