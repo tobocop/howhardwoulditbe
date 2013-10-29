@@ -5,14 +5,25 @@ cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
 
 touch config/lyris.yml
 echo -e "test:\n site_id: $LYRIS_SITE_ID\n password: $LYRIS_PASSWORD\n mailing_list_id: $LYRIS_MAILING_LIST_ID" > config/lyris.yml
+
 touch config/gigya_keys.yml
 echo -e "test:\n gigya_api_key: $GIGYA_API_KEY\n gigya_secret: $GIGYA_SECRET" > config/gigya_keys.yml
+
 touch gems/gigya/integration_spec/support/gigya_keys.yml
 echo -e "api_key: $GIGYA_API_KEY\nsecret: $GIGYA_SECRET" > gems/gigya/integration_spec/support/gigya_keys.yml
+
+touch config/sdgidfedapp11.corp.intuit.net.key
+echo -e "$INTUIT_CERT_KEY" > config/sdgidfedapp11.corp.intuit.net.key
+
+touch config/intuit.yml
+echo -e "test:\n issuer_id: $INTUIT_ISSUER_ID\n consumer_key: $INTUIT_CONSUMER_KEY\n consumer_secret: $INTUIT_CONSUMER_SECRET\n certificate_path: `pwd`/config/sdgidfedapp11.corp.intuit.net.key" > config/intuit.yml
+
 touch config/sendgrid.yml
 echo -e "test:\n username: user\n password: pass" > config/sendgrid.yml
+
 touch config/tango.yml
 echo -e "test:\n base_url: $TANGO_BASE_URL\n username: $TANGO_USERNAME\n password: $TANGO_PASSWORD" > config/tango.yml
+
 sudo sh -c "echo '127.0.0.1 plink.test' >> /etc/hosts"
 export RAILS_ENV=test
 
