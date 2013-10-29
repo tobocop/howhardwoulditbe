@@ -334,6 +334,51 @@ module Plink
       new_oauth_token(options).tap(&:save!)
     end
 
+    def new_user_intuit_error(options = {})
+      defaults = {
+        intuit_error_id: 1,
+        users_institution_id: 234,
+        user_id: 14
+      }
+
+      Plink::UserIntuitErrorRecord.new { |user_intuit_error| apply(user_intuit_error, defaults, options) }
+    end
+
+    def create_user_intuit_error(options = {})
+      new_user_intuit_error(options).tap(&:save!)
+    end
+
+    def new_intuit_account_to_remove(options = {})
+      defaults = {
+        intuit_account_id: 3,
+        users_institution_id: 2,
+        user_id: 1
+      }
+
+      Plink::IntuitAccountToRemoveRecord.new { |intuit_account_to_remove| apply(intuit_account_to_remove, defaults, options) }
+    end
+
+    def create_intuit_account_to_remove(options = {})
+      new_intuit_account_to_remove(options).tap(&:save!)
+    end
+
+    def new_users_institution_account_staging(options = {})
+      defaults = {
+        account_id: 1,
+        user_id: 24,
+        users_institution_id: 0,
+        in_intuit: true,
+        name: 'account name',
+        account_number_last_four: 2354
+      }
+
+      Plink::UsersInstitutionAccountStagingRecord.new { |uias| apply(uias, defaults, options) }
+    end
+
+    def create_users_institution_account_staging(options = {})
+      new_users_institution_account_staging(options).tap(&:save!)
+    end
+
     def new_users_institution_account(options = {})
       defaults = {
         account_id: 1,
@@ -765,6 +810,7 @@ module Plink
         account_id: 1,
         advertiser_id: 1827,
         amount: -123.02,
+        business_rule_reason_id: 1,
         hashed_value: 'aoishd',
         intuit_transaction_id: 8123467,
         is_fishy: true,
@@ -790,11 +836,11 @@ module Plink
         virtual_currency_id: 1
       }
 
-      Plink::IntuitTransactionRecord.new { |intuit_transaction| apply(intuit_transaction, defaults, options) }
+      Plink::IntuitFishyTransactionRecord.new { |intuit_transaction| apply(intuit_transaction, defaults, options) }
     end
 
     def create_intuit_fishy_transaction(options = {})
-      new_intuit_transaction(options).tap(&:save!)
+      new_intuit_fishy_transaction(options).tap(&:save!)
     end
 
     def apply(object, defaults, overrides)

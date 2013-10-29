@@ -1,0 +1,10 @@
+development:
+  issuer_id: 'name-of-account.cc.dev-intuit.ipp.prod'
+  consumer_key: 'long_random_string'
+  consumer_secret: 'another_long_random_string'
+  certificate_path: 'path-to-.key-file'
+test:
+  issuer_id: 'name-of-account.cc.dev-intuit.ipp.prod'
+  consumer_key: 'long_random_string'
+  consumer_secret: 'another_long_random_string'
+  certificate_path: 'path-to-.key-file'

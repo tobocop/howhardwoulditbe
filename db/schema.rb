@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131016180144) do
+ActiveRecord::Schema.define(:version => 20131029222926) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -762,6 +762,14 @@ ActiveRecord::Schema.define(:version => 20131016180144) do
     t.boolean "isMfaError",                        :default => false, :null => false
     t.boolean "isActive",                          :default => true,  :null => false
     t.boolean "sendReverification",                :default => false, :null => false
+  end
+
+  create_table "intuit_accounts_to_remove", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "intuit_account_id",    :limit => 8
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "users_institution_id"
   end
 
   create_table "intuit_archived_transactions", :force => true do |t|
