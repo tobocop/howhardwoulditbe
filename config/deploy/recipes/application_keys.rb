@@ -68,6 +68,7 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/exceptional.yml #{release_path}/config/exceptional.yml"
     run "ln -nfs #{shared_path}/config/lyris.yml #{release_path}/config/lyris.yml"
     run "ln -nfs #{shared_path}/config/elasticsearch.yml #{release_path}/config/elasticsearch.yml"
+    run "ln -nfs #{shared_path}/config/intuit.yml #{release_path}/config/intuit.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
 
@@ -85,6 +86,24 @@ namespace :application_keys do
     end
 
     template "lyris.yml.erb", "#{shared_path}/config/lyris.yml"
+  end
+  after "application_keys:setup", "application_keys:setup_lyris"
+
+  task :setup_intuit, roles: :app do
+    set_default :intuit_issuer_id do
+      Capistrano::CLI.password_prompt 'Intuit issuer_id: '
+    end
+    set_default :intuit_consumer_key do
+      Capistrano::CLI.password_prompt 'Intuit consumer_key: '
+    end
+    set_default :intuit_consumer_secret do
+      Capistrano::CLI.password_prompt 'Intuit consumer_secret: '
+    end
+    set_default :intuit_certificate_path do
+      Capistrano::CLI.password_prompt 'Intuit certificate_path: '
+    end
+
+    template "intuit.yml.erb", "#{shared_path}/config/intuit.yml"
   end
   after "application_keys:setup", "application_keys:setup_lyris"
 end
