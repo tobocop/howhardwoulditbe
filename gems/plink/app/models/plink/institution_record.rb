@@ -13,9 +13,11 @@ module Plink
     alias_attribute :intuit_institution_id, :intuitInstitutionID
     alias_attribute :is_active, :isActive
     alias_attribute :is_supported, :isSupported
+    alias_attribute :logo_url, :logoURL
     alias_attribute :name, :institutionName
 
-    attr_accessible :hash_value, :intuit_institution_id, :is_active, :is_supported, :name
+    attr_accessible :hash_value, :intuit_institution_id, :is_active, :is_supported,
+      :logo_url, :name
 
     mapping do
       indexes :institutionName, type: 'string', boost: 10

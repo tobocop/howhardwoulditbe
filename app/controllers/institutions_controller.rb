@@ -17,11 +17,17 @@ class InstitutionsController < ApplicationController
   end
 
   def authorization_form
-    @institution = Plink::InstitutionRecord.where(institutionID: params[:id])
+    institution = Plink::InstitutionRecord.where(institutionID: params[:id]).first
 
-    if @institution.blank?
+    if institution.nil?
       flash[:error] = 'Invalid institution provided. Please try again.'
       redirect_to institution_search_path
+    else
+      intuit_institution_data =
+        Aggcat.scope(current_user.id).institution(institution.intuit_institution_id)
+
+      institution_params = intuit_institution_data[:result].merge(institution: institution)
+      @institution_form = InstitutionFormPresenter.new(institution_params)
     end
   end
 

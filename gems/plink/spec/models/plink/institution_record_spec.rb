@@ -17,6 +17,13 @@ describe Plink::InstitutionRecord do
     create_institution(valid_params).should be_persisted
   end
 
+  it { should allow_mass_assignment_of(:hash_value)}
+  it { should allow_mass_assignment_of(:intuit_institution_id)}
+  it { should allow_mass_assignment_of(:is_active)}
+  it { should allow_mass_assignment_of(:is_supported)}
+  it { should allow_mass_assignment_of(:logo_url)}
+  it { should allow_mass_assignment_of(:name)}
+
   describe '.search' do
     before do
       Plink::InstitutionRecord.index_name('test_' + Plink::InstitutionRecord.model_name.plural)

@@ -18,7 +18,7 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please provide a bank name or URL'
 
-    tupac_bank = create_institution(name: 'Bank of Tupac')
+    tupac_bank = create_institution(name: 'Bank of Tupac', intuit_institution_id: 4)
     institutions = [
       tupac_bank,
       double(name: 'DMX Bank', institution_id: 12),
@@ -44,6 +44,6 @@ describe 'searching for a bank', js: true do
 
     click_on 'Bank of Tupac'
 
-    page.should have_content 'Please login to your Chase Bank account.'
+    page.should have_content 'Please login to your Bank of Tupac account.'
   end
 end

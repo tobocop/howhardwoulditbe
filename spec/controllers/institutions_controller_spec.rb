@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe InstitutionsController do
-  before { ApplicationController.any_instance.stub(:user_logged_in?).and_return(true) }
+  before { controller.stub(:user_logged_in?).and_return(true) }
 
   describe 'GET search' do
     it 'is successful' do
@@ -11,8 +11,8 @@ describe InstitutionsController do
     end
 
     it 'requires the user to be logged in' do
-      ApplicationController.any_instance.unstub(:user_logged_in?)
-      ApplicationController.any_instance.stub(:user_logged_in?).and_return(false)
+      controller.unstub(:user_logged_in?)
+      controller.stub(:user_logged_in?).and_return(false)
 
       get :search
 
@@ -57,8 +57,8 @@ describe InstitutionsController do
     end
 
     it 'requires the user to be logged in' do
-      ApplicationController.any_instance.unstub(:user_logged_in?)
-      ApplicationController.any_instance.stub(:user_logged_in?).and_return(false)
+      controller.unstub(:user_logged_in?)
+      controller.stub(:user_logged_in?).and_return(false)
 
       get :search
 
@@ -67,7 +67,21 @@ describe InstitutionsController do
   end
 
   describe 'GET authorization_form' do
-    before { Plink::InstitutionRecord.stub(:where).and_return([double]) }
+    before do
+      Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 4)])
+      controller.stub(:user_logged_in?).and_return(true)
+      institution_data = {
+        result: {
+          institution_detail: {
+            email_address: 'cooldude@aol.com',
+            home_url: 'stuff.com',
+            phone_number: '303-867-5309',
+            keys: { key: {}}
+          }
+        }
+      }
+      Aggcat.stub_chain([:scope, :institution]).and_return(institution_data)
+    end
 
     it 'is successful' do
       get :authorization_form, id: 1
@@ -89,6 +103,68 @@ describe InstitutionsController do
 
       response.should redirect_to institution_search_path
       flash[:error].should == 'Invalid institution provided. Please try again.'
+    end
+
+    context 'retrieving data from intuit' do
+      let(:intuit_response) do
+        {
+          :status_code=>"200",
+          :result=>
+            {:institution_detail=>
+              {:institution_id=>"22501",
+               :institution_name=>"New Castle Bellco FCU - Investments",
+               :home_url=>"http://www.newcastlebellco.com/",
+               :address=>nil,
+               :special_text=>
+                "Please enter your New Castle Bellco FCU - Investments Financial Organization Number, User ID and Password required for login.",
+               :currency_code=>"USD",
+               :keys=>
+                {:key=>
+                  [{:name=>"CustId",
+                    :status=>"Active",
+                    :display_flag=>"true",
+                    :display_order=>"2",
+                    :mask=>"false",
+                    :description=>"User ID"},
+                   {:name=>"Passwd",
+                    :status=>"Active",
+                    :display_flag=>"true",
+                    :display_order=>"3",
+                    :mask=>"true",
+                    :description=>"Password"},
+                   {:name=>"CorrespondentNum",
+                    :status=>"Active",
+                    :value_length_max=>"3",
+                    :display_flag=>"true",
+                    :display_order=>"1",
+                    :mask=>"false",
+                    :description=>"Financial Organization Number"
+                  }]
+                }
+              }
+            }
+        }
+      end
+
+      before { Aggcat.stub_chain([:scope, :institution]).and_return(intuit_response) }
+
+      it 'calls aggcat' do
+        set_current_user(id: 1)
+        set_virtual_currency
+        Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 22501)])
+
+        aggcat = mock(Aggcat)
+        Aggcat.should_receive(:scope).with(1).and_return(aggcat)
+        aggcat.should_receive(:institution).with(22501).and_return(intuit_response)
+
+        get :authorization_form, id: 1
+      end
+
+      it 'returns an institution form presenter' do
+        get :authorization_form, id: 1
+
+        assigns(:institution_form).should be_a InstitutionFormPresenter
+      end
     end
   end
 end
