@@ -1,5 +1,5 @@
-.home.reg-landing-bk10
-  .feature
+.home.reg-landing
+  .feature.default
     %h1 
       Free $10 Gift Card with any 
       %br
@@ -42,8 +42,22 @@
     %h2.light.cyan Our Partners
     %h3 Earn Plink points when you make a purchase at any of our partner locations.
     .brand-wrapper
-      - ordered_partner_logos.each do |logo|
-        = render partial: 'home/partner', locals: {logo_url: logo}
+      .brand.burgerking
+      .brand.staples
+      .brand.dollargeneral
+      .brand.dunkindonuts
+      .brand.sears
+      .brand.gap
+      .brand.kmart
+      .brand.footlocker
+      .brand.regal
+      .brand.outback
+      .brand.redrobin
+      .brand.flowers
+      .brand.champs
+      .brand.vitaminworld
+      .brand.quiznos
+      .brand.advanceautoparts
     .partners-btn
       = link_to 'See all of our partners', offers_path, class: 'button home-partners'
     .partners-btn
