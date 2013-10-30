@@ -14,10 +14,12 @@ module Plink
       :non_qualifying_award_id, :qualifying_award_id, :user_id
 
     scope :plink_point_awards_pending_notification, -> {
-      where('isNotificationSuccessful = ?', false)
-      .where('isActive = ?', true)
-      .where('isSuccessful = ?', true)
-      .where('virtualCurrencyID = ?', Plink::VirtualCurrency.default.id)
+      where(
+        isActive: true,
+        isNotificationSuccessful: false,
+        isSuccessful: true,
+        virtualCurrencyID: Plink::VirtualCurrency.default.id
+      )
     }
 
     def award_display_name
