@@ -14,7 +14,7 @@ namespace :reward do
       RewardMailer.delay.reward_notification_email(
         email: user.email,
         rewards: rewards,
-        user_currency_balance: user.currency_balance,
+        user_currency_balance: default_virtual_currency_presenter.amount_in_currency(user.current_balance),
         user_token: user_token
       )
 
@@ -37,11 +37,15 @@ private
     end
   end
 
+  def default_virtual_currency_presenter
+    @virtual_currency ||= VirtualCurrencyPresenter.new(virtual_currency: Plink::VirtualCurrency.default)
+  end
+
   def create_reward_open_structs(award_records)
     award_records.map do |award_record|
       OpenStruct.new(
         award_display_name: award_record.award_display_name,
-        currency_award_amount: award_record.currency_award_amount
+        currency_award_amount: default_virtual_currency_presenter.amount_in_currency(award_record.dollar_award_amount)
       )
     end
   end

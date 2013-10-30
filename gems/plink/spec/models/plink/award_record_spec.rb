@@ -2,7 +2,14 @@ require 'spec_helper'
 
 describe Plink::AwardRecord  do
   let(:award_type) { create_award_type(award_type: 'Bananas are awesome')}
-  let!(:free_award) { create_free_award(award_type_id: award_type.id, currency_award_amount: 0, user_id: 2) }
+  let!(:free_award) {
+    create_free_award(
+      award_type_id: award_type.id,
+      currency_award_amount: 0,
+      dollar_award_amount: 1,
+      user_id: 2
+    )
+  }
 
   it 'returns the values from the view' do
     advertiser = create_advertiser
@@ -17,6 +24,7 @@ describe Plink::AwardRecord  do
     award_record.advertiser_name.should be_nil
     award_record.award_type.should == 'Bananas are awesome'
     award_record.currency_award_amount.should == 0
+    award_record.dollar_award_amount.should == 1
     award_record.free_award_id.should == free_award.id
     award_record.non_qualifying_award_id.should be_nil
     award_record.qualifying_award_id.should be_nil

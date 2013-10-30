@@ -20,7 +20,7 @@ describe 'reward:send_reward_notifications' do
     create_free_award(
       valid_award_params.merge(
         award_type_id: award_type.id,
-        currency_award_amount: 1
+        dollar_award_amount: 1.0
       )
     )
   }
@@ -28,7 +28,7 @@ describe 'reward:send_reward_notifications' do
     create_qualifying_award(
       valid_award_params.merge(
         advertiser_id: advertiser.id,
-        currency_award_amount: 2
+        dollar_award_amount: 2.0
       )
     )
   }
@@ -36,7 +36,7 @@ describe 'reward:send_reward_notifications' do
     create_non_qualifying_award(
       valid_award_params.merge(
         advertiser_id: advertiser.id,
-        currency_award_amount: 3
+        dollar_award_amount: 3.0
       )
     )
   }
@@ -53,8 +53,8 @@ describe 'reward:send_reward_notifications' do
 
     delay.should_receive(:reward_notification_email) do |args|
       args[:email].should == 'spelling@joesspellingacademy.com'
-      args[:rewards].map(&:currency_award_amount).should =~ [1, 2, 3]
-      args[:user_currency_balance].should == 6
+      args[:rewards].map(&:currency_award_amount).should =~ ['100', '200', '300']
+      args[:user_currency_balance].should == '600'
       args[:user_token].should == 'my_token'
       reward_mail
     end

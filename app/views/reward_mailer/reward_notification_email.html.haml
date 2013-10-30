@@ -38,7 +38,7 @@
                         %p{style: "color:#404042; font-size:16px;"} Hey #{@first_name}
                         %p{style: "color:#404042; font-size:16px;"} You've just earned some Plink Points. Nice work!
                         - @rewards.each do |reward|
-                          %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}= "&middot; #{reward.currency_award_amount} Plink Points for #{reward.award_display_name}"
+                          %p{style: "color:#00AEED; font-size:18px; font-weight:bold"}= "&middot; #{reward.currency_award_amount} Plink Points for #{reward.award_display_name}".html_safe
                         %p{style: "color:#404042; font-size:16px;"}
                           Your current balance is
                           %span{style:"font-weight:bold"} #{@user_currency_balance}
