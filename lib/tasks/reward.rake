@@ -9,10 +9,11 @@ namespace :reward do
       user_rewards = Plink::AwardRecord.where('userID = ?', user.id)
         .plink_point_awards_pending_notification.all
 
+      rewards = create_reward_open_structs(user_rewards)
       user_token = AutoLoginService.generate_token(user.id)
       RewardMailer.delay.reward_notification_email(
         email: user.email,
-        rewards: user_rewards,
+        rewards: rewards,
         user_currency_balance: user.currency_balance,
         user_token: user_token
       )
@@ -27,8 +28,21 @@ namespace :reward do
 private
 
   def get_reward(award_record)
-    return Plink::FreeAwardRecord.find(award_record.free_award_id) if award_record.free_award_id
-    return Plink::QualifyingAwardRecord.find(award_record.qualifying_award_id) if award_record.qualifying_award_id
-    return Plink::NonQualifyingAwardRecord.find(award_record.non_qualifying_award_id) if award_record.non_qualifying_award_id
+    if award_record.free_award_id
+      Plink::FreeAwardRecord.find(award_record.free_award_id)
+    elsif award_record.qualifying_award_id
+      Plink::QualifyingAwardRecord.find(award_record.qualifying_award_id)
+    elsif award_record.non_qualifying_award_id
+      Plink::NonQualifyingAwardRecord.find(award_record.non_qualifying_award_id)
+    end
+  end
+
+  def create_reward_open_structs(award_records)
+    award_records.map do |award_record|
+      OpenStruct.new(
+        award_display_name: award_record.award_display_name,
+        currency_award_amount: award_record.currency_award_amount
+      )
+    end
   end
 end

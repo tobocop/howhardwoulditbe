@@ -53,9 +53,7 @@ describe 'reward:send_reward_notifications' do
 
     delay.should_receive(:reward_notification_email) do |args|
       args[:email].should == 'spelling@joesspellingacademy.com'
-      args[:rewards].map(&:free_award_id).should =~ [nil, nil, free_award.id]
-      args[:rewards].map(&:non_qualifying_award_id).should =~ [nil, nil, non_qualifying_award.id]
-      args[:rewards].map(&:qualifying_award_id).should =~ [nil, nil, qualifying_award.id]
+      args[:rewards].map(&:currency_award_amount).should =~ [1, 2, 3]
       args[:user_currency_balance].should == 6
       args[:user_token].should == 'my_token'
       reward_mail
