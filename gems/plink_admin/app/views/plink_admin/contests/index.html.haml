@@ -6,6 +6,7 @@
     %th Edit
     %th Description
     %th Image
+    %th Non Linked Image
     %th Prize
     %th Start Time
     %th End Time
@@ -20,6 +21,10 @@
           %td= link_to 'Edit', edit_contest_path(contest)
         %td= contest.description
         %td= image_tag contest.image
+        - if contest.non_linked_image.blank?
+          %td None
+        -else
+          %td= image_tag contest.non_linked_image
         %td= contest.prize
         %td= present_as_date(contest.start_time)
         %td= present_as_date(contest.end_time)

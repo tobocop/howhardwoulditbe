@@ -5,6 +5,7 @@ describe Plink::ContestRecord do
     {
       description: 'This is a great contest',
       image: '/assets/test_image_tbd.jpg',
+      non_linked_image: '/assets/test_image_for_joe.jpg',
       prize: 'The prize is a new car',
       start_time: 2.days.ago.to_date,
       end_time: 2.days.from_now.to_date,
@@ -59,6 +60,7 @@ describe Plink::ContestRecord do
   it { should allow_mass_assignment_of(:entry_method) }
   it { should allow_mass_assignment_of(:finalized_at) }
   it { should allow_mass_assignment_of(:image) }
+  it { should allow_mass_assignment_of(:non_linked_image) }
   it { should allow_mass_assignment_of(:prize) }
   it { should allow_mass_assignment_of(:start_time) }
   it { should allow_mass_assignment_of(:terms_and_conditions) }

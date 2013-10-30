@@ -22,6 +22,7 @@ describe 'Contests' do
 
     fill_in 'Description', with: 'Awesome contest'
     fill_in 'Image URL', with: 'http://example.com/image.png'
+    fill_in 'Non Linked Image URL', with: 'http://example.com/image_2.png'
     fill_in 'Prize', with: 'All of the bananas'
     fill_in 'Terms', with: 'You must defeat the banana hamrick'
     select(1.year.from_now.year.to_s, :from => 'contest_end_time_1i')
@@ -32,6 +33,7 @@ describe 'Contests' do
       within '.contest-item:nth-of-type(1)' do
         page.should have_content 'Awesome contest'
         page.should have_css "img[src='http://example.com/image.png']"
+        page.should have_css "img[src='http://example.com/image_2.png']"
         page.should have_content 'All of the bananas'
 
         click_on 'Edit'

@@ -40,10 +40,11 @@ describe PlinkAdmin::ContestsController do
     it 'creates a contest record and redirects to the listing when successful' do
       contest_params = {
         description: 'Created description',
+        end_time: 5.days.ago.to_date,
         image: '/assets/profile.jpg',
+        non_linked_image: '/assets/my_image.jpg',
         prize: 'This is the prize - a car!',
         start_time: 10.days.ago.to_date,
-        end_time: 5.days.ago.to_date,
         terms_and_conditions: 'This is a set of terms and conditions'
       }
 

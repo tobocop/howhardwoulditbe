@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131029222926) do
+ActiveRecord::Schema.define(:version => 20131030231400) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -507,6 +507,7 @@ ActiveRecord::Schema.define(:version => 20131029222926) do
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
     t.datetime "finalized_at"
+    t.string   "non_linked_image"
   end
 
   create_table "delayed_jobs", :force => true do |t|
