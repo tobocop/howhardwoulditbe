@@ -1,0 +1,109 @@
+.home.reg-landing
+  .feature.default
+    %h1 
+      Thanks for taking our survey!
+    %h2.light 
+      Link your credit or debit card
+      %br
+      and get a free $5 eGift Card!
+    .join-btn
+      = link_to 'Link Your Card', '#', data: {'reveal-id' => 'registration-form'}, class: 'button primary-action large'
+    .offer-details Bonus points will be awarded within the next 7 days. When you signup and link a credit or debit card to your Plink account, you'll be awarded with 500 Plink Points, enough to redeem for a $5 gift card.
+
+  .how
+    %h2.thin How Plink Works
+    .icon-wrapper
+      .step
+        .icon.one
+        %h4
+          Link your credit or
+          %br
+          debit card
+      .step
+        .icon.two
+        %h4
+          Earn Plink Points when
+          %br
+          you make purchases at
+          %br
+          our partner locations
+      .step
+        .icon.three
+        %h4
+          Redeem points for
+          %br
+          cash and gift cards
+    .video-btn
+      %button.button.home-video{data: {'reveal-id' => 'plink-video-modal', 'reveal-ajax' => '/home/plink_video'}} Watch a short video for more info
+
+  .partners
+    %h2.light.cyan Our Partners
+    %h3 Earn Plink points when you make a purchase at any of our partner locations.
+    .brand-wrapper
+      .brand.burgerking
+      .brand.staples
+      .brand.dollargeneral
+      .brand.dunkindonuts
+      .brand.sears
+      .brand.gap
+      .brand.kmart
+      .brand.footlocker
+      .brand.regal
+      .brand.outback
+      .brand.redrobin
+      .brand.flowers
+      .brand.champs
+      .brand.vitaminworld
+      .brand.quiznos
+      .brand.advanceautoparts
+    .partners-btn
+      = link_to 'See all of our partners', offers_path, class: 'button home-partners'
+    .partners-btn
+      = link_to 'See all of our rewards', rewards_path, class: 'button home-partners'
+
+  .security
+    %h2.thin Safety first.
+    .text
+      %h3 Plink uses the same 256-bit encryption and physical security that banks use. We are a Better Business Bureau Accredited business and our practices are monitored and verified by TRUSTe and VeriSign.
+    .logos
+      .logo
+        %span{ id: "d35500c0-c79f-4a6b-a5be-3fd6c350cbf7" }
+          %script{ type: "text/javascript", src: "//privacy-policy.truste.com/privacy-seal/Plink/asc?rid=d35500c0-c79f-4a6b-a5be-3fd6c350cbf7" }
+          %a{ href: "//privacy.truste.com/privacy-seal/Plink/validation?rid=374bcf9a-9073-4c87-8761-40abf21c2f9e", title: "TRUSTe online privacy certification", target: "_blank" }
+            =image_tag "//privacy-policy.truste.com/privacy-seal/Plink/seal?rid=374bcf9a-9073-4c87-8761-40abf21c2f9e", alt: "TRUSTe online privacy certification", height: "28"
+
+      .logo
+        %a{ href: "https://trustsealinfo.verisign.com/splash?form_file=fdf/splash.fdf&dn=www.plink.com&lang=en", target: "_verisign" }
+          =image_tag "home_security_norton.png", height: "28"
+
+      .logo
+        %a{ href: "http://www.bbb.org/denver/business-reviews/marketing-programs-and-services/plink-in-denver-co-90134326##sealclick",target: "_bbb", title: "Click for the Business Review of Plink LLC, a Marketing Programs & Services in Denver CO" }
+          =image_tag "https://seal-denver.bbb.org/seals/blue-seal-96-50-plinkllc-90134326.png", height: "28",  alt: "Click for the BBB Business Review of this Marketing Programs & Services in Denver CO"
+
+      .logo
+        %a{ href: "http://secure.trust-guard.com/security/8294", target: "_blank",
+        oncontextmenu: %Q^var d = new Date(); alert('Copying Prohibited by Law - This image and all included logos are copyrighted by trust-guard \u00A9 '+d.getFullYear()+'.'); return false;^,
+        onclick: %Q^var nonwin=navigator.appName!='Microsoft Internet Explorer'?'yes':'no'; window.open(this.href.replace(/https?/, 'https'),'welcome','location='+nonwin+',scrollbars=yes,width=517,height='+screen.availHeight+',menubar=no,toolbar=no'); return false;^ }
+          =image_tag "//dw26xg4lubooo.cloudfront.net/seals/stacked/8294-lg.gif", height: "28", alt: "Security Seals", name: "trustseal"
+
+      .logo
+        =image_tag 'home_security_intuit.png'
+
+    .join-btn.bottom
+      = link_to 'Join Plink for FREE!', '#', data: {'reveal-id' => 'registration-form'}, class: 'button primary-action large'
+
+  .press
+    .logo-wrapper
+      .logo.text
+        As seen in:
+        %br
+        %br
+      .logo.washpo
+      .logo.forbes
+      .logo.techcrunch
+      .logo.bloomberg
+      .logo.gigaom
+    %hr
+
+= render "home/welcome_video_modal"
+= render partial: 'shared/pixels/steelhouse', locals: {additional_info: @steelhouse_additional_info}
