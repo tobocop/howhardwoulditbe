@@ -86,6 +86,7 @@
       Plink.GigyaContestShareWidget._updateShareButtonText(resp.button_text);
       Plink.GigyaContestShareWidget._updateEntriesSubText(resp.sub_text);
       Plink.GigyaContestShareWidget._updateProviders(resp.available_providers);
+      Plink.GigyaContestShareWidget._updateContestImage(resp.show_non_linked_image);
 
       if (resp.disable_submission) Plink.GigyaContestShareWidget._disableShareButton();
       if (resp.set_checkbox) Contest.setDailyEmailCheckBox(true);
@@ -115,6 +116,16 @@
 
     _updateProviders: function (provider_list) {
       $('#js-share-to-enter').data({providers: provider_list});
+    },
+
+    _updateContestImage: function (show_non_linked_image) {
+      if (show_non_linked_image){
+        $("[data-non-linked-image]").css('display', 'block')
+        $("[data-default-image]").css('display', 'none')
+      } else {
+        $("[data-non-linked-image]").css('display', 'none')
+        $("[data-default-image]").css('display', 'block')
+      }
     },
 
     _disableShareButton: function() {

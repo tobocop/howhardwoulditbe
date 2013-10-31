@@ -5,7 +5,7 @@ describe EntriesController do
 
   describe 'POST create' do
     let(:user) { create_user }
-    let(:contest) { create_contest }
+    let(:contest) { create_contest(non_linked_image: 'image.png') }
 
     context 'for an authenticated user' do
       before do
@@ -57,6 +57,16 @@ describe EntriesController do
 
         it 'returns the providers the user has not posted on' do
           JSON.parse(response.body)['available_providers'].should == 'facebook'
+        end
+
+        it 'indicates that the non linked image should be shown if the contest has a non linked image' do
+          JSON.parse(response.body)['show_non_linked_image'].should be_true
+        end
+
+        it 'indicates that the non linked image should not be shown if the contest does not have a non linked image' do
+          non_linked_contest =  create_contest(non_linked_image: nil)
+          post :create, contest_id: non_linked_contest.id, providers: 'facebook'
+          JSON.parse(response.body)['show_non_linked_image'].should be_false
         end
       end
 
@@ -163,8 +173,13 @@ describe EntriesController do
         it 'returns a count of incremental entries' do
           JSON.parse(response.body)['incremental_entries'].should == 5
         end
+
         it 'returns a count of total entries' do
           JSON.parse(response.body)['total_entries'].should == 5
+        end
+
+        it 'indicates that the non linked image should not be shown' do
+          JSON.parse(response.body)['show_non_linked_image'].should be_false
         end
       end
 
@@ -192,6 +207,5 @@ describe EntriesController do
         response.should redirect_to root_path
       end
     end
-
   end
 end

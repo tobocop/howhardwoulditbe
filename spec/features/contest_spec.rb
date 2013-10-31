@@ -4,11 +4,12 @@ describe 'Contests' do
   let!(:contest) {
     create_contest(
       description: 'This is the best contest ever',
+      end_time: 1.day.from_now.to_date,
+      image: '/assets/profile.jpg',
+      non_linked_image: '/assets/icon_active.png',
       prize: 'The prize is a new car',
       start_time: 1.day.ago.to_date,
-      end_time: 1.day.from_now.to_date,
-      terms_and_conditions: 'These are terms and conditions',
-      image: '/assets/profile.jpg'
+      terms_and_conditions: 'These are terms and conditions'
     )
   }
 
@@ -44,12 +45,12 @@ describe 'Contests' do
       let!(:expired_contest) {
         create_contest(
           description: 'Spectacular! Amazing! Best. Contest. Ever.',
+          end_time: 2.days.ago.to_date,
+          finalized_at: finalized_timestamp,
+          image: '/assets/profile.jpg',
           prize: 'The prize is a slightly used banana hammock.',
           start_time: 10.days.ago.to_date,
-          end_time: 2.days.ago.to_date,
-          terms_and_conditions: 'May not be used as an undergarment. (Seriously, Kris.)',
-          image: '/assets/profile.jpg',
-          finalized_at: finalized_timestamp
+          terms_and_conditions: 'May not be used as an undergarment. (Seriously, Kris.)'
         )
       }
 
@@ -180,8 +181,17 @@ describe 'Contests' do
     end
 
     context 'for an authenticated user without a linked card', js: true, driver: :selenium do
+      let(:user) {
+        create_user(
+          email: 'user@example.com',
+          password: 'pass1word',
+          first_name: 'Frodo',
+          is_subscribed: true,
+          avatar_thumbnail_url: 'http://example.com/image'
+        )
+      }
+
       before do
-        user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')
         create_wallet(user_id: user.id)
         sign_in('user@example.com', 'pass1word')
 
@@ -192,8 +202,20 @@ describe 'Contests' do
       it 'displays the user entry information and allows them to enter' do
         page.should have_content 'You have 0 entries.'
         page.should have_link 'share to enter'
+        page.should have_image '/assets/profile.jpg'
         page.should have_content 'Get 5x entries per day when you link a credit or debit card.'
         page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'link a credit or debit card')
+
+        click_link 'share to enter'
+
+        within 'div[gigid]' do
+          page.should have_content 'Share with your friends'
+        end
+
+        create_entry(contest_id: contest.id, user_id: user.id)
+        visit current_path
+        page.should have_image '/assets/icon_active.png'
+
         # This event is triggered via coldfusion:
         page.execute_script('$(document).trigger("cardLinkProcessComplete");')
 
@@ -205,12 +227,6 @@ describe 'Contests' do
 
         within 'div[gigid]' do
           page.should have_content 'Join Plink for free and receive a $5 gift card'
-        end
-
-        click_link 'share to enter'
-
-        within 'div[gigid]' do
-          page.should have_content 'Share with your friends'
         end
       end
     end

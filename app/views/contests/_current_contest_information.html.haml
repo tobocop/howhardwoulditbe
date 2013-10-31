@@ -2,7 +2,10 @@
   .title
     %h2.cyan= contest.description
     .image
-      = image_tag contest.image
+      -show_non_linked = !user_has_linked_card && user.logged_in? && entries[:total] > 0 && !contest.non_linked_image.blank?
+      -if show_non_linked
+        = link_to image_tag(contest.non_linked_image), '#', data: { 'reveal-id' => 'card-add-modal', 'non-linked-image' => 'true' }, style: "display: #{show_non_linked ? 'block' : 'none'}"
+      = image_tag contest.image, data: { 'default-image' => 'true' }, style: "display: #{show_non_linked ? 'none' : 'block'}"
   .details
     %h3.strong= "Prizes drawn on #{contest.end_date}"
     %p= contest.prize
@@ -17,8 +20,9 @@
         entries: entries,                                |
         user: user,                                      |
         contest: contest,                                |
-        user_has_linked_card: user_has_linked_card,      |
-        card_link_url: card_link_url                     |
+        user_has_linked_card: user_has_linked_card       |
       }                                                  |
   -else
     Contest has not started yet, please check back soon.
+#card-add-modal.reveal-modal.cf-modal
+  = render partial: 'shared/card_add_modal', locals: {card_modal_url: card_link_url}

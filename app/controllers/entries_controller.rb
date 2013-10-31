@@ -11,15 +11,23 @@ class EntriesController < ApplicationController
       presenter = EntriesPresenter.new(entries_for_today(current_user.id, params[:contest_id]))
       entries = Plink::ContestEntryService.total_entries_via_share(current_user.id, params[:contest_id], user_linked_card, presenter.unshared_provider_count)
 
+      if !user_linked_card
+        contest_record = Plink::ContestRecord.find(params[:contest_id])
+        show_non_linked_image = contest_record.non_linked_image.present? ?  true : false
+      else
+        show_non_linked_image = false
+      end
+
       render json: {
-        incremental_entries: entry_count,
-        total_entries: total_entries,
-        disable_submission: disable_submission,
-        providers: presenter.providers,
+        available_providers: presenter.available_providers,
         button_text: entry_button_text(presenter.share_state),
-        sub_text: view_context.entries_subtext(presenter.share_state, entries),
+        disable_submission: disable_submission,
+        incremental_entries: entry_count,
+        show_non_linked_image: show_non_linked_image,
+        providers: presenter.providers,
         set_checkbox: set_daily_reminders_for_current_user,
-        available_providers: presenter.available_providers
+        sub_text: view_context.entries_subtext(presenter.share_state, entries),
+        total_entries: total_entries
       }
     else
       result = {errors: extract_errors(new_entries), disable_submission: disable_submission}

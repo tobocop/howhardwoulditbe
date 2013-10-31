@@ -6,8 +6,8 @@ class ContestPresenter
     @contest = attributes.fetch(:contest)
   end
 
-  delegate :description, :end_time, :id, :image, :prize, :start_time, :terms_and_conditions,
-    :started?, :ended?, :finalized?, to: :contest
+  delegate :description, :end_time, :ended?, :finalized?, :id, :image, :non_linked_image,
+    :prize, :start_time, :started?, :terms_and_conditions, to: :contest
 
   def start_date
     start_time.strftime('%_m/%-d/%y')

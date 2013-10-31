@@ -9,6 +9,8 @@ describe('Plink.GigyaContestShareWidget', function () {
     };
 
     $('#jasmine_content').html('<div class="flash-container"></div>' +
+      '<div data-non-linked-image="true"></div>' +
+      '<div data-default-image="true"></div>' +
       '<div data-contest-share-widget="true"></div>' +
       '<div id="js-contest-entries"></div>' +
       '<div id="js-entry-or-entries"></div>' +
@@ -155,6 +157,13 @@ describe('Plink.GigyaContestShareWidget', function () {
       Plink.GigyaContestShareWidget._onEntrySucess({available_providers: 'facebook'});
 
       expect($("#js-share-to-enter").data().providers).toBe('facebook');
+    });
+
+    it('toggles the images if show_non_linked_image is true', function() {
+      Plink.GigyaContestShareWidget._onEntrySucess({show_non_linked_image: true});
+
+      expect($("[data-non-linked-image]").css('display')).toBe('block');
+      expect($("[data-default-image]").css('display')).toBe('none');
     });
   });
 
