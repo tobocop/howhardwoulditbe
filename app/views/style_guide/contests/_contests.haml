@@ -20,11 +20,20 @@
 .layout-wrapper
   .layout-inner
     .contests
-      %h1 Contests
-      %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
-
+      %header.page-title
+        %h1 Contests
+        %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
+      %header.nonlinked-message
+        .font-1p5em.font-w500 Want 5x more entries?
+        .font-1em.font-w300.font-lightgray
+          Get 5x entries per day when you 
+          %br
+          link a credit or debit card.
+          .btn
+            %button.button.nav.sign-in.width-70
+              .font-w300 LINK YOUR CARD
       .contest
-        .info
+        .info.margin-top-n40
           .title
             %h2.cyan Nonlinked User has not entered
           .image
@@ -45,9 +54,6 @@
               %button.button.primary-action.white-txt SHARE TO ENTER
             .details
               %h4 Get 2 entries when you share on Facebook and Twitter
-              %h4.bonus.nonlinked
-                Get 5x entries per day when you
-                %a link a credit or debit card.
         %footer
           %input.checkbox{:type => "checkbox"}
           %h4 Remind me to re-enter this contest via email
@@ -60,9 +66,26 @@
             .btn
               %button.button.nav.tall
                 %img{:src => "/assets/icon_refer.png"}
+      %br
+      %br
+      %br
+      %br
+      %br
 
+      %header.page-title
+        %h1 Contests
+        %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
+      %header.nonlinked-message
+        .font-1p5em.font-w500 Want 5x more entries?
+        .font-1em.font-w300.font-lightgray
+          Get 5x entries per day when you 
+          %br
+          link a credit or debit card.
+          .btn
+            %button.button.nav.sign-in.width-70
+              .font-w300 LINK YOUR CARD
       .contest
-        .info
+        .info.margin-top-n40
           .title
             %h2.cyan Non-linked User has entered
           .image
