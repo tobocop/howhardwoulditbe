@@ -13,9 +13,14 @@ class Plink::CardLinkUrlGenerator
     uri = URI.parse(base_url)
 
     query_params = uri.query.to_s.split("&")
-    query_params << "refer=#{params[:referrer_id]}" if params[:referrer_id].present?
     query_params << "aid=#{params[:affiliate_id]}" if params[:affiliate_id].present?
+    query_params << "campaignID=#{params[:campaign_id]}" if params[:campaign_id].present?
+    query_params << "landing_page_id=#{params[:landing_page_id]}" if params[:landing_page_id].present?
+    query_params << "refer=#{params[:referrer_id]}" if params[:referrer_id].present?
     query_params << "subID2=#{params[:sub_id_two]}" if params[:sub_id_two].present?
+    query_params << "subID3=#{params[:sub_id_three]}" if params[:sub_id_three].present?
+    query_params << "subID4=#{params[:sub_id_four]}" if params[:sub_id_four].present?
+    query_params << "subID=#{params[:sub_id]}" if params[:sub_id].present?
 
     uri.query = query_params.join("&")
 

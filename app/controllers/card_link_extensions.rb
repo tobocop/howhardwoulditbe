@@ -4,7 +4,7 @@ module CardLinkExtensions
   end
 
   def card_link_referral_params
-    { referrer_id: session[:referrer_id], affiliate_id: session[:affiliate_id] }
+    session[:tracking_params] || { referrer_id: session[:referrer_id], affiliate_id: session[:affiliate_id] }
   end
 end
 
