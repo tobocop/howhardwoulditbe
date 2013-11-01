@@ -1,6 +1,7 @@
 .contests
-  %h1 Contests
-  %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
+  %header.page-title
+    %h1 Contests
+    %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
 
   .contest
     - if contest.ended?
@@ -11,8 +12,7 @@
           user: user,                                                       |
           contest: contest,                                                 |
           entries: entries,                                                 |
-          user_has_linked_card: user_has_linked_card,                       |
-          card_link_url: card_link_url                                      |
+          user_has_linked_card: user_has_linked_card                        |
         }                                                                   |
     %footer
       - if user.logged_in?
@@ -24,3 +24,6 @@
   .reveal-modal.medium#terms-and-conditions
     = contest.terms_and_conditions.html_safe
     = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'
+
+#card-add-modal.reveal-modal.cf-modal
+  = render partial: 'shared/card_add_modal', locals: {card_modal_url: card_link_url}

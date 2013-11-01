@@ -204,7 +204,7 @@ describe 'Contests' do
         page.should have_link 'share to enter'
         page.should have_image '/assets/profile.jpg'
         page.should have_content 'Get 5x entries per day when you link a credit or debit card.'
-        page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'link a credit or debit card')
+        page.should have_css('[data-reveal-id="card-add-modal"]', text: 'LINK YOUR CARD')
 
         click_link 'share to enter'
 

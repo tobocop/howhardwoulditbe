@@ -1,4 +1,14 @@
-.entries
+-if !user_has_linked_card && user.logged_in?
+  .nonlinked-message{style: 'margin-top: -110px'}
+    .font-1p5em.font-w500 Want 5x more entries?
+    .font-1em.font-w300.font-lightgray
+      Get 5x entries per day when you
+      %br
+      link a credit or debit card.
+      .btn
+        %button.button.nav.sign-in.width-70{data: { 'reveal-id' => 'card-add-modal' }}
+          .font-w300 LINK YOUR CARD
+.entries.mtl
   %h2 You have
   %h1.cyan#js-contest-entries= "#{entries[:total]}"
   %h2#js-entry-or-entries= "#{'entry'.pluralize(entries[:total])}."
@@ -16,7 +26,3 @@
     %h4#js-entry-subtext= entries_subtext(entries[:share_state], entries[:shared])
   -if user_has_linked_card
     %h4.bonus Because you linked a card to your Plink account, you'll get 5x entries per share.
-  -elsif user.logged_in?
-    %h4.bonus.nonlinked
-      Get 5x entries per day when you
-      = link_to 'link a credit or debit card.', '#', data: { 'reveal-id' => 'card-add-modal' }
