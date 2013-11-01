@@ -18,7 +18,6 @@ module Tango
       response = JSON.parse(json)
 
       if response['responseType'] == 'SUCCESS'
-
         new(
             response_type: response['responseType'],
             reference_order_id: response['response']['referenceOrderId'],
@@ -26,9 +25,11 @@ module Tango
             card_number: response['response']['cardNumber']
         )
       else
-        FailureResponse.new(response_type: response['responseType'], error_message: response['response']['invalid']['body'])
+        raise Tango::PurchaseCardResponse::OtherError, response['response']['invalid']['body']
       end
     end
+
+    class OtherError < StandardError; end
 
     class FailureResponse
 

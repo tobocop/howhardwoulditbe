@@ -417,7 +417,8 @@ module Plink
         name: 'wolfmart',
         is_tango: false,
         description: 'howl at the moon',
-        logo_url: '/assets/test/amazon.png'
+        logo_url: '/assets/test/amazon.png',
+        is_active: true
       }
 
       Plink::RewardRecord.new { |reward| apply(reward, defaults, options) }

@@ -8,6 +8,7 @@ PATH
   specs:
     plink (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
+      exceptional
       rails (= 3.2.13)
       tango
       tiny_tds (= 0.5.1)

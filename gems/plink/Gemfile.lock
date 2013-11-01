@@ -3,6 +3,7 @@ PATH
   specs:
     plink (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
+      exceptional
       rails (= 3.2.13)
       tango
       tiny_tds (= 0.5.1)
@@ -52,6 +53,8 @@ GEM
     coderay (1.0.9)
     diff-lcs (1.2.4)
     erubis (2.7.0)
+    exceptional (2.0.33)
+      rack
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
     hashr (0.0.22)

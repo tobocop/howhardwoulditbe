@@ -3,22 +3,22 @@ require 'spec_helper'
 describe '#new' do
 
   subject(:tracking_service) { Plink::TangoTrackingService }
-  let(:tango_sends_email) { true }
   let(:award_code) { 'fonttard' }
-  let(:dollar_award_amount) { 10 }
   let(:card_value) { 100 * dollar_award_amount }
-  let(:reward_name) { 'HicksvilleBucks' }
+  let(:current_time) { Date.current }
+  let(:dollar_award_amount) { 10 }
   let(:gift_message) { "Here's your #{reward_name}" }
   let(:gift_from) { 'Plink' }
   let(:recipient_name) { 'Withakay' }
   let(:recipient_email) { 'KrisLovesComicSans@example.com' }
+  let(:reward_name) { 'HicksvilleBucks' }
   let(:reward_id) { 7 }
+  let(:tango_sends_email) { true }
   let(:user_id) { 5 }
 
   it 'sets the initial tracking parameters' do
 
-    fake_time = DateTime.parse("01/01/2015 10:00")
-    DateTime.should_receive(:now).and_return(fake_time)
+    Time.stub(:zone).and_return(double(now: current_time))
 
     Plink::TangoTrackingRecord.stub(:save!).and_return(true)
     Plink::TangoTrackingRecord.should_receive(:new).with(
@@ -27,7 +27,7 @@ describe '#new' do
       loot_id: reward_id,
       recipient_email: recipient_email,
       recipient_name: recipient_name,
-      sent_to_tango_on: fake_time,
+      sent_to_tango_on: current_time,
       user_id: user_id
     ).and_call_original
 

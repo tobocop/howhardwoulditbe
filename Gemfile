@@ -19,6 +19,7 @@ gem 'plink_admin', path: 'gems/plink_admin'
 
 gem 'aggcat'
 gem 'tire'
+gem 'exceptional'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -53,5 +54,4 @@ group :production do
   gem 'unicorn'
   gem 'newrelic_rpm'
   gem 'execjs'
-  gem 'exceptional'
 end

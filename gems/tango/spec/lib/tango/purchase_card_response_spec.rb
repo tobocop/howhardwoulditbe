@@ -10,6 +10,9 @@ describe Tango::PurchaseCardResponse do
     "{\"responseType\":\"INV_INPUT\",\"response\":{\"invalid\":{\"body\":\"This method must be called with a POST body that contains valid JSON.\"}}}"
   }
 
+  let (:malformed_response) { "This isn't JSON" }
+  let (:blank_response) { '' }
+
   describe '.from_json' do
     it 'parses the successful json and creates a response from it' do
       response = Tango::PurchaseCardResponse.from_json(successful_response)
@@ -21,11 +24,16 @@ describe Tango::PurchaseCardResponse do
       response.successful?.should == true
     end
 
-    it 'parses an invalid json response and creates a response from it' do
-      response = Tango::PurchaseCardResponse.from_json(invalid_response)
-      response.response_type.should == 'INV_INPUT'
-      response.error_message.should == 'This method must be called with a POST body that contains valid JSON.'
-      response.successful?.should == false
+    it 'raises an exception if invalid JSON is received' do
+      expect { Tango::PurchaseCardResponse.from_json(invalid_response) }.to raise_error()
+    end
+
+    it 'raises an exception if malformed JSON is received' do
+      expect { Tango::PurchaseCardResponse.from_json(malformed_response) }.to raise_error()
+    end
+
+    it 'raises an exception if empty JSON is received' do
+      expect { Tango::PurchaseCardResponse.from_json(blank_response) }.to raise_error()
     end
   end
 end

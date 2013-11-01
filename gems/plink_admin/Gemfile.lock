@@ -16,6 +16,7 @@ PATH
   specs:
     plink (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
+      exceptional
       rails (= 3.2.13)
       tango
       tiny_tds (= 0.5.1)
@@ -82,6 +83,8 @@ GEM
       warden (~> 1.2.1)
     diff-lcs (1.2.4)
     erubis (2.7.0)
+    exceptional (2.0.33)
+      rack
     haml (4.0.3)
       tilt
     haml-rails (0.4)

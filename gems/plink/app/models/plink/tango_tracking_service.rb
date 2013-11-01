@@ -22,7 +22,7 @@ module Plink
         loot_id: @reward_id,
         recipient_email: @recipient_email,
         recipient_name: @recipient_name,
-        sent_to_tango_on: DateTime.now,
+        sent_to_tango_on: Time.zone.now,
         user_id: @user_id
       )
       @tracking_record.save!
@@ -37,7 +37,7 @@ module Plink
     def track_purchase(tango_response)
 
       @tracking_record.response_type = tango_response.response_type
-      @tracking_record.response_from_tango_on = DateTime.now
+      @tracking_record.response_from_tango_on = Time.zone.now
 
       if tango_response.response_type == 'SUCCESS'
         @tracking_record.reference_order_id = tango_response.reference_order_id

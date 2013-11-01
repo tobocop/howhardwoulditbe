@@ -1,6 +1,8 @@
 module Plink
   class TangoRedemptionService
 
+    require 'exceptional'
+
     GIFT_FROM = 'Plink'
     PLINK_POINTS_EXCHANGE_RATE = 100
 
@@ -17,10 +19,20 @@ module Plink
     end
 
     def redeem
-      if deliver_card.successful?
-        Plink::RedemptionRecord.create(attributes)
-      else
-        raise('Tango Redemption failed')
+      begin
+        Plink::RedemptionRecord.create(attributes) if deliver_card.successful?
+      rescue Exception => e
+        Plink::TangoRedemptionShutoffService.halt_redemptions
+        ::Exceptional::Catcher.handle(
+          raise $!, "#{exception_text} #{$!}", $!.backtrace
+        )
+      end
+
+      unless deliver_card.successful?
+        Plink::TangoRedemptionShutoffService.halt_redemptions
+        ::Exceptional::Catcher.handle(
+          raise $!, "#{exception_text} #{$!}", $!.backtrace
+        )
       end
     end
 
@@ -34,7 +46,7 @@ module Plink
           reward_id: reward_id,
           user_id: user_id,
           is_pending: false,
-          sent_on: Time.now
+          sent_on: Time.zone.now
       }
     end
 
@@ -57,6 +69,10 @@ module Plink
       )
       service.purchase
 
+    end
+
+    def exception_text
+      "Tango Card exception for user_id: #{user_id}, dollar_award_amount: #{dollar_award_amount}, reward_id: #{reward_id}\n"
     end
   end
 end
