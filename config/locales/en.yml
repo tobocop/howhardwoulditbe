@@ -3,22 +3,22 @@ en:
     contests:
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
       entry_post:
-        title: "Win an iPad 2 in Plink's Spooktacular Halloween Giveaway"
-        description: "Enter Plink's #Spooktacular Halloween Giveaway to win an Apple iPad 2. No tricks, only treats - even if you don't win the iPad, you'll still have a chance to win the other 149 prizes! #Plink"
+        title: "Win a $500 Gift Card in Plink's Holiday Shopping Spree"
+        description: "Enter Plink's Holiday Shopping Spree to win a $500 Gift Card of your choice. Even if you don't win the grand prize, you'll still have a chance to win the other 149 prizes!"
       winners_post:
         title: I just won a Plink contest! You can be a Winner, too.
-        description: "I just won a prize in the Plink #Spooktacular Halloween Giveaway!  I might have even won the iPad 2 – See what I won! #Plink"
+        description: "I just won a gift card in Plink's Holiday Shopping Spree!  Join Plink today and enter for your chance to win."
       winners_automatic_post:
-        status: "I just won a #Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win. #Plink"
+        status: "I just won a prize in Plink's Holiday Shopping Spree! I might have even won the $500 Gift Card - See what I won!"
       in_app_notification:
-        enter_today: Enter our contest today for a chance to win an iPad 2!
+        enter_today: Enter our contest today for a chance to win a $500 Gift Card!
       emails:
         daily_reminder_email:
-          subject: Enter Today - Apple iPad 2 Up For Grabs
+          subject: Enter Today - $500 Gift Card Up For Grabs
         three_day_reminder_email:
-          subject: Your Halloween Spooktacular entries expire today
+          subject: Your Holiday Shopping Spree entries expire today
         winner_email:
-          subject: Halloween Spooktacular Winners Announced!! See if you won!
+          subject: Holiday Shopping Spree Winners Announced!! See if you won!
     rewards:
       emails:
         reward_notification_email:

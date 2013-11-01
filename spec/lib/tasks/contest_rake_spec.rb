@@ -237,6 +237,35 @@ describe 'contest:create_prize_levels_for_contest', skip_in_build: true do
       Plink::ContestPrizeLevelRecord.sum('dollar_amount * award_count').should == 801
     end
   end
+
+  context 'contest_id 3' do
+    let(:prize_levels) {
+      [
+        {dollar_amount: 500, number_of_winners: 1},
+        {dollar_amount: 100, number_of_winners: 1},
+        {dollar_amount: 25, number_of_winners: 5},
+        {dollar_amount: 5, number_of_winners: 23},
+        {dollar_amount: 2, number_of_winners: 40},
+        {dollar_amount: 1, number_of_winners: 80}
+      ]
+    }
+
+    it 'creates the prize levels for contest 3' do
+      subject.invoke(3)
+
+      prize_levels.each do |prize_level|
+        created_levels = Plink::ContestPrizeLevelRecord.where(dollar_amount: prize_level[:dollar_amount])
+        created_levels.count.should == 1
+        created_levels.first.award_count.should == prize_level[:number_of_winners]
+      end
+    end
+
+    it 'creates $1000 worth of prizes' do
+      subject.invoke(3)
+
+      Plink::ContestPrizeLevelRecord.sum('dollar_amount * award_count').should == 1000
+    end
+  end
 end
 
 describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true do
