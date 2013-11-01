@@ -23,17 +23,8 @@
       %header.page-title
         %h1 Contests
         %h3.gray Enter once a day until the contest is over. The more you enter, the more you win!
-      %header.nonlinked-message
-        .font-1p5em.font-w500 Want 5x more entries?
-        .font-1em.font-w300.font-lightgray
-          Get 5x entries per day when you 
-          %br
-          link a credit or debit card.
-          .btn
-            %button.button.nav.sign-in.width-70
-              .font-w300 LINK YOUR CARD
       .contest
-        .info.margin-top-n40
+        .info
           .title
             %h2.cyan Nonlinked User has not entered
           .image
@@ -46,7 +37,16 @@
               %a See Contest Rules for details.
               Void where prohibited.
         .enter
-          .entries
+          .nonlinked-message{style: 'margin-top: -110px'}
+            .font-1p5em.font-w500 Want 5x more entries?
+            .font-1em.font-w300.font-lightgray
+              Get 5x entries per day when you
+              %br
+              link a credit or debit card.
+              .btn
+                %button.button.nav.sign-in.width-70
+                  .font-w300 LINK YOUR CARD
+          .entries.mtxl
             %h2 You have
             %h1.cyan 999
             %h2 entries.
