@@ -1,13 +1,11 @@
 class ReferralsController < ApplicationController
+  include TrackingExtensions
 
   def create
-    session[:referrer_id] = params[:user_id].to_i
-    session[:affiliate_id] = params[:affiliate_id].to_i
-
-    session[:tracking_params] = referral_tracking_params
+    set_session_tracking_params(new_tracking_object_from_params(trackable_params))
 
     if is_mobile?
-      redirect_to mobile_reg_path(session)
+      redirect_to mobile_reg_path(get_session_tracking_params)
     else
       redirect_to root_path
     end
@@ -15,10 +13,8 @@ class ReferralsController < ApplicationController
 
 private
 
-  def referral_tracking_params
-    TrackingObject.new({
-      affiliate_id: params[:affiliate_id]
-    }).to_hash
+  def trackable_params
+    params.merge(aid: params[:affiliate_id])
   end
 
   def mobile_reg_path(url_params)

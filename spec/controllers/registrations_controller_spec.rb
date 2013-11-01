@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe RegistrationsController do
+  it_should_behave_like(:tracking_extensions)
+
   describe "#create" do
     describe "on save" do
       let(:gigya) { double }
@@ -18,8 +20,6 @@ describe RegistrationsController do
         user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob', ip: '0.0.0.1')
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
-        controller.stub(:plink_event_service) {stub(create_email_capture: true)}
-        controller.stub(:tracking_params) {stub(to_hash: true)}
         controller.stub(add_user_to_lyris: true)
       end
 
@@ -60,32 +60,25 @@ describe RegistrationsController do
       end
 
       it 'tracks an email capture event' do
-        controller.unstub(:plink_event_service)
-        controller.unstub(:tracking_params)
-
-        controller.stub(:session_params) { {affiliate_id: 23986} }
-        TrackingObject.should_receive(:new).with(affiliate_id: 23986, ip: request.remote_ip).and_call_original
         Plink::EventService.any_instance.should_receive(:create_email_capture).with(
           123,
-          affiliate_id: 23986,
-          sub_id: nil,
-          sub_id_two: nil,
-          sub_id_three: nil,
-          sub_id_four: nil,
-          path_id: '1',
+          affiliate_id: '1',
           campaign_hash: nil,
           campaign_id: nil,
+          ip: request.remote_ip,
           landing_page_id: nil,
-          ip: request.remote_ip
+          path_id: '1',
+          referrer_id: nil,
+          sub_id: nil,
+          sub_id_four: nil,
+          sub_id_three: nil,
+          sub_id_two: nil
         )
 
         xhr :post, :create
       end
 
       it 'updates the registration_start event if the id is present in the session' do
-        controller.unstub(:plink_event_service)
-        controller.unstub(:tracking_params)
-
         session[:registration_start_event_id] = registration_event.id
 
         xhr :post, :create

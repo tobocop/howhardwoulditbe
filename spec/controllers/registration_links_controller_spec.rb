@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe RegistrationLinksController do
+  it_should_behave_like(:tracking_extensions)
+
   let(:landing_page) { create_landing_page(partial_path: 'path.html.haml') }
   let(:affiliate) { create_affiliate }
   let(:campaign) { create_campaign(campaign_hash: 'fordeprecation') }
@@ -131,7 +133,7 @@ describe RegistrationLinksController do
       end
 
       it 'should assign the steelhouse additional info string' do
-        assigns(:steelhouse_additional_info).should == "&affiliateid=#{affiliate.id},&subid=subid 1,&subid2=subid 2,&subid3=subid 3,&subid4=subid 4,&campaignid=#{campaign.id},&virtualcurrencyid=#{virtual_currency.id},&landing_page_id=#{landing_page.id},"
+        assigns(:steelhouse_additional_info).should == "&affiliateid=#{affiliate.id},&campaignid=#{campaign.id},&landing_page_id=#{landing_page.id},&subid2=subid 2,&subid3=subid 3,&subid4=subid 4,&subid=subid 1,&virtualcurrencyid=#{virtual_currency.id},"
       end
     end
   end

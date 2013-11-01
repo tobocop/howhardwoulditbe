@@ -1,6 +1,5 @@
 class RegistrationsController < ApplicationController
-
-  include Tracking
+  include TrackingExtensions
 
   def create
     user_registration_form = UserRegistrationForm.new(

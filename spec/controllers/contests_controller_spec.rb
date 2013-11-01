@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe ContestsController do
+
+  it_should_behave_like(:tracking_extensions)
+
   describe 'GET index' do
     let!(:contest) { create_contest }
 

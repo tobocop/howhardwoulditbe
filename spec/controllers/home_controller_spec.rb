@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe HomeController do
+  it_should_behave_like(:tracking_extensions)
+
   describe '#index' do
     before :each do
       controller.stub(:current_virtual_currency) { stub(id: 1) }

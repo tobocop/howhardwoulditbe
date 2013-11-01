@@ -1,6 +1,6 @@
 class GigyaLoginHandlerController < ApplicationController
 
-  include Tracking
+  include TrackingExtensions
 
   def create
     gigya_login_service = GigyaSocialLoginService.new(params_for_service)

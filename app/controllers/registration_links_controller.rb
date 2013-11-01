@@ -1,5 +1,5 @@
 class RegistrationLinksController < ApplicationController
-  include Tracking
+  include TrackingExtensions
 
   def show
     @registration_flow = Plink::RegistrationLinkService.get_registration_flow_by_registration_link_id(params[:id])
@@ -10,8 +10,8 @@ class RegistrationLinksController < ApplicationController
     session[:registration_link_id] = params[:id]
     session[:share_page_id] = @registration_flow.share_flow? ? @registration_flow.share_page_id : nil
 
-    session[:tracking_params] = TrackingObject.from_params(build_tracking_params(@registration_flow)).to_hash
-    store_registration_start_event_id(track_registration_start_event.id)
+    set_session_tracking_params(new_tracking_object_from_params(build_tracking_params(@registration_flow)))
+    track_registration_start_event
 
     @steelhouse_additional_info = steelhouse_additional_info
   end
@@ -20,7 +20,7 @@ class RegistrationLinksController < ApplicationController
     registration_link = Plink::RegistrationLinkMappingService.get_registration_link_by_affiliate_id_and_campaign_hash(params[:aid], params[:c])
 
     if registration_link
-      redirect_to registration_link_path(registration_link, trackable_params)
+      redirect_to registration_link_path(registration_link, params.except(:controller, :action, :c, :aid))
     else
       redirect_to root_path
     end
@@ -35,15 +35,11 @@ private
   end
 
   def build_tracking_params(registration_flow)
-    trackable_params.merge(
+    params.merge(
       aid: registration_flow.affiliate_id,
       campaign_id: registration_flow.campaign_id,
       landing_page_id: registration_flow.landing_page_id
     )
-  end
-
-  def trackable_params
-    params.except(:controller, :action, :c, :aid)
   end
 
   def is_mobile?(registration_flow)

@@ -1,16 +1,18 @@
 require 'spec_helper'
 
 describe TrackingController do
+  it_should_behave_like(:tracking_extensions)
+
   describe 'index' do
     let(:valid_options) { {
       'aid' => '1732',
+      'c' => 'BIGLONGHASH',
+      'campaign_id' => nil,
+      'pathID' => '123',
       'subID' => 'Subid 1',
       'subID2' => 'Subid 2',
       'subID3' => 'Subid 3',
-      'subID4' => 'Subid 4',
-      'pathID' => '123',
-      'c' => 'BIGLONGHASH',
-      'campaign_id' => nil
+      'subID4' => 'Subid 4'
     }}
 
 

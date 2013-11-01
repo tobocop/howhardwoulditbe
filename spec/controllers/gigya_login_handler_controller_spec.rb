@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe GigyaLoginHandlerController do
+  it_should_behave_like(:tracking_extensions)
+
   describe '#create' do
     let(:gigya_connection) { stub(:gigya_connection) }
     let(:user) { mock('user', id: 55) }

@@ -1,6 +1,6 @@
 class ContestsController < ApplicationController
   include CardLinkExtensions
-  include Tracking
+  include TrackingExtensions
   include AutoLoginExtensions
 
   def index
@@ -37,7 +37,7 @@ class ContestsController < ApplicationController
     auto_login_user(params[:user_token], contest_results_path)
   end
 
-  private
+private
 
   def instantiate_contest_data(contest)
     @current_tab = 'contests'
@@ -57,7 +57,11 @@ class ContestsController < ApplicationController
       shared: Plink::ContestEntryService.total_entries_via_share(current_user.id, contest.id, @user_has_linked_card, current_entries.unshared_provider_count)
     }
 
-    session[:tracking_params] = contest_tracking_params(contest.id).to_hash
+    set_session_tracking_params(new_tracking_object(contest_tracking_params(contest.id)))
+  end
+
+  def contest_tracking_params(contest_id)
+    get_session_tracking_params.merge(sub_id_two: "contest_id_#{contest_id}")
   end
 
   def card_link_url_params(contest_id)
