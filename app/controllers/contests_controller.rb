@@ -1,5 +1,4 @@
 class ContestsController < ApplicationController
-  include CardLinkExtensions
   include TrackingExtensions
   include AutoLoginExtensions
 
@@ -46,7 +45,7 @@ private
     @contest_results_service.prepare_contest_results if contest.finalized?
 
     @user = current_user
-    @card_link_url = plink_card_link_url_generator.create_url(card_link_url_params(contest.id))
+    @card_link_url = plink_card_link_url_generator.create_url(contest_tracking_params(contest.id))
     @user_has_linked_card = Plink::IntuitAccountService.new.user_has_account?(current_user.id)
 
     current_entries = EntriesPresenter.new(user_entries_today(contest.id))
@@ -62,10 +61,6 @@ private
 
   def contest_tracking_params(contest_id)
     get_session_tracking_params.merge(sub_id_two: "contest_id_#{contest_id}")
-  end
-
-  def card_link_url_params(contest_id)
-    card_link_referral_params.merge(sub_id_two: "contest_id_#{contest_id}")
   end
 
   def create_contest_presenter(contest_record)

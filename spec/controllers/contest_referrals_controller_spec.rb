@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe ContestReferralsController do
+  it_should_behave_like(:tracking_extensions)
+
   describe '.new' do
     before do
       get :new, {user_id: 123, affiliate_id: 43, contest_id: 23, source: 'my_sweet_source'}
@@ -9,16 +11,12 @@ describe ContestReferralsController do
       response.should redirect_to contests_path
     end
 
-    it 'sets the referrer_id in the session' do
-      session[:referrer_id].should == 123
-    end
-
-    it 'sets the affiliate_id in the session' do
-      session[:affiliate_id].should == 43
+    it 'sets the tracking_params referrer_id in the session to the user_id' do
+      session[:tracking_params][:referrer_id].should == '123'
     end
 
     it 'sets the tracking_params affiliate_id in the session to the affiliate_id' do
-      session[:tracking_params][:affiliate_id].should == 43
+      session[:tracking_params][:affiliate_id].should == '43'
     end
     it 'sets the tracking_params sub_id_three in the session to the contest id' do
       session[:tracking_params][:sub_id_three].should == 'contest_id_23'

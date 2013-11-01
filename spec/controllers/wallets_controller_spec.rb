@@ -4,6 +4,7 @@ require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
 describe WalletsController do
+  it_should_behave_like(:tracking_extensions)
 
   let(:offer) { new_offer }
   let(:wallet_item) { new_locked_wallet_item }
@@ -50,8 +51,11 @@ describe WalletsController do
       end
 
       it 'assigns a @card_link_url' do
-        session[:referrer_id] = 123
-        session[:affiliate_id] = 456
+        session[:tracking_params] = {
+          referrer_id: 123,
+          affiliate_id: 456
+        }
+
         Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).with(referrer_id: 123, affiliate_id: 456).and_return { 'http://www.mywebsite.example.com' }
 
         get :show

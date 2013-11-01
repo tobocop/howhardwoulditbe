@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  include CardLinkExtensions
+  include TrackingExtensions
 
   before_filter :require_authentication
 
@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
     @user_has_account = !!@bank_account
     @currency_activity = plink_currency_activity_service.get_for_user_id(current_user.id).map { |debit_credit| CurrencyActivityPresenter.build_currency_activity(debit_credit) }
 
-    @card_link_url = plink_card_link_url_generator.create_url(card_link_referral_params)
+    @card_link_url = plink_card_link_url_generator.create_url(get_session_tracking_params)
     @card_change_url = plink_card_link_url_generator.change_url
     @card_reverify_url = plink_card_link_url_generator.card_reverify_url
   end
