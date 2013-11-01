@@ -1,27 +1,32 @@
 class PlinkAdmin::ContestWinningService
   def self.total_non_plink_entries_for_contest(contest_id)
-    query = Plink::EntryRecord.joins('INNER JOIN users ON user_id = userID').
-      where('emailAddress NOT LIKE ?', '%plink.com%').
+    query = Plink::EntryRecord.
       where(contest_id: contest_id)
 
-    Plink::ContestBlacklistedEmailRecord.all.each do |blacklisted|
-      query = query.where('emailAddress NOT LIKE ?', blacklisted.email_pattern)
+    blacklisted_user_ids = Plink::ContestBlacklistedEmailRecord.select(:user_id).map(&:user_id)
+    if blacklisted_user_ids.present?
+      query = query.
+        joins('LEFT JOIN contest_blacklisted_user_ids cbui ON entries.user_id = cbui.user_id').
+        where('cbui.user_id IS NULL')
     end
 
     query.sum('computed_entries')
   end
 
   def self.cumulative_non_plink_entries_by_user(contest_id)
-    query = Plink::EntryRecord.select("user_id, SUM(computed_entries) AS 'entries',
-      (SELECT SUM(computed_entries) FROM entries e INNER JOIN users u ON e.user_id = u.userID AND u.emailAddress NOT LIKE '%plink.com%' WHERE e.user_id <= entries.user_id) AS 'cumulative_entries'").
-      joins('INNER JOIN users ON userID = user_id').
+    query = Plink::EntryRecord.select("entries.user_id, SUM(computed_entries) AS 'entries',
+      (SELECT SUM(computed_entries) FROM entries e
+        LEFT JOIN contest_blacklisted_user_ids cbui ON e.user_id = cbui.user_id
+        WHERE cbui.user_id IS NULL AND e.user_id <= entries.user_id) AS 'cumulative_entries'").
       where(contest_id: contest_id).
-      where('emailAddress NOT LIKE ?', '%plink.com%').
-      group(:user_id, :userID).
-      order('user_id ASC')
+      group('entries.user_id').
+      order('entries.user_id ASC')
 
-    Plink::ContestBlacklistedEmailRecord.all.each do |blacklisted|
-      query = query.where('emailAddress NOT LIKE ?', blacklisted.email_pattern)
+    blacklisted_user_ids = Plink::ContestBlacklistedEmailRecord.select(:user_id).map(&:user_id)
+    if blacklisted_user_ids.present?
+      query = query.
+        joins('LEFT JOIN contest_blacklisted_user_ids cbui ON entries.user_id = cbui.user_id').
+        where('cbui.user_id IS NULL')
     end
 
     query
@@ -62,7 +67,7 @@ class PlinkAdmin::ContestWinningService
     prize_levels.each do |level|
       level.award_count.times do
         user_id = winners.shift
-        Plink::ContestWinnerRecord.create!(user_id: user_id, contest_id: contest_id, prize_level_id: level.id, rejected: false, winner: false)
+        Plink::ContestWinnerRecord.create!(user_id: user_id, contest_id: contest_id, prize_level_id: level.id, rejected: false, winner: true)
       end
     end
   end

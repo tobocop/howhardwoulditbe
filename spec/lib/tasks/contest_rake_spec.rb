@@ -292,13 +292,12 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
       user = create_user(email: "stuff_#{i}@somethingunique.com")
       create_entry(contest_id: contest.id, user_id: user.id, provider: 'facebook', multiplier: 1, computed_entries: 2)
     end
-    plink_user = create_user(email: "stuff@plink.com")
-    create_entry(contest_id: contest.id, user_id: plink_user.id, provider: 'facebook', multiplier: 1, computed_entries: 1)
-    force_deactivated_user = create_user(isForceDeactivated: true, email: 'force-deactivated@plink.com')
-    create_entry(contest_id: contest.id, user_id: force_deactivated_user.id, provider: 'facebook', multiplier: 1, computed_entries: 1)
+    blacklisted_user = create_user(email: "stuff@plink.com")
+    create_entry(contest_id: contest.id, user_id: blacklisted_user.id, provider: 'facebook', multiplier: 1, computed_entries: 1)
+    create_contest_blacklisted_user(user_id: blacklisted_user.id)
     non_entered_user = create_user(email: 'unique@other.com')
 
-    subject.invoke(1)
+    subject.invoke(contest.id)
 
     Plink::ContestWinnerRecord.count.should == 300
     Plink::ContestWinnerRecord.where(contest_id: 1).count(:user_id, distinct: true)
@@ -306,12 +305,10 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
     Plink::ContestWinnerRecord.where(prize_level_id: nil).count.should == 150
     Plink::ContestWinnerRecord.where('prize_level_id IS NOT NULL').count.should == 150
 
-    # does not pick Plink email addresses
-    Plink::ContestWinnerRecord.where(user_id: plink_user.id).should be_empty
+    # does not pick blacklisted user_ids addresses
+    Plink::ContestWinnerRecord.where(user_id: blacklisted_user.id).should be_empty
     # does not pick users who have not entered
     Plink::ContestWinnerRecord.where(user_id: non_entered_user.id).should be_empty
-    # does not pick force-deactivated users
-    Plink::ContestWinnerRecord.where(user_id: force_deactivated_user.id).should be_empty
   end
 end
 
@@ -331,6 +328,7 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true do
     it 'logs it' do
       create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
       gigya_response = double(error_code: 0, status_code: 200)
+
       Gigya.any_instance.stub(:set_facebook_status).with(anything, /\/facebook_winning_entry_post/).
         and_return(gigya_response)
 

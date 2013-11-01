@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131030231400) do
+ActiveRecord::Schema.define(:version => 20131101221741) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -471,10 +471,10 @@ ActiveRecord::Schema.define(:version => 20131030231400) do
     t.datetime "updated_at",          :null => false
   end
 
-  create_table "contest_blacklisted_emails", :force => true do |t|
-    t.string   "email_pattern"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+  create_table "contest_blacklisted_user_ids", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
 
   create_table "contest_prize_levels", :force => true do |t|

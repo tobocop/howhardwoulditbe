@@ -749,15 +749,15 @@ module Plink
       Plink::ContestPrizeLevelRecord.new { |entry| apply(entry, defaults, options) }
     end
 
-    def create_contest_blacklisted_email(options = {})
-      contest_blacklisted_email = new_contest_blacklisted_email(options)
-      contest_blacklisted_email.save!
-      contest_blacklisted_email
+    def create_contest_blacklisted_user(options = {})
+      contest_blacklisted_user = new_contest_blacklisted_user(options)
+      contest_blacklisted_user.save!
+      contest_blacklisted_user
     end
 
-    def new_contest_blacklisted_email(options = {})
+    def new_contest_blacklisted_user(options = {})
       defaults = {
-        email_pattern: 'blockme@test.com'
+        user_id: 1
       }
 
       Plink::ContestBlacklistedEmailRecord.new { |entry| apply(entry, defaults, options) }
