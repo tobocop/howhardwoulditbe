@@ -84,7 +84,6 @@ describe Plink::TangoRedemptionService do
     tango_response = double(successful?: true)
     Plink::TangoTrackingService.any_instance.stub(:purchase) { tango_response }
     Tango::CardService.any_instance.stub(:purchase) { tango_successful_response_params }
-    tango_response = double(successful?: true)
     redemption_service = Plink::TangoRedemptionService.new(valid_params)
     Time.stub(:zone).and_return(double(now: current_time))
 

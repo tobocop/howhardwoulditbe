@@ -19,8 +19,10 @@ module Plink
     end
 
     def redeem
+      delivery_status = nil
       begin
-        Plink::RedemptionRecord.create(attributes) if deliver_card.successful?
+        delivery_status = deliver_card
+        Plink::RedemptionRecord.create(attributes) if delivery_status.present? && delivery_status.successful?
       rescue Exception => e
         Plink::TangoRedemptionShutoffService.halt_redemptions
         ::Exceptional::Catcher.handle(
@@ -28,12 +30,6 @@ module Plink
         )
       end
 
-      unless deliver_card.successful?
-        Plink::TangoRedemptionShutoffService.halt_redemptions
-        ::Exceptional::Catcher.handle(
-          raise $!, "#{exception_text} #{$!}", $!.backtrace
-        )
-      end
     end
 
     private
