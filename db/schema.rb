@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131101221741) do
+ActiveRecord::Schema.define(:version => 201310292039580) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1078,6 +1078,7 @@ ActiveRecord::Schema.define(:version => 20131101221741) do
     t.text     "terms"
     t.boolean  "isTangoRedemption",                                                :default => true, :null => false
     t.string   "shortDescription",  :limit => 1000
+    t.boolean  "is_redeemable"
   end
 
   create_table "lootAmounts", :primary_key => "lootAmountID", :force => true do |t|

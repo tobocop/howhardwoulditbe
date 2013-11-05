@@ -1,16 +1,17 @@
 module Plink
   class Reward
 
-    attr_reader :id, :name, :amounts, :description, :logo_url, :terms
+    attr_reader :amounts, :description, :id, :is_redeemable, :logo_url, :name, :terms
 
     def initialize(attributes, amount_records)
-      @id = attributes.fetch(:id)
-      @name = attributes.fetch(:name)
-      @description = attributes.fetch(:description)
-      @logo_url = attributes.fetch(:logo_url)
       @amounts = award_amounts(amount_records)
-      @terms = attributes[:terms]
+      @description = attributes.fetch(:description)
+      @id = attributes.fetch(:id)
+      @is_redeemable = attributes.fetch(:is_redeemable)
+      @logo_url = attributes.fetch(:logo_url)
+      @name = attributes.fetch(:name)
       @postal_mail_gift_cards = ['Subway Gift Card']
+      @terms = attributes[:terms]
     end
 
     def deliver_by_email?

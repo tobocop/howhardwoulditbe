@@ -7,6 +7,7 @@ describe Plink::RewardRecord do
       award_code: 'walmart-gift-card',
       name: 'wally world',
       is_active: true,
+      is_redeemable: true,
       is_tango: false,
       description: 'good reward',
       logo_url: 'http://example.com/logo',

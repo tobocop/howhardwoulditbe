@@ -2,7 +2,16 @@ require 'spec_helper'
 
 describe Plink::Reward do
   let(:reward_amount) { new_reward_amount }
-  let(:valid_params) { { id: 100, name: 'terget', description: 'ermagherd', logo_url: 'http://example.com/logo', terms: 'onerous' } }
+  let(:valid_params) {
+    {
+      id: 100,
+      name: 'terget',
+      description: 'ermagherd',
+      is_redeemable: true,
+      logo_url: 'http://example.com/logo',
+      terms: 'onerous'
+    }
+  }
 
   subject { Plink::Reward.new(valid_params, [reward_amount]) }
 

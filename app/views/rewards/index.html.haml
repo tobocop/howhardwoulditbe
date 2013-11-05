@@ -13,7 +13,11 @@
       - @rewards.each do |reward|
         .reward.cf
           .img
-            = image_tag reward.logo_url, alt: reward.name
+            - if !reward.is_redeemable
+              .out-of-stock
+                Out of Stock
+                .font-p9em.font-w300 Check back soon
+            = image_tag reward.logo_url, alt: reward.name, class: reward.is_redeemable ? '' : 'disabled'
           .description
             %h2.bold #{reward.name.html_safe}
             %h4= reward.description.html_safe
@@ -21,7 +25,7 @@
             - reward.amounts.reverse.each do |amount|
               - locals = {amount: amount, reward: reward, max_reward_amount: @max_reward_amount}
 
-              - if display_as_available?(@user_has_account, amount.dollar_award_amount)
+              - if display_as_available?(@user_has_account, amount.dollar_award_amount, reward.is_redeemable)
                 = render :partial => 'shared/active_reward_amount', locals: locals
               - else
                 = render :partial => 'shared/locked_or_unavailable_reward_amount', locals: locals

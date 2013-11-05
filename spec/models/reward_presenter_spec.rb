@@ -30,6 +30,7 @@ describe RewardPresenter do
       presenter.logo_url.should == 'awesome.png'
       presenter.name.should == 'derp'
       presenter.description.should == 'Awesomeness'
+      presenter.is_redeemable.should be_true
       presenter.terms.should == 'Terms'
     end
   end

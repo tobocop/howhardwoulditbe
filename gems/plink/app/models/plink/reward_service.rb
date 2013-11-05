@@ -20,14 +20,14 @@ module Plink
     def create_reward(attributes)
       reward = attributes[:reward_record]
 
-      Reward.new(
-        {
-          id: reward.id,
-          name: reward.name,
-          description: reward.description,
-          logo_url: reward.logo_url,
-          terms: reward.terms
-        }, attributes[:reward_amount_records])
+      Reward.new({
+        description: reward.description,
+        id: reward.id,
+        is_redeemable: reward.is_redeemable,
+        logo_url: reward.logo_url,
+        name: reward.name,
+        terms: reward.terms
+      }, attributes[:reward_amount_records])
     end
   end
 end
