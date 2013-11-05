@@ -2,10 +2,10 @@
   .result-title Most Common
   .banks
     .result
-      = authentication_form_link(results.first.name.html_safe, results.first.institution_id)
+      - display_institution(results.first)
     - if results[1].present?
       .result
-        = authentication_form_link(results[1].name.html_safe, results[1].institution_id)
+        - display_institution(results[1])
 .spacer-top-24
   - if results.size > 2
     .result-title= "All Results (#{pluralize(results.size - 2, 'Match')})"
@@ -13,5 +13,12 @@
     .banks.result-list
       - results[2..-1].each do |institution|
         .result
-          = authentication_form_link(institution.name.html_safe, institution.institution_id)
+          - display_institution(institution)
   %hr
+  - if @has_unsupported_banks
+    .spacer-top-24
+      .font-p9em.font-lightgray.font-w300
+        * Sorry, this bank is not supported by Plink at this time. Check our
+        %span
+          =link_to 'FAQ', faq_static_path, class: 'text-link'
+        for more info.

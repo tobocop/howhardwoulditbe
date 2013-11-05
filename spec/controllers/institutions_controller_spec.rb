@@ -36,7 +36,7 @@ describe InstitutionsController do
     end
 
     it 'calls the institution model to find institutions' do
-      Plink::InstitutionRecord.should_receive(:search).with("AK's bank")
+      Plink::InstitutionRecord.should_receive(:search).with("AK's bank").and_return([])
 
       post :search_results, institution_name: "AK's bank"
     end
@@ -54,6 +54,12 @@ describe InstitutionsController do
       post :search_results
 
       assigns(:most_popular).should_not be_nil
+    end
+
+    it 'indicates if the returned collection has unsupported banks' do
+      post :search_results, institution_name: "Joe's bank"
+
+      assigns(:has_unsupported_banks).should_not be_nil
     end
 
     it 'requires the user to be logged in' do

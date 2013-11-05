@@ -69,6 +69,7 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/lyris.yml #{release_path}/config/lyris.yml"
     run "ln -nfs #{shared_path}/config/elasticsearch.yml #{release_path}/config/elasticsearch.yml"
     run "ln -nfs #{shared_path}/config/intuit.yml #{release_path}/config/intuit.yml"
+    run "ln -nfs #{shared_path}/config/salt.yml #{release_path}/config/salt.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
 

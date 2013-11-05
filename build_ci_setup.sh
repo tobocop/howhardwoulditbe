@@ -12,9 +12,6 @@ echo -e "test:\n gigya_api_key: $GIGYA_API_KEY\n gigya_secret: $GIGYA_SECRET" > 
 touch gems/gigya/integration_spec/support/gigya_keys.yml
 echo -e "api_key: $GIGYA_API_KEY\nsecret: $GIGYA_SECRET" > gems/gigya/integration_spec/support/gigya_keys.yml
 
-touch config/sdgidfedapp11.corp.intuit.net.key
-echo -e "$INTUIT_CERT_KEY" > config/sdgidfedapp11.corp.intuit.net.key
-
 touch config/intuit.yml
 echo -e "test:\n issuer_id: $INTUIT_ISSUER_ID\n consumer_key: $INTUIT_CONSUMER_KEY\n consumer_secret: $INTUIT_CONSUMER_SECRET\n certificate_path: `pwd`/config/sdgidfedapp11.corp.intuit.net.key" > config/intuit.yml
 
@@ -23,6 +20,9 @@ echo -e "test:\n username: user\n password: pass" > config/sendgrid.yml
 
 touch config/tango.yml
 echo -e "test:\n base_url: $TANGO_BASE_URL\n username: $TANGO_USERNAME\n password: $TANGO_PASSWORD" > config/tango.yml
+
+touch config/salt.yml
+echo -e "test:\n salt: stuff\n" > config/salt.yml
 
 sudo sh -c "echo '127.0.0.1 plink.test' >> /etc/hosts"
 export RAILS_ENV=test

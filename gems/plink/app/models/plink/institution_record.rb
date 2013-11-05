@@ -30,10 +30,10 @@ module Plink
     end
 
     scope :most_popular, ->(limit=16) {
-      select("COUNT(1) AS frequency, institutionName, institutions.institutionID").
+      select("COUNT(1) AS frequency, institutionName, institutions.institutionID, isSupported").
       joins('INNER JOIN usersInstitutions ON institutions.institutionID = usersInstitutions.institutionID').
       where('institutions.isActive = 1 AND isSupported = 1').
-      group('institutions.institutionID, institutions.institutionName').
+      group('institutions.institutionID, institutions.institutionName, isSupported').
       order('frequency DESC').
       limit(limit)
     }

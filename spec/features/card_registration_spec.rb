@@ -24,8 +24,8 @@ describe 'searching for a bank', js: true do
 
     institutions = [
       tupac_bank,
-      double(name: 'DMX Bank', institution_id: 12),
-      double(name: 'ZZ Top Bank', institution_id: 13)
+      double(name: 'DMX Bank', institution_id: 12, is_supported?: true),
+      double(name: 'ZZ Top Bank', institution_id: 13, is_supported?: false)
     ]
     Plink::InstitutionRecord.should_receive(:search).and_return(institutions)
 
@@ -42,7 +42,9 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'ALL RESULTS (1 MATCH)'
     within '.banks.result-list' do
-      page.should have_content 'ZZ Top Bank'
+      within '.font-italic.font-lightgray' do
+        page.should have_content '* ZZ Top Bank'
+      end
     end
 
     click_on 'Bank of Tupac'
