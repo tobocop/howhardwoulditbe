@@ -10,3 +10,11 @@ $green:#8cc63f;
 $orange:#fbb03b;
 $disabled:#e6e6e6;
 $expiring:#C22E00;
+
+/* IMAGE FILTERS & EFFECTS */
+
+.disabled {
+  opacity:.5;
+  filter:alpha(opacity=50); /* For IE8 and earlier */
+  -webkit-filter: grayscale(70%);
+}

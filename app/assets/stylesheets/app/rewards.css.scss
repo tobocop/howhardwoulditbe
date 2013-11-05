@@ -76,8 +76,25 @@
     width: 1024px;
   }
 
+  .out-of-stock {
+    left: 26px;
+    position: absolute;
+    top: 30px;
+
+    background:#CC1313;
+    color:#FFFFFF;
+    overflow: hidden;
+    padding:10px;
+    white-space: nowrap;
+    text-align: center;
+    z-index: 2;
+
+    @include round-corners(4px);
+  }
+
   .img {
     float: left;
+    position:relative;
     margin: 0px 23px 0px 0px;
   }
 
