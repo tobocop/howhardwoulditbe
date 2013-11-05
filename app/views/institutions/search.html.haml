@@ -1,9 +1,9 @@
 .reg
   .column-container
     .layout-wrapper
-      .layout-inner
+      .layout-inner.height-min-550
         .left-column.no-float
-          = render partial: 'step_one_active'
+          = render partial: 'sidebar', locals: {step: 1}
         .right-column.pad-left-86
           .font-p9em.font-lightgray.font-w300.font-italic Step 1 of 3
           .spacer-top-24

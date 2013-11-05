@@ -1,0 +1,29 @@
+.font-p9em.font-lightgray.font-w300.font-italic Step 2 of 3
+.spacer-top-24
+  - if institution_form.logo_url
+    =image_tag institution_form.logo_url, class:'reg-bank-logo'
+  - else
+    .font-1p5em #{institution_form.name}
+.institution-authentication-form
+  .spacer-top-8
+    .gray-box
+      - if error
+        = render partial: 'institutions/authentication/error', locals: {error: error}
+      - else
+        .font-p9em.font-w300#please-login Please login to your #{institution_form.name} account.
+
+  = form_tag institution_authenticate_path, id: 'js-authentication-form' do
+    - institution_form.form_fields.each do |field|
+      .spacer-top-24
+        .font-1em.font-w500= field[:label]
+        .font-p9em.font-w300.font-gray for your #{institution_form.name} online account
+        .form-container
+          = send(field[:field_tag][:method], *field[:field_tag][:arguments])
+          = hidden_field_tag 'field_labels[]', field[:label]
+    .spacer-top-24.submit-buttons
+      = submit_tag 'Connect', class: 'button-container button primary-action'
+      %button.button-container.button.negative-action.no-margin.js-go-back Go Back
+  .spacer-top-24
+  %hr
+    .font-p9em.font-w500.font-gray Trouble logging in?
+    .font-p9em.font-w300.font-gray.font-height1p5 Contact #{link_to institution_form.name, institution_form.email, target: '_blank'} (#{institution_form.phone_number})

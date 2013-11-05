@@ -41,7 +41,7 @@ describe InstitutionFormPresenter do
               :display_order=>"20",
               :mask=>"false"}]}}}}
   end
-  let(:institution) { double(logo_url: 'plink.com/logos', name: "First Bank of Death's Head") }
+  let(:institution) { double(intuit_institution_id: 10000, logo_url: 'plink.com/logos', name: "First Bank of Death's Head") }
   let(:institution_form_params) { intuit_response[:result].merge(institution: institution) }
 
   describe 'initialize' do
@@ -53,6 +53,10 @@ describe InstitutionFormPresenter do
 
     it 'returns the home URL' do
       intuit_form.home_url.should == 'https://www.chase.com/'
+    end
+
+    it 'returns the intuit institution ID' do
+      intuit_form.intuit_institution_id.should == 10000
     end
 
     it 'returns the logo URL' do

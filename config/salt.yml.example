@@ -1,0 +1,8 @@
+development:
+  salt: 'thisismysalt'
+
+test:
+  salt: 'thisismysalt'
+
+production:
+  salt: 'thisismysalt'

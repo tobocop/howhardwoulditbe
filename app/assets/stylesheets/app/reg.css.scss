@@ -166,3 +166,14 @@
     margin-left:15px;
   }
 }
+
+.institution-authentication-form{
+  .submit-buttons {
+    overflow: hidden;
+    width: 192px;
+
+    input {
+      float: right;
+    }
+  }
+}

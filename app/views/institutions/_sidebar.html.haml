@@ -1,14 +1,14 @@
 .steps.first.centered
   .font-p9em.font-lightgray.font-italic Let's Get Started
-.steps.active
+.steps{class: step == 1 ? 'active' : ''}
   .circle
     .text 1
   Find your bank or credit card provider.
-.steps
+.steps{class: step == 2 ? 'active' : ''}
   .circle.offset
     .text 2
   Connect it to Plink.
-.steps.last
+.steps.last{class: step == 3 ? 'active' : ''}
   .circle.offset
     .text 3
   Choose a card.

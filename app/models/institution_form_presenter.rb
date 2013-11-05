@@ -10,7 +10,7 @@ class InstitutionFormPresenter
     @raw_form_data = intuit_institution_data[:institution_detail][:keys][:key]
   end
 
-  delegate :logo_url, :name, to: :institution
+  delegate :logo_url, :intuit_institution_id, :name, to: :institution
 
   def form_fields
     valid_ordered_fields = display_fields.sort_by { |field| field[:display_order].to_i }

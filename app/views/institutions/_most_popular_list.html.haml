@@ -3,9 +3,9 @@
 .banks
   - most_popular[0..first_column_size - 1].each do |institution|
     .result
-      = link_to institution.name.html_safe, institution_authorization_form_path(institution.institution_id), class: 'text-link'
+      = authentication_form_link(institution.name.html_safe, institution.institution_id)
 - if total > 1
   .banks
     - most_popular[first_column_size..-1].each do |institution|
       .result
-        = link_to institution.name.html_safe, institution_authorization_form_path(institution.institution_id), class: 'text-link'
+        = authentication_form_link(institution.name.html_safe, institution.institution_id)

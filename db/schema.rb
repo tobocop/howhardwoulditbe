@@ -12,7 +12,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20131105192221) do
-
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
     t.integer  "uia_account_id",                :limit => 8,                                                     :null => false
@@ -771,6 +770,14 @@ ActiveRecord::Schema.define(:version => 20131105192221) do
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
     t.integer  "users_institution_id"
+  end
+
+  create_table "intuit_account_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "processed"
+    t.text     "response"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "intuit_archived_transactions", :force => true do |t|

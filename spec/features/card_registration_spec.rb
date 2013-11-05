@@ -18,7 +18,10 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please provide a bank name or URL'
 
-    tupac_bank = create_institution(name: 'Bank of Tupac', intuit_institution_id: 4)
+    tupac_bank = create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000)
+    create_users_institution(institution_id: tupac_bank.id)
+    create_users_institution(institution_id: tupac_bank.id)
+
     institutions = [
       tupac_bank,
       double(name: 'DMX Bank', institution_id: 12),

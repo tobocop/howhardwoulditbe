@@ -1,0 +1,12 @@
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner.height-min-550
+        .left-column.no-float
+          = render partial: 'sidebar', locals: {step: 2}
+        .right-column.pad-left-86
+          - locals = {institution_form: @institution_form, error: nil}
+          = render partial: 'institutions/authentication/form', locals: locals
+      .clear
+
+= render partial: 'progress_bar', locals: {institution_form: @institution_form}

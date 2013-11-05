@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe InstitutionsController do
-  before { controller.stub(:user_logged_in?).and_return(true) }
+  before do
+    set_current_user(id: 1)
+    set_virtual_currency
+  end
 
   describe 'GET search' do
     it 'is successful' do
@@ -11,12 +14,9 @@ describe InstitutionsController do
     end
 
     it 'requires the user to be logged in' do
-      controller.unstub(:user_logged_in?)
-      controller.stub(:user_logged_in?).and_return(false)
+      controller.should_receive(:require_authentication)
 
       get :search
-
-      response.should redirect_to root_path
     end
 
     it 'returns the most popular institutions' do
@@ -57,16 +57,13 @@ describe InstitutionsController do
     end
 
     it 'requires the user to be logged in' do
-      controller.unstub(:user_logged_in?)
-      controller.stub(:user_logged_in?).and_return(false)
+      controller.should_receive(:require_authentication)
 
-      get :search
-
-      response.should redirect_to root_path
+      post :search_results
     end
   end
 
-  describe 'GET authorization_form' do
+  describe 'GET authentication' do
     before do
       Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 4)])
       controller.stub(:user_logged_in?).and_return(true)
@@ -84,22 +81,22 @@ describe InstitutionsController do
     end
 
     it 'is successful' do
-      get :authorization_form, id: 1
+      get :authentication, id: 1
 
       response.should be_success
     end
 
-    it 'renders the authorization_form' do
-      get :authorization_form, id: 1
+    it 'renders the authentication view' do
+      get :authentication, id: 1
 
-      response.should render_template 'authorization_form'
+      response.should render_template 'authentication'
     end
 
     it 'redirects the user if given an invalid institution id' do
       Plink::InstitutionRecord.unstub(:where)
       Plink::InstitutionRecord.should_receive(:where).with(institutionID: 1.to_s).and_return([])
 
-      get :authorization_form, id: 1
+      get :authentication, id: 1
 
       response.should redirect_to institution_search_path
       flash[:error].should == 'Invalid institution provided. Please try again.'
@@ -107,64 +104,140 @@ describe InstitutionsController do
 
     context 'retrieving data from intuit' do
       let(:intuit_response) do
-        {
-          :status_code=>"200",
-          :result=>
-            {:institution_detail=>
-              {:institution_id=>"22501",
-               :institution_name=>"New Castle Bellco FCU - Investments",
-               :home_url=>"http://www.newcastlebellco.com/",
-               :address=>nil,
-               :special_text=>
-                "Please enter your New Castle Bellco FCU - Investments Financial Organization Number, User ID and Password required for login.",
-               :currency_code=>"USD",
-               :keys=>
-                {:key=>
-                  [{:name=>"CustId",
-                    :status=>"Active",
-                    :display_flag=>"true",
-                    :display_order=>"2",
-                    :mask=>"false",
-                    :description=>"User ID"},
-                   {:name=>"Passwd",
-                    :status=>"Active",
-                    :display_flag=>"true",
-                    :display_order=>"3",
-                    :mask=>"true",
-                    :description=>"Password"},
-                   {:name=>"CorrespondentNum",
-                    :status=>"Active",
-                    :value_length_max=>"3",
-                    :display_flag=>"true",
-                    :display_order=>"1",
-                    :mask=>"false",
-                    :description=>"Financial Organization Number"
-                  }]
-                }
+        { :status_code=>"200",
+          :result => {:institution_detail=>
+            {:institution_id=>"22501",
+             :institution_name=>"New Castle Bellco FCU - Investments",
+             :home_url=>"http://www.newcastlebellco.com/",
+             :address=>nil,
+             :special_text=> "Please enter your New Castle Bellco FCU",
+             :currency_code=>"USD",
+             :keys=>
+              {:key=>
+                [{:name=>"Passwd",
+                  :status=>"Active",
+                  :display_flag=>"true",
+                  :display_order=>"3",
+                  :mask=>"true",
+                  :description=>"Password"
+                }]
               }
             }
+          }
         }
       end
 
-      before { Aggcat.stub_chain([:scope, :institution]).and_return(intuit_response) }
-
-      it 'calls aggcat' do
-        set_current_user(id: 1)
-        set_virtual_currency
+      it 'calls intuit' do
         Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 22501)])
 
-        aggcat = mock(Aggcat)
-        Aggcat.should_receive(:scope).with(1).and_return(aggcat)
-        aggcat.should_receive(:institution).with(22501).and_return(intuit_response)
+        IntuitInstitutionRequest.should_receive(:institution_data).with(1, 22501).and_return(intuit_response)
 
-        get :authorization_form, id: 1
+        get :authentication, id: 1
       end
 
       it 'returns an institution form presenter' do
-        get :authorization_form, id: 1
+        controller.stub(:intuit_institution_data).and_return(intuit_response)
+
+        get :authentication, id: 1
 
         assigns(:institution_form).should be_a InstitutionFormPresenter
       end
+    end
+  end
+
+  describe 'POST authenticate' do
+    let(:record_class) { Plink::IntuitAccountRequestRecord }
+
+    before do
+      set_current_user(id: 1)
+      set_virtual_currency
+      controller.stub(:intuit_accounts)
+      session[:intuit_institution_id] = 14
+    end
+
+    it 'deletes all previous request objects for the current_user' do
+      previous_requests = double(delete_all: true)
+
+      record_class.should_receive(:where).with(user_id: 1).and_return(previous_requests)
+      previous_requests.should_receive(:delete_all)
+
+      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+
+    it 'creates a request object' do
+      Plink::IntuitAccountRequestRecord.should_receive(:create!).
+        with(user_id: 1, processed: false).and_return(double(id: 21))
+
+      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+
+    it 'creates a delayed request to intuit' do
+      controller.unstub(:intuit_accounts)
+      intuit_account_request = mock(IntuitAccountRequest)
+
+      IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything).and_return(intuit_account_request)
+
+      intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
+
+      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+  end
+
+  describe 'GET poll' do
+    it "finds the user's intuit account request record" do
+      Plink::IntuitAccountRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_call_original
+
+      get :poll
+    end
+
+    it 'decrypts the stored response' do
+      response = {error: false, value:[{account_id: 1}]}.to_json
+      request = double(response: response)
+      Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+
+      ENCRYPTION.should_receive(:decrypt_and_verify).with(response).and_return(response)
+
+      get :poll
+    end
+
+    it 'return an unprocessible entity when the request has not been completed yet' do
+      Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return([])
+
+      get :poll
+
+      response.status.should == 422
+    end
+
+    context 'error handling' do
+      before do
+        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(double(present?: true, response: ''))
+      end
+
+      it 'without an error renders the account list' do
+        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
+
+        get :poll
+
+        response.should render_template partial: 'institutions/_select_account'
+      end
+
+      it 'with an error renders the authentication form' do
+        Plink::InstitutionRecord.stub_chain(:where).and_return([double(intuit_institution_id: 10000)])
+        controller.stub(:institution_form)
+        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => true}.to_json)
+
+        get :poll
+
+        response.should render_template partial: 'institutions/authentication/_form'
+      end
+    end
+  end
+
+  describe 'POST select' do
+    it 'renders the congratulations view' do
+      post :select
+
+      response.should render_template 'congratulations'
     end
   end
 end
