@@ -37,9 +37,10 @@ describe('Contest', function () {
 
     it('does not change the check box on failure', function () {
       spy = spyOn(Contest, 'setDailyEmailCheckBox');
-
-      spyOn($, "ajax").andCallFake(function(options) {
-        options.error();
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.reject('nope');
+        return deferred.promise();
       });
 
       elem.trigger('click');
