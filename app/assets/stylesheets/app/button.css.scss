@@ -62,6 +62,28 @@ $state-range:10%;
     }
   }
 
+  &.blue {
+    height: 34px;
+    letter-spacing: 1.5px;
+    line-height: 33px;
+    padding: 0 15px;
+    text-align: center;
+    @include round-corners(5px);
+
+    text-decoration: none;
+    border: 1px solid #00c6ef;
+    color:#FFFFFF;
+    @include vertical-bg-gradient(#00aeef, #0071bc);
+
+    &.hover, &:hover{
+      background: #0071bc;
+    }
+
+    &.active, &:active{
+      background: #00aeef;
+    }
+  }
+
   &.nav {
     font-weight: 700;
     font-size: .9em;
