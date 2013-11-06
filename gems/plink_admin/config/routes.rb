@@ -34,5 +34,8 @@ PlinkAdmin::Engine.routes.draw do
     post :accept_winners
   end
 
+  get '/tango/kill_switch', to: 'tango#kill_switch', as: 'tango_kill_switch'
+  post '/tango/toggle_redeemable', to: 'tango#toggle_redeemable', as: 'tango_toggle_redeemable'
+
   root to: 'admin#home'
 end

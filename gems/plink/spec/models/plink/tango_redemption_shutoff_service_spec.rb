@@ -20,4 +20,24 @@ describe Plink::TangoRedemptionShutoffService do
       non_tango_reward.is_active.should be_true
     end
   end
+
+  describe '.resume_redemptions' do
+    before { tango_reward.update_attributes(is_redeemable: false) }
+    it 'marks all Tango rewards as redeemable' do
+
+      shutoff_service.resume_redemptions
+
+      tango_reward.reload.is_redeemable.should be_true
+      tango_reward.is_active.should be_true
+    end
+
+    it 'does not care if a reward is active or not' do
+      tango_reward.update_attributes(is_redeemable: false, is_active: false)
+
+      shutoff_service.resume_redemptions
+
+      tango_reward.reload.is_redeemable.should be_true
+      tango_reward.is_active.should be_false
+    end
+  end
 end

@@ -1,0 +1,6 @@
+= form_tag tango_toggle_redeemable_path do
+  - value = @tango_offline ? 'activate' : 'deactive'
+  = hidden_field_tag :tango_redemptions, value
+
+  - submit = @tango_offline ? 'Resurrect Tango Redemptions' : 'Kill Tango Redemptions'
+  = submit_tag submit, class: 'giant-button'
