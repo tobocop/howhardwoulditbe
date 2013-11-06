@@ -14,7 +14,7 @@ describe Plink::TangoRedemptionService do
     }
   }
 
-  let(:current_time) { Date.current }
+  let(:current_time) { ActiveSupport::TimeZone['MST'].now }
 
   let(:redemption_params) {
     {
@@ -22,7 +22,8 @@ describe Plink::TangoRedemptionService do
       reward_id: 2,
       user_id: 2,
       is_pending: false,
-      sent_on: current_time
+      sent_on: current_time,
+      tango_confirmed: false
     }
   }
 
@@ -43,8 +44,23 @@ describe Plink::TangoRedemptionService do
     }
   }
 
+  let(:redemption_successful_update_params) {
+    {
+      tango_confirmed: true,
+      tango_tracking_id: 88897
+    }
+  }
+
+  let(:redemption_unsuccessful_update_params) {
+    {
+      is_active: false,
+      tango_tracking_id: 88570
+    }
+  }
+
   let(:parser_exception_text) { "Tango Card exception for user_id: 2, dollar_award_amount: 5, reward_id: 2\n some text" }
   let(:unsuccessful_exception_text) { "Tango Card exception for user_id: 2, dollar_award_amount: 5, reward_id: 2\n some text" }
+  let(:unsuccessful_call_update_params) { { response_from_tango_on: current_time, response_type: 'INS_FUNDS' } }
 
   it 'adds information to the exception if an exception is raised' do
     Plink::TangoTrackingService.any_instance.stub(:purchase).and_raise(JSON::ParserError.new('some text'))
@@ -80,16 +96,32 @@ describe Plink::TangoRedemptionService do
     expect { redemption_service.redeem }.to raise_error()
   end
 
-  it 'creates a redemption record if the card purchase is successful?' do
+  it 'creates and correctly updates a redemption record if the card purchase is successful' do
+    Time.zone.stub(:now).and_return { current_time }
     tango_response = double(successful?: true)
     Plink::TangoTrackingService.any_instance.stub(:purchase) { tango_response }
     Tango::CardService.any_instance.stub(:purchase) { tango_successful_response_params }
+    Plink::TangoTrackingRecord.any_instance.stub(:tango_tracking_id) { 88897 }
     redemption_service = Plink::TangoRedemptionService.new(valid_params)
-    Time.stub(:zone).and_return(double(now: current_time))
 
-    Plink::RedemptionRecord.should_receive(:create).with(redemption_params)
+    Plink::RedemptionRecord.should_receive(:create).with(redemption_params).and_call_original
+    Plink::RedemptionRecord.any_instance.should_receive(:update_attributes).with(redemption_successful_update_params).and_call_original
 
     redemption_service.redeem
+  end
+
+  it 'creates and correctly updates a redemption record if the card purchase is unsuccessful' do
+    Time.zone.stub(:now).and_return { current_time }
+    tango_response = double(successful?: false)
+    Plink::TangoTrackingService.any_instance.stub(:purchase) { tango_response }
+    Tango::CardService.any_instance.stub(:purchase) { tango_failed_response_params }
+    Plink::TangoTrackingRecord.any_instance.stub(:tango_tracking_id) { 88570 }
+    redemption_service = Plink::TangoRedemptionService.new(valid_params)
+
+    Plink::RedemptionRecord.should_receive(:create).with(redemption_params).and_call_original
+    Plink::RedemptionRecord.any_instance.should_receive(:update_attributes).with(redemption_unsuccessful_update_params).and_call_original
+
+    expect { redemption_service.redeem }.to raise_error()
   end
 
 end

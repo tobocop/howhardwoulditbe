@@ -2,7 +2,8 @@ module Plink
 
   class TangoTrackingService
 
-    attr_reader :award_code, :card_value, :gift_from, :gift_message, :recipient_email, :recipient_name, :reward_id, :tango_sends_email, :tracking_record, :user_id
+    attr_reader :award_code, :card_value, :gift_from, :gift_message, :recipient_email, :recipient_name, :reward_id,
+                :tango_sends_email, :tracking_record, :user_id
 
     def initialize(options={})
       @award_code = options.fetch(:award_code)
@@ -29,28 +30,29 @@ module Plink
     end
 
     def purchase
-      track_purchase(purchase_request)
-    end
 
-    private
+      begin
+        tango_response = request_card_from_tango
+      rescue Exception => e
+        @tracking_record.response_type = 'TANGO_UNREACHABLE_OR_EMPTY_RESPONSE'
+        @tracking_record.raw_response = "response was: '#{tango_response}', error: #{e.message}"
+      else
+        @tracking_record.response_type = tango_response.response_type
+        @tracking_record.response_from_tango_on = Time.zone.now
+        @tracking_record.raw_response = tango_response.raw_response
 
-    def track_purchase(tango_response)
-
-      @tracking_record.response_type = tango_response.response_type
-      @tracking_record.response_from_tango_on = Time.zone.now
-
-      if tango_response.response_type == 'SUCCESS'
-        @tracking_record.reference_order_id = tango_response.reference_order_id
-        @tracking_record.card_token = tango_response.card_token
-        @tracking_record.card_number = tango_response.card_number
-      elsif tango_response.response_type.blank?
-        @tracking_record.response_type = 'EMPTY_OR_UNPARSEABLE_RESPONSE'
+        if tango_response.response_type == 'SUCCESS'
+          @tracking_record.reference_order_id = tango_response.reference_order_id
+          @tracking_record.card_token = tango_response.card_token
+          @tracking_record.card_number = tango_response.card_number
+        end
       end
 
       @tracking_record.save!
       tango_response
     end
 
+  private
 
     def tango_tracking_record
       Plink::TangoTrackingRecord
@@ -60,7 +62,7 @@ module Plink
       Tango::CardService.new(Tango::Config.instance)
     end
 
-    def purchase_request
+    def request_card_from_tango
       attributes = {
         card_sku: self.award_code,
         card_value: self.card_value,

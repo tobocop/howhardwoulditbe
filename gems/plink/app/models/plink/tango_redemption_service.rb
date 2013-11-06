@@ -20,19 +20,36 @@ module Plink
 
     def redeem
       delivery_status = nil
+      redemption_record = nil
+      redemption_canceled = false
+
       begin
+        redemption_record = Plink::RedemptionRecord.create(attributes)
         delivery_status = deliver_card
-        Plink::RedemptionRecord.create(attributes) if delivery_status.present? && delivery_status.successful?
-      rescue Exception => e
-        Plink::TangoRedemptionShutoffService.halt_redemptions
+
+        if delivery_status.present? && delivery_status.successful?
+          confirm_redemption(redemption_record)
+          redemption_record
+        else
+          if redemption_record.present?
+            cancel_redemption(redemption_record)
+            redemption_canceled = true
+          end
+          raise UnsuccessfulResponseFromTangoError, "#{delivery_status.to_s}"
+        end
+      rescue Exception
+        cancel_redemption(redemption_record) if redemption_record.present? && !redemption_canceled
+        Plink::TangoRedemptionShutoffService.halt_redemptions unless delivery_status.present?
         ::Exceptional::Catcher.handle(
           raise $!, "#{exception_text} #{$!}", $!.backtrace
         )
       end
-
     end
 
-    private
+    class UnsuccessfulResponseFromTangoError < StandardError;
+    end
+
+  private
 
     attr_reader :award_code, :dollar_award_amount, :email, :first_name, :gift_message, :reward_id, :reward_name, :user_id
 
@@ -42,8 +59,23 @@ module Plink
           reward_id: reward_id,
           user_id: user_id,
           is_pending: false,
-          sent_on: Time.zone.now
+          sent_on: Time.zone.now,
+          tango_confirmed: false
       }
+    end
+
+    def cancel_redemption(redemption_record)
+      redemption_record.update_attributes(
+        is_active: false,
+        tango_tracking_id: @tango_tracking_id
+      )
+    end
+
+    def confirm_redemption(redemption_record)
+      redemption_record.update_attributes(
+        tango_confirmed: true,
+        tango_tracking_id: @tango_tracking_id
+      )
     end
 
     def tango_tracking_service
@@ -63,8 +95,8 @@ module Plink
         tango_sends_email: true,
         user_id: user_id
       )
+      @tango_tracking_id = service.tracking_record.tango_tracking_id
       service.purchase
-
     end
 
     def exception_text

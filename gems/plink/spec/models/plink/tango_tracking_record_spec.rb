@@ -2,6 +2,21 @@ require 'spec_helper'
 
 describe Plink::TangoTrackingRecord do
 
+  it { should allow_mass_assignment_of(:card_number) }
+  it { should allow_mass_assignment_of(:card_pin) }
+  it { should allow_mass_assignment_of(:card_sku) }
+  it { should allow_mass_assignment_of(:card_token) }
+  it { should allow_mass_assignment_of(:card_value) }
+  it { should allow_mass_assignment_of(:loot_id) }
+  it { should allow_mass_assignment_of(:raw_response) }
+  it { should allow_mass_assignment_of(:recipient_email) }
+  it { should allow_mass_assignment_of(:recipient_name) }
+  it { should allow_mass_assignment_of(:reference_order_id) }
+  it { should allow_mass_assignment_of(:response_from_tango_on) }
+  it { should allow_mass_assignment_of(:response_type) }
+  it { should allow_mass_assignment_of(:sent_to_tango_on) }
+  it { should allow_mass_assignment_of(:user_id) }
+
   let(:valid_params) {
     {
       user_id: 1,

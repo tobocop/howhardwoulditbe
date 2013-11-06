@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 201310292039580) do
+ActiveRecord::Schema.define(:version => 20131105192221) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1498,6 +1498,8 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.decimal  "dollarAwardAmount",                :precision => 12, :scale => 6,                    :null => false
     t.string   "memo",              :limit => 500
     t.boolean  "isDenied",                                                        :default => false, :null => false
+    t.integer  "tango_tracking_id"
+    t.boolean  "tango_confirmed"
   end
 
   create_table "referralConversions", :primary_key => "referralConversionID", :force => true do |t|
@@ -1684,6 +1686,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.string   "cardToken",           :limit => 100
     t.string   "cardNumber",          :limit => 100
     t.string   "cardPin",             :limit => 100
+    t.text     "raw_response"
   end
 
   create_table "tasks", :force => true do |t|
