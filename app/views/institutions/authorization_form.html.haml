@@ -8,28 +8,26 @@
         .right-column.pad-left-86
           .font-p9em.font-lightgray.font-w300.font-italic Step 2 of 3
           .spacer-top-24
-            =image_tag 'https://plink-images.s3.amazonaws.com/bank_logos/desktop_reg/bank_chase.png', class:'reg-bank-logo'
-            /*.font-1p5em If No Logo, Use This Text Style*/
+            - if @institution_form.logo_url
+              =image_tag @institution_form.logo_url, class:'reg-bank-logo'
+            - else
+              .font-1p5em #{@institution_form.name}
           .spacer-top-8
             .gray-box
-              .font-p9em.font-w300 Please login to your Chase Bank account.
-          .spacer-top-24
-            .font-1em.font-w500 User ID
-            .font-p9em.font-w300.font-gray for your Chase Bank online account
-            .form-container
-              %input.form-field.input{:value => 'User ID'}
-          .spacer-top-24
-            .font-1em.font-w500 Password
-            .font-p9em.font-w300.font-gray for your Chase Bank online account
-            .form-container
-              %input.form-field.input{:value => 'Password'}
+              .font-p9em.font-w300 Please login to your #{@institution_form.name} account.
+          - @institution_form.form_fields.each do |field|
+            .spacer-top-24
+              .font-1em.font-w500= field[:label]
+              .font-p9em.font-w300.font-gray for your #{@institution_form.name} online account
+              .form-container
+                = send(field[:field_tag][:method], *field[:field_tag][:arguments])
           .spacer-top-24
             .button-container.no-margin
               %button.button.negative-action Go Back
             .button-container
-              %button.button.primary-action Connect
+              = submit_tag 'Connect', class: 'button primary-action'
           .spacer-top-24
           %hr
             .font-p9em.font-w500.font-gray Trouble logging in?
-            .font-p9em.font-w300.font-gray.font-height1p5 Contact Chase at [link to website] or [phone number].
+            .font-p9em.font-w300.font-gray.font-height1p5 Contact #{link_to @institution_form.name, @institution_form.email, target: '_blank'} (#{@institution_form.phone_number})
       .clear
