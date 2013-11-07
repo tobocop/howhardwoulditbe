@@ -162,7 +162,9 @@ describe 'Contests' do
           click_on 'Start Earning Rewards'
         end
 
-        page.should have_content "Welcome, John!"
+        within '.welcome-text' do
+          page.should have_content "Welcome, John!"
+        end
 
         current_path.should == wallet_path
       end

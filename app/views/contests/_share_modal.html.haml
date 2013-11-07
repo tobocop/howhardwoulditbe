@@ -7,5 +7,7 @@
   .bg-element
     %h2.font-1p2em.font-w500 Want to win a PlayStation®4?
     %p.font-1em.font-w300 Share the PlayStation®4 Giveaway with your friends for your chance to win. As an added bonus, get up to 100 extra entries per day for each friend that joins.
-    %button.button.primary-action.mtl Share to Enter Contest
+    - base_referral_url = contest_referral_url(user_id: user_id, affiliate_id: default_affiliate_id, contest_id: contest.id)
+    - options = { data: contest_share_data(base_referral_url, entry_providers('share_to_enter')), id: 'js-share-to-enter', class: 'button primary-action mtl'}
+    = link_to 'Share to Enter Contest', base_referral_url, options
   = link_to 'No Thanks - Complete My Registration', '#', class:'text-link font-w300 js-complete-registration'

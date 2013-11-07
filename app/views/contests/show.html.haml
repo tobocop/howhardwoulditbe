@@ -8,4 +8,5 @@
     contest_results_service: @contest_results_service     |
   }                                                       |
 
-= render partial: 'share_modal'
+- if user_logged_in?
+  = render partial: 'share_modal', locals: {contest: @contest, user_id: @user.id}

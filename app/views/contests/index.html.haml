@@ -1,4 +1,5 @@
 .layout-inner
   = render partial: 'contest', locals: {contest: @contest, entries: @entries, user_has_linked_card: @user_has_linked_card, card_link_url: @card_link_url, user: @user, contest_results_service: @contest_results_service}
 
-= render partial: 'share_modal'
+- if user_logged_in?
+  = render partial: 'share_modal', locals: {contest: @contest, user_id: @user.id}
