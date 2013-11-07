@@ -90,6 +90,8 @@
 
       if (resp.disable_submission) Plink.GigyaContestShareWidget._disableShareButton();
       if (resp.set_checkbox) Contest.setDailyEmailCheckBox(true);
+
+      Plink.conditionalCallback(window.location.search.match(/share_modal=true/), Contest.showCardAddModal);
     },
 
     _onEntryFailure: function (xhr) {

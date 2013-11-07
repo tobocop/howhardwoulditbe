@@ -3,7 +3,7 @@
     bindEvents: function () {
       $(document).on('click', '#js-toggle-daily-email', Contest.toggleDailyEmailPreference);
       $(document).on('click', '.js-complete-registration', Contest.showCardAddModal);
-      $(document).on('click', '#js-share-to-enter', Contest.hideShareModal);
+      $(document).on('click', '#js-share-from-modal-to-enter', Contest.hideShareModal);
     },
 
     toggleDailyEmailPreference: function (e) {
