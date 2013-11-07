@@ -19,7 +19,7 @@ class RegistrationsController < ApplicationController
       sign_in_user(user_registration_form.user)
       add_user_to_lyris(user_registration_form.user_id, user_registration_form.email, current_virtual_currency.currency_name)
 
-      path = get_return_to_path || link_card_or_institution_search
+      path = get_return_to_path(true) || link_card_or_institution_search
       render json: {redirect_path: path}
     else
       render json: {

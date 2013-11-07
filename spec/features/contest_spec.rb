@@ -34,7 +34,7 @@ describe 'Contests' do
     end
   end
 
-  context 'show view', js: true, driver: :selenium do
+  context 'show view', js: true do
     #This covers the index view as well. They use the same partial to render the contest
     before do
       visit contest_path(contest)
@@ -83,7 +83,6 @@ describe 'Contests' do
         click_on 'View the complete list of winners'
         page.should have_content 'Bennett'
       end
-
     end
 
     context 'for a contest that has not started' do
@@ -99,13 +98,16 @@ describe 'Contests' do
       end
     end
 
-    it 'displays the individual contest and allows the user to sign up' do
+    it 'displays the individual contest and allows the user to sign up', driver: :selenium do
       page.should have_content 'This is the best contest ever'.upcase
       page.should have_content 'The prize is a new car'
       page.should have_image '/assets/profile.jpg'
 
       click_on 'Contest Rules'
       page.should have_content 'These are terms and conditions'
+
+      # TODO: Remove when card reg is cut over from CF
+      Rails.env.stub(:production?).and_return(true)
 
       first('.header-button').click_link('Join')
 
@@ -126,7 +128,10 @@ describe 'Contests' do
       Plink::UserRecord.last.first_name.should == 'John'
       Plink::UserRecord.last.email.should == 'example@example.com'
 
-      current_path.should == contest_path(contest)
+      current_url.should include contest_path(contest, share_modal: true)
+      page.should have_css('#contest_share_modal')
+
+      page.execute_script('$("#contest_share_modal").foundation("reveal", "close")')
 
       within '.refer' do
         page.find('.footnote').click
@@ -137,7 +142,7 @@ describe 'Contests' do
     end
 
     context 'for an unauthenticated user', js:true do
-      it 'only forwards the user to the contest page if the user logs in from the contest page' do
+      it 'only forwards the user to the contest page if the user registers from the contest page', driver: :selenium do
         # TODO: Remove when card reg is cut over from CF
         Rails.env.stub(:production?).and_return(true)
 
@@ -159,7 +164,7 @@ describe 'Contests' do
 
         page.should have_content "Welcome, John!"
 
-        current_path.should == '/wallet'
+        current_path.should == wallet_path
       end
 
       it 'links to the Referral Program section of the FAQ' do
@@ -180,7 +185,7 @@ describe 'Contests' do
       end
     end
 
-    context 'for an authenticated user without a linked card', js: true, driver: :selenium do
+    context 'for an authenticated user without a linked card', driver: :selenium do
       let(:user) {
         create_user(
           email: 'user@example.com',
@@ -231,20 +236,31 @@ describe 'Contests' do
       end
     end
 
-    context 'for an authenticated user with a linked card' do
+    context 'for an existing user with a linked card' do
+      let(:email) { 'user@example.com' }
+      let(:password) { 'pass1word' }
+
       before do
-        user = create_user(email: 'user@example.com', password: 'pass1word', first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')
+        user = create_user(email: email, password: password, first_name: 'Frodo', is_subscribed: true, avatar_thumbnail_url: 'http://example.com/image')
         create_wallet(user_id: user.id)
         create_oauth_token(user_id: user.id)
         create_users_institution_account(user_id: user.id)
-
-        sign_in('user@example.com', 'pass1word')
-
-        page.should have_link 'Contests'
-        click_link 'Contests'
       end
 
-     it 'displays the user the contest with the updated multiplier text' do
+     it 'displays the contest with updated multiplier text' do
+        click_on 'Sign In'
+
+        within '.sign-in-modal' do
+          page.find('img[alt="Sign in with Email"]').click
+          fill_in 'user_session_email', with: email
+          fill_in 'user_session_password', with: password
+          click_on 'Sign In'
+        end
+
+        current_path.should_not == contest_path(contest, link_card: true)
+        page.should_not have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
+
+        current_path.should == contest_path(contest)
         page.should have_content "Because you linked a card to your Plink account, you'll get 5x entries per share"
         page.should have_content 'Get up to 100 EXTRA ENTRIES per day for each friend referral'
         page.should have_link '100 EXTRA ENTRIES'

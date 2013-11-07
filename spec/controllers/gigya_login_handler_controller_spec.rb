@@ -168,7 +168,7 @@ describe GigyaLoginHandlerController do
           it 'redirects them back to the contest path' do
             get :create, {valid_params: true}
 
-            response.should redirect_to contests_path
+            response.should redirect_to contests_path(share_modal: true)
           end
         end
 

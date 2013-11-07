@@ -22,7 +22,7 @@ class GigyaLoginHandlerController < ApplicationController
           if session[:share_page_id].present? && params[:loginProvider] == 'facebook'
             share_page_path(id: session[:share_page_id])
           else
-            get_return_to_path || link_card_or_institution_search
+            get_return_to_path(true) || link_card_or_institution_search
           end
 
         redirect_to path

@@ -106,7 +106,7 @@ describe RegistrationsController do
 
         xhr :post, :create
 
-        JSON.parse(response.body).should == {'redirect_path' => contests_path}
+        response.body.should == {redirect_path: contests_path(share_modal: true)}.to_json
       end
     end
 

@@ -259,6 +259,11 @@ describe ApplicationController do
         request.env["HTTP_REFERER"] = 'http://test.com/contests/1'
         controller.get_return_to_path.should == contest_path(1)
       end
+
+      it 'includes the share_modal query parameters if supplied an optional parameter' do
+        request.env["HTTP_REFERER"] = 'http://test.com/contests/1'
+        controller.get_return_to_path(true).should == contest_path(1, share_modal: true)
+      end
     end
   end
 

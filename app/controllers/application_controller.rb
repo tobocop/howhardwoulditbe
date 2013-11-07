@@ -77,14 +77,15 @@ class ApplicationController < ActionController::Base
     @_user_registration_form ||= UserRegistrationForm.new
   end
 
-  def get_return_to_path
+  def get_return_to_path(new_user=false)
     return nil unless request.referer.present?
-
     referer_path = URI(request.referer).path
 
     if referer_path.match(/^#{contests_path}/)
       id = referer_path.match(/[1-9]$/)
-      id ? contest_path(id) : contests_path
+      options = new_user ? {share_modal: true} : {}
+
+      id ? contest_path(id, options) : contests_path(options)
     else
       nil
     end

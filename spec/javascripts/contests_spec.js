@@ -57,5 +57,15 @@ describe('Contest', function () {
       Contest.setDailyEmailCheckBox(true);
       expect(document.getElementById('js-toggle-daily-email').checked).toEqual(true);
     });
-  })
+  });
+
+  describe('#showShareModal', function() {
+    it ('calls Plink.conditionalCallbak', function(){
+      spyOn(Contest, 'showShareModal');
+
+      Contest.showShareModal();
+
+      expect(Contest.showShareModal).toHaveBeenCalled();
+    });
+  });
 });

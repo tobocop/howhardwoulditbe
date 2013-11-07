@@ -23,6 +23,15 @@
 
     setDailyEmailCheckBox: function (checked) {
       $('#js-toggle-daily-email').prop('checked', checked);
+    },
+
+    showShareModal: function() {
+      Plink.conditionalCallback(
+        window.location.search.match(/share_modal=true/),
+        function () {
+          $('#contest_share_modal').foundation('reveal', 'open');
+        }
+      );
     }
   }
 })(window);
@@ -32,6 +41,7 @@ $(function () {
 
   if ($(contest_pages).length) {
     Contest.bindEvents();
+    Contest.showShareModal();
     Plink.InAppNotification.closeInAppNotification();
   }
 });
