@@ -60,12 +60,12 @@ describe('Contest', function () {
   });
 
   describe('#showShareModal', function() {
-    it ('calls Plink.conditionalCallbak', function(){
-      spyOn(Contest, 'showShareModal');
+    it ('calls Plink.conditionalCallback', function(){
+      spyOn(Plink, 'conditionalCallback');
 
       Contest.showShareModal();
 
-      expect(Contest.showShareModal).toHaveBeenCalled();
+      expect(Plink.conditionalCallback).toHaveBeenCalled();
     });
   });
 });

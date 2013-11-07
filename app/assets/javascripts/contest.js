@@ -2,6 +2,7 @@
   Contest = {
     bindEvents: function () {
       $(document).on('click', '#js-toggle-daily-email', Contest.toggleDailyEmailPreference);
+      $(document).on('click', '.js-complete-registration', Contest.showCardAddModal);
     },
 
     toggleDailyEmailPreference: function (e) {
@@ -32,6 +33,10 @@
           $('#contest_share_modal').foundation('reveal', 'open');
         }
       );
+    },
+
+    showCardAddModal: function() {
+      $('#card-add-modal').foundation('reveal', 'open');
     }
   }
 })(window);
