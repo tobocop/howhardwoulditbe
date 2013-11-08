@@ -15,7 +15,7 @@ describe ContestMailer do
       email.from.should == ['info@plink.com']
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
-      email.subject.should == 'Enter Today - $500 Gift Card Up For Grabs'
+      email.subject.should == 'Enter Today - A Sony PS4 Is Up For Grabs'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)
@@ -39,7 +39,7 @@ describe ContestMailer do
       email.from.should == ['info@plink.com']
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
-      email.subject.should == 'Your Holiday Shopping Spree entries expire today'
+      email.subject.should == 'Your Black Friday PS4 Giveaway entries expire today'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)
@@ -63,12 +63,12 @@ describe ContestMailer do
 
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
-      email.subject.should == 'Holiday Shopping Spree Winners Announced!! See if you won!'
+      email.subject.should == 'Black Friday PS4 Giveaway Winners Announced!! See if you won!'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s
-        body.should =~ /Plink's Holiday Shopping Spree has ended\.\.\./
-        body.should =~ /You've won a prize in Plink's Holiday Shopping Spree! Did you win the \$500 Gift Card\? Claim your prize now\./
+        body.should =~ /Plink's Black Friday PS4 Giveaway has ended\.\.\./
+        body.should =~ /Congratulations - You've won a prize in Plink's Black Friday PS4 Giveaway! Did you win the Sony PS4\?/
         body.should =~ /abcde12345/
       end
     end

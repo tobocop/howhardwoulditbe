@@ -3,22 +3,22 @@ en:
     contests:
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
       entry_post:
-        title: "Win a $500 Gift Card in Plink's Holiday Shopping Spree"
-        description: "Enter Plink's Holiday Shopping Spree to win a $500 Gift Card of your choice. Even if you don't win the grand prize, you'll still have a chance to win the other 149 prizes!"
+        title: "Win a Sony PS4 in Plink's Black Friday PS4 Giveaway"
+        description: "Enter Plink's Black Friday PS4 Giveaway for a chance to win a Sony PS4. Even if you don't win the grand prize, you'll still have a chance to win the other 149 prizes!"
       winners_post:
         title: I just won a Plink contest! You can be a Winner, too.
-        description: "I just won a gift card in Plink's Holiday Shopping Spree!  Join Plink today and enter for your chance to win."
+        description: "I just won a gift card in Plink's Black Friday PS4 Giveaway!  Join Plink today and enter for your chance to win."
       winners_automatic_post:
-        status: "I just won a prize in Plink's Holiday Shopping Spree! I might have even won the $500 Gift Card - See what I won!"
+        status: "I just won a prize in Plink's Black Friday PS4 Giveaway! I might have even won the Sony PS4! See what I won!"
       in_app_notification:
-        enter_today: Enter our contest today for a chance to win a $500 Gift Card!
+        enter_today: Enter our contest today for a chance to win a Sony PS4!
       emails:
         daily_reminder_email:
-          subject: Enter Today - $500 Gift Card Up For Grabs
+          subject: Enter Today - A Sony PS4 Is Up For Grabs
         three_day_reminder_email:
-          subject: Your Holiday Shopping Spree entries expire today
+          subject: Your Black Friday PS4 Giveaway entries expire today
         winner_email:
-          subject: Holiday Shopping Spree Winners Announced!! See if you won!
+          subject: Black Friday PS4 Giveaway Winners Announced!! See if you won!
     rewards:
       emails:
         reward_notification_email:
