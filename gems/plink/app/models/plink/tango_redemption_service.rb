@@ -21,7 +21,6 @@ module Plink
     def redeem
       delivery_status = nil
       redemption_record = nil
-      redemption_canceled = false
 
       begin
         redemption_record = Plink::RedemptionRecord.create(attributes)
@@ -31,14 +30,10 @@ module Plink
           confirm_redemption(redemption_record)
           redemption_record
         else
-          if redemption_record.present?
-            cancel_redemption(redemption_record)
-            redemption_canceled = true
-          end
+          cancel_redemption(redemption_record) if redemption_record.present? && delivery_status.present?
           raise UnsuccessfulResponseFromTangoError, "#{delivery_status.to_s}"
         end
       rescue Exception
-        cancel_redemption(redemption_record) if redemption_record.present? && !redemption_canceled
         Plink::TangoRedemptionShutoffService.halt_redemptions unless delivery_status.present?
         ::Exceptional::Catcher.handle(
           raise $!, "#{exception_text} #{$!}", $!.backtrace
