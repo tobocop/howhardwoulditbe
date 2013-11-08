@@ -297,6 +297,8 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
     create_contest_blacklisted_user(user_id: blacklisted_user.id)
     non_entered_user = create_user(email: 'unique@other.com')
 
+    PlinkAdmin::ContestWinningService.should_receive(:refresh_blacklisted_user_ids!)
+
     subject.invoke(contest.id)
 
     Plink::ContestWinnerRecord.count.should == 300

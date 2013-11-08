@@ -84,6 +84,8 @@ namespace :contest do
       PlinkAdmin::ContestWinningService.cumulative_non_plink_entries_by_user(contest_id)
     raise Exception.new("ERROR: Less than 300 entrants present! Cannot pick winners.") if cumulative_entries_by_user.length < 300
 
+    PlinkAdmin::ContestWinningService.refresh_blacklisted_user_ids!
+
     outcome_table = PlinkAdmin::ContestWinningService.generate_outcome_table(cumulative_entries_by_user)
 
     total_entries =

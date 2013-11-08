@@ -11,6 +11,16 @@ module PlinkAdmin
       }
     end
 
+    def self.blacklisted_user_ids
+      query = "SELECT u.user_id
+        FROM  dm_users u
+        WHERE u.is_force_deactivated = 1"
+
+      blacklisted_emails.each { |email| query += "OR u.email_address LIKE '#{email}'" }
+
+      connection.select_all(query)
+    end
+
   private
 
     def self.entries_with_sources(contest_id)
@@ -192,6 +202,13 @@ module PlinkAdmin
         AND   l.link_rank = 1
       ) l
       ORDER BY 3;"
+    end
+
+    def self.blacklisted_emails
+      ['%plink.com%', 'btyler97@gmail.com', 'mrhamric@gmail.com', 'mrhamric@alumni.unc.edu',
+        'mh27514@gmail.com', 'matt.hamrick@rentelligence.us', 'matt@rentelligence.us',
+        'mattplink@gmail.com', 'kris@krismcd.com', 'Memarin1+1@gmail.com', 'brORontoller@gmail.com',
+        'bob.longmire@yahoo.com', 'Twolongmires@gmail.com', 'chauncey.belafonte@mail.com']
     end
   end
 end

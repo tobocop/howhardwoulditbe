@@ -137,6 +137,16 @@ class PlinkAdmin::ContestWinningService
     end
   end
 
+  def self.refresh_blacklisted_user_ids!
+    Plink::ContestBlacklistedEmailRecord.delete_all
+
+    results = PlinkAdmin::ContestQueryService.blacklisted_user_ids
+
+    results.map {|result| result['user_id'].to_i }.each do |user_id|
+      Plink::ContestBlacklistedEmailRecord.create!(user_id: user_id)
+    end
+  end
+
 private
 
   def self.remove_winner(contest_winner_record_id, admin_id)

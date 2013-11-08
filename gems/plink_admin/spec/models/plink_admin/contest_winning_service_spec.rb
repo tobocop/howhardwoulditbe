@@ -298,4 +298,39 @@ describe PlinkAdmin::ContestWinningService do
       contest_winning_service.notify_winners!(contest_id)
     end
   end
+
+  describe '.refresh_blacklisted_user_ids!' do
+    let(:user_ids) { [{'user_id' => '1'}, {'user_id' => '2'}] }
+
+    it 'deletes all previous records' do
+      PlinkAdmin::ContestQueryService.stub(:blacklisted_user_ids).and_return([])
+
+      Plink::ContestBlacklistedEmailRecord.should_receive(:delete_all)
+
+      contest_winning_service.refresh_blacklisted_user_ids!
+    end
+
+    it 'calls the data warehouse' do
+      PlinkAdmin::ContestQueryService.should_receive(:blacklisted_user_ids).and_return([])
+
+      contest_winning_service.refresh_blacklisted_user_ids!
+    end
+
+    it 'updates the contest_blacklisted_emails table' do
+      PlinkAdmin::ContestQueryService.stub(:blacklisted_user_ids).and_return(user_ids)
+
+      contest_winning_service.refresh_blacklisted_user_ids!
+
+      Plink::ContestBlacklistedEmailRecord.count.should == 2
+    end
+
+    it 'raises an exception if a create fails' do
+      PlinkAdmin::ContestQueryService.stub(:blacklisted_user_ids).and_return(user_ids)
+      Plink::ContestBlacklistedEmailRecord.stub(:create!).and_raise(Exception.new('Nope'))
+
+      expect {
+        contest_winning_service.refresh_blacklisted_user_ids!
+      }.to raise_error('Nope')
+    end
+  end
 end
