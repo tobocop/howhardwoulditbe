@@ -65,6 +65,10 @@ describe Plink::CardLinkUrlGenerator do
 
       subject.create_url(url_params).should == 'http://example.com/card_add?aid=456&campaignID=4&landing_page_id=2&refer=123&subID2=asd&subID3=three&subID4=four&subID=one'
     end
+
+    it 'returns the add card URL with a show_contest_banner parameter if show_contest_banner present' do
+      subject.create_url(show_contest_banner: true).should == 'http://example.com/card_add?show_contest_banner=true'
+    end
   end
 
   describe 'change_url' do

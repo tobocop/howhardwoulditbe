@@ -60,7 +60,10 @@ private
   end
 
   def contest_tracking_params(contest_id)
-    get_session_tracking_params.merge(sub_id_two: "contest_id_#{contest_id}")
+    get_session_tracking_params.merge(
+      show_contest_banner: true,
+      sub_id_two: "contest_id_#{contest_id}"
+    )
   end
 
   def create_contest_presenter(contest_record)
