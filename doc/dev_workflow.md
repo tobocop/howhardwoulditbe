@@ -1,6 +1,5 @@
 Plink Development Workflow
 ==========================
-Revised 9/12/13, MH
 
 Development & QA
 ----------------
