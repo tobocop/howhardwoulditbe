@@ -226,7 +226,7 @@ describe 'Contests' do
         click_link '20 EXTRA ENTRIES'
 
         within 'div[gigid]' do
-          page.should have_content 'Join Plink for free and receive a $5 gift card'
+          page.should have_content 'Join Plink for free and receive 300 bonus points!'
         end
       end
     end
