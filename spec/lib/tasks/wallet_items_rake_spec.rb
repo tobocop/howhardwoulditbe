@@ -174,6 +174,96 @@ describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
   end
 end
 
+describe 'wallet_items:unlock_app_install_promotion_wallet_items' do
+  include_context 'rake'
+
+  let!(:primary_virtual_currency) { create_virtual_currency(subdomain: 'www') }
+
+  let(:in_period_install_date) { Time.parse('2013-11-24') }
+  let(:before_period_install_date) { Time.parse('2012-10-14') }
+  let(:after_period_install_date) { Time.parse('2013-11-25') }
+
+  let(:in_period_user) { create_user(first_name: 'beefy', email: 'in@example.com') }
+  let(:before_period_user) { create_user(first_name: 'tacos', email: 'before@example.com') }
+  let(:after_period_user) { create_user(email: 'after@example.com') }
+  let!(:previously_unlocked_user) do
+    user = create_user(email: 'dolph@example.com')
+    wallet = create_wallet(user_id: user.id)
+    create_open_wallet_item(wallet_id: wallet.id, unlock_reason: 'app_install_promotion')
+    user
+  end
+
+  before do
+    [in_period_user, before_period_user, after_period_user].each do |user|
+      create_wallet(user_id: user.id)
+    end
+
+    in_period_token = create_authentication_token(user_id: in_period_user.id)
+    in_period_token.update_attribute('created_at', in_period_install_date)
+
+    before_period_token = create_authentication_token(user_id: before_period_user.id)
+    before_period_token.update_attribute('created_at', before_period_install_date)
+
+    after_period_token = create_authentication_token(user_id: after_period_user.id)
+    after_period_token.update_attribute('created_at', after_period_install_date)
+  end
+
+  it 'unlocks slots for the users that are eligible' do
+    in_period_user.open_wallet_items.length.should == 0
+    before_period_user.open_wallet_items.length.should == 0
+    after_period_user.open_wallet_items.length.should == 0
+    previously_unlocked_user.open_wallet_items.length.should == 1
+
+    subject.invoke
+
+    in_period_user.reload.open_wallet_items.length.should == 1
+    before_period_user.reload.open_wallet_items.length.should == 1
+    after_period_user.reload.open_wallet_items.length.should == 0
+    previously_unlocked_user.reload.open_wallet_items.length.should == 1
+  end
+
+  it 'sets the reason for the unlocked slot as app_install_promotion' do
+    in_period_user.open_wallet_items.map(&:unlock_reason).should_not include('app_install_promotion')
+    before_period_user.open_wallet_items.map(&:unlock_reason).should_not include('app_install_promotion')
+
+    subject.invoke
+
+    in_period_user.reload.open_wallet_items.map(&:unlock_reason).should include('app_install_promotion')
+    before_period_user.reload.open_wallet_items.map(&:unlock_reason).should include('app_install_promotion')
+  end
+
+  it 'creates an open wallet item for eligible users' do
+    Plink::WalletItemService.should_receive(:create_open_wallet_item)
+      .with(in_period_user.wallet.id, 'app_install_promotion')
+    Plink::WalletItemService.should_receive(:create_open_wallet_item)
+      .with(before_period_user.wallet.id, 'app_install_promotion')
+
+    subject.invoke
+  end
+
+  it 'emails eligible users letting them know they have a newly-opened slot' do
+    delay_double = double(unlock_promotional_wallet_item_email: true)
+
+    Plink::UserAutoLoginRecord.should_receive(:create).twice.and_return(double(user_token:'asd'))
+
+    PromotionalWalletItemMailer.should_receive(:delay).twice.and_return(delay_double)
+
+    delay_double.should_receive(:unlock_promotional_wallet_item_email).with(
+      first_name: 'beefy',
+      email: 'in@example.com',
+      user_token: 'asd'
+    )
+
+    delay_double.should_receive(:unlock_promotional_wallet_item_email).with(
+      first_name: 'tacos',
+      email: 'before@example.com',
+      user_token: 'asd'
+    )
+
+    subject.invoke
+  end
+end
+
 describe "wallet_items:remove_expired_offers", skip_in_build: true do
   include_context "rake"
 

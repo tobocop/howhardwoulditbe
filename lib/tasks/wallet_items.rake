@@ -18,6 +18,24 @@ namespace :wallet_items do
     end
   end
 
+  desc 'Unlocks wallet items during the app install promotional period'
+  task unlock_app_install_promotion_wallet_items: :environment do
+    stars; puts "[#{Time.zone.now}] Beginning unlock_app_install_promotion_wallet_items"
+    users_eligible_for_app_install_promotion_wallet_item.each do |wallet_record|
+      Plink::WalletItemService.create_open_wallet_item(wallet_record.id, Plink::WalletRecord.app_install_promotion_unlock_reason)
+
+      user_token = AutoLoginService.generate_token(wallet_record.user_id)
+      PromotionalWalletItemMailer.delay.unlock_promotional_wallet_item_email(
+        first_name: wallet_record.attributes['firstName'],
+        email: wallet_record.attributes['emailAddress'],
+        user_token: user_token
+      )
+
+      puts "[#{Time.zone.now}] Unlocking - ID: #{wallet_record.user_id} EMAIL: #{wallet_record.attributes['emailAddress']} FIRST NAME: #{wallet_record.attributes['firstName']}"
+    end
+    puts "[#{Time.zone.now}] Ending unlock_app_install_promotion_wallet_items"; stars
+  end
+
   desc 'Removes all expired offers from users wallets and end dates their associated tiers'
   task remove_expired_offers: :environment do
     expired_offers = offers_with_end_date_between_given_dates(7.days.ago.to_date, Date.current)
@@ -86,6 +104,18 @@ private
     Plink::WalletQueryService.new(relation).plink_point_users_with_wallet
   end
 
+  def users_eligible_for_app_install_promotion_wallet_item
+    relation = Plink::WalletRecord
+      .wallets_without_item_unlocked(Plink::WalletRecord.app_install_promotion_unlock_reason)
+      .where(%Q{EXISTS (
+        SELECT 1
+        FROM authentication_tokens
+        WHERE authentication_tokens.user_id = wallets.userID
+          AND authentication_tokens.created_at < '2013-11-25 00:00:00'
+      )})
+    Plink::WalletQueryService.new(relation).plink_point_users_with_wallet
+  end
+
   def user_with_offer_in_wallet(offers_virtual_currency_id)
     Plink::UserRecord.includes(:wallet_item_records).where('walletItems.offersVirtualCurrencyID = ?', offers_virtual_currency_id)
   end
@@ -93,5 +123,9 @@ private
   def offers_with_end_date_between_given_dates(starting_date, ending_date)
     Plink::OfferRecord.where('endDate >= ? AND endDate < ?', starting_date, ending_date)
       .includes(:advertiser)
+  end
+
+  def stars
+    puts '*' * 150
   end
 end

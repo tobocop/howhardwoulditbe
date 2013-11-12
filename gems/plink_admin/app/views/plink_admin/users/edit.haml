@@ -6,7 +6,10 @@
     %li.locked-wallet-items
       = "Open Slot for reason of: "
       - @unlock_reasons.each do |key, reason|
-        = open_slot_link(reason, wallet_item.id)
+        %span
+          |
+          = open_slot_link(reason, wallet_item.id)
+          |
 
 %h4= "Open Wallet Items: #{@user.wallet_item_records.open_records.count}"
 %ol
@@ -16,7 +19,10 @@
 %div
   = "Give a user an open slot with reason of: "
   - @unlock_reasons.each do |key, reason|
-    = give_open_slot_link(reason, @wallet_id)
+    %span
+      |
+      = give_open_slot_link(reason, @wallet_id)
+      |
 
 %h4= "Populated Wallet Items: #{@user.wallet_item_records.populated_records.count}"
 %ol

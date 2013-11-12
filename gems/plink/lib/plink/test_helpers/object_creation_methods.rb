@@ -2,6 +2,19 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_authentication_token(options = {})
+      defaults = {
+        token: 'test',
+        user_id: 1
+      }
+
+      Plink::AuthenticationTokenRecord.new { |authentication_token| apply(authentication_token, defaults, options) }
+    end
+
+    def create_authentication_token(options = {})
+      new_authentication_token(options).tap(&:save!)
+    end
+
     def new_news_article(options = {})
       defaults = {
         source: 'TechCrunch',
