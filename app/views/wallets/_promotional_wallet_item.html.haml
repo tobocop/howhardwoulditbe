@@ -3,10 +3,15 @@
   .text
     %h3.bold This slot is locked.
     %h3
-      Make a
-      %u qualifying
-      purchase at any Plink location by 10/27/13
+      Download our app on iOS or android by 11/24 to unlock this slot.
 #locked-promotional-slot-modal.reveal-modal.modal
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'
-  %h1 This wallet slot will unlock after you make a qualified purchase* at any Plink location by Sunday 10/27/13.
-  %p * A purchase is considered qualified when it meets or exceeds the minimum spend requirement and is in your Plink wallet at the time of purchase.
+  %h1 Manage your Plink account on the go and download our mobile app by 11/24 to unlock this slot!
+  %p
+    %span
+      iOS -
+      =link_to 'Download', 'http://hastrk1.com/serve?action=click&publisher_id=34596&site_id=30142&offer_id=256246&sub2=PromotionalSlot', target: 'ios'
+  %p
+    %span
+      Android -
+      =link_to 'Download', 'http://hastrk1.com/serve?action=click&publisher_id=34596&site_id=36714&offer_id=268162&sub2=PromotionalSlot', target: 'android'

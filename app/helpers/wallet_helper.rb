@@ -6,6 +6,6 @@ module WalletHelper
 private
 
   def end_promotion_date
-    Time.zone.parse('2013-10-28 00:00:00')
+    Time.zone.parse('2013-11-25 00:00:00')
   end
 end
