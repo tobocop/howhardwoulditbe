@@ -73,6 +73,8 @@ var Plink = {
 
     $('[data-toggle-selector]').toggler();
 
+    $('.hero-gallery-inner').heroGallery();
+
     Redemption.init();
     SharePages.init();
 
