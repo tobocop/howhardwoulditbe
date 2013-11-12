@@ -40,35 +40,6 @@ describe Plink::WalletRecord do
       end
     end
 
-    describe '.wallets_eligible_for_promotional_unlocks' do
-      let!(:user) { create_user(email: 'ares@example.com') }
-      let!(:wallet) { create_wallet(user_id: user.id) }
-      let!(:foo) { 3.times { |i| create_open_wallet_item(wallet_id: wallet.id) } }
-
-      subject(:wallets_eligible_for_promotional_unlocks) { Plink::WalletRecord.wallets_eligible_for_promotional_unlocks }
-
-      it 'returns wallets for users who have an intuit transaction within the promotional dates and have not unlocked the promotion slot' do
-        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-18'))
-        wallets_eligible_for_promotional_unlocks.should include wallet
-      end
-
-      it 'does not return wallets that have an intuit transaction within the promotional dates and have already unlocked the promotion slot' do
-        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-18'))
-        create_open_wallet_item(wallet_id: wallet.id, unlock_reason: 'promotion')
-        wallets_eligible_for_promotional_unlocks.should_not include wallet
-      end
-
-      it 'does not return wallets that have an intuit transaction posted after 10/30/2013' do
-        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-31'))
-        wallets_eligible_for_promotional_unlocks.should_not include wallet
-      end
-
-      it 'does not return wallets that have an intuit transaction posted before 10/17/2013' do
-        create_intuit_transaction(user_id: user.id, post_date: Time.zone.parse('2013-10-16'))
-        wallets_eligible_for_promotional_unlocks.should_not include wallet
-      end
-    end
-
     describe '.wallets_eligible_for_transaction_unlocks' do
       let!(:user) { create_user(email: 'ares@example.com') }
       let!(:wallet) { create_wallet(user_id: user.id) }
@@ -143,9 +114,21 @@ describe Plink::WalletRecord do
       end
     end
 
-    describe '.promotion_unlock_reason' do
+    describe '.current_promotion_unlock_reason' do
+      it 'returns the string promotion_app_install' do
+        Plink::WalletRecord.current_promotion_unlock_reason.should == 'app_install_promotion'
+      end
+    end
+
+    describe '.transaction_promotion_unlock_reason' do
       it 'returns the string promotion' do
-        Plink::WalletRecord.promotion_unlock_reason.should == 'promotion'
+        Plink::WalletRecord.transaction_promotion_unlock_reason.should == 'promotion'
+      end
+    end
+
+    describe '.app_install_promotion_unlock_reason' do
+      it 'returns the string app_install_promotion' do
+        Plink::WalletRecord.app_install_promotion_unlock_reason.should == 'app_install_promotion'
       end
     end
   end

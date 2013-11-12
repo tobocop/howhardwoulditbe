@@ -21,7 +21,7 @@ describe Plink::Wallet do
     end
   end
 
-  describe '#has_unlocked_promotion_slot' do
+  describe '#has_unlocked_current_promotion_slot' do
     let(:no_promotion_wallet) {
       new_wallet(
         wallet_item_records: [
@@ -34,7 +34,7 @@ describe Plink::Wallet do
     let(:has_promotion_wallet) {
       new_wallet(
         wallet_item_records: [
-          new_open_wallet_item(unlock_reason: 'promotion'),
+          new_open_wallet_item(unlock_reason: Plink::WalletRecord.current_promotion_unlock_reason),
           new_open_wallet_item(unlock_reason: 'join')
         ]
       )
@@ -42,12 +42,12 @@ describe Plink::Wallet do
 
     it 'returns true if the wallet has an open_wallet_item with unlock_reason of promotion' do
       wallet = Plink::Wallet.new(has_promotion_wallet)
-      wallet.has_unlocked_promotion_slot.should be_true
+      wallet.has_unlocked_current_promotion_slot.should be_true
     end
 
     it 'returns false if the wallet does not have an open_wallet_item with unlock_reason of promotion' do
       wallet = Plink::Wallet.new(no_promotion_wallet)
-      wallet.has_unlocked_promotion_slot.should be_false
+      wallet.has_unlocked_current_promotion_slot.should be_false
     end
   end
 

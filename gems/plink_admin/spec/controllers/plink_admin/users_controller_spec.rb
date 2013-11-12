@@ -10,7 +10,7 @@ describe PlinkAdmin::UsersController do
   describe 'GET edit' do
     let(:user) { create_user }
     let!(:wallet) { create_wallet(user_id: user.id) }
-    let(:unlock_reasons) { {"transaction"=>"transaction", "join"=>"join", "referral"=>"referral", "promotion"=>"promotion"} }
+    let(:unlock_reasons) { {'app_install_promotion'=>'app_install_promotion', 'join'=>'join', 'promotion'=>'promotion', 'referral'=>'referral', 'transaction'=>'transaction'} }
 
     before { get :edit, id: user.id }
 

@@ -5,10 +5,11 @@ module Plink
     include Plink::LegacyTimestamps
 
     UNLOCK_REASONS = {
-      transaction: 'transaction',
+      app_install_promotion: 'app_install_promotion',
       join: 'join',
+      promotion: 'promotion',
       referral: 'referral',
-      promotion: 'promotion'
+      transaction: 'transaction'
     }
 
     alias_attribute :user_id, :userID
@@ -26,19 +27,6 @@ module Plink
 
     scope :wallets_with_locked_wallet_items, -> {
       joins(:locked_wallet_items)
-    }
-
-    scope :wallets_eligible_for_promotional_unlocks, -> {
-      self.wallets_without_item_unlocked(self.promotion_unlock_reason)
-      .where(%Q{
-        EXISTS (
-          SELECT 1
-          FROM intuit_transactions
-          WHERE intuit_transactions.user_id = wallets.userID
-            AND intuit_transactions.post_date > '2013-10-17'
-            AND intuit_transactions.post_date < '2013-10-31'
-        )}
-      )
     }
 
     scope :wallets_eligible_for_transaction_unlocks, -> {
@@ -64,8 +52,16 @@ module Plink
       UNLOCK_REASONS[:referral]
     end
 
-    def self.promotion_unlock_reason
+    def self.current_promotion_unlock_reason
+      UNLOCK_REASONS[:app_install_promotion]
+    end
+
+    def self.transaction_promotion_unlock_reason
       UNLOCK_REASONS[:promotion]
+    end
+
+    def self.app_install_promotion_unlock_reason
+      UNLOCK_REASONS[:app_install_promotion]
     end
 
   private

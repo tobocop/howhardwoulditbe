@@ -52,7 +52,7 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
   end
 end
 
-describe 'wallet_items:unlock_promotional_wallet_items' do
+describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
   include_context 'rake'
 
   let(:good_post_date) { Time.parse('2013-10-26') }

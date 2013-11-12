@@ -5,9 +5,9 @@ namespace :wallet_items do
   end
 
   desc 'Unlocks wallet items during the promotional period'
-  task unlock_promotional_wallet_items: :environment do
-    users_eligible_for_promotional_wallet_item.each do |wallet_record|
-      Plink::WalletItemService.create_open_wallet_item(wallet_record.id, Plink::WalletRecord.promotion_unlock_reason)
+  task unlock_transaction_promotion_wallet_items: :environment do
+    users_eligible_for_transaction_promotion_wallet_item.each do |wallet_record|
+      Plink::WalletItemService.create_open_wallet_item(wallet_record.id, Plink::WalletRecord.transaction_promotion_unlock_reason)
 
       user_token = AutoLoginService.generate_token(wallet_record.user_id)
       PromotionalWalletItemMailer.delay.unlock_promotional_wallet_item_email(
@@ -71,11 +71,19 @@ namespace :wallet_items do
 
 private
 
-  def users_eligible_for_promotional_wallet_item
-    Plink::WalletRecord.select('users.firstName, users.emailAddress, wallets.*')
-      .wallets_eligible_for_promotional_unlocks
-      .joins(:user)
-      .where('users.primaryVirtualCurrencyID = ?', Plink::VirtualCurrency.default.id)
+  def users_eligible_for_transaction_promotion_wallet_item
+    relation = Plink::WalletRecord
+      .wallets_without_item_unlocked(Plink::WalletRecord.transaction_promotion_unlock_reason)
+      .where(%Q{
+        EXISTS (
+          SELECT 1
+          FROM intuit_transactions
+          WHERE intuit_transactions.user_id = wallets.userID
+            AND intuit_transactions.post_date > '2013-10-17'
+            AND intuit_transactions.post_date < '2013-10-31'
+        )}
+      )
+    Plink::WalletQueryService.new(relation).plink_point_users_with_wallet
   end
 
   def user_with_offer_in_wallet(offers_virtual_currency_id)

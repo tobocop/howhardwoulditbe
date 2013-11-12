@@ -14,8 +14,8 @@ module Plink
       wallet_record.wallet_item_records.detect { |item| item.offers_virtual_currency_id == offers_virtual_currency.id }
     end
 
-    def has_unlocked_promotion_slot
-      wallet_record.wallet_item_records.map(&:unlock_reason).include?(Plink::WalletRecord.promotion_unlock_reason)
+    def has_unlocked_current_promotion_slot
+      wallet_record.wallet_item_records.map(&:unlock_reason).include?(Plink::WalletRecord.current_promotion_unlock_reason)
     end
   end
 end
