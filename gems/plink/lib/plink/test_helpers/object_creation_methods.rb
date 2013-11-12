@@ -247,11 +247,13 @@ module Plink
 
     def new_hero_promotion(options ={})
       defaults = {
-        image_url: '/assets/test_image_tbd.jpg',
-        name: 'promotion name',
-        title: 'Awesome Title',
         display_order: 1,
-        is_active: true
+        image_url: '/assets/test_image_tbd.jpg',
+        is_active: true,
+        name: 'promotion name',
+        show_linked_users: true,
+        show_non_linked_users: true,
+        title: 'Awesome Title'
       }
       Plink::HeroPromotionRecord.new { |promotion| apply(promotion, defaults, options) }
     end

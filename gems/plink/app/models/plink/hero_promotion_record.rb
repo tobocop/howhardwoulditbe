@@ -1,9 +1,9 @@
 module Plink
   class HeroPromotionRecord < ActiveRecord::Base
-
     self.table_name = 'hero_promotions'
 
-    attr_accessible :image_url, :title, :display_order, :is_active, :name
+    attr_accessible :display_order, :image_url, :is_active, :name, :show_linked_users,
+      :show_non_linked_users, :title
 
     validates_presence_of :title, :image_url, :name
 
@@ -12,7 +12,7 @@ module Plink
     end
 
     def self.active
-      self.where(is_active: true)
+      where(is_active: true)
     end
   end
 end

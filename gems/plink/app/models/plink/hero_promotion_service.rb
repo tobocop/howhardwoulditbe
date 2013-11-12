@@ -14,7 +14,9 @@ module Plink
       Plink::HeroPromotion.new(
         {
           title: record.title,
-          image_url: record.image_url
+          image_url: record.image_url,
+          show_linked_users: record.show_linked_users,
+          show_non_linked_users: record.show_non_linked_users
         }
       )
     end

@@ -3,11 +3,13 @@ require 'spec_helper'
 describe Plink::HeroPromotionRecord do
   let(:valid_attributes) {
     {
-        image_url: '/assets/foo.jpg',
-        title: 'Yes',
-        display_order: 1,
-        name: 'namey',
-        is_active: true
+      display_order: 1,
+      image_url: '/assets/foo.jpg',
+      is_active: true,
+      name: 'namey',
+      show_linked_users: true,
+      show_non_linked_users: true,
+      title: 'Yes'
     }
   }
 

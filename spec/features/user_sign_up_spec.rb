@@ -6,6 +6,21 @@ describe 'User signup workflow' do
     create_virtual_currency
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     create_event_type(name: Plink::EventTypeRecord.card_add_type)
+    create_hero_promotion({
+      image_url: '/assets/hero-gallery/7eleven_1.jpg',
+      display_order: 1,
+      show_linked_users: true,
+      show_non_linked_users: false,
+      title: 'You want this.'
+    })
+
+    create_hero_promotion({
+      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
+      display_order: 2,
+      show_linked_users: true,
+      show_non_linked_users: true,
+      title: 'You want this. Now.'
+    })
   end
 
   context 'organic registration' do
@@ -45,6 +60,9 @@ describe 'User signup workflow' do
       end
 
       current_path.should == wallet_path
+
+      page.should_not have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
+      page.should have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
 
       page.should have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
 

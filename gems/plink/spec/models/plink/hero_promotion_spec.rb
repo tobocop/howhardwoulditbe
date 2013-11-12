@@ -5,11 +5,15 @@ describe Plink::HeroPromotion do
     hero_promotion = Plink::HeroPromotion.new(
       {
         title: 'Michael Jordan',
-        image_url: '/mj_and_bb.jpg'
+        image_url: '/mj_and_bb.jpg',
+        show_linked_users: true,
+        show_non_linked_users: false
       }
     )
 
     hero_promotion.title.should == 'Michael Jordan'
     hero_promotion.image_url.should == '/mj_and_bb.jpg'
+    hero_promotion.show_linked_users.should == true
+    hero_promotion.show_non_linked_users.should == false
   end
 end
