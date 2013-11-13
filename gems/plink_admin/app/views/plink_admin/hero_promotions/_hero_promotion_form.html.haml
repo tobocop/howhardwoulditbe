@@ -12,6 +12,11 @@
   = f.text_field :display_order
   = f.label :is_active, 'Active'
   = f.check_box :is_active
+  = f.label :show_linked_users, 'Show to linked members'
+  = f.check_box :show_linked_users
+  = f.label :show_non_linked_users, 'Show to non-linked members'
+  = f.check_box :show_non_linked_users
+
   = f.label :image_url, 'Image URL'
   = f.text_field :image_url
 

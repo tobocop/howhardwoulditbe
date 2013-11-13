@@ -27,6 +27,9 @@ describe 'Hero Promotions' do
     check 'Active'
     fill_in 'Image URL', with: 'http://example.com/image'
 
+    check 'Show to linked members'
+    check 'Show to non-linked members'
+
     click_on 'Create'
 
     within '.hero-promotions-list' do
