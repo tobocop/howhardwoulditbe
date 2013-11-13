@@ -297,7 +297,7 @@ describe 'user signs in' do
     #TODO: remove after 11/24
     within '.slot.locked.promotional' do
       page.should have_content 'This slot is locked.'
-      page.should have_content 'Download our app on iOS or android by 11/24 to unlock this slot.'
+      page.should have_content 'Download our app on iOS or Android by 11/24 to unlock this slot.'
     end
 
     page.find('.slot.locked.promotional', match: :first).click
