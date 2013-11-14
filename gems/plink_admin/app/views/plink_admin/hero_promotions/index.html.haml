@@ -12,6 +12,6 @@
       %tr.hero-promotion-item
         %td= link_to hero_promotion.name, edit_hero_promotion_path(hero_promotion)
         %td= hero_promotion.title
-        %td= image_tag hero_promotion.image_url
+        %td= image_tag hero_promotion.image_url, class: 'hero-promotion-image'
         %td= hero_promotion.display_order
         %td= hero_promotion.is_active ? 'Active' : 'Inactive'
