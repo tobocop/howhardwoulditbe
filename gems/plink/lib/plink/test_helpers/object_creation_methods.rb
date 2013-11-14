@@ -793,6 +793,35 @@ module Plink
       Plink::UserAutoLoginRecord.new { |auto_login| apply(auto_login, defaults, options) }
     end
 
+    def new_user_eligible_for_offer_add_bonus(options = {})
+      defaults = {
+        offers_virtual_currency_id: 4,
+        user_id: 3
+      }
+
+      Plink::UserEligibleForOfferAddBonusRecord.new { |user_eligible_for_offer_add_bonus| apply(user_eligible_for_offer_add_bonus, defaults, options) }
+    end
+
+    def create_user_eligible_for_offer_add_bonus(options = {})
+      new_user_eligible_for_offer_add_bonus(options).tap(&:save!)
+    end
+
+    def new_transaction_eligible_for_bonus(options = {})
+      defaults = {
+        intuit_archived_transaction_id: 1,
+        offer_id: 39,
+        offers_virtual_currency_id: 4,
+        processed: true,
+        user_id: 28
+      }
+
+      Plink::TransactionEligibleForBonusRecord.new { |transaction_eligible_for_bonus| apply(transaction_eligible_for_bonus, defaults, options) }
+    end
+
+    def create_transaction_eligible_for_bonus(options = {})
+      new_transaction_eligible_for_bonus(options).tap(&:save!)
+    end
+
     def new_intuit_transaction(options = {})
       defaults = {
         account_id: 1,

@@ -35,7 +35,7 @@ describe Plink::OfferService do
     )
   }
 
-  describe 'get_live_offers' do
+  describe '#get_live_offers' do
     it 'returns offers by virtual_currency_id' do
       offers = Plink::OfferService.new.get_live_offers(3)
 
@@ -52,7 +52,7 @@ describe Plink::OfferService do
     end
   end
 
-  describe 'get_available_offers_for' do
+  describe '#get_available_offers_for' do
     let!(:other_plink_offer) {
       create_offer(
         id: 123,
@@ -82,6 +82,20 @@ describe Plink::OfferService do
       offers.map(&:id).should == [123]
 
       offers.map(&:class).should == [Plink::Offer]
+    end
+  end
+
+  describe '#get_by_id_and_virtual_currency_id' do
+    let(:offer_service) { Plink::OfferService.new }
+
+    it 'requires an offer_id and a virtual_currency_id' do
+      offer = offer_service.get_by_id_and_virtual_currency_id(plink_offer.id, 2)
+      offer.id.should == plink_offer.id
+    end
+
+    it 'returns one offer object' do
+      offer = offer_service.get_by_id_and_virtual_currency_id(plink_offer.id, 2)
+      offer.should be_a Plink::Offer
     end
   end
 end

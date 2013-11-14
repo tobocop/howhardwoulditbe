@@ -64,6 +64,10 @@ module Plink
       UNLOCK_REASONS[:app_install_promotion]
     end
 
+    def has_offers_virtual_currency(offers_virtual_currency_id)
+      wallet_item_records.any? {|wallet_item_record| wallet_item_record.offers_virtual_currency_id == offers_virtual_currency_id}
+    end
+
   private
 
     def self.wallets_without_item_unlocked(unlock_reason)

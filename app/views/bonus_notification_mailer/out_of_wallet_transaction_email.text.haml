@@ -1,0 +1,13 @@
+Hey #{@first_name}
+
+You're missing out!
+
+We noticed you visited #{@advertiser_name} but did not have the #{@advertiser_name} offer in your Plink Wallet.
+
+Add #{@advertiser_name} to your wallet within the next 72 hours and we'll give you 25 Plink Points. Then you'll be able to earn up to #{@max_plink_points} Plink Points on your next purchase at #{@advertiser_name}.
+
+Go to My Wallet:
+=login_from_email_wallet_url(user_token: @user_token)
+
+Unsubscribe:
+= edit_subscription_url(email_address: @email_address)

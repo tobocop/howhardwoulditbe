@@ -132,4 +132,22 @@ describe Plink::WalletRecord do
       end
     end
   end
+
+  describe '#has_offers_virtual_currency' do
+    let(:wallet) { create_wallet }
+
+    before do
+      create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 4)
+      create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 9)
+    end
+
+    it 'returns true if the provided offers_virtual_currency_id is in the wallet' do
+      wallet.has_offers_virtual_currency(4).should be_true
+      wallet.has_offers_virtual_currency(9).should be_true
+    end
+
+    it 'returns false if the provided offers_virtual_currency_id is not in the wallet' do
+      wallet.has_offers_virtual_currency(6).should be_false
+    end
+  end
 end
