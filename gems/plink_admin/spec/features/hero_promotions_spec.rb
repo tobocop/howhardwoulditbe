@@ -25,13 +25,17 @@ describe 'Hero Promotions' do
     fill_in 'Title', with: 'This promotion is awesome'
     fill_in 'Display Order', with: '28'
     check 'Active'
-    fill_in 'Image URL', with: 'http://example.com/image'
+    fill_in 'Image URL (.jpg, .gif, etc)', with: 'http://example.com/image'
+    fill_in 'URL for image (admin provided, optional)', with: 'http://example.com/'
 
     check 'Show to linked members'
     check 'Show to non-linked members'
 
     click_on 'Create'
 
+    hero_promotion = Plink::HeroPromotionRecord.last
+
+    hero_promotion.link.should == 'http://example.com/'
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz'
@@ -50,12 +54,14 @@ describe 'Hero Promotions' do
     fill_in 'Name', with: 'Heroz II'
     fill_in 'Title', with: 'This promotion is awesomer'
     fill_in 'Display Order', with: '25'
-    fill_in 'Image URL', with: 'http://example.com/new-image'
+    fill_in 'Image URL (.jpg, .gif, etc)', with: 'http://example.com/new-image'
+    fill_in 'URL for image (admin provided, optional)', with: ''
     uncheck 'Active'
     uncheck 'Show to linked members'
 
     click_on 'Update'
 
+    hero_promotion.reload.link.should be_blank
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz II'
@@ -73,7 +79,6 @@ describe 'Hero Promotions' do
 
     click_on 'Change Audience'
 
-    hero_promotion = Plink::HeroPromotionRecord.last
     page.current_path.should == "/hero_promotions/#{hero_promotion.id}/edit_audience"
 
     file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/test.csv'), 'text/csv')

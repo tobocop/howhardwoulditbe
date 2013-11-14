@@ -12,8 +12,10 @@
   = f.text_field :display_order
   = f.label :is_active, 'Active'
   = f.check_box :is_active
-  = f.label :image_url, 'Image URL'
+  = f.label :image_url, 'Image URL (.jpg, .gif, etc)'
   = f.text_field :image_url
+  = f.label :link, 'URL for image (admin provided, optional)'
+  = f.text_field :link
 
   %h4 Select an audience:
 

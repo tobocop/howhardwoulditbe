@@ -6,6 +6,7 @@ describe Plink::HeroPromotionRecord do
       display_order: 1,
       image_url: '/assets/foo.jpg',
       is_active: true,
+      link: nil,
       name: 'namey',
       show_linked_users: true,
       show_non_linked_users: true,
