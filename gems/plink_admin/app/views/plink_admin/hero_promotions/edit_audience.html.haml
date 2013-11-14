@@ -1,0 +1,39 @@
+- if @hero_promotion.errors.any?
+  .alert-box.alert
+    - @hero_promotion.errors.full_messages.each do |message|
+      %p= message
+
+%p
+  %b Name:
+  #{@hero_promotion.name}
+%p
+  %b Title:
+  #{@hero_promotion.title}
+%p
+  %b Display Order:
+  #{@hero_promotion.display_order}
+%p
+  %b Active:
+  #{@hero_promotion.is_active}
+%p
+  %b Image URL:
+  #{@hero_promotion.image_url}
+= form_for(@hero_promotion, url: plink_admin.update_audience_hero_promotion_path(@hero_promotion), as: 'hero_promotion', multipart: true) do |f|
+
+  %h4 Audience:
+
+  %h6 Via linked status:
+  = f.label :show_linked_users, 'Show to linked members'
+  = f.check_box :show_linked_users
+  = f.label :show_non_linked_users, 'Show to non-linked members'
+  = f.check_box :show_non_linked_users
+
+  %h6 Via file upload:
+  %p *Files should be new-line delimited without headers
+  %p Currently: #{@hero_promotion.user_ids.keys}
+  = f.label :user_ids, 'User IDs File'
+  = f.file_field :user_ids
+
+  .right
+    = f.submit 'Submit', class: 'button small'
+    = link_to 'Cancel', @hero_promotions_path, class: 'button small secondary'

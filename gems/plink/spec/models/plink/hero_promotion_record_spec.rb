@@ -31,6 +31,33 @@ describe Plink::HeroPromotionRecord do
     promotion.should have(1).error_on(:title)
   end
 
+  it 'validates that an audience is present' do
+    invalid_attrs = valid_attributes.merge(show_linked_users: nil, show_non_linked_users: nil, user_ids: {})
+    promotion = Plink::HeroPromotionRecord.new(invalid_attrs)
+
+    promotion.should have(1).error_on(:show_linked_users)
+    promotion.should have(1).error_on(:show_non_linked_users)
+    promotion.should have(1).error_on(:user_ids)
+  end
+
+  it 'is valid if any audience is selected' do
+    invalid_attrs = valid_attributes.merge(show_linked_users: true, show_non_linked_users: nil, user_ids: {})
+    promotion = Plink::HeroPromotionRecord.new(invalid_attrs)
+
+    promotion.should_not have(1).error_on(:show_linked_users)
+    promotion.should_not have(1).error_on(:show_non_linked_users)
+    promotion.should_not have(1).error_on(:user_ids)
+  end
+
+  it 'does not allow for an audience by both user_ids and card link status' do
+    invalid_attrs = valid_attributes.merge(show_linked_users: true, show_non_linked_users: nil, user_ids: {1 => true,2 => true,3 => true})
+    promotion = Plink::HeroPromotionRecord.new(invalid_attrs)
+
+    promotion.should have(1).error_on(:show_linked_users)
+    promotion.should have(1).error_on(:show_non_linked_users)
+    promotion.should have(1).error_on(:user_ids)
+  end
+
   describe 'class methods' do
     describe 'by_display_order' do
       it 'returns ordered promotions by display_order' do
@@ -48,6 +75,22 @@ describe Plink::HeroPromotionRecord do
 
         Plink::HeroPromotionRecord.active.should == [active_hero]
       end
+    end
+  end
+
+  describe '#audience_by_user_id?' do
+    let(:hero_promotion) { new_hero_promotion }
+
+    it 'returns true is there are user_ids' do
+      hero_promotion.user_ids = {1 => true}
+
+      hero_promotion.audience_by_user_id?.should be_true
+    end
+
+    it 'returns false if there are not user_ids' do
+      hero_promotion.user_ids = {}
+
+      hero_promotion.audience_by_user_id?.should be_false
     end
   end
 end

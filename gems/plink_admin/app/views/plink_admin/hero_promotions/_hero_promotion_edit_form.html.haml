@@ -15,17 +15,19 @@
   = f.label :image_url, 'Image URL'
   = f.text_field :image_url
 
-  %h4 Select an audience:
+  %h4 Audience:
+  .right
+    = link_to 'Change Audience', plink_admin.edit_audience_hero_promotion_path(hero_promotion)
+  - if hero_promotion.audience_by_user_id?
+    %h6 Displays to user_ids:
+    %o= hero_promotion.user_ids.keys
+  - else
+    %h6 Via linked status:
+    = f.label :show_linked_users, 'Show to linked members'
+    = f.check_box :show_linked_users
+    = f.label :show_non_linked_users, 'Show to non-linked members'
+    = f.check_box :show_non_linked_users
 
-  %h6 Via linked status:
-  = f.label :show_linked_users, 'Show to linked members'
-  = f.check_box :show_linked_users
-  = f.label :show_non_linked_users, 'Show to non-linked members'
-  = f.check_box :show_non_linked_users
-
-  %h6 Via file upload:
-  %p *Files should be new-line delimited without headers
-  = f.file_field :user_ids
 
   .right
     = f.submit button_text, class: 'button small'

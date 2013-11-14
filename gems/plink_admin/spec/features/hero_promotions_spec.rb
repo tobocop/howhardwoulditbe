@@ -39,6 +39,7 @@ describe 'Hero Promotions' do
         page.should have_css "img[src='http://example.com/image']"
         page.should have_content '28'
         page.should have_content 'Active'
+        page.should have_content 'All'
 
         click_on 'Heroz'
       end
@@ -51,6 +52,7 @@ describe 'Hero Promotions' do
     fill_in 'Display Order', with: '25'
     fill_in 'Image URL', with: 'http://example.com/new-image'
     uncheck 'Active'
+    uncheck 'Show to linked members'
 
     click_on 'Update'
 
@@ -61,6 +63,34 @@ describe 'Hero Promotions' do
         page.should have_content '25'
         page.should have_css "img[src='http://example.com/new-image']"
         page.should have_content 'Inactive'
+        page.should have_content 'Non-Linked Users'
+
+        click_on 'Heroz II'
+      end
+    end
+
+    page.should have_content 'Edit Hero Promotion'
+
+    click_on 'Change Audience'
+
+    hero_promotion = Plink::HeroPromotionRecord.last
+    page.current_path.should == "/hero_promotions/#{hero_promotion.id}/edit_audience"
+
+    file = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/test.csv'), 'text/csv')
+    attach_file('User IDs File', file.path)
+
+    uncheck 'Show to non-linked members'
+
+    click_on 'Submit'
+
+    within '.hero-promotions-list' do
+      within '.hero-promotion-item:nth-of-type(1)' do
+        page.should have_content 'Heroz II'
+        page.should have_content 'This promotion is awesomer'
+        page.should have_content '25'
+        page.should have_css "img[src='http://example.com/new-image']"
+        page.should have_content 'Inactive'
+        page.should have_content 'List of Users'
       end
     end
   end
