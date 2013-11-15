@@ -40,7 +40,7 @@ goodsearch_virtual_currency = Plink::VirtualCurrency.create(name: 'towards your 
 
 p 'Creating institution'
 institution = create_institution(name: 'Bank of AMERRRICA!')
-create_institution(name: 'CC Bank', intuit_institution_id: 4)
+create_institution(name: 'CC Bank', intuit_institution_id: 100000)
 
 p 'Create non-linked User'
 user = create_user(password: 'password', email: 'clean_account@plink.com', avatar_thumbnail_url: 'http://img.gawkerassets.com/img/17m6znqc61o49jpg/original.jpg')
