@@ -7,16 +7,18 @@ describe 'User signup workflow' do
     create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     create_event_type(name: Plink::EventTypeRecord.card_add_type)
     create_hero_promotion({
-      image_url: '/assets/hero-gallery/7eleven_1.jpg',
       display_order: 1,
+      image_url: '/assets/hero-gallery/7eleven_1.jpg',
+      link: '',
       show_linked_users: true,
       show_non_linked_users: false,
       title: 'You want this.'
     })
 
     create_hero_promotion({
-      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
       display_order: 2,
+      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
+      link: '/faq',
       show_linked_users: true,
       show_non_linked_users: true,
       title: 'You want this. Now.'
@@ -24,7 +26,7 @@ describe 'User signup workflow' do
   end
 
   context 'organic registration' do
-    it 'should create an account, email the user, and drop the user on the wallet page', js: true do
+    it 'should create an account, email the user, and drop the user on the wallet page', js: true, driver: :selenium do
       # TODO: Remove when card reg is cut over from CF
       Rails.env.stub(:production?).and_return(true)
 
@@ -64,7 +66,15 @@ describe 'User signup workflow' do
       page.should_not have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
       page.should have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
 
+      find('.hero-promotion-link').click
+      page.driver.browser.window_handles.size.should == 2
+
+      within_window page.driver.browser.window_handles.last do
+        page.current_path.should == '/faq'
+      end
+
       page.should have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
+      page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
       email = ActionMailer::Base.deliveries.last
 
@@ -73,8 +83,6 @@ describe 'User signup workflow' do
 
         email_string.should have_content 'Thanks for signing up for Plink! You just need to link a credit or debit card to your Plink account to finish registration.'
       end
-
-      page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
       click_on 'Wallet'
 

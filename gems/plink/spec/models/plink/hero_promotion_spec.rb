@@ -6,6 +6,7 @@ describe Plink::HeroPromotion do
       {
         title: 'Michael Jordan',
         image_url: '/mj_and_bb.jpg',
+        link: 'www.google.com',
         show_linked_users: true,
         show_non_linked_users: false
       }
@@ -13,6 +14,7 @@ describe Plink::HeroPromotion do
 
     hero_promotion.title.should == 'Michael Jordan'
     hero_promotion.image_url.should == '/mj_and_bb.jpg'
+    hero_promotion.link.should == 'www.google.com'
     hero_promotion.show_linked_users.should == true
     hero_promotion.show_non_linked_users.should == false
   end

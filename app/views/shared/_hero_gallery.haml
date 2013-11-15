@@ -5,4 +5,7 @@
         - show_promotion = (!user_has_account && hero_promotion.show_non_linked_users) || (user_has_account && hero_promotion.show_linked_users)
         - if show_promotion
           %li.bjqs-slide
-            = image_tag hero_promotion.image_url, title: hero_promotion.title
+            - if hero_promotion.link.present?
+              = link_to image_tag(hero_promotion.image_url, title: hero_promotion.title), hero_promotion.link, target: 'blank', class: 'hero-promotion-link'
+            - else
+              = image_tag hero_promotion.image_url, title: hero_promotion.title
