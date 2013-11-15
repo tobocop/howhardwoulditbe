@@ -67,7 +67,6 @@ describe 'User signup workflow' do
       page.should have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
 
       find('.hero-promotion-link').click
-      page.driver.browser.window_handles.size.should == 2
 
       within_window page.driver.browser.window_handles.last do
         page.current_path.should == '/faq'
