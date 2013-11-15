@@ -1,11 +1,15 @@
 require 'spec_helper'
 
 describe Plink::UserEligibleForOfferAddBonusRecord do
+  it { should allow_mass_assignment_of(:is_awarded) }
   it { should allow_mass_assignment_of(:offers_virtual_currency_id) }
   it { should allow_mass_assignment_of(:user_id) }
 
+  it { should belong_to(:user_record) }
+
   let(:valid_params) {
     {
+      is_awarded: true,
       offers_virtual_currency_id: 4,
       user_id: 3
     }

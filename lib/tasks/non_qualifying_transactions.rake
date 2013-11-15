@@ -8,6 +8,7 @@ namespace :non_qualifying_transactions do
 
       if user_is_eligible(user_record, transaction_eligible_for_bonus.offers_virtual_currency_id)
         user_eligible_for_offer_add_bonus = Plink::UserEligibleForOfferAddBonusRecord.new(
+          is_awarded: false,
           offers_virtual_currency_id: transaction_eligible_for_bonus.offers_virtual_currency_id,
           user_id: user_record.id
         )

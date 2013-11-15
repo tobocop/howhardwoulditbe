@@ -103,6 +103,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
     subject.invoke
 
     eligible_users = Plink::UserEligibleForOfferAddBonusRecord.where(
+      is_awarded: false,
       user_id:user.id,
       offers_virtual_currency_id: first_offer_offers_virtual_currency.id
     )
@@ -138,11 +139,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
   end
 
   it 'only sends emails to user if the user can be eligible for the bonus' do
-    Plink::UserEligibleForOfferAddBonusRecord.should_receive(:new)
-      .with(
-        offers_virtual_currency_id: first_offer_offers_virtual_currency.id,
-        user_id: user.id
-      ).and_return(double(save: false))
+    Plink::UserEligibleForOfferAddBonusRecord.stub(:new).and_return(double(save: false))
     mailer.should_not_receive(:out_of_wallet_transaction_email)
 
     subject.invoke
