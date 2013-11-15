@@ -17,7 +17,8 @@ module Plink
           image_url: record.image_url,
           link: record.link,
           show_linked_users: record.show_linked_users,
-          show_non_linked_users: record.show_non_linked_users
+          show_non_linked_users: record.show_non_linked_users,
+          user_ids: record.user_ids
         }
       )
     end
