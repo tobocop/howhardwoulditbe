@@ -137,7 +137,6 @@ describe 'Contests' do
         page.find('.footnote').click
 
         current_path.should == contest_path(contest)
-        assert page.driver.browser.window_handles.size == 2
       end
     end
 
