@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131118183319) do
+ActiveRecord::Schema.define(:version => 20131115143342) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -696,6 +696,13 @@ ActiveRecord::Schema.define(:version => 20131118183319) do
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
     t.boolean  "is_active",                         :default => true, :null => false
+  end
+
+  create_table "hero_promotion_clicks", :force => true do |t|
+    t.integer  "hero_promotion_id"
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "hero_promotions", :force => true do |t|

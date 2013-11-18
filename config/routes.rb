@@ -11,7 +11,9 @@ PlinkPivotal::Application.routes.draw do
     get :update_share_tracking_record, on: :member
   end
   resource :session, only: [:new, :create, :destroy], as: :plink_session
-  resource :tracking, only: [:new], controller: 'tracking'
+  resource :tracking, only: [:new], controller: 'tracking' do
+    get :hero_promotion_click, action: 'hero_promotion_click'
+  end
 
   resources :rewards, only: [:index]
 

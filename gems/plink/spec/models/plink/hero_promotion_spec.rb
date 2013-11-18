@@ -3,11 +3,12 @@ require 'spec_helper'
 describe Plink::HeroPromotion do
    let(:hero_promotion_attrs) do
     {
-      title: 'Michael Jordan',
+      id: 1,
       image_url: '/mj_and_bb.jpg',
       link: 'www.google.com',
       show_linked_users: true,
       show_non_linked_users: false,
+      title: 'Michael Jordan',
       user_ids: {}
     }
   end
@@ -15,6 +16,7 @@ describe Plink::HeroPromotion do
   it 'populates its data from the given attributes' do
     hero_promotion = Plink::HeroPromotion.new(hero_promotion_attrs)
 
+    hero_promotion.id.should == 1
     hero_promotion.title.should == 'Michael Jordan'
     hero_promotion.image_url.should == '/mj_and_bb.jpg'
     hero_promotion.link.should == 'www.google.com'
@@ -22,7 +24,6 @@ describe Plink::HeroPromotion do
     hero_promotion.show_non_linked_users.should == false
     hero_promotion.user_ids.should be_empty
   end
-
 
   describe '#show_in_ui?' do
     context 'for a guest user' do

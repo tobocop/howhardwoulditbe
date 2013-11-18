@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe 'User signup workflow' do
+  let!(:linked_promotion) do
+    create_hero_promotion({
+      display_order: 2,
+      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
+      link: '/faq',
+      show_linked_users: true,
+      show_non_linked_users: true,
+      title: 'You want this. Now.'
+    })
+  end
 
   before do
     create_virtual_currency
@@ -13,15 +23,6 @@ describe 'User signup workflow' do
       show_linked_users: true,
       show_non_linked_users: false,
       title: 'You want this.'
-    })
-
-    create_hero_promotion({
-      display_order: 2,
-      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
-      link: '/faq',
-      show_linked_users: true,
-      show_non_linked_users: true,
-      title: 'You want this. Now.'
     })
   end
 
@@ -67,6 +68,11 @@ describe 'User signup workflow' do
       page.should have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
 
       find('.hero-promotion-link').click
+
+      click = Plink::HeroPromotionClickRecord.all
+      click.count.should == 1
+      click.first.hero_promotion_id.should == linked_promotion.id
+      click.first.user_id.should == Plink::UserRecord.last.id
 
       within_window page.driver.browser.window_handles.last do
         page.current_path.should == '/faq'
