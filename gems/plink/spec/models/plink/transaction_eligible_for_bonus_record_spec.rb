@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Plink::TransactionEligibleForBonusRecord do
-  it { should allow_mass_assignment_of(:intuit_archived_transaction_id) }
+  it { should allow_mass_assignment_of(:intuit_transaction_id) }
   it { should allow_mass_assignment_of(:offer_id) }
   it { should allow_mass_assignment_of(:offers_virtual_currency_id) }
   it { should allow_mass_assignment_of(:processed) }
@@ -11,7 +11,7 @@ describe Plink::TransactionEligibleForBonusRecord do
 
   let(:valid_params) {
     {
-      intuit_archived_transaction_id: 1,
+      intuit_transaction_id: 1,
       offer_id: 39,
       offers_virtual_currency_id: 4,
       processed: true,

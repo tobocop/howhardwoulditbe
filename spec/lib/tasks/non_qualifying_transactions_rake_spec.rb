@@ -36,7 +36,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
 
   let!(:transaction_eligible_for_bonus) {
     create_transaction_eligible_for_bonus(
-      intuit_archived_transaction_id: 1,
+      intuit_transaction_id: 1,
       offer_id: first_offer.id,
       offers_virtual_currency_id: first_offer_offers_virtual_currency.id,
       processed: false,
@@ -53,7 +53,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
 
   it 'emails plink point users who have made an out of wallet transaction that is above the minimum once per offer' do
     create_transaction_eligible_for_bonus(
-      intuit_archived_transaction_id: 1,
+      intuit_transaction_id: 1,
       offer_id: second_offer.id,
       offers_virtual_currency_id: second_offer_offers_virtual_currency.id,
       processed: false,
@@ -86,7 +86,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
 
   it 'updates records as processed' do
     second_transaction = create_transaction_eligible_for_bonus(
-      intuit_archived_transaction_id: 1,
+      intuit_transaction_id: 1,
       offer_id: first_offer.id,
       offers_virtual_currency_id: first_offer_offers_virtual_currency.id,
       processed: false,
@@ -126,7 +126,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
 
   it 'only sends one email to a user even if there are multiple non qualifying transactions' do
     create_transaction_eligible_for_bonus(
-      intuit_archived_transaction_id: 1,
+      intuit_transaction_id: 1,
       offer_id: first_offer.id,
       offers_virtual_currency_id: first_offer_offers_virtual_currency.id,
       processed: false,

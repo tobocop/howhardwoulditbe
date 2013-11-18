@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131115180258) do
+ActiveRecord::Schema.define(:version => 20131118183319) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1810,12 +1810,12 @@ ActiveRecord::Schema.define(:version => 20131115180258) do
 
   create_table "transactions_eligible_for_bonus", :force => true do |t|
     t.boolean  "processed"
-    t.integer  "intuit_archived_transaction_id"
+    t.integer  "intuit_transaction_id"
     t.integer  "offer_id"
     t.integer  "offers_virtual_currency_id"
     t.integer  "user_id"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   create_table "transactions_prod_copy_temp", :id => false, :force => true do |t|

@@ -808,7 +808,7 @@ module Plink
 
     def new_transaction_eligible_for_bonus(options = {})
       defaults = {
-        intuit_archived_transaction_id: 1,
+        intuit_transaction_id: 1,
         offer_id: 39,
         offers_virtual_currency_id: 4,
         processed: true,
