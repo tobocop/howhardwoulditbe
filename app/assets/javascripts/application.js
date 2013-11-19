@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require handlebars
-//= require bjqs-1.3
 //= require foundation/foundation
 //= require foundation/foundation.reveal
 //= require custom.modernizr

@@ -1,9 +1,9 @@
 .hero-gallery
   .hero-gallery-inner
-    %ul.bjqs
+    %ul.gallery
       - promotions.each do |hero_promotion|
         - if hero_promotion.show_in_ui?(current_user.id, user_has_account)
-          %li.bjqs-slide
+          %li.slide
             - if hero_promotion.link.present?
               = link_to image_tag(hero_promotion.image_url, title: hero_promotion.title), hero_promotion.link, target: 'blank', class: 'hero-promotion-link', data: { url: hero_promotion_click_tracking_path(hero_promotion_id: hero_promotion.id) }
             - else
