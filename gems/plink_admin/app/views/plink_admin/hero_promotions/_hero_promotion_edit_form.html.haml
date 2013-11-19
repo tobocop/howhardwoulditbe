@@ -16,6 +16,8 @@
   = f.text_field :image_url
   = f.label :link, 'URL for image (admin provided, optional)'
   = f.text_field :link
+  %p
+    Example link to send a user to the card link with tracking parameters: /tracking/new?redirect_user_to=%2Fwallet%3Flink_card%3Dtrue&[tracking_params_here]
 
   %h4 Audience:
   .right

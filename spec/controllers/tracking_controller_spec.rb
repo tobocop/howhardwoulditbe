@@ -29,6 +29,10 @@ describe TrackingController do
       session[:tracking_params].should == tracking_hash
     end
 
+    it 'redirects to a given url if present in the params' do
+      get :new, redirect_user_to: wallet_path
+      response.should redirect_to wallet_path
+    end
   end
 
   describe 'GET hero_promotion_click' do
