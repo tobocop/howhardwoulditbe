@@ -3,7 +3,7 @@
     var $wrapper = $(el),
         $slider = $wrapper.find('ul.gallery'),
         $slides = $slider.children('li.slide'),
-        $markers = null
+        $markers = null;
 
     var state = {
       slideCount: $slides.length,
