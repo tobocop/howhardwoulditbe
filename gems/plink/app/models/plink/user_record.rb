@@ -17,12 +17,13 @@ module Plink
     include Plink::LegacyTimestamps
 
     attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
-      :first_name, :hold_redemptions, :ip, :is_male,  :last_name, :password_hash, :provider,
-      :salt, :state, :username, :user_agent, :zip
+      :first_name, :hold_redemptions, :ip, :is_force_deactivated, :is_male,  :last_name,
+      :password_hash, :provider, :salt, :state, :username, :user_agent, :zip
 
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
     alias_attribute :hold_redemptions, :holdRedemptions
+    alias_attribute :is_force_deactivated, :isForceDeactivated
     alias_attribute :is_male, :isMale
     alias_attribute :is_subscribed, :isSubscribed
     alias_attribute :last_name, :lastName
@@ -53,6 +54,8 @@ module Plink
 
     before_create :set_default_virtual_currency
 
+    default_scope where(isForceDeactivated: false)
+
     scope :users_with_qualifying_transactions, -> {
       joins('INNER JOIN qualifyingAwards ON qualifyingAwards.userID = users.userID')
       .where('qualifyingAwards.isSuccessful = 1')
@@ -67,7 +70,7 @@ module Plink
     end
 
     def self.find_by_id(id)
-      find_by_userID(id)
+      where(userID: id).first
     end
 
     def new_password=(unhashed_password)

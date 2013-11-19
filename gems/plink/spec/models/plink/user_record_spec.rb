@@ -9,15 +9,16 @@ describe Plink::UserRecord do
   it { should allow_mass_assignment_of(:daily_contest_reminder) }
   it { should allow_mass_assignment_of(:email) }
   it { should allow_mass_assignment_of(:first_name) }
-  it { should allow_mass_assignment_of(:is_male) }
   it { should allow_mass_assignment_of(:hold_redemptions) }
   it { should allow_mass_assignment_of(:ip) }
+  it { should allow_mass_assignment_of(:is_force_deactivated) }
+  it { should allow_mass_assignment_of(:is_male) }
   it { should allow_mass_assignment_of(:password_hash) }
   it { should allow_mass_assignment_of(:provider) }
   it { should allow_mass_assignment_of(:salt) }
   it { should allow_mass_assignment_of(:state) }
-  it { should allow_mass_assignment_of(:username) }
   it { should allow_mass_assignment_of(:user_agent) }
+  it { should allow_mass_assignment_of(:username) }
   it { should allow_mass_assignment_of(:zip) }
 
   it_should_behave_like(:legacy_timestamps)
@@ -204,6 +205,12 @@ describe Plink::UserRecord do
     wallet = create_wallet(user_id: user_record.id)
     wallet_item = create_locked_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 123)
     user_record.open_wallet_item.should == nil
+  end
+
+  describe 'default scope' do
+    it 'sets a default scope to isForceDeactivated false' do
+      Plink::UserRecord.scoped.to_sql.should == Plink::UserRecord.where(isForceDeactivated: false).to_sql
+    end
   end
 
   describe 'named scopes' do

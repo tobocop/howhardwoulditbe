@@ -512,16 +512,17 @@ module Plink
 
 
       defaults = {
+        daily_contest_reminder: nil,
         email: 'test@example.com',
         first_name: 'Joe',
-        last_name: nil,
-        password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
-        salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
-        is_subscribed: true,
-        provider: 'organic',
         hold_redemptions: nil,
         ip: '127.0.0.1',
-        daily_contest_reminder: nil
+        is_force_deactivated: false,
+        is_subscribed: true,
+        last_name: nil,
+        password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
+        provider: 'organic',
+        salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5'
       }
 
       Plink::UserRecord.new { |user| apply(user, defaults, options) }
