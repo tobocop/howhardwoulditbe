@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'searching for a bank', js: true do
+  let!(:tupac_bank) { create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000) }
+  let!(:dmx_bank) { create_institution(name: 'DMX Bank', is_supported: true) }
+  let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
+
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
@@ -18,16 +22,9 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please provide a bank name or URL'
 
-    tupac_bank = create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000)
     create_users_institution(institution_id: tupac_bank.id)
     create_users_institution(institution_id: tupac_bank.id)
-
-    institutions = [
-      tupac_bank,
-      double(name: 'DMX Bank', institution_id: 12, is_supported?: true),
-      double(name: 'ZZ Top Bank', institution_id: 13, is_supported?: false)
-    ]
-    Plink::InstitutionRecord.should_receive(:search).and_return(institutions)
+    create_users_institution(institution_id: dmx_bank.id)
 
     fill_in 'institution_name', with: 'bank'
     click_on 'Search'
