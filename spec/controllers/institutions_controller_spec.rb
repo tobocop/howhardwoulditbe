@@ -268,7 +268,7 @@ describe InstitutionsController do
       it 'renders the text-based mfa partial' do
         get :poll
 
-        response.should render_template partial: 'institutions/authentication/_text_based_mfa'
+        response.should render_template partial: 'institutions/authentication/_mfa'
       end
 
       it 'stores the Intuit challenge tokens in the session' do

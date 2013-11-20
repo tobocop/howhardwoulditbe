@@ -53,7 +53,7 @@ class InstitutionsController < ApplicationController
         session[:challenge_node_id] = response['value']['challenge_node_id']
         questions = response['value']['questions'].is_a?(Hash) ? [response['value']['questions']] : response['value']['questions']
 
-        render partial: 'institutions/authentication/text_based_mfa', locals: {questions: questions}
+        render partial: 'institutions/authentication/mfa', locals: {questions: questions}
       elsif !response['error']
         render partial: 'select_account', locals: {accounts: Array(response['value'])}
       else

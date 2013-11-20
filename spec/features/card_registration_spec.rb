@@ -8,14 +8,15 @@ describe 'searching for a bank', js: true do
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
-    wallet = create_wallet(user_id: user.id)
+    user.primary_virtual_currency = virtual_currency
+    user.save!
+    create_wallet(user_id: user.id)
   end
 
   it 'allows the user to search' do
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
-    page.current_path.should == institution_search_path
 
     fill_in 'institution_name', with: ''
     click_on 'Search'
@@ -48,7 +49,7 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please login to your Bank of Tupac account.'
 
-    fill_in 'Banking Userid', with: "tfa_text"
+    fill_in 'Banking Userid', with: 'tfa_text'
     fill_in 'Banking Password', with: "stuff#{rand(10**7)}"
 
     click_on 'Connect'
@@ -65,13 +66,47 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Incorrect answer to multi-factor authentication challenge question. Incorrect answer to Challenge Question'
 
-    fill_in 'Banking Userid', with: "tfa_text"
+    fill_in 'Banking Userid', with: 'tfa_text'
     fill_in 'Banking Password', with: "stuff#{rand(10**7)}"
     click_on 'Connect'
 
     page.should have_content 'Communicating with Bank of Tupac.'
 
     fill_in 'question_1', with: 'succeed'
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
+  end
+
+  it 'allows users to complete image based MFAs' do
+    sign_in('test@example.com', 'test123')
+
+    page.should have_content "Enter your bank's name."
+
+    page.current_path.should == institution_search_path
+
+    fill_in 'institution_name', with: 'bank'
+    click_on 'Search'
+
+    page.current_path.should == institution_search_results_path
+
+    click_on 'Bank of Tupac'
+
+    page.should have_content 'Please login to your Bank of Tupac account.'
+
+    fill_in 'Banking Userid', with: 'tfa_image'
+    fill_in 'Banking Password', with: "stuff#{rand(10**7)}"
+
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should_not have_content 'Security Question 1'
+    page.should have_content 'Enter the word in the image below'
+
+    fill_in 'question_1', with: 'dog'
     click_on 'Connect'
 
     page.should have_content 'Communicating with Bank of Tupac.'
