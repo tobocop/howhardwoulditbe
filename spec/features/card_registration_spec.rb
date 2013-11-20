@@ -50,5 +50,35 @@ describe 'searching for a bank', js: true do
     click_on 'Bank of Tupac'
 
     page.should have_content 'Please login to your Bank of Tupac account.'
+
+    fill_in 'Banking Userid', with: "tfa_text"
+    fill_in 'Banking Password', with: "stuff#{rand(10**7)}"
+
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should have_content 'Security Question 1'
+    page.should have_content "Enter your first pet's name:"
+
+    fill_in 'question_1', with: 'fail'
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should have_content 'Incorrect answer to multi-factor authentication challenge question. Incorrect answer to Challenge Question'
+
+    fill_in 'Banking Userid', with: "tfa_text"
+    fill_in 'Banking Password', with: "stuff#{rand(10**7)}"
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    fill_in 'question_1', with: 'succeed'
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
   end
 end

@@ -2,6 +2,7 @@
   CardRegistration = {
     bindEvents: function () {
       $(document).on('submit', '#js-authentication-form', CardRegistration.submitForm);
+      $(document).on('submit', '#js-text-based-mfa-form', CardRegistration.submitForm);
       $(document).on('click', '.js-go-back', CardRegistration.triggerBrowserBack);
     },
 

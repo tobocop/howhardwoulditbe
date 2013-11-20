@@ -190,6 +190,12 @@ describe InstitutionsController do
   end
 
   describe 'GET poll' do
+    before do
+      institution = double(intuit_institution_id: 1)
+      Plink::InstitutionRecord.stub_chain(:where, :first).and_return(institution)
+      controller.stub(:institution_form).and_return(true)
+    end
+
     it "finds the user's intuit account request record" do
       Plink::IntuitAccountRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_call_original
 
@@ -198,7 +204,7 @@ describe InstitutionsController do
 
     it 'decrypts the stored response' do
       response = {error: false, value:[{account_id: 1}]}.to_json
-      request = double(response: response)
+      request = double(response: response, destroy: true)
       Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
 
       ENCRYPTION.should_receive(:decrypt_and_verify).with(response).and_return(response)
@@ -216,7 +222,8 @@ describe InstitutionsController do
 
     context 'error handling' do
       before do
-        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(double(present?: true, response: ''))
+        request = double(present?: true, response: '', destroy: true)
+        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
       end
 
       it 'without an error renders the account list' do
@@ -236,6 +243,75 @@ describe InstitutionsController do
 
         response.should render_template partial: 'institutions/authentication/_form'
       end
+    end
+
+    context 'with an MFA question' do
+      let(:mfa_response) do
+        {
+          error: false,
+          mfa: true,
+          value: {
+            'challenge_session_id' => '1234',
+            'challenge_node_id' => '4321',
+            'questions' => {text: "Who's your mamma?"}
+          }
+        }.to_json
+      end
+
+      before do
+        request = double(present?: true, response: '', destroy: true)
+        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+
+        ENCRYPTION.stub(:decrypt_and_verify).and_return(mfa_response)
+      end
+
+      it 'renders the text-based mfa partial' do
+        get :poll
+
+        response.should render_template partial: 'institutions/authentication/_text_based_mfa'
+      end
+
+      it 'stores the Intuit challenge tokens in the session' do
+        get :poll
+
+        session[:challenge_session_id].should == '1234'
+        session[:challenge_node_id].should == '4321'
+      end
+    end
+  end
+
+  describe 'POST text_based_mfa' do
+    before { controller.stub(:intuit_mfa).and_return(true) }
+
+    it 'responds successfully' do
+      post :text_based_mfa, institution_id: 1
+
+      response.should be_success
+    end
+
+    it 'removes all existing account request records for the current user' do
+      records = Array(mock(Plink::IntuitAccountRequestRecord))
+      Plink::IntuitAccountRequestRecord.stub(:where).and_return(records)
+
+      records.should_receive(:delete_all)
+
+      post :text_based_mfa, institution_id: 1
+    end
+
+    it 'creates a new intuit account request record' do
+      Plink::IntuitAccountRequestRecord.should_receive(:create!).
+        with(user_id: 1, processed: false).
+        and_return(double(id: 23))
+
+      post :text_based_mfa, institution_id: 1
+    end
+
+    it 'calls to intuit with the MFA responses' do
+      controller.unstub(:intuit_mfa)
+
+      controller.should_receive(:intuit_mfa).with(['stuff', 'cool'])
+
+      post :text_based_mfa, institution_id: 1, question_1: 'stuff', question_2: 'cool'
     end
   end
 

@@ -18,13 +18,13 @@ class InstitutionsController < ApplicationController
   end
 
   def authentication
-    institution = Plink::InstitutionRecord.where(institutionID: params[:id]).first
+    @institution = Plink::InstitutionRecord.where(institutionID: params[:id]).first
 
-    if institution.nil?
+    if @institution.nil?
       flash[:error] = 'Invalid institution provided. Please try again.'
       redirect_to institution_search_path
     else
-      institution_form(intuit_institution_data(institution.intuit_institution_id), institution)
+      institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
       session[:intuit_institution_id] = @institution_form.intuit_institution_id
     end
   end
@@ -44,19 +44,36 @@ class InstitutionsController < ApplicationController
     request = Plink::IntuitAccountRequestRecord.where(user_id: current_user.id, processed: true).first
 
     if request.present?
-      accounts = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
+      response = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
+      request.destroy
+      @institution = Plink::InstitutionRecord.where(intuitInstitutionID: session[:intuit_institution_id]).first
 
-      if !accounts['error']
-        render partial: 'select_account', locals: {accounts: accounts['value']}
+      if response['mfa']
+        session[:challenge_session_id] = response['value']['challenge_session_id']
+        session[:challenge_node_id] = response['value']['challenge_node_id']
+        questions = response['value']['questions'].is_a?(Hash) ? [response['value']['questions']] : response['value']['questions']
+
+        render partial: 'institutions/authentication/text_based_mfa', locals: {questions: questions}
+      elsif !response['error']
+        render partial: 'select_account', locals: {accounts: Array(response['value'])}
       else
-        institution = Plink::InstitutionRecord.where(intuitInstitutionID: session[:intuit_institution_id]).first
-        institution_form(intuit_institution_data(institution.intuit_institution_id), institution)
-
-        render partial: 'institutions/authentication/form', locals: {institution_form: @institution_form, error: accounts['value']}
+        institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
+        locals = {institution_form: @institution_form, institution: @institution, error: response['value']}
+        render partial: 'institutions/authentication/form', locals: locals
       end
     else
       render nothing: true, status: :unprocessable_entity
     end
+  end
+
+  def text_based_mfa
+    Plink::IntuitAccountRequestRecord.where(user_id: current_user.id).delete_all
+    request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
+    session[:intuit_account_request_id] = request.id
+
+    intuit_mfa(parse_answers)
+
+    render nothing: true
   end
 
   def select
@@ -74,6 +91,18 @@ private
 
     request = IntuitAccountRequest.new(current_user.id, encrypted_creds, session[:intuit_institution_id], session[:intuit_account_request_id])
     request.delay(priority: -100).accounts
+  end
+
+  def parse_answers
+    questions = params.keys.grep(/question/)
+    questions.map {|question| params[question]}
+  end
+
+  def intuit_mfa(answers)
+    encrypted_answers = ENCRYPTION.encrypt_and_sign(answers)
+
+    request = IntuitAccountRequest.new(current_user.id, nil, session[:intuit_institution_id], session[:intuit_account_request_id])
+    request.delay(priority: -100).respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
   end
 
   def institution_form(intuit_institution_data, institution)

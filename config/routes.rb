@@ -48,6 +48,7 @@ PlinkPivotal::Application.routes.draw do
     post '/institutions/authenticate', to: 'institutions#authenticate', as: 'institution_authenticate'
     get '/institutions/poll', to: 'institutions#poll', as: 'institution_poll'
     post '/institutions/select', to: 'institutions#select', as: 'institution_selection'
+    post '/institutions/text_based_mfa', to: 'institutions#text_based_mfa', as: 'institution_text_based_mfa'
   end
 
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request

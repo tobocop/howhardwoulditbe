@@ -34,8 +34,9 @@ describe IntuitAccountRequest do
   end
 
   describe '#accounts' do
-    let(:aggcat) {
-      mock(Aggcat, discover_and_add_accounts: {
+    let(:aggcat) { mock(Aggcat, discover_and_add_accounts: intuit_response) }
+    let(:intuit_response) do
+      {
         status_code: '201',
         result: {
           account_list: {
@@ -57,17 +58,15 @@ describe IntuitAccountRequest do
             }]
           }
         }
-      })
-    }
-
-    let(:intuit_account_request_record) do
-      mock(Plink::IntuitAccountRequestRecord, update_attributes: true)
+      }
     end
+
+    let(:intuit_account_request_record) { mock(Plink::IntuitAccountRequestRecord, update_attributes: true) }
 
     before do
       ENCRYPTION.stub(:decrypt_and_verify).and_return(['default', 'yup'])
       ENCRYPTION.stub(:encrypt_and_sign).and_return('response')
-      Aggcat.stub(:scope).with(123).and_return(aggcat)
+      Aggcat.stub(:scope).and_return(aggcat)
       Plink::IntuitAccountRequestRecord.stub(:find).and_return(intuit_account_request_record)
     end
 
@@ -88,7 +87,56 @@ describe IntuitAccountRequest do
     it 'makes a call to intuit' do
       Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
 
+      aggcat.should_receive(:discover_and_add_accounts)
+
       request.accounts
+    end
+  end
+
+  describe '#respond_to_mfa' do
+    let(:aggcat) { mock(Aggcat, account_confirmation: intuit_response) }
+    let(:intuit_response) do
+      { :status_code=>"401",
+        :result=>{
+          :challenges=>{
+            :challenge=>[
+              {:text=>"Enter your first pet's name:"},
+              {:text=>"Enter your high school's name:"}
+            ]
+          }
+        },
+        :challenge_session_id=>"26b5edd2-2dff-4225-8b39-ac36a19ba789",
+        :challenge_node_id=>"10.136.17.82"
+      }
+    end
+    let(:intuit_account_request_record) { mock(Plink::IntuitAccountRequestRecord, update_attributes: true) }
+
+    before do
+      Aggcat.stub(:scope).and_return(aggcat)
+      ENCRYPTION.stub(:decrypt_and_verify).and_return('one')
+      Plink::IntuitAccountRequestRecord.stub(:find).and_return(intuit_account_request_record)
+    end
+
+    it 'updates the request record' do
+      ENCRYPTION.stub(:encrypt_and_sign).and_return('encrypted_response')
+
+      intuit_account_request_record.should_receive(:update_attributes).
+        with({processed: true, response: 'encrypted_response'}).and_return(true)
+
+      request.respond_to_mfa('stuff', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+    end
+
+    it 'encrypts the response' do
+      ENCRYPTION.should_receive(:encrypt_and_sign)
+
+      request.respond_to_mfa('stuff', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+    end
+
+
+    it 'calls out to intuit' do
+      aggcat.should_receive(:account_confirmation)
+
+      request.respond_to_mfa('stuff', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
     end
   end
 end

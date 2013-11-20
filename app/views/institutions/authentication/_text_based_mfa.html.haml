@@ -1,0 +1,23 @@
+.font-p9em.font-lightgray.font-w300.font-italic Step 2 of 3
+.spacer-top-24
+  = render partial: 'institutions/logo', locals: {institution: @institution}
+.institution-authentication-form
+  .spacer-top-8
+    .gray-box
+      .font-p9em.font-w300 Please answer your bank's security questions.
+
+  = form_tag institution_text_based_mfa_path, id: 'js-text-based-mfa-form' do
+    - questions.each_with_index do |question, index|
+      .spacer-top-24
+        .font-p9em.font-w300.font-gray Security Question #{index + 1}
+        .font-1em.font-w500 #{question["text"]}
+        .form-container
+          = text_field_tag "question_#{index+1}".to_sym, nil, class: 'form-field input'
+
+    .spacer-top-24
+      = submit_tag 'Connect', class: 'button-container button primary-action'
+      %button.button-container.button.negative-action.no-margin.js-go-back Go Back
+  .spacer-top-24
+  %hr
+    .font-p9em.font-w500.font-gray Trouble logging in?
+    .font-p9em.font-w300.font-gray.font-height1p5 Contact Chase at [link to website] or [phone number].

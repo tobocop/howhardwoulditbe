@@ -5,7 +5,7 @@
         .left-column.no-float
           = render partial: 'sidebar', locals: {step: 2}
         .right-column.pad-left-86
-          - locals = {institution_form: @institution_form, error: nil}
+          - locals = {institution_form: @institution_form, institution: @institution, error: nil}
           = render partial: 'institutions/authentication/form', locals: locals
       .clear
 

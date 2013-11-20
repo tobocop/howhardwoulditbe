@@ -9,6 +9,7 @@ describe('CardRegistration', function() {
       '  <input type="password" name="password" value="password"/>' +
       '  <input type="submit" />' +
       '  </form>' +
+      '  <form id="js-text-based-mfa-form" action="/stuff"></form>' +
       '</div>' +
       '<span id="js-establishing-connection">Connecting</span>'
     );
@@ -23,6 +24,18 @@ describe('CardRegistration', function() {
       CardRegistration.bindEvents();
 
       $("#js-authentication-form").trigger('submit');
+
+      expect(CardRegistration.submitForm).toHaveBeenCalled();
+    });
+
+    it('binds on the submission of #js-text-based-mfa-form', function() {
+      spyOn(CardRegistration, 'submitForm').andCallFake(function(){
+        return false;
+      });
+
+      CardRegistration.bindEvents();
+
+      $("#js-text-based-mfa-form").trigger('submit');
 
       expect(CardRegistration.submitForm).toHaveBeenCalled();
     });

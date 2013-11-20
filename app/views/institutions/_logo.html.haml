@@ -1,4 +1,4 @@
-- if institution_form.logo_url
-  =image_tag institution_form.logo_url, class:'reg-bank-logo'
+- if institution.logo_url
+  =image_tag institution.logo_url, class:'reg-bank-logo'
 - else
-  .font-1p5em #{institution_form.name}
+  .font-1p5em #{institution.name}
