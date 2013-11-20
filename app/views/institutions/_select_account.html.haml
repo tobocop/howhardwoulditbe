@@ -1,7 +1,6 @@
 .font-p9em.font-lightgray.font-w300.font-italic Step 3 of 3
 .spacer-top-24
-  =image_tag 'https://plink-images.s3.amazonaws.com/bank_logos/desktop_reg/bank_chase.png', class:'reg-bank-logo'
-  /*.font-1p5em If No Logo, Use This Text Style*/
+  = render partial: 'institutions/logo', locals: {institution_form: @institution_form}
 .spacer-top-8
   .gray-box
     .font-p9em.font-w300 Secure connection established.

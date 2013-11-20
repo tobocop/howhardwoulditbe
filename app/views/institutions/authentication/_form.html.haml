@@ -1,9 +1,6 @@
 .font-p9em.font-lightgray.font-w300.font-italic Step 2 of 3
 .spacer-top-24
-  - if institution_form.logo_url
-    =image_tag institution_form.logo_url, class:'reg-bank-logo'
-  - else
-    .font-1p5em #{institution_form.name}
+  = render partial: 'institutions/logo', locals: {institution_form: institution_form}
 .institution-authentication-form
   .spacer-top-8
     .gray-box
