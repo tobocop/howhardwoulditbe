@@ -81,6 +81,8 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
         user_token: 'my_token'
       )
 
+    mailer.should_not_receive(:out_of_wallet_transaction_reminder_email)
+
     subject.invoke
   end
 
@@ -138,9 +140,21 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
     subject.invoke
   end
 
-  it 'only sends emails to user if the user can be eligible for the bonus' do
+  it 'sends a reminder emails to the user if the user is not eligible for the bonus' do
     Plink::UserEligibleForOfferAddBonusRecord.stub(:new).and_return(double(save: false))
     mailer.should_not_receive(:out_of_wallet_transaction_email)
+
+    AutoLoginService.should_receive(:generate_token)
+      .with(user.id)
+      .and_return('my_token')
+    mailer.should_receive(:out_of_wallet_transaction_reminder_email)
+      .with(
+        first_name: 'jerry',
+        email: 'seinfeld@newyork.com',
+        advertiser_name: 'gap',
+        max_plink_points: '1500',
+        user_token: 'my_token'
+      )
 
     subject.invoke
   end
