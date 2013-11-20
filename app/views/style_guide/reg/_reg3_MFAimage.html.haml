@@ -45,9 +45,9 @@
             .gray-box
               .font-p9em.font-w500 Your bank requires additional information.
           .spacer-top-24
-            =image_tag 'https://plink-images.s3.amazonaws.com/pivotal_assets/captcha.png', class:'mfa-image'
+            .font-1em.font-w300.font-gray Enter the characters in the image below.
           .spacer-top-8
-            .font-1em.font-w300.font-gray Enter the characters in the image above. 
+            =image_tag 'https://plink-images.s3.amazonaws.com/pivotal_assets/captcha.png', class:'mfa-image'
             .form-container
               %input.form-field.input{:value => ''}
 
