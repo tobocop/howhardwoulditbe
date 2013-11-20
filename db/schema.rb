@@ -717,6 +717,8 @@ ActiveRecord::Schema.define(:version => 20131121220742) do
     t.boolean  "show_non_linked_users"
     t.text     "user_ids"
     t.text     "link"
+    t.string   "link_right"
+    t.string   "image_url_right"
   end
 
   create_table "institutions", :primary_key => "institutionID", :force => true do |t|

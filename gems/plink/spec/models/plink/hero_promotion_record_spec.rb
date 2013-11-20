@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Plink::HeroPromotionRecord do
+  it{ should allow_mass_assignment_of(:image_url_right) }
+  it{ should allow_mass_assignment_of(:link_right) }
+
   let(:valid_attributes) {
     {
       display_order: 1,

@@ -12,10 +12,15 @@
   = f.text_field :display_order
   = f.label :is_active, 'Active'
   = f.check_box :is_active
-  = f.label :image_url, 'Image URL (.jpg, .gif, etc)'
+  = f.label :image_url, 'Image URL (.jpg, .gif, etc) - Left'
   = f.text_field :image_url
-  = f.label :link, 'URL for image (admin provided, optional)'
+  = f.label :link, 'URL for image (admin provided, optional) - Left'
   = f.text_field :link
+  = f.label :image_url_right, 'Image URL (.jpg, .gif, etc, optional) - Right'
+  = f.text_field :image_url_right
+  = f.label :link_right, 'URL for image (admin provided, optional) - Right'
+  = f.text_field :link_right
+
   %p
     Example link to send a user to the card link with tracking parameters: /tracking/new?redirect_user_to=%2Fwallet%3Flink_card%3Dtrue&[tracking_params_here]
 

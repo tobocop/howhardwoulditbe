@@ -4,8 +4,8 @@ module Plink
 
     serialize :user_ids, Hash
 
-    attr_accessible :display_order, :image_url, :is_active, :link, :name,
-      :show_linked_users, :show_non_linked_users, :title, :user_ids
+    attr_accessible :display_order, :image_url, :image_url_right, :is_active, :link,
+      :link_right, :name, :show_linked_users, :show_non_linked_users, :title, :user_ids
 
     validates_presence_of :title, :image_url, :name
 

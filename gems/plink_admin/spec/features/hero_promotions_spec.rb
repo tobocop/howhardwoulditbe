@@ -25,8 +25,10 @@ describe 'Hero Promotions' do
     fill_in 'Title', with: 'This promotion is awesome'
     fill_in 'Display Order', with: '28'
     check 'Active'
-    fill_in 'Image URL (.jpg, .gif, etc)', with: 'http://example.com/image'
-    fill_in 'URL for image (admin provided, optional)', with: 'http://example.com/'
+    fill_in 'Image URL (.jpg, .gif, etc) - Left', with: 'http://example.com/image'
+    fill_in 'URL for image (admin provided, optional) - Left', with: 'http://example.com/'
+    fill_in 'Image URL (.jpg, .gif, etc, optional) - Right', with: 'http://example.com/image-right'
+    fill_in 'URL for image (admin provided, optional) - Right', with: 'http://example.com/right'
 
     check 'Show to linked members'
     check 'Show to non-linked members'
@@ -36,11 +38,13 @@ describe 'Hero Promotions' do
     hero_promotion = Plink::HeroPromotionRecord.last
 
     hero_promotion.link.should == 'http://example.com/'
+    hero_promotion.link_right.should == 'http://example.com/right'
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz'
         page.should have_content 'This promotion is awesome'
         page.should have_css "img[src='http://example.com/image']"
+        page.should have_css "img[src='http://example.com/image-right']"
         page.should have_content '28'
         page.should have_content 'Active'
         page.should have_content 'All'
@@ -54,20 +58,24 @@ describe 'Hero Promotions' do
     fill_in 'Name', with: 'Heroz II'
     fill_in 'Title', with: 'This promotion is awesomer'
     fill_in 'Display Order', with: '25'
-    fill_in 'Image URL (.jpg, .gif, etc)', with: 'http://example.com/new-image'
-    fill_in 'URL for image (admin provided, optional)', with: ''
+    fill_in 'Image URL (.jpg, .gif, etc) - Left', with: 'http://example.com/new-image'
+    fill_in 'URL for image (admin provided, optional) - Left', with: ''
+    fill_in 'Image URL (.jpg, .gif, etc, optional) - Right', with: 'http://example.com/new-image-right'
+    fill_in 'URL for image (admin provided, optional) - Right', with: 'new'
     uncheck 'Active'
     uncheck 'Show to linked members'
 
     click_on 'Update'
 
     hero_promotion.reload.link.should be_blank
+    hero_promotion.reload.link_right.should == 'new'
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz II'
         page.should have_content 'This promotion is awesomer'
         page.should have_content '25'
         page.should have_css "img[src='http://example.com/new-image']"
+        page.should have_css "img[src='http://example.com/new-image-right']"
         page.should have_content 'Inactive'
         page.should have_content 'Non-Linked Users'
 
