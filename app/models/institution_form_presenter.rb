@@ -24,6 +24,11 @@ class InstitutionFormPresenter
     end
   end
 
+  def contact_phone_number
+    return nil if @phone_number.blank?
+    @home_url.nil? ? "(#{@phone_number})" : "or (#{@phone_number})"
+  end
+
 private
 
   def field_tag(intuit_field)
