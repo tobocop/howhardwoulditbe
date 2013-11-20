@@ -1,0 +1,63 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner.height-min-550
+        .left-column.no-float
+          .steps.first.centered
+            .font-p9em.font-lightgray.font-italic Let's Get Started
+          .steps
+            .circle
+              .text 1
+            Find your bank or credit card provider.
+          .steps.active
+            .circle.offset
+              .text 2
+            Connect it to Plink.
+          .steps.last
+            .circle.offset
+              .text 3
+            Choose a card.
+
+        .right-column.pad-left-86
+          .font-p9em.font-lightgray.font-w300.font-italic Step 2 of 3
+          .spacer-top-24
+            =image_tag 'https://plink-images.s3.amazonaws.com/bank_logos/desktop_reg/bank_chase.png', class:'reg-bank-logo'
+          .spacer-top-8
+            .gray-box
+              .font-p9em.font-w500 Your bank requires additional information.
+          .spacer-top-24
+            =image_tag 'https://plink-images.s3.amazonaws.com/pivotal_assets/captcha.png', class:'mfa-image'
+          .spacer-top-8
+            .font-1em.font-w300.font-gray Enter the characters in the image above. 
+            .form-container
+              %input.form-field.input{:value => ''}
+
+          .spacer-top-24
+            .button-container.no-margin
+              %button.button.negative-action Go Back
+            .button-container
+              %button.button.primary-action Connect
+          .spacer-top-24
+          %hr
+            .font-p9em.font-w500.font-gray Trouble logging in?
+            .font-p9em.font-w300.font-gray.font-height1p5 Contact Chase at [link to website] or [phone number].
+      .clear
