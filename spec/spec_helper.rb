@@ -64,6 +64,7 @@ if ENV['CI']
 
   Capybara.default_wait_time = 30
 else
+  Capybara.default_wait_time = 10
   Capybara.javascript_driver = :webkit
 end
 
