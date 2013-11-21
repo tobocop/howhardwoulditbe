@@ -13,8 +13,9 @@ module Plink
     alias_attribute :advertisers_rev_share, :advertisersRevShare
     alias_attribute :start_date=, :startDate=
 
-    attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text, :end_date, :is_active,
-      :send_expiring_soon_reminder, :show_end_date, :start_date
+    attr_accessible :advertiser_name, :advertiser_id, :advertisers_rev_share, :detail_text,
+      :end_date, :is_active, :send_expiring_soon_reminder, :show_end_date, :show_on_wall,
+      :start_date
 
     has_many :offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID'
     has_many :active_offers_virtual_currencies, class_name: 'Plink::OffersVirtualCurrencyRecord', foreign_key: 'offerID', conditions: ["#{Plink::OffersVirtualCurrencyRecord.table_name}.isActive = ?", true]
@@ -29,6 +30,8 @@ module Plink
     end
 
     belongs_to :advertiser, class_name: 'Plink::AdvertiserRecord', foreign_key: 'advertiserID'
+
+    validates_presence_of :detail_text
 
     scope :live_non_excluded_offers_for_currency, ->(wallet_id, currency_id) {
       live_offers_for_currency(currency_id)

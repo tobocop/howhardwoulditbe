@@ -2,6 +2,7 @@
   %thead
     %th ID
     %th Advertiser
+    %th Details
     %th End Date
     %th Displayed End Date
     %th Sending Expiration Reminder
@@ -11,6 +12,7 @@
       %tr.offer-item
         %td= offer.id
         %td= offer.advertiser.advertiser_name
+        %td= offer.detail_text
         %td= offer.end_date
         %td= offer.show_end_date ? 'showing date' : 'not showing'
         %td= offer.send_expiring_soon_reminder ? 'sending email' : 'not sending'

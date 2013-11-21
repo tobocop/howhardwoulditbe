@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe Plink::OfferRecord do
-  it { should allow_mass_assignment_of(:advertiser_name) }
   it { should allow_mass_assignment_of(:advertiser_id) }
+  it { should allow_mass_assignment_of(:advertiser_name) }
   it { should allow_mass_assignment_of(:advertisers_rev_share) }
   it { should allow_mass_assignment_of(:detail_text) }
   it { should allow_mass_assignment_of(:end_date) }
   it { should allow_mass_assignment_of(:is_active) }
   it { should allow_mass_assignment_of(:send_expiring_soon_reminder) }
   it { should allow_mass_assignment_of(:show_end_date) }
+  it { should allow_mass_assignment_of(:show_on_wall) }
   it { should allow_mass_assignment_of(:start_date) }
 
   let(:valid_attributes) {
@@ -28,8 +29,14 @@ describe Plink::OfferRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
-  it 'can be valid' do
-    new_offer(valid_attributes).should be_valid
+  describe 'validations' do
+    it 'can be valid' do
+      Plink::OfferRecord.new(valid_attributes).should be_valid
+    end
+
+    it 'is invalid without detail_text' do
+      Plink::OfferRecord.new(valid_attributes.except(:detail_text)).should_not be_valid
+    end
   end
 
   it 'provides a better interface for legacy db column names' do

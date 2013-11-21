@@ -15,6 +15,7 @@ module PlinkAdmin
 
       if end_date >= 8.days.from_now.to_date
         update_params = {
+          detail_text: params[:offer][:detail_text],
           end_date: end_date,
           send_expiring_soon_reminder: params[:offer][:send_expiring_soon_reminder],
           show_end_date: params[:offer][:show_end_date]

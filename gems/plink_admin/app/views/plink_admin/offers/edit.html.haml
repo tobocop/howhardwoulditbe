@@ -18,6 +18,8 @@
     = f.check_box :show_end_date
     = f.label :send_expiring_soon_reminder, 'Notify users of expiration 7 days before'
     = f.check_box :send_expiring_soon_reminder
+    = f.label :detail_text, 'Detail Text'
+    = f.text_area :detail_text
 
   = f.submit 'Update', class: 'button small'
 

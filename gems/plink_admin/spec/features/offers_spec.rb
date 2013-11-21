@@ -40,6 +40,7 @@ describe 'offers' do
     select 1.year.from_now.year, from: 'offer[end_date(1i)]'
     check 'Show end date to users'
     check 'Notify users of expiration 7 days before'
+    fill_in 'Detail Text', with: 'The Best'
 
     click_on 'Update'
 
@@ -49,6 +50,7 @@ describe 'offers' do
       within '.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
         page.should have_content '2014'
+        page.should have_content 'The Best'
         page.should have_content 'showing date'
         page.should have_content 'sending email'
       end
