@@ -17,7 +17,7 @@
         .font-p9em.font-w300.font-gray Security Question #{index + 1}
         .font-1em.font-w500 #{question["text"]}
       .form-container
-        = text_field_tag "question_#{index+1}".to_sym, nil, class: 'form-field input'
+        = text_field_tag "mfa_question_#{index+1}".to_sym, nil, class: 'form-field input'
 
     .spacer-top-24
       = submit_tag 'Connect', class: 'button-container button primary-action'

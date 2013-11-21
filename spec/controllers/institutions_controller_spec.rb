@@ -311,7 +311,7 @@ describe InstitutionsController do
 
       controller.should_receive(:intuit_mfa).with(['stuff', 'cool'])
 
-      post :text_based_mfa, institution_id: 1, question_1: 'stuff', question_2: 'cool'
+      post :text_based_mfa, institution_id: 1, mfa_question_1: 'stuff', mfa_question_2: 'cool'
     end
   end
 

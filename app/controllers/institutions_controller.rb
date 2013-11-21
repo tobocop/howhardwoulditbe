@@ -34,7 +34,7 @@ class InstitutionsController < ApplicationController
     request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
     session[:intuit_account_request_id] = request.id
 
-    user_and_password = params[:field_labels].map { |label| params[label] }
+    user_and_password = params[:field_labels].sort.map { |label| params[label] }
     intuit_accounts(user_and_password)
 
     render nothing: true
@@ -94,7 +94,7 @@ private
   end
 
   def parse_answers
-    questions = params.keys.grep(/question/)
+    questions = params.keys.grep(/mfa_question/).sort
     questions.map {|question| params[question]}
   end
 

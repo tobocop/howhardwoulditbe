@@ -15,11 +15,11 @@ class InstitutionFormPresenter
   def form_fields
     valid_ordered_fields = display_fields.sort_by { |field| field[:display_order].to_i }
 
-    valid_ordered_fields.map do |field|
+    valid_ordered_fields.each_with_index.map do |field, index|
       {
         field_name: field[:name],
         label: field[:description],
-        field_tag: field_tag(field)
+        field_tag: field_tag(field, "auth_#{index+1}")
       }
     end
   end
@@ -31,13 +31,13 @@ class InstitutionFormPresenter
 
 private
 
-  def field_tag(intuit_field)
+  def field_tag(intuit_field, field_name)
     description = intuit_field[:description]
     length = intuit_field[:value_length_max].to_i == 0 ? nil : intuit_field[:value_length_max].to_i
 
     field_tag = {
       method: :text_field_tag,
-      arguments: [description, nil, {
+      arguments: [field_name, nil, {
         class: 'form-field input',
         placeholder: description,
         length: length
