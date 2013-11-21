@@ -5,25 +5,25 @@ describe 'transaction_limits:enforce_staples_limit', skip_in_build: true do
 
   let!(:no_previous_transaction_user) { create_user(email: 'ishouldearn@plink.com') }
   let!(:nine_previous_transactions_one_current_transaction_user) { create_user(email: 'ishouldearnonce@plink.com') }
-  let!(:nine_previous_transactions_two_current_transaction_user) { create_user(email: 'ishouldearnonlyonce@plink.com') }
-  let!(:ten_previous_transactions_two_current_transaction_user) { create_user(email: 'ishouldnotearn@plink.com') }
+  let!(:nine_previous_transactions_two_current_transactions_user) { create_user(email: 'ishouldearnonlyonce@plink.com') }
+  let!(:ten_previous_transactions_two_current_transactions_user) { create_user(email: 'ishouldnotearn@plink.com') }
 
   before do
     staples = create_advertiser(advertiser_name: 'Staples')
 
     9.times { create_intuit_transaction(user_id: nine_previous_transactions_one_current_transaction_user.id, advertiser_id: staples.id) }
-    9.times { create_intuit_transaction(user_id: nine_previous_transactions_two_current_transaction_user.id, advertiser_id: staples.id) }
-    10.times { create_intuit_transaction(user_id: ten_previous_transactions_two_current_transaction_user.id, advertiser_id: staples.id) }
+    9.times { create_intuit_transaction(user_id: nine_previous_transactions_two_current_transactions_user.id, advertiser_id: staples.id) }
+    10.times { create_intuit_transaction(user_id: ten_previous_transactions_two_current_transactions_user.id, advertiser_id: staples.id) }
 
     create_intuit_transaction_staging(is_qualified: true, user_id: no_previous_transaction_user.id, advertiser_id: staples.id)
     create_intuit_transaction_staging(is_qualified: true, user_id: nine_previous_transactions_one_current_transaction_user.id, advertiser_id: staples.id)
-    2.times { create_intuit_transaction_staging(is_qualified: true, user_id: nine_previous_transactions_two_current_transaction_user.id, advertiser_id: staples.id) }
-    2.times { create_intuit_transaction_staging(is_qualified: true, user_id: ten_previous_transactions_two_current_transaction_user.id, advertiser_id: staples.id) }
+    2.times { create_intuit_transaction_staging(is_qualified: true, user_id: nine_previous_transactions_two_current_transactions_user.id, advertiser_id: staples.id) }
+    2.times { create_intuit_transaction_staging(is_qualified: true, user_id: ten_previous_transactions_two_current_transactions_user.id, advertiser_id: staples.id) }
 
     [no_previous_transaction_user,
       nine_previous_transactions_one_current_transaction_user,
-      nine_previous_transactions_two_current_transaction_user,
-      ten_previous_transactions_two_current_transaction_user
+      nine_previous_transactions_two_current_transactions_user,
+      ten_previous_transactions_two_current_transactions_user
     ].each do |user|
       create_intuit_transaction(user_id: user.id, advertiser_id: staples.id, post_date: 31.days.ago)
     end
@@ -41,14 +41,11 @@ describe 'transaction_limits:enforce_staples_limit', skip_in_build: true do
     subject.invoke
 
     Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: no_previous_transaction_user.id).length.should == 1
-
     Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: nine_previous_transactions_one_current_transaction_user.id).length.should == 1
-
-    Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: nine_previous_transactions_two_current_transaction_user.id).length.should == 1
-    Plink::IntuitTransactionStagingRecord.where(is_qualified: false, user_id: nine_previous_transactions_two_current_transaction_user.id).length.should == 1
-
-    Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: ten_previous_transactions_two_current_transaction_user.id).length.should == 0
-    Plink::IntuitTransactionStagingRecord.where(is_qualified: false, user_id: ten_previous_transactions_two_current_transaction_user.id).length.should == 2
+    Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: nine_previous_transactions_two_current_transactions_user.id).length.should == 1
+    Plink::IntuitTransactionStagingRecord.where(is_qualified: false, user_id: nine_previous_transactions_two_current_transactions_user.id).length.should == 1
+    Plink::IntuitTransactionStagingRecord.where(is_qualified: true, user_id: ten_previous_transactions_two_current_transactions_user.id).length.should == 0
+    Plink::IntuitTransactionStagingRecord.where(is_qualified: false, user_id: ten_previous_transactions_two_current_transactions_user.id).length.should == 2
   end
 
   it 'updates transactions that should not earn with the correct business rule reason' do
