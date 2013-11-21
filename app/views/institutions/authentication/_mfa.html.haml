@@ -5,7 +5,8 @@
   .spacer-top-8
     .gray-box
       .font-p9em.font-w300 Your bank requires additional information.
-
+      .spacer-top-8
+        .font-p9em.font-w300.font-italic.js-all-fields-required * All fields required
   = form_tag institution_text_based_mfa_path, id: 'js-text-based-mfa-form' do
     - questions.each_with_index do |question, index|
       - if question['image']
@@ -18,7 +19,7 @@
         .font-1em.font-w500 #{question["text"]}
       .form-container
         = text_field_tag "mfa_question_#{index+1}".to_sym, nil, class: 'form-field input'
-
+        .mts.font-p9em.font-w300.font-darkred
     .spacer-top-24
       = submit_tag 'Connect', class: 'button-container button primary-action'
       %button.button-container.button.negative-action.no-margin.js-go-back Go Back

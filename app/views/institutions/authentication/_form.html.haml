@@ -8,7 +8,8 @@
         = render partial: 'institutions/authentication/error', locals: {error: error, institution_form: institution_form}
       - else
         .font-p9em.font-w300#please-login Please login to your #{institution_form.name} account.
-
+      .spacer-top-8
+        .font-p9em.font-w300.font-italic.js-all-fields-required * All fields required
   = form_tag institution_authenticate_path, id: 'js-authentication-form' do
     - institution_form.form_fields.each do |field|
       .spacer-top-24
@@ -17,6 +18,7 @@
         .form-container
           = send(field[:field_tag][:method], *field[:field_tag][:arguments])
           = hidden_field_tag 'field_labels[]', field[:field_tag][:arguments].first
+          .mts.font-p9em.font-w300.font-darkred
     .spacer-top-24.submit-buttons
       = submit_tag 'Connect', class: 'button-container button primary-action'
       %button.button-container.button.negative-action.no-margin.js-go-back Go Back

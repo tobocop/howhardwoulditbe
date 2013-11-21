@@ -38,7 +38,7 @@ private
     field_tag = {
       method: :text_field_tag,
       arguments: [field_name, nil, {
-        class: 'form-field input',
+        class: 'form-field input required',
         placeholder: description,
         length: length
       }]

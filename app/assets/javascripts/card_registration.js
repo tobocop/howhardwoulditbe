@@ -7,6 +7,9 @@
     },
 
     submitForm: function (e) {
+      var selector = $(this).find('.form-container > input.form-field');
+      if ( !CardRegistration.requiredFieldsPresent(selector) ) return false;
+
       CardRegistration.showProgressBar();
 
       var $form = $(this);
@@ -42,6 +45,39 @@
       window.history.back();
 
       return false;
+    },
+
+    requiredFieldsPresent: function(selector) {
+      var missing_fields = CardRegistration.findBlankFields(selector);
+      $('.mts.font-darkred').html('');
+
+      if (missing_fields.length) {
+        CardRegistration.updateFieldsWithErrors(missing_fields);
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    findBlankFields: function(selector) {
+      var blank_fields = [];
+
+      selector.each(function(index){
+        var $this = $(this);
+        if (!$this.val() || $this.val().trim().length === 0) {
+          blank_fields.push($this);
+        }
+      })
+
+      return blank_fields;
+    },
+
+    updateFieldsWithErrors: function(fields) {
+      $.each(fields, function(index){
+        $(this).parent().find($('.font-darkred')).html('Please complete this field');
+      });
+
+      $('.js-all-fields-required').addClass('font-darkred');
     }
   }
 })(window);

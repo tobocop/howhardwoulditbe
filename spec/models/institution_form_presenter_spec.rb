@@ -83,7 +83,7 @@ describe InstitutionFormPresenter do
         field_tag: {
           method: :text_field_tag,
           arguments: ['auth_1', nil, {
-            class: "form-field input",
+            class: "form-field input required",
             placeholder: "User ID",
             length: 32
           }]
@@ -97,7 +97,7 @@ describe InstitutionFormPresenter do
         field_tag: {
           method: :password_field_tag,
           arguments: ['auth_2', nil, {
-            class: "form-field input",
+            class: "form-field input required",
             placeholder: "Password",
             length: nil
           }]
