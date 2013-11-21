@@ -823,6 +823,58 @@ module Plink
       new_transaction_eligible_for_bonus(options).tap(&:save!)
     end
 
+    def new_business_rule_reason(options = {})
+      defaults = {
+        description: 'this herped all the derps',
+        is_active: true,
+        name: 'derp'
+      }
+
+      Plink::BusinessRuleReasonRecord.new { |business_rule_reason| apply(business_rule_reason, defaults, options) }
+    end
+
+    def create_business_rule_reason(options = {})
+      new_business_rule_reason(options).tap(&:save!)
+    end
+
+    def new_intuit_transaction_staging(options = {})
+      defaults = {
+        account_id: 1,
+        advertiser_id: 1827,
+        amount: -123.02,
+        business_rule_reason_id: 0,
+        hashed_value: 'aoishd',
+        intuit_transaction_id: 8123467,
+        is_fishy: false,
+        is_in_wallet: false,
+        is_intuit_pending: false,
+        is_nonqualified: false,
+        is_over_minimum_amount: false,
+        is_qualified: false,
+        is_return: false,
+        is_search_pattern_pending: false,
+        job_id: 123,
+        offer_id: 3,
+        offers_virtual_currency_id: 1,
+        payee_name: 'taco derp',
+        post_date: Time.zone.now.to_date,
+        search_pattern_id: 1,
+        task_id: 1,
+        tier_id: 1,
+        uia_account_id: 1,
+        user_id: 1,
+        users_institution_id: 1,
+        users_virtual_currency_id: 1,
+        virtual_currency_id: 1
+      }
+
+      Plink::IntuitTransactionStagingRecord.new { |intuit_transaction_staging| apply(intuit_transaction_staging, defaults, options) }
+    end
+
+    def create_intuit_transaction_staging(options = {})
+      new_intuit_transaction_staging(options).tap(&:save!)
+    end
+
     def new_intuit_transaction(options = {})
       defaults = {
         account_id: 1,
@@ -834,7 +886,7 @@ module Plink
         offer_id: 3,
         offers_virtual_currency_id: 1,
         payee_name: 'taco derp',
-        post_date: 3.days.ago,
+        post_date: Time.zone.now.to_date,
         search_pattern_id: 1,
         task_id: 1,
         tier_id: 1,
