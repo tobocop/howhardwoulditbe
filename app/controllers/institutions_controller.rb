@@ -58,6 +58,7 @@ class InstitutionsController < ApplicationController
         render partial: 'select_account', locals: {accounts: Array(response['value'])}
       else
         institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
+
         locals = {institution_form: @institution_form, institution: @institution, error: response['value']}
         render partial: 'institutions/authentication/form', locals: locals
       end

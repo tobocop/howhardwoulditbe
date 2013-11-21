@@ -5,7 +5,7 @@
   .spacer-top-8
     .gray-box
       - if error
-        = render partial: 'institutions/authentication/error', locals: {error: error}
+        = render partial: 'institutions/authentication/error', locals: {error: error, institution_form: institution_form}
       - else
         .font-p9em.font-w300#please-login Please login to your #{institution_form.name} account.
 

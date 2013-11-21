@@ -1,9 +1,17 @@
-.font-p9em.font-w500.font-darkred There was a problem with your login (#{error}).
-.font-p9em.font-w300.font-darkred
-  Please re-enter your login info. If this error persists, please
-  %span
-    =link_to 'contact your bank.','#', class:'text-link'
+.font-p9em.font-w500.font-darkred There was a problem with your login.
+- if error.present?
+  .font-p9em.font-w300.font-darkred Your bank returned the following error(s):
+  %hr
   .spacer-top-8
-    For more info on this error, see our
+    .mll.font-p9em.font-w500.font-darkred - #{error}
+%hr
+.spacer-top-8
+  .font-p9em.font-w300.font-darkred
+    Please re-enter your login info. If this error persists, please
     %span
-      =link_to 'FAQ.','#',class:'text-link'
+      =link_to 'contact your bank.', institution_form.home_url, class:'text-link', target: '_blank'
+  .spacer-top-8
+    .font-p9em.font-w300.font-darkred
+      For more info on this error, see our
+      %span
+        =link_to 'FAQ.', faq_static_path, class:'text-link', target: '_blank'

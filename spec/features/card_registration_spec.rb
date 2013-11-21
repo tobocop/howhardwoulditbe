@@ -49,6 +49,15 @@ describe 'searching for a bank', js: true do
 
     page.should have_content 'Please login to your Bank of Tupac account.'
 
+    fill_in 'auth_1', with: 'bad'
+    fill_in 'auth_2', with: 'login_failures'
+
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with Bank of Tupac.'
+
+    page.should have_content 'Login error. Error on logon'
+
     fill_in 'auth_1', with: 'tfa_text'
     fill_in 'auth_2', with: "stuff#{rand(10**7)}"
 
