@@ -46,17 +46,19 @@
             .gray-box
               .font-p9em.font-w300 Please login to your Chase Bank account.
               .spacer-top-8
-                .font-p9em.font-w300.font-italic * All fields required
+                .font-p9em.font-w300.font-italic.font-darkred * All fields required
           .spacer-top-24
             .font-1em.font-w500 User ID 
             .font-p9em.font-w300.font-gray for your Chase Bank online account
             .form-container
               %input.form-field.input{:value => 'User ID'}
+              .mts.font-p9em.font-w300.font-darkred Please complete this field
           .spacer-top-24
             .font-1em.font-w500 Password
             .font-p9em.font-w300.font-gray for your Chase Bank online account
             .form-container
               %input.form-field.input{:value => 'Password'}
+              .mts.font-p9em.font-w300.font-darkred Please complete this field
           .spacer-top-24
             .button-container.no-margin
               %button.button.negative-action Go Back
