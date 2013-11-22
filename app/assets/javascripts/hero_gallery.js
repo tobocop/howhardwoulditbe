@@ -94,6 +94,10 @@
       $wrapper.css({
         'height': responsive.height
       });
+
+      $slides.find('img').css({
+        'height': responsive.height
+      });
     };
 
     _setupCaptions = function() {
