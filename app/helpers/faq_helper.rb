@@ -9,6 +9,7 @@ module FaqHelper
       t(base + 'can_spouse_and_i_have_accounts_title') => {answer: t(base + 'can_spouse_and_i_have_accounts_text')},
       t(base + 'why_cant_i_find_my_bank_title') => {answer: t(base + 'why_cant_i_find_my_bank_text')},
       t(base + 'why_does_plink_need_my_login_title') => {answer: t(base + 'why_does_plink_need_my_login_text')},
+      t(base + 'my_login_credentials_are_invalid_title') => {answer: t(base + 'my_login_credentials_are_invalid_text')},
       t(base + 'why_is_plink_safe_title') => {answer: t(base + 'why_is_plink_safe_text')},
       t(base + 'can_i_add_more_than_one_card_title') => {answer: t(base + 'can_i_add_more_than_one_card_text')},
       t(base + 'will_i_get_points_if_i_change_card_title') => {answer: t(base + 'will_i_get_points_if_i_change_card_text')},
