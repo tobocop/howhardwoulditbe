@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Plink::AwardRecord  do
+  it { should allow_mass_assignment_of(:email_message) }
+
   let(:award_type) { create_award_type(award_type: 'Bananas are awesome')}
   let!(:free_award) {
     create_free_award(
@@ -37,9 +39,9 @@ describe Plink::AwardRecord  do
       award_record.award_display_name.should == 'visiting joe'
     end
 
-    it 'returns the award_type if advertiser_name is blank' do
-      award_record = Plink::AwardRecord.new(advertiser_name: '', award_type: "love's spelling")
-      award_record.award_display_name.should == "love's spelling"
+    it 'returns the email_message if advertiser_name is blank' do
+      award_record = Plink::AwardRecord.new(advertiser_name: '', email_message: 'email_message')
+      award_record.award_display_name.should == 'email_message'
     end
   end
 

@@ -18,6 +18,7 @@ namespace :db do
     task :create => :environment do
       #Rolls up freeAwards qualifyingAwards and nonQualifyingAwards
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_awards.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'alter_vw_awards.sql')))
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_allRewards.sql')))
 
       #Rolls up all purchases and redemptions of a user

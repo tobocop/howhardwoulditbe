@@ -5,8 +5,8 @@ describe 'reward:send_reward_notifications' do
   let!(:virtual_currency) { create_virtual_currency(subdomain: 'www') }
   let!(:user_with_no_awards) { create_user }
   let!(:user_with_three_awards) { create_user(email: 'spelling@joesspellingacademy.com') }
-  let!(:award_type) { create_award_type(award_type: 'Bananas are awesome') }
-  let!(:advertiser) { create_advertiser }
+  let!(:award_type) { create_award_type(email_message: 'for Bananas are awesome') }
+  let!(:advertiser) { create_advertiser(advertiser_name: 'angry birds') }
   let(:valid_award_params) {
     {
       user_id: user_with_three_awards.id,
@@ -53,6 +53,7 @@ describe 'reward:send_reward_notifications' do
 
     delay.should_receive(:reward_notification_email) do |args|
       args[:email].should == 'spelling@joesspellingacademy.com'
+      args[:rewards].map(&:award_display_name).should =~ ['Bananas are awesome', 'visiting angry birds', 'visiting angry birds']
       args[:rewards].map(&:currency_award_amount).should =~ ['100', '200', '300']
       args[:user_currency_balance].should == '600'
       args[:user_token].should == 'my_token'
