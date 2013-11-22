@@ -15,7 +15,9 @@ module Plink
         {
           id: record.id,
           image_url: record.image_url,
+          image_url_right: record.image_url_right,
           link: record.link,
+          link_right: record.link_right,
           show_linked_users: record.show_linked_users,
           show_non_linked_users: record.show_non_linked_users,
           title: record.title,

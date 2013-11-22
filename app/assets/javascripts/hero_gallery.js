@@ -103,8 +103,11 @@
     _setupCaptions = function() {
       $.each($slides, function (key, slide) {
         var slideImage = $(slide).find('img');
-        caption = $('<p class="caption">' + slideImage.attr('title') + '</p>');
-        caption.appendTo($(slideImage).parent());
+        captionText = slideImage.attr('title')
+        if(captionText) {
+          caption = $('<p class="caption">' + slideImage.attr('title') + '</p>');
+          caption.appendTo($(slideImage).parent());
+        }
       });
     };
 

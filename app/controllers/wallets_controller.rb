@@ -7,8 +7,8 @@ class WalletsController < ApplicationController
 
   def show
     @current_tab = 'wallet'
-    @hero_promotions = plink_hero_promotion_service.active_promotions
     @user_has_account = plink_intuit_account_service.user_has_account?(current_user.id)
+    @hero_promotions = present_hero_promotions(plink_hero_promotion_service.active_promotions, @user_has_account)
     @wallet_items = presented_wallet_items
     @card_link_url = plink_card_link_url_generator.create_url(get_session_tracking_params)
     @offers = present_offers(plink_offer_service.get_available_offers_for(wallet_id, current_virtual_currency.id), @user_has_account)
@@ -19,7 +19,17 @@ class WalletsController < ApplicationController
     auto_login_user(params[:user_token], wallet_path)
   end
 
-  private
+private
+
+  def present_hero_promotions(hero_promotions, user_has_account)
+    hero_promotions.map do |hero_promotion|
+      HeroPromotionPresenter.new(
+        hero_promotion,
+        current_user.id,
+        user_has_account
+      )
+    end
+  end
 
   def present_offers(offers, user_has_account)
     offers.map do |offer|

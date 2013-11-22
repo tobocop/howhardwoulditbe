@@ -9,7 +9,11 @@ class TrackingController < ApplicationController
   end
 
   def hero_promotion_click
-    click_params = {user_id: current_user.id, hero_promotion_id: params[:hero_promotion_id]}
+    click_params = {
+      hero_promotion_id: params[:hero_promotion_id],
+      image: params[:image],
+      user_id: current_user.id
+    }
     Plink::HeroPromotionClickRecord.create(click_params)
 
     render nothing: true

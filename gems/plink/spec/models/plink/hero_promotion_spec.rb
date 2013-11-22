@@ -5,7 +5,9 @@ describe Plink::HeroPromotion do
     {
       id: 1,
       image_url: '/mj_and_bb.jpg',
+      image_url_right: '/mj_and_bb_right.jpg',
       link: 'www.google.com',
+      link_right: 'www.google.com/righty',
       show_linked_users: true,
       show_non_linked_users: false,
       title: 'Michael Jordan',
@@ -17,11 +19,13 @@ describe Plink::HeroPromotion do
     hero_promotion = Plink::HeroPromotion.new(hero_promotion_attrs)
 
     hero_promotion.id.should == 1
-    hero_promotion.title.should == 'Michael Jordan'
     hero_promotion.image_url.should == '/mj_and_bb.jpg'
+    hero_promotion.image_url_right.should == '/mj_and_bb_right.jpg'
     hero_promotion.link.should == 'www.google.com'
+    hero_promotion.link_right.should == 'www.google.com/righty'
     hero_promotion.show_linked_users.should == true
     hero_promotion.show_non_linked_users.should == false
+    hero_promotion.title.should == 'Michael Jordan'
     hero_promotion.user_ids.should be_empty
   end
 

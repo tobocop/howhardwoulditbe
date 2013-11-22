@@ -7,6 +7,7 @@ describe WalletsController do
   it_should_behave_like(:tracking_extensions)
 
   let(:offer) { new_offer }
+  let(:hero_promotion_presenter) { double }
   let(:wallet_item) { new_locked_wallet_item }
   let(:wallet) { stub(id:2, sorted_wallet_item_records: [wallet_item]) }
 
@@ -14,6 +15,7 @@ describe WalletsController do
     set_virtual_currency({id: 1})
 
     controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
+    controller.stub(:present_hero_promotions).and_return([hero_promotion_presenter])
     Plink::WalletRecord.stub(:find).and_return(wallet)
 
     fake_offer_service = Plink::FakeOfferService.new({1 => [offer]})
@@ -42,7 +44,7 @@ describe WalletsController do
       it 'should assign hero promotions' do
         get :show
 
-        assigns(:hero_promotions).should == ['promotion']
+        assigns(:hero_promotions).should == [hero_promotion_presenter]
       end
 
       it 'should assign current tab to wallet' do

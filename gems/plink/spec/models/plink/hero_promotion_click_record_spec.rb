@@ -4,11 +4,13 @@ describe Plink::HeroPromotionClickRecord do
   let(:valid_params) do
     {
       hero_promotion_id: 12,
+      image: 'heroz.com',
       user_id: 2
     }
   end
 
   it { should allow_mass_assignment_of(:hero_promotion_id) }
+  it { should allow_mass_assignment_of(:image) }
   it { should allow_mass_assignment_of(:user_id) }
 
   it { should validate_presence_of(:hero_promotion_id) }

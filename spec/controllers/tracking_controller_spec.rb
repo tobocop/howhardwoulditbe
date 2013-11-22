@@ -55,9 +55,13 @@ describe TrackingController do
 
     it 'creates a HeroPromotionClick record' do
       Plink::HeroPromotionClickRecord.should_receive(:create).
-        with(hero_promotion_id: '1', user_id: 134)
+        with(
+          hero_promotion_id: '1',
+          image: 'http://googlez.forshizzle/mynizzle',
+          user_id: 134
+        )
 
-      get :hero_promotion_click, hero_promotion_id: 1
+      get :hero_promotion_click, hero_promotion_id: 1, image: 'http://googlez.forshizzle/mynizzle'
     end
   end
 end

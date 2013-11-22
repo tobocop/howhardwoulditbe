@@ -5,9 +5,11 @@ require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 describe OffersController do
   describe 'GET index' do
     let(:offer) { new_offer }
+    let(:hero_promotion_presenter) { double }
 
     before(:each) do
       controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
+      controller.stub(:present_hero_promotions).and_return([hero_promotion_presenter])
       controller.stub(:current_virtual_currency) { stub(id: 123) }
 
       fake_offer_service = Plink::FakeOfferService.new({123 => [offer]})
@@ -28,8 +30,7 @@ describe OffersController do
     it 'should assign hero promotions' do
       get :index
 
-      assigns(:hero_promotions).should == ['promotion']
+      assigns(:hero_promotions).should == [hero_promotion_presenter]
     end
-
   end
 end
