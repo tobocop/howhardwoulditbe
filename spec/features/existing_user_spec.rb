@@ -302,19 +302,6 @@ describe 'user signs in' do
       page.find('.close-btn').click
     end
 
-    #TODO: remove after 11/24
-    within '.slot.locked.promotional' do
-      page.should have_content 'This slot is locked.'
-      page.should have_content 'Download our app on iOS or Android by 11/24 to unlock this slot.'
-    end
-
-    page.find('.slot.locked.promotional', match: :first).click
-
-    within '.modal' do
-      page.should have_content 'Manage your Plink account on the go and download our mobile app by 11/24 to unlock this slot!'
-      page.find('.close-btn').click
-    end
-
     click_on 'Rewards'
     current_path.should == '/rewards'
     page.should have_css('img[src="/assets/header_logo.png"]')

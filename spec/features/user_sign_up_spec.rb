@@ -93,8 +93,7 @@ describe 'User signup workflow' do
 
       page.should have_content 'MY WALLET'
       page.should have_content 'This slot is empty.', count: 3
-      #TODO: change back to 2 after 11/24
-      page.should have_content 'This slot is locked.', count: 3
+      page.should have_content 'This slot is locked.', count: 2
     end
   end
 
