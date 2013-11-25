@@ -82,6 +82,16 @@ namespace :contest do
       Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 2, award_count: 42)
       Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 1, award_count: 100)
     end
+
+    if contest_id == 5 || contest_id == '5'
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 400, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 100, award_count: 1)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 25, award_count: 7)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 10, award_count: 10)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 5, award_count: 12)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 2, award_count: 45)
+      Plink::ContestPrizeLevelRecord.create!(contest_id: contest_id, dollar_amount: 1, award_count: 74)
+    end
   end
 
   desc 'Choose contest winners for a given contest_id'
