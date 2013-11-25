@@ -14,7 +14,7 @@ class HeroPromotionPresenter
     hero_promotion.show_in_ui?(user_id, user_has_account)
   end
 
-  def left_and_right_promotions?
+  def left_and_right_promotion?
     hero_promotion.image_url_right.present?
   end
 end

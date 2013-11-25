@@ -23,11 +23,7 @@ private
 
   def present_hero_promotions(hero_promotions, user_has_account)
     hero_promotions.map do |hero_promotion|
-      HeroPromotionPresenter.new(
-        hero_promotion,
-        current_user.id,
-        user_has_account
-      )
+      HeroPromotionPresenter.new(hero_promotion, current_user.id, user_has_account)
     end
   end
 

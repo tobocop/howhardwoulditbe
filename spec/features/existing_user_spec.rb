@@ -90,10 +90,10 @@ describe 'user signs in' do
 
     page.find('.marker:nth-of-type(2)').click
 
-    within('.left') do
+    within '.left' do
       page.should have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
     end
-    within('.right') do
+    within '.right' do
       page.should have_css('img[src="/assets/hero-gallery/bk1.jpg"]')
     end
 

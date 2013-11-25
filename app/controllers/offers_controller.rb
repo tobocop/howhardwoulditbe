@@ -9,11 +9,7 @@ class OffersController < ApplicationController
 
   def present_hero_promotions(hero_promotions)
     hero_promotions.map do |hero_promotion|
-      HeroPromotionPresenter.new(
-        hero_promotion,
-        current_user.id,
-        false
-      )
+      HeroPromotionPresenter.new(hero_promotion, current_user.id, false)
     end
   end
 

@@ -35,14 +35,14 @@ describe HeroPromotionPresenter do
     end
   end
 
-  describe '#left_and_right_promotions?' do
+  describe '#left_and_right_promotion?' do
     it 'returns true if a right_image_url is present' do
-      presenter.left_and_right_promotions?.should be_true
+      presenter.left_and_right_promotion?.should be_true
     end
 
     it 'returns false if a right_image_url is not present' do
       hero_promotion.stub(:image_url_right).and_return('')
-      presenter.left_and_right_promotions?.should be_false
+      presenter.left_and_right_promotion?.should be_false
     end
   end
 end

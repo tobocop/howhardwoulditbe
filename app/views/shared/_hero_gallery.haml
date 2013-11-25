@@ -1,13 +1,28 @@
 .hero-gallery
   .hero-gallery-inner
     %ul.gallery
-      - promotions.each do |presenter|
-        - if presenter.show_to_current_user?
+      - promotions.each do |hero_promotion|
+        - if hero_promotion.show_to_current_user?
           %li.slide
-            - if presenter.left_and_right_promotions?
+            - if hero_promotion.left_and_right_promotion?
               .left
-                = render partial: 'shared/hero_promotion', locals: {id: presenter.id, image_url: presenter.image_url, link: presenter.link, title: nil}
+                = render partial: 'shared/hero_promotion', locals: { |
+                    id: hero_promotion.id, |
+                    image_url: hero_promotion.image_url, |
+                    link: hero_promotion.link, |
+                    title: nil |
+                  } |
               .right
-                = render partial: 'shared/hero_promotion', locals: {id: presenter.id, image_url: presenter.image_url_right, link: presenter.link_right, title: nil}
+                = render partial: 'shared/hero_promotion', locals: { |
+                  id: hero_promotion.id, |
+                  image_url: hero_promotion.image_url_right, |
+                  link: hero_promotion.link_right, |
+                  title: nil |
+                } |
             - else
-              = render partial: 'shared/hero_promotion', locals: {id: presenter.id, image_url: presenter.image_url, link: presenter.link, title: presenter.title}
+              = render partial: 'shared/hero_promotion', locals: { |
+                id: hero_promotion.id, |
+                image_url: hero_promotion.image_url, |
+                link: hero_promotion.link, |
+                title: hero_promotion.title |
+              } |
