@@ -7,10 +7,11 @@ describe AccountsController do
   let(:intuit_account) {
     Plink::IntuitAccount.new(
         account_name: 'account',
-        bank_name: 'bank',
         account_number_last_four: 1234,
+        bank_name: 'bank',
         requires_reverification: false,
-        reverify_id: 143
+        reverify_id: 143,
+        users_institution_id: 3
     )
   }
 

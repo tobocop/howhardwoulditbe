@@ -351,6 +351,7 @@ module Plink
 
     def new_user_intuit_error(options = {})
       defaults = {
+        created: Time.zone.now,
         intuit_error_id: 1,
         users_institution_id: 234,
         user_id: 14
