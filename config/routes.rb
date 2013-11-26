@@ -1,7 +1,9 @@
 PlinkPivotal::Application.routes.draw do
   root to: "home#index"
 
-  resource :account, only: [:show, :update], controller: :accounts
+  resource :account, only: [:show, :update], controller: :accounts do
+    get :login_from_email, action: :login_from_email, as: :login_from_email
+  end
 
   resources :registrations, only: [:new, :create]
   resources :offers, only: :index

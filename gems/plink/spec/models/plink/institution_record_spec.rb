@@ -4,6 +4,7 @@ describe Plink::InstitutionRecord do
   let(:valid_params) {
     {
       hash_value: 'val',
+      home_url: 'chase.com',
       name: 'freds',
       intuit_institution_id: 3
     }
@@ -18,6 +19,7 @@ describe Plink::InstitutionRecord do
   end
 
   it { should allow_mass_assignment_of(:hash_value)}
+  it { should allow_mass_assignment_of(:home_url)}
   it { should allow_mass_assignment_of(:intuit_institution_id)}
   it { should allow_mass_assignment_of(:is_active)}
   it { should allow_mass_assignment_of(:is_supported)}

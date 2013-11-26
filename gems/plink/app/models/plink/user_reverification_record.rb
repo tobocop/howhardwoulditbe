@@ -13,11 +13,22 @@ module Plink
     alias_attribute :users_intuit_error_id, :usersIntuitErrorID
     alias_attribute :user_saw_question, :userSawQuestion
 
-    attr_accessible :completed_on, :is_active, :is_notification_successful, :started_on,
-      :user_id, :users_institution_id, :users_intuit_error_id, :user_saw_question
+    attr_accessible :completed_on, :intuit_error_id, :is_active, :is_notification_successful,
+      :started_on, :user_id, :users_institution_id, :users_intuit_error_id, :user_saw_question
+
+    belongs_to :user_record, class_name: 'Plink::UserRecord', foreign_key: 'userID',
+      conditions: ['users.isForceDeactivated = ?', false]
+    belongs_to :users_institution_record, class_name: 'Plink::UsersInstitutionRecord', foreign_key: :usersInstitutionID
+
+    has_one :institution_record, through: :users_institution_record
 
     def self.incomplete
-      where("isActive = ?", true).where("completedOn IS NULL")
+      where('usersReverifications.isActive = ?', true).
+      where('usersReverifications.completedOn IS NULL')
+    end
+
+    def link
+      [108, 109].include?(intuit_error_id) ? institution_record.home_url : nil
     end
   end
 end

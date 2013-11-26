@@ -27,5 +27,8 @@ module Plink
       avatar_thumbnail_url
     end
 
+    def can_receive_plink_email?
+      is_subscribed && primary_virtual_currency_id == Plink::VirtualCurrency.default.id
+    end
   end
 end

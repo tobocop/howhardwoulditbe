@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131121235431) do
+ActiveRecord::Schema.define(:version => 20131126164620) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -2186,6 +2186,7 @@ ActiveRecord::Schema.define(:version => 20131121235431) do
     t.datetime "created",                                                  :null => false
     t.datetime "modified",                                                 :null => false
     t.boolean  "isActive",                              :default => true,  :null => false
+    t.integer  "intuit_error_id"
   end
 
   create_table "usersToRetryDownload", :id => false, :force => true do |t|

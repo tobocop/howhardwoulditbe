@@ -5,6 +5,7 @@ require 'plink/test_helpers/fake_services/fake_hero_promotion_service'
 
 describe WalletsController do
   it_should_behave_like(:tracking_extensions)
+  it_should_behave_like(:auto_login_extensions)
 
   let(:offer) { new_offer }
   let(:hero_promotion_presenter) { double }
@@ -85,46 +86,13 @@ describe WalletsController do
   end
 
   describe 'GET login_from_email' do
-    let(:user) {create_user}
-    let(:user_auto_login_record) { create_user_auto_login(user_id: user.id) }
+    it 'calls auto_login_user from AutoLoginExtenstions' do
+      controller.should_receive(:auto_login_user).
+        with('my_url_token', wallet_path).
+        and_call_original
 
-    context 'for a hash corresponding to a user' do
-      it 'redirects them to the wallet path' do
-        get :login_from_email, user_token: user_auto_login_record.user_token
-
-        response.should redirect_to wallet_path
-      end
-
-      it 'redirects them to the wallet path if the user is already logged in' do
-        controller.stub(:contest_notification_for_user).and_return(nil)
-        controller.stub(:redirect_white_label_members).and_return(nil)
-
-        set_current_user
-
-        get :login_from_email, user_token: 'notavalidone'
-
-        response.should redirect_to wallet_path
-      end
-
-      it 'signs the user in if a token matches' do
-        controller.should_receive(:sign_in_user).and_call_original
-
-        get :login_from_email, user_token: user_auto_login_record.user_token
-      end
-    end
-
-    context 'for a hash that does not correspond to a user' do
-      it 'redirects them to the homepage' do
-        get :login_from_email, user_token: 'notavalidtoken'
-
-        response.should redirect_to root_path
-      end
-
-      it 'shows them a flash message indicating that the link has expired' do
-        get :login_from_email, user_token: 'notavalidtoken'
-
-        flash[:notice].should == 'Link expired.'
-      end
+      get :login_from_email, user_token: 'my_url_token'
+      response.should redirect_to(root_url)
     end
   end
 end

@@ -85,4 +85,30 @@ describe Plink::User do
       user.should_not be_valid
     end
   end
+
+  describe '#can_receive_plink_email?' do
+    it 'returns false if the user is not subscribed' do
+      user = Plink::User.new(
+        new_user: false,
+        user_record: create_user(user_attributes.merge(is_subscribed: false))
+      )
+
+      user.can_receive_plink_email?.should be_false
+    end
+
+    it 'returns false if the user is not a plink points user' do
+      user_record = create_user(user_attributes)
+      swagbucks = create_virtual_currency(subdomain: 'swagbucks')
+      user_record.primary_virtual_currency = swagbucks
+      user_record.save
+      user = Plink::User.new(new_user: false, user_record: user_record)
+
+      user.can_receive_plink_email?.should be_false
+    end
+
+    it 'returns true if the user is subscribed and earning plink points' do
+      user = Plink::User.new(new_user: false, user_record: create_user(user_attributes))
+      user.can_receive_plink_email?.should be_true
+    end
+  end
 end

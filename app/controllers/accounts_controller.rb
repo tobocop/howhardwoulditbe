@@ -1,7 +1,8 @@
 class AccountsController < ApplicationController
   include TrackingExtensions
+  include AutoLoginExtensions
 
-  before_filter :require_authentication
+  before_filter :require_authentication, except: :login_from_email
 
   def show
     @current_tab = 'account'
@@ -36,6 +37,10 @@ class AccountsController < ApplicationController
     else
       render json: {'error_message' => 'Please correct the following errors and submit the form again:', 'errors' => {:password_error => ['Current password is incorrect']}}, status: 401
     end
+  end
+
+  def login_from_email
+    auto_login_user(params[:user_token], account_path(params.except(:controller, :action, :user_token)))
   end
 
 private

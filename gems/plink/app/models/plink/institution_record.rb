@@ -9,6 +9,7 @@ module Plink
     include ::Tire::Model::Callbacks
 
     alias_attribute :hash_value, :hashValue
+    alias_attribute :home_url, :homeURL
     alias_attribute :institution_id, :institutionID
     alias_attribute :intuit_institution_id, :intuitInstitutionID
     alias_attribute :is_active, :isActive
@@ -16,8 +17,8 @@ module Plink
     alias_attribute :logo_url, :logoURL
     alias_attribute :name, :institutionName
 
-    attr_accessible :hash_value, :intuit_institution_id, :is_active, :is_supported,
-      :logo_url, :name
+    attr_accessible :hash_value, :home_url, :intuit_institution_id, :is_active,
+      :is_supported, :logo_url, :name
 
     mapping do
       indexes :institutionName, type: 'string', boost: 10
