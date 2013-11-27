@@ -56,15 +56,13 @@ end
 
 Capybara.app_host = "http://plink.test:58891"
 Capybara.server_port = 58891
+Capybara.default_wait_time = 30
 
 if ENV['CI']
   RSpec.configuration.before(:each, type: :feature, js: true) do
     page.driver.browser.manage.window.resize_to(1400, 1400)
   end
-
-  Capybara.default_wait_time = 30
 else
-  Capybara.default_wait_time = 10
   Capybara.javascript_driver = :webkit
 end
 
