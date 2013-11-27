@@ -69,11 +69,6 @@ describe 'User signup workflow' do
 
       find('.hero-promotion-link').click
 
-      click = Plink::HeroPromotionClickRecord.all
-      click.count.should == 1
-      click.first.hero_promotion_id.should == linked_promotion.id
-      click.first.user_id.should == Plink::UserRecord.last.id
-
       within_window page.driver.browser.window_handles.last do
         page.current_path.should == '/faq'
       end
@@ -94,6 +89,11 @@ describe 'User signup workflow' do
       page.should have_content 'MY WALLET'
       page.should have_content 'This slot is empty.', count: 3
       page.should have_content 'This slot is locked.', count: 2
+
+      click = Plink::HeroPromotionClickRecord.all
+      click.count.should == 1
+      click.first.hero_promotion_id.should == linked_promotion.id
+      click.first.user_id.should == Plink::UserRecord.last.id
     end
   end
 
