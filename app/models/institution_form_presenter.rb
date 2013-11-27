@@ -1,6 +1,6 @@
 class InstitutionFormPresenter
 
-  attr_reader :email, :home_url, :institution, :phone_number
+  attr_reader :email, :home_url, :institution, :phone_number, :raw_form_data
 
   def initialize(intuit_institution_data)
     @institution = intuit_institution_data.fetch(:institution)

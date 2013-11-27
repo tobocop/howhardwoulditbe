@@ -4,14 +4,27 @@ module Plink
 
     include Plink::LegacyTimestamps
 
+    attr_accessible :account_id, :account_number_hash, :account_number_last_four,
+      :account_type, :account_type_description, :aggr_attempt_date, :aggr_status_code,
+      :aggr_success_date, :currency_code, :in_intuit, :name, :status, :user_id,
+      :users_institution_id
+
+    attr_accessor :account_number
+
     alias_attribute :account_id, :accountID
+    alias_attribute :account_number_hash, :accountNumberHash
     alias_attribute :account_number_last_four, :accountNumberLast4
-    alias_attribute :user_id, :userID
-    alias_attribute :users_institution_id, :usersInstitutionID
+    alias_attribute :account_type, :accountType
+    alias_attribute :account_type_description, :accountTypeDescription
+    alias_attribute :aggr_attempt_date, :aggrAttemptDate
+    alias_attribute :aggr_status_code, :aggrStatusCode
+    alias_attribute :aggr_success_date, :aggrSuccessDate
+    alias_attribute :currency_code, :currencyCode
     alias_attribute :in_intuit, :inIntuit
     alias_attribute :name, :accountNickname
+    alias_attribute :user_id, :userID
+    alias_attribute :users_institution_id, :usersInstitutionID
 
-    attr_accessible :account_id, :account_number_last_four, :user_id, :users_institution_id,
-      :in_intuit, :name
+    validates_presence_of :account_id, :user_id, :users_institution_id
   end
 end

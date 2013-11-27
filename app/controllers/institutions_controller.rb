@@ -25,6 +25,7 @@ class InstitutionsController < ApplicationController
       redirect_to institution_search_path
     else
       institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
+      session[:institution_id] = @institution.id
       session[:intuit_institution_id] = @institution_form.intuit_institution_id
     end
   end
@@ -35,6 +36,9 @@ class InstitutionsController < ApplicationController
     session[:intuit_account_request_id] = request.id
 
     user_and_password = params[:field_labels].sort.map { |label| params[label] }
+
+    set_users_institutions_hash
+
     intuit_accounts(user_and_password)
 
     render nothing: true
@@ -90,8 +94,7 @@ private
   def intuit_accounts(user_and_password)
     encrypted_creds = ENCRYPTION.encrypt_and_sign(user_and_password)
 
-    request = IntuitAccountRequest.new(current_user.id, encrypted_creds, session[:intuit_institution_id], session[:intuit_account_request_id])
-    request.delay(priority: -100).accounts
+    intuit_request.delay(priority: -100).accounts(encrypted_creds, session[:users_institution_hash])
   end
 
   def parse_answers
@@ -102,13 +105,46 @@ private
   def intuit_mfa(answers)
     encrypted_answers = ENCRYPTION.encrypt_and_sign(answers)
 
-    request = IntuitAccountRequest.new(current_user.id, nil, session[:intuit_institution_id], session[:intuit_account_request_id])
-    request.delay(priority: -100).respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
+    intuit_request.delay(priority: -100).respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
+  end
+
+  def intuit_request
+    IntuitAccountRequest.new(current_user.id, session[:institution_id], session[:intuit_institution_id], session[:intuit_account_request_id])
   end
 
   def institution_form(intuit_institution_data, institution)
     institution_params = intuit_institution_data[:result].merge(institution: institution)
     @institution_form = InstitutionFormPresenter.new(institution_params)
+
+    set_non_masked_fields(@institution_form.raw_form_data)
+  end
+
+  def set_non_masked_fields(intuit_form_fields)
+    non_masked_fields = []
+    intuit_form_fields.each_with_index do |form_field, index|
+      non_masked_fields << "auth_#{index+1}" if form_field[:mask] == 'false'
+    end
+
+    session[:non_masked_fields] = non_masked_fields
+  end
+
+  def set_users_institutions_hash
+    result = ''
+
+    params.sort.each do |param_and_value|
+      field_name = param_and_value.first
+      next unless session[:non_masked_fields].include?(field_name)
+      value = param_and_value.last
+
+      result << value
+    end
+
+    # If every field is masked, use the first response instead:
+    if result.blank? && params[:auth_1]
+      result = params[:auth_1]
+    end
+
+    session[:users_institution_hash] = Digest::SHA512.hexdigest(result)
   end
 
   def intuit_institution_data(intuit_institution_id)

@@ -17,7 +17,7 @@ gem 'plink', path: 'gems/plink'
 gem 'tango', path: 'gems/tango'
 gem 'plink_admin', path: 'gems/plink_admin'
 
-gem 'aggcat'
+gem 'aggcat', git: 'https://github.com/cloocher/aggcat'
 gem 'tire'
 gem 'exceptional'
 

@@ -71,7 +71,7 @@ describe InstitutionsController do
 
   describe 'GET authentication' do
     before do
-      Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 4)])
+      Plink::InstitutionRecord.stub(:where).and_return([double(id: 1000, intuit_institution_id: 4)])
       controller.stub(:user_logged_in?).and_return(true)
       institution_data = {
         result: {
@@ -133,8 +133,10 @@ describe InstitutionsController do
         }
       end
 
+      let(:institution_records) { [double(id: 4, intuit_institution_id: 22501)] }
+
       it 'calls intuit' do
-        Plink::InstitutionRecord.stub(:where).and_return([double(intuit_institution_id: 22501)])
+        Plink::InstitutionRecord.stub(:where).and_return(institution_records)
 
         IntuitInstitutionRequest.should_receive(:institution_data).with(1, 22501).and_return(intuit_response)
 
@@ -148,6 +150,22 @@ describe InstitutionsController do
 
         assigns(:institution_form).should be_a InstitutionFormPresenter
       end
+
+      it 'sets the institution_id in the session' do
+        Plink::InstitutionRecord.stub(:where).and_return(institution_records)
+
+        get :authentication, id: 1
+
+        session[:institution_id].should == 4
+      end
+
+      it 'sets the intuit_institution_id in the session' do
+        Plink::InstitutionRecord.stub(:where).and_return(institution_records)
+
+        get :authentication, id: 1
+
+        session[:intuit_institution_id].should == 22501
+      end
     end
   end
 
@@ -159,6 +177,7 @@ describe InstitutionsController do
       set_virtual_currency
       controller.stub(:intuit_accounts)
       session[:intuit_institution_id] = 14
+      session[:non_masked_fields] = ['field_one']
     end
 
     it 'deletes all previous request objects for the current_user' do
@@ -184,6 +203,12 @@ describe InstitutionsController do
       IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything).and_return(intuit_account_request)
 
       intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
+
+      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+
+    it 'sets the users institution hash' do
+      Digest::SHA512.should_receive(:hexdigest).with('user')
 
       post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
     end

@@ -8,6 +8,12 @@ describe Plink::UsersInstitutionRecord do
   it { should allow_mass_assignment_of(:user_id) }
   it { should allow_mass_assignment_of(:hash_check) }
 
+  it { should validate_presence_of(:hash_check) }
+  it { should validate_presence_of(:institution_id) }
+  it { should validate_presence_of(:intuit_institution_login_id) }
+  it { should validate_presence_of(:is_active) }
+  it { should validate_presence_of(:user_id) }
+
   let(:valid_params) {
     {
       institution_id: 3,

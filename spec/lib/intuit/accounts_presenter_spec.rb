@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe InstitutionAccountsPresenter do
+describe Intuit::AccountsPresenter do
   let(:intuit_response) do
     {:loan_account=>
       [{:account_id=>"400006583993",
@@ -84,15 +84,15 @@ describe InstitutionAccountsPresenter do
     }
   end
 
-  subject(:institution_accounts) { InstitutionAccountsPresenter.new(intuit_response) }
+  subject(:institution_accounts) { Intuit::AccountsPresenter.new(intuit_response) }
 
-  describe '.banking_and_credit' do
-    it 'returns a collection of only banking and credit accounts' do
-      institution_accounts.banking_and_credit.length.should == 2
+  describe '.accounts' do
+    it 'returns all accounts' do
+      institution_accounts.accounts.length.should == 4
     end
 
     it 'returns a collection of institution account presenters' do
-      institution_accounts.banking_and_credit.map(&:class).uniq.should == [InstitutionAccountPresenter]
+      institution_accounts.accounts.map(&:class).uniq.should == [Intuit::AccountPresenter]
     end
   end
 end
