@@ -9,6 +9,7 @@ describe ReverificationMailer do
           first_name: 'bobby',
           institution_name: 'my awesome bank',
           intuit_error_id: 103,
+          notice_type: 'initial',
           reverification_link: 'this_is_fun',
           user_token: 'my_token'
         }
@@ -46,6 +47,35 @@ describe ReverificationMailer do
         body = part.body.to_s
 
         body.should =~ /\/account\/login_from_email\?link_card=true&user_token=my_token/
+      end
+    end
+
+    it 'uses different messaging on a three day reminder email' do
+      email = ReverificationMailer.notice_email(
+        {
+          email: 'myshitisbroken@intuit.com',
+          first_name: 'bobby',
+          institution_name: 'my awesome bank',
+          intuit_error_id: 103,
+          notice_type: 'three_day_reminder',
+          reverification_link: 'this_is_fun',
+          user_token: 'my_token'
+        }
+      ).deliver
+
+      ActionMailer::Base.deliveries.count.should == 1
+
+      email.to.should == ['myshitisbroken@intuit.com']
+      email.from.should == ['info@plink.com']
+      email.subject.should == "Update Your Plink Account"
+
+      [email.html_part, email.text_part].each do |part|
+        body = part.body.to_s
+
+        body.should =~ /Hey bobby/
+        body.should =~ /Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed\./
+        body.should =~ /with your current my awesome bank login info./
+        body.should =~ /this_is_fun/
       end
     end
   end

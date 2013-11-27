@@ -40,6 +40,7 @@ namespace :reverifications do
           first_name: user.first_name,
           institution_name: intuit_account.bank_name,
           intuit_error_id: reverification.intuit_error_id,
+          notice_type: reverification.notice_type,
           reverification_link: reverification.link,
           user_token: AutoLoginService.generate_token(user.id)
         }
@@ -48,10 +49,10 @@ namespace :reverifications do
         Plink::UserReverificationRecord.find(reverification.id).
           update_attributes(is_notification_successful: true)
 
-        puts "#{Time.zone.now}] Sending reverification for user_id: #{user.id}, users_institution: #{reverification.users_institution_id}, intuit_error_id, #{reverification.intuit_error_id}"
+        puts "[#{Time.zone.now}] Sending reverification for user_id: #{user.id}, users_reverification_id: #{reverification.id}, intuit_error_id, #{reverification.intuit_error_id}"
       end
     end
-    puts "#{Time.zone.now}] Ending reverifications:send_reverification_notices"; stars
+    puts "[#{Time.zone.now}] Ending reverifications:send_reverification_notices"; stars
   end
 
 private
@@ -62,8 +63,7 @@ private
 
   def reverifications_requiring_notice
     Plink::UserReverificationRecord.
-      incomplete.
-      where(isNotificationSuccessful: false).
+      requiring_notice.
       joins(:user_record)
   end
 

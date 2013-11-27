@@ -235,7 +235,6 @@ describe 'reverifications:send_reverification_notices' do
       users_institution_id: users_institution.id
     )
   }
-
   let(:mailer) { double(notice_email: true) }
 
   before do
@@ -244,29 +243,57 @@ describe 'reverifications:send_reverification_notices' do
     ReverificationMailer.stub(delay: mailer)
   end
 
-  it 'emails users who have an unsent notification' do
-    AutoLoginService.should_receive(:generate_token)
-      .with(user.id)
-      .and_return('my_token')
-    mailer.should_receive(:notice_email).
-      with({
+  context 'un-notified reverifications' do
+    it 'emails users who have an unsent notification' do
+      AutoLoginService.should_receive(:generate_token).
+        with(user.id).
+        and_return('my_token')
+      mailer.should_receive(:notice_email).
+        with({
         email: 'myshitisbroken@intuit.com',
         first_name: 'bobby',
         institution_name: 'Bank of AMERRRICA!',
         intuit_error_id: 103,
+        notice_type: 'initial',
         reverification_link: nil,
         user_token: 'my_token'
       })
 
-    subject.invoke
+      subject.invoke
+    end
+
+    it 'updates the reverification flagging it as notified' do
+      mailer.stub(:notice_email)
+
+      subject.invoke
+
+      user_reverification.reload.is_notification_successful.should be_true
+    end
   end
 
-  it 'updates the reverification flagging it as notified' do
-    mailer.stub(:notice_email)
+  context 'reverifications created 3 days ago' do
+    before do
+      user_reverification.update_attribute('created', 3.days.ago)
+      user_reverification.update_attribute('isNotificationSuccessful', true)
+    end
 
-    subject.invoke
+    it 'emails users who have a reverification record from three days ago' do
+      AutoLoginService.should_receive(:generate_token).
+        with(user.id).
+        and_return('my_token')
+      mailer.should_receive(:notice_email).
+        with({
+        email: 'myshitisbroken@intuit.com',
+        first_name: 'bobby',
+        institution_name: 'Bank of AMERRRICA!',
+        intuit_error_id: 103,
+        notice_type: 'three_day_reminder',
+        reverification_link: nil,
+        user_token: 'my_token'
+      })
 
-    user_reverification.reload.is_notification_successful.should be_true
+      subject.invoke
+    end
   end
 
   it 'does not email users who have already completed their reverification' do

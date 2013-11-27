@@ -22,13 +22,24 @@ module Plink
 
     has_one :institution_record, through: :users_institution_record
 
-    def self.incomplete
+    scope :requiring_notice, -> {
+      incomplete.
+      where(%q{usersReverifications.isNotificationSuccessful = ? OR (
+        usersReverifications.created > ? AND usersReverifications.created < ?
+      )}, false, 3.days.ago.to_date, 2.days.ago.to_date)
+    }
+
+    scope :incomplete, -> {
       where('usersReverifications.isActive = ?', true).
       where('usersReverifications.completedOn IS NULL')
-    end
+    }
 
     def link
       [108, 109].include?(intuit_error_id) ? institution_record.home_url : nil
+    end
+
+    def notice_type
+      is_notification_successful ? 'three_day_reminder' : 'initial'
     end
   end
 end

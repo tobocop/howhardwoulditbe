@@ -2,34 +2,64 @@ en:
   application:
     intuit_error_messages:
       emails:
-        error_:
-          explanation_message: "We're unable to access your Plink account's transaction history. This usually happens because we're missing the most up to date login information for your online bank account."
-          html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
-          text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
-        error_103:
-          explanation_message: "We're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed."
-          html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
-          text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
-        error_106:
-          explanation_message: "We can't find the bank account you linked to your Plink profile. This usually happens when the account name or the account number has been changed at the bank."
-          html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
-          text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
-        error_108:
-          explanation_message: "We're unable to access your Plink account's transaction history. This usually happens because your bank needs you to update your account or agree to new terms of service."
-          html_link_message: "Please <a href='%{reverification_link}'>login to your %{institution_name} account</a> and update your account, then relink your card to Plink."
-          text_link_message: "Please login to your %{institution_name} account and update your account, then relink your card to Plink by clicking here: %{reverification_link}"
-        error_109:
-          explanation_message: "It looks like your bank wants you to update your account password."
-          html_link_message: "Please <a href='%{reverification_link}'>update your %{institution_name} account password</a>, then relink your card to Plink with your updated login info. "
-          text_link_message: "Please update your %{institution_name} account password, then relink your card to Plink with your updated login info by clicking here: %{reverification_link}."
-        error_185:
-          explanation_message: "We're unable to access your Plink account's transaction history - it looks like your bank wants you to answer additional security questions."
-          html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
-          text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
-        error_187:
-          explanation_message: "We're unable to access your Plink account's transaction history - it looks like the answers to one or more of your bank's security questions have changed."
-          html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
-          text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
+        initial_notice:
+          error_:
+            explanation_message: "We're unable to access your Plink account's transaction history. This usually happens because we're missing the most up to date login information for your online bank account."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
+          error_103:
+            explanation_message: "We're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
+          error_106:
+            explanation_message: "We can't find the bank account you linked to your Plink profile. This usually happens when the account name or the account number has been changed at the bank."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
+            text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
+          error_108:
+            explanation_message: "We're unable to access your Plink account's transaction history. This usually happens because your bank needs you to update your account or agree to new terms of service."
+            html_link_message: "Please <a href='%{reverification_link}'>login to your %{institution_name} account</a> and update your account, then relink your card to Plink."
+            text_link_message: "Please login to your %{institution_name} account and update your account, then relink your card to Plink by clicking here: %{reverification_link}"
+          error_109:
+            explanation_message: "It looks like your bank wants you to update your account password."
+            html_link_message: "Please <a href='%{reverification_link}'>update your %{institution_name} account password</a>, then relink your card to Plink with your updated login info. "
+            text_link_message: "Please update your %{institution_name} account password, then relink your card to Plink with your updated login info by clicking here: %{reverification_link}."
+          error_185:
+            explanation_message: "We're unable to access your Plink account's transaction history - it looks like your bank wants you to answer additional security questions."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
+            text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
+          error_187:
+            explanation_message: "We're unable to access your Plink account's transaction history - it looks like the answers to one or more of your bank's security questions have changed."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
+        three_day_reminder:
+          error_:
+            explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history. This usually happens because we're missing the most up to date login information for your online bank account."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
+          error_103:
+            explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your current %{institution_name} login info by clicking here: %{reverification_link}."
+          error_106:
+            explanation_message: "Just a reminder: we can't find the bank account you linked to your Plink profile. This usually happens when the account name or the account number has been changed at the bank."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
+            text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
+          error_108:
+            explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history. This usually happens because your bank needs you to update your account or agree to new terms of service."
+            html_link_message: "Please <a href='%{reverification_link}'>login to your %{institution_name} account</a> and update your account, then relink your card to Plink."
+            text_link_message: "Please login to your %{institution_name} account and update your account, then relink your card to Plink by clicking here: %{reverification_link}"
+          error_109:
+            explanation_message: "Just a reminder: it looks like your bank wants you to update your account password."
+            html_link_message: "Please <a href='%{reverification_link}'>update your %{institution_name} account password</a>, then relink your card to Plink with your updated login info. "
+            text_link_message: "Please update your %{institution_name} account password, then relink your card to Plink with your updated login info by clicking here: %{reverification_link}."
+          error_185:
+            explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like your bank wants you to answer additional security questions."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a>."
+            text_link_message: "Please update your Plink account by clicking here: %{reverification_link}"
+          error_187:
+            explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the answers to one or more of your bank's security questions have changed."
+            html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
+            text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
     contests:
       disclaimer: "Void where prohibited. Maximum of 300 entries per day. 1st Place Prize is a $400.00 gift card – enough to purchase an Apple iPad 2 at Walmart"
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
