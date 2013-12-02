@@ -30,26 +30,26 @@ namespace :reverifications do
     intuit_account_service = Plink::IntuitAccountService.new
     user_service = Plink::UserService.new
 
-    reverifications_requiring_notice.each do |reverification|
-      user = user_service.find_by_id(reverification.user_id)
-      intuit_account = intuit_account_service.find_by_user_id(reverification.user_id)
+    reverifications_requiring_notice.each do |reverification_record|
+      user = user_service.find_by_id(reverification_record.user_id)
+      intuit_account = intuit_account_service.find_by_user_id(reverification_record.user_id)
+      reverification_presenter = UserReverificationEmailPresenter.new(reverification_record, user, intuit_account)
 
-      if user.can_receive_plink_email? && !intuit_account.active?
+      if reverification_presenter.can_be_sent?
         mail_params = {
           email: user.email,
           first_name: user.first_name,
-          institution_name: intuit_account.bank_name,
-          intuit_error_id: reverification.intuit_error_id,
-          notice_type: reverification.notice_type,
-          reverification_link: reverification.link,
-          user_token: AutoLoginService.generate_token(user.id)
+          explanation_message: reverification_presenter.explanation_message,
+          html_link_message: reverification_presenter.html_link_message,
+          text_link_message: reverification_presenter.text_link_message
         }
+
         ReverificationMailer.delay.notice_email(mail_params)
 
-        Plink::UserReverificationRecord.find(reverification.id).
+        Plink::UserReverificationRecord.find(reverification_presenter.id).
           update_attributes(is_notification_successful: true)
 
-        puts "[#{Time.zone.now}] Sending reverification for user_id: #{user.id}, users_reverification_id: #{reverification.id}, intuit_error_id, #{reverification.intuit_error_id}"
+        puts "[#{Time.zone.now}] Sending reverification for user_id: #{user.id}, users_reverification_id: #{reverification_record.id}, intuit_error_id, #{reverification_record.intuit_error_id}"
       end
     end
     puts "[#{Time.zone.now}] Ending reverifications:send_reverification_notices"; stars

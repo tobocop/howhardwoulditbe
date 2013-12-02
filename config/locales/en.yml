@@ -2,7 +2,7 @@ en:
   application:
     intuit_error_messages:
       emails:
-        initial_notice:
+        initial:
           error_:
             explanation_message: "We're unable to access your Plink account's transaction history. This usually happens because we're missing the most up to date login information for your online bank account."
             html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."

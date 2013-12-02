@@ -241,22 +241,18 @@ describe 'reverifications:send_reverification_notices' do
     create_oauth_token(user_id: user.id)
     create_users_institution_account(user_id: user.id, users_institution_id: users_institution.id)
     ReverificationMailer.stub(delay: mailer)
+    AutoLoginService.stub(generate_token: 'my_token')
   end
 
   context 'un-notified reverifications' do
     it 'emails users who have an unsent notification' do
-      AutoLoginService.should_receive(:generate_token).
-        with(user.id).
-        and_return('my_token')
       mailer.should_receive(:notice_email).
         with({
         email: 'myshitisbroken@intuit.com',
         first_name: 'bobby',
-        institution_name: 'Bank of AMERRRICA!',
-        intuit_error_id: 103,
-        notice_type: 'initial',
-        reverification_link: nil,
-        user_token: 'my_token'
+        explanation_message: "We're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
       subject.invoke
@@ -278,18 +274,13 @@ describe 'reverifications:send_reverification_notices' do
     end
 
     it 'emails users who have a reverification record from three days ago' do
-      AutoLoginService.should_receive(:generate_token).
-        with(user.id).
-        and_return('my_token')
       mailer.should_receive(:notice_email).
         with({
         email: 'myshitisbroken@intuit.com',
         first_name: 'bobby',
-        institution_name: 'Bank of AMERRRICA!',
-        intuit_error_id: 103,
-        notice_type: 'three_day_reminder',
-        reverification_link: nil,
-        user_token: 'my_token'
+        explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
       subject.invoke
