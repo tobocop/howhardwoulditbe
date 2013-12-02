@@ -70,6 +70,19 @@ describe Plink::UserReverificationRecord do
         user_reverification.update_attributes(is_notification_successful: true, completed_on: Time.zone.now)
         reverifications.length.should == 0
       end
+
+      it 'returns notified, incomplete reverification records that were created seven days ago' do
+        user_reverification.update_attribute('created', 7.days.ago)
+        user_reverification.update_attribute('is_notification_successful', true)
+        reverifications.length.should == 1
+        reverifications.first.id.should == user_reverification.id
+      end
+
+      it 'does not return notified, complete reverification records that were created seven days ago' do
+        user_reverification.update_attribute('created', 7.days.ago)
+        user_reverification.update_attributes(is_notification_successful: true, completed_on: Time.zone.now)
+        reverifications.length.should == 0
+      end
     end
 
     describe '.incomplete' do
@@ -116,9 +129,9 @@ describe Plink::UserReverificationRecord do
       reverification.notice_type.should == 'initial'
     end
 
-    it 'returns three_day_reminder if the notification has been sent' do
+    it 'returns reminder_email if the notification has been sent' do
       reverification = Plink::UserReverificationRecord.new(valid_params.merge(is_notification_successful: true))
-      reverification.notice_type.should == 'three_day_reminder'
+      reverification.notice_type.should == 'reminder_email'
     end
   end
 end

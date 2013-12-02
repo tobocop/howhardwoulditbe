@@ -31,7 +31,7 @@ en:
             explanation_message: "We're unable to access your Plink account's transaction history - it looks like the answers to one or more of your bank's security questions have changed."
             html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
             text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
-        three_day_reminder:
+        reminder_email:
           error_:
             explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history. This usually happens because we're missing the most up to date login information for your online bank account."
             html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your current %{institution_name} login info."

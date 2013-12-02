@@ -287,6 +287,26 @@ describe 'reverifications:send_reverification_notices' do
     end
   end
 
+  context 'reverifications created 7 days ago' do
+    before do
+      user_reverification.update_attribute('created', 7.days.ago)
+      user_reverification.update_attribute('isNotificationSuccessful', true)
+    end
+
+    it 'emails users who have a reverification record from seven days ago' do
+      mailer.should_receive(:notice_email).
+        with({
+        email: 'myshitisbroken@intuit.com',
+        first_name: 'bobby',
+        explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
+      })
+
+      subject.invoke
+    end
+  end
+
   it 'does not email users who have already completed their reverification' do
     user_reverification.update_attribute('completed_on', Time.zone.now)
     mailer.should_not_receive(:notice_email)

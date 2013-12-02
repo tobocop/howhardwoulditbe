@@ -25,8 +25,9 @@ module Plink
     scope :requiring_notice, -> {
       incomplete.
       where(%q{usersReverifications.isNotificationSuccessful = ? OR (
-        usersReverifications.created > ? AND usersReverifications.created < ?
-      )}, false, 3.days.ago.to_date, 2.days.ago.to_date)
+        usersReverifications.created > ? AND usersReverifications.created < ?) OR (
+        usersReverifications.created > ? AND usersReverifications.created < ?)},
+      false, 3.days.ago.to_date, 2.days.ago.to_date, 7.days.ago.to_date, 6.days.ago.to_date)
     }
 
     scope :incomplete, -> {
@@ -39,7 +40,7 @@ module Plink
     end
 
     def notice_type
-      is_notification_successful ? 'three_day_reminder' : 'initial'
+      is_notification_successful ? 'reminder_email' : 'initial'
     end
   end
 end
