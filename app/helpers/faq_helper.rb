@@ -16,6 +16,7 @@ module FaqHelper
       t(base + 'how_do_you_know_Ive_made_a_purchase_title') => {answer: t(base + 'how_do_you_know_Ive_made_a_purchase_text')},
       t(base + 'can_i_earn_rewards_multiple_time_title') => {answer: t(base + 'can_i_earn_rewards_multiple_time_text')},
       t(base + 'why_do_i_have_to_revalidate_title') => {answer: t(base + 'why_do_i_have_to_revalidate_text')},
+      t(base + 'what_if_i_dont_revalidate_title') => {answer: t(base + 'what_if_i_dont_revalidate_text')},
       t(base + 'i_was_missing_points_title') => {answer: t(base + 'i_was_missing_points_text')},
       t(base + 'how_do_referrals_work_title') => {answer: t(base + 'how_do_referrals_work_text'), anchor_name: 'referral-program'},
       t(base + 'what_will_happen_if_i_return_title') => {answer: t(base + 'what_will_happen_if_i_return_text')},
