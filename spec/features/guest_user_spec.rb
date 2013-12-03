@@ -73,6 +73,12 @@ describe 'guest behavior' do
       page.should have_css '[data-reveal-id="registration-form"]'
     end
 
+    click_on 'Watch a short video for more info'
+    page.should have_css 'div#plink-video-modal'
+
+    page.execute_script("$('#plink-video-modal').foundation('reveal', 'close')")
+
+
     page.first("a", text: "Contact Us").click
 
     click_button 'Submit'
