@@ -7,6 +7,7 @@ module Plink
     belongs_to :institution_record, class_name: 'Plink::InstitutionRecord', foreign_key: 'institutionID'
 
     has_many :users_institution_account_records, class_name: 'UsersInstitutionAccountRecord', foreign_key: 'usersInstitutionID'
+    has_many :users_institution_account_staging_records, class_name: 'UsersInstitutionAccountStagingRecord', foreign_key: 'usersInstitutionID'
 
     alias_attribute :hash_check, :hashCheck
     alias_attribute :institution_id, :institutionID
@@ -19,5 +20,10 @@ module Plink
 
     validates_presence_of :hash_check, :institution_id, :intuit_institution_login_id,
       :is_active, :user_id
+
+    def all_accounts_in_intuit
+      users_institution_account_records.where(inIntuit: true) +
+      users_institution_account_staging_records.where(inIntuit: true)
+    end
   end
 end

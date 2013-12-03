@@ -55,6 +55,27 @@ namespace :reverifications do
     puts "[#{Time.zone.now}] Ending reverifications:send_reverification_notices"; stars
   end
 
+  desc 'Removes accounts from intuit that have not been reverified in 2 weeks'
+  task remove_accounts_with_expired_reverifications: :environment do
+    stars; puts "[#{Time.zone.now}] Beginning reverifications:remove_accounts_with_expired_reverifications"
+    Plink::UserReverificationRecord.
+      incomplete.
+      includes(:users_institution_record).
+      where('created < ?', 2.weeks.ago).
+    each do |user_reverification_record|
+      user_reverification_record.users_institution_record.all_accounts_in_intuit.each do |intuit_account_record|
+        Intuit::AccountRemovalService.delay(queue: 'intuit_account_removals').
+          remove(
+            intuit_account_record.account_id,
+            intuit_account_record.user_id,
+            intuit_account_record.users_institution_id,
+          )
+        puts "[#{Time.zone.now}] Removing account_id: #{intuit_account_record.account_id}, user_id: #{intuit_account_record.user_id}, users_institution_id: #{intuit_account_record.users_institution_id}"
+      end
+    end
+    puts "[#{Time.zone.now}] Ending reverifications:remove_accounts_with_expired_reverifications"; stars
+  end
+
 private
 
   def plink_points

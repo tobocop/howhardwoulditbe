@@ -30,6 +30,7 @@ describe Plink::UsersInstitutionRecord do
 
   it { should belong_to(:institution_record) }
   it { should have_many(:users_institution_account_records) }
+  it { should have_many(:users_institution_account_staging_records) }
 
   it 'can be persisted' do
     create_users_institution(valid_params).should be_persisted
@@ -41,4 +42,27 @@ describe Plink::UsersInstitutionRecord do
     users_institution.institution_record.should be
   end
 
+  describe '#all_accounts_in_intuit' do
+    let(:users_institution) { create_users_institution }
+    let!(:users_institution_account) { create_users_institution_account(users_institution_id: users_institution.id) }
+    let!(:users_institution_account_staging) { create_users_institution_account_staging(users_institution_id: users_institution.id) }
+
+    it 'returns all users_institution_accounts and users_institution_accounts_staging_records that still exist in intuit' do
+      users_institution.all_accounts_in_intuit.should include(users_institution_account, users_institution_account_staging)
+    end
+
+    it 'does not return account records not in intuit' do
+      users_institution_account.update_attribute('inIntuit', false)
+      intuit_accounts = users_institution.all_accounts_in_intuit
+      intuit_accounts.length.should == 1
+      intuit_accounts.first.should == users_institution_account_staging
+    end
+
+    it 'does not return staged account records not in intuit' do
+      users_institution_account_staging.update_attribute('inIntuit', false)
+      intuit_accounts = users_institution.all_accounts_in_intuit
+      intuit_accounts.length.should == 1
+      intuit_accounts.first.should == users_institution_account
+    end
+  end
 end

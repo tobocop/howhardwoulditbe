@@ -345,3 +345,95 @@ describe 'reverifications:send_reverification_notices' do
     subject.invoke
   end
 end
+
+describe 'reverifications:remove_accounts_with_expired_reverifications' do
+  include_context 'rake'
+
+  let!(:user) { create_user(first_name: 'bobby', email: 'myshitisbroken@intuit.com', is_subscribed: true) }
+  let!(:old_users_institution) { create_users_institution(user_id: user.id, institution_id: 2) }
+  let!(:users_institution) { create_users_institution(user_id: user.id, institution_id: 2) }
+  let!(:users_institution_account) {
+    create_users_institution_account(
+      account_id: 298,
+      user_id: user.id,
+      users_institution_id: users_institution.id,
+      in_intuit: true
+    )
+  }
+  let!(:users_institution_account_staging) {
+    create_users_institution_account_staging(
+      account_id: 28,
+      user_id: user.id,
+      users_institution_id: users_institution.id,
+      in_intuit: true
+    )
+  }
+  let!(:user_reverification) {
+    create_user_reverification(
+      completed_on: nil,
+      is_notification_successful: false,
+      intuit_error_id: 103,
+      user_id: user.id,
+      users_institution_id: users_institution.id
+    )
+  }
+
+  let(:intuit_account_removal_service) { double(:remove) }
+
+  before do
+    user_reverification.update_attribute('created', 2.weeks.ago)
+    Intuit::AccountRemovalService.stub(delay: intuit_account_removal_service)
+  end
+
+  it 'removes all accounts associated to a reverification that has not been completed in 2 weeks' do
+    intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
+    intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
+
+    subject.invoke
+  end
+
+  it 'removes accounts even if they are no longer the active account' do
+    user_reverification.update_attribute('users_institution_id', old_users_institution.id)
+    users_institution_account.update_attribute('users_institution_id', old_users_institution.id)
+    users_institution_account_staging.update_attribute('users_institution_id', old_users_institution.id)
+
+    intuit_account_removal_service.should_receive(:remove).with(298, user.id, old_users_institution.id)
+    intuit_account_removal_service.should_receive(:remove).with(28, user.id, old_users_institution.id)
+
+    subject.invoke
+  end
+
+  it 'removes the account if the reverification has been outstanding for more than 2 weeks' do
+    user_reverification.update_attribute('created', 15.days.ago)
+    intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
+    intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
+
+    subject.invoke
+  end
+
+  it 'delays the removals into a named queue' do
+    Intuit::AccountRemovalService.should_receive(:delay).
+      with(queue: 'intuit_account_removals').
+      exactly(2).times.
+      and_return(intuit_account_removal_service)
+
+    intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
+    intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
+
+    subject.invoke
+  end
+
+  it 'does not remove the account if the reverification has been completed' do
+    user_reverification.update_attribute('completed_on', 1.day.ago)
+    intuit_account_removal_service.should_not_receive(:remove)
+
+    subject.invoke
+  end
+
+  it 'does not remove the account if the reverification has been outstanding for less than 2 weeks' do
+    user_reverification.update_attribute('created', 13.days.ago)
+    intuit_account_removal_service.should_not_receive(:remove)
+
+    subject.invoke
+  end
+end
