@@ -17,6 +17,8 @@ namespace :non_qualifying_transactions do
           user_eligible_for_bonus.offer_id, virtual_currency_presenter.id
         )
 
+        next if offer.end_date.to_date < 9.days.from_now.to_date
+
         mail_params = {
           first_name: user_record.first_name,
           email: user_record.email,

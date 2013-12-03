@@ -17,6 +17,7 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
   let!(:first_offer) {
     create_offer(
       advertiser_id: gap.id,
+      end_date: 9.days.from_now,
       offers_virtual_currencies: [first_offer_offers_virtual_currency]
     )
   }
@@ -170,6 +171,13 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
     swagbucks = create_virtual_currency(subdomain: 'swagbucks')
     user.primary_virtual_currency = swagbucks
     user.save
+    mailer.should_not_receive(:out_of_wallet_transaction_email)
+
+    subject.invoke
+  end
+
+  it 'only send emails for offers that are expiring in more then 8 days' do
+    first_offer.update_attribute('end_date', 8.days.from_now)
     mailer.should_not_receive(:out_of_wallet_transaction_email)
 
     subject.invoke
