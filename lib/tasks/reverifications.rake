@@ -38,9 +38,10 @@ namespace :reverifications do
       if reverification_presenter.can_be_sent?
         mail_params = {
           email: user.email,
-          first_name: user.first_name,
           explanation_message: reverification_presenter.explanation_message,
+          first_name: user.first_name,
           html_link_message: reverification_presenter.html_link_message,
+          removal_date: reverification_presenter.removal_date,
           text_link_message: reverification_presenter.text_link_message
         }
 

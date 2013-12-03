@@ -6,9 +6,10 @@ describe ReverificationMailer do
       email = ReverificationMailer.notice_email(
         {
           email: 'myshitisbroken@intuit.com',
-          first_name: 'bobby',
           explanation_message: 'Explain yourself!',
+          first_name: 'bobby',
           html_link_message: 'with a link!',
+          removal_date: 2.weeks.from_now.to_date,
           text_link_message: 'with a link!'
         }
       ).deliver
@@ -25,6 +26,7 @@ describe ReverificationMailer do
         body.should =~ /Hey bobby/
         body.should =~ /Explain yourself!/
         body.should =~ /with a link!/
+        body.should =~ /If you do not complete the steps outlined above by #{2.weeks.from_now.to_date}, your account will be removed from Plink and you will no longer earn Plink Points./
       end
     end
   end

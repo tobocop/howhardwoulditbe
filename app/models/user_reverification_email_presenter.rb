@@ -7,10 +7,15 @@ class UserReverificationEmailPresenter
     @user_reverification_record = user_reverification_record
   end
 
-  delegate :id, :intuit_error_id, :link, :notice_type, to: :user_reverification_record
+  delegate :created, :id, :intuit_error_id, :link, :notice_type,
+    to: :user_reverification_record
 
   def can_be_sent?
     user.can_receive_plink_email? && !intuit_account.active?
+  end
+
+  def removal_date
+    (created + 2.weeks).to_date
   end
 
   def explanation_message

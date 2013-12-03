@@ -249,9 +249,10 @@ describe 'reverifications:send_reverification_notices' do
       mailer.should_receive(:notice_email).
         with({
         email: 'myshitisbroken@intuit.com',
-        first_name: 'bobby',
         explanation_message: "We're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        first_name: 'bobby',
         html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        removal_date: 2.weeks.from_now.to_date,
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
@@ -277,9 +278,10 @@ describe 'reverifications:send_reverification_notices' do
       mailer.should_receive(:notice_email).
         with({
         email: 'myshitisbroken@intuit.com',
-        first_name: 'bobby',
         explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        first_name: 'bobby',
         html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        removal_date: (2.weeks.from_now - 3.days).to_date,
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
@@ -297,9 +299,10 @@ describe 'reverifications:send_reverification_notices' do
       mailer.should_receive(:notice_email).
         with({
         email: 'myshitisbroken@intuit.com',
-        first_name: 'bobby',
         explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
+        first_name: 'bobby',
         html_link_message: "Please <a href='http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token'>update your Plink account</a> with your current Bank of AMERRRICA! login info.",
+        removal_date: (2.weeks.from_now - 7.days).to_date,
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 

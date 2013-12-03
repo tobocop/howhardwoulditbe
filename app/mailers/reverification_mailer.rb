@@ -7,6 +7,7 @@ class ReverificationMailer < PlinkMailer
     @first_name = args[:first_name]
     @html_link_message = args[:html_link_message]
     @preview_text = 'In order to continue earning Plink Points, your account needs to be updated'
+    @removal_date = args[:removal_date]
     @text_link_message = args[:text_link_message]
 
     mail(

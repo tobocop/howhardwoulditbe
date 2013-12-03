@@ -27,6 +27,7 @@ describe UserReverificationEmailPresenter do
 
   describe 'initialize' do
     it 'initializes with a user_reverification_record, a user, and an intuit_account' do
+      user_reverification_email_presenter.created.should == user_reverification_record.created
       user_reverification_email_presenter.id.should == user_reverification_record.id
       user_reverification_email_presenter.intuit_account.should == intuit_account
       user_reverification_email_presenter.intuit_error_id.should == 103
@@ -55,6 +56,12 @@ describe UserReverificationEmailPresenter do
     it 'returns false if the intuit account is active' do
       intuit_account.stub(active?: true)
       user_reverification_email_presenter.can_be_sent?.should be_false
+    end
+  end
+
+  describe '#removal_date' do
+    it 'returns the day 2 weeks from when the reverification was created' do
+      user_reverification_email_presenter.removal_date.should == 2.weeks.from_now.to_date
     end
   end
 
