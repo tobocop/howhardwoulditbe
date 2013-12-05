@@ -52,31 +52,6 @@
             %span.header-text Let's be friends.
 
   %section
-    %h2 Hero Gallery
-    %h3 ** change the background color relative to the currently visible image?
-
-    %section
-      .hero-gallery
-        .hero-gallery-inner
-          %ul.bjqs
-            %li.bjqs-slide
-              %img{ :src => "/assets/hero-gallery/bk_1.jpg", :title => "Get Double Points at Burger King"}
-            %li.bjqs-slide
-              %img{ :src => "/assets/hero-gallery/TacoBell_2.jpg", :title => "New Partner - Taco Bell"}
-            %li.bjqs-slide
-              %img{ :src => "/assets/hero-gallery/7eleven_2.jpg", :title => "7-Eleven = AMAZING HOTDOGS"}
-
-  :javascript
-    jQuery(function () {
-      $('.hero-gallery-inner').bjqs({
-            width       : 1800,
-            height      : 380,
-            responsive  : true
-          });
-    });
-
-
-  %section
     %h2 Buttons
 
     %section
@@ -875,6 +850,11 @@
     %h3 Reg - 5 - No Download
 
     =render partial: 'style_guide/reg/reg5_no_download'
+
+  %section
+    %h3 Reg - 5 Account Type = Other
+
+    =render partial: 'style_guide/reg/reg5_accountother'
 
   %section
     %h3 Reg - 6

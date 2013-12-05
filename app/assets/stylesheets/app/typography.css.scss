@@ -180,6 +180,13 @@
   filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#000000');
 }
 
+/* ********* ALIGN ********* */
+
+.font-al
+  {
+    text-align:left;
+  }
+
 .font{
   &.error{
     color:$red;

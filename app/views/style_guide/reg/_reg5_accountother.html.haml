@@ -1,0 +1,11 @@
+.modal.width-30
+  %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+  %h2.font-1p2em.font-w300 What type of account is this?
+  %p.font-p9em.font-w300.font-lightgray.mts.mbm Plink will only work with a credit or a debit account. 
+  %button.button.primary-action.width-40.mrm Credit
+  %button.button.primary-action.width-40 Debit
+  .font-p9em.font-w300.font-lightgray.mtm
+    Need help?
+    %span 
+      = link_to 'Contact support.', '#', class:'text-link font-w300'
+.clear
