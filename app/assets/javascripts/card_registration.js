@@ -35,10 +35,18 @@
         type: 'GET'
       }).done(function(resp) {
         $('.progress-bar').html($('#js-establishing-connection').hide());
-        $('.right-column').html(resp);
+        if(resp.success_path){
+          CardRegistration.redirectToSuccessPath(resp.success_path);
+        } else {
+          $('.right-column').html(resp);
+        }
       }).fail(function() {
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       });
+    },
+
+    redirectToSuccessPath: function(path) {
+      window.location = path;
     },
 
     triggerBrowserBack: function(e) {

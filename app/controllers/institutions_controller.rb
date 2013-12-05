@@ -59,7 +59,7 @@ class InstitutionsController < ApplicationController
 
         render partial: 'institutions/authentication/mfa', locals: {questions: questions}
       elsif !response['error']
-        render partial: 'select_account', locals: {accounts: Array(response['value'])}
+        render json: { success_path: institution_account_selection_path(login_id: response['value'].first['login_id']) }
       else
         institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
 
@@ -81,7 +81,36 @@ class InstitutionsController < ApplicationController
     render nothing: true
   end
 
+  def select_account
+    users_institution = Plink::UsersInstitutionRecord.where(intuitInstitutionLoginID: params[:login_id]).first
+    @accounts = users_institution.users_institution_account_staging_records
+    @institution = users_institution.institution_record
+  end
+
   def select
+    staged_account = Plink::UsersInstitutionAccountStagingRecord.find(params[:id])
+    selected_account_values = {
+      account_id: staged_account.account_id,
+      account_number_hash: staged_account.account_number_hash,
+      account_number_last_four: staged_account.account_number_last_four,
+      account_type: staged_account.account_type,
+      account_type_description: staged_account.account_type_description,
+      aggr_attempt_date: staged_account.aggr_attempt_date,
+      aggr_status_code: staged_account.aggr_status_code,
+      aggr_success_date: staged_account.aggr_success_date,
+      begin_date: Date.current,
+      currency_code: staged_account.currency_code,
+      end_date: 100.years.from_now.to_date,
+      in_intuit: staged_account.in_intuit,
+      name: staged_account.name,
+      user_id: staged_account.user_id,
+      users_institution_account_staging_id: staged_account.id,
+      users_institution_id: staged_account.users_institution_id
+    }
+    Plink::UsersInstitutionAccountRecord.where(usersInstitutionID: staged_account.users_institution_id).
+      update_all(endDate: Date.current)
+    @selected_account = Plink::UsersInstitutionAccountRecord.create(selected_account_values)
+
     render :congratulations
   end
 

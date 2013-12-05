@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'searching for a bank', js: true do
+describe 'searching for a bank', js: true, driver: :selenium do
   let!(:tupac_bank) { create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000) }
   let!(:dmx_bank) { create_institution(name: 'DMX Bank', is_supported: true) }
   let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
@@ -87,6 +87,8 @@ describe 'searching for a bank', js: true do
     page.should have_content 'Communicating with Bank of Tupac.'
 
     page.should have_content "Select the card you'd like to earn rewards with."
+    page.current_path.should == institution_account_selection_path
+    # save_and_open_page
   end
 
   it 'allows users to complete image based MFAs' do

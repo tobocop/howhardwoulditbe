@@ -128,6 +128,19 @@ describe('CardRegistration', function() {
       expect($('.right-column').html()).toEqual('awesome');
     });
 
+    it('redirects to the specified path if success_path is present in the response', function() {
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.resolve({success_path: "/the_best_path"});
+        return deferred.promise();
+      });
+      redirectSpy = spyOn(CardRegistration, 'redirectToSuccessPath').andCallFake(function() { return true; });
+
+      CardRegistration.pollForAccountResponse();
+
+      expect(redirectSpy).toHaveBeenCalledWith('/the_best_path')
+    });
+
     it('calls itself if the response is a failure', function() {
       spyOn($, 'ajax').andCallFake(function() {
         var deferred = $.Deferred();

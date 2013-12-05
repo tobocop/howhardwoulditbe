@@ -245,18 +245,39 @@ describe InstitutionsController do
       response.status.should == 422
     end
 
+    context 'when the response has no errors' do
+      let(:valid_response) do
+        {
+          error: false,
+          mfa: false,
+          'value' => [
+            {account_id: 123, name: 'My first account', login_id: 34},
+            {account_id: 345, name: 'My second account', login_id: 34}
+          ]
+        }.to_json
+      end
+
+      before do
+        request = double(present?: true, response: '', destroy: true)
+        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+        ENCRYPTION.stub(:decrypt_and_verify).and_return(valid_response)
+      end
+
+      it 'renders json with the select_account path' do
+        expected_response = {
+          'success_path' => institution_account_selection_path(login_id: 34)
+        }
+
+        get :poll
+
+        JSON.parse(response.body).should == expected_response
+      end
+    end
+
     context 'error handling' do
       before do
         request = double(present?: true, response: '', destroy: true)
         Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
-      end
-
-      it 'without an error renders the account list' do
-        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
-
-        get :poll
-
-        response.should render_template partial: 'institutions/_select_account'
       end
 
       it 'with an error renders the authentication form' do
@@ -340,11 +361,90 @@ describe InstitutionsController do
     end
   end
 
-  describe 'POST select' do
-    it 'renders the congratulations view' do
-      post :select
+  describe 'GET select_account' do
+    let(:users_institution_account_staging_records) { double }
+    let(:institution_record) { double }
+    let(:users_institution) {
+      double(
+        users_institution_account_staging_records: [users_institution_account_staging_records],
+        institution_record: [institution_record]
+      )
+    }
 
-      response.should render_template 'congratulations'
+    before do
+      Plink::UsersInstitutionRecord.stub_chain([:where, :first]).and_return(users_institution)
+    end
+
+    it 'should be successful' do
+      get :select_account, login_id: 1
+
+      response.should be_success
+    end
+
+    it 'should lookup the users institution by the provided login id' do
+      Plink::UsersInstitutionRecord.should_receive(:where).
+        with(intuitInstitutionLoginID: '2837').
+        and_return(double(first: users_institution))
+
+      get :select_account, login_id: 2837
+    end
+
+    it 'assigns accounts' do
+      get :select_account, login_id: 1
+
+      assigns(:accounts).should == [users_institution_account_staging_records]
+    end
+
+    it 'assigns an institution' do
+      get :select_account, login_id: 1
+
+      assigns(:institution).should == [institution_record]
+    end
+  end
+
+  describe 'POST select' do
+    let(:staged_account_record) { create_users_institution_account_staging }
+
+    context 'without previously existing account records' do
+
+      before { post :select, id: staged_account_record.id }
+
+      it 'selects the account that the user chose as the active account' do
+        account_record = Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountStagingID: staged_account_record.id)
+        account_record.length.should == 1
+        account_record.first.begin_date.to_date.should == Date.current
+        account_record.first.end_date.to_date.should == 100.years.from_now.to_date
+        account_record.first.in_intuit.should be_true
+        account_record.first.is_active.should be_true
+      end
+
+      it 'assigns the selected account' do
+        assigns(:selected_account).should be_present
+      end
+
+      it 'renders the congratulations view' do
+        response.should render_template 'congratulations'
+      end
+    end
+
+    context 'with previously existing account records' do
+      let(:existing_account_record) { create_users_institution_account(
+        users_institution_account_staging_id: 8877,
+        users_institution_id: staged_account_record.users_institution_id
+      )}
+
+      before { post :select, id: staged_account_record.id }
+
+      it 'end dates all previously existing usersInstitutionAccount records, but not the new account record' do
+        account_records = Plink::UsersInstitutionAccountRecord.all
+        account_records.each do |account_record|
+          if account_record.users_institution_account_staging_id != 8877
+            account_record.end_date.to_date.should == 100.years.from_now.to_date
+          else
+            account_record.end_date.to_date.should == Date.current
+          end
+        end
+      end
     end
   end
 end
