@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe Plink::RewardRecord do
+  it {should allow_mass_assignment_of(:amounts) }
+  it {should allow_mass_assignment_of(:award_code) }
+  it {should allow_mass_assignment_of(:description) }
+  it {should allow_mass_assignment_of(:display_order) }
+  it {should allow_mass_assignment_of(:is_active) }
+  it {should allow_mass_assignment_of(:is_redeemable) }
+  it {should allow_mass_assignment_of(:is_tango) }
+  it {should allow_mass_assignment_of(:logo_url) }
+  it {should allow_mass_assignment_of(:name) }
+  it {should allow_mass_assignment_of(:terms) }
 
   let (:valid_params) {
     {

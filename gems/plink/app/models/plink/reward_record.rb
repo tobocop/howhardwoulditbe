@@ -10,7 +10,7 @@ module Plink
     alias_attribute :logo_url, :logoURL
     alias_attribute :display_order, :displayOrder
 
-    attr_accessible :award_code, :description, :display_order, :is_active, :is_redeemable,
+    attr_accessible :amounts, :award_code, :description, :display_order, :is_active, :is_redeemable,
       :is_tango, :logo_url, :name, :terms
 
     has_many :amounts, class_name: 'Plink::RewardAmountRecord', foreign_key: 'lootID'
