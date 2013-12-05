@@ -11,10 +11,6 @@ module Plink
 
     attr_accessible :intuit_error_id, :users_institution_id, :user_id
 
-    scope :errors_that_require_attention, -> {
-      (errors_that_require_immediate_attention + errors_occuring_five_consecutive_days)
-    }
-
     scope :errors_that_require_immediate_attention, -> {
       where('intuitErrorID IN (?)', immediate_attention_error_codes).
       where('created > ?', Date.current)
@@ -27,6 +23,10 @@ module Plink
       group('userID, usersInstitutionID, intuitErrorID').
       having('count(1) >= 5')
     }
+
+    def self.errors_that_require_attention
+      errors_that_require_immediate_attention + errors_occuring_five_consecutive_days
+    end
 
     def self.immediate_attention_error_codes
       IMMEDIATE_ATTENTION_ERROR_CODES
