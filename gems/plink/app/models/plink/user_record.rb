@@ -17,8 +17,8 @@ module Plink
     include Plink::LegacyTimestamps
 
     attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
-      :first_name, :hold_redemptions, :ip, :is_force_deactivated, :is_male,  :last_name,
-      :password_hash, :provider, :salt, :state, :username, :user_agent, :zip
+      :first_name, :hold_redemptions, :ip, :is_force_deactivated, :is_male, :login_token,
+      :last_name, :password_hash, :provider, :salt, :state, :username, :user_agent, :zip
 
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
@@ -53,6 +53,7 @@ module Plink
     validate :email_is_not_in_database
 
     before_create :set_default_virtual_currency
+    before_create :set_login_token
 
     default_scope where(isForceDeactivated: false)
 
@@ -115,6 +116,10 @@ module Plink
 
     def set_default_virtual_currency
       self.primary_virtual_currency = Plink::VirtualCurrency.default
+    end
+
+    def set_login_token
+      self.login_token = (Digest::SHA256.new << SecureRandom.uuid).hexdigest.upcase
     end
   end
 end

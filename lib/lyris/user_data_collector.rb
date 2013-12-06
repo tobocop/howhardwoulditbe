@@ -22,6 +22,7 @@ module Lyris
         ip: user.ip,
         is_subscribed: user.is_subscribed,
         last_name: user.last_name,
+        login_token: user.login_token,
         registration_affiliate_id: registration_affiliate_id,
         registration_date: registration_date,
         state: user.state,

@@ -2,8 +2,8 @@ module Lyris
   class User
     attr_reader :bank_registered, :birthday, :config, :email, :first_name, :gender,
       :incentivized_on_card_reg, :incentivized_on_join, :is_subscribed, :last_name,
-      :new_email, :registration_affiliate_id, :registration_date, :state, :user_id,
-      :user_id_ends_with, :virtual_currency, :zip
+      :login_token,:new_email, :registration_affiliate_id, :registration_date, :state,
+      :user_id, :user_id_ends_with, :virtual_currency, :zip
 
     def initialize(config, email, demographic_data={})
       @config = config
@@ -17,6 +17,7 @@ module Lyris
       @incentivized_on_join = demographic_data[:incentivized_on_join]
       @is_subscribed = demographic_data[:is_subscribed]
       @last_name = demographic_data[:last_name]
+      @login_token = demographic_data[:login_token]
       @new_email = demographic_data[:new_email]
       @registration_affiliate_id = demographic_data[:registration_affiliate_id]
       @registration_date = demographic_data[:registration_date]
@@ -72,6 +73,7 @@ module Lyris
         <DATA type="demographic" id="61622">#{boolean_to_on_off(incentivized_on_join)}</DATA>
         <DATA type="demographic" id="35743">#{boolean_to_on_off(is_subscribed)}</DATA>
         <DATA type="demographic" id="2">#{last_name}</DATA>
+        <DATA type="demographic" id="64485">#{login_token}</DATA>
         <DATA type="demographic" id="57721">#{registration_affiliate_id}</DATA>
         <DATA type="demographic" id="57728">#{parse_lyris_date(registration_date)}</DATA>
         <DATA type="demographic" id="6">#{state}</DATA>

@@ -77,6 +77,7 @@ describe Lyris::UserDataCollector do
         data_hash[:ip].should == '154.68.1.2'
         data_hash[:is_subscribed].should be_true
         data_hash[:last_name].should == 'Hammrick'
+        data_hash[:login_token].should == user.login_token
         data_hash[:registration_affiliate_id].should == affiliate.id
         data_hash[:registration_date].to_date.should == email_event.created_at.to_date
         data_hash[:state].should == 'CO'
@@ -110,6 +111,7 @@ describe Lyris::UserDataCollector do
         data_hash[:is_subscribed].should be_true
         data_hash[:ip].should == '154.68.1.2'
         data_hash[:last_name].should == 'Hammrick'
+        data_hash[:login_token].should == user_without_data.login_token
         data_hash[:registration_affiliate_id].should == 0
         data_hash[:registration_date].should == nil
         data_hash[:state].should == 'CO'

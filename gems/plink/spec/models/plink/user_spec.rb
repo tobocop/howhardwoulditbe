@@ -25,6 +25,7 @@ describe Plink::User do
   end
 
   it 'should return the data values it is initialized with' do
+    SecureRandom.stub(:uuid).and_return('my-uuid')
 
     user = Plink::User.new(
       new_user: false,
@@ -51,6 +52,7 @@ describe Plink::User do
     user.is_male.should be_true
     user.is_subscribed.should == true
     user.last_name.should == 'Kramer'
+    user.login_token.should == '56F8F3993DB5C463ED63C67938C0864544DB6E693A84CBC84581B33D84D920DF'
     user.lifetime_balance.should == 0
     user.new_user?.should be_false
     user.open_wallet_item.should be

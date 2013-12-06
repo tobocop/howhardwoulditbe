@@ -13,6 +13,7 @@ describe Lyris::User do
       incentivized_on_join: true,
       is_subscribed: true,
       last_name: 'derpston',
+      login_token: 'HASHYMYAWESOME',
       registration_affiliate_id: 2,
       registration_date: 1.day.ago.to_date,
       state: 'CO',
@@ -34,6 +35,7 @@ describe Lyris::User do
     lyris_user.incentivized_on_join.should == true
     lyris_user.is_subscribed.should == true
     lyris_user.last_name.should == 'derpston'
+    lyris_user.login_token.should == 'HASHYMYAWESOME'
     lyris_user.new_email.should be_nil
     lyris_user.registration_affiliate_id.should == 2
     lyris_user.registration_date.should == 1.day.ago.to_date

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131126164620) do
+ActiveRecord::Schema.define(:version => 20131205235634) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -2026,6 +2026,7 @@ ActiveRecord::Schema.define(:version => 20131126164620) do
     t.string   "shortened_referral_link"
     t.string   "provider",                    :limit => 15
     t.boolean  "daily_contest_reminder"
+    t.string   "login_token"
   end
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|

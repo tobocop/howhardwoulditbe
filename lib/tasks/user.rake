@@ -12,4 +12,9 @@ namespace :user do
   task reset_shortened_referral_link: :environment do
     Plink::UserRecord.update_all(shortened_referral_link: nil)
   end
+
+  desc 'Task to reset all tokens in the database'
+  task reset_login_tokens: :environment do
+    Plink::UserRecord.update_all("login_token =  REPLACE(CONVERT(varchar(255),newid()) + CONVERT(varchar(255),newid()), '-', '')")
+  end
 end

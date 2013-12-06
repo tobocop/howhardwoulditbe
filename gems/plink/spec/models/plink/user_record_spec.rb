@@ -13,6 +13,7 @@ describe Plink::UserRecord do
   it { should allow_mass_assignment_of(:ip) }
   it { should allow_mass_assignment_of(:is_force_deactivated) }
   it { should allow_mass_assignment_of(:is_male) }
+  it { should allow_mass_assignment_of(:login_token) }
   it { should allow_mass_assignment_of(:password_hash) }
   it { should allow_mass_assignment_of(:provider) }
   it { should allow_mass_assignment_of(:salt) }
@@ -31,15 +32,16 @@ describe Plink::UserRecord do
       daily_contest_reminder: true,
       email: 'bob@example.com',
       first_name: 'jerry',
-      is_male: true,
       hold_redemptions: true,
       ip: '127.0.0.1',
+      is_male: true,
+      login_token: 'awesomehashything',
       password_hash: 'D7913D231B862AEAD93FADAFB90A90E1A599F0FC08851414FD69C473242DAABD4E6DBD978FBEC1B33995CD2DA58DD1FEA660369E6AE962007162721E9C195192', # password: AplaiNTextstrIng55
       provider: 'twitter',
       salt: '6BA943B9-E9E3-8E84-4EDCA75EE2ABA2A5',
       state: 'Colorado',
-      username: 'bobby tables',
       user_agent: 'chrome',
+      username: 'bobby tables',
       zip: '80204'
     }
   }
@@ -183,6 +185,12 @@ describe Plink::UserRecord do
     user_record.save!
 
     user_record.primary_virtual_currency.should == plink_point_currency
+  end
+
+  it 'sets the login token' do
+    SecureRandom.stub(:uuid).and_return('my-uuid')
+    user_record.save!
+    user_record.login_token.should == '56F8F3993DB5C463ED63C67938C0864544DB6E693A84CBC84581B33D84D920DF'
   end
 
   it 'has wallet items' do

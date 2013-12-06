@@ -13,6 +13,7 @@ describe Lyris::User do
       incentivized_on_join: true,
       is_subscribed: true,
       last_name: 'derpston',
+      login_token: 'HASHYAWESOMEDEPRIN',
       new_email: new_email,
       registration_affiliate_id: 2,
       registration_date: 1.day.ago.to_date,
