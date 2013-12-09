@@ -5,7 +5,8 @@ pairs:
   km: Kris McDonald; kmcdonald
   ak: Andreas Kavountzis; akavountzis
   bt: Bryan Tyler, btyler
+  sb: Scott Berke, sberke
 email:
   prefix: pair
-  domain: pivotallabs.com
+  domain: plink.com
   # no_solo_prefix: true
