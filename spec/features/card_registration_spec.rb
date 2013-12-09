@@ -100,6 +100,7 @@ describe 'searching for a bank', js: true do
     click_on 'Search'
 
     page.current_path.should == institution_search_results_path
+    page.should have_content 'MOST COMMON'
 
     click_on 'Bank of Tupac'
 

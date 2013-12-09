@@ -33,6 +33,9 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    Plink::InstitutionRecord.index.delete
+    Plink::InstitutionRecord.create_elasticsearch_index
+
     ActionMailer::Base.deliveries.clear
     DatabaseCleaner.strategy = :transaction
   end
