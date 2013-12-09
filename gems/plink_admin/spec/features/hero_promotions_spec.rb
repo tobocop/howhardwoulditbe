@@ -17,7 +17,7 @@ describe 'Hero Promotions' do
 
     within '.alert-box.alert' do
       page.should have_content "Title can't be blank"
-      page.should have_content "Image url can't be blank"
+      page.should have_content "Image url one can't be blank"
       page.should have_content "Name can't be blank"
     end
 
@@ -38,8 +38,8 @@ describe 'Hero Promotions' do
 
     hero_promotion = Plink::HeroPromotionRecord.last
 
-    hero_promotion.link.should == 'http://example.com/'
-    hero_promotion.link_right.should == 'http://example.com/right'
+    hero_promotion.link_one.should == 'http://example.com/'
+    hero_promotion.link_two.should == 'http://example.com/right'
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz'
@@ -70,8 +70,8 @@ describe 'Hero Promotions' do
 
     click_on 'Update'
 
-    hero_promotion.reload.link.should be_blank
-    hero_promotion.reload.link_right.should == 'new'
+    hero_promotion.reload.link_one.should be_blank
+    hero_promotion.reload.link_two.should == 'new'
     within '.hero-promotions-list' do
       within '.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz II'

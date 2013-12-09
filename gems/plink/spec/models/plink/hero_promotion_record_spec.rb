@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Plink::HeroPromotionRecord do
   it{ should allow_mass_assignment_of(:display_order) }
-  it{ should allow_mass_assignment_of(:image_url) }
-  it{ should allow_mass_assignment_of(:image_url_right) }
+  it{ should allow_mass_assignment_of(:image_url_one) }
+  it{ should allow_mass_assignment_of(:image_url_two) }
   it{ should allow_mass_assignment_of(:is_active) }
-  it{ should allow_mass_assignment_of(:link) }
-  it{ should allow_mass_assignment_of(:link_right) }
+  it{ should allow_mass_assignment_of(:link_one) }
+  it{ should allow_mass_assignment_of(:link_two) }
   it{ should allow_mass_assignment_of(:name) }
   it{ should allow_mass_assignment_of(:same_tab_one) }
   it{ should allow_mass_assignment_of(:same_tab_two) }
@@ -18,9 +18,9 @@ describe Plink::HeroPromotionRecord do
   let(:valid_attributes) {
     {
       display_order: 1,
-      image_url: '/assets/foo.jpg',
+      image_url_one: '/assets/foo.jpg',
       is_active: true,
-      link: nil,
+      link_one: nil,
       name: 'namey',
       same_tab_one: true,
       same_tab_two: true,
@@ -45,10 +45,10 @@ describe Plink::HeroPromotionRecord do
     invalid_record.errors.full_messages.should == ["Name can't be blank"]
   end
 
-  it 'requires a title and an image_url to not be blank to be valid' do
-    promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(image_url: '', title:''))
+  it 'requires a title and image_url_one to not be blank to be valid' do
+    promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(image_url_one: '', title:''))
 
-    promotion.should have(1).error_on(:image_url)
+    promotion.should have(1).error_on(:image_url_one)
     promotion.should have(1).error_on(:title)
   end
 

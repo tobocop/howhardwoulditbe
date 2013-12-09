@@ -14,10 +14,10 @@ module Plink
       Plink::HeroPromotion.new(
         {
           id: record.id,
-          image_url: record.image_url,
-          image_url_right: record.image_url_right,
-          link: record.link,
-          link_right: record.link_right,
+          image_url_one: record.image_url_one,
+          image_url_two: record.image_url_two,
+          link_one: record.link_one,
+          link_two: record.link_two,
           same_tab_one: record.same_tab_one,
           same_tab_two: record.same_tab_two,
           show_linked_users: record.show_linked_users,

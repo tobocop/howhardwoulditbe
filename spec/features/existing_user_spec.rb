@@ -4,9 +4,9 @@ describe 'user signs in' do
   before do
     Tango::CardService.stub(:new).and_return(stub(:fake_card_service, purchase: stub(successful?: true)))
 
-    create_hero_promotion(image_url: '/assets/hero-gallery/TacoBell_1.jpg', display_order: 1, title: 'You want this.', show_linked_users: false )
-    create_hero_promotion(image_url: '/assets/hero-gallery/bk2.jpg', display_order: 1, title: 'You really want this.', show_linked_users: true )
-    create_hero_promotion(image_url: '/assets/hero-gallery/7eleven_1.jpg',image_url_right: '/assets/hero-gallery/bk1.jpg', display_order: 2, title: 'You want this.', show_linked_users: true )
+    create_hero_promotion(image_url_one: '/assets/hero-gallery/TacoBell_1.jpg', display_order: 1, title: 'You want this.', show_linked_users: false )
+    create_hero_promotion(image_url_one: '/assets/hero-gallery/bk2.jpg', display_order: 1, title: 'You really want this.', show_linked_users: true )
+    create_hero_promotion(image_url_one: '/assets/hero-gallery/7eleven_1.jpg',image_url_two: '/assets/hero-gallery/bk1.jpg', display_order: 2, title: 'You want this.', show_linked_users: true )
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     wallet = create_wallet(user_id: user.id)

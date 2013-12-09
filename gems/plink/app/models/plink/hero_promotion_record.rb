@@ -4,11 +4,11 @@ module Plink
 
     serialize :user_ids, Hash
 
-    attr_accessible :display_order, :image_url, :image_url_right, :is_active, :link,
-      :link_right, :name, :same_tab_one, :same_tab_two, :show_linked_users, :show_non_linked_users, :title,
-      :user_ids
+    attr_accessible :display_order, :image_url_one, :image_url_two, :is_active, :link_one,
+      :link_two, :name, :same_tab_one, :same_tab_two, :show_linked_users, :show_non_linked_users,
+      :title, :user_ids
 
-    validates_presence_of :title, :image_url, :name
+    validates_presence_of :title, :image_url_one, :name
 
     validate :audience_selected
     validate :audience_by_card_status_or_user_ids

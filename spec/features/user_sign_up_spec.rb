@@ -4,8 +4,8 @@ describe 'User signup workflow' do
   let!(:linked_promotion) do
     create_hero_promotion({
       display_order: 2,
-      image_url: '/assets/hero-gallery/TacoBell_1.jpg',
-      link: '/faq',
+      image_url_one: '/assets/hero-gallery/TacoBell_1.jpg',
+      link_one: '/faq',
       show_linked_users: true,
       show_non_linked_users: true,
       title: 'You want this. Now.'
@@ -18,8 +18,8 @@ describe 'User signup workflow' do
     create_event_type(name: Plink::EventTypeRecord.card_add_type)
     create_hero_promotion({
       display_order: 1,
-      image_url: '/assets/hero-gallery/7eleven_1.jpg',
-      link: '',
+      image_url_one: '/assets/hero-gallery/7eleven_1.jpg',
+      link_one: '',
       show_linked_users: true,
       show_non_linked_users: false,
       title: 'You want this.'

@@ -8,8 +8,8 @@
               .left
                 = render partial: 'shared/hero_promotion', locals: { |
                     id: hero_promotion.id, |
-                    image_url: hero_promotion.image_url, |
-                    link: hero_promotion.link, |
+                    image_url: hero_promotion.image_url_left, |
+                    link: hero_promotion.link_left, |
                     link_target: hero_promotion.link_target_for_left_url, |
                     title: nil |
                   } |
@@ -24,8 +24,8 @@
             - else
               = render partial: 'shared/hero_promotion', locals: { |
                 id: hero_promotion.id, |
-                image_url: hero_promotion.image_url, |
-                link: hero_promotion.link, |
+                image_url: hero_promotion.image_url_left, |
+                link: hero_promotion.link_left, |
                 link_target: hero_promotion.link_target_for_left_url, |
                 title: hero_promotion.title |
               } |

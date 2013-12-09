@@ -4,10 +4,10 @@ describe HeroPromotionPresenter do
   let(:hero_promotion) {
     double(
       id: 4,
-      image_url: 'valid_image_url',
-      image_url_right: 'valid_image_url_right',
-      link: 'my_left_link',
-      link_right: 'my_right_link',
+      image_url_one: 'valid_image_url',
+      image_url_two: 'valid_image_url_right',
+      link_one: 'my_left_link',
+      link_two: 'my_right_link',
       same_tab_one: true,
       same_tab_two: true,
       title: 'the best promo ever'
@@ -18,9 +18,9 @@ describe HeroPromotionPresenter do
 
   it 'can be initialized with a hero promotion' do
     presenter.id.should == 4
-    presenter.image_url.should == 'valid_image_url'
+    presenter.image_url_left.should == 'valid_image_url'
     presenter.image_url_right.should == 'valid_image_url_right'
-    presenter.link.should == 'my_left_link'
+    presenter.link_left.should == 'my_left_link'
     presenter.link_right.should == 'my_right_link'
     presenter.title.should == 'the best promo ever'
   end
@@ -65,7 +65,7 @@ describe HeroPromotionPresenter do
     end
 
     it 'returns false if a right_image_url is not present' do
-      hero_promotion.stub(:image_url_right).and_return('')
+      hero_promotion.stub(:image_url_two).and_return('')
       presenter.left_and_right_promotion?.should be_false
     end
   end

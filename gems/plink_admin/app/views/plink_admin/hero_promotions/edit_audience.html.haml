@@ -16,8 +16,8 @@
   %b Active:
   #{@hero_promotion.is_active}
 %p
-  %b Image URL:
-  #{@hero_promotion.image_url}
+  %b Image URL (left):
+  #{@hero_promotion.image_url_one}
 = form_for(@hero_promotion, url: plink_admin.update_audience_hero_promotion_path(@hero_promotion), as: 'hero_promotion', multipart: true) do |f|
 
   %h4 Audience:

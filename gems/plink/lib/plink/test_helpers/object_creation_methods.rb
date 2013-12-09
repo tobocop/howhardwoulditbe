@@ -248,7 +248,7 @@ module Plink
     def new_hero_promotion(options ={})
       defaults = {
         display_order: 1,
-        image_url: '/assets/test_image_tbd.jpg',
+        image_url_one: '/assets/test_image_tbd.jpg',
         is_active: true,
         name: 'promotion name',
         show_linked_users: true,

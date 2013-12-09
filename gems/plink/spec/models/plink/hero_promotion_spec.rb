@@ -4,10 +4,10 @@ describe Plink::HeroPromotion do
    let(:hero_promotion_attrs) do
     {
       id: 1,
-      image_url: '/mj_and_bb.jpg',
-      image_url_right: '/mj_and_bb_right.jpg',
-      link: 'www.google.com',
-      link_right: 'www.google.com/righty',
+      image_url_one: '/mj_and_bb.jpg',
+      image_url_two: '/mj_and_bb_right.jpg',
+      link_one: 'www.google.com',
+      link_two: 'www.google.com/righty',
       same_tab_one: true,
       same_tab_two: false,
       show_linked_users: true,
@@ -21,10 +21,10 @@ describe Plink::HeroPromotion do
     hero_promotion = Plink::HeroPromotion.new(hero_promotion_attrs)
 
     hero_promotion.id.should == 1
-    hero_promotion.image_url.should == '/mj_and_bb.jpg'
-    hero_promotion.image_url_right.should == '/mj_and_bb_right.jpg'
-    hero_promotion.link.should == 'www.google.com'
-    hero_promotion.link_right.should == 'www.google.com/righty'
+    hero_promotion.image_url_one.should == '/mj_and_bb.jpg'
+    hero_promotion.image_url_two.should == '/mj_and_bb_right.jpg'
+    hero_promotion.link_one.should == 'www.google.com'
+    hero_promotion.link_two.should == 'www.google.com/righty'
     hero_promotion.same_tab_one.should be_true
     hero_promotion.same_tab_two.should be_false
     hero_promotion.show_linked_users.should == true
