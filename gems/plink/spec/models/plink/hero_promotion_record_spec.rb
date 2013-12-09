@@ -34,6 +34,10 @@ describe Plink::HeroPromotionRecord do
     Plink::HeroPromotionRecord.new(valid_attributes).should be_valid
   end
 
+  it 'serializes user_ids from the database to a hash' do
+    create_hero_promotion.user_ids.should be_a(Hash)
+  end
+
   it 'validates presence of name' do
     invalid_attributes = valid_attributes.merge(name: '')
     invalid_record = Plink::HeroPromotionRecord.new(invalid_attributes)
