@@ -8,6 +8,8 @@ describe Plink::HeroPromotion do
       image_url_right: '/mj_and_bb_right.jpg',
       link: 'www.google.com',
       link_right: 'www.google.com/righty',
+      same_tab_one: true,
+      same_tab_two: false,
       show_linked_users: true,
       show_non_linked_users: false,
       title: 'Michael Jordan',
@@ -23,6 +25,8 @@ describe Plink::HeroPromotion do
     hero_promotion.image_url_right.should == '/mj_and_bb_right.jpg'
     hero_promotion.link.should == 'www.google.com'
     hero_promotion.link_right.should == 'www.google.com/righty'
+    hero_promotion.same_tab_one.should be_true
+    hero_promotion.same_tab_two.should be_false
     hero_promotion.show_linked_users.should == true
     hero_promotion.show_non_linked_users.should == false
     hero_promotion.title.should == 'Michael Jordan'

@@ -8,6 +8,8 @@ describe HeroPromotionPresenter do
       image_url_right: 'valid_image_url_right',
       link: 'my_left_link',
       link_right: 'my_right_link',
+      same_tab_one: true,
+      same_tab_two: true,
       title: 'the best promo ever'
     )
   }
@@ -21,6 +23,28 @@ describe HeroPromotionPresenter do
     presenter.link.should == 'my_left_link'
     presenter.link_right.should == 'my_right_link'
     presenter.title.should == 'the best promo ever'
+  end
+
+  describe '#link_target_for_left_url' do
+    it 'returns the string _self if same_tab_one is true' do
+      presenter.link_target_for_left_url.should == '_self'
+    end
+
+    it 'returns the string _blank if same_tab_one is false' do
+      hero_promotion.stub(:same_tab_one).and_return(false)
+      presenter.link_target_for_left_url.should == '_blank'
+    end
+  end
+
+  describe '#link_target_for_right_url' do
+    it 'returns the string _self if same_tab_two is true' do
+      presenter.link_target_for_right_url.should == '_self'
+    end
+
+    it 'returns the string _blank if same_tab_two is false' do
+      hero_promotion.stub(:same_tab_two).and_return(false)
+      presenter.link_target_for_right_url.should == '_blank'
+    end
   end
 
   describe '#show_to_current_user?' do

@@ -17,4 +17,12 @@ class HeroPromotionPresenter
   def left_and_right_promotion?
     hero_promotion.image_url_right.present?
   end
+
+  def link_target_for_left_url
+    hero_promotion.same_tab_one ? '_self' : '_blank'
+  end
+
+  def link_target_for_right_url
+    hero_promotion.same_tab_two ? '_self' : '_blank'
+  end
 end

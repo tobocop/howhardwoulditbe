@@ -1,4 +1,4 @@
 - if link.present?
-  = link_to image_tag(image_url, title: title), link, target: 'blank', class: 'hero-promotion-link', data: { url: hero_promotion_click_tracking_path(hero_promotion_id: id, image: image_url) }
+  = link_to image_tag(image_url, title: title), link, target: link_target, class: 'hero-promotion-link', data: { url: hero_promotion_click_tracking_path(hero_promotion_id: id, image: image_url) }
 - else
   = image_tag image_url, title: title

@@ -1,8 +1,8 @@
 module Plink
   class HeroPromotion
 
-    attr_reader :id, :image_url, :image_url_right, :link, :link_right, :show_linked_users,
-      :show_non_linked_users, :title, :user_ids
+    attr_reader :id, :image_url, :image_url_right, :link, :link_right, :same_tab_one,
+      :same_tab_two, :show_linked_users, :show_non_linked_users, :title, :user_ids
 
     def initialize(attributes)
       @id = attributes.fetch(:id)
@@ -10,6 +10,8 @@ module Plink
       @image_url_right = attributes.fetch(:image_url_right)
       @link = attributes.fetch(:link)
       @link_right = attributes.fetch(:link_right)
+      @same_tab_one = attributes.fetch(:same_tab_one)
+      @same_tab_two = attributes.fetch(:same_tab_two)
       @show_linked_users = attributes.fetch(:show_linked_users)
       @show_non_linked_users = attributes.fetch(:show_non_linked_users)
       @title = attributes.fetch(:title)

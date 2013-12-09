@@ -1,8 +1,19 @@
 require 'spec_helper'
 
 describe Plink::HeroPromotionRecord do
+  it{ should allow_mass_assignment_of(:display_order) }
+  it{ should allow_mass_assignment_of(:image_url) }
   it{ should allow_mass_assignment_of(:image_url_right) }
+  it{ should allow_mass_assignment_of(:is_active) }
+  it{ should allow_mass_assignment_of(:link) }
   it{ should allow_mass_assignment_of(:link_right) }
+  it{ should allow_mass_assignment_of(:name) }
+  it{ should allow_mass_assignment_of(:same_tab_one) }
+  it{ should allow_mass_assignment_of(:same_tab_two) }
+  it{ should allow_mass_assignment_of(:show_linked_users) }
+  it{ should allow_mass_assignment_of(:show_non_linked_users) }
+  it{ should allow_mass_assignment_of(:title) }
+  it{ should allow_mass_assignment_of(:user_ids) }
 
   let(:valid_attributes) {
     {
@@ -11,6 +22,8 @@ describe Plink::HeroPromotionRecord do
       is_active: true,
       link: nil,
       name: 'namey',
+      same_tab_one: true,
+      same_tab_two: true,
       show_linked_users: true,
       show_non_linked_users: true,
       title: 'Yes'

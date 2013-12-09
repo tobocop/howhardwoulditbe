@@ -18,6 +18,8 @@ module Plink
           image_url_right: record.image_url_right,
           link: record.link,
           link_right: record.link_right,
+          same_tab_one: record.same_tab_one,
+          same_tab_two: record.same_tab_two,
           show_linked_users: record.show_linked_users,
           show_non_linked_users: record.show_non_linked_users,
           title: record.title,

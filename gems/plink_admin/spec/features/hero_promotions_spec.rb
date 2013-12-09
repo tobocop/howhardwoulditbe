@@ -27,9 +27,10 @@ describe 'Hero Promotions' do
     check 'Active'
     fill_in 'Image URL (.jpg, .gif, etc) - Left', with: 'http://example.com/image'
     fill_in 'URL for image (admin provided, optional) - Left', with: 'http://example.com/'
+    check 'Open left URL in same tab'
     fill_in 'Image URL (.jpg, .gif, etc, optional) - Right', with: 'http://example.com/image-right'
     fill_in 'URL for image (admin provided, optional) - Right', with: 'http://example.com/right'
-
+    check 'Open right URL in same tab'
     check 'Show to linked members'
     check 'Show to non-linked members'
 
@@ -58,11 +59,13 @@ describe 'Hero Promotions' do
     fill_in 'Name', with: 'Heroz II'
     fill_in 'Title', with: 'This promotion is awesomer'
     fill_in 'Display Order', with: '25'
+    uncheck 'Active'
     fill_in 'Image URL (.jpg, .gif, etc) - Left', with: 'http://example.com/new-image'
     fill_in 'URL for image (admin provided, optional) - Left', with: ''
+    uncheck 'Open left URL in same tab'
     fill_in 'Image URL (.jpg, .gif, etc, optional) - Right', with: 'http://example.com/new-image-right'
     fill_in 'URL for image (admin provided, optional) - Right', with: 'new'
-    uncheck 'Active'
+    uncheck 'Open right URL in same tab'
     uncheck 'Show to linked members'
 
     click_on 'Update'
