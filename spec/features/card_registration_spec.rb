@@ -88,7 +88,13 @@ describe 'searching for a bank', js: true, driver: :selenium do
 
     page.should have_content "Select the card you'd like to earn rewards with."
     page.current_path.should == institution_account_selection_path
-    # save_and_open_page
+
+    within '.card-select-container:nth-of-type(1)' do
+      click_on 'Select'
+    end
+
+    page.should have_content "Congratulations!"
+    page.current_path.should == institution_selection_path
   end
 
   it 'allows users to complete image based MFAs' do

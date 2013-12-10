@@ -123,7 +123,7 @@ private
   def intuit_accounts(user_and_password)
     encrypted_creds = ENCRYPTION.encrypt_and_sign(user_and_password)
 
-    intuit_request.delay(priority: -100).accounts(encrypted_creds, session[:users_institution_hash])
+    intuit_request.delay(priority: -100).accounts(encrypted_creds)
   end
 
   def parse_answers
@@ -138,7 +138,13 @@ private
   end
 
   def intuit_request
-    IntuitAccountRequest.new(current_user.id, session[:institution_id], session[:intuit_institution_id], session[:intuit_account_request_id])
+    IntuitAccountRequest.new(
+      current_user.id,
+      session[:institution_id],
+      session[:intuit_institution_id],
+      session[:intuit_account_request_id],
+      session[:users_institution_hash]
+    )
   end
 
   def institution_form(intuit_institution_data, institution)

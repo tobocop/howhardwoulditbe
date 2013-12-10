@@ -1,50 +1,51 @@
 class IntuitAccountRequest
-  attr_accessor :institution_id, :intuit_institution_id, :request_id, :user_id
+  attr_accessor :hash_check, :institution_id, :intuit_institution_id, :request_id, :user_id
 
-  def initialize(user_id, institution_id, intuit_institution_id, request_id)
+  def initialize(user_id, institution_id, intuit_institution_id, request_id, hash_check)
+    @hash_check = hash_check
     @institution_id = institution_id
     @intuit_institution_id = intuit_institution_id
     @request_id = request_id
     @user_id = user_id
   end
 
-  def accounts(user_and_password, hash_check)
+  def accounts(user_and_password)
     decrypted_credentials = ENCRYPTION.decrypt_and_verify(user_and_password)
     intuit_response = Intuit::Request.new(user_id).accounts(intuit_institution_id, decrypted_credentials)
 
-    response = Intuit::Response.new(intuit_response).parse
+    response = Intuit::Response.new(intuit_response)
+    populate_staging_records(response.login_id) if response.accounts?
 
-    unless response[:error] || response[:mfa]
-      login_id = response[:value].first[:login_id]
-      response = login_accounts(login_id)
-
-      unless response[:error] || response[:mfa]
-        institution = Plink::InstitutionRecord.where(intuitInstitutionID: intuit_institution_id).first
-        attrs = {hash_check: hash_check, login_id: login_id, institution_id: institution_id}
-        users_institution = create_users_institution_record(attrs)
-        create_staging_records(response[:value], users_institution.id)
-      end
-    end
-
-    update_request_record(response.to_json)
+    update_request_record(response.parse.to_json)
   end
 
   def respond_to_mfa(answers, challenge_session_id, challenge_node_id)
     answers = ENCRYPTION.decrypt_and_verify(answers)
     intuit_response = Intuit::Request.new(user_id).respond_to_mfa(intuit_institution_id, challenge_session_id, challenge_node_id, answers)
 
-    response = Intuit::Response.new(intuit_response).parse
-    update_request_record(response.to_json)
+    response = Intuit::Response.new(intuit_response)
+    populate_staging_records(response.login_id) if response.accounts?
+
+    update_request_record(response.parse.to_json)
   end
 
 private
 
+  def populate_staging_records(login_id)
+    response = login_accounts(login_id)
+
+    if response.accounts?
+      users_institution = create_users_institution_record(response.login_id)
+      create_staging_records(response.accounts, users_institution.id)
+    end
+  end
+
   def login_accounts(login_id)
     intuit_response = Intuit::Request.new(user_id).login_accounts(login_id)
-    response = Intuit::Response.new(intuit_response).parse
+    response = Intuit::Response.new(intuit_response)
 
-    if response[:aggr_status_codes] != [0]
-      error_message = error_message_from_status_code(response[:aggr_status_codes].first)
+    if response.aggregation_error?
+      error_message = error_message_from_status_code(response.first_error_status_code)
       response = {error: true, value: error_message}
     end
 
@@ -69,10 +70,10 @@ private
     end
   end
 
-  def create_users_institution_record(options={})
+  def create_users_institution_record(login_id)
     users_institution_attrs = {
-      hash_check: options.fetch(:hash_check),
-      intuit_institution_login_id: options.fetch(:login_id),
+      hash_check: hash_check,
+      intuit_institution_login_id: login_id,
       institution_id: institution_id,
       is_active: true,
       user_id: user_id

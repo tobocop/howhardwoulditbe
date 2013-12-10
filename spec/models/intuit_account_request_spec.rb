@@ -3,6 +3,7 @@ require 'spec_helper'
 describe IntuitAccountRequest do
   let(:params) {
     {
+      hash_check: 'randomhashofstuff',
       institution_id: 4,
       intuit_institution_id: 908,
       request_id: 1,
@@ -71,7 +72,7 @@ describe IntuitAccountRequest do
   let(:intuit_request) { mock(Intuit::Request) }
 
   let(:request) do
-    args = [params[:user_id], params[:institution_id], params[:intuit_institution_id], params[:request_id]]
+    args = [ params[:user_id], params[:institution_id], params[:intuit_institution_id], params[:request_id], params[:hash_check] ]
     IntuitAccountRequest.new(*args)
   end
 
@@ -90,6 +91,10 @@ describe IntuitAccountRequest do
 
     it 'sets the request id' do
       request.request_id.should == 1
+    end
+
+    it 'sets the hash_check' do
+      request.hash_check.should == 'randomhashofstuff'
     end
   end
 
@@ -111,7 +116,7 @@ describe IntuitAccountRequest do
       ENCRYPTION.unstub(:decrypt_and_verify)
       ENCRYPTION.should_receive(:decrypt_and_verify).with('user_and_pw')
 
-      request.accounts('user_and_pw', 'randomhashofstuff')
+      request.accounts('user_and_pw')
     end
 
     it "makes a call to get the user's accounts from Intuit" do
@@ -119,23 +124,14 @@ describe IntuitAccountRequest do
 
       intuit_request.should_receive(:accounts).and_return(intuit_response)
 
-      request.accounts('user_and_pw', 'randomhashofstuff')
+      request.accounts('user_and_pw')
     end
 
     it 'updates the request record' do
       intuit_account_request_record.should_receive(:update_attributes).
         with({processed: true, response: 'response'}).and_return(true)
 
-      request.accounts('user_and_pw', 'randomhashofstuff')
-    end
-
-    it 'calls the Intuit::ResponseParser' do
-      response = mock
-      Intuit::Response.stub(:new).and_return(response)
-
-      response.should_receive(:parse).and_return({mfa: true})
-
-      request.accounts('user_and_pw', 'randomhashofstuff')
+      request.accounts('user_and_pw')
     end
 
     context 'with a successful response from Intuit' do
@@ -144,7 +140,7 @@ describe IntuitAccountRequest do
 
         intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
 
-        request.accounts('user_and_pw', 'randomhashofstuff')
+        request.accounts('user_and_pw')
       end
 
       it 'creates a Plink::UsersInstitutionRecord' do
@@ -160,7 +156,7 @@ describe IntuitAccountRequest do
           with(expected_params).
           and_return(double(id: 5))
 
-        request.accounts('user_and_pw', 'randomhashofstuff')
+        request.accounts('user_and_pw')
       end
 
       it 'creates Plink::UsersInstitutionAccountStaging records' do
@@ -186,7 +182,7 @@ describe IntuitAccountRequest do
         Plink::UsersInstitutionAccountStagingRecord.should_receive(:create).
           with(staging_attrs)
 
-        request.accounts('user_and_pw', 'randomhashofstuff')
+        request.accounts('user_and_pw')
       end
     end
 
@@ -195,7 +191,7 @@ describe IntuitAccountRequest do
 
       intuit_request.should_not_receive(:login_accounts)
 
-      request.accounts('user_and_pw', 'randomhashofstuff')
+      request.accounts('user_and_pw')
     end
 
     it 'does not call getLoginAccounts if the response is an error' do
@@ -203,7 +199,7 @@ describe IntuitAccountRequest do
 
       intuit_request.should_not_receive(:login_accounts)
 
-      request.accounts('user_and_pw', 'randomhashofstuff')
+      request.accounts('user_and_pw')
     end
   end
 
@@ -232,13 +228,61 @@ describe IntuitAccountRequest do
       request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
     end
 
-    it 'calls the Intuit::ResponseParser' do
-      response = mock
-      Intuit::Response.stub(:new).and_return(response)
+    context 'with a successful response from Intuit' do
+      before do
+        intuit_request.stub(:respond_to_mfa).and_return(intuit_response)
+        intuit_request.stub(:login_accounts).and_return(intuit_login_accounts_response)
+      end
 
-      response.should_receive(:parse)
+      it 'calls getLoginAccounts' do
+        Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
 
-      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+        intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
+
+        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      end
+
+      it 'creates a Plink::UsersInstitutionRecord' do
+        expected_params = {
+          hash_check: 'randomhashofstuff',
+          is_active: true,
+          institution_id: 4,
+          intuit_institution_login_id: '128700189',
+          user_id: 123
+        }
+
+        Plink::UsersInstitutionRecord.should_receive(:create).
+          with(expected_params).
+          and_return(double(id: 5))
+
+        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      end
+
+      it 'creates Plink::UsersInstitutionAccountStaging records' do
+        Plink::UsersInstitutionRecord.stub(:create).and_return(double(id: 5))
+
+        staging_attrs = {
+          account_id: '400006583998',
+          account_number_hash: Digest::SHA512.hexdigest('8000006666'),
+          account_number_last_four: '6666',
+          account_type: 'creditAccount',
+          account_type_description: 'LINEOFCREDIT',
+          aggr_attempt_date: '2013-10-29T21:05:53.029-07:00',
+          aggr_status_code: '0',
+          aggr_success_date: '2013-10-29T21:05:53.029-07:00',
+          currency_code: 'INR',
+          in_intuit: true,
+          name: 'My Line of Credit',
+          status: 'ACTIVE',
+          user_id: 123,
+          users_institution_id: 5
+        }
+
+        Plink::UsersInstitutionAccountStagingRecord.should_receive(:create).
+          with(staging_attrs)
+
+        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      end
     end
   end
 end

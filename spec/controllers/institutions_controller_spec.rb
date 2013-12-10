@@ -200,7 +200,7 @@ describe InstitutionsController do
       controller.unstub(:intuit_accounts)
       intuit_account_request = mock(IntuitAccountRequest)
 
-      IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything).and_return(intuit_account_request)
+      IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything, anything).and_return(intuit_account_request)
 
       intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
 

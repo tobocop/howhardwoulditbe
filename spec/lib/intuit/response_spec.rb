@@ -1,6 +1,33 @@
 require 'spec_helper'
 
 describe Intuit::Response do
+  let(:successful_intuit_response) {
+    {
+      status_code: '201',
+      result: {
+        account_list: {
+          banking_account: [
+            {institution_login_id: 123, account_number: '1233412345', aggr_status_code: 0},
+            {institution_login_id: 456, account_number: '1233412345', aggr_status_code: 0}
+          ]
+        }
+      }
+    }
+  }
+  let(:aggregation_error_intuit_response) {
+    {
+      status_code: '201',
+      result: {
+        account_list: {
+          banking_account: [
+            {institution_login_id: 123, account_number: '1233412345', aggr_status_code: 0},
+            {institution_login_id: 456, account_number: '1233412345', aggr_status_code: 3}
+          ]
+        }
+      }
+    }
+  }
+
   describe '.new' do
     it 'sets the raw response from intuit' do
       intuit_response = {status_code: '201', result: 'the best'}
@@ -9,6 +36,91 @@ describe Intuit::Response do
 
       response.raw_response[:status_code].should == '201'
       response.raw_response[:result].should == 'the best'
+    end
+  end
+
+  describe '#accounts?' do
+    it 'returns true if there is the account_list field in the result' do
+      intuit_response = {status_code: '201', result: {account_list: {}}}
+      response = Intuit::Response.new(intuit_response)
+
+      response.accounts?.should be_true
+    end
+
+    it 'returns false if there is not an account_list' do
+      intuit_response = {status_code: '261', result: {}}
+      response = Intuit::Response.new(intuit_response)
+
+      response.accounts?.should be_false
+    end
+  end
+
+  describe '#login_id' do
+    it 'returns the login_id of the first account in the account list' do
+      response = Intuit::Response.new(successful_intuit_response)
+
+      response.login_id.should == 123
+    end
+  end
+
+  describe '#aggregation_error?' do
+    it 'returns false if all aggregation status codes in the account list are 0' do
+      response = Intuit::Response.new(successful_intuit_response)
+
+      response.aggregation_error?.should be_false
+    end
+
+    it 'returns true if there is a non-zero aggregation status code in the account list' do
+      response = Intuit::Response.new(aggregation_error_intuit_response)
+
+      response.aggregation_error?.should be_true
+    end
+  end
+
+  describe '#first_error_status_code' do
+    it 'returns the first non-zero aggregation status code in the account list' do
+      response = Intuit::Response.new(aggregation_error_intuit_response)
+
+      response.first_error_status_code.should == 3
+    end
+  end
+
+  describe '#accounts' do
+    it 'returns a list of accounts' do
+      account = {
+        account_id: 1,
+        account_nickname: 'namey',
+        account_number: '1233412345',
+        banking_account_type: 'Best account evar',
+        aggr_attempt_date: 'some_date_and_time',
+        aggr_status_code: 0,
+        aggr_success_date: 'some_date_and_time',
+        currency_code: 'INR',
+        display_position: 0,
+        institution_login_id: 123,
+        status: 'ACTIVE'
+      }
+      intuit_response = {status_code: '201', result: {account_list: {banking_account: [account]}}}
+
+      response = Intuit::Response.new(intuit_response)
+
+      account_hash = {
+        id: 1,
+        number: '****-****-****-2345',
+        number_hash: Digest::SHA512.hexdigest('1233412345'),
+        number_last_four: '2345',
+        type: "bankingAccount",
+        type_description: 'Best account evar',
+        aggr_attempt_date: 'some_date_and_time',
+        aggr_status_code: 0,
+        aggr_success_date: 'some_date_and_time',
+        currency_code: 'INR',
+        display_position: 0,
+        login_id: 123,
+        name: 'namey',
+        status: 'ACTIVE'
+      }
+      response.accounts.should == [account_hash]
     end
   end
 
