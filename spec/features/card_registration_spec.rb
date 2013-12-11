@@ -6,6 +6,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
   let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
   let!(:institution_authenticated_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
   let(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
+  let!(:affiliate) { create_affiliate(card_add_pixel: 'my$userID$pixel') }
 
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
@@ -15,6 +16,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
   end
 
   it 'allows the user to search' do
+    visit "/tracking/new?aid=#{affiliate.id}"
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
@@ -94,8 +96,9 @@ describe 'searching for a bank', js: true, driver: :selenium do
       click_on 'Select'
     end
 
-    page.should have_content "Congratulations!"
     page.current_path.should == institution_selection_path
+    page.should have_content 'Congratulations!'
+    page.should have_content "my#{user.id}pixel"
 
     institution_authenticated_event = Plink::EventRecord.order('eventID desc').first
     institution_authenticated_event.event_type_id.should == institution_authenticated_event_type.id

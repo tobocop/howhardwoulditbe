@@ -446,9 +446,15 @@ describe InstitutionsController do
           sub_id_four: nil,
           sub_id_three: nil,
           sub_id_two: nil
-        )
+        ).and_call_original
 
         post :select, id: staged_account_record.id
+      end
+
+      it 'sets the institution authenticated pixel' do
+        controller.should_receive(:track_institution_authenticated).and_return(double(pixel: 'asd'))
+        post :select, id: staged_account_record.id
+        assigns(:institution_authenticated_pixel).should == 'asd'
       end
     end
 
@@ -475,6 +481,12 @@ describe InstitutionsController do
         Plink::EventService.any_instance.should_not_receive(:create_institution_authenticated)
 
         post :select, id: staged_account_record.id
+      end
+
+      it 'does not set the institution authenticated pixel' do
+        post :select, id: staged_account_record.id
+
+        assigns(:institution_authenticated_pixel).should be_nil
       end
     end
   end

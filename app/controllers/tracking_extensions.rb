@@ -42,7 +42,8 @@ module TrackingExtensions
   end
 
   def track_institution_authenticated(user_id)
-    Plink::EventService.new.create_institution_authenticated(user_id, new_tracking_object_from_session.to_hash)
+    event = Plink::EventService.new.create_institution_authenticated(user_id, new_tracking_object_from_session.to_hash)
+    PixelPresenterFactory.build_by_event(event)
   end
 
   def steelhouse_additional_info

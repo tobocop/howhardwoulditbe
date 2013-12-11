@@ -90,7 +90,23 @@ class InstitutionsController < ApplicationController
 
   def select
     staged_account = Plink::UsersInstitutionAccountStagingRecord.find(params[:id])
-    selected_account_values = {
+    updated_accounts = Plink::UsersInstitutionAccountRecord.
+      where(usersInstitutionID: staged_account.users_institution_id).
+      update_all(endDate: Date.current)
+    @selected_account = Plink::UsersInstitutionAccountRecord.create(selected_account_values(staged_account))
+    @institution_authenticated_pixel = institution_authenticated(updated_accounts, staged_account.user_id)
+
+    render :congratulations
+  end
+
+private
+
+  def institution_authenticated(updated_accounts, user_id)
+    track_institution_authenticated(user_id).pixel if updated_accounts == 0
+  end
+
+  def selected_account_values(staged_account)
+    {
       account_id: staged_account.account_id,
       account_number_hash: staged_account.account_number_hash,
       account_number_last_four: staged_account.account_number_last_four,
@@ -108,17 +124,7 @@ class InstitutionsController < ApplicationController
       users_institution_account_staging_id: staged_account.id,
       users_institution_id: staged_account.users_institution_id
     }
-    updated_accounts = Plink::UsersInstitutionAccountRecord.
-      where(usersInstitutionID: staged_account.users_institution_id).
-      update_all(endDate: Date.current)
-
-    track_institution_authenticated(staged_account.user_id) if updated_accounts == 0
-    @selected_account = Plink::UsersInstitutionAccountRecord.create(selected_account_values)
-
-    render :congratulations
   end
-
-private
 
   def most_popular
     @most_popular ||= Plink::InstitutionRecord.most_popular

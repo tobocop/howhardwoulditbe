@@ -118,9 +118,14 @@ shared_examples_for(:tracking_extensions) do
   end
 
   describe 'track_institution_authenticated' do
-    it 'tracks institution authenticated events' do
+    it 'tracks institution authenticated events and returns a pixel presenter' do
+      event = double
+
       Plink::EventService.should_receive(:new).and_return(event_service)
-      event_service.should_receive(:create_institution_authenticated).with(34, tracking_object_defaults)
+      event_service.should_receive(:create_institution_authenticated).
+        with(34, tracking_object_defaults).
+        and_return(event)
+      PixelPresenterFactory.should_receive(:build_by_event).with(event)
 
       controller.track_institution_authenticated(34)
     end
