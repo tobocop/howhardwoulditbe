@@ -39,7 +39,7 @@ class PixelPresenter
 private
 
   def replace_pixel_vars(pixel)
-    pixel.gsub(/\$\w+\$/) { |matched_param| replace(matched_param) }.html_safe
+    pixel.gsub(/\$\w+\$/) { |matched_param| replace(matched_param) }.html_safe if pixel
   end
 
   def replace(param)

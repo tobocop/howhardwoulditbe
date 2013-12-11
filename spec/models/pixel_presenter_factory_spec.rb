@@ -86,6 +86,11 @@ describe PixelPresenter do
         presenter = PixelPresenter.new(pixel_attrs.except(:sub_id_two))
         presenter.institution_authenticated_pixel.should == 'card-other3shitonein$subID2$threefourandafter'
       end
+
+      it 'returns nil when the institution_authenticated_pixel is nil' do
+        presenter = PixelPresenter.new(pixel_attrs.merge(institution_authenticated_pixel: nil))
+        presenter.institution_authenticated_pixel.should be_nil
+      end
     end
 
     describe '#email_capture_pixel' do
@@ -97,6 +102,11 @@ describe PixelPresenter do
       it 'does not translate ids that it does not know the values to' do
         presenter = PixelPresenter.new(pixel_attrs.except(:sub_id_two))
         presenter.email_capture_pixel.should == 'email-other3shitonein$subID2$threefourandafter'
+      end
+
+      it 'returns nil when the email_capture_pixel is nil' do
+        presenter = PixelPresenter.new(pixel_attrs.merge(email_capture_pixel: nil))
+        presenter.email_capture_pixel.should be_nil
       end
     end
   end
