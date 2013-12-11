@@ -4,10 +4,11 @@ describe 'searching for a bank', js: true, driver: :selenium do
   let!(:tupac_bank) { create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000) }
   let!(:dmx_bank) { create_institution(name: 'DMX Bank', is_supported: true) }
   let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
+  let!(:institution_authenticated_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
+  let(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
 
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
-    user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     user.primary_virtual_currency = virtual_currency
     user.save!
     create_wallet(user_id: user.id)
@@ -95,6 +96,10 @@ describe 'searching for a bank', js: true, driver: :selenium do
 
     page.should have_content "Congratulations!"
     page.current_path.should == institution_selection_path
+
+    institution_authenticated_event = Plink::EventRecord.order('eventID desc').first
+    institution_authenticated_event.event_type_id.should == institution_authenticated_event_type.id
+    institution_authenticated_event.user_id.should == user.id
   end
 
   it 'allows users to complete image based MFAs' do

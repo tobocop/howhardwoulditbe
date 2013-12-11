@@ -1,4 +1,5 @@
 class InstitutionsController < ApplicationController
+  include TrackingExtensions
   before_filter :require_authentication
   before_filter :most_popular, only: [:search, :search_results]
 
@@ -107,8 +108,11 @@ class InstitutionsController < ApplicationController
       users_institution_account_staging_id: staged_account.id,
       users_institution_id: staged_account.users_institution_id
     }
-    Plink::UsersInstitutionAccountRecord.where(usersInstitutionID: staged_account.users_institution_id).
+    updated_accounts = Plink::UsersInstitutionAccountRecord.
+      where(usersInstitutionID: staged_account.users_institution_id).
       update_all(endDate: Date.current)
+
+    track_institution_authenticated(staged_account.user_id) if updated_accounts == 0
     @selected_account = Plink::UsersInstitutionAccountRecord.create(selected_account_values)
 
     render :congratulations

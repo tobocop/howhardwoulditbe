@@ -89,6 +89,28 @@ describe Plink::EventService do
       end
   end
 
+  describe '#create_institution_authenticated' do
+    let(:event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
+
+    it 'should be successful' do
+      Plink::EventRecord.should_receive(:create).with(
+        user_id: user_id,
+        affiliate_id: 123,
+        sub_id: nil,
+        sub_id_two: nil,
+        sub_id_three: nil,
+        sub_id_four: nil,
+        path_id: '1',
+        campaign_id: 23,
+        landing_page_id: 12,
+        event_type_id: event_type.id,
+        ip: '127.0.0.1'
+        )
+
+      Plink::EventService.new.create_institution_authenticated(user_id, default_params)
+    end
+  end
+
   describe '#create_registration_start' do
     let(:event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
 

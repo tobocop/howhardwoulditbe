@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe InstitutionsController do
+  it_should_behave_like(:tracking_extensions)
+
   before do
     set_current_user(id: 1)
     set_virtual_currency
@@ -405,11 +407,13 @@ describe InstitutionsController do
   describe 'POST select' do
     let(:staged_account_record) { create_users_institution_account_staging }
 
+    before do
+      create_event_type(name: Plink::EventTypeRecord.card_add_type)
+    end
+
     context 'without previously existing account records' do
-
-      before { post :select, id: staged_account_record.id }
-
       it 'selects the account that the user chose as the active account' do
+        post :select, id: staged_account_record.id
         account_record = Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountStagingID: staged_account_record.id)
         account_record.length.should == 1
         account_record.first.begin_date.to_date.should == Date.current
@@ -419,23 +423,44 @@ describe InstitutionsController do
       end
 
       it 'assigns the selected account' do
+        post :select, id: staged_account_record.id
         assigns(:selected_account).should be_present
       end
 
       it 'renders the congratulations view' do
+        post :select, id: staged_account_record.id
         response.should render_template 'congratulations'
+      end
+
+      it 'tracks an institution authenticated event' do
+        Plink::EventService.any_instance.should_receive(:create_institution_authenticated).with(
+          staged_account_record.user_id,
+          affiliate_id: '1',
+          campaign_hash: nil,
+          campaign_id: nil,
+          ip: request.remote_ip,
+          landing_page_id: nil,
+          path_id: '1',
+          referrer_id: nil,
+          sub_id: nil,
+          sub_id_four: nil,
+          sub_id_three: nil,
+          sub_id_two: nil
+        )
+
+        post :select, id: staged_account_record.id
       end
     end
 
     context 'with previously existing account records' do
-      let(:existing_account_record) { create_users_institution_account(
+      let!(:existing_account_record) { create_users_institution_account(
         users_institution_account_staging_id: 8877,
         users_institution_id: staged_account_record.users_institution_id
       )}
 
-      before { post :select, id: staged_account_record.id }
-
       it 'end dates all previously existing usersInstitutionAccount records, but not the new account record' do
+        post :select, id: staged_account_record.id
+
         account_records = Plink::UsersInstitutionAccountRecord.all
         account_records.each do |account_record|
           if account_record.users_institution_account_staging_id != 8877
@@ -444,6 +469,12 @@ describe InstitutionsController do
             account_record.end_date.to_date.should == Date.current
           end
         end
+      end
+
+      it 'does not track an institution authenticated event' do
+        Plink::EventService.any_instance.should_not_receive(:create_institution_authenticated)
+
+        post :select, id: staged_account_record.id
       end
     end
   end

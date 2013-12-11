@@ -41,6 +41,10 @@ module TrackingExtensions
     end
   end
 
+  def track_institution_authenticated(user_id)
+    Plink::EventService.new.create_institution_authenticated(user_id, new_tracking_object_from_session.to_hash)
+  end
+
   def steelhouse_additional_info
     new_tracking_object_from_session.steelhouse_additional_info(current_virtual_currency.id)
   end

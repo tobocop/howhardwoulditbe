@@ -26,6 +26,11 @@ module Plink
       create_event(user_id, event_type.id, tracking_params)
     end
 
+    def create_institution_authenticated(user_id, tracking_params = {})
+      event_type = get_event_type(institution_authenticated_event_type)
+      create_event(user_id, event_type.id, tracking_params)
+    end
+
     def get_campaign_id(campaign_hash)
       campaign = Plink::CampaignRecord.for_campaign_hash(campaign_hash)
       campaign ? campaign.id : nil
@@ -72,9 +77,12 @@ module Plink
       Plink::EventTypeRecord.registration_start_type
     end
 
+    def institution_authenticated_event_type
+      Plink::EventTypeRecord.card_add_type
+    end
+
     def get_event_type(type)
       Plink::EventTypeRecord.for_name(type)
     end
-
   end
 end

@@ -117,6 +117,15 @@ shared_examples_for(:tracking_extensions) do
     end
   end
 
+  describe 'track_institution_authenticated' do
+    it 'tracks institution authenticated events' do
+      Plink::EventService.should_receive(:new).and_return(event_service)
+      event_service.should_receive(:create_institution_authenticated).with(34, tracking_object_defaults)
+
+      controller.track_institution_authenticated(34)
+    end
+  end
+
   describe 'steelhouse_additional_info' do
     it 'returns steelhouse info based on the current virtual currency' do
       controller.stub(:current_virtual_currency).and_return(double(id: 1))
