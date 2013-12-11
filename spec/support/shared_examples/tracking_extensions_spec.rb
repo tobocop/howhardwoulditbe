@@ -84,11 +84,20 @@ shared_examples_for(:tracking_extensions) do
   end
 
   describe 'track_email_capture_event' do
-    it 'tracks email capture events' do
+    it 'tracks email capture events and stores the resulting pixel in session' do
+      event = double
+
       Plink::EventService.should_receive(:new).and_return(event_service)
-      event_service.should_receive(:create_email_capture).with(3, tracking_object_defaults)
+      event_service.should_receive(:create_email_capture).
+        with(3, tracking_object_defaults).
+        and_return(event)
+      PixelPresenterFactory.should_receive(:build_by_event).
+        with(event).
+        and_return(double(email_capture_pixel: 'my_pixel'))
 
       controller.track_email_capture_event(3)
+
+      session[:email_capture_pixel].should == 'my_pixel'
     end
   end
 

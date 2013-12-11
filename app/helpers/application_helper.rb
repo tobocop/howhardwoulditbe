@@ -13,6 +13,10 @@ module ApplicationHelper
     end
   end
 
+  def email_capture_pixel
+    session.delete(:email_capture_pixel)
+  end
+
   def redemption_confirmation_text(amount, reward_name)
     "You're about to redeem #{amount.currency_award_amount} #{amount.currency_name} "\
     "for a #{plink_currency_format(amount.dollar_award_amount)} #{reward_name} Gift Card."\

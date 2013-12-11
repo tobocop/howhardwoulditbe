@@ -452,7 +452,7 @@ describe InstitutionsController do
       end
 
       it 'sets the institution authenticated pixel' do
-        controller.should_receive(:track_institution_authenticated).and_return(double(pixel: 'asd'))
+        controller.should_receive(:track_institution_authenticated).and_return(double(institution_authenticated_pixel: 'asd'))
         post :select, id: staged_account_record.id
         assigns(:institution_authenticated_pixel).should == 'asd'
       end

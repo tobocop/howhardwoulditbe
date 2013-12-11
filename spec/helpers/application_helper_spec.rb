@@ -23,6 +23,26 @@ describe ApplicationHelper do
     end
   end
 
+  describe '#email_capture_pixel' do
+    before do
+      session[:email_capture_pixel] = 'my_pixel'
+    end
+
+    it 'returns the pixel string stored in session' do
+      helper.email_capture_pixel.should == 'my_pixel'
+    end
+
+    it 'returns nil if there is nothing in the session' do
+      session.delete(:email_capture_pixel)
+      helper.email_capture_pixel.should be_nil
+    end
+
+    it 'clears the pixel from the session after it has been returned' do
+      helper.email_capture_pixel
+      session[:email_capture_pixel].should be_nil
+    end
+  end
+
   describe '#refer_a_friend_data' do
     it 'returns a hash with the keys title, description, image, share-widget' do
       refer_a_friend_data = helper.refer_a_friend_data

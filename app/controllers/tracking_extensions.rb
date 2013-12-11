@@ -27,7 +27,8 @@ module TrackingExtensions
   end
 
   def track_email_capture_event(user_id)
-    Plink::EventService.new.create_email_capture(user_id, new_tracking_object_from_session.to_hash)
+    event = Plink::EventService.new.create_email_capture(user_id, new_tracking_object_from_session.to_hash)
+    session[:email_capture_pixel] = PixelPresenterFactory.build_by_event(event).email_capture_pixel
   end
 
   def track_registration_start_event

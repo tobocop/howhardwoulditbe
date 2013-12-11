@@ -73,7 +73,7 @@ describe RegistrationsController do
           sub_id_four: nil,
           sub_id_three: nil,
           sub_id_two: nil
-        )
+        ).and_call_original
 
         xhr :post, :create
       end

@@ -102,7 +102,7 @@ class InstitutionsController < ApplicationController
 private
 
   def institution_authenticated(updated_accounts, user_id)
-    track_institution_authenticated(user_id).pixel if updated_accounts == 0
+    track_institution_authenticated(user_id).institution_authenticated_pixel if updated_accounts == 0
   end
 
   def selected_account_values(staged_account)

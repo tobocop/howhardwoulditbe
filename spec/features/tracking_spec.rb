@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'event tracking' do
+  let!(:affiliate) { create_affiliate(email_add_pixel: 'myherp_myherp_mylovelyladyderp') }
 
   before do
     create_virtual_currency
@@ -9,8 +10,8 @@ describe 'event tracking' do
     @campaign = create_campaign(campaign_hash: 'MYTESTHASH')
   end
 
-  it 'tracks events', js: true do
-    visit '/tracking/new?aid=1324&subid=one&subID2=two&subid3=three&SuBid4=four&c=MYTESTHASH&pathID=298'
+  it 'tracks events', js: true, driver: :selenium do
+    visit "/tracking/new?aid=#{affiliate.id}&subid=one&subID2=two&subid3=three&SuBid4=four&c=MYTESTHASH&pathID=298"
 
     page.current_path.should == '/'
 
@@ -31,11 +32,13 @@ describe 'event tracking' do
       page.should have_content 'Welcome, Frud!'
     end
 
+    page.should have_content 'myherp_myherp_mylovelyladyderp'
+
     tracked_event = Plink::EventRecord.order('eventID desc').first
 
     tracked_event.campaign_id.should == @campaign.id
     tracked_event.event_type_id.should == @event_type.id
-    tracked_event.affiliate_id.should == 1324
+    tracked_event.affiliate_id.should == affiliate.id
     tracked_event.sub_id.should == 'one'
     tracked_event.sub_id_two.should == 'two'
     tracked_event.sub_id_three.should == 'three'
@@ -86,5 +89,4 @@ describe 'event tracking' do
     tracked_event.created_at.should be
 
   end
-
 end

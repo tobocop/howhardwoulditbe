@@ -1,9 +1,10 @@
 class PixelPresenterFactory
   def self.build_by_event(event)
     affiliate = event.affiliate_record
-    if affiliate && !affiliate.card_add_pixel.blank?
+    if affiliate
       PixelPresenter.new(
-        pixel: affiliate.card_add_pixel,
+        institution_authenticated_pixel: affiliate.card_add_pixel,
+        email_capture_pixel: affiliate.email_add_pixel,
         sub_id: event.sub_id,
         sub_id_four: event.sub_id_four,
         sub_id_three: event.sub_id_three,
@@ -18,7 +19,8 @@ end
 
 class PixelPresenter
   def initialize(options)
-    @raw_pixel = options.fetch(:pixel)
+    @raw_institution_authenticated_pixel = options.fetch(:institution_authenticated_pixel)
+    @raw_email_capture_pixel = options.fetch(:email_capture_pixel)
     @sub_id = options[:sub_id]
     @sub_id_four = options[:sub_id_four]
     @sub_id_three = options[:sub_id_three]
@@ -26,11 +28,19 @@ class PixelPresenter
     @user_id = options[:user_id]
   end
 
-  def pixel
-    @raw_pixel.gsub(/\$\w+\$/) { |matched_param| replace(matched_param) }.html_safe
+  def institution_authenticated_pixel
+    replace_pixel_vars(@raw_institution_authenticated_pixel)
+  end
+
+  def email_capture_pixel
+    replace_pixel_vars(@raw_email_capture_pixel)
   end
 
 private
+
+  def replace_pixel_vars(pixel)
+    pixel.gsub(/\$\w+\$/) { |matched_param| replace(matched_param) }.html_safe
+  end
 
   def replace(param)
     value = replace_translation[param.upcase]
@@ -49,7 +59,11 @@ private
 end
 
 class NullPixelPresenter
-  def pixel
+  def institution_authenticated_pixel
+    nil
+  end
+
+  def email_capture_pixel
     nil
   end
 end
