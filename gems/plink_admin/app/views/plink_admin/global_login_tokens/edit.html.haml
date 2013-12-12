@@ -1,0 +1,17 @@
+%h1= "Edit Global Login Token - #{@global_login_token.id}"
+
+- if @global_login_token.errors.any?
+  .alert-box.alert
+    - @global_login_token.errors.full_messages.each do |message|
+      %p= message
+
+%p= "Token expires at: #{@global_login_token.expires_at}"
+
+= form_for(@global_login_token, url: global_login_token_path(@global_login_token), as: 'global_login_token') do |f|
+  = f.label :redirect_url, 'Redirect URL'
+  = f.text_field :redirect_url
+
+  = f.submit 'Update', class: 'button small'
+
+= link_to 'Cancel', global_login_tokens_path, class: 'button small secondary'
+

@@ -781,6 +781,19 @@ module Plink
       Plink::ContestBlacklistedEmailRecord.new { |entry| apply(entry, defaults, options) }
     end
 
+    def create_global_login_token(options = {})
+      new_global_login_token(options).tap(&:save!)
+    end
+
+    def new_global_login_token(options = {})
+      defaults = {
+        expires_at: 7.days.from_now,
+        redirect_url: 'http://awesome.com'
+      }
+
+      Plink::GlobalLoginTokenRecord.new { |global_login_token| apply(global_login_token, defaults, options) }
+    end
+
     def create_user_auto_login(options = {})
       new_user_auto_login(options).tap(&:save!)
     end

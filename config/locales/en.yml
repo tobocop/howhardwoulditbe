@@ -195,6 +195,10 @@ en:
               invalid: This contest has already ended
             contest_has_not_started:
               invalid: This contest has not started yet
+        plink/global_login_token_record:
+          attributes:
+            expires_at:
+              invalid: Tokens cannot expire more then 14 days from now
         plink/registration_link_record:
           attributes:
             landing_page_records:

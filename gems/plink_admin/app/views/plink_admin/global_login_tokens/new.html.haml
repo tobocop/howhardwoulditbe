@@ -1,0 +1,18 @@
+%h1 New Global Login Token
+
+- if @global_login_token.errors.any?
+  .alert-box.alert
+    - @global_login_token.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(@global_login_token, url: global_login_tokens_path, as: 'global_login_token') do |f|
+  = f.label :redirect_url, 'Redirect URL'
+  = f.text_field :redirect_url
+  = f.label :expires_at
+  .dateselect
+    = f.datetime_select :expires_at
+
+  = f.submit 'Create', class: 'button small'
+
+= link_to 'Cancel', global_login_tokens_path, class: 'button small secondary'
+
