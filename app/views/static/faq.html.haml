@@ -1,11 +1,9 @@
 .static.container
   .left-column
-    .headline
-      %h1 FAQ
-      %h2 We've got answers.
-    .headline
-      %h3 Maybe not to all of life's questions, but we can tell you how Plink works and why it's awesome.
-    %h3= contact_us_message
+    %h1.font-3p2em.font-w900 FAQ
+    %h2.font-1p6em.font-w300.mbl We've got answers.
+    %h3.font-1em.font-w300.mbl Maybe not to all of life's questions, but we can tell you how Plink works and why it's awesome.
+    %h3.font-1p1em.font-w300.mbl= contact_us_message
 
   .right-column
     - faq_items.each do |question, answer_and_anchor_name|

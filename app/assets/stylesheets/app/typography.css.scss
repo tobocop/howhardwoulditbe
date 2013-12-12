@@ -54,6 +54,11 @@
   line-height: 1.2em;
 }
 
+.font-3p2em {
+  font-size:3.2em;
+  line-height: 1.2em;
+}
+
 .font-3p5em {
   font-size:3.5em;
   line-height: 1.2em;
@@ -94,6 +99,14 @@
   color:#b3b3b3;
 }
 
+.font-midgray {
+  color:#808080;
+}
+
+.font-green {
+  color:$green;
+}
+
 .font-slate {
   color:$slate;
 }
@@ -115,6 +128,10 @@
 }
 
 /* ******  WEIGHT  ****** */
+
+.font-w100 {
+  font-weight: 100;
+}
 
 .font-w200 {
   font-weight: 200;

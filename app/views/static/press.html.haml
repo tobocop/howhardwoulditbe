@@ -1,24 +1,24 @@
 .static.container.news-page
   .left-column
     .headline
-      %h1 Press
-      %h2 "If it's on the internet, it has to be true."
-      %cite - George Washington
+      %h1.font-3p2em.font-w900 Press
+      %h2.font-1p6em.font-w300.mbs "If it's on the internet, it has to be true."
+      %cite.font-w300.font-italic.mbxl - George Washington
     %ul.nav
       %li= link_to 'Archive', '#archive'
       %li= link_to 'Releases', '#press-releases'
 
   .right-column.news-items
-    %h2#archive.cyan Press Archive
+    %h2#archive.font-1p2em.font-cyan.font-w300.mbl Press Archive
 
     = render partial: 'press_article', collection: @articles
 
     %hr
 
-    %h2#press-releases.cyan Releases
+    %h2#press-releases.font-1p2em.font-cyan.font-w300.mbl Releases
     - press_releases.each do |release|
-      %p= link_to release[:title], release[:url], class: 'text-link', target: '_blank'
-      %em= release[:date]
+      %p.font-w300.font-midgray.font-height1p5.mbs= link_to release[:title], release[:url], class: 'text-link', target: '_blank'
+      %p.font-w300.font-lightgray.mbl= release[:date]
 
 
   .clear

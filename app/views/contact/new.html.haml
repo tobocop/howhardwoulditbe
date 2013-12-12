@@ -1,27 +1,26 @@
 .static.container
   .left-column.static
-    .headline
-      %h1 Contact Us
-      %h2 How can we help you?
-    %h3 Need some help? Have a question or comment? Just feeling lonely? Let us know! We love hearing from you and are always happy to help.
+    %h1.font-3p2em.font-w900 Contact Us
+    %h2.font-1p6em.font-w300.mbl How can we help you?
+    %h3.font-1em.font-w300.mbl  Need some help? Have a question or comment? Just feeling lonely? Let us know! We love hearing from you and are always happy to help.
 
   .right-column
     = form_for(@contact_form, url: contact_path) do |form|
       .center
-        %h3 Why are you contacting Plink?
-        .content
+        %h3.font-1p2em.font-cyan.font-w300.mbl Why are you contacting Plink?
+        .content.mbl
           = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Customer Support', checked: true
             Customer Support
-        .content
+        .content.mbl
           = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Advertising and Business Development'
             Advertising and Business Development
-        .content
+        .content.mbl
           = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Investor Relations'
             Investor Relations
-        .content
+        .content.mbl
           = label_tag nil, class: 'label' do
             = form.radio_button :category, 'Other'
             Other
@@ -33,16 +32,16 @@
               %li.font.error= message
 
       .content.narrow.right
-        %h3 What's your first name?
+        %h3.font-1em.font-w300.mbs What's your first name?
         = form.text_field :first_name, placeholder: 'First Name', class: ['form-field', 'input']
       .content.narrow.right
-        %h3 What's your last name?
+        %h3.font-1em.font-w300.mbs What's your last name?
         = form.text_field :last_name, placeholder: 'Last Name', class: ['form-field', 'input']
       .content.narrow.right
-        %h3  What's your registered Plink email?
+        %h3.font-1em.font-w300.mbs What's your registered Plink email?
         = form.text_field :email, placeholder: 'Email', class: ['form-field', 'input']
       .content.narrow.right
-        %h3 And what can we help you with?
+        %h3.font-1em.font-w300.mbs And what can we help you with?
         = form.text_area :message_text, placeholder: 'Your Message', class: ['form-field', 'input']
 
       .content.narrow.right
