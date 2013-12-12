@@ -1,5 +1,5 @@
-%h3.font-1p1em.font-w300.font-height1p5.mbs
+%h3.font-1p1em.font-w300.font-height1p5
   %strong= press_article.source
   = '-'
   = press_article.published_on.to_s(:article)
-= link_to press_article.title, press_article.source_link, class: 'text-link font-w300', target: '_blank'
+.mbl= link_to press_article.title, press_article.source_link, class: 'text-link font-w300', target: '_blank'
