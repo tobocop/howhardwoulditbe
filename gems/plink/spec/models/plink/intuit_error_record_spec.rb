@@ -6,6 +6,7 @@ describe Plink::IntuitErrorRecord do
   it { should allow_mass_assignment_of(:error_description) }
   it { should allow_mass_assignment_of(:error_prefix) }
   it { should allow_mass_assignment_of(:intuit_error_id) }
+  it { should allow_mass_assignment_of(:send_reverification) }
   it { should allow_mass_assignment_of(:user_message) }
 
   it { should validate_presence_of(:error_description) }

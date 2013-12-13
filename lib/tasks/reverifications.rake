@@ -77,6 +77,32 @@ namespace :reverifications do
     puts "[#{Time.zone.now}] Ending reverifications:remove_accounts_with_expired_reverifications"; stars
   end
 
+  desc 'Sets completed_on time for records that have changed status in Intuit'
+  task set_status_code_108_to_completed: :environment do
+    reverifications = Plink::UserReverificationRecord.
+      select('usersReverifications.*').
+      joins('INNER JOIN usersIntuitErrors ON usersReverifications.usersIntuitErrorID = usersIntuitErrors.usersIntuitErrorID').
+      joins('INNER JOIN intuitErrors ON usersIntuitErrors.intuitErrorID = intuitErrors.intuitErrorID').
+      where('intuitErrors.intuitErrorID = 108')
+
+    reverifications.each do |reverification|
+      user_id = reverification.user_id
+      intuit_account = Plink::IntuitAccountService.new.find_by_user_id(user_id)
+
+      if intuit_account && !intuit_account.active?
+        account = Plink::UsersInstitutionAccountRecord.where(userID: user_id).first
+        next if account.blank?
+        intuit_response = Intuit::Request.new(user_id).account(account.account_id)
+
+        response = Intuit::Response.new(intuit_response).parse
+
+        unless response[:error] || response[:aggr_status_codes].include?(108)
+          reverification.update_attributes(completed_on: Time.zone.now)
+        end
+      end
+    end
+  end
+
 private
 
   def plink_points

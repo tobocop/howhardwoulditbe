@@ -440,3 +440,103 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
     subject.invoke
   end
 end
+
+describe 'reverifications:set_status_code_108_to_completed' do
+  include_context 'rake'
+
+  let!(:user) { create_user }
+  let!(:intuit_error) { create_intuit_error(intuit_error_id: 108)}
+  let!(:users_intuit_error) { create_user_intuit_error(user_id: user.id, intuit_error_id: intuit_error.id) }
+  let!(:reverification) { create_user_reverification(user_id: user.id, users_intuit_error_id: users_intuit_error.id, completed_on: nil, users_institution_id: users_institution.id) }
+
+  let!(:institution) { create_institution(intuit_institution_id: 100000) }
+  let!(:users_institution) { create_users_institution(user_id: user.id, institution_id: institution.id) }
+
+  let!(:intuit_response) do
+    { :status_code=>"200",
+      :result=>{
+        :account_list=>{
+          :credit_account=>{
+            :account_id=>"400010242913",
+            :status=>"ACTIVE",
+            :account_number=>"4100007777",
+            :account_nickname=>"My Visa",
+            :display_position=>"2",
+            :institution_id=>"100000",
+            :balance_date=>"2013-12-12T00:00:00-08:00",
+            :last_txn_date=>"2013-12-10T00:00:00-08:00",
+            :aggr_success_date=>"2013-12-12T10:25:20.543-08:00",
+            :aggr_attempt_date=>"2013-12-12T10:25:20.543-08:00",
+            :aggr_status_code=>"0",
+            :currency_code=>"USD",
+            :institution_login_id=>"158350175",
+            :credit_account_type=>"CREDITCARD",
+            :current_balance=>"-1212.25",
+            :payment_min_amount=>"15",
+            :payment_due_date=>"2020-04-01T00:00:00-07:00",
+            :statement_end_date=>"2020-03-01T00:00:00-08:00",
+            :statement_close_balance=>"-1212.25"
+          }
+        }
+      }
+    }
+  end
+
+  let(:intuit_request) { mock(Intuit::Request) }
+
+  before do
+    create_oauth_token(user_id: user.id)
+    create_users_institution_account(account_id: 400010242913, user_id: user.id, users_institution_id: users_institution.id)
+    Intuit::Request.stub(:new).and_return(intuit_request)
+  end
+
+  it 'does not effect completed reverifications' do
+    intuit_request.stub(:account).and_return(intuit_response)
+    two_day_ago = 2.days.ago
+    completed_reverification = create_user_reverification(user_id: user.id, users_intuit_error_id: users_intuit_error.id, completed_on: two_day_ago, users_institution_id: users_institution.id)
+
+    subject.invoke
+
+    completed_reverification.reload.completed_on.to_date.should == two_day_ago.to_date
+  end
+
+  it 'does not effect non-108 status code reverifications' do
+    intuit_request.stub(:account).and_return(intuit_response)
+
+    intuit_error = create_intuit_error(intuit_error_id: 101)
+    users_intuit_error = create_user_intuit_error(user_id: user.id, intuit_error_id: intuit_error.id)
+    different_reverification = create_user_reverification(user_id: user.id, users_intuit_error_id: users_intuit_error.id, completed_on: nil, users_institution_id: users_institution.id)
+
+    subject.invoke
+
+    different_reverification.reload.completed_on.should be_nil
+  end
+
+  it 'calls to intuit to get the account status' do
+    intuit_request.should_receive(:account).with(400010242913).and_return(intuit_response)
+
+    subject.invoke
+  end
+
+  context 'for a user who has a non-108 aggr_status_code' do
+    it 'sets the completed_on time for the reverification' do
+      intuit_request.should_receive(:account).and_return(intuit_response)
+      reverification.completed_on.should be_nil
+
+      subject.invoke
+
+      reverification.reload.completed_on.to_date.should == Date.current
+    end
+  end
+
+  context 'for a user who still has a 108 status code' do
+    it 'does not update the reverification' do
+      intuit_response[:result][:account_list][:credit_account][:aggr_status_code] = "108"
+      intuit_request.should_receive(:account).and_return(intuit_response)
+
+      subject.invoke
+
+      reverification.reload.completed_on.should be_nil
+    end
+  end
+end

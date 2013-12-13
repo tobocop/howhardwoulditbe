@@ -364,6 +364,22 @@ module Plink
       new_user_intuit_error(options).tap(&:save!)
     end
 
+    def new_intuit_error(options = {})
+      defaults = {
+        error_description: 'User action is required to bypass multi-factor authentication',
+        error_prefix: 'ccscrape',
+        intuit_error_id: 185,
+        user_message: 'Your bank is requesting additional security information.',
+        send_reverification: true
+      }
+
+      Plink::IntuitErrorRecord.new { |intuit_error| apply(intuit_error, defaults, options) }
+    end
+
+    def create_intuit_error(options = {})
+      new_intuit_error(options).tap(&:save!)
+    end
+
     def new_intuit_account_to_remove(options = {})
       defaults = {
         intuit_account_id: 3,

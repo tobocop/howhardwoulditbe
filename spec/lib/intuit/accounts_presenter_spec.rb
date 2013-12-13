@@ -1,7 +1,31 @@
 require 'spec_helper'
 
 describe Intuit::AccountsPresenter do
-  let(:intuit_response) do
+  let(:intuit_single_account_response) do
+    { :credit_account=>{
+        :account_id=>"400010242913",
+        :status=>"ACTIVE",
+        :account_number=>"4100007777",
+        :account_nickname=>"My Visa",
+        :display_position=>"2",
+        :institution_id=>"100000",
+        :balance_date=>"2013-12-12T00:00:00-08:00",
+        :last_txn_date=>"2013-12-10T00:00:00-08:00",
+        :aggr_success_date=>"2013-12-12T10:25:20.543-08:00",
+        :aggr_attempt_date=>"2013-12-12T10:25:20.543-08:00",
+        :aggr_status_code=>"0",
+        :currency_code=>"USD",
+        :institution_login_id=>"158350175",
+        :credit_account_type=>"CREDITCARD",
+        :current_balance=>"-1212.25",
+        :payment_min_amount=>"15",
+        :payment_due_date=>"2020-04-01T00:00:00-07:00",
+        :statement_end_date=>"2020-03-01T00:00:00-08:00",
+        :statement_close_balance=>"-1212.25"
+      }
+    }
+  end
+  let(:intuit_multiple_accounts_response) do
     {:loan_account=>
       [{:account_id=>"400006583993",
         :status=>"ACTIVE",
@@ -84,15 +108,29 @@ describe Intuit::AccountsPresenter do
     }
   end
 
-  subject(:institution_accounts) { Intuit::AccountsPresenter.new(intuit_response) }
-
   describe '.accounts' do
-    it 'returns all accounts' do
-      institution_accounts.accounts.length.should == 4
+    context 'for a collection of accounts' do
+      subject(:institution_accounts) { Intuit::AccountsPresenter.new(intuit_multiple_accounts_response) }
+
+      it 'returns all accounts' do
+        institution_accounts.accounts.length.should == 4
+      end
+
+      it 'returns a collection of institution account presenters' do
+        institution_accounts.accounts.map(&:class).uniq.should == [Intuit::AccountPresenter]
+      end
     end
 
-    it 'returns a collection of institution account presenters' do
-      institution_accounts.accounts.map(&:class).uniq.should == [Intuit::AccountPresenter]
+    context 'for a single account' do
+      subject(:institution_accounts) { Intuit::AccountsPresenter.new(intuit_single_account_response) }
+
+      it 'returns 1 accounts' do
+        institution_accounts.accounts.length.should == 1
+      end
+
+      it 'returns a collection of institution account presenters' do
+        institution_accounts.accounts.map(&:class).uniq.should == [Intuit::AccountPresenter]
+      end
     end
   end
 end

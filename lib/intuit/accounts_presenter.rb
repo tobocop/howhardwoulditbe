@@ -8,6 +8,8 @@ module Intuit
       account_presenters = []
 
       @accounts.each_pair do |account_type, account_list|
+        account_list = [account_list] if account_list.is_a?(Hash)
+
         account_list.each do |account|
           account_presenters.push(Intuit::AccountPresenter.new(account, account_type))
         end

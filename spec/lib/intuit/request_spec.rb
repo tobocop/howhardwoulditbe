@@ -23,6 +23,18 @@ describe Intuit::Request do
     end
   end
 
+  describe '#account' do
+    before { aggcat.stub(:account).and_return(true) }
+
+    it 'calls getAccount [/accounts/#{account_id}]' do
+      Aggcat.stub(:scope).and_return(aggcat)
+
+      aggcat.should_receive(:account).with(12345)
+
+      Intuit::Request.new(123).account(12345)
+    end
+  end
+
   describe '#respond_to_mfa' do
     before { aggcat.stub(:account_confirmation).and_return(true) }
 

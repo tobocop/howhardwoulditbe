@@ -8,6 +8,10 @@ module Intuit
       @aggcat.discover_and_add_accounts(intuit_institution_id, *user_and_password)
     end
 
+    def account(account_id)
+      @aggcat.account(account_id)
+    end
+
     def respond_to_mfa(intuit_institution_id, challenge_session_id, challenge_node_id, answers)
       @aggcat.account_confirmation(intuit_institution_id, challenge_session_id, challenge_node_id, answers)
     end
