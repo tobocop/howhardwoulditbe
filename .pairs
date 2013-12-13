@@ -4,8 +4,8 @@ pairs:
   mh: Matt Hamrick; mhamrick
   km: Kris McDonald; kmcdonald
   ak: Andreas Kavountzis; akavountzis
-  bt: Bryan Tyler, btyler
-  sb: Scott Berke, sberke
+  bt: Bryan Tyler; btyler
+  sb: Scott Berke; sberke
 email:
   prefix: pair
   domain: plink.com
