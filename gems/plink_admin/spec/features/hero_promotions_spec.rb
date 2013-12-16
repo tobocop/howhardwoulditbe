@@ -48,7 +48,6 @@ describe 'Hero Promotions' do
         page.should have_css "img[src='http://example.com/image-right']"
         page.should have_content '28'
         page.should have_content 'Active'
-        page.should have_content 'All'
 
         click_on 'Heroz'
       end
@@ -80,7 +79,6 @@ describe 'Hero Promotions' do
         page.should have_css "img[src='http://example.com/new-image']"
         page.should have_css "img[src='http://example.com/new-image-right']"
         page.should have_content 'Inactive'
-        page.should have_content 'Non-Linked Users'
 
         click_on 'Heroz II'
       end
@@ -106,7 +104,6 @@ describe 'Hero Promotions' do
         page.should have_content '25'
         page.should have_css "img[src='http://example.com/new-image']"
         page.should have_content 'Inactive'
-        page.should have_content 'List of Users'
       end
     end
   end

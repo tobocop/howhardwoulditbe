@@ -9,7 +9,7 @@ describe PlinkAdmin::HeroPromotionsController do
 
   describe 'GET index' do
     it 'sets up the hero promotions' do
-      Plink::HeroPromotionRecord.should_receive(:order).with('created_at DESC').and_return('active_relation_object')
+      Plink::HeroPromotionRecord.stub_chain(:select, :order).and_return('active_relation_object')
 
       get :index
 

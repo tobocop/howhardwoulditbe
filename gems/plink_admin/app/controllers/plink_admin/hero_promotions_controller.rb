@@ -2,7 +2,7 @@ module PlinkAdmin
   class HeroPromotionsController < ApplicationController
 
     def index
-      @hero_promotions = plink_hero_promotion_record.order('created_at DESC')
+      @hero_promotions = plink_hero_promotion_record.select(index_fields).order('created_at DESC')
     end
 
     def new
@@ -70,6 +70,10 @@ module PlinkAdmin
       end
 
       result
+    end
+
+    def index_fields
+      [:display_order, :id, :image_url_one, :image_url_two, :is_active, :name, :title]
     end
   end
 end

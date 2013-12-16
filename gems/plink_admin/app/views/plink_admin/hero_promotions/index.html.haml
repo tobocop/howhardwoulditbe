@@ -8,7 +8,6 @@
     %th Image Right
     %th Order
     %th Active
-    %th Audience
   %tbody
     - @hero_promotions.each do |hero_promotion|
       %tr.hero-promotion-item
@@ -18,4 +17,3 @@
         %td= image_tag hero_promotion.image_url_two, class: 'hero-promotion-image' if hero_promotion.image_url_two.present?
         %td= hero_promotion.display_order
         %td= hero_promotion.is_active ? 'Active' : 'Inactive'
-        %td= determine_audience(hero_promotion)
