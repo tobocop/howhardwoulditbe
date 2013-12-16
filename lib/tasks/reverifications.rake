@@ -79,6 +79,9 @@ namespace :reverifications do
 
   desc 'Sets completed_on time for records that have changed status in Intuit'
   task set_status_code_108_to_completed: :environment do
+    stars
+    puts "[#{Time.zone.now}] Beginning task to set 108 status codes completed_on"
+
     reverifications = Plink::UserReverificationRecord.
       select('usersReverifications.*').
       joins('INNER JOIN usersIntuitErrors ON usersReverifications.usersIntuitErrorID = usersIntuitErrors.usersIntuitErrorID').
@@ -96,11 +99,19 @@ namespace :reverifications do
 
         response = Intuit::Response.new(intuit_response).parse
 
-        unless response[:error] || response[:aggr_status_codes].include?(108)
+        if response[:error]
+          puts "[#{Time.zone.now}] ERROR: Could not retrieve data from Intuit. Returned #{response[:value]}"
+        elsif response[:aggr_status_codes].include?(108)
+          puts "[#{Time.zone.now}] WARNING: Status code 108 still exists for user_id: #{user_id}"
+        else
           reverification.update_attributes(completed_on: Time.zone.now)
+          puts "[#{Time.zone.now}] SUCCESS: Updated reverification_id: #{reverification.id}"
         end
       end
     end
+
+    puts "[#{Time.zone.now}] Task finished setting completed_on for 108 status codes"
+    stars
   end
 
 private
