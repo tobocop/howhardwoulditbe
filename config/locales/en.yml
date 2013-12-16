@@ -61,25 +61,25 @@ en:
             html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
             text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
     contests:
-      disclaimer: "Void where prohibited. Maximum of 300 entries per day. 1st Place Prize is a $400.00 gift card – enough to purchase an Apple iPad 2 at Walmart"
+      disclaimer: "Void where prohibited. Maximum of 300 entries per day. 1st Place Prize is a $500.00 gift card to Amazon.com"
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
       entry_post:
-        title: "Win an iPad 2 in Plink's iPad Holiday Giveaway"
-        description: "Enter Plink's iPad Holiday Giveaway to win an Apple iPad 2. Even if you don't win the grand prize, you'll still have a chance to win the other 149 prizes!"
+        title: "Win a $500 Amazon.com Gift Card"
+        description: "Enter Plink's $500 Amazon.com Gift Card Giveaway. Even if you don't win the grand prize, you'll still have a chance to win the other 149 prizes!"
       winners_post:
         title: I just won a Plink contest! You can be a Winner, too.
-        description: "I just won a gift card in Plink's iPad Holiday Giveaway! Join Plink today and enter for your chance to win."
+        description: "I just won a gift card in Plink's $500 Amazon.com Gift Card Giveaway!  Join Plink today and enter for your chance to win."
       winners_automatic_post:
-        status: "I just won a prize in Plink's iPad Holiday Giveaway! I might have even won the iPad 2- See what I won!"
+        status: "I just won a prize in Plink's $500 Amazon.com Gift Card Giveaway! I might have even won the grand prize- See what I won!"
       in_app_notification:
-        enter_today: Enter our contest today for a chance to win an Apple iPad
+        enter_today: Enter our contest today for a chance to win an $500 Amazon.com Gift Card
       emails:
         daily_reminder_email:
-          subject: Enter Today - Apple iPad Up For Grabs
+          subject: Enter Today - $500 Amazon.com Gift Card Up For Grabs
         three_day_reminder_email:
-          subject: Your iPad Giveaway entries expire today
+          subject: Your $500 Amazon.com Gift Card Giveaway entries expire today
         winner_email:
-          subject: Plink's iPad Holiday Giveaway Winners Announced!! See if you won!
+          subject: Plink's $500 Amazon.com Gift Card Giveaway Winners Announced!! See if you won!
     rewards:
       emails:
         reward_notification_email:
