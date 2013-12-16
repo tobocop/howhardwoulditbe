@@ -6,8 +6,11 @@
     .gray-box
       - if error
         = render partial: 'institutions/authentication/error', locals: {error: error, institution_form: institution_form}
+      - elsif @duplicate
+        = render partial: 'institutions/authentication/duplicate', locals: {institution_form: institution_form}
       - else
         .font-p9em.font-w300#please-login Please login to your #{institution_form.name} account.
+    - if error || !@duplicate
       .spacer-top-8
         .font-p9em.font-w300.font-italic.js-all-fields-required * All fields required
   = form_tag institution_authenticate_path, id: 'js-authentication-form' do

@@ -178,6 +178,7 @@ describe InstitutionsController do
       set_current_user(id: 1)
       set_virtual_currency
       controller.stub(:intuit_accounts)
+      session[:institution_id] = 13
       session[:intuit_institution_id] = 14
       session[:non_masked_fields] = ['field_one']
     end
@@ -213,6 +214,26 @@ describe InstitutionsController do
       Digest::SHA512.should_receive(:hexdigest).with('user')
 
       post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+
+    context 'for duplicate registration attempts' do
+      let!(:existing_users) {
+        double(
+          users_institution_id: 1,
+          user_id: 7,
+          institution_id: 13,
+          intuit_institution_id: 14,
+          hash_check: 'abcdef'
+        )
+      }
+      let(:users_institution_record) { Plink::UsersInstitutionRecord }
+
+      it 'logs data into the database if a duplicate registration is attempted' do
+        Plink::UsersInstitutionRecord.should_receive(:hash_check_duplicates).and_return([existing_users])
+        Plink::DuplicateRegistrationAttemptRecord.should_receive(:create).with(user_id: 1, existing_user_id: 7)
+
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+      end
     end
   end
 
@@ -284,6 +305,7 @@ describe InstitutionsController do
 
       it 'with an error renders the authentication form' do
         Plink::InstitutionRecord.stub_chain(:where).and_return([double(intuit_institution_id: 10000)])
+        InstitutionFormPresenter.stub(:new).and_return(double(raw_form_data: {}))
         controller.stub(:institution_form)
         ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => true}.to_json)
 
@@ -291,6 +313,7 @@ describe InstitutionsController do
 
         response.should render_template partial: 'institutions/authentication/_form'
       end
+
     end
 
     context 'with an MFA question' do

@@ -65,4 +65,22 @@ describe Plink::UsersInstitutionRecord do
       intuit_accounts.first.should == users_institution_account
     end
   end
+
+  context 'named scopes' do
+    describe '.hash_check_duplicates' do
+
+      let!(:users_institution) { create_users_institution }
+      let(:scope) { Plink::UsersInstitutionRecord.hash_check_duplicates(users_institution.institution_id, 'my unique hash', 10) }
+
+      it 'returns the matched record' do
+        scope.should include users_institution
+      end
+
+      it 'does not return invalid records' do
+        users_institution.update_attribute(:hash_check, 'higgledy-piggledy')
+
+        scope.should_not include users_institution
+      end
+    end
+  end
 end

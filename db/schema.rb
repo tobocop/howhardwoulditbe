@@ -540,6 +540,13 @@ ActiveRecord::Schema.define(:version => 20131211235419) do
     t.datetime "firstMondayOfWeek"
   end
 
+  create_table "duplicate_registration_attempts", :force => true do |t|
+    t.integer  "user_id",          :limit => 8
+    t.integer  "existing_user_id", :limit => 8
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
   create_table "entries", :force => true do |t|
     t.integer  "contest_id"
     t.integer  "user_id"
@@ -789,20 +796,20 @@ ActiveRecord::Schema.define(:version => 20131211235419) do
     t.boolean "sendReverification",                :default => false, :null => false
   end
 
-  create_table "intuit_accounts_to_remove", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "intuit_account_id",    :limit => 8
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.integer  "users_institution_id"
-  end
-
   create_table "intuit_account_requests", :force => true do |t|
     t.integer  "user_id"
     t.boolean  "processed"
     t.text     "response"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "intuit_accounts_to_remove", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "intuit_account_id",    :limit => 8
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "users_institution_id"
   end
 
   create_table "intuit_archived_transactions", :force => true do |t|
@@ -1836,6 +1843,12 @@ ActiveRecord::Schema.define(:version => 20131211235419) do
     t.integer  "user_id"
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
+  end
+
+  create_table "transactions_hash_values_staging", :force => true do |t|
+    t.integer "user_id",              :limit => 8,   :null => false
+    t.integer "users_institution_id", :limit => 8,   :null => false
+    t.string  "hashed_value",         :limit => 250, :null => false
   end
 
   create_table "transactions_prod_copy_temp", :id => false, :force => true do |t|

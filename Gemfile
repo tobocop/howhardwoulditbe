@@ -46,8 +46,10 @@ group :test do
   gem 'capybara-webkit', '~> 1.0.0'
   gem 'launchy', '2.3.0'
   gem 'database_cleaner', '~> 1.0.1'
-  gem 'selenium-webdriver', '2.34.0'
+  gem 'selenium-webdriver', '2.38.0'
   gem 'rspec-retry'
+  gem "zip-zip", "~> 0.1"
+  gem "rubyzip", "~> 1.0.0"
 end
 
 group :production do
