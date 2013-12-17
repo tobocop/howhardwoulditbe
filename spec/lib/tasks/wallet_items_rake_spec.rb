@@ -303,12 +303,24 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
   let!(:another_expired_offer_tier_one) { create_tier(offers_virtual_currency_id: another_expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
   let!(:another_expired_offer_tier_two) { create_tier(offers_virtual_currency_id: another_expired_offer.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
 
+  let(:non_expired_offer_with_mixed_tiers_offers_virtual_currency) { create_offers_virtual_currency(virtual_currency_id: virtual_currency.id) }
+  let!(:non_expired_offer_with_mixed_tiers) {
+    create_offer(
+      advertiser_id: advertiser.id,
+      end_date: Date.yesterday.midnight,
+      offers_virtual_currencies: [non_expired_offer_with_mixed_tiers_offers_virtual_currency]
+    )
+  }
+  let!(:non_expired_offer_expired_tier) { create_tier(offers_virtual_currency_id: non_expired_offer_with_mixed_tiers.offers_virtual_currencies.first.id, end_date: '2001-01-01', is_active: false) }
+  let!(:non_expired_offer_non_expired_tier) { create_tier(offers_virtual_currency_id: non_expired_offer_with_mixed_tiers.offers_virtual_currencies.first.id, end_date: '2999-12-31') }
+
   let(:user_with_expired_offer) { create_user(first_name: 'kramer', email: 'foo@example.com') }
   let(:other_user_with_expired_offer) { create_user(first_name: 'jerry',email: 'ichabod@example.com') }
   let(:user_without_expired_offer) { create_user(first_name: 'george',email: 'loser@example.com') }
+  let(:user_with_expired_tier) { create_user(first_name: 'elaine',email: 'frizzy@example.com') }
 
   before do
-    [user_with_expired_offer, other_user_with_expired_offer, user_without_expired_offer].each do |user|
+    [user_with_expired_offer, other_user_with_expired_offer, user_without_expired_offer, user_with_expired_tier].each do |user|
       create_wallet(
         user_id: user.id,
         wallet_item_records: [new_open_wallet_item, new_open_wallet_item]
@@ -320,10 +332,12 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     Plink::AddOfferToWalletService.new(user: other_user_with_expired_offer, offer: expired_offer).add_offer
     Plink::AddOfferToWalletService.new(user: other_user_with_expired_offer, offer: valid_offer).add_offer
     Plink::AddOfferToWalletService.new(user: user_without_expired_offer, offer: valid_offer).add_offer
+
+    Plink::AddOfferToWalletService.new(user: user_with_expired_tier, offer: non_expired_offer_with_mixed_tiers).add_offer
   end
 
   it 'removes offers that have expired from every wallet' do
-    Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(3).times.and_call_original
+    Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(4).times.and_call_original
 
     subject.invoke
 
@@ -338,24 +352,26 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     grouped_items = user_without_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
     grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
     grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
+
+    grouped_items = user_with_expired_tier.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+    grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
+    grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
   end
 
   it 'emails the users that have the expired offer in their wallet' do
-    delay_double = double(offer_removed_email: true)
+    delay = double(offer_removed_email: true)
 
-    Plink::UserAutoLoginRecord.should_receive(:create)
-      .exactly(3).times
-      .and_return(double(user_token:'asd'))
+    Plink::UserAutoLoginRecord.should_receive(:create).exactly(4).times.
+      and_return(double(user_token:'asd'))
 
-    OfferExpirationMailer.should_receive(:delay)
-      .exactly(3).times
-      .with(run_at: Time.zone.parse("#{Date.current} 10:30:00"))
-      .and_return(delay_double)
+    OfferExpirationMailer.should_receive(:delay).exactly(4).times.
+      with(run_at: Time.zone.parse("#{Date.current} 10:30:00")).
+      and_return(delay)
 
-    delay_double.should_receive(:offer_removed_email) do |args|
+    delay.should_receive(:offer_removed_email) do |args|
       args.length.should == 4
-      ['jerry', 'kramer', 'george'].should include(args[:first_name])
-      ['foo@example.com', 'ichabod@example.com', 'loser@example.com'].should include(args[:email])
+      ['jerry', 'kramer', 'george', 'elaine'].should include(args[:first_name])
+      ['foo@example.com', 'ichabod@example.com', 'loser@example.com', 'frizzy@example.com'].should include(args[:email])
       args[:advertiser_name].should == 'bk'
       args[:user_token].should == 'asd'
     end
@@ -379,6 +395,15 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     another_expired_offer_tier_two.reload.end_date.should == another_expired_offer.end_date
     valid_offer_tier_one.end_date.should_not == valid_offer.end_date
     valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+  end
+
+  it 'does not change the end date of inactive tiers' do
+    non_expired_offer_expired_tier.end_date.should == Time.zone.parse('2001-01-01')
+
+    subject.invoke
+
+    non_expired_offer_expired_tier.reload.end_date.should == Time.zone.parse('2001-01-01')
+    non_expired_offer_non_expired_tier.reload.end_date.should == non_expired_offer_with_mixed_tiers.end_date
   end
 
   it 'end dates the users_award_period' do

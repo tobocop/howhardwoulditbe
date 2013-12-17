@@ -45,8 +45,8 @@ namespace :wallet_items do
     expired_offers.each do |expired_offer|
       expired_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
 
-        offers_virtual_currency.tiers.each do |tier_record|
-          tier_record.update_attributes(:end_date => expired_offer.end_date)
+        offers_virtual_currency.live_tiers.each do |tier_record|
+          tier_record.update_attributes(end_date: expired_offer.end_date)
         end
 
         user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|
