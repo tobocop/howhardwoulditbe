@@ -72,7 +72,7 @@ en:
       winners_automatic_post:
         status: "I just won a prize in Plink's $500 Amazon.com Gift Card Giveaway! I might have even won the grand prize- See what I won!"
       in_app_notification:
-        enter_today: Enter our contest today for a chance to win an $500 Amazon.com Gift Card
+        enter_today: Enter our contest today for a chance to win a $500 Amazon.com Gift Card
       emails:
         daily_reminder_email:
           subject: Enter Today - $500 Amazon.com Gift Card Up For Grabs
