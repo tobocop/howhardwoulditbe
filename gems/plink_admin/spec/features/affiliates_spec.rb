@@ -28,7 +28,7 @@ describe 'Affiliates' do
     page.should have_content 'Affiliate created successfully'
 
     within '.affiliate-list' do
-      within '.affiliate-item:nth-of-type(1)' do
+      within 'tr.affiliate-item:nth-of-type(1)' do
         page.should have_content 'This is my affiliate'
 
         click_on 'This is my affiliate'
@@ -44,7 +44,7 @@ describe 'Affiliates' do
     page.should have_content 'Affiliate updated'
 
     within '.affiliate-list' do
-      within '.affiliate-item:nth-of-type(1)' do
+      within 'tr.affiliate-item:nth-of-type(1)' do
         page.should have_content 'The more awesome affiliate'
       end
     end
@@ -75,7 +75,7 @@ describe 'Affiliates' do
       page.should have_content 'Associated Links'
 
       within '.registration_link-list' do
-        within '.registration_link-item:nth-of-type(1)' do
+        within 'tr.registration_link-item:nth-of-type(1)' do
           page.should have_content registration_link.id
           page.should have_content 'Limp Bizkit forever'
           page.should have_content 1.day.ago.to_date.strftime('%-m/%-d/%y')

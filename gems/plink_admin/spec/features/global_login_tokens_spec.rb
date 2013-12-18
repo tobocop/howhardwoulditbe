@@ -14,7 +14,7 @@ describe 'Global Login Tokens' do
     click_link 'Global Login Tokens'
 
     within '.global_login_tokens-list' do
-      within '.global_login_token-item:nth-of-type(1).expiring' do
+      within 'tr.global_login_token-item:nth-of-type(1).expiring' do
         page.should have_content 3.days.ago.year
         page.should have_content 3.days.ago.month
         page.should have_content 3.days.ago.day
@@ -41,7 +41,7 @@ describe 'Global Login Tokens' do
     click_on 'Create'
 
     within '.global_login_tokens-list' do
-      within '.global_login_token-item:nth-of-type(2)' do
+      within 'tr.global_login_token-item:nth-of-type(2)' do
         page.should have_content 'http://example.com'
         page.should have_content 7.days.from_now.year
         page.should have_content 7.days.from_now.month
@@ -58,7 +58,7 @@ describe 'Global Login Tokens' do
     click_on 'Update'
 
     within '.global_login_tokens-list' do
-      within '.global_login_token-item:nth-of-type(2)' do
+      within 'tr.global_login_token-item:nth-of-type(2)' do
         page.should have_content 'http://example.com/different'
       end
     end

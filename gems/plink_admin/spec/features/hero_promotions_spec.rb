@@ -41,7 +41,7 @@ describe 'Hero Promotions' do
     hero_promotion.link_one.should == 'http://example.com/'
     hero_promotion.link_two.should == 'http://example.com/right'
     within '.hero-promotions-list' do
-      within '.hero-promotion-item:nth-of-type(1)' do
+      within 'tr.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz'
         page.should have_content 'This promotion is awesome'
         page.should have_css "img[src='http://example.com/image']"
@@ -72,7 +72,7 @@ describe 'Hero Promotions' do
     hero_promotion.reload.link_one.should be_blank
     hero_promotion.reload.link_two.should == 'new'
     within '.hero-promotions-list' do
-      within '.hero-promotion-item:nth-of-type(1)' do
+      within 'tr.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz II'
         page.should have_content 'This promotion is awesomer'
         page.should have_content '25'
@@ -98,7 +98,7 @@ describe 'Hero Promotions' do
     click_on 'Submit'
 
     within '.hero-promotions-list' do
-      within '.hero-promotion-item:nth-of-type(1)' do
+      within 'tr.hero-promotion-item:nth-of-type(1)' do
         page.should have_content 'Heroz II'
         page.should have_content 'This promotion is awesomer'
         page.should have_content '25'

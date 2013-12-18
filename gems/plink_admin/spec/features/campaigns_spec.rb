@@ -28,7 +28,7 @@ describe 'Campaigns' do
     page.should have_content 'Campaign created successfully'
 
     within '.campaign-list' do
-      within '.campaign-item:nth-of-type(1)' do
+      within 'tr.campaign-item:nth-of-type(1)' do
         page.should have_content 'My Campaign'
 
         click_on 'My Campaign'
@@ -44,7 +44,7 @@ describe 'Campaigns' do
     page.should have_content 'Campaign updated'
 
     within '.campaign-list' do
-      within '.campaign-item:nth-of-type(1)' do
+      within 'tr.campaign-item:nth-of-type(1)' do
         page.should have_content 'The better campaign'
       end
     end

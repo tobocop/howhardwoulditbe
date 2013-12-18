@@ -30,7 +30,7 @@ describe 'Share Pages' do
     page.should have_content 'Share page created successfully'
 
     within '.share_page-list' do
-      within '.share_page-item:nth-of-type(1)' do
+      within 'tr.share_page-item:nth-of-type(1)' do
         page.should have_content 'sharing on awesome'
         page.should have_content 'mypartial.haml.html'
 
@@ -48,7 +48,7 @@ describe 'Share Pages' do
     page.should have_content 'Share page updated'
 
     within '.share_page-list' do
-      within '.share_page-item:nth-of-type(1)' do
+      within 'tr.share_page-item:nth-of-type(1)' do
         page.should have_content 'Updated share page'
         page.should have_content 'myupdatedpartial.haml.html'
       end

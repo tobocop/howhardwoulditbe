@@ -40,7 +40,7 @@ describe 'Registration Links' do
     page.should have_content 'Successfully created 1 registration link(s)'
 
     within '.registration_link-list' do
-      within '.registration_link-item:nth-of-type(1)' do
+      within 'tr.registration_link-item:nth-of-type(1)' do
         page.should have_content "#{affiliate.id} - the first one"
         page.should have_content "#{campaign.id} - Limp Bizkit forever"
         page.should have_content "#{landing_page_one.id} - cookie"
@@ -69,7 +69,7 @@ describe 'Registration Links' do
     page.should have_content 'Registration link updated'
 
     within '.registration_link-list' do
-      within '.registration_link-item:nth-of-type(1)' do
+      within 'tr.registration_link-item:nth-of-type(1)' do
         page.should have_content "#{affiliate.id} - the first one"
         page.should have_content "#{campaign.id} - Limp Bizkit forever"
         page.should have_content "#{landing_page_two.id} - monster"

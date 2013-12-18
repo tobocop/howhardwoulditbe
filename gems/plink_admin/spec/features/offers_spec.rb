@@ -20,7 +20,7 @@ describe 'offers' do
     click_link 'Offers'
 
     within '.offer-list' do
-      within '.offer-item:nth-of-type(1)' do
+      within 'tr.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
         page.should have_content 'not showing'
         page.should have_content 'not sending'
@@ -47,7 +47,7 @@ describe 'offers' do
     page.should have_content 'Offer updated'
 
     within '.offer-list' do
-      within '.offer-item:nth-of-type(1)' do
+      within 'tr.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
         page.should have_content '2014'
         page.should have_content 'The Best'

@@ -30,7 +30,7 @@ describe 'Landing Pages' do
     page.should have_content 'Landing page created successfully'
 
     within '.landing_page-list' do
-      within '.landing_page-item:nth-of-type(1)' do
+      within 'tr.landing_page-item:nth-of-type(1)' do
         page.should have_content 'landing on awesome'
         page.should have_content 'mypartial.haml.html'
 
@@ -48,7 +48,7 @@ describe 'Landing Pages' do
     page.should have_content 'Landing page updated'
 
     within '.landing_page-list' do
-      within '.landing_page-item:nth-of-type(1)' do
+      within 'tr.landing_page-item:nth-of-type(1)' do
         page.should have_content 'Updated landing page'
         page.should have_content 'myupdatedpartial.haml.html'
       end

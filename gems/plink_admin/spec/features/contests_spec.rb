@@ -30,7 +30,7 @@ describe 'Contests' do
     click_on 'Create'
 
     within '.contest-list' do
-      within '.contest-item:nth-of-type(1)' do
+      within 'tr.contest-item:nth-of-type(1)' do
         page.should have_content 'Awesome contest'
         page.should have_css "img[src='http://example.com/image.png']"
         page.should have_css "img[src='http://example.com/image_2.png']"
@@ -49,7 +49,7 @@ describe 'Contests' do
     click_on 'Update'
 
     within '.contest-list' do
-      within '.contest-item:nth-of-type(1)' do
+      within 'tr.contest-item:nth-of-type(1)' do
         page.should have_content 'The contest with more awesome'
         page.should have_css "img[src='http://example.com/explosions.png']"
         page.should have_content 'Bombs'
