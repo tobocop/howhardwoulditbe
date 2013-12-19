@@ -11,27 +11,31 @@ describe IntuitAccountRequest do
     }
   }
 
+  let(:intuit_respond_to_mfa_response) {
+    {
+      :account_id=>"400006583998",
+      :status=>"ACTIVE",
+      :account_number=>"8000006666",
+      :account_nickname=>"My Line of Credit",
+      :display_position=>"4",
+      :institution_id=>"100000",
+      :balance_date=>"2013-10-29T00:00:00-07:00",
+      :aggr_success_date=>"2013-10-29T21:05:53.029-07:00",
+      :aggr_attempt_date=>"2013-10-29T21:05:53.029-07:00",
+      :aggr_status_code=>"0",
+      :currency_code=>"INR",
+      :institution_login_id=>"128700189",
+      :credit_account_type=>"LINEOFCREDIT",
+      :current_balance=>"-1029.05"
+    }
+  }
+
   let(:intuit_response) do
     {
       status_code: '201',
       result: {
         account_list: {
-          credit_account: [{
-            :account_id=>"400006583998",
-            :status=>"ACTIVE",
-            :account_number=>"8000006666",
-            :account_nickname=>"My Line of Credit",
-            :display_position=>"4",
-            :institution_id=>"100000",
-            :balance_date=>"2013-10-29T00:00:00-07:00",
-            :aggr_success_date=>"2013-10-29T21:05:53.029-07:00",
-            :aggr_attempt_date=>"2013-10-29T21:05:53.029-07:00",
-            :aggr_status_code=>"0",
-            :currency_code=>"INR",
-            :institution_login_id=>"128700189",
-            :credit_account_type=>"LINEOFCREDIT",
-            :current_balance=>"-1029.05"
-          }]
+          credit_account: [ intuit_respond_to_mfa_response ]
         }
       }
     }
@@ -208,6 +212,8 @@ describe IntuitAccountRequest do
 
     before do
       Intuit::Request.stub(:new).and_return(intuit_request)
+      Intuit::Response.any_instance.stub(:parse).and_return(value: [ {login_id: '128700189'} ])
+      Plink::InstitutionRecord.stub(:where).and_return([double(id: 2)])
       intuit_request.stub(:respond_to_mfa).and_return(intuit_mfa_response)
       ENCRYPTION.stub(:decrypt_and_verify).and_return('one')
       Plink::IntuitAccountRequestRecord.stub(:find).and_return(intuit_account_request_record)
@@ -219,70 +225,63 @@ describe IntuitAccountRequest do
       intuit_account_request_record.should_receive(:update_attributes).
         with({processed: true, response: 'encrypted_response'}).and_return(true)
 
-      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82', 'randomhashofstuff')
     end
 
     it 'calls out to intuit' do
       intuit_request.should_receive(:respond_to_mfa).and_return(intuit_mfa_response)
 
-      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82', 'randomhashofstuff')
     end
 
-    context 'with a successful response from Intuit' do
-      before do
-        intuit_request.stub(:respond_to_mfa).and_return(intuit_response)
-        intuit_request.stub(:login_accounts).and_return(intuit_login_accounts_response)
-      end
+    it 'calls the Intuit::ResponseParser' do
+      response = mock
+      Intuit::Response.stub(:new).and_return(response)
 
-      it 'calls getLoginAccounts' do
-        Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
+      response.should_receive(:parse).and_return(value: [ {login_id: '128700189'} ])
 
-        intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
+      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82', 'randomhashofstuff')
+    end
 
-        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
-      end
+    it 'creates a Plink::UsersInstitutionRecord' do
+      expected_params = {
+        hash_check: 'randomhashofstuff',
+        is_active: true,
+        institution_id: 4,
+        intuit_institution_login_id: '128700189',
+        user_id: 123
+      }
 
-      it 'creates a Plink::UsersInstitutionRecord' do
-        expected_params = {
-          hash_check: 'randomhashofstuff',
-          is_active: true,
-          institution_id: 4,
-          intuit_institution_login_id: '128700189',
-          user_id: 123
-        }
+      Plink::UsersInstitutionRecord.should_receive(:create).
+      with(expected_params).
+      and_return(double(id: 5))
 
-        Plink::UsersInstitutionRecord.should_receive(:create).
-          with(expected_params).
-          and_return(double(id: 5))
+      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82', 'randomhashofstuff')
+    end
 
-        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
-      end
+    it 'creates Plink::UsersInstitutionAccountStaging records' do
+      Plink::UsersInstitutionRecord.stub(:create).and_return(double(id: 5))
 
-      it 'creates Plink::UsersInstitutionAccountStaging records' do
-        Plink::UsersInstitutionRecord.stub(:create).and_return(double(id: 5))
+      staging_attrs = {
+        account_id: '400006583998',
+        account_number_hash: Digest::SHA512.hexdigest('8000006666'),
+        account_number_last_four: '6666',
+        account_type: 'creditAccount',
+        account_type_description: 'LINEOFCREDIT',
+        aggr_attempt_date: '2013-10-29T21:05:53.029-07:00',
+        aggr_status_code: '0',
+        aggr_success_date: '2013-10-29T21:05:53.029-07:00',
+        currency_code: 'INR',
+        in_intuit: true,
+        name: 'My Line of Credit',
+        status: 'ACTIVE',
+        user_id: 123,
+        users_institution_id: 5
+      }
 
-        staging_attrs = {
-          account_id: '400006583998',
-          account_number_hash: Digest::SHA512.hexdigest('8000006666'),
-          account_number_last_four: '6666',
-          account_type: 'creditAccount',
-          account_type_description: 'LINEOFCREDIT',
-          aggr_attempt_date: '2013-10-29T21:05:53.029-07:00',
-          aggr_status_code: '0',
-          aggr_success_date: '2013-10-29T21:05:53.029-07:00',
-          currency_code: 'INR',
-          in_intuit: true,
-          name: 'My Line of Credit',
-          status: 'ACTIVE',
-          user_id: 123,
-          users_institution_id: 5
-        }
+      Plink::UsersInstitutionAccountStagingRecord.should_receive(:create)
 
-        Plink::UsersInstitutionAccountStagingRecord.should_receive(:create).
-          with(staging_attrs)
-
-        request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
-      end
+      request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82', 'randomhashofstuff')
     end
   end
 end

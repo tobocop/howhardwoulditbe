@@ -19,14 +19,21 @@ class IntuitAccountRequest
     update_request_record(response.parse.to_json)
   end
 
-  def respond_to_mfa(answers, challenge_session_id, challenge_node_id)
+  def respond_to_mfa(answers, challenge_session_id, challenge_node_id, hash_check)
     answers = ENCRYPTION.decrypt_and_verify(answers)
     intuit_response = Intuit::Request.new(user_id).respond_to_mfa(intuit_institution_id, challenge_session_id, challenge_node_id, answers)
 
-    response = Intuit::Response.new(intuit_response)
-    populate_staging_records(response.login_id) if response.accounts?
+    response = Intuit::Response.new(intuit_response).parse
 
-    update_request_record(response.parse.to_json)
+    if !response[:error] && response[:value].first.has_key?(:login_id)
+      login_id = response[:value].first[:login_id]
+      institution = Plink::InstitutionRecord.where(intuitInstitutionID: intuit_institution_id).first
+      attrs = {hash_check: hash_check, login_id: login_id, institution_id: institution.id}
+      users_institution = create_users_institution_record(attrs)
+      create_staging_records(response[:value], users_institution.id)
+    end
+
+    update_request_record(response.to_json)
   end
 
 private
