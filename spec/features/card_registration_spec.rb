@@ -141,6 +141,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
   end
 
   context 'for a user that already has a card registered' do
+
     before do
       user = create_user(email: 'almostbob@example.com', password: 'test123', first_name: 'Almostbob', avatar_thumbnail_url: 'http://www.example.com/test.png')
       user.primary_virtual_currency = virtual_currency
@@ -182,7 +183,9 @@ describe 'searching for a bank', js: true, driver: :selenium do
       page.should have_link 'Plink support.'
 
       click_on 'Log Out'
+
     end
 
   end
+
 end

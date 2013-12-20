@@ -56,16 +56,16 @@ class InstitutionsController < ApplicationController
     @duplicate = session[:duplicates_exist]
 
     if session[:duplicates_exist]
-      render_errors(nil)
+      poll_error_handler(nil)
     elsif request.present?
       response = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
       request.destroy
 
       case
         when response['mfa']
-          render_mfa_authentication(response)
+          poll_mfa_handler(response)
         when response['error']
-          render_errors(response['value'])
+          poll_error_handler(response['value'])
         else
           render partial: 'select_account', locals: {accounts: Array(response['value'])}
       end
@@ -146,20 +146,8 @@ private
 
   def intuit_mfa(answers)
     encrypted_answers = ENCRYPTION.encrypt_and_sign(answers)
-    session[:mfa_fields] << answers.join('')
-    session[:users_institution_hash] = Digest::SHA512.hexdigest(session[:mfa_fields])
 
-    if duplicates_exist?
-      session[:duplicates_exist] = true
-      session[:users_institution_hash] = nil
-    else
-      intuit_request.delay(priority: -100).respond_to_mfa(
-        encrypted_answers,
-        session[:challenge_session_id],
-        session[:challenge_node_id],
-        session[:users_institution_hash]
-      )
-    end
+    intuit_request.delay(priority: -100).respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
   end
 
   def intuit_request
@@ -201,7 +189,6 @@ private
       result = params['auth_1']
     end
 
-    session[:mfa_fields] = result
     session[:users_institution_hash] = Digest::SHA512.hexdigest(result)
   end
 
@@ -233,14 +220,14 @@ private
     end
   end
 
-  def render_errors(error=nil)
+  def poll_error_handler(error=nil)
     process_institution_data(intuit_institution_data(@institution.intuit_institution_id), @institution)
 
     locals = {institution_form: @institution_form, institution: @institution, duplicate: @duplicate, error: error}
     render partial: 'institutions/authentication/form', locals: locals
   end
 
-  def render_mfa_authentication(response)
+  def poll_mfa_handler(response)
     session[:challenge_session_id] = response['value']['challenge_session_id']
     session[:challenge_node_id] = response['value']['challenge_node_id']
     questions = response['value']['questions'].is_a?(Hash) ? [response['value']['questions']] : response['value']['questions']
