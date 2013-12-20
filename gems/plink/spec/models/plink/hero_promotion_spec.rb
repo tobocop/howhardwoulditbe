@@ -12,8 +12,7 @@ describe Plink::HeroPromotion do
       same_tab_two: false,
       show_linked_users: true,
       show_non_linked_users: false,
-      title: 'Michael Jordan',
-      user_ids: {}
+      title: 'Michael Jordan'
     }
   end
 
@@ -30,7 +29,6 @@ describe Plink::HeroPromotion do
     hero_promotion.show_linked_users.should == true
     hero_promotion.show_non_linked_users.should == false
     hero_promotion.title.should == 'Michael Jordan'
-    hero_promotion.user_ids.should be_empty
   end
 
   describe '#show_in_ui?' do
@@ -78,13 +76,6 @@ describe Plink::HeroPromotion do
 
         it 'returns true if the promotion should be shown to linked users' do
           attrs = hero_promotion_attrs.merge(show_linked_users: true, show_non_linked_users: false)
-          hero_promotion = Plink::HeroPromotion.new(attrs)
-
-          hero_promotion.show_in_ui?(1, true).should be_true
-        end
-
-        it 'returns true if the given user is on the list of user ids' do
-          attrs = hero_promotion_attrs.merge(show_linked_users: false, show_non_linked_users: false, user_ids: {1 => true})
           hero_promotion = Plink::HeroPromotion.new(attrs)
 
           hero_promotion.show_in_ui?(1, true).should be_true

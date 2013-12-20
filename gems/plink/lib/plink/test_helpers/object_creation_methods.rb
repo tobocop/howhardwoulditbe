@@ -258,6 +258,18 @@ module Plink
       Plink::HeroPromotionRecord.new { |promotion| apply(promotion, defaults, options) }
     end
 
+    def create_hero_promotion_user(options ={})
+      new_hero_promotion_user(options).tap(&:save!)
+    end
+
+    def new_hero_promotion_user(options ={})
+      defaults = {
+        hero_promotion_id: 21,
+        user_id: 34
+      }
+      Plink::HeroPromotionUserRecord.new { |promotion| apply(promotion, defaults, options) }
+    end
+
     def create_hero_promotion(options ={})
       new_hero_promotion(options).tap(&:save!)
     end

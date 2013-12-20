@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131001190200) do
+ActiveRecord::Schema.define(:version => 201310292039580) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -665,14 +665,45 @@ ActiveRecord::Schema.define(:version => 20131001190200) do
     t.boolean  "is_active",                         :default => true, :null => false
   end
 
+  create_table "global_login_tokens", :force => true do |t|
+    t.datetime "expires_at"
+    t.string   "token",        :limit => 60
+    t.string   "redirect_url"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "hero_promotion_clicks", :force => true do |t|
+    t.integer  "hero_promotion_id"
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "image"
+  end
+
+  create_table "hero_promotion_users", :force => true do |t|
+    t.integer  "hero_promotion_id"
+    t.integer  "user_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "hero_promotions", :force => true do |t|
-    t.string   "image_url"
+    t.string   "image_url_one"
     t.string   "title"
     t.integer  "display_order"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.string   "name"
-    t.boolean  "is_active",     :default => true
+    t.boolean  "is_active",             :default => true
+    t.boolean  "show_linked_users"
+    t.boolean  "show_non_linked_users"
+    t.text     "user_ids"
+    t.text     "link_one"
+    t.string   "link_two"
+    t.string   "image_url_two"
+    t.boolean  "same_tab_one"
+    t.boolean  "same_tab_two"
   end
 
   create_table "institutions", :primary_key => "institutionID", :force => true do |t|

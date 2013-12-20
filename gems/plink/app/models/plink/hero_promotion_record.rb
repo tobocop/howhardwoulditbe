@@ -2,11 +2,13 @@ module Plink
   class HeroPromotionRecord < ActiveRecord::Base
     self.table_name = 'hero_promotions'
 
-    serialize :user_ids, Hash
+    attr_accessor :user_ids_present
+
+    has_many :hero_promotion_users, class_name: 'Plink::HeroPromotionUserRecord', foreign_key: 'user_id'
 
     attr_accessible :display_order, :image_url_one, :image_url_two, :is_active, :link_one,
       :link_two, :name, :same_tab_one, :same_tab_two, :show_linked_users, :show_non_linked_users,
-      :title, :user_ids
+      :title, :user_ids_present
 
     validates_presence_of :title, :image_url_one, :name
 
@@ -21,28 +23,60 @@ module Plink
       where(is_active: true)
     end
 
-    def audience_by_user_id?
-      user_ids.present?
+    def self.create_with_bulk_users(params={}, user_ids)
+      params.delete(:user_ids)
+      record_params = params.merge({user_ids_present: user_ids.present?})
+      record = Plink::HeroPromotionRecord.create(record_params)
+
+      if record.persisted? && user_ids
+        file_path = "tmp/uploaded_files/hero_promotion_users_#{Time.zone.now.to_i}.csv"
+        FileUtils.mv(user_ids.tempfile, File.join(Rails.root, file_path))
+
+        Plink::HeroPromotionUserRecord.delay.bulk_insert(record.id, file_path)
+      end
+
+      record
+    end
+
+    def update_attributes_with_bulk_users(params={}, user_ids)
+      params.delete(:user_ids)
+      record_params = params.merge({user_ids_present: user_ids.present?})
+
+      if updated = update_attributes(record_params) && user_ids
+        Plink::HeroPromotionUserRecord.where(hero_promotion_id: id).delete_all
+
+        file_path = "tmp/uploaded_files/hero_promotion_users_#{Time.zone.now.to_i}.csv"
+        FileUtils.mv(user_ids.tempfile, File.join(Rails.root, file_path))
+
+        Plink::HeroPromotionUserRecord.delay.bulk_insert(id, file_path)
+      end
+
+      updated
+    end
+
+    def user_count
+      Plink::HeroPromotionUserRecord.joins('WITH (NOLOCK)').
+        where(hero_promotion_id: id).count
     end
 
   private
 
     def audience_selected
-      unless show_linked_users.present? || show_non_linked_users.present? || user_ids.present?
+      unless show_linked_users.present? || show_non_linked_users.present? || user_ids_present
         error = "Must select an audience"
         errors.add(:show_linked_users)
         errors.add(:show_non_linked_users)
-        errors.add(:user_ids)
+        errors.add(:user_ids_present)
       end
     end
 
     def audience_by_card_status_or_user_ids
       card_status = show_linked_users.present? || show_non_linked_users.present?
-      if card_status && user_ids.present?
+      if card_status && user_ids_present
         error = "Cannot select audience by file and by linked card status"
         errors.add(:show_linked_users, error)
         errors.add(:show_non_linked_users, error)
-        errors.add(:user_ids, error)
+        errors.add(:user_ids_present, error)
       end
     end
   end

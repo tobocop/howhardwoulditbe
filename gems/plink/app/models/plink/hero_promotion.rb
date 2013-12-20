@@ -2,7 +2,7 @@ module Plink
   class HeroPromotion
 
     attr_reader :id, :image_url_one, :image_url_two, :link_one, :link_two, :same_tab_one,
-      :same_tab_two, :show_linked_users, :show_non_linked_users, :title, :user_ids
+      :same_tab_two, :show_linked_users, :show_non_linked_users, :title
 
     def initialize(attributes)
       @id = attributes.fetch(:id)
@@ -15,15 +15,12 @@ module Plink
       @show_linked_users = attributes.fetch(:show_linked_users)
       @show_non_linked_users = attributes.fetch(:show_non_linked_users)
       @title = attributes.fetch(:title)
-      @user_ids = attributes.fetch(:user_ids)
     end
 
     def show_in_ui?(user_id, user_linked_card)
       if user_id.nil? && show_linked_users && show_non_linked_users
         true
       elsif user_linked_card && show_linked_users || !user_linked_card && show_non_linked_users
-        true
-      elsif user_ids.present? && user_ids[user_id]
         true
       else
         false

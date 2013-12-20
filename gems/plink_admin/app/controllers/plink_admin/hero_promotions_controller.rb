@@ -10,10 +10,7 @@ module PlinkAdmin
     end
 
     def create
-      hero_promotion_params = params[:hero_promotion]
-      hero_promotion_params[:user_ids] = parse_from_file(params[:hero_promotion][:user_ids])
-
-      @hero_promotion = plink_hero_promotion_record.create(hero_promotion_params)
+      @hero_promotion = plink_hero_promotion_record.create_with_bulk_users(params[:hero_promotion], params[:hero_promotion][:user_ids])
 
       if @hero_promotion.persisted?
         redirect_to hero_promotions_path
@@ -41,12 +38,9 @@ module PlinkAdmin
     end
 
     def update_audience
-      hero_promotion_params = params[:hero_promotion]
-      hero_promotion_params[:user_ids] = parse_from_file(params[:hero_promotion][:user_ids])
-
       @hero_promotion = plink_hero_promotion_record.find(params[:id])
 
-      if @hero_promotion.update_attributes(hero_promotion_params)
+      if @hero_promotion.update_attributes_with_bulk_users(params[:hero_promotion], params[:hero_promotion][:user_ids])
         redirect_to hero_promotions_path
       else
         render 'edit_audience'
@@ -57,19 +51,6 @@ module PlinkAdmin
 
     def plink_hero_promotion_record
       Plink::HeroPromotionRecord
-    end
-
-    def parse_from_file(user_ids_file)
-      result = {}
-      return result unless user_ids_file.present?
-
-      File.open(user_ids_file.tempfile, 'r') do |f|
-        f.each_line do |line|
-          result[line.strip.to_i] = true
-        end
-      end
-
-      result
     end
 
     def index_fields

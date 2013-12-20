@@ -22,8 +22,7 @@ module Plink
           same_tab_two: record.same_tab_two,
           show_linked_users: record.show_linked_users,
           show_non_linked_users: record.show_non_linked_users,
-          title: record.title,
-          user_ids: record.user_ids
+          title: record.title
         }
       )
     end

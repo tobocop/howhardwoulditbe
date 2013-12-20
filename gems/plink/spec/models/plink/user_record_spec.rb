@@ -24,6 +24,9 @@ describe Plink::UserRecord do
 
   it_should_behave_like(:legacy_timestamps)
 
+  it { should have_many(:hero_promotion_users).class_name('Plink::HeroPromotionUserRecord') }
+  it { should have_many(:hero_promotions).through(:hero_promotion_users).class_name('Plink::HeroPromotionRecord') }
+
   let(:valid_params) {
     {
       avatar_thumbnail_url: 'http://example.com/image.png',

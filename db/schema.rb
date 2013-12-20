@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131211235419) do
+ActiveRecord::Schema.define(:version => 20131218005532) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -714,6 +714,11 @@ ActiveRecord::Schema.define(:version => 20131211235419) do
     t.string   "image"
   end
 
+  create_table "hero_promotion_users", :force => true do |t|
+    t.integer "hero_promotion_id"
+    t.integer "user_id"
+  end
+
   create_table "hero_promotions", :force => true do |t|
     t.string   "image_url_one"
     t.string   "title"
@@ -724,7 +729,6 @@ ActiveRecord::Schema.define(:version => 20131211235419) do
     t.boolean  "is_active",             :default => true
     t.boolean  "show_linked_users"
     t.boolean  "show_non_linked_users"
-    t.text     "user_ids"
     t.text     "link_one"
     t.string   "link_two"
     t.string   "image_url_two"

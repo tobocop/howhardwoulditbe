@@ -9,6 +9,7 @@ capybara-*.html
 /gems/tango/.bundle
 /gems/plink_admin/vendor/bundle
 /gems/plink_admin/.bundle
+/gems/plink_admin/spec/dummy/tmp/uploaded_files/*.csv
 /gems/plink/vendor/bundle
 /gems/plink/.bundle
 /gems/gigya/vendor/bundle

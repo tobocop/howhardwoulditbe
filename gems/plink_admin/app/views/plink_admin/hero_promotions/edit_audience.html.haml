@@ -30,7 +30,7 @@
 
   %h6 Via file upload:
   %p *Files should be new-line delimited without headers
-  %p Currently: #{@hero_promotion.user_ids.keys}
+  %p Currently displays to #{number_with_delimiter(@hero_promotion.user_count)} users
   = f.label :user_ids, 'User IDs File'
   = f.file_field :user_ids
 

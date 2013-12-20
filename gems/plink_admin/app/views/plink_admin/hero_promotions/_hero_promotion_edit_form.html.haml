@@ -9,16 +9,14 @@
   %h4 Audience:
   .right
     = link_to 'Change Audience', plink_admin.edit_audience_hero_promotion_path(hero_promotion)
-  - if hero_promotion.audience_by_user_id?
-    %h6 Displays to user_ids:
-    %o= hero_promotion.user_ids.keys
+  - if hero_promotion.user_count > 0
+    %h6 Displays to #{number_with_delimiter(hero_promotion.user_count)} users
   - else
     %h6 Via linked status:
     = f.label :show_linked_users, 'Show to linked members'
     = f.check_box :show_linked_users
     = f.label :show_non_linked_users, 'Show to non-linked members'
     = f.check_box :show_non_linked_users
-
 
   .right
     = f.submit button_text, class: 'button small'

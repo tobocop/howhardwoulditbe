@@ -20,6 +20,9 @@ module Plink
       :first_name, :hold_redemptions, :ip, :is_force_deactivated, :is_male, :login_token,
       :last_name, :password_hash, :provider, :salt, :state, :username, :user_agent, :zip
 
+    has_many :hero_promotion_users, class_name: 'Plink::HeroPromotionUserRecord', foreign_key: 'hero_promotion_id'
+    has_many :hero_promotions, through: :hero_promotion_users, foreign_key: 'hero_promotion_id'
+
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
     alias_attribute :hold_redemptions, :holdRedemptions
