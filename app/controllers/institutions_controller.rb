@@ -25,9 +25,9 @@ class InstitutionsController < ApplicationController
       flash[:error] = 'Invalid institution provided. Please try again.'
       redirect_to institution_search_path
     else
-      process_institution_data(intuit_institution_data(@institution.intuit_institution_id), @institution)
+      institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
       session[:institution_id] = @institution.id
-      session[:intuit_institution_id] = @institution.intuit_institution_id
+      session[:intuit_institution_id] = @institution_form.intuit_institution_id
     end
   end
 
@@ -35,41 +35,38 @@ class InstitutionsController < ApplicationController
     Plink::IntuitAccountRequestRecord.where(user_id: current_user.id).delete_all
     request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
     session[:intuit_account_request_id] = request.id
-    @institution = Plink::InstitutionRecord.where(institutionID: session[:institution_id]).first
 
     user_and_password = params[:field_labels].sort.map { |label| params[label] }
 
     set_users_institutions_hash
-    if duplicates_exist?
-      session[:duplicates_exist] = true
-      session[:users_institution_hash] = nil
-    else
-      session[:duplicates_exist] = false
-      intuit_accounts(user_and_password)
-    end
+
+    intuit_accounts(user_and_password)
+
     render nothing: true
   end
 
   def poll
     request = Plink::IntuitAccountRequestRecord.where(user_id: current_user.id, processed: true).first
-    @institution = Plink::InstitutionRecord.where(institutionID: session[:institution_id]).first
-    @duplicate = session[:duplicates_exist]
 
-    if session[:duplicates_exist]
-      poll_error_handler(nil)
-    elsif request.present?
+    if request.present?
       response = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
       request.destroy
+      @institution = Plink::InstitutionRecord.where(intuitInstitutionID: session[:intuit_institution_id]).first
 
-      case
-        when response['mfa']
-          poll_mfa_handler(response)
-        when response['error']
-          poll_error_handler(response['value'])
-        else
-          render partial: 'select_account', locals: {accounts: Array(response['value'])}
+      if response['mfa']
+        session[:challenge_session_id] = response['value']['challenge_session_id']
+        session[:challenge_node_id] = response['value']['challenge_node_id']
+        questions = response['value']['questions'].is_a?(Hash) ? [response['value']['questions']] : response['value']['questions']
+
+        render partial: 'institutions/authentication/mfa', locals: {questions: questions}
+      elsif !response['error']
+        render json: { success_path: institution_account_selection_path(login_id: response['value'].first['login_id']) }
+      else
+        institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
+
+        locals = {institution_form: @institution_form, institution: @institution, error: response['value']}
+        render partial: 'institutions/authentication/form', locals: locals
       end
-
     else
       render nothing: true, status: :unprocessable_entity
     end
@@ -160,7 +157,7 @@ private
     )
   end
 
-  def process_institution_data(intuit_institution_data, institution)
+  def institution_form(intuit_institution_data, institution)
     institution_params = intuit_institution_data[:result].merge(institution: institution)
     @institution_form = InstitutionFormPresenter.new(institution_params)
 
@@ -169,7 +166,7 @@ private
 
   def set_non_masked_fields(intuit_form_fields)
     non_masked_fields = []
-    intuit_form_fields.sort_by { |hsh| hsh[:display_order].to_i }.each_with_index do |form_field, index|
+    intuit_form_fields.each_with_index do |form_field, index|
       non_masked_fields << "auth_#{index+1}" if form_field[:mask] == 'false'
     end
 
@@ -179,14 +176,17 @@ private
   def set_users_institutions_hash
     result = ''
 
-    params['field_labels'].sort.each do |field_name|
+    params.sort.each do |param_and_value|
+      field_name = param_and_value.first
       next unless session[:non_masked_fields].include?(field_name)
-      value = params[field_name]
+      value = param_and_value.last
+
       result << value
     end
 
-    if result.blank? && params['auth_1']
-      result = params['auth_1']
+    # If every field is masked, use the first response instead:
+    if result.blank? && params[:auth_1]
+      result = params[:auth_1]
     end
 
     session[:users_institution_hash] = Digest::SHA512.hexdigest(result)
@@ -194,44 +194,5 @@ private
 
   def intuit_institution_data(intuit_institution_id)
     IntuitInstitutionRequest.institution_data(current_user.id, intuit_institution_id)
-  end
-
-  def duplicates_exist?
-    duplicate_records = Plink::UsersInstitutionRecord.hash_check_duplicates(
-      session[:institution_id],
-      session[:users_institution_hash],
-      current_user.id
-    )
-
-    if duplicate_records.size > 0
-      log_duplicates(duplicate_records)
-      return true
-    end
-
-    false
-  end
-
-  def log_duplicates(duplicate_records)
-    duplicate_records.each do |duplicate_record|
-      Plink::DuplicateRegistrationAttemptRecord.create(
-        existing_user_id: duplicate_record.user_id,
-        user_id: current_user.id
-      )
-    end
-  end
-
-  def poll_error_handler(error=nil)
-    process_institution_data(intuit_institution_data(@institution.intuit_institution_id), @institution)
-
-    locals = {institution_form: @institution_form, institution: @institution, duplicate: @duplicate, error: error}
-    render partial: 'institutions/authentication/form', locals: locals
-  end
-
-  def poll_mfa_handler(response)
-    session[:challenge_session_id] = response['value']['challenge_session_id']
-    session[:challenge_node_id] = response['value']['challenge_node_id']
-    questions = response['value']['questions'].is_a?(Hash) ? [response['value']['questions']] : response['value']['questions']
-
-    render partial: 'institutions/authentication/mfa', locals: {questions: questions}
   end
 end

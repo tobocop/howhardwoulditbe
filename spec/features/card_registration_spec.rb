@@ -7,9 +7,9 @@ describe 'searching for a bank', js: true, driver: :selenium do
   let!(:institution_authenticated_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
   let(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
   let!(:affiliate) { create_affiliate(card_add_pixel: 'my$userID$pixel') }
-  let!(:virtual_currency) { create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100) }
 
   before do
+    virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
     user.primary_virtual_currency = virtual_currency
     user.save!
     create_wallet(user_id: user.id)
@@ -139,53 +139,4 @@ describe 'searching for a bank', js: true, driver: :selenium do
 
     page.should have_content "Select the card you'd like to earn rewards with."
   end
-
-  context 'for a user that already has a card registered' do
-
-    before do
-      user = create_user(email: 'almostbob@example.com', password: 'test123', first_name: 'Almostbob', avatar_thumbnail_url: 'http://www.example.com/test.png')
-      user.primary_virtual_currency = virtual_currency
-      user.save!
-      create_wallet(user_id: user.id)
-    end
-
-    it 'does not allow another user to register using the same institution and username' do
-      sign_in('test@example.com', 'test123')
-      page.should have_content "Enter your bank's name."
-
-      fill_in 'institution_name', with: 'bank'
-      click_on 'Search'
-
-      page.should have_content 'MOST COMMON'
-      click_on 'Bank of Tupac'
-      fill_in 'auth_1', with: 'bobloblaw'
-      fill_in 'auth_2', with: 'nohablaespanol'
-
-      click_on 'Connect'
-
-      click_on 'Log Out'
-
-      sign_in('almostbob@example.com', 'test123')
-      page.should have_content "Enter your bank's name."
-
-      fill_in 'institution_name', with: 'bank'
-      click_on 'Search'
-
-      page.should have_content 'MOST COMMON'
-      click_on 'Bank of Tupac'
-      fill_in 'auth_1', with: 'bobloblaw'
-      fill_in 'auth_2', with: 'lobslawbomb'
-
-      click_on 'Connect'
-
-      page.should have_content "Are you sure you haven't linked this account before?"
-      page.should have_content 'An account with this information has already been created. If you believe there is an error, please contact Plink support.'
-      page.should have_link 'Plink support.'
-
-      click_on 'Log Out'
-
-    end
-
-  end
-
 end

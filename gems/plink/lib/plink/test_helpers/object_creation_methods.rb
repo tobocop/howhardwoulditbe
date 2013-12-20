@@ -972,17 +972,6 @@ module Plink
       new_intuit_fishy_transaction(options).tap(&:save!)
     end
 
-    def new_duplicate_registration_attempt(options = {})
-      defaults = {
-        user_id: 10,
-        existing_user_id: 1
-      }
-    end
-
-    def create_duplicate_registration_attempt(options = {})
-      new_duplicate_registration_attempt(options).tap(&:save!)
-    end
-
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|
