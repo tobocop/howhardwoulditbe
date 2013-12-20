@@ -29,7 +29,7 @@ end
 
 group :development do
   gem 'foreman'
-  gem 'capistrano'
+  gem 'capistrano', '~> 2.15.5'
   gem 'capistrano-ext'
 end
 
