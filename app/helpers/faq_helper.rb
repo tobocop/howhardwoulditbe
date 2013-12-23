@@ -22,7 +22,9 @@ module FaqHelper
       t(base + 'what_will_happen_if_i_return_title') => {answer: t(base + 'what_will_happen_if_i_return_text')},
       t(base + 'why_do_i_have_to_reverify_multiple_times_title') => {answer: t(base + 'why_do_i_have_to_reverify_multiple_times_text')},
       t(base + 'i_saw_promotion_for_a_brand_not_in_my_list_title') => {answer: t(base + 'i_saw_promotion_for_a_brand_not_in_my_list_text')},
-      t(base + 'how_do_i_receive_gift_cards_title') => {answer: t(base + 'how_do_i_receive_gift_cards_text')},
+      t(base + 'how_many_points_to_redeem_title') => {answer: t(base + 'how_many_points_to_redeem_text')},
+      t(base + 'how_do_i_redeem_title') => {answer: t(base + 'how_do_i_redeem_text')},
+      t(base + 'where_are_my_gift_cards_title') => {answer: t(base + 'where_are_my_gift_cards_text')},
       t(base + 'is_there_a_double_points_limit_title') => {answer: t(base + 'is_there_a_double_points_limit_text')}
     }
   end
