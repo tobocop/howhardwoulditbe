@@ -67,7 +67,7 @@ describe 'Managing account' do
         page.should have_content 'Active'
 
         within '.content', text: 'YOUR BANK' do
-          page.should have_css('a[data-reveal-id="card-change-modal"]', text: 'Change')
+          page.should have_css('a[href="/institutions/search"]', text: 'Change')
           page.should have_content 'Bank of representin'
         end
 
@@ -188,6 +188,15 @@ describe 'Managing account' do
         page.should have_text('600 Plink Points', count: 20)
       end
     end
+
+    it 'allows a user to change their bank card', js: true, driver: :selenium do
+      sign_in('user@example.com', 'pass1word')
+
+      click_link 'My Account'
+      find('a[href="/institutions/search"]').click
+
+      page.should have_content "Enter your bank's name."
+    end
   end
 
   context 'non linked user' do
@@ -206,7 +215,11 @@ describe 'Managing account' do
 
       page.should have_image 'icon_alert_pink.png'
       page.should have_content "You haven't linked a card yet."
-      page.should have_css('a[data-reveal-id="card-add-modal"]', text: 'Link Card')
+      page.should have_css('a[href="/institutions/search"]', text: 'Link Card')
+
+      find('a[href="/institutions/search"]').click
+
+      page.should have_content "Enter your bank's name."
     end
 
     it 'allows a user to unsubscribe from email notifications' do

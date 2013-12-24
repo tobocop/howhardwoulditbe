@@ -67,13 +67,12 @@
   .content
     %h4 Your Bank
     %h3.bold= @bank_account.bank_name
-    = link_to 'Change Bank', '#', data: {'reveal-id' => 'card-change-modal'}
+    = link_to 'Change', institution_search_path
     %span.font-midgray.font-w100= ' | '
     -if @bank_account.active?
       = link_to 'Update Login Info', institution_login_update_credentials_path(@bank_account.users_institution_id)
     -else
       = link_to 'Reconnect My Account', reverification_start_path(@bank_account.reverification_id)
-
 
   %hr
   .content

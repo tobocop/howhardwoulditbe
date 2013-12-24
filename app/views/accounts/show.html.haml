@@ -25,7 +25,7 @@
             = image_tag 'icon_alert_pink.png', alt: 'You need to link a card', class: 'status-img'
             %h3.account-status.pink You haven't linked a card yet.
             %br
-            = link_to 'Link Card', '#', data: { 'reveal-id' => 'card-add-modal' }
+            = link_to 'Link Card', institution_search_path
 
         = render partial: 'edit'
 

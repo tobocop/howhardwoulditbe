@@ -32,6 +32,7 @@ describe 'Linking a card' do
 
     page.current_path.should == '/account'
 
-    page.should have_css '#card-add-modal'
+    page.should have_css('a[href="/institutions/search"]', text: 'Link Card')
+
   end
 end
