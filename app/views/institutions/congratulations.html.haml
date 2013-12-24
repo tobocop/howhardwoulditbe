@@ -6,10 +6,10 @@
           .steps.first.centered
             .font-p9em.font-lightgray.font-italic Next Steps
           .steps
-            .font-slate Add offers to your wallet.
+            .font-slate.mbs Add offers to your wallet.
             .font-p9em.font-w300 Fill your Wallet with offers from our partners, then earn Plink Points when you shop at those partners with your linked card.
           .steps
-            .font-slate Refer a friend.
+            .font-slate.mbs Refer a friend.
             .font-p9em.font-w300
               Get 100 Bonus Points for every friend you refer to Plink. Referring friends is easy;
               = link_to 'invite them via Facebook', '#', class:'text-link'
@@ -19,10 +19,12 @@
             .spacer-top-8
               .font-p8em https://www.thisisthereferallink.com/23432/2342/aid/2348
           .steps.last
-            .font-slate Get the app.
-            .font-p9em.font-w300 Plink on the go with our mobile app for your iPhone or iOS device.
-            = link_to 'Get the App', '#', class:'text-link'
-
+            .font-slate.mbs Get the app.
+            .font-p9em.font-w300.mbm Plink on the go with our mobile app for iOS and Android.
+            = link_to 'Get the iPhone App', 'http://hastrk1.com/serve?action=click&publisher_id=34596&site_id=30142&offer_id=256246&sub2=card_reg', class:'text-link', target: '_blank'
+            %br
+            %br
+            = link_to 'Get the Android App', 'http://hastrk1.com/serve?action=click&publisher_id=34596&site_id=36714&offer_id=268162&sub2=card_reg', class:'text-link', target: '_blank'
         .right-column.pad-left-86
           .font-p9em.font-lightgray.font-w300.font-italic You're all set.
           .spacer-top-24
@@ -35,7 +37,7 @@
             .font-1p1em.font-w300 First thing's first - add offers to your Wallet to start earning Plink Points.
           .spacer-top-24
             .button-container.no-margin.width-170
-              %button.button.primary-action Go To My Wallet
+              = link_to 'Go To My Wallet', wallet_path, {class:'button primary-action'}
           .spacer-top-96
             %hr
           .spacer-top-24
