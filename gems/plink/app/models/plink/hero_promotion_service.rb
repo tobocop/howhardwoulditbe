@@ -4,7 +4,14 @@ module Plink
       create_hero_promotions(HeroPromotionRecord.by_display_order.active)
     end
 
-    private
+    def active_for_user(user_id, linked_card)
+      promotions = HeroPromotionRecord.by_display_order.active.
+        by_user_id_and_linked(user_id, linked_card)
+
+      create_hero_promotions(promotions)
+    end
+
+  private
 
     def create_hero_promotions(hero_promotion_records)
       hero_promotion_records.map {|record| create_hero_promotion(record) }

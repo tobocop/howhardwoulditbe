@@ -4,6 +4,8 @@ module Plink
 
     belongs_to :hero_promotion, class_name: 'Plink::HeroPromotionRecord', foreign_key: 'hero_promotion_id'
 
+    attr_accessible :hero_promotion_id, :user_id
+
     def self.bulk_insert(hero_promotion_id, user_ids_file_path)
       sql = "INSERT INTO hero_promotion_users (hero_promotion_id, user_id) VALUES "
 

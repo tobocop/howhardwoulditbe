@@ -8,7 +8,6 @@ describe OffersController do
     let(:hero_promotion_presenter) { double }
 
     before(:each) do
-      controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
       controller.stub(:present_hero_promotions).and_return([hero_promotion_presenter])
       controller.stub(:current_virtual_currency) { stub(id: 123) }
 
@@ -19,11 +18,13 @@ describe OffersController do
 
     it 'does not require a user to be logged in' do
       controller.should_not_receive(:require_authentication)
+
       get :index
     end
 
     it 'looks up offers based on current_virtual_currency_id' do
       get :index
+
       assigns(:offers).map(&:class).should == [OfferItemPresenter]
     end
 

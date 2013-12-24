@@ -2,30 +2,29 @@
   .hero-gallery-inner
     %ul.gallery
       - promotions.each do |hero_promotion|
-        - if hero_promotion.show_to_current_user?
-          %li.slide
-            - if hero_promotion.left_and_right_promotion?
-              .left
-                = render partial: 'shared/hero_promotion', locals: { |
-                    id: hero_promotion.id, |
-                    image_url: hero_promotion.image_url_left, |
-                    link: hero_promotion.link_left, |
-                    link_target: hero_promotion.link_target_for_left_url, |
-                    title: nil |
-                  } |
-              .right
-                = render partial: 'shared/hero_promotion', locals: { |
+        %li.slide
+          - if hero_promotion.left_and_right_promotion?
+            .left
+              = render partial: 'shared/hero_promotion', locals: { |
                   id: hero_promotion.id, |
-                  image_url: hero_promotion.image_url_right, |
-                  link: hero_promotion.link_right, |
-                  link_target: hero_promotion.link_target_for_right_url, |
+                  image_url: hero_promotion.image_url_left, |
+                  link: hero_promotion.link_left, |
+                  link_target: hero_promotion.link_target_for_left_url, |
                   title: nil |
                 } |
-            - else
+            .right
               = render partial: 'shared/hero_promotion', locals: { |
                 id: hero_promotion.id, |
-                image_url: hero_promotion.image_url_left, |
-                link: hero_promotion.link_left, |
-                link_target: hero_promotion.link_target_for_left_url, |
-                title: hero_promotion.title |
+                image_url: hero_promotion.image_url_right, |
+                link: hero_promotion.link_right, |
+                link_target: hero_promotion.link_target_for_right_url, |
+                title: nil |
               } |
+          - else
+            = render partial: 'shared/hero_promotion', locals: { |
+              id: hero_promotion.id, |
+              image_url: hero_promotion.image_url_left, |
+              link: hero_promotion.link_left, |
+              link_target: hero_promotion.link_target_for_left_url, |
+              title: hero_promotion.title |
+            } |

@@ -245,6 +245,10 @@ module Plink
       Plink::UserReverificationRecord.new { |reverification| apply(reverification, defaults, options) }
     end
 
+    def create_hero_promotion(options ={})
+      new_hero_promotion(options).tap(&:save!)
+    end
+
     def new_hero_promotion(options ={})
       defaults = {
         display_order: 1,
@@ -268,10 +272,6 @@ module Plink
         user_id: 34
       }
       Plink::HeroPromotionUserRecord.new { |promotion| apply(promotion, defaults, options) }
-    end
-
-    def create_hero_promotion(options ={})
-      new_hero_promotion(options).tap(&:save!)
     end
 
     def create_users_institution(options = {})

@@ -8,7 +8,8 @@ describe WalletsController do
   it_should_behave_like(:auto_login_extensions)
 
   let(:offer) { new_offer }
-  let(:hero_promotion_presenter) { double }
+  let(:hero_promotion_service) { double }
+  let(:hero_promotion) { double }
   let(:wallet_item) { new_locked_wallet_item }
   let(:wallet) { stub(id:2, sorted_wallet_item_records: [wallet_item]) }
 
@@ -16,7 +17,6 @@ describe WalletsController do
     set_virtual_currency({id: 1})
 
     controller.stub(:plink_hero_promotion_service).and_return(Plink::FakeHeroPromotionService.new(['promotion']))
-    controller.stub(:present_hero_promotions).and_return([hero_promotion_presenter])
     Plink::WalletRecord.stub(:find).and_return(wallet)
 
     fake_offer_service = Plink::FakeOfferService.new({1 => [offer]})
@@ -29,11 +29,14 @@ describe WalletsController do
   describe '#show' do
     before do
       set_current_user(id: 5, wallet: wallet)
+      controller.unstub(:plink_hero_promotion_service)
     end
 
     it 'redirects to the home page if the user is not logged in' do
       set_current_user(logged_in?: false)
+
       get :show
+
       response.should be_redirect
     end
 
@@ -42,24 +45,31 @@ describe WalletsController do
         controller.stub(:require_authentication) { true }
       end
 
-      it 'should assign hero promotions' do
+      it 'assigns hero promotions' do
+        controller.stub(:plink_hero_promotion_service).and_return(hero_promotion_service)
+
+        hero_promotion_service.should_receive(:active_for_user).with(5, anything).
+          and_return([hero_promotion])
+
         get :show
 
-        assigns(:hero_promotions).should == [hero_promotion_presenter]
+        assigns(:hero_promotions).should_not be_empty
       end
 
-      it 'should assign current tab to wallet' do
+      it 'assigns current_tab to wallet' do
         get :show
         assigns(:current_tab).should == 'wallet'
       end
 
-      it 'assigns a @card_link_url' do
+      it 'assigns card_link_url' do
         session[:tracking_params] = {
           referrer_id: 123,
           affiliate_id: 456
         }
 
-        Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).with(referrer_id: 123, affiliate_id: 456).and_return { 'http://www.mywebsite.example.com' }
+        Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).
+          with(referrer_id: 123, affiliate_id: 456).
+          and_return { 'http://www.mywebsite.example.com' }
 
         get :show
 

@@ -14,7 +14,7 @@ describe HeroPromotionPresenter do
     )
   }
 
-  subject(:presenter) { HeroPromotionPresenter.new(hero_promotion, 3, false) }
+  subject(:presenter) { HeroPromotionPresenter.new(hero_promotion, 3) }
 
   it 'can be initialized with a hero promotion' do
     presenter.id.should == 4
@@ -44,18 +44,6 @@ describe HeroPromotionPresenter do
     it 'returns the string _blank if same_tab_two is false' do
       hero_promotion.stub(:same_tab_two).and_return(false)
       presenter.link_target_for_right_url.should == '_blank'
-    end
-  end
-
-  describe '#show_to_current_user?' do
-    it 'returns true if hero_promotion.show_in_ui? is true' do
-      hero_promotion.stub(:show_in_ui?).and_return(true)
-      presenter.show_to_current_user?.should be_true
-    end
-
-    it 'returns false if hero_promotion.show_in_ui? is false' do
-      hero_promotion.stub(:show_in_ui?).and_return(false)
-      presenter.show_to_current_user?.should be_false
     end
   end
 

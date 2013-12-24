@@ -94,6 +94,33 @@ describe Plink::HeroPromotionRecord do
     end
   end
 
+  describe '.by_user_id_and_linked' do
+    it 'returns promotions the specific user should see' do
+      promotion_for_user = create_hero_promotion
+      create_hero_promotion_user(user_id: 6, hero_promotion_id: promotion_for_user.id)
+      other_promotion = create_hero_promotion(name: 'stuff', show_linked_users: true)
+      second_other_promotion = create_hero_promotion(name: 'stuff 2', show_linked_users: false)
+
+      promotions = Plink::HeroPromotionRecord.by_user_id_and_linked(6, true)
+      promotions.should include promotion_for_user
+      promotions.should include other_promotion
+      promotions.should_not include second_other_promotion
+    end
+
+    it 'does not return a promotion if the user should not see it' do
+      promotion_for_user = create_hero_promotion(show_linked_users: nil, show_non_linked_users: nil, user_ids_present: true)
+      create_hero_promotion_user(user_id: 6, hero_promotion_id: promotion_for_user.id)
+
+      Plink::HeroPromotionRecord.by_user_id_and_linked(7, true).should be_empty
+    end
+
+    it 'does not return a promotion if only linked promotions exist and the user is unlinked' do
+      promotion_for_user = create_hero_promotion(show_linked_users: true, show_non_linked_users: nil)
+
+      Plink::HeroPromotionRecord.by_user_id_and_linked(7, false).should be_empty
+    end
+  end
+
   describe '.create_with_bulk_users' do
     let(:user_ids_file) { double(tempfile: 'stuff') }
 

@@ -23,6 +23,14 @@ module Plink
       where(is_active: true)
     end
 
+    def self.by_user_id_and_linked(user_id, linked)
+      linked_column_name = linked ? 'show_linked_users' : 'show_non_linked_users'
+
+      Plink::HeroPromotionRecord.
+        joins('LEFT JOIN hero_promotion_users ON hero_promotions.id = hero_promotion_users.hero_promotion_id').
+        where("#{linked_column_name} = ? OR (user_id = ? AND hero_promotion_users.id IS NOT NULL)", true, user_id)
+    end
+
     def self.create_with_bulk_users(params={}, user_ids)
       params.delete(:user_ids)
       record_params = params.merge({user_ids_present: user_ids.present?})

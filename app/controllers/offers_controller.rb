@@ -2,14 +2,14 @@ class OffersController < ApplicationController
 
   def index
     @offers = present_offers(plink_offer_service.get_live_offers(current_virtual_currency.id), false)
-    @hero_promotions = present_hero_promotions(plink_hero_promotion_service.active_promotions)
+    @hero_promotions = present_hero_promotions(plink_hero_promotion_service.active_for_user(current_user.id, false))
   end
 
   private
 
   def present_hero_promotions(hero_promotions)
     hero_promotions.map do |hero_promotion|
-      HeroPromotionPresenter.new(hero_promotion, current_user.id, false)
+      HeroPromotionPresenter.new(hero_promotion, current_user.id)
     end
   end
 
