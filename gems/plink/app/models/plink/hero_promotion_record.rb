@@ -27,6 +27,7 @@ module Plink
       linked_column_name = linked ? 'show_linked_users' : 'show_non_linked_users'
 
       Plink::HeroPromotionRecord.
+        select('DISTINCT hero_promotions.*').
         joins('LEFT JOIN hero_promotion_users ON hero_promotions.id = hero_promotion_users.hero_promotion_id').
         where("#{linked_column_name} = ? OR (user_id = ? AND hero_promotion_users.id IS NOT NULL)", true, user_id)
     end
