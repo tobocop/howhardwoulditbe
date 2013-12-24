@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131218005532) do
+ActiveRecord::Schema.define(:version => 20131224182017) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -718,6 +718,8 @@ ActiveRecord::Schema.define(:version => 20131218005532) do
     t.integer "hero_promotion_id"
     t.integer "user_id"
   end
+
+  add_index "hero_promotion_users", ["hero_promotion_id", "user_id"], :name => "index_hero_promotion_users_on_hero_promotion_id_and_user_id"
 
   create_table "hero_promotions", :force => true do |t|
     t.string   "image_url_one"
