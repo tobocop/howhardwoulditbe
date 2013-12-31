@@ -38,8 +38,8 @@ module Plink
       record = Plink::HeroPromotionRecord.create(record_params)
 
       if record.persisted? && user_ids
-        file_path = "tmp/uploaded_files/hero_promotion_users_#{Time.zone.now.to_i}.csv"
-        FileUtils.mv(user_ids.tempfile, File.join(Rails.root, file_path))
+        file_path = "/tmp/hero_promotion_users_#{Time.zone.now.to_i}.csv"
+        FileUtils.mv(user_ids.tempfile, file_path)
 
         Plink::HeroPromotionUserRecord.delay.bulk_insert(record.id, file_path)
       end
@@ -50,12 +50,13 @@ module Plink
     def update_attributes_with_bulk_users(params={}, user_ids)
       params.delete(:user_ids)
       record_params = params.merge({user_ids_present: user_ids.present?})
+      updated = update_attributes(record_params)
 
-      if updated = update_attributes(record_params) && user_ids
+      if updated && user_ids
         Plink::HeroPromotionUserRecord.where(hero_promotion_id: id).delete_all
 
-        file_path = "tmp/uploaded_files/hero_promotion_users_#{Time.zone.now.to_i}.csv"
-        FileUtils.mv(user_ids.tempfile, File.join(Rails.root, file_path))
+        file_path = "/tmp/hero_promotion_users_#{Time.zone.now.to_i}.csv"
+        FileUtils.mv(user_ids.tempfile, file_path)
 
         Plink::HeroPromotionUserRecord.delay.bulk_insert(id, file_path)
       end

@@ -131,7 +131,7 @@ describe Plink::HeroPromotionRecord do
       Plink::HeroPromotionRecord.create_with_bulk_users({foo: 'bar'}, nil)
     end
 
-    it 'saves the uploaded file in to tmp/' do
+    it 'saves the uploaded file to /tmp/' do
       Plink::HeroPromotionRecord.stub(:create).and_return(double(persisted?: true, id: 1))
       hero_promotion_user_record = double(Plink::HeroPromotionUserRecord, bulk_insert: true)
       Plink::HeroPromotionUserRecord.stub(:delay).and_return(hero_promotion_user_record)
@@ -178,7 +178,7 @@ describe Plink::HeroPromotionRecord do
         Plink::HeroPromotionUserRecord.stub(:delay).and_return(double(bulk_insert: true))
 
         FileUtils.should_receive(:mv).
-          with('stuff', /tmp\/uploaded_files\/hero_promotion_users_.*\.csv/)
+          with('stuff', /tmp\/hero_promotion_users_.*\.csv/)
 
         hero_promotion.update_attributes_with_bulk_users(params, user_ids_file)
       end
