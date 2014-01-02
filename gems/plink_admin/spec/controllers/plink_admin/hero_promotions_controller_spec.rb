@@ -19,9 +19,9 @@ describe PlinkAdmin::HeroPromotionsController do
 
   describe 'POST create' do
     it 'creates a hero promotion and redirects to the listing view' do
-      Plink::HeroPromotionRecord.should_receive(:create).
-        with({'name' => 'captn planet', 'user_ids_present' => false}).
-        and_return(mock(Plink::HeroPromotionRecord, persisted?: true))
+      Plink::HeroPromotionRecord.should_receive(:create_with_bulk_users).
+        with(nil, {'name' => 'captn planet'}). #, 'user_ids_present' => false}).
+        and_return(double(Plink::HeroPromotionRecord, persisted?: true))
 
       post :create, {hero_promotion: {name: 'captn planet'}}
 
@@ -29,9 +29,8 @@ describe PlinkAdmin::HeroPromotionsController do
     end
 
     it 'renders the new template when the hero promotion cannot be created' do
-      Plink::HeroPromotionRecord.should_receive(:create).
-        with({'name' => 'captn planet', 'user_ids_present' => false}).
-        and_return(mock(Plink::HeroPromotionRecord, persisted?: false))
+      Plink::HeroPromotionRecord.stub(:create_with_bulk_users).
+        and_return(double(Plink::HeroPromotionRecord, persisted?: false))
 
       post :create, {hero_promotion: {name: 'captn planet'}}
 
@@ -51,7 +50,8 @@ describe PlinkAdmin::HeroPromotionsController do
 
       it 'calls create_with_bulk_users to handle file parsing' do
         Plink::HeroPromotionRecord.should_receive(:create_with_bulk_users).
-          with({'name' => 'captn planet', 'user_ids' => file}, file).and_return(double(persisted?: true))
+          with(file, {'name' => 'captn planet', 'user_ids' => file}).
+          and_return(double(persisted?: true))
 
         post :create, {hero_promotion: {name: 'captn planet', user_ids: file}}
       end
@@ -119,7 +119,7 @@ describe PlinkAdmin::HeroPromotionsController do
     context 'for a successful update' do
       it 'updates the associated record' do
         hero_promotion.should_receive(:update_attributes_with_bulk_users).
-          with({'user_ids' => file}, file).and_return(true)
+          with(file, {'user_ids' => file}).and_return(true)
 
         put :update_audience, {id: 6, hero_promotion: {user_ids: file}}
       end

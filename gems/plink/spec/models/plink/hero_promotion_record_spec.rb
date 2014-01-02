@@ -128,7 +128,7 @@ describe Plink::HeroPromotionRecord do
       Plink::HeroPromotionRecord.should_receive(:create).
         with({foo: 'bar', user_ids_present: false}).and_return(double(persisted?: true))
 
-      Plink::HeroPromotionRecord.create_with_bulk_users({foo: 'bar'}, nil)
+      Plink::HeroPromotionRecord.create_with_bulk_users(nil, {foo: 'bar'})
     end
 
     it 'saves the uploaded file to /tmp/' do
@@ -138,7 +138,7 @@ describe Plink::HeroPromotionRecord do
 
       FileUtils.should_receive(:mv).and_return(true)
 
-      Plink::HeroPromotionRecord.create_with_bulk_users({foo: 'bar'}, user_ids_file)
+      Plink::HeroPromotionRecord.create_with_bulk_users(user_ids_file, {foo: 'bar'})
     end
 
     it 'calls a delayed job to bulk insert the records' do
@@ -148,7 +148,7 @@ describe Plink::HeroPromotionRecord do
 
       Plink::HeroPromotionUserRecord.should_receive(:delay).and_return(hero_promotion_user_record)
 
-      Plink::HeroPromotionRecord.create_with_bulk_users({foo: 'bar'}, user_ids_file)
+      Plink::HeroPromotionRecord.create_with_bulk_users(user_ids_file, {foo: 'bar'})
     end
   end
 
@@ -161,14 +161,14 @@ describe Plink::HeroPromotionRecord do
       hero_promotion.should_receive(:update_attributes).with(params.merge!(user_ids_present: true))
 
 
-      hero_promotion.update_attributes_with_bulk_users(params, user_ids_file)
+      hero_promotion.update_attributes_with_bulk_users(user_ids_file, params)
     end
 
     it 'returns the response of update_attributes' do
       hero_promotion.stub(:update_attributes).and_return(false)
 
 
-      hero_promotion.update_attributes_with_bulk_users(params, user_ids_file).should be_false
+      hero_promotion.update_attributes_with_bulk_users(user_ids_file, params).should be_false
     end
 
     context 'with a user_ids file' do
@@ -180,7 +180,7 @@ describe Plink::HeroPromotionRecord do
         FileUtils.should_receive(:mv).
           with('stuff', /tmp\/hero_promotion_users_.*\.csv/)
 
-        hero_promotion.update_attributes_with_bulk_users(params, user_ids_file)
+        hero_promotion.update_attributes_with_bulk_users(user_ids_file, params)
       end
 
       it 'creates a delayed job to handle the bulk insert' do
@@ -189,7 +189,7 @@ describe Plink::HeroPromotionRecord do
         Plink::HeroPromotionUserRecord.should_receive(:delay).
           and_return(double(bulk_insert: true))
 
-        hero_promotion.update_attributes_with_bulk_users(params, user_ids_file)
+        hero_promotion.update_attributes_with_bulk_users(user_ids_file, params)
       end
     end
 

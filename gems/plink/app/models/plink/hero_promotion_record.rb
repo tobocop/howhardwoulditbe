@@ -32,7 +32,7 @@ module Plink
         where("#{linked_column_name} = ? OR (user_id = ? AND hero_promotion_users.id IS NOT NULL)", true, user_id)
     end
 
-    def self.create_with_bulk_users(params={}, user_ids)
+    def self.create_with_bulk_users(user_ids, params={})
       params.delete(:user_ids)
       record_params = params.merge({user_ids_present: user_ids.present?})
       record = Plink::HeroPromotionRecord.create(record_params)
@@ -47,7 +47,7 @@ module Plink
       record
     end
 
-    def update_attributes_with_bulk_users(params={}, user_ids)
+    def update_attributes_with_bulk_users(user_ids, params={})
       params.delete(:user_ids)
       record_params = params.merge({user_ids_present: user_ids.present?})
       updated = update_attributes(record_params)

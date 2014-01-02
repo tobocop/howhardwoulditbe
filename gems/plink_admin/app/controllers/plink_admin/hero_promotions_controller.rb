@@ -10,7 +10,7 @@ module PlinkAdmin
     end
 
     def create
-      @hero_promotion = plink_hero_promotion_record.create_with_bulk_users(params[:hero_promotion], params[:hero_promotion][:user_ids])
+      @hero_promotion = plink_hero_promotion_record.create_with_bulk_users(params[:hero_promotion][:user_ids], params[:hero_promotion])
 
       if @hero_promotion.persisted?
         redirect_to hero_promotions_path
@@ -40,7 +40,7 @@ module PlinkAdmin
     def update_audience
       @hero_promotion = plink_hero_promotion_record.find(params[:id])
 
-      if @hero_promotion.update_attributes_with_bulk_users(params[:hero_promotion], params[:hero_promotion][:user_ids])
+      if @hero_promotion.update_attributes_with_bulk_users(params[:hero_promotion][:user_ids], params[:hero_promotion])
         redirect_to hero_promotions_path
       else
         render 'edit_audience'
