@@ -37,7 +37,8 @@ describe 'offers' do
 
     page.should have_content 'Offer could not be updated. The end date for the offer needs to be at least 8 days from today.'
 
-    select 1.year.from_now.year, from: 'offer[end_date(1i)]'
+    valid_year = 1.year.from_now.year
+    select valid_year, from: 'offer[end_date(1i)]'
     check 'Show end date to users'
     check 'Notify users of expiration 7 days before'
     fill_in 'Detail Text', with: 'The Best'
@@ -49,7 +50,7 @@ describe 'offers' do
     within '.offer-list' do
       within 'tr.offer-item:nth-of-type(1)' do
         page.should have_content 'borger king'
-        page.should have_content '2014'
+        page.should have_content valid_year
         page.should have_content 'The Best'
         page.should have_content 'showing date'
         page.should have_content 'sending email'
