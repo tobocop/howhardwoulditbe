@@ -1,9 +1,9 @@
 module Geoip
   class LocationLookup
     def self.by_ip(ip)
-      uri = URI("https://freegeoip.net/json/#{ip}")
+      uri = URI("http://www.telize.com/geoip/#{ip}")
       http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+      http.use_ssl = false
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new(uri.request_uri)
 
@@ -22,7 +22,7 @@ module Geoip
       {
         state: blank_to_nil(options['region_code']),
         city: blank_to_nil(options['city']),
-        zip: blank_to_nil(options['zipcode'])
+        zip: blank_to_nil(options['postal_code'])
       }
     end
 
