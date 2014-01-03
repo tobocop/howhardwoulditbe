@@ -14,14 +14,14 @@ describe PasswordResetController do
     let(:params) { {'token' => 'token', 'new_password' => 'pazzword', 'new_password_confirmation' => 'pazzword'} }
 
     context 'when password is successfully changed' do
-      let(:mock_password_reset_form) { mock(:password_reset_form, save: true) }
+      let(:password_reset_form) { double(:password_reset_form, save: true) }
 
       before do
-        PasswordResetForm.stub(:new).and_return(mock_password_reset_form)
+        PasswordResetForm.stub(:new).and_return(password_reset_form)
       end
 
       it 'redirects to the home page with a flash notice' do
-        PasswordResetForm.should_receive(:new).with(params).and_return(mock_password_reset_form)
+        PasswordResetForm.should_receive(:new).with(params).and_return(password_reset_form)
 
         post :create, password_reset: params
 
@@ -31,10 +31,10 @@ describe PasswordResetController do
     end
 
     context 'when the password cant be changed' do
-      let(:mock_password_reset_form) { mock(:password_reset_form, save: false) }
+      let(:password_reset_form) { double(:password_reset_form, save: false) }
 
       before do
-        PasswordResetForm.stub(:new).and_return(mock_password_reset_form)
+        PasswordResetForm.stub(:new).and_return(password_reset_form)
       end
 
       it 're-renders the new template' do

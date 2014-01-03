@@ -11,7 +11,7 @@ describe WalletsController do
   let(:hero_promotion_service) { double }
   let(:hero_promotion) { double }
   let(:wallet_item) { new_locked_wallet_item }
-  let(:wallet) { stub(id:2, sorted_wallet_item_records: [wallet_item]) }
+  let(:wallet) { double(id:2, sorted_wallet_item_records: [wallet_item]) }
 
   before do
     set_virtual_currency({id: 1})

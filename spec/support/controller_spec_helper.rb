@@ -9,7 +9,7 @@ module ControllerSpecHelper
       primary_virtual_currency_id: 1,
       valid?: true
     }
-    user = mock(:user, defaults.merge(overrides))
+    user = double(:user, defaults.merge(overrides))
     controller.stub(current_user: user)
     user
   end
@@ -21,7 +21,7 @@ module ControllerSpecHelper
       id: 100
     }
 
-    virtual_currency = mock(:virtual_currency, defaults.merge(overrides))
+    virtual_currency = double(:virtual_currency, defaults.merge(overrides))
     controller.stub(current_virtual_currency: virtual_currency)
     virtual_currency
   end

@@ -4,7 +4,7 @@ require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe RewardsController do
 
-  let(:reward) { mock('Plink::Reward', name: 'the best reward') }
+  let(:reward) { double('Plink::Reward', name: 'the best reward') }
   let(:virtual_currency_presenter) { VirtualCurrencyPresenter.new(virtual_currency: new_virtual_currency(name: 'Plink points')) }
   let(:reward_presenter) { RewardPresenter.new(reward: reward, virtual_currency_presenter: virtual_currency_presenter) }
   let(:mock_account_service) { Plink::FakeIntuitAccountService.new(55 => true) }

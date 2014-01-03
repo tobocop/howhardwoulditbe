@@ -4,8 +4,19 @@ describe ContestsController do
 
   it_should_behave_like(:tracking_extensions)
 
+  let(:contest) { double(id: 14, finalized?: false) }
+
   describe 'GET index' do
-    let!(:contest) { create_contest }
+    before do
+      Plink::ContestRecord.stub(:current).and_return(contest)
+      service = double(Plink::ContestResultsService)
+      controller.stub(:contest_results_service).and_return(service)
+
+      EntriesPresenter.stub(:new).and_return(double(share_state: 'share_state', unshared_provider_count: 2))
+
+      Plink::ContestEntryService.stub(:total_entries).and_return(0)
+      Plink::ContestEntryService.stub(:total_entries_via_share).and_return(0)
+    end
 
     it 'responds with a contest' do
       get :index
@@ -63,11 +74,11 @@ describe ContestsController do
     end
 
     context 'with a logged in user' do
-      let(:user) { create_user }
+      let(:user) { double(:user, id: 42) }
 
       before do
-        create_virtual_currency
-        session[:current_user_id] = user.id
+        set_virtual_currency
+        set_current_user(id: user.id)
       end
 
       it 'does not set a return_to_path' do
@@ -103,9 +114,8 @@ describe ContestsController do
 
       context 'that has a linked card' do
         before do
-          create_oauth_token(user_id: user.id)
-          create_users_institution_account(user_id: user.id)
-          session[:current_user_id] = user.id
+          service = double(:intuit_account_service, user_has_account?: true)
+          Plink::IntuitAccountService.stub(:new).and_return(service)
         end
 
         it 'responds with true user_has_linked_card' do
@@ -118,6 +128,7 @@ describe ContestsController do
       context 'that just linked their card' do
         it 'sets a flash notice to tell the user about the bonus' do
           get :index, {card_linked: true}
+
           flash[:notice].should == "Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases."
         end
       end
@@ -125,8 +136,17 @@ describe ContestsController do
   end
 
   describe 'GET show' do
-    let!(:unexpected_contest) { create_contest }
-    let!(:contest) { create_contest }
+    before do
+      Plink::ContestRecord.stub(:find).and_return(contest)
+
+      service = double(Plink::ContestResultsService)
+      controller.stub(:contest_results_service).and_return(service)
+
+      EntriesPresenter.stub(:new).and_return(double(share_state: 'share_state', unshared_provider_count: 2))
+
+      Plink::ContestEntryService.stub(:total_entries).and_return(0)
+      Plink::ContestEntryService.stub(:total_entries_via_share).and_return(0)
+    end
 
     it 'responds with a contest' do
       get :show, id: contest.id
@@ -228,22 +248,22 @@ describe ContestsController do
   end
 
   describe 'POST toggle_opt_in_to_daily_reminder' do
-    let(:user) { create_user }
-    let(:contest) {create_contest }
+    let(:user) { set_current_user(id: 545) }
 
     before do
-      create_virtual_currency
-      session[:current_user_id] = user.id
+      set_virtual_currency
     end
 
     it 'responds successfully when user record is successfully updated' do
+      user.stub(:opt_in_to_daily_contest_reminders!).and_return(true)
+
       post :toggle_opt_in_to_daily_reminder, daily_contest_reminder: 'true', contest_id: contest.id
 
       response.should be_success
     end
 
     it 'responds with an unprocessable entity when the user record cannot be updated' do
-      Plink::UserRecord.any_instance.stub(:opt_in_to_daily_contest_reminders!).and_return(false)
+      user.stub(:opt_in_to_daily_contest_reminders!).and_return(false)
 
       post :toggle_opt_in_to_daily_reminder, daily_contest_reminder: 'false', contest_id: contest.id
 
@@ -285,7 +305,7 @@ describe ContestsController do
       end
 
       it 'signs the user in if a token matches' do
-        controller.should_receive(:sign_in_user).and_call_original
+        controller.should_receive(:sign_in_user)
 
         get :results_from_email, contest_id: contest_id, user_token: user_auto_login_record.user_token
       end

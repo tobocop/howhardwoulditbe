@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe OfferItemPresenter do
 
-  let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 8.days.from_now.to_date, is_expiring?: false, show_end_date: true) }
-  let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
-  let(:view_context) { stub(:fake_view_context) }
+  let(:offer) { double(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 8.days.from_now.to_date, is_expiring?: false, show_end_date: true) }
+  let(:virtual_currency) { double(:virtual_currency, currency_name: 'Plink points') }
+  let(:view_context) { double(:fake_view_context) }
   let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
 
   describe 'name' do
@@ -56,7 +56,7 @@ describe OfferItemPresenter do
   end
 
   context 'when the offer does not have expiration text' do
-    let(:offer) { stub(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 1.day.from_now.to_date, show_end_date: false) }
+    let(:offer) { double(:offer, id: 32, name: 'BK Whopper', is_new: false, is_promotion: false, end_date: 1.day.from_now.to_date, show_end_date: false) }
     let(:presenter) { OfferItemPresenter.new(offer, virtual_currency: virtual_currency, view_context: view_context, linked: true, signed_in: false) }
 
     describe 'end_date_text' do
@@ -202,7 +202,7 @@ describe OfferItemPresenter do
       view_context.stub(plink_currency_format: '$5')
       virtual_currency.stub(:amount_in_currency).with(0.7).and_return(70)
 
-      fake_first_tier = stub(:fake_first_tier,
+      fake_first_tier = double(:fake_first_tier,
                              minimum_purchase_amount: 5,
                              dollar_award_amount: 0.7
       )
@@ -269,7 +269,7 @@ describe OfferItemPresenter do
   end
 
   describe '#promotion_description' do
-    let(:offer) { stub(:offer, promotion_description: 'Something awesome') }
+    let(:offer) { double(:offer, promotion_description: 'Something awesome') }
 
     it "returns the offer's promotion description" do
       presenter.promotion_description.should == 'Something awesome'

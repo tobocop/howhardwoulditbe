@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WalletItemPresenter do
 
   let(:virtual_currency_presenter) { VirtualCurrencyPresenter.new(virtual_currency: new_virtual_currency(name: 'Plink points')) }
-  let(:fake_view_context) { stub(:fake_view_context) }
+  let(:fake_view_context) { double(:fake_view_context) }
 
   context 'populated wallet item' do
     let(:populated_wallet_item) { Plink::WalletItem.new(new_populated_wallet_item) }
@@ -14,22 +14,22 @@ describe WalletItemPresenter do
     end
 
     it 'has the correct special offer type' do
-      offer_stub = stub(is_new: false, is_promotion: false, is_expiring?: false)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(is_new: false, is_promotion: false, is_expiring?: false)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.special_offer_type.should be_nil
     end
 
     it 'has the correct special offer type text' do
-      offer_stub = stub(is_new: false, is_promotion: false, is_expiring?: false)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(is_new: false, is_promotion: false, is_expiring?: false)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.special_offer_type_text.should be_nil
     end
 
     context 'with a new offer' do
-      let(:offer_stub) { stub(is_new: true) }
+      let(:offer) { double(is_new: true) }
 
       before do
-        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+        Plink::WalletItem.any_instance.stub(:offer) { offer }
       end
 
       it 'has the correct special offer type' do
@@ -42,10 +42,10 @@ describe WalletItemPresenter do
     end
 
     context 'with a bonus offer' do
-      let(:offer_stub) { stub(is_new: false, is_promotion: true) }
+      let(:offer) { double(is_new: false, is_promotion: true) }
 
       before do
-        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+        Plink::WalletItem.any_instance.stub(:offer) { offer }
       end
 
       it 'has the correct special offer type' do
@@ -58,10 +58,10 @@ describe WalletItemPresenter do
     end
 
     context 'with an expiring offer' do
-      let(:offer_stub) { stub(is_new: false, is_promotion: false, is_expiring?: true) }
+      let(:offer) { double(is_new: false, is_promotion: false, is_expiring?: true) }
 
       before do
-        Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+        Plink::WalletItem.any_instance.stub(:offer) { offer }
       end
 
       it 'has the correct special offer type' do
@@ -74,26 +74,26 @@ describe WalletItemPresenter do
     end
 
     it 'has the correct icon_url' do
-      offer_stub = stub(image_url: "my_custom_image.png")
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(image_url: "my_custom_image.png")
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.icon_url.should == Plink::RemoteImagePath.url_for('my_custom_image.png')
     end
 
     it 'has the correct icon description' do
-      offer_stub = stub(name: "Old Navy")
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(name: "Old Navy")
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.icon_description.should == 'Old Navy'
     end
 
     it 'has the correct max_currency_award_amount' do
-      offer_stub = stub(max_dollar_award_amount: 15.2)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(max_dollar_award_amount: 15.2)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.max_currency_award_amount.should == "1520"
     end
 
     it 'has the correct modal_dom_id' do
-      offer_stub = stub(id: 15)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(id: 15)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.modal_dom_id.should == "offer-details-15"
     end
 
@@ -102,14 +102,14 @@ describe WalletItemPresenter do
     end
 
     it 'returns the offer id of the presented item' do
-      offer_stub = stub(id: 152)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(id: 152)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       presenter.offer_id.should == 152
     end
 
     it 'has a JSON representation' do
-      offer_stub = stub(max_dollar_award_amount: 15.2, name: 'Taco Bell', image_url: 'my_custom_image.png', id: 2, is_new: true)
-      Plink::WalletItem.any_instance.stub(:offer) { offer_stub }
+      offer = double(max_dollar_award_amount: 15.2, name: 'Taco Bell', image_url: 'my_custom_image.png', id: 2, is_new: true)
+      Plink::WalletItem.any_instance.stub(:offer) { offer }
       fake_view_context.should_receive(:wallet_offer_url) { 'test.host/offers/2' }
 
       JSON.parse(presenter.to_json).symbolize_keys.should == {

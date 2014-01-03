@@ -19,7 +19,7 @@ describe 'reverifications:insert_reverification_notices' do
     Plink::UserIntuitErrorRecord.should_receive(:errors_that_require_attention).
       and_return([])
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   context 'errors that require immediate action' do
@@ -40,7 +40,7 @@ describe 'reverifications:insert_reverification_notices' do
           users_intuit_error_id: user_intuit_error.id
         })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'immediately queues a reverifciation notice for error code 106' do
@@ -54,7 +54,7 @@ describe 'reverifications:insert_reverification_notices' do
           users_intuit_error_id: user_intuit_error.id
         })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'immediately queues a reverifciation notice for error code 108' do
@@ -68,7 +68,7 @@ describe 'reverifications:insert_reverification_notices' do
           users_intuit_error_id: user_intuit_error.id
         })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'immediately queues a reverifciation notice for error code 109' do
@@ -82,7 +82,7 @@ describe 'reverifications:insert_reverification_notices' do
           users_intuit_error_id: user_intuit_error.id
         })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'does not queue a reverification notice if the users active institution does not match that of the error' do
@@ -90,7 +90,7 @@ describe 'reverifications:insert_reverification_notices' do
 
       Plink::UserReverificationRecord.should_not_receive(:create)
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'does not queue duplicate reverifciation notices' do
@@ -100,7 +100,7 @@ describe 'reverifications:insert_reverification_notices' do
         users_institution_id: users_institution.id
       )
 
-      subject.invoke
+      capture_stdout { subject.invoke }
 
       Plink::UserReverificationRecord.all.length.should == 1
     end
@@ -109,7 +109,7 @@ describe 'reverifications:insert_reverification_notices' do
       user.update_attribute('isForceDeactivated', true)
 
       Plink::UserReverificationRecord.should_not_receive(:create)
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'does not queue reverifciation notices to white label members' do
@@ -118,7 +118,7 @@ describe 'reverifications:insert_reverification_notices' do
       user.save
 
       Plink::UserReverificationRecord.should_not_receive(:create)
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
   end
 
@@ -151,7 +151,7 @@ describe 'reverifications:insert_reverification_notices' do
             users_intuit_error_id: most_recent_error.id
           })
 
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
 
       it 'queues a notice if the user has received error code 185 for 5 days in a row' do
@@ -167,12 +167,12 @@ describe 'reverifications:insert_reverification_notices' do
             users_intuit_error_id: user_intuit_error.id
           })
 
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
 
       it 'does not queue a notice if the user has received error code 185 for 4 days in a row' do
         Plink::UserReverificationRecord.should_not_receive(:create)
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
     end
 
@@ -191,7 +191,7 @@ describe 'reverifications:insert_reverification_notices' do
             users_intuit_error_id: most_recent_error.id
           })
 
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
 
       it 'queues a notice if the user has received error code 187 for 5 days in a row' do
@@ -207,12 +207,12 @@ describe 'reverifications:insert_reverification_notices' do
             users_intuit_error_id: user_intuit_error.id
           })
 
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
 
       it 'does not queue a notice if the user has received error code 187 for 4 days in a row' do
         Plink::UserReverificationRecord.should_not_receive(:create)
-        subject.invoke
+        capture_stdout { subject.invoke }
       end
     end
   end
@@ -256,13 +256,13 @@ describe 'reverifications:send_reverification_notices' do
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
 
     it 'updates the reverification flagging it as notified' do
       mailer.stub(:notice_email)
 
-      subject.invoke
+      capture_stdout { subject.invoke }
 
       user_reverification.reload.is_notification_successful.should be_true
     end
@@ -285,7 +285,7 @@ describe 'reverifications:send_reverification_notices' do
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
   end
 
@@ -306,32 +306,32 @@ describe 'reverifications:send_reverification_notices' do
         text_link_message: "Please update your Plink account with your current Bank of AMERRRICA! login info by clicking here: http://plink.test:58891/account/login_from_email?link_card=true&user_token=my_token."
       })
 
-      subject.invoke
+      capture_stdout { subject.invoke }
     end
   end
 
   it 'does not email users who have already completed their reverification' do
     user_reverification.update_attribute('completed_on', Time.zone.now)
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not email users who have already been notified their account needs to be reverified' do
     user_reverification.update_attribute('is_notification_successful', true)
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not email users who have a different active institution then what is on the reverification' do
     user_reverification.update_attribute('users_institution_id', old_users_institution.id)
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not email force deactivated users' do
     user.update_attribute('isForceDeactivated', true)
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not email white label users' do
@@ -339,13 +339,13 @@ describe 'reverifications:send_reverification_notices' do
     user.primary_virtual_currency = swagbucks
     user.save
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not email unsubscribed users' do
     user.update_attribute('isSubscribed', false)
     mailer.should_not_receive(:notice_email)
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 end
 
@@ -392,7 +392,7 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
     intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
     intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'removes accounts even if they are no longer the active account' do
@@ -403,7 +403,7 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
     intuit_account_removal_service.should_receive(:remove).with(298, user.id, old_users_institution.id)
     intuit_account_removal_service.should_receive(:remove).with(28, user.id, old_users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'removes the account if the reverification has been outstanding for more than 2 weeks' do
@@ -411,7 +411,7 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
     intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
     intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'delays the removals into a named queue' do
@@ -423,21 +423,21 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
     intuit_account_removal_service.should_receive(:remove).with(298, user.id, users_institution.id)
     intuit_account_removal_service.should_receive(:remove).with(28, user.id, users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not remove the account if the reverification has been completed' do
     user_reverification.update_attribute('completed_on', 1.day.ago)
     intuit_account_removal_service.should_not_receive(:remove)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not remove the account if the reverification has been outstanding for less than 2 weeks' do
     user_reverification.update_attribute('created', 13.days.ago)
     intuit_account_removal_service.should_not_receive(:remove)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 end
 
@@ -482,7 +482,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
     }
   end
 
-  let(:intuit_request) { mock(Intuit::Request) }
+  let(:intuit_request) { double('Intuit::Request') }
 
   before do
     create_oauth_token(user_id: user.id)
@@ -495,7 +495,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
     two_day_ago = 2.days.ago
     completed_reverification = create_user_reverification(user_id: user.id, users_intuit_error_id: users_intuit_error.id, completed_on: two_day_ago, users_institution_id: users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     completed_reverification.reload.completed_on.to_date.should == two_day_ago.to_date
   end
@@ -507,7 +507,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
     users_intuit_error = create_user_intuit_error(user_id: user.id, intuit_error_id: intuit_error.id)
     different_reverification = create_user_reverification(user_id: user.id, users_intuit_error_id: users_intuit_error.id, completed_on: nil, users_institution_id: users_institution.id)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     different_reverification.reload.completed_on.should be_nil
   end
@@ -515,7 +515,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
   it 'calls to intuit to get the account status' do
     intuit_request.should_receive(:account).with(400010242913).and_return(intuit_response)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   context 'for a user who has a non-108 aggr_status_code' do
@@ -523,7 +523,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
       intuit_request.should_receive(:account).and_return(intuit_response)
       reverification.completed_on.should be_nil
 
-      subject.invoke
+      capture_stdout { subject.invoke }
 
       reverification.reload.completed_on.to_date.should == Date.current
     end
@@ -544,7 +544,7 @@ describe 'reverifications:set_status_code_108_to_completed' do
     it 'does not update the reverification' do
       intuit_request.should_receive(:account).and_return(intuit_response)
 
-      subject.invoke
+      capture_stdout { subject.invoke }
 
       reverification.reload.completed_on.should be_nil
     end

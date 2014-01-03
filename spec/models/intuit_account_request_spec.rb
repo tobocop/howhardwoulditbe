@@ -69,7 +69,7 @@ describe IntuitAccountRequest do
     }
   end
 
-  let(:intuit_request) { mock(Intuit::Request) }
+  let(:intuit_request) { double(Intuit::Request) }
 
   let(:request) do
     args = [ params[:user_id], params[:institution_id], params[:intuit_institution_id], params[:request_id], params[:hash_check] ]
@@ -99,7 +99,7 @@ describe IntuitAccountRequest do
   end
 
   describe '#accounts' do
-    let(:intuit_account_request_record) { mock(Plink::IntuitAccountRequestRecord, update_attributes: true) }
+    let(:intuit_account_request_record) { double(Plink::IntuitAccountRequestRecord, update_attributes: true) }
 
     before do
       Intuit::Request.stub(:new).and_return(intuit_request)
@@ -204,7 +204,7 @@ describe IntuitAccountRequest do
   end
 
   describe '#respond_to_mfa' do
-    let(:intuit_account_request_record) { mock(Plink::IntuitAccountRequestRecord, update_attributes: true) }
+    let(:intuit_account_request_record) { double(Plink::IntuitAccountRequestRecord, update_attributes: true) }
 
     before do
       Intuit::Request.stub(:new).and_return(intuit_request)

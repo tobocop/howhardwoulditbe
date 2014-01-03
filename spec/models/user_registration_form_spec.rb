@@ -107,8 +107,7 @@ describe UserRegistrationForm do
 
   describe 'saving' do
     context 'when successful' do
-      let(:user_creation_service_mock) { mock(:user_creation_service, valid?: true) }
-      let(:mock_mail) {mock(:welcome_email)}
+      let(:user_creation_service) { double(:user_creation_service, valid?: true) }
       let(:user_params) {
         {
           password_hash: '1234790dfghjkl;',
@@ -122,12 +121,12 @@ describe UserRegistrationForm do
       }
 
       before do
-        password = mock(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
+        password = double(:password, hashed_value: '1234790dfghjkl;', salt: 'qwer-qwer-qwer-qwer')
         Plink::Password.stub(:new).with(unhashed_password: 'goodpassword') { password }
-        Plink::UserCreationService.stub(:new).with(user_params).and_return(user_creation_service_mock)
+        Plink::UserCreationService.stub(:new).with(user_params).and_return(user_creation_service)
 
-        user_mock = mock(:user, id: 14, email: 'bobo@example.com', first_name: 'Bobo')
-        user_creation_service_mock.stub(:create_user).and_return(user_mock)
+        user_mock = double(:user, id: 14, email: 'bobo@example.com', first_name: 'Bobo')
+        user_creation_service.stub(:create_user).and_return(user_mock)
 
         mock_delay = double('mock_delay').as_null_object
         AfterUserRegistration.stub(:delay).and_return(mock_delay)
@@ -135,11 +134,11 @@ describe UserRegistrationForm do
 
       it 'calls save on the user_creation_service when valid' do
         Plink::UserCreationService.should_receive(:new).with(user_params).
-          and_return(user_creation_service_mock)
+          and_return(user_creation_service)
 
-        user_mock = mock(:user, email: 'bobo@example.com', first_name: 'Bobo', id: 3)
+        user_mock = double(:user, email: 'bobo@example.com', first_name: 'Bobo', id: 3)
 
-        user_creation_service_mock.should_receive(:create_user).and_return(user_mock)
+        user_creation_service.should_receive(:create_user).and_return(user_mock)
 
         user_registration_form.save.should be_true
       end

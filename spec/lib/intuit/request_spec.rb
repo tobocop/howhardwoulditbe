@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Intuit::Request do
-  let(:aggcat) { mock(Aggcat) }
+  let(:aggcat) { double(Aggcat) }
 
   describe '#new' do
     it 'instantiates Aggcat' do

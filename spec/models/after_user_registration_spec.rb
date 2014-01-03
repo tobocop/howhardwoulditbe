@@ -12,7 +12,10 @@ describe AfterUserRegistration do
     end
 
     it 'sends if the user has not yet linked a card' do
-      UserRegistrationMailer.should_receive(:complete_registration).with(first_name: 'bobby', email: 'nonlinked@plink.com').and_call_original
+      UserRegistrationMailer.should_receive(:complete_registration).
+        with(first_name: 'bobby', email: 'nonlinked@plink.com').
+        and_call_original
+
 
       AfterUserRegistration.send_complete_your_registration_email(non_linked_user.id)
 

@@ -3,28 +3,28 @@ require 'spec_helper'
 describe Plink::AddOfferToWalletService do
   describe 'initialize' do
     it 'requires an offer' do
-      expect { Plink::AddOfferToWalletService.new(user: stub) }.to raise_error(KeyError, 'key not found: :offer')
+      expect { Plink::AddOfferToWalletService.new(user: double) }.to raise_error(KeyError, 'key not found: :offer')
     end
 
     it 'requires an user' do
-      expect { Plink::AddOfferToWalletService.new(offer: stub) }.to raise_error(KeyError, 'key not found: :user')
+      expect { Plink::AddOfferToWalletService.new(offer: double) }.to raise_error(KeyError, 'key not found: :user')
     end
   end
 
   describe '#add_offer' do
-    let(:user) { stub(id: 1) }
-    let(:offer) { stub(advertisers_rev_share: 0.05) }
-    let(:offer_virtual_currency_for_user) { stub(id: 123) }
+    let(:user) { double(id: 1) }
+    let(:offer) { double(advertisers_rev_share: 0.05) }
+    let(:offer_virtual_currency_for_user) { double(id: 123) }
 
     subject { Plink::AddOfferToWalletService.new(user: user, offer: offer) }
 
     context 'when user has an empty wallet item' do
       context 'when the offer has a valid offers virtual currency for this user' do
         it 'updates the first available wallet item in the user wallet to set this offer and returns true' do
-          award_period = stub
+          award_period = double
           Plink::UsersAwardPeriodRecord.stub(:create) { award_period }
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
-          wallet_item = stub
+          wallet_item = double
           user.stub(:open_wallet_item) { wallet_item }
           wallet_item.should_receive(:assign_offer).with(offer_virtual_currency_for_user, award_period) { true }
           subject.add_offer.should == true
@@ -32,7 +32,7 @@ describe Plink::AddOfferToWalletService do
 
         it 'creates an users award period for the wallet item' do
           Plink::AddOfferToWalletService.any_instance.stub(:offer_virtual_currency_for_user) { offer_virtual_currency_for_user }
-          wallet_item = stub
+          wallet_item = double
           user.stub(:open_wallet_item) { wallet_item }
           wallet_item.stub(:assign_offer)
 
@@ -43,7 +43,7 @@ describe Plink::AddOfferToWalletService do
 
       context 'when there is no valid offer virtual currency for the user' do
         it 'returns false' do
-          user.stub(:open_wallet_item) { stub }
+          user.stub(:open_wallet_item) { double }
           subject.stub(:offer_virtual_currency_for_user) { nil }
           subject.add_offer.should == false
         end
@@ -61,9 +61,9 @@ describe Plink::AddOfferToWalletService do
 
   describe 'offer_virtual_currency_for_user' do
     it 'returns an offer virtual currency when it matches the user virtual currency id' do
-      user = stub(primary_virtual_currency_id: 123)
-      offer_virtual_currency = stub(virtual_currency_id: 123)
-      offer = stub(active_offers_virtual_currencies: [offer_virtual_currency])
+      user = double(primary_virtual_currency_id: 123)
+      offer_virtual_currency = double(virtual_currency_id: 123)
+      offer = double(active_offers_virtual_currencies: [offer_virtual_currency])
 
       service = Plink::AddOfferToWalletService.new(user: user, offer: offer)
 
@@ -71,9 +71,9 @@ describe Plink::AddOfferToWalletService do
     end
 
     it 'returns nil if no offer virtual currencies match the user primary virtual currency' do
-      user = stub(primary_virtual_currency_id: 123)
-      offer_virtual_currency = stub(virtual_currency_id: 456)
-      offer = stub(active_offers_virtual_currencies: [offer_virtual_currency])
+      user = double(primary_virtual_currency_id: 123)
+      offer_virtual_currency = double(virtual_currency_id: 456)
+      offer = double(active_offers_virtual_currencies: [offer_virtual_currency])
 
       service = Plink::AddOfferToWalletService.new(user: user, offer: offer)
 

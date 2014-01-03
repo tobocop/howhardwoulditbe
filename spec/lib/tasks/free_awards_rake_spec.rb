@@ -30,7 +30,7 @@ describe 'free_awards:award_offer_add_bonuses' do
       }
     ).and_call_original
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     user.reload.currency_balance.should == 25
   end
@@ -39,28 +39,28 @@ describe 'free_awards:award_offer_add_bonuses' do
     populated_wallet_item.unassign_offer
     Plink::FreeAwardRecord.should_not_receive(:new)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not award users that have received a bonus notification and have added the offer after 72 hours' do
     user_eligible_for_offer_add_bonus.update_attribute('created_at', 3.days.ago - 1.second)
     Plink::FreeAwardRecord.should_not_receive(:new)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not award users that did not receive a bonus notification' do
     user_eligible_for_offer_add_bonus.update_attribute('user_id', user_not_eligible.id)
     Plink::FreeAwardRecord.should_not_receive(:new)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not award users that have already been awarded' do
     user_eligible_for_offer_add_bonus.update_attribute('is_awarded', true)
     Plink::FreeAwardRecord.should_not_receive(:new)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'does not award users twice that received the bonus notification and added the offer twice' do
@@ -71,11 +71,11 @@ describe 'free_awards:award_offer_add_bonuses' do
       .exactly(1).times
       .and_return(double(save: true))
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'indicates that the user has been awarded for the bonus opportunity' do
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     user_eligible_for_offer_add_bonus.reload.is_awarded.should be_true
   end
@@ -83,7 +83,7 @@ describe 'free_awards:award_offer_add_bonuses' do
   it 'does not indicate that the user has been awarded for the bonus opportunity if the free award save fails' do
     Plink::FreeAwardRecord.any_instance.should_receive(:save).and_return(false)
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     user_eligible_for_offer_add_bonus.reload.is_awarded.should be_false
   end
@@ -93,7 +93,7 @@ describe 'free_awards:populate_award_types' do
   include_context 'rake'
 
   it 'creates an award type for the 25 point bonus on an offer add bonus' do
-    subject.invoke
+    capture_stdout { subject.invoke }
     award_type = Plink::AwardTypeRecord.where(awardCode: 'offer_add_bonus').first
     award_type.email_message.should == 'for adding an offer to your Wallet'
   end

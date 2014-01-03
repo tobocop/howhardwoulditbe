@@ -18,9 +18,9 @@ describe Plink::WalletItem do
   end
 
   it 'returns its associated offer' do
-    offer = stub
-    offer_record = stub(:offer_record, advertiser: stub(:advertiser).as_null_object).as_null_object
-    wallet_item_record = stub(offer: offer_record,offers_virtual_currency: stub(virtual_currency_id: 123))
+    offer = double
+    offer_record = double(:offer_record, advertiser: double(:advertiser).as_null_object).as_null_object
+    wallet_item_record = double(offer: offer_record,offers_virtual_currency: double(virtual_currency_id: 123))
 
     Plink::Offer.should_receive(:new) { offer }
 

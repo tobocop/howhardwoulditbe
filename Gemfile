@@ -34,8 +34,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '2.13.2'
-  gem 'capybara', '~> 2.1.0'
+  gem 'rspec-rails', '~>2.14'
   gem 'jasmine', '~> 1.3.2'
   gem 'quiet_assets'
   gem 'pry'

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe OfferItemJsPresenter do
 
-  let(:virtual_currency) { stub(:virtual_currency, currency_name: 'Plink points') }
+  let(:virtual_currency) { double(:virtual_currency, currency_name: 'Plink points') }
   let(:presenter) { OfferItemJsPresenter.new(virtual_currency: virtual_currency) }
 
   describe 'name' do

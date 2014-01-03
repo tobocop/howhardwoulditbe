@@ -1,13 +1,16 @@
 require 'spec_helper'
 
 describe SharePagesController do
-  let(:share_page) { create_share_page }
+  let(:share_page) {  double(Plink::SharePageRecord, id: 12, persisted?: true) }
   let(:user) { set_current_user }
 
   before { set_virtual_currency(currency_name: 'Bit Bucks', amount_in_currency: 24) }
 
   describe 'GET show' do
-    before { get :show, id: share_page.id }
+    before do
+      Plink::SharePageRecord.stub(:find).and_return(share_page)
+      get :show, id: share_page.id
+    end
 
     it 'should be successful' do
       response.should be_success
@@ -23,7 +26,6 @@ describe SharePagesController do
 
     it 'sets @share_page' do
       assigns(:share_page).should_not be_nil
-      assigns(:share_page).should be_instance_of Plink::SharePageRecord
     end
   end
 
@@ -42,11 +44,9 @@ describe SharePagesController do
     it 'records that the user saw the page' do
       Plink::SharePageTrackingRecord.should_receive(:where).
         with(registration_link_id: 1, share_page_id: share_page.id.to_s, user_id: user.id).
-        and_call_original
+        and_return(double(first_or_create: share_page))#.
 
       get :create_share_tracking_record, id: share_page.id
-
-      Plink::SharePageTrackingRecord.last.shared.should be_false
     end
 
     it 'sends errors to Exceptional in production' do
@@ -82,23 +82,19 @@ describe SharePagesController do
     end
 
     it 'records that the user declined to share' do
-      Plink::SharePageTrackingRecord.should_receive(:where).
-        with(registration_link_id: 1, share_page_id: share_page.id.to_s, user_id: user.id).
-        and_call_original
+      controller.stub(:first_or_create).and_return(share_page)
+
+      share_page.should_receive(:update_attributes).with(shared: false)
 
       get :update_share_tracking_record, id: share_page.id, shared: false.to_s
-
-      Plink::SharePageTrackingRecord.last.shared.should be_false
     end
 
     it 'records that the user shared' do
-      Plink::SharePageTrackingRecord.should_receive(:where).
-        with(registration_link_id: 1, share_page_id: share_page.id.to_s, user_id: user.id).
-        and_call_original
+      controller.stub(:first_or_create).and_return(share_page)
+
+      share_page.should_receive(:update_attributes).with(shared: true)
 
       get :update_share_tracking_record, id: share_page.id, shared: true.to_s
-
-      Plink::SharePageTrackingRecord.last.shared.should be_true
     end
 
     it 'sends errors to Exceptional in production' do

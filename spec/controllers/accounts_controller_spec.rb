@@ -20,7 +20,7 @@ describe AccountsController do
 
   let(:debits_credit) {
     Plink::DebitsCredit.new(
-        mock('Plink::DebitCreditRecord', {
+        double('Plink::DebitCreditRecord', {
             is_reward: false,
             award_display_name: 'derp',
             dollar_award_amount: 1.23,
@@ -32,7 +32,7 @@ describe AccountsController do
     )
   }
 
-  let(:fake_currency_activity_service) { mock("CurrencyService", get_for_user_id: [debits_credit, debits_credit]) }
+  let(:fake_currency_activity_service) { double("CurrencyService", get_for_user_id: [debits_credit, debits_credit]) }
 
   context 'actions that require authentication' do
     before(:each) do
@@ -106,7 +106,7 @@ describe AccountsController do
 
     describe 'PUT update' do
 
-      let(:fake_user_service) { mock(:user_service) }
+      let(:fake_user_service) { double(:user_service) }
       let(:user) { set_current_user(id: 10, email: 'goo@example.com') }
 
       context 'when successful' do
@@ -117,7 +117,8 @@ describe AccountsController do
         end
 
         it 'updates the user with the given attributes' do
-          fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).and_return(mock(:plink_user, valid?: true))
+          fake_user_service.should_receive(:update).with(10, {'email' => 'goo@example.com', 'first_name' => 'Joseph'}).
+            and_return(double(:plink_user, valid?: true))
 
           put :update, email: 'goo@example.com', password: 'password', first_name: 'Joseph'
 
@@ -188,7 +189,7 @@ describe AccountsController do
           controller.stub(plink_user_service: fake_user_service)
           fake_user_service.stub(:verify_password).with(10, 'password').and_return(true)
           fake_user_service.stub(:update).with(10, {'email' => 'goo@example.com'})
-          .and_return(mock(:plink_user, valid?: false, errors: mock(:errors, messages: ['doesnt work'])))
+          .and_return(double(:plink_user, valid?: false, errors: double(:errors, messages: ['doesnt work'])))
         end
 
         it 'updates the user with the given attributes' do
@@ -213,6 +214,7 @@ describe AccountsController do
           and_call_original
 
         get :login_from_email, user_token: 'my_url_token', random_var: 'herp'
+
         response.should redirect_to root_url
       end
     end

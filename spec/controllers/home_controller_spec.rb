@@ -5,7 +5,7 @@ describe HomeController do
 
   describe '#index' do
     before :each do
-      controller.stub(:current_virtual_currency) { stub(id: 1) }
+      controller.stub(:current_virtual_currency) { double(id: 1) }
     end
 
     it 'is successful' do

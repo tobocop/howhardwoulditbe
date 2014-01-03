@@ -12,7 +12,7 @@ describe PasswordResetRequestForm do
   end
 
   describe 'validation' do
-    let(:plink_user_service) { mock("Plink::UserService", find_by_email: nil) }
+    let(:plink_user_service) { double("Plink::UserService", find_by_email: nil) }
 
     it 'returns an error when the email is not found' do
       form = PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service)
@@ -29,9 +29,9 @@ describe PasswordResetRequestForm do
 
   describe '#save' do
     context 'when valid' do
-      let(:plink_user_service) { mock("Plink::UserService", find_by_email: mock(:user, first_name: 'Joe', id: 3, valid?: true)) }
+      let(:plink_user_service) { double("Plink::UserService", find_by_email: double(:user, first_name: 'Joe', id: 3, valid?: true)) }
       let(:form) { PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service) }
-      let(:mock_password_reset) { mock(:password_reset, token: 'token') }
+      let(:mock_password_reset) { double(:password_reset, token: 'token') }
 
       before do
         PasswordReset.stub(build: mock_password_reset)
@@ -42,7 +42,7 @@ describe PasswordResetRequestForm do
       end
 
       it 'sends an email to the user with a link to reset password' do
-        fake_mail = mock(:fake_mail)
+        fake_mail = double(:fake_mail)
         fake_mail.should_receive(:deliver)
         PasswordResetMailer.should_receive(:instructions).with('mail@example.com', 'Joe', 'token').and_return(fake_mail)
 
@@ -57,7 +57,7 @@ describe PasswordResetRequestForm do
     end
 
     context 'when invalid' do
-      let(:plink_user_service) { mock("Plink::UserService", find_by_email: nil) }
+      let(:plink_user_service) { double("Plink::UserService", find_by_email: nil) }
       let(:form) { PasswordResetRequestForm.new({email: 'mail@example.com'}, plink_user_service) }
 
       it 'returns false otherwise' do

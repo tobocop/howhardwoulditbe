@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'user signs in' do
   before do
-    Tango::CardService.stub(:new).and_return(stub(:fake_card_service, purchase: stub(successful?: true)))
+    Tango::CardService.stub(:new).and_return(double(:fake_card_service, purchase: double(successful?: true)))
 
     create_hero_promotion(image_url_one: '/assets/hero-gallery/TacoBell_1.jpg', display_order: 1, title: 'You want this.', show_linked_users: false )
     create_hero_promotion(image_url_one: '/assets/hero-gallery/bk2.jpg', display_order: 1, title: 'You really want this.', show_linked_users: true )

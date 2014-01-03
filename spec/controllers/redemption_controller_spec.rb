@@ -8,8 +8,8 @@ describe RedemptionController do
   end
 
   describe 'GET show' do
-    let(:mock_reward) { mock(:reward) }
-    let(:mock_plink_reward_service) { mock(:plink_reward_service, for_reward_amount: mock_reward) }
+    let(:mock_reward) { double(:reward) }
+    let(:mock_plink_reward_service) { double(:plink_reward_service, for_reward_amount: mock_reward) }
 
     before do
       controller.stub(plink_reward_service: mock_plink_reward_service)
@@ -25,7 +25,7 @@ describe RedemptionController do
   end
 
   describe 'POST create' do
-    let(:fake_reward_redemption_service) { stub(redeem: true) }
+    let(:fake_reward_redemption_service) { double(redeem: true) }
     let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({134 => true}) }
 
     before do

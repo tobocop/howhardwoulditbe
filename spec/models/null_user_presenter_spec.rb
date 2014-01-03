@@ -9,7 +9,7 @@ describe NullUserPresenter do
   end
 
   it 'returns the default virtual currency id as its primary virtual currency id' do
-    Plink::VirtualCurrency.stub(:default) { stub(id: 123) }
+    Plink::VirtualCurrency.stub(:default) { double(id: 123) }
     null_user_presenter.primary_virtual_currency_id.should == 123
   end
 

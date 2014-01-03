@@ -13,7 +13,7 @@ describe Plink::WalletItemHistoryRecord do
     let(:wallet_item_params) { {"walletItemID"=>1, "walletID"=>2, "advertiserID_old"=>nil, "virtualCurrencyID_old"=>nil, "usersAwardPeriodID"=>3, "created"=> Time.now, "modified"=> Time.now, "isActive"=>true, "walletSlotID"=>4, "walletSlotTypeID"=>5, "offersVirtualCurrencyID"=>6} }
 
     it 'creates a new WalletItemHistoryRecord from attributes' do
-      wallet_item = stub(attributes: wallet_item_params)
+      wallet_item = double(attributes: wallet_item_params)
 
       expect { Plink::WalletItemHistoryRecord.clone_from_wallet_item(wallet_item) }.to change { Plink::WalletItemHistoryRecord.count }.by(1)
 

@@ -16,8 +16,8 @@ describe RegistrationsController do
         controller.stub(current_virtual_currency: double(:virtual_currency, currency_name: 'Plionk Points'))
         controller.stub(:gigya_connection) { gigya }
         gigya.stub(:notify_login) { cookie_stub }
-        @user_stub = stub
-        user_registration_form = stub(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob', ip: '0.0.0.1')
+        @user_stub = double
+        user_registration_form = double(save: true, user: @user_stub, user_id: 123, email: 'test@example.com', first_name: 'bob', ip: '0.0.0.1')
         UserRegistrationForm.stub(:new) { user_registration_form }
         controller.stub(:sign_in_user)
         controller.stub(add_user_to_lyris: true)

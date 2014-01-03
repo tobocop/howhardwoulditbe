@@ -19,7 +19,7 @@ describe ContactController do
     end
 
     it 'should send an email to the default email address' do
-      email_spy = mock('email')
+      email_spy = double('email')
       email_spy.should_receive(:deliver)
 
       ContactMailer.should_receive(:contact_email).with(
@@ -36,5 +36,4 @@ describe ContactController do
       flash.notice.should == 'Thank you for contacting Plink.'
     end
   end
-
 end

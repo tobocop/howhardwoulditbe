@@ -17,7 +17,7 @@ describe CurrencyActivityPresenter do
   let(:subject) {
     CurrencyActivityPresenter.build_currency_activity(
       Plink::DebitsCredit.new(
-        mock('Plink::DebitCreditRecord', attributes)
+        double('Plink::DebitCreditRecord', attributes)
       )
     )
   }
@@ -40,7 +40,7 @@ describe CurrencyActivityPresenter do
     subject {
       CurrencyActivityPresenter.build_currency_activity(
         Plink::DebitsCredit.new(
-          mock('Plink::DebitCreditRecord',
+          double('Plink::DebitCreditRecord',
                attributes.merge(is_reward: true, award_type: Plink::DebitsCreditRecord.redemption_type)
           )
         )
@@ -64,7 +64,7 @@ describe CurrencyActivityPresenter do
     subject {
       CurrencyActivityPresenter.build_currency_activity(
         Plink::DebitsCredit.new(
-          mock('Plink::DebitCreditRecord',
+          double('Plink::DebitCreditRecord',
                attributes.merge(is_reward: false, award_type: 'Something else')
           )
         )
@@ -89,7 +89,7 @@ describe CurrencyActivityPresenter do
     subject {
       CurrencyActivityPresenter.build_currency_activity(
         Plink::DebitsCredit.new(
-          mock('Plink::DebitCreditRecord',
+          double('Plink::DebitCreditRecord',
                attributes.merge(is_reward: false, award_type: Plink::DebitsCreditRecord.non_qualified_type)
           )
         )
@@ -113,7 +113,7 @@ describe CurrencyActivityPresenter do
     subject {
       CurrencyActivityPresenter.build_currency_activity(
         Plink::DebitsCredit.new(
-          mock('Plink::DebitCreditRecord',
+          double('Plink::DebitCreditRecord',
                attributes.merge(is_reward: false, award_type: Plink::DebitsCreditRecord.qualified_type)
           )
         )

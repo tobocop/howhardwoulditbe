@@ -5,8 +5,8 @@ describe GigyaLoginHandlerController do
   it_should_behave_like(:tracking_extensions)
 
   describe '#create' do
-    let(:gigya_connection) { stub(:gigya_connection) }
-    let(:user) { mock('user', id: 55) }
+    let(:gigya_connection) { double(:gigya_connection) }
+    let(:user) { double('user', id: 55) }
     let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(55 => true) }
     let(:new_gigya_social_login_service_params) {
       {
@@ -21,15 +21,15 @@ describe GigyaLoginHandlerController do
       controller.stub(:gigya_connection) { gigya_connection }
       controller.stub(plink_intuit_account_service: fake_intuit_account_service)
       controller.stub(add_user_to_lyris: true)
-      controller.stub(current_virtual_currency: mock(:virtual_currency, currency_name: 'Plionk Points'))
+      controller.stub(current_virtual_currency: double(:virtual_currency, currency_name: 'Plionk Points'))
       request.stub(remote_ip: '192.168.0.1')
       request.stub(user_agent: 'my agent')
     end
 
     context 'when successful' do
       context 'and user is found' do
-        let(:successful_response) { mock('success response', success?: true, new_user?: false) }
-        let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: successful_response) }
+        let(:successful_response) { double('success response', success?: true, new_user?: false) }
+        let(:gigya_social_login_service_stub) { double(:gigya_login_service, user: user, sign_in_user: successful_response) }
 
         before do
           GigyaSocialLoginService.stub(:new).and_return(gigya_social_login_service_stub)
@@ -103,9 +103,9 @@ describe GigyaLoginHandlerController do
       end
 
       context 'and user is a new user' do
-        let(:successful_response) { mock('success response', success?: true, new_user?: true) }
-        let(:user_double) { double('user', id: 87, password_hash: 'asd', first_name: 'bobby', email: 'tables@sql.com') }
-        let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user_double, sign_in_user: successful_response) }
+        let(:successful_response) { double('success response', success?: true, new_user?: true) }
+        let(:user) { double('user', id: 87, password_hash: 'asd', first_name: 'bobby', email: 'tables@sql.com') }
+        let(:gigya_social_login_service_stub) { double(:gigya_login_service, user: user, sign_in_user: successful_response) }
         let!(:registration_event) { create_event(user_id: nil) }
 
         before do
@@ -193,8 +193,8 @@ describe GigyaLoginHandlerController do
     end
 
     context 'when the notification to gigya is not successful' do
-      let(:unsuccessful_response) { mock('success response', success?: false, message: 'you did it wrong', new_user?: false) }
-      let(:gigya_social_login_service_stub) { stub(:gigya_login_service, user: user, sign_in_user: unsuccessful_response) }
+      let(:unsuccessful_response) { double('success response', success?: false, message: 'you did it wrong', new_user?: false) }
+      let(:gigya_social_login_service_stub) { double(:gigya_login_service, user: user, sign_in_user: unsuccessful_response) }
 
       before do
         GigyaSocialLoginService.stub(:new).and_return( gigya_social_login_service_stub )

@@ -16,7 +16,7 @@ describe Plink::WalletCreationService do
 
     it 'creates a wallet record in the database' do
       service = Plink::WalletCreationService.new(user_id: 132)
-      Plink::WalletRecord.should_receive(:create).with(user_id: 132) { stub(id: 456) }
+      Plink::WalletRecord.should_receive(:create).with(user_id: 132) { double(id: 456) }
       Plink::WalletItemRecord.stub(:create)
       service.create_for_user_id(number_of_locked_slots: 1)
     end
@@ -25,9 +25,9 @@ describe Plink::WalletCreationService do
       Plink::WalletCreationService.stub(:default_creation_slot_count) { 10 }
 
       service = Plink::WalletCreationService.new(user_id: 132)
-      wallet_stub = stub(id: 1423)
+      wallet = double(id: 1423)
 
-      Plink::WalletRecord.stub(:create).and_return { wallet_stub }
+      Plink::WalletRecord.stub(:create).and_return { wallet }
 
       Plink::WalletItemService.should_receive(:create_open_wallet_item)
         .with(1423, 'join').exactly(10).times
@@ -44,5 +44,4 @@ describe Plink::WalletCreationService do
       }.to change { Plink::LockedWalletItemRecord.count }.by(2)
     end
   end
-
 end

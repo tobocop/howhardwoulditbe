@@ -247,7 +247,7 @@ describe InstitutionsController do
     end
 
     it "finds the user's intuit account request record" do
-      Plink::IntuitAccountRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_call_original
+      Plink::IntuitAccountRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_return([])
 
       get :poll
     end
@@ -307,6 +307,7 @@ describe InstitutionsController do
 
       it 'with an error renders the authentication form' do
         Plink::InstitutionRecord.stub_chain(:where).and_return([double(intuit_institution_id: 10000)])
+        controller.stub(:intuit_institution_data)
         controller.stub(:institution_form)
         ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => true}.to_json)
 

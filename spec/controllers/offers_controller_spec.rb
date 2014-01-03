@@ -9,7 +9,7 @@ describe OffersController do
 
     before(:each) do
       controller.stub(:present_hero_promotions).and_return([hero_promotion_presenter])
-      controller.stub(:current_virtual_currency) { stub(id: 123) }
+      controller.stub(:current_virtual_currency) { double(id: 123) }
 
       fake_offer_service = Plink::FakeOfferService.new({123 => [offer]})
 

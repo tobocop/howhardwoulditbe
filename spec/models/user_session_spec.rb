@@ -27,7 +27,7 @@ describe UserSession do
   end
 
   it 'should return the user_id' do
-    user = stub(id: 456)
+    user = double(id: 456)
     user_session = UserSession.new
     user_session.stub(:user) { user }
 
@@ -35,7 +35,7 @@ describe UserSession do
   end
 
   it 'should return the first_name' do
-    user = stub(first_name: 'bob')
+    user = double(first_name: 'bob')
     user_session = UserSession.new
     user_session.stub(:user) { user }
     user_session.first_name.should == 'bob'
@@ -43,22 +43,21 @@ describe UserSession do
 
 
   describe '#valid?' do
-
     before do
-      user = stub(id: 0, salt: 'my-salt', password_hash: 'my-hash')
+      user = double(id: 0, salt: 'my-salt', password_hash: 'my-hash')
       Plink::UserService.any_instance.stub(:find_by_email) { user }
     end
 
     let(:valid_options) { {email: 'test123@example.com', password: 'test123'} }
     it 'returns true on success' do
       user_session = UserSession.new(valid_options)
-      password_object = stub(hashed_value: 'my-hash')
+      password_object = double(hashed_value: 'my-hash')
       Plink::Password.should_receive(:new).with(unhashed_password: 'test123', salt: 'my-salt') { password_object }
       user_session.should be_valid
     end
 
     it 'sets a user id when valid' do
-      user = stub(salt: 'my-salt', password_hash: 'my-hash')
+      user = double(salt: 'my-salt', password_hash: 'my-hash')
       Plink::UserService.any_instance.stub(:find_by_email).with('test123@example.com') { user }
       Plink::Password.any_instance.stub(:hashed_value) { 'my-hash' }
       user_session = UserSession.new(valid_options)
@@ -101,7 +100,7 @@ describe UserSession do
     end
 
     it 'sets an error for an invalid password' do
-      user = stub(password_hash: 'my-hash', salt: 'salt')
+      user = double(password_hash: 'my-hash', salt: 'salt')
       Plink::UserService.stub(:find_by_email).with('test123@example.com') { user }
       user_session = UserSession.new(valid_options.merge(password: 'unmatched-password'))
       user_session.valid?

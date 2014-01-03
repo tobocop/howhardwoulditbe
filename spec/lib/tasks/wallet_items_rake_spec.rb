@@ -22,7 +22,7 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
     no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
     no_qualified_transactions_wallet.open_wallet_items.should be_empty
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     no_qualified_transactions_wallet.reload
     no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
@@ -33,7 +33,7 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
     pending_qualified_transactions_wallet.open_wallet_items.size.should == 1
     pending_qualified_transactions_wallet.locked_wallet_items.size.should == 1
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     pending_qualified_transactions_wallet.reload
     pending_qualified_transactions_wallet.open_wallet_items.size.should == 2
@@ -44,7 +44,7 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
     previously_unlocked_wallet.open_wallet_items.size.should == 1
     previously_unlocked_wallet.locked_wallet_items.should be_empty
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     previously_unlocked_wallet.reload
     previously_unlocked_wallet.open_wallet_items.size.should == 1
@@ -122,7 +122,7 @@ describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
     previously_unlocked_user.open_wallet_items.length.should == 1
     ineligible_transaction_user.open_wallet_items.length.should == 0
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     eligible_user.reload.open_wallet_items.length.should == 1
     second_eligible_user.reload.open_wallet_items.length.should == 1
@@ -136,7 +136,7 @@ describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
     eligible_user.open_wallet_items.map(&:unlock_reason).should_not include('promotion')
     second_eligible_user.open_wallet_items.map(&:unlock_reason).should_not include('promotion')
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     eligible_user.reload.open_wallet_items.map(&:unlock_reason).should include('promotion')
     second_eligible_user.reload.open_wallet_items.map(&:unlock_reason).should include('promotion')
@@ -148,7 +148,7 @@ describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
     Plink::WalletItemService.should_receive(:create_open_wallet_item)
       .with(second_eligible_user.wallet.id, 'promotion')
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'emails eligible users letting them know they have a newly-opened slot' do
@@ -170,7 +170,7 @@ describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
       user_token: 'asd'
     )
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 end
 
@@ -214,7 +214,7 @@ describe 'wallet_items:unlock_app_install_promotion_wallet_items' do
     after_period_user.open_wallet_items.length.should == 0
     previously_unlocked_user.open_wallet_items.length.should == 1
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     in_period_user.reload.open_wallet_items.length.should == 1
     before_period_user.reload.open_wallet_items.length.should == 1
@@ -226,7 +226,7 @@ describe 'wallet_items:unlock_app_install_promotion_wallet_items' do
     in_period_user.open_wallet_items.map(&:unlock_reason).should_not include('app_install_promotion')
     before_period_user.open_wallet_items.map(&:unlock_reason).should_not include('app_install_promotion')
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     in_period_user.reload.open_wallet_items.map(&:unlock_reason).should include('app_install_promotion')
     before_period_user.reload.open_wallet_items.map(&:unlock_reason).should include('app_install_promotion')
@@ -238,7 +238,7 @@ describe 'wallet_items:unlock_app_install_promotion_wallet_items' do
     Plink::WalletItemService.should_receive(:create_open_wallet_item)
       .with(before_period_user.wallet.id, 'app_install_promotion')
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'emails eligible users letting them know they have a newly-opened slot' do
@@ -260,7 +260,7 @@ describe 'wallet_items:unlock_app_install_promotion_wallet_items' do
       user_token: 'asd'
     )
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 end
 
@@ -339,7 +339,7 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
   it 'removes offers that have expired from every wallet' do
     Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(4).times.and_call_original
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     grouped_items = user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
     grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
@@ -376,7 +376,7 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
       args[:user_token].should == 'asd'
     end
 
-    subject.invoke
+    capture_stdout { subject.invoke }
   end
 
   it 'end dates all tiers associated to the offer through its offers virtual currencies' do
@@ -387,7 +387,7 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     valid_offer_tier_one.end_date.should_not == valid_offer.end_date
     valid_offer_tier_two.end_date.should_not == valid_offer.end_date
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     expired_offer_tier_one.reload.end_date.should == expired_offer.end_date
     expired_offer_tier_two.reload.end_date.should == expired_offer.end_date
@@ -400,7 +400,7 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
   it 'does not change the end date of inactive tiers' do
     non_expired_offer_expired_tier.end_date.should == Time.zone.parse('2001-01-01')
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     non_expired_offer_expired_tier.reload.end_date.should == Time.zone.parse('2001-01-01')
     non_expired_offer_non_expired_tier.reload.end_date.should == non_expired_offer_with_mixed_tiers.end_date
@@ -419,7 +419,7 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     other_users_non_expiring_users_award_period.end_date.should > Date.current.midnight
     non_expiring_users_award_period.end_date.should > Date.current.midnight
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     expiring_users_award_period.reload.end_date.should == Date.current.midnight
     another_expiring_users_award_period.reload.end_date.should == Date.current.midnight
@@ -497,11 +497,11 @@ describe "wallet_items:notify_users_of_expiring_offers" do
       user_token: 'asd'
     )
 
-    subject.invoke
+    capture_stdout { subject.invoke }
 
   end
   it 'sends an email to everyone with an offer in their wallet that expires in 7 days' do
-    subject.invoke
+    capture_stdout { subject.invoke }
 
     ActionMailer::Base.deliveries.should_not be_empty
     ActionMailer::Base.deliveries.first.to.should == [user_with_expiring_offer.email]

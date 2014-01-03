@@ -12,8 +12,8 @@ describe ApplicationController do
 
   describe '#redirect_white_label_members' do
     it 'signs in the user and redirects users that have a virtual currency from a different subdomain' do
-      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
-      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'swag'))
+      controller.stub(current_user: double(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: double(:virtual_currency, subdomain: 'swag'))
 
       request.host = 'www.test.host'
       cookies[:PLINKUID] = 'EWIFOH123oUI'
@@ -25,8 +25,8 @@ describe ApplicationController do
     end
 
     it 'does not redirect if the user is from the www subdomain' do
-      controller.stub(current_user: mock(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
-      controller.stub(current_virtual_currency: mock(:virtual_currency, subdomain: 'www'))
+      controller.stub(current_user: double(:logged_in_user, id: 5, logged_in?: true, password_hash: '123abc'))
+      controller.stub(current_virtual_currency: double(:virtual_currency, subdomain: 'www'))
 
       get :index
 
@@ -35,7 +35,7 @@ describe ApplicationController do
 
     it 'does not redirect if the user is not logged in' do
       controller.stub(:contest_notification_for_user).and_return(false)
-      controller.stub(current_user: mock(:logged_out_user, logged_in?: false, id: 1, primary_virtual_currency_id: 3))
+      controller.stub(current_user: double(:logged_out_user, logged_in?: false, id: 1, primary_virtual_currency_id: 3))
 
       get :index
 
@@ -87,8 +87,8 @@ describe ApplicationController do
   describe '#current_user' do
     it 'returns the current user' do
       session[:current_user_id] = 3
-      user = stub
-      user_presenter = stub
+      user = double
+      user_presenter = double
 
       controller.stub(:plink_user_service) { Plink::FakeUserService.new(3 => user) }
 
@@ -153,13 +153,13 @@ describe ApplicationController do
 
   describe '#user_logged_in?' do
     it 'returns true if a current user is logged in' do
-      controller.stub(:current_user) { stub(logged_in?: true) }
+      controller.stub(:current_user) { double(logged_in?: true) }
       controller.user_logged_in?.should == true
 
     end
 
     it 'it returns false if the user is not logged in' do
-      controller.stub(:current_user) { stub(logged_in?: false) }
+      controller.stub(:current_user) { double(logged_in?: false) }
       controller.user_logged_in?.should == false
     end
   end
@@ -168,7 +168,7 @@ describe ApplicationController do
     it 'initializes and returns a Gigya object with the right credentials' do
       ENV['GIGYA_API_KEY'] = 'my-api-key'
       ENV['GIGYA_SECRET'] = 'secret'
-      gigya_stub = stub
+      gigya_stub = double
       Gigya.should_receive(:new).with(Gigya::Config.instance) { gigya_stub }
 
       controller.gigya_connection.should == gigya_stub
@@ -177,7 +177,7 @@ describe ApplicationController do
 
   describe '#user_must_be_linked' do
     before do
-      controller.stub(:current_user) { stub(id: 1) }
+      controller.stub(:current_user) { double(id: 1) }
     end
 
     it 'raises if the user is not linked' do
@@ -196,10 +196,10 @@ describe ApplicationController do
 
   describe '#user_registration_form' do
     it 'returns a new registration form object' do
-      mock_reg_form = mock("UserRegistationForm")
-      UserRegistrationForm.should_receive(:new).and_return { mock_reg_form }
+      reg_form = double("UserRegistationForm")
+      UserRegistrationForm.should_receive(:new).and_return { reg_form }
 
-      controller.user_registration_form.should == mock_reg_form
+      controller.user_registration_form.should == reg_form
     end
   end
 
