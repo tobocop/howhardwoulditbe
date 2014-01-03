@@ -38,11 +38,7 @@
         type: 'GET'
       }).done(function(resp) {
         $('.progress-bar').html($('#js-establishing-connection').hide());
-        if(resp.success_path){
-          CardRegistration.redirectToSuccessPath(resp.success_path);
-        } else {
-          $('.right-column').html(resp);
-        }
+        $('.right-column').html(resp);
       }).fail(function() {
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       });
@@ -89,6 +85,11 @@
       });
 
       $('.js-all-fields-required').addClass('font-darkred');
+    },
+
+    setActiveStep: function(stepNumber) {
+      $('.steps').removeClass('active');
+      $('.steps').slice(stepNumber, stepNumber + 1).addClass('active');
     }
   }
 })(window);

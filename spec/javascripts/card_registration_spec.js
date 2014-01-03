@@ -1,7 +1,7 @@
 describe('CardRegistration', function() {
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<span class="right-column"></span>' +
+      '<span class="right-column"><div class="steps first">lets get started</div><div class="steps active"><div class="steps"></span>' +
       '<a href="#" class="js-go-back">Link Me</a>' +
       '<div id="duplicate" style="display: none">duplicate</div>' +
       '<div id="please-login">please-login</div>' +
@@ -150,19 +150,6 @@ describe('CardRegistration', function() {
       expect($('.right-column').html()).toEqual('awesome');
     });
 
-    it('redirects to the specified path if success_path is present in the response', function() {
-      spyOn($, 'ajax').andCallFake(function() {
-        var deferred = $.Deferred();
-        deferred.resolve({success_path: "/the_best_path"});
-        return deferred.promise();
-      });
-      redirectSpy = spyOn(CardRegistration, 'redirectToSuccessPath').andCallFake(function() { return true; });
-
-      CardRegistration.pollForAccountResponse();
-
-      expect(redirectSpy).toHaveBeenCalledWith('/the_best_path')
-    });
-
     it('calls itself if the response is a failure', function() {
       spyOn($, 'ajax').andCallFake(function() {
         var deferred = $.Deferred();
@@ -240,4 +227,16 @@ describe('CardRegistration', function() {
       expect($('.js-all-fields-required').hasClass('font-darkred')).toBe(true);
     });
   });
+
+  describe('#setActiveStep', function() {
+    it('removes the active class from all existing steps', function() {
+      CardRegistration.setActiveStep();
+      expect($('.active').length).toEqual(0);
+    })
+
+    it('sets the step passed in as the active step', function() {
+      CardRegistration.setActiveStep(2);
+      expect($('.steps')[2]).toHaveClass('active');
+    })
+  })
 });

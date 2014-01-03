@@ -271,41 +271,27 @@ describe InstitutionsController do
     end
 
     context 'when the response has no errors' do
-      let(:valid_response) do
-        {
-          error: false,
-          mfa: false,
-          'value' => [
-            {account_id: 123, name: 'My first account', login_id: 34},
-            {account_id: 345, name: 'My second account', login_id: 34}
-          ]
-        }.to_json
-      end
-
       before do
         request = double(present?: true, response: '', destroy: true)
         Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
-        ENCRYPTION.stub(:decrypt_and_verify).and_return(valid_response)
       end
 
-      it 'renders json with the select_account path' do
-        expected_response = {
-          'success_path' => institution_account_selection_path(login_id: 34)
-        }
+      it 'renders the account list' do
+        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
 
         get :poll
 
-        JSON.parse(response.body).should == expected_response
+        response.should render_template partial: 'institutions/_select_account'
       end
     end
 
-    context 'error handling' do
+    context 'when the response has an error' do
       before do
         request = double(present?: true, response: '', destroy: true)
         Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
       end
 
-      it 'with an error renders the authentication form' do
+      it 'renders the authentication form' do
         Plink::InstitutionRecord.stub_chain(:where).and_return([double(intuit_institution_id: 10000)])
         controller.stub(:intuit_institution_data)
         controller.stub(:institution_form)
@@ -384,47 +370,6 @@ describe InstitutionsController do
       controller.should_receive(:intuit_mfa).with(['stuff', 'cool'])
 
       post :text_based_mfa, institution_id: 1, mfa_question_1: 'stuff', mfa_question_2: 'cool'
-    end
-  end
-
-  describe 'GET select_account' do
-    let(:users_institution_account_staging_records) { double }
-    let(:institution_record) { double }
-    let(:users_institution) {
-      double(
-        users_institution_account_staging_records: [users_institution_account_staging_records],
-        institution_record: [institution_record]
-      )
-    }
-
-    before do
-      Plink::UsersInstitutionRecord.stub_chain([:where, :first]).and_return(users_institution)
-    end
-
-    it 'should be successful' do
-      get :select_account, login_id: 1
-
-      response.should be_success
-    end
-
-    it 'should lookup the users institution by the provided login id' do
-      Plink::UsersInstitutionRecord.should_receive(:where).
-        with(intuitInstitutionLoginID: '2837').
-        and_return(double(first: users_institution))
-
-      get :select_account, login_id: 2837
-    end
-
-    it 'assigns accounts' do
-      get :select_account, login_id: 1
-
-      assigns(:accounts).should == [users_institution_account_staging_records]
-    end
-
-    it 'assigns an institution' do
-      get :select_account, login_id: 1
-
-      assigns(:institution).should == [institution_record]
     end
   end
 

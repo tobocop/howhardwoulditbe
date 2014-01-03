@@ -1,0 +1,22 @@
+.font-p9em.font-lightgray.font-w300.font-italic Step 3 of 3
+.spacer-top-24
+  = render partial: 'institutions/logo', locals: {institution: @institution}
+.spacer-top-8
+  .gray-box
+    .font-p9em.font-w300 Secure connection established.
+.spacer-top-24
+  .font-1p5em Select the card you'd like to earn rewards with.
+.spacer-top-8
+%hr
+.spacer-top-8
+  - accounts.each_with_index do |account, index|
+    .card-select-container{class: index % 2 == 1 ? 'alt' : nil}
+      = form_tag institution_selection_path do
+        = hidden_field_tag :intuit_account_id, account['account_id']
+        .button-container.no-margin.vert-align-top
+          = submit_tag 'Select', class: 'button primary-action'
+        .card-info
+          .font-1em.font-w500.font-uppercase.font-kern1 #{account['name']}
+          .font-p9em.font-w300 #{account['account_number']}
+:javascript
+  CardRegistration.setActiveStep(3);

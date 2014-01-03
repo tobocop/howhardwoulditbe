@@ -62,7 +62,7 @@ class InstitutionsController < ApplicationController
 
         render partial: 'institutions/authentication/mfa', locals: {questions: questions}
       elsif !response['error']
-        render json: { success_path: institution_account_selection_path(login_id: response['value'].first['login_id']) }
+        render partial: 'select_account', locals: {accounts: Array(response['value'])}
       else
         institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
 
@@ -82,12 +82,6 @@ class InstitutionsController < ApplicationController
     intuit_mfa(parse_answers)
 
     render nothing: true
-  end
-
-  def select_account
-    users_institution = Plink::UsersInstitutionRecord.where(intuitInstitutionLoginID: params[:login_id]).first
-    @accounts = users_institution.users_institution_account_staging_records
-    @institution = users_institution.institution_record
   end
 
   def select
