@@ -374,7 +374,7 @@ describe InstitutionsController do
   end
 
   describe 'POST select' do
-    let(:staged_account_record) { create_users_institution_account_staging }
+    let(:staged_account_record) { create_users_institution_account_staging(account_id: 4, user_id: 1) }
 
     before do
       create_event_type(name: Plink::EventTypeRecord.card_add_type)
@@ -382,7 +382,7 @@ describe InstitutionsController do
 
     context 'without previously existing account records' do
       it 'selects the account that the user chose as the active account' do
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
         account_record = Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountStagingID: staged_account_record.id)
         account_record.length.should == 1
         account_record.first.begin_date.to_date.should == Date.current
@@ -392,12 +392,12 @@ describe InstitutionsController do
       end
 
       it 'assigns the selected account' do
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
         assigns(:selected_account).should be_present
       end
 
       it 'renders the congratulations view' do
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
         response.should render_template 'congratulations'
       end
 
@@ -417,12 +417,12 @@ describe InstitutionsController do
           sub_id_two: nil
         ).and_call_original
 
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
       end
 
       it 'sets the institution authenticated pixel' do
         controller.should_receive(:track_institution_authenticated).and_return(double(institution_authenticated_pixel: 'asd'))
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
         assigns(:institution_authenticated_pixel).should == 'asd'
       end
     end
@@ -434,7 +434,7 @@ describe InstitutionsController do
       )}
 
       it 'end dates all previously existing usersInstitutionAccount records, but not the new account record' do
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
 
         account_records = Plink::UsersInstitutionAccountRecord.all
         account_records.each do |account_record|
@@ -449,11 +449,11 @@ describe InstitutionsController do
       it 'does not track an institution authenticated event' do
         Plink::EventService.any_instance.should_not_receive(:create_institution_authenticated)
 
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
       end
 
       it 'does not set the institution authenticated pixel' do
-        post :select, id: staged_account_record.id
+        post :select, intuit_account_id: staged_account_record.account_id
 
         assigns(:institution_authenticated_pixel).should be_nil
       end

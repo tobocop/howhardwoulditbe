@@ -52,7 +52,6 @@ PlinkPivotal::Application.routes.draw do
     post '/institutions/authenticate', to: 'institutions#authenticate', as: 'institution_authenticate'
     get '/institutions/poll', to: 'institutions#poll', as: 'institution_poll'
     post '/institutions/select', to: 'institutions#select', as: 'institution_selection'
-    get '/institutions/select_account', to: 'institutions#select_account', as: 'institution_account_selection'
     post '/institutions/text_based_mfa', to: 'institutions#text_based_mfa', as: 'institution_text_based_mfa'
   end
 

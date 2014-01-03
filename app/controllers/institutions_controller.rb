@@ -85,7 +85,11 @@ class InstitutionsController < ApplicationController
   end
 
   def select
-    staged_account = Plink::UsersInstitutionAccountStagingRecord.find(params[:id])
+    staged_account = Plink::UsersInstitutionAccountStagingRecord.
+      where('accountID = ?' , params[:intuit_account_id]).
+      where('userID = ?' , current_user.id).
+      first
+
     updated_accounts = Plink::UsersInstitutionAccountRecord.
       where(usersInstitutionID: staged_account.users_institution_id).
       update_all(endDate: Date.current)
