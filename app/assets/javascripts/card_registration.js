@@ -10,15 +10,18 @@
       var selector = $(this).find('.form-container > input.form-field');
       if ( !CardRegistration.requiredFieldsPresent(selector) ) return false;
 
-      CardRegistration.showProgressBar();
-
       var $form = $(this);
       $.ajax({
         data: $form.serialize(),
         type: 'POST',
         url: $form.attr('action')
-      }).always(function() {
+      }).done(function() {
+        CardRegistration.showProgressBar();
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
+      }).fail(function() {
+        $('#duplicate').show();
+        $('#please-login').hide();
+        $('.js-all-fields-required').hide();
       });
 
       return false;

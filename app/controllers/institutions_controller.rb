@@ -33,16 +33,18 @@ class InstitutionsController < ApplicationController
 
   def authenticate
     Plink::IntuitAccountRequestRecord.where(user_id: current_user.id).delete_all
-    request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
-    session[:intuit_account_request_id] = request.id
-
     user_and_password = params[:field_labels].sort.map { |label| params[label] }
 
     set_users_institutions_hash
 
-    intuit_accounts(user_and_password)
-
-    render nothing: true
+    if users_institution_registered?
+      render nothing: true, status: :conflict
+    else
+      request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
+      session[:intuit_account_request_id] = request.id
+      intuit_accounts(user_and_password)
+      render nothing: true
+    end
   end
 
   def poll
@@ -100,6 +102,14 @@ class InstitutionsController < ApplicationController
   end
 
 private
+
+  def users_institution_registered?
+    Plink::UsersInstitutionService.users_institution_registered?(
+      session[:users_institution_hash],
+      session[:institution_id],
+      current_user.id
+    )
+  end
 
   def institution_authenticated(updated_accounts, user_id)
     track_institution_authenticated(user_id).institution_authenticated_pixel if updated_accounts == 0
@@ -166,7 +176,8 @@ private
 
   def set_non_masked_fields(intuit_form_fields)
     non_masked_fields = []
-    intuit_form_fields.each_with_index do |form_field, index|
+    ordered_intuit_form_fields = intuit_form_fields.sort_by { |field| field[:display_order].to_i }
+    ordered_intuit_form_fields.each_with_index do |form_field, index|
       non_masked_fields << "auth_#{index+1}" if form_field[:mask] == 'false'
     end
 

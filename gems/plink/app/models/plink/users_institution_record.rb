@@ -21,6 +21,13 @@ module Plink
     validates_presence_of :hash_check, :institution_id, :intuit_institution_login_id,
       :is_active, :user_id
 
+    scope :duplicates, ->(hash_check, institution_id, user_id) {
+      where(hashCheck: hash_check).
+      where(institutionId: institution_id).
+      where('userID != ?', user_id).
+      where(isActive: true)
+    }
+
     def all_accounts_in_intuit
       users_institution_account_records.where(inIntuit: true) +
       users_institution_account_staging_records.where(inIntuit: true)

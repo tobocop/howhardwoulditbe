@@ -3,6 +3,9 @@ describe('CardRegistration', function() {
     $('#jasmine_content').html(
       '<span class="right-column"></span>' +
       '<a href="#" class="js-go-back">Link Me</a>' +
+      '<div id="duplicate" style="display: none">duplicate</div>' +
+      '<div id="please-login">please-login</div>' +
+      '<div class="js-all-fields-required">derp</div>' +
       '<div class="institution-authentication-form">' +
       '  <form id="js-authentication-form" action="/stuff">' +
       '    <input type="submit" />' +
@@ -46,15 +49,6 @@ describe('CardRegistration', function() {
       $('#jasmine_content').append('<input class="required" type="text" name="email" value="j@example.com" />');
     });
 
-    it('calls showProgressBar', function() {
-      spyOn(CardRegistration, 'requiredFieldsPresent').andCallFake(function() { return true; });
-      spyOn(CardRegistration, 'showProgressBar');
-
-      CardRegistration.submitForm();
-
-      expect(CardRegistration.showProgressBar).toHaveBeenCalled();
-    });
-
     it('posts the form via AJAX', function() {
       spyOn(CardRegistration, 'requiredFieldsPresent').andCallFake(function() { return true; });
       var def = $.Deferred();
@@ -65,18 +59,46 @@ describe('CardRegistration', function() {
       expect($.ajax).toHaveBeenCalled();
     });
 
-    it('triggers pollForAccountResponse', function() {
+    it('calls showProgressBar on a successful ajax response', function() {
       spyOn(CardRegistration, 'requiredFieldsPresent').andCallFake(function() { return true; });
       spyOn($, 'ajax').andCallFake(function() {
         var deferred = $.Deferred();
         deferred.resolve();
         return deferred.promise();
       });
-      spyOn(CardRegistration, 'pollForAccountResponse');
+      spyOn(CardRegistration, 'showProgressBar');
 
       CardRegistration.submitForm();
 
-      expect($('.institution-authentication-form span')).toEqual($('#js-establishing-connection'));
+      expect(CardRegistration.showProgressBar).toHaveBeenCalled();
+    });
+
+    it('triggers pollForAccountResponse on a successful ajax response', function() {
+      spyOn(CardRegistration, 'requiredFieldsPresent').andCallFake(function() { return true; });
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.resolve();
+        return deferred.promise();
+      });
+      spyOn(window, 'setTimeout');
+
+      CardRegistration.submitForm();
+
+      expect(window.setTimeout).toHaveBeenCalledWith(CardRegistration.pollForAccountResponse, 3000);
+    });
+
+    it('displays duplicate account messaging if the response is a failure', function() {
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.reject('awesome');
+        return deferred.promise();
+      });
+
+      CardRegistration.submitForm();
+
+      expect($('#duplicate:visible').length).toEqual(1);
+      expect($('#please-login:visible').length).toEqual(0);
+      expect($('.js-all-fields-required:visible').length).toEqual(0);
     });
 
     it('validates that required fields have values', function() {
@@ -206,7 +228,7 @@ describe('CardRegistration', function() {
 
       CardRegistration.updateFieldsWithErrors($('.required'));
 
-      expect($('.font-darkred').html()).toEqual('Please complete this field');
+      expect($('div div .font-darkred').html()).toEqual('Please complete this field');
     });
 
     it('adds an error class to the "All fields required" text', function() {

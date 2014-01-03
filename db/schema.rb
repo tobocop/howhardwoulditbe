@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131224182017) do
+ActiveRecord::Schema.define(:version => 20140102220204) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -538,6 +538,13 @@ ActiveRecord::Schema.define(:version => 20131224182017) do
     t.string   "quarter",           :limit => 20
     t.string   "dayOfWeek",         :limit => 20
     t.datetime "firstMondayOfWeek"
+  end
+
+  create_table "duplicate_registration_attempts", :force => true do |t|
+    t.integer  "user_id",                       :limit => 8
+    t.integer  "existing_users_institution_id", :limit => 8
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "entries", :force => true do |t|

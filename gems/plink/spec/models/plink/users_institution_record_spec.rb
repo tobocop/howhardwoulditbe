@@ -36,6 +36,38 @@ describe Plink::UsersInstitutionRecord do
     create_users_institution(valid_params).should be_persisted
   end
 
+  context 'named scopes' do
+    describe '.duplicates' do
+      let!(:users_institution) { create_users_institution(hash_check: 'my_hash', institution_id: 6, is_active: true, user_id: 3) }
+
+      subject(:duplicates) { Plink::UsersInstitutionRecord.duplicates('my_hash', 6, 93) }
+
+      it 'returns the record if the record exists by institution_id, hash_check, and the user_id is different then the one passed in' do
+        duplicates.length.should == 1
+      end
+
+      it 'returns nothing if the record is not active' do
+        users_institution.update_attribute('is_active', false)
+        duplicates.length.should == 0
+      end
+
+      it 'returns nothing if the hash_check does not match' do
+        users_institution.update_attribute('hash_check', 'nope')
+        duplicates.length.should == 0
+      end
+
+      it 'returns nothing if the institution_id does not match' do
+        users_institution.update_attribute('institution_id', 93)
+        duplicates.length.should == 0
+      end
+
+      it 'returns nothing if the user_id is the same as the one passed in' do
+        users_institution.update_attribute('user_id', 93)
+        duplicates.length.should == 0
+      end
+    end
+  end
+
   it 'can have an institution' do
     institution = create_institution
     users_institution = create_users_institution(valid_params.merge(institution_id: institution.id))

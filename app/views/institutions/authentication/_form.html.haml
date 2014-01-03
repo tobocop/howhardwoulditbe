@@ -7,6 +7,12 @@
       - if error
         = render partial: 'institutions/authentication/error', locals: {error: error, institution_form: institution_form}
       - else
+        #duplicate.hidden
+          .font-p9em.font-w500.font-darkred.mbm Are you sure you haven't linked this account before?
+          .font-p9em.font-w300.mbm.font-darkred
+            An account with this information has already been created. If you believe there is an error, please contact
+            %span
+              =link_to 'Plink support.', contact_path, target: '_blank'
         .font-p9em.font-w300#please-login Please login to your #{institution_form.name} account.
       .spacer-top-8
         .font-p9em.font-w300.font-italic.js-all-fields-required * All fields required

@@ -191,28 +191,51 @@ describe InstitutionsController do
       post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
     end
 
-    it 'creates a request object' do
-      Plink::IntuitAccountRequestRecord.should_receive(:create!).
-        with(user_id: 1, processed: false).and_return(double(id: 21))
-
-      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
-    end
-
-    it 'creates a delayed request to intuit' do
-      controller.unstub(:intuit_accounts)
-      intuit_account_request = mock(IntuitAccountRequest)
-
-      IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything, anything).and_return(intuit_account_request)
-
-      intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
-
-      post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
-    end
 
     it 'sets the users institution hash' do
       Digest::SHA512.should_receive(:hexdigest).with('user')
 
       post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+    end
+
+    context 'when the institution has not been linked by another user' do
+      it 'creates a request object' do
+        Plink::IntuitAccountRequestRecord.should_receive(:create!).
+          with(user_id: 1, processed: false).and_return(double(id: 21))
+
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+      end
+
+      it 'stores the request objects id in the session' do
+        Plink::IntuitAccountRequestRecord.stub(:create!).and_return(double(id: 492))
+
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+
+        session[:intuit_account_request_id].should == 492
+      end
+
+      it 'creates a delayed request to intuit' do
+        controller.unstub(:intuit_accounts)
+        intuit_account_request = double(IntuitAccountRequest)
+
+        IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything, anything).and_return(intuit_account_request)
+
+        intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
+
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+      end
+    end
+
+    context 'when the institution has been linked by another user' do
+      before do
+        Plink::UsersInstitutionService.stub(:users_institution_registered?).and_return(true)
+      end
+
+      it 'returns a conflict status' do
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+
+        response.status.should == 409
+      end
     end
   end
 
@@ -338,7 +361,7 @@ describe InstitutionsController do
     end
 
     it 'removes all existing account request records for the current user' do
-      records = Array(mock(Plink::IntuitAccountRequestRecord))
+      records = Array(double(Plink::IntuitAccountRequestRecord))
       Plink::IntuitAccountRequestRecord.stub(:where).and_return(records)
 
       records.should_receive(:delete_all)
