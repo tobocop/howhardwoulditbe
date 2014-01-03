@@ -65,4 +65,10 @@ module FeatureSpecHelper
       gigya.delete_user(user.id)
     end
   end
+
+  def delete_users_from_intuit
+    Plink::UserRecord.all.each do |user|
+      Aggcat.scope(user.id).delete_customer
+    end
+  end
 end
