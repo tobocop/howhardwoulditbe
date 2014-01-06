@@ -129,9 +129,12 @@ namespace :contest do
   end
 
   desc 'Post on Contest Winner\'s Facebook wall on their behalf'
-  task :post_on_winners_behalf, [:contest_id] => :environment do |t, args|
+  task :post_on_winners_behalf, [:contest_id, :automated_post] => :environment do |t, args|
     contest_id = args[:contest_id]
     raise ArgumentError.new('contest_id is required') unless contest_id.present?
+
+    automated_post = args[:automated_post]
+    raise ArgumentError.new('automated_post is required') unless automated_post.present?
 
     default_affiliate_id = Rails.application.config.default_contest_affiliate_id
     gigya = Gigya.new(Gigya::Config.instance)
@@ -146,7 +149,7 @@ namespace :contest do
       puts "[#{Time.zone.now}] POSTING TO GIGYA: user_id: #{user.userID}"
       url = Rails.application.routes.url_helpers.contest_referral_url(user_id: user.userID, affiliate_id: default_affiliate_id, contest_id: contest_id)
       url = url + '/facebook_winning_entry_post'
-      facebook_status = "I just won a #Spooktacular gift card in Plink's Halloween Giveaway!  Join Plink today and enter for your chance to win. #Plink #{url}"
+      facebook_status = "#{automated_post} #Plink #{url}"
 
       response = gigya.set_facebook_status(user.userID, facebook_status)
 

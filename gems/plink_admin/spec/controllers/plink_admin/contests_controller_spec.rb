@@ -44,8 +44,14 @@ describe PlinkAdmin::ContestsController do
         image: '/assets/profile.jpg',
         non_linked_image: '/assets/my_image.jpg',
         prize: 'This is the prize - a car!',
+        prize_description: 'brand new shiny car',
         start_time: 10.days.ago.to_date,
-        terms_and_conditions: 'This is a set of terms and conditions'
+        terms_and_conditions: 'This is a set of terms and conditions',
+        entry_post_title: 'enter today!',
+        entry_post_body: 'enter the contest',
+        winning_post_title: 'I won!',
+        winning_post_body: 'i won the contest',
+        entry_notification: 'enter now'
       }
 
       post :create, {contest: contest_params}

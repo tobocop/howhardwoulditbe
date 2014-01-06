@@ -3,9 +3,8 @@
 
   %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
   %h1 Congratulations!
-  %h2= "You've won #{notification[:data][:points]} Plink Points. Share with your friends."
+  %h2= "You've won #{notification.points} Plink Points. Share with your friends."
   .btn
-    - data = notification[:data]
-    = contest_winner_share(data[:contest_id], data[:user_id], data[:dollars])
+    =  link_to 'Tell Your Friends', notification.contest_share_url, {data: notification.winner_share_data, class: 'button primary-action'}
   .link
-    = link_to 'View Full Contest Results &rarr;'.html_safe, contest_results_path(notification[:data][:contest_id])
+    = link_to 'View Full Contest Results &rarr;'.html_safe, contest_results_path(notification.id)

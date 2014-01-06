@@ -66,7 +66,7 @@ end
 
 Capybara.app_host = "http://plink.test:58891"
 Capybara.server_port = 58891
-Capybara.default_wait_time = 60
+Capybara.default_wait_time = 15
 
 if ENV['CI']
   RSpec.configuration.before(:each, type: :feature, js: true) do

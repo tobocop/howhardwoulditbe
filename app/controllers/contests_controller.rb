@@ -4,7 +4,7 @@ class ContestsController < ApplicationController
 
   def index
     contest_record = Plink::ContestRecord.current || Plink::ContestRecord.last_completed || Plink::ContestRecord.last_finalized
-    @contest = create_contest_presenter(contest_record)
+    @contest = create_contest_presenter(contest_record, current_user.id)
 
     instantiate_contest_data(@contest)
 
@@ -12,7 +12,7 @@ class ContestsController < ApplicationController
   end
 
   def show
-    @contest = create_contest_presenter(Plink::ContestRecord.find(params[:id]))
+    @contest = create_contest_presenter(Plink::ContestRecord.find(params[:id]), current_user.id)
 
     instantiate_contest_data(@contest)
 
@@ -66,8 +66,8 @@ private
     )
   end
 
-  def create_contest_presenter(contest_record)
-    ContestPresenter.new(contest: contest_record)
+  def create_contest_presenter(contest_record, user_id)
+    ContestPresenter.new(contest: contest_record, user_id: user_id)
   end
 
   def user_entries_today(contest_id)

@@ -288,8 +288,8 @@ describe ApplicationController do
 
       get :index
 
-      assigns(:notification).should == notification.stringify_keys
-    end
+      notification[:template].should == 'stuff'
+   end
 
     it 'does not show a notification if there is not a user logged in' do
       get :index

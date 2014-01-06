@@ -18,14 +18,32 @@ describe 'Contests' do
       page.should have_content "Image can't be blank"
       page.should have_content "Prize can't be blank"
       page.should have_content "Terms and conditions can't be blank"
+      page.should have_content "Entry post title can't be blank"
+      page.should have_content "Entry post body can't be blank"
+      page.should have_content "Winning post title can't be blank"
+      page.should have_content "Winning post body can't be blank"
     end
 
     fill_in 'Description', with: 'Awesome contest'
     fill_in 'Image URL', with: 'http://example.com/image.png'
     fill_in 'Non Linked Image URL', with: 'http://example.com/image_2.png'
-    fill_in 'Prize', with: 'All of the bananas'
+    fill_in 'Grand Prize', with: 'All of the bananas'
+    fill_in 'Prize Description', with: 'describe your prize'
     fill_in 'Terms', with: 'You must defeat the banana hamrick'
+
     select(1.year.from_now.year.to_s, :from => 'contest_end_time_1i')
+
+    fill_in 'Header Text', with: 'im bigger than the rest of the text'
+    fill_in 'Bold Text', with: 'im bolder than the rest of the text'
+    fill_in 'Body Text', with: 'im smaller than the rest of the text'
+    fill_in 'Share Button Text', with: 'share me'
+    fill_in 'Reg Link Text', with: 'register me'
+
+    fill_in 'Entry Post Title', with: 'sweet contest'
+    fill_in 'Entry Post Body', with: 'enter the contest'
+    fill_in 'Winning Post Title', with: 'sweet contest'
+    fill_in 'Winning Post Body', with: 'enter the contest'
+    fill_in 'In-App Notification', with: 'enter today, or else...'
 
     click_on 'Create'
 
@@ -44,7 +62,7 @@ describe 'Contests' do
 
     fill_in 'Description', with: 'The contest with more awesome'
     fill_in 'Image URL', with: 'http://example.com/explosions.png'
-    fill_in 'Prize', with: 'Bombs'
+    fill_in 'Grand Prize', with: 'Bombs'
 
     click_on 'Update'
 

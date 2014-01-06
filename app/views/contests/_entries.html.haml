@@ -14,7 +14,7 @@
     %h1.cyan#js-contest-entries= "#{entries[:total]}"
     %h2#js-entry-or-entries= "#{'entry'.pluralize(entries[:total])}."
     .btn
-      = disabled_or_active_share_button(entries[:share_state], contest.id, user.id)
+      = contest.disabled_or_active_share_button(entries[:share_state])
     = form_tag "/contests/#{contest.id}/entries", id: 'js-contest-entry', style: 'display: none;' do
       = hidden_field_tag :contest_id, contest.id
     .details

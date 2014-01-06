@@ -736,10 +736,16 @@ module Plink
         description: 'This is a contest\'s description',
         image: '/assets/profile.jpg',
         prize: 'This is the prize - a car!',
+        prize_description: 'The car is red',
         start_time: 10.days.ago.to_date,
         end_time: 10.days.from_now.to_date,
         terms_and_conditions: 'This is a set of terms and conditions',
-        finalized_at: nil
+        finalized_at: nil,
+        entry_post_title: 'plink entry post',
+        entry_post_body: 'enter the contest',
+        winning_post_title: 'plink winning post',
+        winning_post_body: 'i won the contest',
+        entry_notification: 'enter this contest now'
       }
 
       Plink::ContestRecord.new(defaults.merge(options))

@@ -1,13 +1,10 @@
 .reveal-modal#contest_share_modal.hidden.modal.tiny
   %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
   %h1.font-2em.font-w700.font-cyan Congratulations!
-  %p.font-1p2em.font-w300 You’re on your way to earning rewards when you dine & shop at over 75,000 locations nationwide.
-
+  %p.font-1p2em.font-w300= contest.interstitial_title
 
   .bg-element
-    %h2.font-1p2em.font-w500 Want to win a $500 Amazon.com Gift Card?
-    %p.font-1em.font-w300 Share the $500 Amazon.com Gift Card Giveaway with your friends for your chance to win. As an added bonus, get up to 100 extra entries per day for each friend that joins.
-    - base_referral_url = contest_referral_url(user_id: user_id, affiliate_id: default_affiliate_id, contest_id: contest.id)
-    - options = { data: contest_share_data(base_referral_url, entry_providers('share_to_enter')), id: 'js-share-from-modal-to-enter', class: 'button primary-action mtl'}
-    = link_to 'Share to Enter Contest', base_referral_url, options
-  = link_to 'No Thanks - Complete My Registration', '#', class:'text-link font-w300 js-complete-registration'
+    %h2.font-1p2em.font-w500= contest.interstitial_bold_text
+    %p.font-1em.font-w300= contest.interstitial_body_text
+    = link_to contest.interstitial_share_button, nil, {data: contest.share_data('facebook,twitter'), id: 'js-share-from-modal-to-enter', class: 'button primary-action mtl'}
+  = link_to contest.interstitial_reg_link, '#', class:'text-link font-w300 js-complete-registration'

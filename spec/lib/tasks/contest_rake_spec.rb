@@ -390,7 +390,6 @@ describe 'contest:select_winners_for_contest', skip_in_build: true, flaky: true 
     subject.invoke(contest.id)
 
     Plink::ContestWinnerRecord.count.should == 300
-    Plink::ContestWinnerRecord.where(contest_id: 1).count(:user_id, distinct: true)
 
     Plink::ContestWinnerRecord.where(prize_level_id: nil).count.should == 150
     Plink::ContestWinnerRecord.where('prize_level_id IS NOT NULL').count.should == 150
@@ -407,6 +406,14 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true do
 
   let!(:contest) { create_contest }
   let!(:user) { create_user }
+  let(:gigya) { double }
+  let(:gigya_success) { double(error_code: 0, status_code: 200) }
+  let(:gigya_failure) { double(error_code: 1, status_code: 400) }
+
+  before do
+    Gigya.stub(:new).and_return(gigya)
+    create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
+  end
 
   it 'requires a contest_id argument' do
     expect {
@@ -414,31 +421,39 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true do
     }.to raise_error ArgumentError
   end
 
-  context 'with a successful call to Gigya' do
-    it 'logs it' do
-      create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
-      gigya_response = double(error_code: 0, status_code: 200)
+  it 'requires a share_message_argument' do
+    expect {
+      subject.invoke(contest.id)
+    }.to raise_error ArgumentError
+  end
 
-      Gigya.any_instance.stub(:set_facebook_status).with(anything, /\/facebook_winning_entry_post/).
-        and_return(gigya_response)
+  it 'uses the correct automated post message & share link' do
+    url = "http://plink.test:58891/contest/refer/#{user.id}/aid/1431/contest/#{contest.id}/facebook_winning_entry_post"
+    facebook_status = "winner auto post #Plink #{url}"
 
-      output = capture_stdout { subject.invoke(contest.id) }
+    gigya.should_receive(:set_facebook_status).with(user.id, facebook_status).
+      and_return(gigya_success)
+
+    subject.invoke(contest.id, 'winner auto post')
+  end
+
+  context 'with a successful social share via Gigya' do
+    it 'logs the success' do
+      gigya.stub(:set_facebook_status).and_return(gigya_success)
+
+      output = capture_stdout { subject.invoke(contest.id, 'winner auto post') }
       output.should =~ /POSTING TO GIGYA: user_id: /
       output.should =~ /SUCCESSFUL POST TO GIGYA:/
     end
   end
 
-  context 'with a failed request' do
+  context 'with a failed social share via Gigya' do
     it 'logs the status code and error code' do
-      create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.hour.ago, prize_level_id: 2)
-      gigya_response = double(error_code: 1, status_code: 400)
-      Gigya.any_instance.stub(:set_facebook_status).and_return(gigya_response)
+      gigya.stub(:set_facebook_status).and_return(gigya_failure)
 
-      output = capture_stdout { subject.invoke(contest.id) }
+      output = capture_stdout { subject.invoke(contest.id, 'winner auto post') }
       output.should =~ /POSTING TO GIGYA:/
       output.should =~ /LOGGED ERRORS: error_code: 1 status_code: 400/
     end
   end
 end
-
-

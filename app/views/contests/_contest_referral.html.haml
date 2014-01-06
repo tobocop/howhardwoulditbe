@@ -1,7 +1,7 @@
 - extra_entries = user_has_linked_card ? 2*50 : 2*10
 Get up to
 - if user.logged_in?
-  = contest_social_referral_link("#{extra_entries} EXTRA ENTRIES", user.id)
+  = contest.social_referral_link("#{extra_entries} EXTRA ENTRIES")
 - else
   = link_to "#{extra_entries} EXTRA ENTRIES", faq_referral_path, class: 'cyan'
 per day for each friend referral
@@ -10,6 +10,6 @@ per day for each friend referral
   .button.nav.tall
     - image_path = 'icon_refer.png'
     - if user.logged_in?
-      = contest_social_referral_image(image_path, user.id)
+      = contest.social_referral_image(image_path)
     - else
       = link_to image_tag(image_path), faq_referral_path

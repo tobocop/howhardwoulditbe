@@ -4,22 +4,49 @@
       %p= message
 
 = form_for(contest, url: url, as: 'contest') do |f|
+  %h3 Basic Information
   = f.label :description
   = f.text_field :description
   = f.label :image, 'Image URL'
   = f.text_field :image
   = f.label :non_linked_image, 'Non Linked Image URL'
   = f.text_field :non_linked_image
-  = f.label :prize
+  = f.label :prize, 'Grand Prize'
   = f.text_field :prize
+  = f.label :prize_description, 'Prize Description'
+  = f.text_field :prize_description
   = f.label :terms_and_conditions, 'Terms'
   = f.text_field :terms_and_conditions
-  = f.label :start_time, 'Start Time'
   .dateselect
+    = f.label :start_time, 'Start Time'
     = f.datetime_select :start_time
-  = f.label :end_time, 'End Time'
   .dateselect
+    = f.label :end_time, 'End Time'
     = f.datetime_select :end_time
+
+  %h3 Interstitial Modal
+  = f.label :interstitial_title, "Header Text"
+  = f.text_field :interstitial_title
+  = f.label :interstitial_bold_text, "Bold Text"
+  = f.text_field :interstitial_bold_text
+  = f.label :interstitial_body_text, "Body Text"
+  = f.text_field :interstitial_body_text
+  = f.label :interstitial_share_button, "Share Button Text"
+  = f.text_field :interstitial_share_button
+  = f.label :interstitial_reg_link, "Reg Link Text"
+  = f.text_field :interstitial_reg_link
+
+  %h3 Social Messaging
+  = f.label :entry_post_title, "Entry Post Title"
+  = f.text_field :entry_post_title
+  = f.label :entry_post_body, "Entry Post Body"
+  = f.text_field :entry_post_body
+  = f.label :winning_post_title, "Winning Post Title"
+  = f.text_field :winning_post_title
+  = f.label :winning_post_body, "Winning Post Body"
+  = f.text_field :winning_post_body
+  = f.label :entry_notification, "In-App Notification"
+  = f.text_field :entry_notification
 
   = f.submit button_text, class: 'button small'
 

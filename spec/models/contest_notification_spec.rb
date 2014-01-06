@@ -7,8 +7,7 @@ describe ContestNotification do
 
     it 'returns nil for users who have already entered today' do
       create_entry(contest_id: contest.id, user_id: user.id)
-
-      ContestNotification .for_user(user.id).should be_nil
+      ContestNotification.for_user(user.id).should == {}
     end
 
     it "returns 'enter_today' for users who have not entered today" do
@@ -22,7 +21,7 @@ describe ContestNotification do
 
       notification = ContestNotification.for_user(user.id)
       notification[:partial].should == 'contest_winner'
-      notification[:data][:points].should == 2500
+      notification[:points].should == 2500
     end
 
     it 'returns the notification for a specific contest if an optional contest_id is provided' do

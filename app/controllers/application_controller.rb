@@ -91,17 +91,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def contest_share_link
-    contest = Plink::ContestRecord.current
-    return if contest.nil?
-
-    contest_referral_url(
-      user_id: current_user.id,
-      affiliate_id: Rails.application.config.default_contest_affiliate_id,
-      contest_id: contest.id
-    )
-  end
-
   def contest_notification_for_user
     user_id = current_user.id
     return false if user_id.blank?
@@ -109,7 +98,8 @@ class ApplicationController < ActionController::Base
     if current_virtual_currency.subdomain != Plink::VirtualCurrency::DEFAULT_SUBDOMAIN || contest_cookie_present?
       return
     else
-      @notification = ContestNotification.for_user(user_id, params[:contest_id])
+      notification_data = ContestNotification.for_user(user_id, params[:contest_id])
+      @notification = ContestNotificationPresenter.new(notification_data) if notification_data.present?
     end
   end
 

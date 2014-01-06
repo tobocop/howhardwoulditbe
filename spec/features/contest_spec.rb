@@ -100,7 +100,7 @@ describe 'Contests' do
 
     it 'displays the individual contest and allows the user to sign up', driver: :selenium do
       page.should have_content 'This is the best contest ever'.upcase
-      page.should have_content 'The prize is a new car'
+      page.should have_content 'The car is red'
       page.should have_image '/assets/profile.jpg'
 
       click_on 'Contest Rules'
@@ -130,6 +130,14 @@ describe 'Contests' do
 
       current_url.should include contest_path(contest, share_modal: true)
       page.should have_css('#contest_share_modal')
+
+      click_link 'share to enter'
+
+      within 'div[gigid]' do
+        page.should have_content 'Share with your friends'
+        page.should have_content 'plink entry post'
+        page.should have_content 'enter the contest'
+      end
 
       page.execute_script('$("#contest_share_modal").foundation("reveal", "close")')
 
@@ -213,9 +221,10 @@ describe 'Contests' do
         page.should have_css('[data-reveal-id="card-add-modal"]', text: 'LINK YOUR CARD')
 
         click_link 'share to enter'
-
         within 'div[gigid]' do
           page.should have_content 'Share with your friends'
+          page.should have_content 'plink entry post'
+          page.should have_content 'enter the contest'
         end
 
         create_entry(contest_id: contest.id, user_id: user.id)

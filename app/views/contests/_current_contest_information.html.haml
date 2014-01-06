@@ -8,7 +8,7 @@
       = image_tag contest.image, data: { 'default-image' => 'true' }, style: "display: #{show_non_linked ? 'none' : 'block'}"
   .details
     %h3.strong= "Prizes drawn on #{contest.end_date}"
-    %p= contest.prize
+    %p= contest.prize_description
     %h4.legal
       NO PURCHASE NECESSARY.
       = link_to 'See Contest Rules for details.', nil, data: {'reveal-id' => 'terms-and-conditions'}

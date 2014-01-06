@@ -62,9 +62,9 @@ module ApplicationHelper
     base = 'application.referral.'
 
     {
-      'title' => t(base + 'title'),
-      'description' => t(base + 'description'),
-      'image' => t(base + 'image'),
+      'title' => I18n.t(base + 'title'),
+      'description' => I18n.t(base + 'description'),
+      'image' => I18n.t(base + 'image'),
       'share-widget' => true
     }
   end

@@ -7,10 +7,16 @@ describe Plink::ContestRecord do
       image: '/assets/test_image_tbd.jpg',
       non_linked_image: '/assets/test_image_for_joe.jpg',
       prize: 'The prize is a new car',
+      prize_description: 'The car is red',
       start_time: 2.days.ago.to_date,
       end_time: 2.days.from_now.to_date,
       terms_and_conditions: 'There are a ton of terms and conditions',
-      finalized_at: nil
+      finalized_at: nil,
+      entry_post_title: 'enter today!',
+      entry_post_body: 'enter the contest',
+      winning_post_title: 'I won!',
+      winning_post_body: 'i won the contest',
+      entry_notification: 'enter this contest now'
     }
   }
 
@@ -25,8 +31,14 @@ describe Plink::ContestRecord do
     it { should validate_presence_of(:end_time) }
     it { should validate_presence_of(:image) }
     it { should validate_presence_of(:prize) }
+    it { should validate_presence_of(:prize_description) }
     it { should validate_presence_of(:start_time) }
     it { should validate_presence_of(:terms_and_conditions) }
+    it { should validate_presence_of(:entry_post_title) }
+    it { should validate_presence_of(:entry_post_body) }
+    it { should validate_presence_of(:winning_post_title) }
+    it { should validate_presence_of(:winning_post_body) }
+    it { should validate_presence_of(:entry_notification) }
 
     it 'is invalid if it starts between any another contests start and end times' do
       create_contest( start_time: 3.days.ago.to_date, end_time: 3.days.from_now.to_date )
@@ -62,8 +74,19 @@ describe Plink::ContestRecord do
   it { should allow_mass_assignment_of(:image) }
   it { should allow_mass_assignment_of(:non_linked_image) }
   it { should allow_mass_assignment_of(:prize) }
+  it { should allow_mass_assignment_of(:prize_description) }
   it { should allow_mass_assignment_of(:start_time) }
   it { should allow_mass_assignment_of(:terms_and_conditions) }
+  it { should allow_mass_assignment_of(:entry_post_title) }
+  it { should allow_mass_assignment_of(:entry_post_body) }
+  it { should allow_mass_assignment_of(:winning_post_title) }
+  it { should allow_mass_assignment_of(:winning_post_body) }
+  it { should allow_mass_assignment_of(:interstitial_body_text) }
+  it { should allow_mass_assignment_of(:interstitial_bold_text) }
+  it { should allow_mass_assignment_of(:interstitial_reg_link) }
+  it { should allow_mass_assignment_of(:interstitial_share_button) }
+  it { should allow_mass_assignment_of(:interstitial_title) }
+  it { should allow_mass_assignment_of(:entry_notification) }
 
   context 'named scopes' do
     describe '.other_contests_within_time' do
