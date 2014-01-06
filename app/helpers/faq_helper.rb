@@ -18,6 +18,7 @@ module FaqHelper
       t(base + 'why_do_i_have_to_revalidate_title') => {answer: t(base + 'why_do_i_have_to_revalidate_text')},
       t(base + 'what_if_i_dont_revalidate_title') => {answer: t(base + 'what_if_i_dont_revalidate_text')},
       t(base + 'i_was_missing_points_title') => {answer: t(base + 'i_was_missing_points_text')},
+      t(base + 'why_cant_i_find_my_bank_title') => {answer: t(base + 'why_cant_i_find_my_bank_text'), anchor_name: 'why_cant_i_find_my_bank'},
       t(base + 'how_do_referrals_work_title') => {answer: t(base + 'how_do_referrals_work_text'), anchor_name: 'referral-program'},
       t(base + 'what_will_happen_if_i_return_title') => {answer: t(base + 'what_will_happen_if_i_return_text')},
       t(base + 'why_do_i_have_to_reverify_multiple_times_title') => {answer: t(base + 'why_do_i_have_to_reverify_multiple_times_text')},
