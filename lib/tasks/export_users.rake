@@ -1,3 +1,5 @@
+require 'csv'
+
 namespace :export_users do
   desc 'Exports a CSV of users who were removed from Intuit due to having 103 errors'
   task users_removed_for_103_errors: :environment do
