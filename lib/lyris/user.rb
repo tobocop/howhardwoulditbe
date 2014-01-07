@@ -79,7 +79,7 @@ module Lyris
         <DATA type="demographic" id="6">#{state}</DATA>
         <DATA type="demographic" id="35630">#{user_id}</DATA>
         <DATA type="demographic" id="61695">#{user_id_ends_with}</DATA>
-        <DATA type="demographic" id="39583">#{virtual_currency}Points</DATA>
+        <DATA type="demographic" id="39583">#{virtual_currency}</DATA>
         <DATA type="demographic" id="7">#{zip}</DATA>}
     end
 
