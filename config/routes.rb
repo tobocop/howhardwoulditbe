@@ -43,6 +43,8 @@ PlinkPivotal::Application.routes.draw do
     get :results_from_email, action: :results_from_email, as: :results_from_email
   end
 
+  resource :global_login, only: [:new]
+
   get '/institutions/search', to: 'institutions#search', as: 'institution_search'
   if !Rails.env.production?
     post '/institutions/search_results', to: 'institutions#search_results', as: 'institution_search_results'
