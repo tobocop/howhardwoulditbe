@@ -61,15 +61,15 @@ en:
             html_link_message: "Please <a href='%{reverification_link}'>update your Plink account</a> with your updated %{institution_name} login info."
             text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
     contests:
-      disclaimer: "Void where prohibited. Maximum of 300 entries per day. 1st Place Prize is a $500.00 gift card to Amazon.com"
+      disclaimer: "Void where prohibited. Maximum of 300 entries per day. 1st Place Prize is a $635.00 gift card to Walmart.com"
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
       emails:
         daily_reminder_email:
-          subject: Enter Today - $500 Amazon.com Gift Card Up For Grabs
+          subject: Enter Today - 55" LED HDTV Up For Grabs
         three_day_reminder_email:
-          subject: Your $500 Amazon.com Gift Card Giveaway entries expire today
+          subject: Your Super Bowl Sunday Giveaway entries expire today
         winner_email:
-          subject: Plink's $500 Amazon.com Gift Card Giveaway Winners Announced!! See if you won!
+          subject: Plink's Super Bowl Sunday Giveaway Winners Announced!! See if you won!
     rewards:
       emails:
         reward_notification_email:
