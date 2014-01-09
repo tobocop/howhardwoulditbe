@@ -1,7 +1,9 @@
 describe('CardRegistration', function() {
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<span class="right-column"><div class="steps first">lets get started</div><div class="steps active"><div class="steps"></span>' +
+      '<span class="right-column"><div class="steps first">lets get started</div>' +
+      '  <div class="steps active"></div><div class="steps"></div>' +
+      '</span>' +
       '<a href="#" class="js-go-back">Link Me</a>' +
       '<div id="duplicate" style="display: none">duplicate</div>' +
       '<div id="please-login">please-login</div>' +
