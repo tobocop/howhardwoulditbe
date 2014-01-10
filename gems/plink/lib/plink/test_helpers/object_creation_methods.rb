@@ -991,6 +991,20 @@ module Plink
       new_intuit_fishy_transaction(options).tap(&:save!)
     end
 
+    def new_intuit_request(options = {})
+      defaults = {
+        processed: true,
+        response: 'Simply the best',
+        user_id: 10
+      }
+
+      Plink::IntuitRequestRecord.new { |intuit_transaction| apply(intuit_transaction, defaults, options) }
+    end
+
+    def create_intuit_request(options = {})
+      new_intuit_request(options).tap(&:save!)
+    end
+
     def apply(object, defaults, overrides)
       options = defaults.merge(overrides)
       options.each do |method, value_or_proc|
