@@ -30,6 +30,7 @@ describe 'Contests' do
     fill_in 'Grand Prize', with: 'All of the bananas'
     fill_in 'Prize Description', with: 'describe your prize'
     fill_in 'Terms', with: 'You must defeat the banana hamrick'
+    fill_in 'Disclaimer Text', with: 'The last payment must be made in WAMPUM'
 
     select(1.year.from_now.year.to_s, :from => 'contest_end_time_1i')
 

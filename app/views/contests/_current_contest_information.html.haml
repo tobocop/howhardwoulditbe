@@ -12,7 +12,8 @@
     %h4.legal
       NO PURCHASE NECESSARY.
       = link_to 'See Contest Rules for details.', nil, data: {'reveal-id' => 'terms-and-conditions'}
-      = t('application.contests.disclaimer')
+      Void where prohibited. Maximum of 300 entries per day.
+      = contest.disclaimer_text
 
 .enter
   -if contest.started?

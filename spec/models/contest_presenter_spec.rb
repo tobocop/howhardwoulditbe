@@ -13,7 +13,8 @@ describe ContestPresenter do
       prize: 'This is the prize - a brand new, shiny boat!',
       prize_description: 'the boat floats on water',
       start_time: start_time,
-      terms_and_conditions: 'This is a set of terms and conditions that apply to this contest specifically'
+      terms_and_conditions: 'This is a set of terms and conditions that apply to this contest specifically',
+      disclaimer_text: 'you will be paid in wampum'
     )
   }
   let(:valid_params) {
@@ -47,6 +48,7 @@ describe ContestPresenter do
       presenter.start_date.should == start_time.strftime('%_m/%-d/%y')
       presenter.started?.should == true
       presenter.terms_and_conditions.should == 'This is a set of terms and conditions that apply to this contest specifically'
+      presenter.disclaimer_text.should == 'you will be paid in wampum'
       presenter.user_id.should == user.id
     end
   end

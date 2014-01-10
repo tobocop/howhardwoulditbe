@@ -77,6 +77,7 @@ describe Plink::ContestRecord do
   it { should allow_mass_assignment_of(:prize_description) }
   it { should allow_mass_assignment_of(:start_time) }
   it { should allow_mass_assignment_of(:terms_and_conditions) }
+  it { should allow_mass_assignment_of(:disclaimer_text) }
   it { should allow_mass_assignment_of(:entry_post_title) }
   it { should allow_mass_assignment_of(:entry_post_body) }
   it { should allow_mass_assignment_of(:winning_post_title) }

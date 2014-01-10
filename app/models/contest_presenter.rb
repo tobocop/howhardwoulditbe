@@ -9,10 +9,10 @@ class ContestPresenter
     @user_id = attributes[:user_id]
   end
 
-  delegate :description, :end_time, :ended?, :entry_notification, :entry_post_body, :entry_post_title,
-    :finalized?, :id, :image, :interstitial_body_text, :interstitial_bold_text, :interstitial_share_button,
-    :interstitial_reg_link, :interstitial_title, :non_linked_image, :prize, :prize_description,
-    :start_time, :started?, :terms_and_conditions, to: :contest
+  delegate :description, :disclaimer_text, :end_time, :ended?, :entry_notification, :entry_post_body,
+    :entry_post_title, :finalized?, :id, :image, :interstitial_body_text, :interstitial_bold_text,
+    :interstitial_share_button, :interstitial_reg_link, :interstitial_title, :non_linked_image,
+    :prize, :prize_description, :start_time, :started?, :terms_and_conditions, to: :contest
 
   def start_date
     start_time.strftime('%_m/%-d/%y')

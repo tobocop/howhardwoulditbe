@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140107181238) do
+ActiveRecord::Schema.define(:version => 20140110210240) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -508,6 +508,8 @@ ActiveRecord::Schema.define(:version => 20140107181238) do
     t.datetime "updated_at",                               :null => false
     t.datetime "finalized_at"
     t.string   "non_linked_image"
+    t.text     "entry_notification"
+    t.text     "prize_description"
     t.text     "entry_post_title"
     t.text     "entry_post_body"
     t.text     "winning_post_title"
@@ -517,8 +519,7 @@ ActiveRecord::Schema.define(:version => 20140107181238) do
     t.text     "interstitial_body_text"
     t.string   "interstitial_share_button"
     t.string   "interstitial_reg_link"
-    t.text     "entry_notification"
-    t.text     "prize_description"
+    t.text     "disclaimer_text"
   end
 
   create_table "delayed_jobs", :force => true do |t|

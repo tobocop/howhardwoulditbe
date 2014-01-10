@@ -740,6 +740,7 @@ module Plink
         start_time: 10.days.ago.to_date,
         end_time: 10.days.from_now.to_date,
         terms_and_conditions: 'This is a set of terms and conditions',
+        disclaimer_text: 'you probably wont win',
         finalized_at: nil,
         entry_post_title: 'plink entry post',
         entry_post_body: 'enter the contest',
