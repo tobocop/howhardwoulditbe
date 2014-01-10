@@ -52,9 +52,12 @@ describe 'Reverifying', js: true, driver: :selenium do
     click_on 'Connect'
 
     page.should have_content "You've successfully reverified your Plink account. Nice work!"
+
+    visit '/account'
+    page.should_not have_content 'Reverify'
   end
 
-  it 'allows a user to reverify mfa questions credentials' do
+  it 'allows a user to reverify mfa questions' do
     sign_in('test@example.com', 'test123')
     page.should have_content "Enter your bank's name."
 
@@ -100,5 +103,8 @@ describe 'Reverifying', js: true, driver: :selenium do
     click_on 'Connect'
 
     page.should have_content "You've successfully reverified your Plink account. Nice work!"
+
+    visit '/account'
+    page.should_not have_content 'Reverify'
   end
 end

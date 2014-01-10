@@ -9,6 +9,11 @@ class ReverificationsController < ApplicationController
   end
 
   def complete
+    user_reverification = Plink::UserReverificationRecord.find(session[:reverification_id])
+    user_reverification.update_attributes(completed_on: Time.zone.now)
+    session.delete(:reverification_id)
+    session.delete(:intuit_institution_login_id)
+
     render partial: 'complete'
   end
 end
