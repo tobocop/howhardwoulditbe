@@ -68,4 +68,13 @@
           %hr
             .font-p9em.font-w500.font-gray Trouble logging in?
             .font-p9em.font-w300.font-gray.font-height1p5 Contact Chase at [link to website] or [phone number].
+            .mtl.mbm
+            =image_tag 'home_security_truste.png', class:'width-80px'
+            =image_tag 'home_security_norton.png', class:'width-80px mlm'
+            =image_tag 'home_security_bbb.png', class:'width-80px mlm'
+            =image_tag 'home_security_intuit.png', class:'width-80px mlm'
+            %a{ href: "http://secure.trust-guard.com/security/8294", target: "_blank",
+        oncontextmenu: %Q^var d = new Date(); alert('Copying Prohibited by Law - This image and all included logos are copyrighted by trust-guard \u00A9 '+d.getFullYear()+'.'); return false;^,
+        onclick: %Q^var nonwin=navigator.appName!='Microsoft Internet Explorer'?'yes':'no'; window.open(this.href.replace(/https?/, 'https'),'welcome','location='+nonwin+',scrollbars=yes,width=517,height='+screen.availHeight+',menubar=no,toolbar=no'); return false;^ }
+            =image_tag "//dw26xg4lubooo.cloudfront.net/seals/stacked/8294-lg.gif", class: "width-80px mll",height: "28", alt: "Security Seals", name: "trustseal"
       .clear
