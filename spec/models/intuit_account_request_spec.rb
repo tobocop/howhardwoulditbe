@@ -98,7 +98,7 @@ describe IntuitAccountRequest do
     end
   end
 
-  describe '#accounts' do
+  describe '#authenticate' do
     let(:intuit_account_request_record) { double(Plink::IntuitAccountRequestRecord, update_attributes: true) }
 
     before do
@@ -116,7 +116,7 @@ describe IntuitAccountRequest do
       ENCRYPTION.unstub(:decrypt_and_verify)
       ENCRYPTION.should_receive(:decrypt_and_verify).with('user_and_pw')
 
-      request.accounts('user_and_pw')
+      request.authenticate('user_and_pw')
     end
 
     it "makes a call to get the user's accounts from Intuit" do
@@ -124,14 +124,14 @@ describe IntuitAccountRequest do
 
       intuit_request.should_receive(:accounts).and_return(intuit_response)
 
-      request.accounts('user_and_pw')
+      request.authenticate('user_and_pw')
     end
 
     it 'updates the request record' do
       intuit_account_request_record.should_receive(:update_attributes).
         with({processed: true, response: 'response'}).and_return(true)
 
-      request.accounts('user_and_pw')
+      request.authenticate('user_and_pw')
     end
 
     context 'with a successful response from Intuit' do
@@ -140,7 +140,7 @@ describe IntuitAccountRequest do
 
         intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
 
-        request.accounts('user_and_pw')
+        request.authenticate('user_and_pw')
       end
 
       it 'creates a Plink::UsersInstitutionRecord' do
@@ -156,7 +156,7 @@ describe IntuitAccountRequest do
           with(expected_params).
           and_return(double(id: 5))
 
-        request.accounts('user_and_pw')
+        request.authenticate('user_and_pw')
       end
 
       it 'creates Plink::UsersInstitutionAccountStaging records' do
@@ -182,7 +182,7 @@ describe IntuitAccountRequest do
         Plink::UsersInstitutionAccountStagingRecord.should_receive(:create).
           with(staging_attrs)
 
-        request.accounts('user_and_pw')
+        request.authenticate('user_and_pw')
       end
     end
 
@@ -191,7 +191,7 @@ describe IntuitAccountRequest do
 
       intuit_request.should_not_receive(:login_accounts)
 
-      request.accounts('user_and_pw')
+      request.authenticate('user_and_pw')
     end
 
     it 'does not call getLoginAccounts if the response is an error' do
@@ -199,7 +199,7 @@ describe IntuitAccountRequest do
 
       intuit_request.should_not_receive(:login_accounts)
 
-      request.accounts('user_and_pw')
+      request.authenticate('user_and_pw')
     end
   end
 

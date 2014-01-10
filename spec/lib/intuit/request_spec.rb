@@ -61,10 +61,48 @@ describe Intuit::Request do
     it 'logs the response' do
       aggcat.stub(:account_confirmation).and_return('so doge')
 
-      method_and_params =  {method: :account_confirmation, params: {challenge_session_id: 1, challenge_node_id: 2}}
+      method_and_params = {method: :account_confirmation, params: {challenge_session_id: 1, challenge_node_id: 2}}
       logger.should_receive(:log_and_return_response).with('so doge', 123, method_and_params)
 
       Intuit::Request.new(123).respond_to_mfa(456, 1, 2, 'my answer')
+    end
+  end
+
+  describe '#update_credentials' do
+    before { aggcat.stub(:update_login).and_return(true) }
+
+    it 'calls [PUT "logins/#{login_id}?refresh=true"]' do
+      aggcat.should_receive(:update_login).with(456, 1, 'user', 'password')
+
+      Intuit::Request.new(123).update_credentials(456, 1, ['user', 'password'])
+    end
+
+    it 'logs the response' do
+      aggcat.stub(:update_login).and_return('so doge')
+
+      method_and_params = {method: :update_login, params: {intuit_institution_id: 456, login_id: 1}}
+      logger.should_receive(:log_and_return_response).with('so doge', 123, method_and_params)
+
+      Intuit::Request.new(123).update_credentials(456, 1, ['user', 'password'])
+    end
+  end
+
+  describe '#update_mfa' do
+    before { aggcat.stub(:update_login_confirmation).and_return(true) }
+
+    it 'calls [PUT "logins/#{login_id}?refresh=true"]' do
+      aggcat.should_receive(:update_login_confirmation).with(456, 1, 2, 'my answer')
+
+      Intuit::Request.new(123).update_mfa(456, 1, 2, 'my answer')
+    end
+
+    it 'logs the response' do
+      aggcat.stub(:update_login_confirmation).and_return('so doge')
+
+      method_and_params = {method: :update_login_confirmation, params: {challenge_session_id: 1, challenge_node_id: 2, login_id: 456}}
+      logger.should_receive(:log_and_return_response).with('so doge', 123, method_and_params)
+
+      Intuit::Request.new(123).update_mfa(456, 1, 2, 'my answer')
     end
   end
 

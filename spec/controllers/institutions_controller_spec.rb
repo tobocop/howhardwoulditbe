@@ -40,6 +40,22 @@ describe InstitutionsController do
 
       assigns(:most_popular).should_not be_nil
     end
+
+    it 'deletes the intuit_institution_login_id from the session' do
+      session[:intuit_institution_login_id] = 3
+
+      get :search
+
+      session[:intuit_institution_login_id].should be_nil
+    end
+
+    it 'deletes the reverification_id from the session' do
+      session[:reverification_id] = 4
+
+      get :search
+
+      session[:reverification_id].should be_nil
+    end
   end
 
   describe 'POST search_results' do
@@ -179,7 +195,8 @@ describe InstitutionsController do
     before do
       set_current_user(id: 1)
       set_virtual_currency
-      controller.stub(:intuit_accounts)
+      controller.stub(:authenticate_intuit)
+      controller.stub(updating?: false)
       session[:intuit_institution_id] = 14
       session[:non_masked_fields] = ['field_one']
     end
@@ -216,13 +233,29 @@ describe InstitutionsController do
         session[:intuit_account_request_id].should == 492
       end
 
-      it 'creates a delayed request to intuit' do
-        controller.unstub(:intuit_accounts)
+      it 'creates a delayed account request to intuit' do
+        controller.unstub(:authenticate_intuit)
         intuit_account_request = double(IntuitAccountRequest)
+        delayed_intuit_account_request = double
 
         IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything, anything).and_return(intuit_account_request)
 
-        intuit_account_request.should_receive(:delay).and_return(double(accounts: true))
+        intuit_account_request.should_receive(:delay).and_return(delayed_intuit_account_request)
+        delayed_intuit_account_request.should_receive(:authenticate).with(anything)
+
+        post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
+      end
+
+      it 'creates a delayed update credentials request to intuit if the user is updating their account' do
+        controller.unstub(:authenticate_intuit)
+        controller.stub(updating?: true)
+        session[:intuit_institution_login_id] = 4
+        intuit_update_request = double(IntuitUpdateRequest)
+        delayed_intuit_update_request = double
+
+        IntuitUpdateRequest.should_receive(:new).with(1, anything, 14, 4).and_return(intuit_update_request)
+        intuit_update_request.should_receive(:delay).and_return(delayed_intuit_update_request)
+        delayed_intuit_update_request.should_receive(:authenticate).with(anything)
 
         post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
       end
@@ -276,14 +309,21 @@ describe InstitutionsController do
       before do
         request = double(present?: true, response: '', destroy: true)
         Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
       end
 
       it 'renders the account list' do
-        ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
-
         get :poll
 
         response.should render_template partial: 'institutions/_select_account'
+      end
+
+      it 'redirects to reverification complete if there is a reverification_id in session' do
+        session[:reverification_id] = 4
+
+        get :poll
+
+        response.should redirect_to(reverification_complete_path)
       end
     end
 

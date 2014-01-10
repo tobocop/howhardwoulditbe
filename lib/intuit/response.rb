@@ -8,7 +8,11 @@ module Intuit
 
     def parse
       if successful?
-        {error: false, value: accounts, aggr_status_codes: parse_status_codes(accounts)}
+        if accounts?
+          {error: false, value: accounts, aggr_status_codes: parse_status_codes(accounts)}
+        else
+          {error: false}
+        end
       elsif mfa?
         challenge_session_id = raw_response[:challenge_session_id]
         challenge_node_id = raw_response[:challenge_node_id]
@@ -26,7 +30,7 @@ module Intuit
     end
 
     def accounts?
-      raw_response[:result].has_key?(:account_list)
+      raw_response[:result].present? && raw_response[:result].has_key?(:account_list)
     end
 
     def login_id

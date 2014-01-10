@@ -30,6 +30,16 @@ module Plink
       incomplete_reverifications.present?
     end
 
+    def incomplete_reverification_id
+      if requires_reverification?
+        incomplete_reverifications.sort_by {
+          |incomplete_reverification| incomplete_reverification.id
+        }.last.id
+      else
+        0
+      end
+    end
+
     private
 
     def incomplete_reverifications

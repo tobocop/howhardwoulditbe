@@ -7,6 +7,7 @@ describe Plink::IntuitAccount do
       account_number_last_four: 4512,
       bank_name: 'Bank of firstmerica',
       requires_reverification: true,
+      reverification_id: 3,
       users_institution_id: 4
     }
   }
@@ -15,6 +16,7 @@ describe Plink::IntuitAccount do
     account = Plink::IntuitAccount.new(default_attrs)
     account.account_name.should == 'account of the bank of the firstmerica 4512'
     account.bank_name.should == 'Bank of firstmerica'
+    account.reverification_id.should == 3
     account.users_institution_id.should == 4
   end
 

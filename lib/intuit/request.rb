@@ -28,6 +28,27 @@ module Intuit
       log_and_return_response(response, method_and_params)
     end
 
+    def update_credentials(intuit_institution_id, intuit_institution_login_id, user_and_password)
+      method_and_params = {method: :update_login, params: {intuit_institution_id: intuit_institution_id, login_id: intuit_institution_login_id}}
+
+      response = @aggcat.update_login(intuit_institution_id, intuit_institution_login_id, *user_and_password)
+      log_and_return_response(response, method_and_params)
+    end
+
+    def update_mfa(intuit_institution_login_id, challenge_session_id, challenge_node_id, answers)
+      method_and_params = {
+        method: :update_login_confirmation,
+        params: {
+          challenge_session_id: challenge_session_id,
+          challenge_node_id: challenge_node_id,
+          login_id: intuit_institution_login_id
+        }
+      }
+
+      response = @aggcat.update_login_confirmation(intuit_institution_login_id, challenge_session_id, challenge_node_id, answers)
+      log_and_return_response(response, method_and_params)
+    end
+
     def login_accounts(login_id)
       method_and_params = {method: :login_accounts, params: {login_id: login_id}}
 

@@ -5,6 +5,8 @@ class InstitutionsController < ApplicationController
 
   def search
     redirect_to wallet_path(link_card: true) if Rails.env.production?
+    session.delete(:intuit_institution_login_id)
+    session.delete(:reverification_id)
   end
 
   def search_results
@@ -42,7 +44,7 @@ class InstitutionsController < ApplicationController
     else
       request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
       session[:intuit_account_request_id] = request.id
-      intuit_accounts(user_and_password)
+      authenticate_intuit(user_and_password)
       render nothing: true
     end
   end
@@ -62,7 +64,11 @@ class InstitutionsController < ApplicationController
 
         render partial: 'institutions/authentication/mfa', locals: {questions: questions}
       elsif !response['error']
-        render partial: 'select_account', locals: {accounts: Array(response['value'])}
+        if reverifying?
+          redirect_to reverification_complete_path
+        else
+          render partial: 'select_account', locals: {accounts: Array(response['value'])}
+        end
       else
         institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
 
@@ -101,6 +107,14 @@ class InstitutionsController < ApplicationController
 
 private
 
+  def updating?
+    reverifying? && session.has_key?(:intuit_institution_login_id)
+  end
+
+  def reverifying?
+    session.has_key?(:reverification_id)
+  end
+
   def users_institution_registered?
     Plink::UsersInstitutionService.users_institution_registered?(
       session[:users_institution_hash],
@@ -138,10 +152,10 @@ private
     @most_popular ||= Plink::InstitutionRecord.most_popular
   end
 
-  def intuit_accounts(user_and_password)
+  def authenticate_intuit(user_and_password)
     encrypted_creds = ENCRYPTION.encrypt_and_sign(user_and_password)
 
-    intuit_request.delay(priority: -100).accounts(encrypted_creds)
+    intuit_request.delay(priority: -100).authenticate(encrypted_creds)
   end
 
   def parse_answers
@@ -156,13 +170,22 @@ private
   end
 
   def intuit_request
-    IntuitAccountRequest.new(
-      current_user.id,
-      session[:institution_id],
-      session[:intuit_institution_id],
-      session[:intuit_account_request_id],
-      session[:users_institution_hash]
-    )
+    if updating?
+      IntuitUpdateRequest.new(
+        current_user.id,
+        session[:intuit_account_request_id],
+        session[:intuit_institution_id],
+        session[:intuit_institution_login_id]
+      )
+    else
+      IntuitAccountRequest.new(
+        current_user.id,
+        session[:institution_id],
+        session[:intuit_institution_id],
+        session[:intuit_account_request_id],
+        session[:users_institution_hash]
+      )
+    end
   end
 
   def institution_form(intuit_institution_data, institution)

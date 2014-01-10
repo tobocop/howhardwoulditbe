@@ -9,7 +9,7 @@ class IntuitAccountRequest
     @user_id = user_id
   end
 
-  def accounts(user_and_password)
+  def authenticate(user_and_password)
     decrypted_credentials = ENCRYPTION.decrypt_and_verify(user_and_password)
     intuit_response = Intuit::Request.new(user_id).accounts(intuit_institution_id, decrypted_credentials)
 

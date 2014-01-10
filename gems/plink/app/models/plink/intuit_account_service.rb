@@ -18,6 +18,7 @@ module Plink
         account_number_last_four: account_record.account_number_last_four,
         bank_name: account_record.bank_name,
         requires_reverification: account_record.requires_reverification?,
+        reverification_id: account_record.incomplete_reverification_id,
         users_institution_id: account_record.users_institution_id
       )
     end

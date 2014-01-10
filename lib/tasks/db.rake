@@ -31,6 +31,7 @@ namespace :db do
 
       #Returns everyone we currently consider to be active in intuit and in our system
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_active_intuit_accounts.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'alter_vw_active_intuit_accounts.sql')))
 
       #Adds the 10% control group for retail
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_vw_offer_exclusions.sql')))

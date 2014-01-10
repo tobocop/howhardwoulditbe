@@ -53,6 +53,13 @@ describe Intuit::Response do
 
       response.accounts?.should be_false
     end
+
+    it 'returns false if the result key is a blank string' do
+      intuit_response = {status_code: '261', result: ''}
+      response = Intuit::Response.new(intuit_response)
+
+      response.accounts?.should be_false
+    end
   end
 
   describe '#login_id' do
@@ -142,7 +149,7 @@ describe Intuit::Response do
         response[:mfa].should be_false
       end
 
-      it 'returns a list of accounts' do
+      it 'returns a list of accounts when present' do
         account = {
           account_id: 1,
           account_nickname: 'namey',
@@ -177,6 +184,14 @@ describe Intuit::Response do
           status: 'ACTIVE'
         }
         response[:value].should == [account_hash]
+      end
+
+      it 'does not return an error when accounts are not present' do
+        intuit_response = {status_code: '200', result: ''}
+
+        response = Intuit::Response.new(intuit_response)
+
+        response.parse.should == {error: false}
       end
     end
 

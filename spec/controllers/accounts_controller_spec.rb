@@ -11,7 +11,7 @@ describe AccountsController do
         account_number_last_four: 1234,
         bank_name: 'bank',
         requires_reverification: false,
-        reverify_id: 143,
+        reverification_id: 143,
         users_institution_id: 3
     )
   }

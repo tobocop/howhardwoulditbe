@@ -52,24 +52,6 @@ describe 'Managing account' do
       create_redemption(reward_id: reward.id, user_id: user.id, dollar_award_amount: 3.00)
     end
 
-    context 'user that needs to reverify' do
-      before :each do
-        create_user_reverification(user_id: user.id)
-      end
-
-      it 'allows the user to reverify', js: true do
-        sign_in('user@example.com', 'pass1word')
-
-        page.should have_content 'My Account'
-
-        click_link 'My Account'
-
-        page.should have_content 'Inactive'
-        page.should have_image 'icon_alert_pink.png'
-        page.should have_css('a[data-reveal-id="card-reverify-modal"]', text: 'Reverify')
-      end
-    end
-
     context 'active user' do
       it 'allows a user to manage their account', js: true, driver: :selenium do
         sign_in('user@example.com', 'pass1word')

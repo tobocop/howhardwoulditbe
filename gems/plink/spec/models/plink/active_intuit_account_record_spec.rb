@@ -45,4 +45,16 @@ describe Plink::ActiveIntuitAccountRecord do
       active_intuit_account.requires_reverification?.should be_true
     end
   end
+
+  describe 'incomplete_reverification_id' do
+    it 'returns the highest incomplete reverification id ' do
+      incomplete_reverifications = [double(id: 4), double(id: 5), double(id: 3)]
+      active_intuit_account.stub(:incomplete_reverifications).and_return(incomplete_reverifications)
+      active_intuit_account.incomplete_reverification_id.should == 5
+    end
+
+    it 'returns 0 if there are no incomplete reverifications' do
+      active_intuit_account.incomplete_reverification_id.should == 0
+    end
+  end
 end
