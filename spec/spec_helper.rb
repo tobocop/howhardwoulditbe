@@ -53,6 +53,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
+    Intuit.logger = double(info: true)
     # To run intuit feature specs, we need a unique user_id during the run. This way we can safely delete
     # the customer at the end without causing errors in other builds being ran at the same time.
     ActiveRecord::Base.connection.execute("DBCC CHECKIDENT('users', RESEED, #{rand(1..100000)})")
