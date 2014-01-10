@@ -6,49 +6,57 @@ describe GlobalLoginsController do
   describe 'GET new' do
     let!(:valid_user) { create_user(email: 'waltermitty@example.com') }
     let(:valid_token) { 'pocketa-pocketa' }
-    let(:valid_token_record) {
-      stub(
+    let(:valid_token_record) do
+      double(
         id: 1,
         expires_at: 5.days.from_now.to_date,
         redirect_url: '/contests',
         token: valid_token
-    ) }
+      )
+    end
 
     context 'with valid auto login URL parameters' do
       it 'logs the user in automatically if the user is not currently logged in' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([valid_token_record])
+        Plink::GlobalLoginTokenRecord.stub(existing: [valid_token_record])
+
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
+
         controller.user_logged_in?.should be_true
       end
 
       it 'redirects the user to the correct URL specified in the global login token table' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([valid_token_record])
+        Plink::GlobalLoginTokenRecord.stub(existing: [valid_token_record])
+
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
+
         response.should redirect_to '/contests'
       end
 
       it 'does not sign in the user if the user is already logged in' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([valid_token_record])
+        Plink::GlobalLoginTokenRecord.stub(existing: [valid_token_record])
         controller.stub(current_virtual_currency: double(:virtual_currency, subdomain: 'www'))
         controller.stub(current_user: double(:logged_in_user, logged_in?: true, id: 1, primary_virtual_currency_id: 3))
+
         controller.should_not_receive(:sign_in_user)
 
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
       end
 
       it 'does not display an error message if the user is already logged in' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([valid_token_record])
+        Plink::GlobalLoginTokenRecord.stub(existing: [valid_token_record])
         controller.stub(current_virtual_currency: double(:virtual_currency, subdomain: 'www'))
         controller.stub(current_user: double(:logged_in_user, logged_in?: true, id: 1, primary_virtual_currency_id: 3))
+
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
 
         flash[:error].should be_nil
       end
 
       it 'redirects the user to the correct destination if the user is already logged in' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([valid_token_record])
+        Plink::GlobalLoginTokenRecord.stub(existing: [valid_token_record])
         controller.sign_in_user(valid_user)
         controller.stub(current_virtual_currency: double(:virtual_currency, subdomain: 'www'))
+
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
 
         response.should redirect_to '/contests'
@@ -63,7 +71,8 @@ describe GlobalLoginsController do
       end
 
       it 'does not log in the user if the provided global token is expired' do
-        Plink::GlobalLoginTokenRecord.should_receive(:existing).with(valid_token).and_return([])
+        Plink::GlobalLoginTokenRecord.stub(existing: [])
+
         get :new, user_token: valid_user.login_token, uid: valid_user.id, global_token: valid_token
 
         controller.user_logged_in?.should be_false
