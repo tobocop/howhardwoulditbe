@@ -190,7 +190,7 @@ describe InstitutionsController do
   end
 
   describe 'POST authenticate' do
-    let(:record_class) { Plink::IntuitAccountRequestRecord }
+    let(:record_class) { Plink::IntuitRequestRecord }
 
     before do
       set_current_user(id: 1)
@@ -219,14 +219,14 @@ describe InstitutionsController do
 
     context 'when the institution has not been linked by another user' do
       it 'creates a request object' do
-        Plink::IntuitAccountRequestRecord.should_receive(:create!).
+        Plink::IntuitRequestRecord.should_receive(:create!).
           with(user_id: 1, processed: false).and_return(double(id: 21))
 
         post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
       end
 
       it 'stores the request objects id in the session' do
-        Plink::IntuitAccountRequestRecord.stub(:create!).and_return(double(id: 492))
+        Plink::IntuitRequestRecord.stub(:create!).and_return(double(id: 492))
 
         post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
 
@@ -282,7 +282,7 @@ describe InstitutionsController do
     end
 
     it "finds the user's intuit account request record" do
-      Plink::IntuitAccountRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_return([])
+      Plink::IntuitRequestRecord.should_receive(:where).with(user_id: 1, processed: true).and_call_original
 
       get :poll
     end
@@ -290,7 +290,7 @@ describe InstitutionsController do
     it 'decrypts the stored response' do
       response = {error: false, value:[{account_id: 1}]}.to_json
       request = double(response: response, destroy: true)
-      Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+      Plink::IntuitRequestRecord.stub_chain(:where, :first).and_return(request)
 
       ENCRYPTION.should_receive(:decrypt_and_verify).with(response).and_return(response)
 
@@ -298,7 +298,7 @@ describe InstitutionsController do
     end
 
     it 'return an unprocessible entity when the request has not been completed yet' do
-      Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return([])
+      Plink::IntuitRequestRecord.stub_chain(:where, :first).and_return([])
 
       get :poll
 
@@ -308,7 +308,7 @@ describe InstitutionsController do
     context 'when the response has no errors' do
       before do
         request = double(present?: true, response: '', destroy: true)
-        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+        Plink::IntuitRequestRecord.stub_chain(:where, :first).and_return(request)
         ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
       end
 
@@ -330,7 +330,7 @@ describe InstitutionsController do
     context 'when the response has an error' do
       before do
         request = double(present?: true, response: '', destroy: true)
-        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+        Plink::IntuitRequestRecord.stub_chain(:where, :first).and_return(request)
       end
 
       it 'renders the authentication form' do
@@ -361,7 +361,7 @@ describe InstitutionsController do
 
       before do
         request = double(present?: true, response: '', destroy: true)
-        Plink::IntuitAccountRequestRecord.stub_chain(:where, :first).and_return(request)
+        Plink::IntuitRequestRecord.stub_chain(:where, :first).and_return(request)
 
         ENCRYPTION.stub(:decrypt_and_verify).and_return(mfa_response)
       end
@@ -391,8 +391,8 @@ describe InstitutionsController do
     end
 
     it 'removes all existing account request records for the current user' do
-      records = Array(double(Plink::IntuitAccountRequestRecord))
-      Plink::IntuitAccountRequestRecord.stub(:where).and_return(records)
+      records = Array(double(Plink::IntuitRequestRecord))
+      Plink::IntuitRequestRecord.stub(:where).and_return(records)
 
       records.should_receive(:delete_all)
 
@@ -400,7 +400,7 @@ describe InstitutionsController do
     end
 
     it 'creates a new intuit account request record' do
-      Plink::IntuitAccountRequestRecord.should_receive(:create!).
+      Plink::IntuitRequestRecord.should_receive(:create!).
         with(user_id: 1, processed: false).
         and_return(double(id: 23))
 

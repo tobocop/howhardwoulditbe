@@ -99,7 +99,7 @@ describe IntuitAccountRequest do
   end
 
   describe '#authenticate' do
-    let(:intuit_account_request_record) { double(Plink::IntuitAccountRequestRecord, update_attributes: true) }
+    let(:intuit_account_request_record) { double(Plink::IntuitRequestRecord, update_attributes: true) }
 
     before do
       Intuit::Request.stub(:new).and_return(intuit_request)
@@ -109,7 +109,7 @@ describe IntuitAccountRequest do
       ENCRYPTION.stub(:decrypt_and_verify).and_return(['default', 'yup'])
       ENCRYPTION.stub(:encrypt_and_sign).and_return('response')
 
-      Plink::IntuitAccountRequestRecord.stub(:find).and_return(intuit_account_request_record)
+      Plink::IntuitRequestRecord.stub(:find).and_return(intuit_account_request_record)
     end
 
     it "decrypts the credentials" do
@@ -120,7 +120,7 @@ describe IntuitAccountRequest do
     end
 
     it "makes a call to get the user's accounts from Intuit" do
-      Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
+      Plink::IntuitRequestRecord.stub(:find).and_return(double(update_attributes: true))
 
       intuit_request.should_receive(:accounts).and_return(intuit_response)
 
@@ -136,7 +136,7 @@ describe IntuitAccountRequest do
 
     context 'with a successful response from Intuit' do
       it 'calls getLoginAccounts' do
-        Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
+        Plink::IntuitRequestRecord.stub(:find).and_return(double(update_attributes: true))
 
         intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
 
@@ -204,13 +204,13 @@ describe IntuitAccountRequest do
   end
 
   describe '#respond_to_mfa' do
-    let(:intuit_account_request_record) { double(Plink::IntuitAccountRequestRecord, update_attributes: true) }
+    let(:intuit_account_request_record) { double(Plink::IntuitRequestRecord, update_attributes: true) }
 
     before do
       Intuit::Request.stub(:new).and_return(intuit_request)
       intuit_request.stub(:respond_to_mfa).and_return(intuit_mfa_response)
       ENCRYPTION.stub(:decrypt_and_verify).and_return('one')
-      Plink::IntuitAccountRequestRecord.stub(:find).and_return(intuit_account_request_record)
+      Plink::IntuitRequestRecord.stub(:find).and_return(intuit_account_request_record)
     end
 
     it 'updates the request record' do
@@ -235,7 +235,7 @@ describe IntuitAccountRequest do
       end
 
       it 'calls getLoginAccounts' do
-        Plink::IntuitAccountRequestRecord.stub(:find).and_return(double(update_attributes: true))
+        Plink::IntuitRequestRecord.stub(:find).and_return(double(update_attributes: true))
 
         intuit_request.should_receive(:login_accounts).with('128700189').and_return(intuit_response)
 

@@ -56,7 +56,7 @@ describe IntuitUpdateRequest do
       intuit_update_request.unstub(:update_request_record)
 
       ENCRYPTION.should_receive(:encrypt_and_sign).with("{\"hey\":\"derp\"}").and_return('encryption')
-      Plink::IntuitAccountRequestRecord.should_receive(:find).with(482).and_return(intuit_account_request_record)
+      Plink::IntuitRequestRecord.should_receive(:find).with(482).and_return(intuit_account_request_record)
       intuit_account_request_record.should_receive(:update_attributes).with(processed: true, response: 'encryption')
 
       intuit_update_request.authenticate('user_and_pw')
@@ -99,7 +99,7 @@ describe IntuitUpdateRequest do
       intuit_update_request.unstub(:update_request_record)
 
       ENCRYPTION.should_receive(:encrypt_and_sign).with("{\"hey\":\"derp\"}").and_return('encryption')
-      Plink::IntuitAccountRequestRecord.should_receive(:find).with(482).and_return(intuit_account_request_record)
+      Plink::IntuitRequestRecord.should_receive(:find).with(482).and_return(intuit_account_request_record)
       intuit_account_request_record.should_receive(:update_attributes).with(processed: true, response: 'encryption')
 
       intuit_update_request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')

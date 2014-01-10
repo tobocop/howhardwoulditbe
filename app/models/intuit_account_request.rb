@@ -54,7 +54,7 @@ private
 
   def update_request_record(response)
     encrypted_response = ENCRYPTION.encrypt_and_sign(response)
-    request = Plink::IntuitAccountRequestRecord.find(request_id)
+    request = Plink::IntuitRequestRecord.find(request_id)
     request.update_attributes(processed: true, response: encrypted_response)
   end
 

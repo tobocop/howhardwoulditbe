@@ -34,7 +34,7 @@ class InstitutionsController < ApplicationController
   end
 
   def authenticate
-    Plink::IntuitAccountRequestRecord.where(user_id: current_user.id).delete_all
+    Plink::IntuitRequestRecord.where(user_id: current_user.id).delete_all
     user_and_password = params[:field_labels].sort.map { |label| params[label] }
 
     set_users_institutions_hash
@@ -42,7 +42,7 @@ class InstitutionsController < ApplicationController
     if users_institution_registered?
       render nothing: true, status: :conflict
     else
-      request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
+      request = Plink::IntuitRequestRecord.create!(user_id: current_user.id, processed: false)
       session[:intuit_account_request_id] = request.id
       authenticate_intuit(user_and_password)
       render nothing: true
@@ -50,7 +50,7 @@ class InstitutionsController < ApplicationController
   end
 
   def poll
-    request = Plink::IntuitAccountRequestRecord.where(user_id: current_user.id, processed: true).first
+    request = Plink::IntuitRequestRecord.where(user_id: current_user.id, processed: true).first
 
     if request.present?
       response = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
@@ -81,8 +81,8 @@ class InstitutionsController < ApplicationController
   end
 
   def text_based_mfa
-    Plink::IntuitAccountRequestRecord.where(user_id: current_user.id).delete_all
-    request = Plink::IntuitAccountRequestRecord.create!(user_id: current_user.id, processed: false)
+    Plink::IntuitRequestRecord.where(user_id: current_user.id).delete_all
+    request = Plink::IntuitRequestRecord.create!(user_id: current_user.id, processed: false)
     session[:intuit_account_request_id] = request.id
 
     intuit_mfa(parse_answers)

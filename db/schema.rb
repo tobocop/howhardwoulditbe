@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140110210240) do
+ActiveRecord::Schema.define(:version => 20140110214931) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -814,14 +814,6 @@ ActiveRecord::Schema.define(:version => 20140110210240) do
     t.boolean "sendReverification",                :default => false, :null => false
   end
 
-  create_table "intuit_account_requests", :force => true do |t|
-    t.integer  "user_id"
-    t.boolean  "processed"
-    t.text     "response"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "intuit_accounts_to_remove", :force => true do |t|
     t.integer  "user_id"
     t.integer  "intuit_account_id",    :limit => 8
@@ -960,6 +952,14 @@ ActiveRecord::Schema.define(:version => 20140110210240) do
     t.boolean  "is_active",                                                                  :default => true, :null => false
     t.text     "memo"
     t.boolean  "is_confirmed_fishy"
+  end
+
+  create_table "intuit_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "processed"
+    t.text     "response"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "intuit_transactions", :force => true do |t|
