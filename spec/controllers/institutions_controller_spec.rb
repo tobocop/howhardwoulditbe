@@ -8,6 +8,18 @@ describe InstitutionsController do
     set_virtual_currency
   end
 
+  let(:institution_data) do
+    { result: {
+        institution_detail: {
+          email_address: 'cooldude@aol.com',
+          home_url: 'stuff.com',
+          phone_number: '303-867-5309',
+          keys: { key: {}}
+        }
+      }
+    }
+  end
+
   describe 'GET search' do
     it 'is successful' do
       get :search
@@ -75,17 +87,7 @@ describe InstitutionsController do
     before do
       Plink::InstitutionRecord.stub(:where).and_return([double(id: 1000, intuit_institution_id: 4)])
       controller.stub(:user_logged_in?).and_return(true)
-      institution_data = {
-        result: {
-          institution_detail: {
-            email_address: 'cooldude@aol.com',
-            home_url: 'stuff.com',
-            phone_number: '303-867-5309',
-            keys: { key: {}}
-          }
-        }
-      }
-      Aggcat.stub_chain([:scope, :institution]).and_return(institution_data)
+      IntuitInstitutionRequest.stub(:institution_data).and_return(institution_data)
     end
 
     it 'is successful' do
@@ -295,6 +297,7 @@ describe InstitutionsController do
         Plink::InstitutionRecord.stub_chain(:where).and_return([double(intuit_institution_id: 10000)])
         controller.stub(:intuit_institution_data)
         controller.stub(:institution_form)
+        IntuitInstitutionRequest.stub(:institution_data).and_return(institution_data)
         ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => true}.to_json)
 
         get :poll
