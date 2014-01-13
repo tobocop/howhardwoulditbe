@@ -1,22 +1,22 @@
 module HomepageHelper
   def ordered_partner_logos
     [
+      'pandaexpress',
       'burgerking',
       'staples',
-      'dollargeneral',
       'dunkindonuts',
-      'sears',
+      'dollargeneral',
       'gap',
       'kmart',
-      'footlocker',
+      'sears',
       'regal',
       'outback',
       'redrobin',
-      'flowers',
-      'champs',
-      'vitaminworld',
       'quiznos',
-      'advanceautoparts'
+      'footlocker',
+      'champs',
+      'advanceautoparts',
+      'flowers'
     ]
   end
 end

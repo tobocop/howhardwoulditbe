@@ -125,7 +125,7 @@
       width:900px;
 
       .brand {
-        background: url('/assets/home_sprite_logos.png');
+        background: url('/assets/home_sprite_logos.jpg');
         background-repeat: none;
         border: 1px solid #CAD5DA;
         display:inline-block;
@@ -204,6 +204,9 @@
         }
         &.staples {
           @include offset(23);
+        }
+        &.pandaexpress {
+          @include offset(24);
         }
       }
     }
