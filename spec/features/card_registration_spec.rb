@@ -20,11 +20,13 @@ describe 'searching for a bank', js: true, driver: :selenium do
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     fill_in 'institution_name', with: ''
     click_on 'Search'
 
     page.should have_content 'Please provide a bank name or URL'
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     create_users_institution(institution_id: tupac_bank.id)
     create_users_institution(institution_id: tupac_bank.id)
@@ -51,6 +53,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     click_on 'Bank of Tupac'
 
     page.should have_content 'Please login to your Bank of Tupac account.'
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     fill_in 'auth_1', with: 'bad'
     fill_in 'auth_2', with: 'login_failures'
@@ -58,8 +61,10 @@ describe 'searching for a bank', js: true, driver: :selenium do
     click_on 'Connect'
 
     page.should have_content 'Communicating with Bank of Tupac.'
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     page.should have_content 'Login error. Error on logon'
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     fill_in 'auth_1', with: 'tfa_text'
     fill_in 'auth_2', with: "stuff#{rand(10**7)}"
@@ -70,6 +75,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
 
     page.should have_content 'Security Question 1'
     page.should have_content "Enter your first pet's name:"
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     fill_in 'mfa_question_1', with: 'fail'
     click_on 'Connect'
@@ -90,6 +96,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content 'Communicating with Bank of Tupac.'
 
     page.should have_content "Select the card you'd like to earn rewards with."
+    page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     within '.card-select-container:nth-of-type(1)' do
       click_on 'Select'

@@ -18,5 +18,7 @@
         .card-info
           .font-1em.font-w500.font-uppercase.font-kern1 #{account['name']}
           .font-p9em.font-w300 #{account['account_number']}
+%hr.mtl.mbm
+  = render partial: 'security_logos'
 :javascript
   CardRegistration.setActiveStep(3);
