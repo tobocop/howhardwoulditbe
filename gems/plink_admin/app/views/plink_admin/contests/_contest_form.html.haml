@@ -50,6 +50,20 @@
   = f.label :entry_notification, "In-App Notification"
   = f.text_field :entry_notification
 
+  %h3 Email Content
+  %h6 1 Day Reminder Email
+  = f.fields_for :contest_emails do |email|
+    = email.label :day_one_subject, "Subject"
+    = email.text_field :day_one_subject
+    = email.label :day_one_preview, "Preview"
+    = email.text_field :day_one_preview
+    = email.label :day_one_body, "Body"
+    = email.text_field :day_one_body
+    = email.label :day_one_link_text, "Link Text"
+    = email.text_field :day_one_link_text
+    = email.label :day_one_image, "S3 Image URL"
+    = email.text_field :day_one_image
+
   = f.submit button_text, class: 'button small'
 
 = link_to 'Cancel', contests_path, class: 'button small secondary'

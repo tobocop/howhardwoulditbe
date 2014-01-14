@@ -22,6 +22,11 @@ describe 'Contests' do
       page.should have_content "Entry post body can't be blank"
       page.should have_content "Winning post title can't be blank"
       page.should have_content "Winning post body can't be blank"
+      page.should have_content "day one subject can't be blank"
+      page.should have_content "day one preview can't be blank"
+      page.should have_content "day one body can't be blank"
+      page.should have_content "day one link text can't be blank"
+      page.should have_content "day one image can't be blank"
     end
 
     fill_in 'Description', with: 'Awesome contest'
@@ -45,6 +50,12 @@ describe 'Contests' do
     fill_in 'Winning Post Title', with: 'sweet contest'
     fill_in 'Winning Post Body', with: 'enter the contest'
     fill_in 'In-App Notification', with: 'enter today, or else...'
+
+    fill_in 'Subject', with: 'hey you'
+    fill_in 'Preview', with: 'preview the email'
+    fill_in 'Body', with: 'first day email reminder body'
+    fill_in 'Link Text', with: 'link to somewhere'
+    fill_in 'S3 Image URL', with: 'http://www.images.com'
 
     click_on 'Create'
 

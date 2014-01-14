@@ -4,6 +4,16 @@ describe 'contest:daily_reminder_email', skip_in_build: true do
   include_context 'rake'
 
   let!(:contest) { create_contest }
+  let!(:contest_email) {
+      create_contest_email(
+        contest_id: contest.id,
+        day_one_preview: 'sneak peak',
+        day_one_subject: 'enter now enter now',
+        day_one_body: 'daily reminder to enter this sweet contest',
+        day_one_link_text: 'link to here',
+        day_one_image: 'http://www.baconmockup.com/400/400'
+      )
+    }
   let!(:user) { create_user(daily_contest_reminder: true) }
   let(:opted_out_user) { create_user(daily_contest_reminder: false, email: 'opted_out@example.com') }
   let(:unselected_user) { create_user(daily_contest_reminder: nil, email: 'unselected@example.com') }

@@ -754,6 +754,25 @@ module Plink
       Plink::ContestRecord.new(defaults.merge(options))
     end
 
+    def create_contest_email(options = {})
+      contest_email = new_contest_email(options)
+      contest_email.save!
+      contest_email
+    end
+
+    def new_contest_email(options = {})
+      defaults = {
+        contest_id: 1,
+        day_one_subject: 'enter the first day',
+        day_one_preview: 'first day preview',
+        day_one_body: 'enter our amazing contest',
+        day_one_link_text: 'link to nowhere',
+        day_one_image: 'http://image.com'
+      }
+
+      Plink::ContestEmailRecord.new(defaults.merge(options))
+    end
+
     def create_entry(options = {})
       new_entry(options).tap(&:save!)
     end

@@ -2,11 +2,24 @@ require 'spec_helper'
 
 describe ContestMailer do
   describe 'daily_reminder_email' do
+    let(:contest) { create_contest }
+    let!(:contest_email) {
+      create_contest_email(
+        contest_id: contest.id,
+        day_one_preview: 'sneak peak',
+        day_one_subject: 'enter now enter now',
+        day_one_body: 'daily reminder to enter this sweet contest',
+        day_one_link_text: 'link to here',
+        day_one_image: 'http://www.baconmockup.com/400/400'
+      )
+    }
+
     it 'sends a reminder to the user to enter the contest after' do
       email = ContestMailer.daily_reminder_email(
         first_name: 'Merlin',
         email: 'user@example.com',
-        user_id: 2
+        user_id: 2,
+        contest_email: contest_email
       ).deliver
 
       ActionMailer::Base.deliveries.count.should == 1
@@ -15,12 +28,11 @@ describe ContestMailer do
       email.from.should == ['info@plink.com']
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
-      email.subject.should == 'Enter Today - 55" LED HDTV Up For Grabs'
+      email.subject.should == 'enter now enter now'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)
-        body.should have_content 'Hey Merlin'
-        body.should have_content 'Score even more entries when you share on Facebook and Twitter. Enter everyday to increase your chances of winning.'
+        body.should have_content 'daily reminder to enter this sweet contest'
       end
     end
   end

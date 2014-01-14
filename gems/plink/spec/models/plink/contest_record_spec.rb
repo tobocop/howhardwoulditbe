@@ -67,6 +67,8 @@ describe Plink::ContestRecord do
     end
   end
 
+  it { should accept_nested_attributes_for(:contest_emails) }
+
   it { should allow_mass_assignment_of(:description) }
   it { should allow_mass_assignment_of(:end_time) }
   it { should allow_mass_assignment_of(:entry_method) }
@@ -88,6 +90,7 @@ describe Plink::ContestRecord do
   it { should allow_mass_assignment_of(:interstitial_share_button) }
   it { should allow_mass_assignment_of(:interstitial_title) }
   it { should allow_mass_assignment_of(:entry_notification) }
+  it { should allow_mass_assignment_of(:contest_emails_attributes) }
 
   context 'named scopes' do
     describe '.other_contests_within_time' do

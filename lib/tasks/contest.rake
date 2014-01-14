@@ -5,9 +5,10 @@ namespace :contest do
       puts "[#{Time.zone.now}] Beginning daily reminder email:"; stars
 
       users_to_email = users_with_contest_reminders_who_have_not_entered_recently(1.day.ago.to_date)
+      contest_email = Plink::ContestRecord.current.contest_emails
 
       users_to_email.each do |user|
-        send_daily_reminder_email(user)
+        send_daily_reminder_email(user, contest_email)
       end
 
       stars ; puts "[#{Time.zone.now}] End of daily reminder email."
@@ -166,12 +167,13 @@ namespace :contest do
 
 private
 
-  def send_daily_reminder_email(user)
+  def send_daily_reminder_email(user, contest_email)
     begin
       reminder_args = {
-        user_id: user.id,
+        contest_email: contest_email,
+        email: user.email,
         first_name: user.first_name,
-        email: user.email
+        user_id: user.id
       }
 
       ContestMailer.daily_reminder_email(reminder_args).deliver

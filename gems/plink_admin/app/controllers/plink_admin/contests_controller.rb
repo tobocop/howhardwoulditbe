@@ -7,6 +7,7 @@ module PlinkAdmin
 
     def new
       @contest = Plink::ContestRecord.new
+      @contest.build_contest_emails
     end
 
     def create

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 201310292039580) do
+ActiveRecord::Schema.define(:version => 20140114174136) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -388,16 +388,16 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
   end
 
   create_table "campaigns", :primary_key => "campaignID", :force => true do |t|
-    t.string   "name",      :limit => 250
-    t.string   "mediaType", :limit => 250
-    t.string   "creative",  :limit => 1000
-    t.boolean  "isIncent",                  :default => false, :null => false
-    t.string   "urlCParam", :limit => 1000
-    t.datetime "startDate"
-    t.datetime "endDate"
-    t.datetime "created",                                      :null => false
-    t.datetime "modified",                                     :null => false
-    t.boolean  "isActive",                  :default => true,  :null => false
+    t.string   "name",       :limit => 250
+    t.string   "mediaType",  :limit => 250
+    t.string   "creative",   :limit => 1000
+    t.boolean  "isIncent",                   :default => false, :null => false
+    t.string   "urlCParam",  :limit => 1000
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created",                                       :null => false
+    t.datetime "modified",                                      :null => false
+    t.boolean  "isActive",                   :default => true,  :null => false
   end
 
   create_table "charities", :primary_key => "charityID", :force => true do |t|
@@ -464,6 +464,12 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.datetime "updated_at",          :null => false
   end
 
+  create_table "contest_blacklisted_user_ids", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
   create_table "contest_prize_levels", :force => true do |t|
     t.integer  "contest_id"
     t.integer  "award_count"
@@ -479,22 +485,51 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.integer  "admin_user_id"
     t.boolean  "winner"
     t.boolean  "rejected"
-    t.datetime "finalized"
+    t.datetime "finalized_at"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
 
   create_table "contests", :force => true do |t|
     t.string   "description"
-    t.string   "image",                :limit => 100
+    t.string   "image",                     :limit => 100
     t.text     "prize"
     t.datetime "start_time"
     t.datetime "end_time"
     t.text     "terms_and_conditions"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.datetime "finalized"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.datetime "finalized_at"
+    t.string   "non_linked_image"
+    t.text     "entry_post_title"
+    t.text     "entry_post_body"
+    t.text     "winning_post_title"
+    t.text     "winning_post_body"
+    t.text     "interstitial_title"
+    t.text     "interstitial_bold_text"
+    t.text     "interstitial_body_text"
+    t.string   "interstitial_share_button"
+    t.string   "interstitial_reg_link"
+    t.text     "entry_notification"
+    t.text     "prize_description"
+    t.text     "disclaimer_text"
   end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0, :null => false
+    t.integer  "attempts",   :default => 0, :null => false
+    t.text     "handler",                   :null => false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "dm_dates", :id => false, :force => true do |t|
     t.integer  "dm_dateKey",                      :null => false
@@ -508,6 +543,13 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.string   "quarter",           :limit => 20
     t.string   "dayOfWeek",         :limit => 20
     t.datetime "firstMondayOfWeek"
+  end
+
+  create_table "duplicate_registration_attempts", :force => true do |t|
+    t.integer  "user_id",                       :limit => 8
+    t.integer  "existing_users_institution_id", :limit => 8
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "entries", :force => true do |t|
@@ -553,20 +595,21 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
   end
 
   create_table "events", :primary_key => "eventID", :force => true do |t|
-    t.integer  "userID",                  :limit => 8
-    t.integer  "eventTypeID",                                              :null => false
+    t.integer  "userID",                   :limit => 8
+    t.integer  "eventTypeID",                                               :null => false
     t.integer  "affiliateID"
-    t.string   "subID",                   :limit => 100
-    t.string   "ip",                      :limit => 15
-    t.datetime "created",                                                  :null => false
-    t.datetime "modified",                                                 :null => false
-    t.boolean  "isActive",                               :default => true, :null => false
-    t.string   "subID2",                  :limit => 200
-    t.string   "subID3",                  :limit => 200
-    t.string   "subID4",                  :limit => 200
-    t.integer  "pathID",                                 :default => 0,    :null => false
+    t.string   "subID",                    :limit => 100
+    t.string   "ip",                       :limit => 15
+    t.datetime "created",                                                   :null => false
+    t.datetime "modified",                                                  :null => false
+    t.boolean  "isActive",                                :default => true, :null => false
+    t.string   "subID2",                   :limit => 200
+    t.string   "subID3",                   :limit => 200
+    t.string   "subID4",                   :limit => 200
+    t.integer  "pathID",                                  :default => 0,    :null => false
     t.integer  "offersVirtualCurrencyID"
     t.integer  "campaignID"
+    t.integer  "landing_page_id"
   end
 
   create_table "facebookPermissions", :primary_key => "facebookPermissionID", :force => true do |t|
@@ -682,11 +725,11 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
   end
 
   create_table "hero_promotion_users", :force => true do |t|
-    t.integer  "hero_promotion_id"
-    t.integer  "user_id"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.integer "hero_promotion_id"
+    t.integer "user_id"
   end
+
+  add_index "hero_promotion_users", ["hero_promotion_id", "user_id"], :name => "index_hero_promotion_users_on_hero_promotion_id_and_user_id"
 
   create_table "hero_promotions", :force => true do |t|
     t.string   "image_url_one"
@@ -698,7 +741,6 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.boolean  "is_active",             :default => true
     t.boolean  "show_linked_users"
     t.boolean  "show_non_linked_users"
-    t.text     "user_ids"
     t.text     "link_one"
     t.string   "link_two"
     t.string   "image_url_two"
@@ -761,6 +803,22 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.boolean "isMfaError",                        :default => false, :null => false
     t.boolean "isActive",                          :default => true,  :null => false
     t.boolean "sendReverification",                :default => false, :null => false
+  end
+
+  create_table "intuit_account_requests", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "processed"
+    t.text     "response"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "intuit_accounts_to_remove", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "intuit_account_id",    :limit => 8
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "users_institution_id"
   end
 
   create_table "intuit_archived_transactions", :force => true do |t|
@@ -1046,6 +1104,13 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
 
   add_index "jobs", ["queued_command_id"], :name => "IX_jobs_queued_command_id"
 
+  create_table "landing_pages", :force => true do |t|
+    t.string   "name"
+    t.string   "partial_path"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "loot", :primary_key => "lootID", :force => true do |t|
     t.string   "name",              :limit => 500,                                                   :null => false
     t.decimal  "exchangeRate",                      :precision => 18, :scale => 6
@@ -1060,6 +1125,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.text     "terms"
     t.boolean  "isTangoRedemption",                                                :default => true, :null => false
     t.string   "shortDescription",  :limit => 1000
+    t.boolean  "is_redeemable"
   end
 
   create_table "lootAmounts", :primary_key => "lootAmountID", :force => true do |t|
@@ -1143,20 +1209,22 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
   end
 
   create_table "offers", :primary_key => "offerID", :force => true do |t|
-    t.integer  "advertiserID",                                                                                             :null => false
-    t.datetime "startDate",                                                                                                :null => false
-    t.datetime "endDate",                                                               :default => '2999-12-31 00:00:00', :null => false
-    t.integer  "daysInAwardPeriod",                                                     :default => 0,                     :null => false
-    t.decimal  "advertisersRevShare",                    :precision => 12, :scale => 6,                                    :null => false
-    t.text     "detailText",                                                                                               :null => false
-    t.datetime "created",                                                                                                  :null => false
-    t.datetime "modified",                                                                                                 :null => false
-    t.boolean  "isActive",                                                              :default => true,                  :null => false
-    t.string   "advertiserName",          :limit => 250
-    t.string   "logoURL",                 :limit => 500
-    t.boolean  "isEligibleForFreeAwards",                                               :default => true,                  :null => false
-    t.boolean  "showOnWall",                                                            :default => true,                  :null => false
+    t.integer  "advertiserID",                                                                                                 :null => false
+    t.datetime "startDate",                                                                                                    :null => false
+    t.datetime "endDate",                                                                   :default => '2999-12-31 00:00:00', :null => false
+    t.integer  "daysInAwardPeriod",                                                         :default => 0,                     :null => false
+    t.decimal  "advertisersRevShare",                        :precision => 12, :scale => 6,                                    :null => false
+    t.text     "detailText",                                                                                                   :null => false
+    t.datetime "created",                                                                                                      :null => false
+    t.datetime "modified",                                                                                                     :null => false
+    t.boolean  "isActive",                                                                  :default => true,                  :null => false
+    t.string   "advertiserName",              :limit => 250
+    t.string   "logoURL",                     :limit => 500
+    t.boolean  "isEligibleForFreeAwards",                                                   :default => true,                  :null => false
+    t.boolean  "showOnWall",                                                                :default => true,                  :null => false
     t.boolean  "is_new"
+    t.boolean  "show_end_date"
+    t.boolean  "send_expiring_soon_reminder"
   end
 
   create_table "offersVirtualCurrencies", :primary_key => "offersVirtualCurrencyID", :force => true do |t|
@@ -1477,6 +1545,8 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.decimal  "dollarAwardAmount",                :precision => 12, :scale => 6,                    :null => false
     t.string   "memo",              :limit => 500
     t.boolean  "isDenied",                                                        :default => false, :null => false
+    t.integer  "tango_tracking_id"
+    t.boolean  "tango_confirmed"
   end
 
   create_table "referralConversions", :primary_key => "referralConversionID", :force => true do |t|
@@ -1491,6 +1561,37 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.string   "userAction", :limit => 500, :null => false
     t.datetime "created",                   :null => false
     t.datetime "modified",                  :null => false
+  end
+
+  create_table "registration_link_mappings", :force => true do |t|
+    t.integer "affiliate_id"
+    t.integer "campaign_id"
+    t.integer "registration_link_id"
+  end
+
+  create_table "registration_links", :force => true do |t|
+    t.integer  "affiliate_id"
+    t.integer  "campaign_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "is_active"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.boolean  "mobile_detection_on"
+  end
+
+  create_table "registration_links_landing_pages", :force => true do |t|
+    t.integer  "registration_link_id"
+    t.integer  "landing_page_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "registration_links_share_pages", :force => true do |t|
+    t.integer  "registration_link_id"
+    t.integer  "share_page_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "retailFraudBucket", :primary_key => "retailFraudBucketId", :force => true do |t|
@@ -1550,6 +1651,22 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "share_page_tracking", :force => true do |t|
+    t.integer  "registration_link_id"
+    t.integer  "share_page_id"
+    t.integer  "user_id"
+    t.boolean  "shared"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "share_pages", :force => true do |t|
+    t.string   "name"
+    t.string   "partial_path"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "social_networks", :force => true do |t|
     t.string  "name"
@@ -1616,6 +1733,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.string   "cardToken",           :limit => 100
     t.string   "cardNumber",          :limit => 100
     t.string   "cardPin",             :limit => 100
+    t.text     "raw_response"
   end
 
   create_table "tasks", :force => true do |t|
@@ -1644,27 +1762,6 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.datetime "endDate",                                                                  :null => false
     t.boolean  "isActive",                                               :default => true, :null => false
     t.decimal  "percentAwardAmount",      :precision => 5,  :scale => 2
-  end
-
-  create_table "tmp_vw_bad_freeAwardsTodaysCount", :id => false, :force => true do |t|
-    t.integer  "awardCount"
-    t.integer  "weightlessRedemptionTypeID"
-    t.string   "weightlessRedemptionType",   :limit => 100
-    t.datetime "simpleDate"
-  end
-
-  create_table "tmp_vw_freeAwardsPreviousWeekSummary", :id => false, :force => true do |t|
-    t.integer "awardCount"
-    t.integer "weightlessRedemptionTypeID"
-    t.string  "weightlessRedemptionType",   :limit => 100
-    t.string  "simpleDate",                 :limit => 8
-  end
-
-  create_table "tmp_vw_good_freeAwardsTodaysCount", :id => false, :force => true do |t|
-    t.integer  "awardCount"
-    t.integer  "weightlessRedemptionTypeID"
-    t.string   "weightlessRedemptionType",   :limit => 100
-    t.datetime "simpleDate"
   end
 
   create_table "transactionDownloadJobs", :primary_key => "transactionDownloadJobID", :force => true do |t|
@@ -1739,6 +1836,16 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.decimal  "dollarAwardAmount",                           :precision => 12, :scale => 6
     t.string   "externalUserID",              :limit => 250
     t.string   "additionalInfo",              :limit => 1000
+  end
+
+  create_table "transactions_eligible_for_bonus", :force => true do |t|
+    t.boolean  "processed"
+    t.integer  "intuit_transaction_id",      :limit => 8
+    t.integer  "offer_id"
+    t.integer  "offers_virtual_currency_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
   end
 
   create_table "transactions_prod_copy_temp", :id => false, :force => true do |t|
@@ -1861,6 +1968,14 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.boolean  "isActive",                                                                 :default => true,  :null => false
   end
 
+  create_table "user_auto_logins", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "expires_at"
+    t.string   "user_token", :limit => 60
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
   create_table "user_devices", :force => true do |t|
     t.string   "device_token"
     t.integer  "user_id"
@@ -1899,9 +2014,9 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.datetime "deactivationDate"
     t.string   "userAgent",                   :limit => 500
     t.integer  "createdBy",                                  :default => 0,     :null => false
-    t.datetime "created",                                                       :null => false
+    t.datetime "created"
     t.integer  "modifiedBy",                                 :default => 0,     :null => false
-    t.datetime "modified",                                                      :null => false
+    t.datetime "modified"
     t.boolean  "isActive",                                   :default => true,  :null => false
     t.integer  "initialCampaignID"
     t.boolean  "hasFailedBank",                              :default => false, :null => false
@@ -1930,6 +2045,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.string   "shortened_referral_link"
     t.string   "provider",                    :limit => 15
     t.boolean  "daily_contest_reminder"
+    t.string   "login_token"
   end
 
   create_table "usersAwardPeriods", :primary_key => "usersAwardPeriodID", :force => true do |t|
@@ -2086,6 +2202,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.datetime "created",                                                  :null => false
     t.datetime "modified",                                                 :null => false
     t.boolean  "isActive",                              :default => true,  :null => false
+    t.integer  "intuit_error_id"
   end
 
   create_table "usersToRetryDownload", :id => false, :force => true do |t|
@@ -2105,6 +2222,14 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.datetime "modified",                                                             :null => false
     t.boolean  "isActive",                          :default => true,                  :null => false
     t.string   "additionalInfo",    :limit => 1000
+  end
+
+  create_table "users_eligible_for_offer_add_bonus", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "offers_virtual_currency_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.boolean  "is_awarded"
   end
 
   create_table "users_last_post_dates", :force => true do |t|
@@ -2170,7 +2295,7 @@ ActiveRecord::Schema.define(:version => 201310292039580) do
     t.integer  "walletSlotTypeID",                                        :null => false
     t.integer  "offersVirtualCurrencyID"
     t.string   "type"
-    t.string   "unlock_reason",           :limit => 15
+    t.string   "unlock_reason",           :limit => 50
   end
 
   create_table "walletItemsHistory", :primary_key => "walletItemHistoryID", :force => true do |t|

@@ -4,11 +4,12 @@ class ContestMailer < ActionMailer::Base
   def daily_reminder_email(args)
     @first_name = args[:first_name]
     @user_id = args[:user_id]
+    @contest_email = args[:contest_email]
 
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: t('application.contests.emails.daily_reminder_email.subject')
+      subject: @contest_email.day_one_subject
     )
   end
 
