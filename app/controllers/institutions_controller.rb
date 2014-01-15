@@ -3,6 +3,8 @@ class InstitutionsController < ApplicationController
   before_filter :require_authentication
   before_filter :most_popular, only: [:search, :search_results]
 
+  helper_method :reverifying?, :reverifying?
+
   def search
     redirect_to wallet_path(link_card: true) if Rails.env.production?
     session.delete(:intuit_institution_login_id)
@@ -105,14 +107,14 @@ class InstitutionsController < ApplicationController
     render :congratulations
   end
 
+  def reverifying?
+    session.has_key?(:reverification_id)
+  end
+
 private
 
   def updating?
     reverifying? && session.has_key?(:intuit_institution_login_id)
-  end
-
-  def reverifying?
-    session.has_key?(:reverification_id)
   end
 
   def users_institution_registered?

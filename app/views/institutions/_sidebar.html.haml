@@ -1,14 +1,32 @@
-.steps.first.centered
-  .font-p9em.font-lightgray.font-italic Let's Get Started
-.steps{class: step == 1 ? 'active' : ''}
-  .circle
-    .text 1
-  Find your bank or credit card provider.
-.steps{class: step == 2 ? 'active' : ''}
-  .circle.offset
-    .text 2
-  Connect it to Plink.
-.steps.last{class: step == 3 ? 'active' : ''}
-  .circle.offset
-    .text 3
-  Choose a card.
+-if reverifying?
+  .steps.first.centered
+    .font-p9em.font-lightgray.font-italic Update My Account
+  .steps.active
+    .circle
+      .text ➜
+    Reconnect your bank or credit card to Plink.
+  .steps
+    .font-slate.mbs Why do I need to reconnect my bank or credit card?
+    .font-p9em.font-w300
+      Don't worry! Reverifying your account is perfectly normal. Sometimes it's necessary to reverify if your bank has multiple security questions. Each time we get a question we don't have the answer to, you'll have to reverify your account.
+      %br
+      %br
+      You'll also be asked to reverify if you change your username or password, and sometimes if your bank just doesn't respond to our login process for a few days in a row.
+      %br
+      %br
+      Regardless of why you have to reverify, understand that there isn't anything at all wrong with your account. And that your information is safe and stored with the highest level of security available.
+-else
+  .steps.first.centered
+    .font-p9em.font-lightgray.font-italic Let's Get Started
+  .steps{class: step == 1 ? 'active' : ''}
+    .circle
+      .text 1
+    Find your bank or credit card provider.
+  .steps{class: step == 2 ? 'active' : ''}
+    .circle.offset
+      .text 2
+    Connect it to Plink.
+  .steps.last{class: step == 3 ? 'active' : ''}
+    .circle.offset
+      .text 3
+    Choose a card.

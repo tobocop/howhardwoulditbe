@@ -46,6 +46,8 @@ describe 'Reverifying', js: true, driver: :selenium do
     page.should have_image 'icon_alert_pink.png'
     click_link 'Reverify'
 
+    page.should have_content 'Reconnect your bank or credit card to Plink.'
+
     fill_in 'auth_1', with: 'my_account'
     fill_in 'auth_2', with: 'willworknow'
 

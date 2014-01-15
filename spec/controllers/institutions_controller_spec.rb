@@ -502,4 +502,16 @@ describe InstitutionsController do
       end
     end
   end
+
+  describe 'reverifying?' do
+    it 'returns true if the session has a reverification_id key' do
+      session[:reverification_id] = 2
+
+      controller.reverifying?.should be_true
+    end
+
+    it 'returns false if the session has a reverification_id key' do
+      controller.reverifying?.should be_false
+    end
+  end
 end
