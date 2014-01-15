@@ -1,0 +1,70 @@
+%header.header.layout-wrapper
+  .layout-inner
+    %img{ :class => "header-logo", :src => "/assets/header_logo.png", :alt => "Plink" }
+    .welcome-text
+      %span.header-text.bold Welcome, Kris!
+      %br
+      %span.header-text You have 999,999 Plink points.
+    %ul.nav-ul
+      %li.nav-li
+        = link_to 'Dashboard', '#', class:'link'
+      %li.nav-li
+        = link_to 'Wallet', '#', class:'link'
+      %li.nav-li
+        = link_to 'Rewards', '#', class:'link'
+      %li.nav-li
+        = link_to 'My Account', '#', class:'link'
+      %li.nav-li
+        = link_to 'Log Out', '#', method: :delete, class:'link logout'
+
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner.height-min-550
+        .left-column.no-float
+          .steps.first.centered
+            .font-p9em.font-lightgray.font-italic Update My Account
+          .steps.active
+            .circle
+              .text ➜
+            Reconnect your bank or credit card to Plink.
+          .steps
+            .font-slate.mbs Why do I need to reconnect my bank or credit card?
+            .font-p9em.font-w300 
+              Don't worry! Reconnecting your account is perfectly normal. Sometimes it's necessary if your bank has multiple security questions. Each time we get a question we don't have the answer to, you'll have to reconnect your account.
+              %br
+              %br
+              You'll also be asked to reconnect if you change your username or password, and sometimes if your bank just doesn't respond to our login process for a few days in a row. 
+              %br
+              %br
+              Regardless of why you have to reconnect, understand that there isn't anything at all wrong with your account, and that your information is safe and stored with the highest level of security available.
+
+        .right-column.pad-left-86
+          .spacer-top-24
+            =image_tag 'https://plink-images.s3.amazonaws.com/bank_logos/desktop_reg/bank_chase.png', class:'reg-bank-logo'
+            /*.font-1p5em If No Logo, Use This Text Style*/
+          .spacer-top-8
+            .gray-box
+              .font-p9em.font-w300 Please login to your Chase Bank account.
+              .spacer-top-8
+                .font-p9em.font-w300.font-italic * All fields required
+          .spacer-top-24
+            .font-1em.font-w500 User ID 
+            .font-p9em.font-w300.font-gray for your Chase Bank online account
+            .form-container
+              %input.form-field.input{:value => 'User ID'}
+          .spacer-top-24
+            .font-1em.font-w500 Password
+            .font-p9em.font-w300.font-gray for your Chase Bank online account
+            .form-container
+              %input.form-field.input{:value => 'Password'}
+          .spacer-top-24
+            .button-container.no-margin
+              %button.button.negative-action Go Back
+            .button-container
+              %button.button.primary-action Connect
+          .spacer-top-24
+          %hr
+            .font-p9em.font-w500.font-gray Trouble logging in?
+            .font-p9em.font-w300.font-gray.font-height1p5 Contact Chase at [link to website] or [phone number].
+      .clear
