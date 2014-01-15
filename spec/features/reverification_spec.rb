@@ -44,7 +44,7 @@ describe 'Reverifying', js: true, driver: :selenium do
 
     page.should have_content 'Inactive'
     page.should have_image 'icon_alert_pink.png'
-    click_link 'Reverify'
+    click_link 'Reconnect My Account'
 
     page.should have_content 'Reconnect your bank or credit card to Plink.'
 
@@ -57,7 +57,7 @@ describe 'Reverifying', js: true, driver: :selenium do
     page.should have_content "You've successfully reconnected your bank of awesome account to your Plink account."
 
     visit '/account'
-    page.should_not have_content 'Reverify'
+    page.should_not have_content 'Reconnect My Account'
   end
 
   it 'allows a user to reverify mfa questions' do
@@ -91,7 +91,7 @@ describe 'Reverifying', js: true, driver: :selenium do
     )
 
     visit '/account'
-    click_link 'Reverify'
+    click_link 'Reconnect My Account'
 
     fill_in 'auth_1', with: 'tfa_text'
     fill_in 'auth_2', with: "mmmmbacon"
@@ -108,6 +108,6 @@ describe 'Reverifying', js: true, driver: :selenium do
     page.should have_content "You've successfully reconnected your bank of awesome account to your Plink account."
 
     visit '/account'
-    page.should_not have_content 'Reverify'
+    page.should_not have_content 'Reconnect My Account'
   end
 end

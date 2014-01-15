@@ -20,7 +20,7 @@
             = image_tag 'icon_alert_pink.png', alt: 'Your account is inactive', class: 'status-img'
             %h3.account-status.pink Inactive
             %br
-            = link_to 'Reverify', reverification_start_path(@bank_account.reverification_id)
+            = link_to 'Reconnect My Account', reverification_start_path(@bank_account.reverification_id)
           - else
             = image_tag 'icon_alert_pink.png', alt: 'You need to link a card', class: 'status-img'
             %h3.account-status.pink You haven't linked a card yet.
