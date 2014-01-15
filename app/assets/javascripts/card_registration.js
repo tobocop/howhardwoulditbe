@@ -38,7 +38,11 @@
         type: 'GET'
       }).done(function(resp) {
         $('.progress-bar').html($('#js-establishing-connection').hide());
-        $('.right-column').html(resp);
+        if(resp.indexOf('left-column') > 0){
+          $('.reg .layout-inner').html(resp);
+        } else {
+          $('.right-column').html(resp);
+        }
       }).fail(function() {
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       });

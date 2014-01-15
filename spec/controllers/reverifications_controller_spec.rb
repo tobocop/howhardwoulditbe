@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe ReverificationsController do
+  let(:institution) { double(id: 9, name: 'whip my hair') }
+
   describe 'GET start' do
-    let(:institution) { double(id: 9) }
     let(:users_institution_record) { double(intuit_institution_login_id: 2) }
     let(:user_reverification_record) {
       double(
@@ -46,7 +47,7 @@ describe ReverificationsController do
   end
 
   describe 'GET complete' do
-    let(:user_reverification_record) { double(update_attributes: true) }
+    let(:user_reverification_record) { double(update_attributes: true, institution_record: institution) }
 
     before do
       session[:reverification_id] = 4
@@ -74,6 +75,12 @@ describe ReverificationsController do
       user_reverification_record.should_receive(:update_attributes).with(completed_on: time_now)
 
       get :complete
+    end
+
+    it 'assigns account_name' do
+      get :complete
+
+      assigns(:account_name).should == 'whip my hair'
     end
 
     it 'removes the id of the reverification record from the session' do

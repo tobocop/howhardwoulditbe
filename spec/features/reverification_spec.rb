@@ -53,7 +53,8 @@ describe 'Reverifying', js: true, driver: :selenium do
 
     click_on 'Connect'
 
-    page.should have_content "You've successfully reverified your Plink account. Nice work!"
+    page.should have_content "Next Steps"
+    page.should have_content "You've successfully reconnected your bank of awesome account to your Plink account."
 
     visit '/account'
     page.should_not have_content 'Reverify'
@@ -104,7 +105,7 @@ describe 'Reverifying', js: true, driver: :selenium do
 
     click_on 'Connect'
 
-    page.should have_content "You've successfully reverified your Plink account. Nice work!"
+    page.should have_content "You've successfully reconnected your bank of awesome account to your Plink account."
 
     visit '/account'
     page.should_not have_content 'Reverify'

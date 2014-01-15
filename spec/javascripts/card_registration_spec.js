@@ -1,18 +1,22 @@
 describe('CardRegistration', function() {
   beforeEach(function () {
     $('#jasmine_content').html(
-      '<span class="right-column"><div class="steps first">lets get started</div>' +
-      '  <div class="steps active"></div><div class="steps"></div>' +
-      '</span>' +
-      '<a href="#" class="js-go-back">Link Me</a>' +
-      '<div id="duplicate" style="display: none">duplicate</div>' +
-      '<div id="please-login">please-login</div>' +
-      '<div class="js-all-fields-required">derp</div>' +
-      '<div class="institution-authentication-form">' +
-      '  <form id="js-authentication-form" action="/stuff">' +
-      '    <input type="submit" />' +
-      '  </form>' +
-      '  <form id="js-text-based-mfa-form" action="/stuff"></form>' +
+      '<div class="reg">' +
+        '<div class="layout-inner">' +
+          '<span class="left-column"><div class="steps first">lets get started</div>' +
+          '  <div class="steps active"></div><div class="steps"></div>' +
+          '</span>' +
+          '<div class="right-column"></div>' +
+          '<a href="#" class="js-go-back">Link Me</a>' +
+          '<div id="duplicate" style="display: none">duplicate</div>' +
+          '<div id="please-login">please-login</div>' +
+          '<div class="institution-authentication-form">' +
+          '  <form id="js-authentication-form" action="/stuff">' +
+          '    <input type="submit" />' +
+          '  </form>' +
+          '  <form id="js-text-based-mfa-form" action="/stuff"></form>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
       '<span id="js-establishing-connection">Connecting</span>'
     );
@@ -139,7 +143,7 @@ describe('CardRegistration', function() {
       expect($.ajax).toHaveBeenCalledWith({url: '/institutions/poll', type: 'GET'});
     });
 
-    it('replaces elements of the DOM when successful', function() {
+    it('replaces the right element of the DOM when no left column is present', function() {
       spyOn($, 'ajax').andCallFake(function() {
         var deferred = $.Deferred();
         deferred.resolve('awesome');
@@ -150,6 +154,20 @@ describe('CardRegistration', function() {
 
       expect($('#js-establishing-connection:visible').length).toEqual(0);
       expect($('.right-column').html()).toEqual('awesome');
+    });
+
+    it('replaces the inner layout of the DOM when left column is present', function() {
+      html_resp = '<div class="left-column">something</div><div class="right-column">right</div>';
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.resolve(html_resp);
+        return deferred.promise();
+      });
+
+      CardRegistration.pollForAccountResponse();
+
+      expect($('#js-establishing-connection:visible').length).toEqual(0);
+      expect($('.layout-inner').html()).toEqual(html_resp);
     });
 
     it('calls itself if the response is a failure', function() {
