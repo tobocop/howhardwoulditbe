@@ -92,9 +92,9 @@ PlinkAdmin::Admin.new do |admin|
 end
 
 p 'Creating HeroPromotions'
-Plink::HeroPromotionRecord.create(name: 'Yo-hiness', image_url: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
-Plink::HeroPromotionRecord.create(name: 'Stefan', image_url: '/assets/hero-gallery/TacoBell_2.jpg', title: 'New Partner - Taco Bell', display_order: 2)
-Plink::HeroPromotionRecord.create(name: 'Georg', image_url: '/assets/hero-gallery/7eleven_2.jpg', title: '7-Eleven = AMAZING HOTDOGS', display_order: 3)
+Plink::HeroPromotionRecord.create(name: 'Yo-hiness', image_url_one: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
+Plink::HeroPromotionRecord.create(name: 'Stefan', image_url_one: '/assets/hero-gallery/TacoBell_2.jpg', title: 'New Partner - Taco Bell', display_order: 2)
+Plink::HeroPromotionRecord.create(name: 'Georg', image_url_one: '/assets/hero-gallery/7eleven_2.jpg', title: '7-Eleven = AMAZING HOTDOGS', display_order: 3)
 
 p 'Creating Advertisers'
 vitamin_world = create_advertiser(advertiser_name: 'Vitamin World', logo_url: "offerImages/vitaminworld.png", map_search_term: 'Vitamin World')

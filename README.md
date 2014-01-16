@@ -1,58 +1,155 @@
 plink-pivotal
 =============
-
 www rewrite in rails with pivotal labs.
 
-Getting Started
+## Table of Contents
+
+* [Getting Started](#getting-started)
+* [Generating a New Engine](#generating-a-new-engine)
+* [Production Setup on Heroku](#production-setup-on-heroku)
+* [Production Setup on EC2](#production-setup-on-ec2)
+  * [Ubuntu Packages](#ubuntu-packages)
+  * [Accident Insurance](#accident-insurance)
+  * [Creating `deployer`](#creating-deployer)
+  * [Enabling Users to Deploy](#enabling-users-to-deploy)
+  * [Installing `git`](#installing-git)
+  * [Installing nginx](#installing-ngnix)
+* [Deploying with Capistrano](#deploying-with-capistrano)
+* [SSL setup](#ssl-setup)
+
+
+
+## Getting Started
 ---
+
 
 We use a local Windows VM with SQL Server Express in development.
 
+---
+
+
+* ####Install rbenv:
+> Compatibility note: rbenv is _incompatible_ with RVM. Please make
+>  sure to fully uninstall RVM and remove any references to it from
+>  your shell initialization files before installing rbenv.
+>
+>
+>##### Basic GitHub Checkout
+>
+>This will get you going with the latest version of rbenv and make it
+>easy to fork and contribute any changes back upstream.
+>
+>1. Check out rbenv into `~/.rbenv`.
+>
+>    ~~~ sh
+>    $ git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+>    ~~~
+>
+>2. Add `~/.rbenv/bin` to your `$PATH` for access to the `rbenv`
+>   command-line utility.
+>
+>    ~~~ sh
+>    $ echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+>    ~~~
+>
+>    **Ubuntu Desktop note**: Modify your `~/.bashrc` instead of `~/.bash_profile`.
+>
+>    **Zsh note**: Modify your `~/.zshrc` file instead of `~/.bash_profile`.
+>
+>3. Add `rbenv init` to your shell to enable shims and autocompletion.
+>
+>    ~~~ sh
+>    $ echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+>    ~~~
+>
+>    _Same as in previous step, use `~/.bashrc` on Ubuntu, or `~/.zshrc` for Zsh._
+>
+>4. Restart your shell so that PATH changes take effect. (Opening a new
+>   terminal tab will usually do it.) Now check if rbenv was set up:
+>
+>    ~~~ sh
+>    $ type rbenv
+>    #=> "rbenv is a function"
+>    ~~~
+>
+>5. _(Optional)_ Install [ruby-build][], which provides the
+>   `rbenv install` command that simplifies the process of
+>   installing new Ruby versions.
+>
+---
+
 
 * install qt on host for capybara webkit
-    brew install qt
+    `brew install qt`
+
+* install elasticsearch
+    `brew install elasticsearch`
+
 
 * install freetds on host
 
-    brew install freetds
+    `brew install freetds`
 
-	- If issues with tiny TDS gem libiconv missing
-		brew install libiconv
-		gem install tiny_tds -- --with-freetds-include=/usr/local/include --with-freetds-lib=/usr/local/lib --with-iconv-include=/usr/local/Cellar/libiconv/1.14/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.14/lib
+    >- If issues with tiny TDS gem libiconv missing
+    brew install libiconv
+    gem install tiny_tds -- --with-freetds-include=/usr/local/include --with-freetds-lib=/usr/local/lib --with-iconv-include=/usr/local/Cellar/libiconv/1.14/include --with-iconv-lib=/usr/local/Cellar/libiconv/1.14/lib
 
 * add 127.0.0.1 plink.test to /etc/hosts
 
-* bundle
+* `bundle`
 
-* Get yml files (tango, gigya, and sendgrid)
+* Get yml files (tango, gigya, and sendgrid). They should be in Keepass.
 
-* point database.yml at the SQL Server running on Windows VM
-* cp config/database.yml gems/plink/spec/dummy/config
-* cp config/database.yml gems/plink_admin/spec/dummy/config
-* cp config/gigya_keys.yml gems/gigya/integration_spec/support/
-    Change gigya_keys.yml in the gigya gem to look like the example
+* point `database.yml` at the SQL Server running on Windows VM
+* `ln -s config/database.yml gems/plink/spec/dummy/config`
+* `ln -s config/database.yml gems/plink_admin/spec/dummy/config`
+* `ln -s config/gigya_keys.yml gems/gigya/integration_spec/support/`
 
-* rake db:schema:load
+* Change the following yml files to look like the corresponding yml.example files:
+ - `salt.yml`
+ - `lryis.yml`
+ - `intuit.yml`
+ - `gigya_keys.yml`
+ - `elasticsearch.yml`
 
-* rake db:udfs:create
 
-* rake db:views:create
+* `bundle exec rake db:schema:load`
 
-* rake db:seed
+* `bundle exec rake db:udfs:create`
+
+* `bundle exec rake db:views:create`
+
+* `bundle exec rake db:seed`
 
 * open a Rails console and `Plink::UserRecord.first`. If you see a user, your dev DB is setup.
 
-* rake db:test:prepare
-* RAILS_ENV=test rake db:udfs:create
-* RAILS_ENV=test rake db:views:create
-* RAILS_ENV=test rake db:stored_procs:create
+* `rake db:test:prepare`
+* `RAILS_ENV=test rake db:udfs:create`
+* `RAILS_ENV=test rake db:views:create`
+* `RAILS_ENV=test rake db:stored_procs:create`
+
+* Add the following alaises to your `~/.bash_profile`  Zsh note: Modify your `~/.zshrc` file instead of `~/.bash_profile `
+      alias elasticsearch_start="elasticsearch -f -D es.config=config/elasticsearch.yml"
+      alias delayed_job_start="RAILS_ENV=development script/delayed_job start"
+
+* `elasticsearch_start`
+* `delayed_job_start`
+
+* Make a dummy CF directory ie: `mkdir $HOME/Desktop/cfdummysite`
+* Edit `/etc/hosts` and add `127.0.0.1  www.plink.dev`
+* Edit `/etc/apache2/extra/httpd-vhosts.conf` and add (make sure `DocumentRoot` points to the dummy CF directory):
+        <VirtualHost *:80>
+        ServerName www.plink.dev
+        DocumentRoot  **YOUR OWN PATH**/cfdummysite
+        </VirtualHost>
+
+* `touch index.html` in the dummy CF directory
+* `sudo apachectl restart`
+* `./build.sh`
 
 
-* ./build.sh
-
-
-Generating a New Engine
-===
+## Generating a New Engine
+---
 
 `rails plugin new gems/[name] -GT --mountable --dummy-path=spec/dummy`
 
@@ -124,8 +221,8 @@ add gems/[name] to your gemfile
 add new specs to the build.sh and build_ci.sh
 
 
-Production Setup on Heroku
-===
+## Production Setup on Heroku
+---
 
 Running the application in production relies on the `Procfile` containing the appropriate commands for running the application. Locally, it is possible to test that the `Procfile` is correct using Foreman. To run Foreman, you'll first need to copy the example `.env` file:
 
@@ -140,8 +237,8 @@ You can now access the application at:
     localhost:5000
 
 
-Production Setup on EC2
-===
+## Production Setup on EC2
+---
 
 ### Ubuntu Packages
 
@@ -156,7 +253,7 @@ Production Setup on EC2
   * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
   * `source /home/deployer/.bashrc`
 
-#### Creating `deployer`
+#### Creating deployer
 
 - To create the `deployer` user with `SSH` key access, run the following as the `root` user:
   * `adduser deployer` - enter a PW for the user and matching confirmation and add these to `KeePass`
@@ -189,7 +286,7 @@ Production Setup on EC2
   * [local ] `cat /Users/[name]/.ssh/id_rsa.pub`
   * [server] append output from last command to `vim /home/deployer/.ssh/authorized_keys`
 
-### Installing `git`
+### Installing git
 
 `SSH` into the remote as the `deployer` user. Then;
 
@@ -218,8 +315,8 @@ Production Setup on EC2
   * save and exit the file
   * `service nginx start`
 
-Deploying with Capistrano
-===
+## Deploying with Capistrano
+---
 
 ### Some general guidelines:
 
@@ -261,6 +358,6 @@ Deploying with Capistrano
 ### SSL setup
    * SCP your ther server cert up to the machine you want to install it on and move it into /etc/ngnix/ssl-certs/[yourdomain]/
    * Open the ngnix.conf and add the following lines:
-		listen 443 default ssl;
-		ssl_certificate /etc/nginx/ssl-certs/[yourdomain]/[name].crt;
-		ssl_certificate_key /etc/nginx/ssl-certs/[yourdomain]/[name].key;
+    listen 443 default ssl;
+    ssl_certificate /etc/nginx/ssl-certs/[yourdomain]/[name].crt;
+    ssl_certificate_key /etc/nginx/ssl-certs/[yourdomain]/[name].key;
