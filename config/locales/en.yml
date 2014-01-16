@@ -63,8 +63,6 @@ en:
     contests:
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
       emails:
-        three_day_reminder_email:
-          subject: Your Super Bowl Sunday Giveaway entries expire today
         winner_email:
           subject: Plink's Super Bowl Sunday Giveaway Winners Announced!! See if you won!
     rewards:

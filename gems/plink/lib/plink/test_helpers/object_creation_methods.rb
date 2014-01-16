@@ -767,7 +767,12 @@ module Plink
         day_one_preview: 'first day preview',
         day_one_body: 'enter our amazing contest',
         day_one_link_text: 'link to nowhere',
-        day_one_image: 'http://image.com'
+        day_one_image: 'http://image.com',
+        three_day_subject: 'its been three days...',
+        three_day_preview: 'preview three',
+        three_day_body: 'you need to keep entering',
+        three_day_link_text: 'link to somewhere',
+        three_day_image: 'http://www.picture.com'
       }
 
       Plink::ContestEmailRecord.new(defaults.merge(options))

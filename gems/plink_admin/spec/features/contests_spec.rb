@@ -27,6 +27,11 @@ describe 'Contests' do
       page.should have_content "day one body can't be blank"
       page.should have_content "day one link text can't be blank"
       page.should have_content "day one image can't be blank"
+      page.should have_content "three day subject can't be blank"
+      page.should have_content "three day preview can't be blank"
+      page.should have_content "three day body can't be blank"
+      page.should have_content "three day link text can't be blank"
+      page.should have_content "three day image can't be blank"
     end
 
     fill_in 'Description', with: 'Awesome contest'
@@ -56,6 +61,12 @@ describe 'Contests' do
     fill_in 'Body', with: 'first day email reminder body'
     fill_in 'Link Text', with: 'link to somewhere'
     fill_in 'S3 Image URL', with: 'http://www.images.com'
+
+    fill_in 'Subject (3 Day)', with: 'you there'
+    fill_in 'Preview (3 Day)', with: 'teaser text'
+    fill_in 'Body (3 Day)', with: 'something or other'
+    fill_in 'Link Text (3 Day)', with: 'go back to plink'
+    fill_in 'S3 Image URL (3 Day)', with: 'http://www.pictures.com'
 
     click_on 'Create'
 

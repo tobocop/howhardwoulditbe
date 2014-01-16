@@ -118,7 +118,17 @@ end
 describe 'contest:three_day_reminder_email', skip_in_build: true do
   include_context 'rake'
 
-  let(:contest) { create_contest }
+  let!(:contest) { create_contest }
+  let!(:contest_email) {
+      create_contest_email(
+        contest_id: contest.id,
+        three_day_preview: 'sneak peak',
+        three_day_subject: 'enter now enter now',
+        three_day_body: 'daily reminder to enter this sweet contest',
+        three_day_link_text: 'link to here',
+        three_day_image: 'http://www.baconmockup.com/400/400'
+      )
+    }
   let(:user) { create_user(daily_contest_reminder: true) }
   let!(:opted_out_user) { create_user(email: 'opt-out@plink.com', daily_contest_reminder: false) }
   let!(:user_without_preference) { create_user(email: 'nopref@plink.com', daily_contest_reminder: nil) }

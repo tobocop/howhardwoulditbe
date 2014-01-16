@@ -64,6 +64,19 @@
     = email.label :day_one_image, "S3 Image URL"
     = email.text_field :day_one_image
 
+  %h6 3 Day Reminder Email
+  = f.fields_for :contest_emails do |email|
+    = email.label :three_day_subject, "Subject (3 Day)"
+    = email.text_field :three_day_subject
+    = email.label :three_day_preview, "Preview (3 Day)"
+    = email.text_field :three_day_preview
+    = email.label :three_day_body, "Body (3 Day)"
+    = email.text_field :three_day_body
+    = email.label :three_day_link_text, "Link Text (3 Day)"
+    = email.text_field :three_day_link_text
+    = email.label :three_day_image, "S3 Image URL (3 Day)"
+    = email.text_field :three_day_image
+
   = f.submit button_text, class: 'button small'
 
 = link_to 'Cancel', contests_path, class: 'button small secondary'

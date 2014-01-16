@@ -18,7 +18,7 @@
                       =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"hide", border: "0", style: "display:block;", width: "1", height: "1"}
                     %td.hide{align: "right", width: "350", style: "color:#a6a6a6;font-size:12px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-shadow: 0 1px 0 #ffffff;", valign: "top", bgcolor: "#e4e4e4"}
                       =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {border: "0", style: "display:block;", width: "1", height: "15"}
-                      %span Get extra contest entries.
+                      %span= @contest_email.three_day_preview
                       %br
                       %br
                       %span{style: "font-size:12px;"}
@@ -29,17 +29,16 @@
                 %table{width: "100%", border: "0", cellspacing: "0", cellpadding: "0"}
                   %tr
                     %td.headercell
-                      =link_to image_tag('http://plink-images.s3.amazonaws.com/contests/current_contest_1day.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), contests_url
+                      =link_to image_tag(@contest_email.three_day_image, {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), contests_url
 
                 %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
                   %tr
                     %td.promocell{bgcolor: "#404041", width: "600"}
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#FFFFFF; font-size:18px;"} Hey #{@first_name}
-                        %p{style: "color:#FFFFFF; font-size:16px;"} It's been a few days since you've entered our contest. Enter daily to increase your chances of winning.
-
+                        %p{style: "color:#FFFFFF; font-size:16px;"}= @contest_email.three_day_body.html_safe
                         <!-- INSERT TEXT LINK HERE -->
-                        =link_to "Get More Entries >", contests_url
+                        =link_to @contest_email.three_day_link_text, contests_url
 
                 %repeater
                   %layout

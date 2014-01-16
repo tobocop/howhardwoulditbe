@@ -16,11 +16,12 @@ class ContestMailer < ActionMailer::Base
   def three_day_reminder_email(args)
     @first_name = args[:first_name]
     @user_id = args[:user_id]
+    @contest_email = args[:contest_email]
 
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: t('application.contests.emails.three_day_reminder_email.subject')
+      subject: @contest_email.three_day_subject
     )
   end
 

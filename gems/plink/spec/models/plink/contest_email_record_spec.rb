@@ -26,6 +26,11 @@ describe Plink::ContestEmailRecord do
     it { should validate_presence_of(:day_one_body) }
     it { should validate_presence_of(:day_one_link_text) }
     it { should validate_presence_of(:day_one_image) }
+    it { should validate_presence_of(:three_day_subject) }
+    it { should validate_presence_of(:three_day_preview) }
+    it { should validate_presence_of(:three_day_body) }
+    it { should validate_presence_of(:three_day_link_text) }
+    it { should validate_presence_of(:three_day_image) }
   end
 
   it { should allow_mass_assignment_of(:contest_id) }
@@ -34,4 +39,9 @@ describe Plink::ContestEmailRecord do
   it { should allow_mass_assignment_of(:day_one_body) }
   it { should allow_mass_assignment_of(:day_one_link_text) }
   it { should allow_mass_assignment_of(:day_one_image) }
+  it { should allow_mass_assignment_of(:three_day_subject) }
+  it { should allow_mass_assignment_of(:three_day_preview) }
+  it { should allow_mass_assignment_of(:three_day_body) }
+  it { should allow_mass_assignment_of(:three_day_link_text) }
+  it { should allow_mass_assignment_of(:three_day_image) }
 end
