@@ -27,7 +27,7 @@
     .font-1p1em.font-w300= "You've successfully reconnected your #{@account_name} account to your Plink account."
   .spacer-top-32
     .button-container.no-margin.width-170
-      %button.button.primary-action Go To My Wallet
+      = link_to 'Go To My Wallet', wallet_path, class: 'button primary-action'
   .spacer-top-96
     %hr
   .spacer-top-24
