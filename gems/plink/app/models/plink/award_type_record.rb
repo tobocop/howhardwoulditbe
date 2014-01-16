@@ -11,5 +11,9 @@ module Plink
 
     attr_accessible :award_code, :award_display_name, :award_type, :is_active,
         :email_message, :dollar_amount
+
+    def self.incented_affiliate_award_type_id
+      where(awardCode: 'incentivizedAffiliateID').first.id
+    end
   end
 end

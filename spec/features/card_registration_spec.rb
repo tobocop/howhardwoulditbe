@@ -6,12 +6,20 @@ describe 'searching for a bank', js: true, driver: :selenium do
   let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
   let!(:institution_authenticated_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
   let(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
-  let!(:affiliate) { create_affiliate(card_add_pixel: 'my$userID$pixel') }
   let!(:virtual_currency) { create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100) }
+  let!(:affiliate) {
+    create_affiliate(
+      card_add_pixel: 'my$userID$pixel',
+      has_incented_card_registration: true,
+      card_registration_dollar_award_amount: 2.34
+    )
+  }
 
   before do
     user.primary_virtual_currency = virtual_currency
     user.save!
+    create_award_type(award_code: 'incentivizedAffiliateID')
+    create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
     create_wallet(user_id: user.id)
   end
 
@@ -105,6 +113,8 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.current_path.should == institution_selection_path
     page.should have_content 'Congratulations!'
     page.should have_content "my#{user.id}pixel"
+
+    page.should have_content 'You have 234 Plink Points.'
 
     institution_authenticated_event = Plink::EventRecord.order('eventID desc').first
     institution_authenticated_event.event_type_id.should == institution_authenticated_event_type.id

@@ -127,16 +127,50 @@ shared_examples_for(:tracking_extensions) do
   end
 
   describe 'track_institution_authenticated' do
-    it 'tracks institution authenticated events and returns a pixel presenter' do
-      event = double
+    let(:affiliate) { double(Plink::AffiliateRecord, has_incented_card_registration: false, id: 2) }
+    let(:event) { double(Plink::EventRecord) }
+    let(:pixel_preseneter) { double(PixelPresenter) }
 
+    before do
+      Plink::EventService.stub_chain(:new, :create_institution_authenticated).and_return(event)
+      controller.stub(:current_affiliate).and_return(affiliate)
+      PixelPresenterFactory.stub(:build_by_event).and_return(pixel_preseneter)
+    end
+
+    it 'tracks institution authenticated events' do
       Plink::EventService.should_receive(:new).and_return(event_service)
       event_service.should_receive(:create_institution_authenticated).
         with(34, tracking_object_defaults).
         and_return(event)
-      PixelPresenterFactory.should_receive(:build_by_event).with(event)
 
       controller.track_institution_authenticated(34)
+    end
+
+    it 'returns a pixel presenter' do
+      PixelPresenterFactory.should_receive(:build_by_event).with(event).and_return(pixel_preseneter)
+
+      controller.track_institution_authenticated(34).should == pixel_preseneter
+    end
+
+    context 'with an incented current affiliate' do
+      let(:affiliate) { double(Plink::AffiliateRecord, has_incented_card_registration: true, card_registration_dollar_award_amount: 2.34, id: 2) }
+
+      it 'awards the user' do
+        award_service = double(Plink::FreeAwardService)
+
+        Plink::FreeAwardService.should_receive(:new).with(2.34).and_return(award_service)
+        award_service.should_receive(:award_user_incented_affiliate).with(34)
+
+        controller.track_institution_authenticated(34)
+      end
+    end
+
+    context 'without an incented current affiliate' do
+      it 'does not award the user' do
+        Plink::FreeAwardService.should_not_receive(:new)
+
+        controller.track_institution_authenticated(34)
+      end
     end
   end
 

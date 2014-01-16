@@ -44,6 +44,12 @@ module TrackingExtensions
 
   def track_institution_authenticated(user_id)
     event = Plink::EventService.new.create_institution_authenticated(user_id, new_tracking_object_from_session.to_hash)
+
+    if current_affiliate.has_incented_card_registration
+      Plink::FreeAwardService.new(current_affiliate.card_registration_dollar_award_amount).
+        award_user_incented_affiliate(user_id)
+    end
+
     PixelPresenterFactory.build_by_event(event)
   end
 
@@ -59,5 +65,15 @@ private
 
   def get_campaign_id(campaign_hash)
     Plink::EventService.new.get_campaign_id(campaign_hash)
+  end
+
+  def current_affiliate
+    affiliate_id = new_tracking_object_from_session.affiliate_id
+    affiliate = Plink::AffiliateRecord.where(affiliateID: affiliate_id)
+    @current_affiliate ||= affiliate.empty? ? null_affiliate : affiliate.first
+  end
+
+  def null_affiliate
+    OpenStruct.new(has_incented_card_registration: false)
   end
 end
