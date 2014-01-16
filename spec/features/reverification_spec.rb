@@ -44,7 +44,10 @@ describe 'Reverifying', js: true, driver: :selenium do
 
     page.should have_content 'Inactive'
     page.should have_image 'icon_alert_pink.png'
-    click_link 'Reconnect My Account'
+
+    within '.content:nth-of-type(4)' do
+      click_link 'Reconnect My Account'
+    end
 
     page.should have_content 'Reconnect your bank or credit card to Plink.'
 
@@ -91,7 +94,10 @@ describe 'Reverifying', js: true, driver: :selenium do
     )
 
     visit '/account'
-    click_link 'Reconnect My Account'
+
+    within '.content:nth-of-type(9)' do
+      click_link 'Reconnect My Account'
+    end
 
     fill_in 'auth_1', with: 'tfa_text'
     fill_in 'auth_2', with: "mmmmbacon"

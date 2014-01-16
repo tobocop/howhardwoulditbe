@@ -54,6 +54,9 @@ PlinkPivotal::Application.routes.draw do
     post '/institutions/select', to: 'institutions#select', as: 'institution_selection'
     post '/institutions/text_based_mfa', to: 'institutions#text_based_mfa', as: 'institution_text_based_mfa'
 
+    get '/institution_logins/update_credentials/:id', to: 'institution_logins#update_credentials', as: 'institution_login_update_credentials'
+    get '/institution_logins/credentials_updated/:institution_id', to: 'institution_logins#credentials_updated', as: 'institution_login_credentials_updated'
+
     get '/reverifications/start/:id', to: 'reverifications#start', as: 'reverification_start'
     get '/reverifications/complete', to: 'reverifications#complete', as: 'reverification_complete'
   end

@@ -191,5 +191,47 @@ describe 'searching for a bank', js: true, driver: :selenium do
       page.should have_content 'An account with this information has already been created. If you believe there is an error, please contact Plink support.'
       page.should have_link 'Plink support.'
     end
+
+    it 'allows a user to update their login credentials' do
+      sign_in('test@example.com', 'test123')
+      page.should have_content "Enter your bank's name."
+
+      fill_in 'institution_name', with: 'bank'
+      click_on 'Search'
+
+      page.should have_content 'MOST COMMON'
+      click_on 'Bank of Tupac'
+      fill_in 'auth_1', with: 'bobloblaw'
+      fill_in 'auth_2', with: 'nohablaespanol'
+
+      click_on 'Connect'
+
+      page.should have_content "Select the card you'd like to earn rewards with."
+
+      within '.card-select-container:nth-of-type(1)' do
+        click_on 'Select'
+      end
+
+      page.should have_content 'Congratulations!'
+      visit '/account'
+
+      click_link 'Update Login Info'
+
+      page.should have_content 'Update your bank or credit card login info.'
+
+      fill_in 'auth_1', with: 'tfa_text'
+      fill_in 'auth_2', with: "mmmmbacon"
+
+      click_on 'Connect'
+
+      page.should have_content 'Security Question 1'
+      page.should have_content "Enter your first pet's name:"
+
+      fill_in 'mfa_question_1', with: 'succeed'
+
+      click_on 'Connect'
+
+      page.should have_content "You've successfully updated your Bank of Tupac account."
+    end
   end
 end

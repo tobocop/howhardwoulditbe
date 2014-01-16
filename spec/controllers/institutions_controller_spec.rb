@@ -318,12 +318,21 @@ describe InstitutionsController do
         response.should render_template partial: 'institutions/_select_account'
       end
 
-      it 'redirects to reverification complete if there is a reverification_id in session' do
-        session[:reverification_id] = 4
+      it 'redirects to reverification complete if reverifying is true' do
+        controller.stub(:reverifying?).and_return(true)
 
         get :poll
 
         response.should redirect_to(reverification_complete_path)
+      end
+
+      it 'redirects to update credentials complete if updating is true' do
+        controller.stub(:updating?).and_return(true)
+        session[:institution_id] = 234
+
+        get :poll
+
+        response.should redirect_to(institution_login_credentials_updated_path(234))
       end
     end
 
@@ -510,8 +519,20 @@ describe InstitutionsController do
       controller.reverifying?.should be_true
     end
 
-    it 'returns false if the session has a reverification_id key' do
+    it 'returns false if the session does not not have a reverification_id key' do
       controller.reverifying?.should be_false
+    end
+  end
+
+  describe 'updating?' do
+    it 'returns true if the session has a intuit_institution_login_id key' do
+      session[:intuit_institution_login_id] = 2
+
+      controller.updating?.should be_true
+    end
+
+    it 'returns false if the session does not have a intuit_institution_login_id key' do
+      controller.updating?.should be_false
     end
   end
 end

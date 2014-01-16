@@ -4,6 +4,7 @@ class InstitutionsController < ApplicationController
   before_filter :most_popular, only: [:search, :search_results]
 
   helper_method :reverifying?, :reverifying?
+  helper_method :updating?, :updating?
 
   def search
     redirect_to wallet_path(link_card: true) if Rails.env.production?
@@ -68,6 +69,8 @@ class InstitutionsController < ApplicationController
       elsif !response['error']
         if reverifying?
           redirect_to reverification_complete_path
+        elsif updating?
+          redirect_to institution_login_credentials_updated_path(session[:institution_id])
         else
           render partial: 'select_account', locals: {accounts: Array(response['value'])}
         end
@@ -111,11 +114,11 @@ class InstitutionsController < ApplicationController
     session.has_key?(:reverification_id)
   end
 
-private
-
   def updating?
-    reverifying? && session.has_key?(:intuit_institution_login_id)
+    session.has_key?(:intuit_institution_login_id)
   end
+
+private
 
   def users_institution_registered?
     Plink::UsersInstitutionService.users_institution_registered?(
