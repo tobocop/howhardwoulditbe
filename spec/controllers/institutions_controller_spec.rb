@@ -426,86 +426,87 @@ describe InstitutionsController do
   end
 
   describe 'POST select' do
-    let(:staged_account_record) { create_users_institution_account_staging(account_id: 4, user_id: 1) }
+    let(:users_institution_account_staging) do
+      attributes = {id: 6, account_id: 4, user_id: 1, users_institution_id: 1234, values_for_final_account: {}}
+      double(:users_institution_account_staging, attributes)
+    end
+    let(:users_institution_account) { mock_model(Plink::UsersInstitutionAccountRecord) }
+    let(:intuit_update) { double(:intuit_update, select_account!: users_institution_account) }
+    let(:users_institution_account_records) { double(update_all: 0) }
 
     before do
+      Plink::UsersInstitutionAccountStagingRecord.stub_chain(:where, :first).
+          and_return(users_institution_account_staging)
+      Plink::UsersInstitutionAccountRecord.stub(:create).and_return(users_institution_account)
       create_event_type(name: Plink::EventTypeRecord.card_add_type)
+      IntuitUpdate.stub(:new).and_return(intuit_update)
     end
 
     context 'without previously existing account records' do
-      it 'selects the account that the user chose as the active account' do
-        post :select, intuit_account_id: staged_account_record.account_id
-        account_record = Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountStagingID: staged_account_record.id)
-        account_record.length.should == 1
-        account_record.first.begin_date.to_date.should == Date.current
-        account_record.first.end_date.to_date.should == 100.years.from_now.to_date
-        account_record.first.in_intuit.should be_true
-        account_record.first.is_active.should be_true
+      it 'assigns the selected account' do
+        post :select, intuit_account_id: users_institution_account_staging.account_id
+
+        assigns(:selected_account).should == users_institution_account
       end
 
-      it 'assigns the selected account' do
-        post :select, intuit_account_id: staged_account_record.account_id
-        assigns(:selected_account).should be_present
+      it 'returns the institution_authenticated_pixel' do
+        institution_authenticated_pixel = double
+        controller.stub(:institution_authenticated).and_return(institution_authenticated_pixel)
+
+        post :select, intuit_account_id: users_institution_account_staging.account_id
+
+        assigns(:institution_authenticated_pixel).should == institution_authenticated_pixel
       end
 
       it 'renders the congratulations view' do
-        post :select, intuit_account_id: staged_account_record.account_id
+        Plink::UsersInstitutionAccountRecord.stub_chain(:where, :update_all)
+
+        post :select, intuit_account_id: users_institution_account_staging.account_id
+
         response.should render_template 'congratulations'
       end
 
       it 'tracks an institution authenticated event' do
-        Plink::EventService.any_instance.should_receive(:create_institution_authenticated).with(
-          staged_account_record.user_id,
-          affiliate_id: '1',
-          campaign_hash: nil,
-          campaign_id: nil,
-          ip: request.remote_ip,
-          landing_page_id: nil,
-          path_id: '1',
-          referrer_id: nil,
-          sub_id: nil,
-          sub_id_four: nil,
-          sub_id_three: nil,
-          sub_id_two: nil
-        ).and_call_original
+        Plink::UsersInstitutionAccountRecord.stub(:where).and_return(users_institution_account_records)
 
-        post :select, intuit_account_id: staged_account_record.account_id
+        controller.should_receive(:institution_authenticated).with(0, 1)
+
+        post :select, intuit_account_id: users_institution_account_staging.account_id
       end
 
-      it 'sets the institution authenticated pixel' do
-        controller.should_receive(:track_institution_authenticated).and_return(double(institution_authenticated_pixel: 'asd'))
-        post :select, intuit_account_id: staged_account_record.account_id
-        assigns(:institution_authenticated_pixel).should == 'asd'
+      it 'returns the institution authenticated pixel' do
+        pixel = double
+        controller.stub(:institution_authenticated).and_return(pixel)
+
+        post :select, intuit_account_id: users_institution_account_staging.account_id
+
+        assigns(:institution_authenticated_pixel).should == pixel
       end
     end
 
     context 'with previously existing account records' do
       let!(:existing_account_record) { create_users_institution_account(
         users_institution_account_staging_id: 8877,
-        users_institution_id: staged_account_record.users_institution_id
+        users_institution_id: users_institution_account_staging.users_institution_id
       )}
 
-      it 'end dates all previously existing usersInstitutionAccount records, but not the new account record' do
-        post :select, intuit_account_id: staged_account_record.account_id
+      it 'calls IntuitUpdate#select_account!' do
+        Plink::UsersInstitutionAccountRecord.stub(:where).and_return(users_institution_account_records)
 
-        account_records = Plink::UsersInstitutionAccountRecord.all
-        account_records.each do |account_record|
-          if account_record.users_institution_account_staging_id != 8877
-            account_record.end_date.to_date.should == 100.years.from_now.to_date
-          else
-            account_record.end_date.to_date.should == Date.current
-          end
-        end
+        intuit_update.should_receive(:select_account!).
+          with(users_institution_account_staging, 'a+')
+
+        post :select, intuit_account_id: users_institution_account_staging.account_id, account_type: 'a+'
       end
 
       it 'does not track an institution authenticated event' do
         Plink::EventService.any_instance.should_not_receive(:create_institution_authenticated)
 
-        post :select, intuit_account_id: staged_account_record.account_id
+        post :select, intuit_account_id: users_institution_account_staging.account_id
       end
 
       it 'does not set the institution authenticated pixel' do
-        post :select, intuit_account_id: staged_account_record.account_id
+        post :select, intuit_account_id: users_institution_account_staging.account_id
 
         assigns(:institution_authenticated_pixel).should be_nil
       end

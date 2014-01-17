@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/cloocher/aggcat
-  revision: d8a761ac98e2402efaeabec6730584541eaa25de
+  revision: 340c0ba2abdf94d042da4685093fbde05328fe94
   specs:
-    aggcat (0.3.2)
+    aggcat (0.3.3)
       activesupport (>= 3.2)
       builder (>= 3.0)
       oauth (>= 0.4)
@@ -125,7 +125,7 @@ GEM
     diff-lcs (1.2.5)
     dotenv (0.8.0)
     erubis (2.7.0)
-    escape_utils (1.0.0)
+    escape_utils (1.0.1)
     eventmachine (1.0.3)
     exceptional (2.0.33)
       rack
@@ -168,7 +168,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.23)
     mini_portile (0.5.1)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     multipart-post (1.2.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -182,7 +182,7 @@ GEM
       mini_portile (~> 0.5.0)
     oauth (0.4.7)
     orm_adapter (0.4.0)
-    ox (2.0.11)
+    ox (2.0.12)
     pg (0.17.0)
     polyglot (0.3.3)
     pry (0.9.12.2)

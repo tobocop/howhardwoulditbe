@@ -133,10 +133,27 @@ describe Intuit::Request do
     it 'logs the response' do
       aggcat.stub(:institution).and_return('so doge')
 
-      method_and_params = {method: :institution, params: {:intuit_institution_id=>"ABCD"}}
+      method_and_params = {method: :institution, params: {intuit_institution_id: "ABCD"}}
       logger.should_receive(:log_and_return_response).with('so doge', 1, method_and_params)
 
       Intuit::Request.new(1).institution_data('ABCD')
+    end
+  end
+
+  describe '#update_account_type' do
+    it 'calls updateAccountType [PUT "/accounts/#{account_id}"]' do
+      aggcat.should_receive(:update_account_type).with(1234567, 'BEST ACCOUNT TYPE')
+
+      Intuit::Request.new(123).update_account_type(1234567, 'BEST ACCOUNT TYPE')
+    end
+
+    it 'logs the response' do
+      aggcat.stub(:update_account_type).and_return('so doge')
+
+      method_and_params = {method: :update_account_type, params: {account_id: 1234567, account_type: 'BEST ACCOUNT TYPE'}}
+      logger.should_receive(:log_and_return_response).with('so doge', 1, method_and_params)
+
+      Intuit::Request.new(1).update_account_type(1234567, 'BEST ACCOUNT TYPE')
     end
   end
 end

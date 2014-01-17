@@ -4,6 +4,8 @@
       $(document).on('submit', '#js-authentication-form', CardRegistration.submitForm);
       $(document).on('submit', '#js-text-based-mfa-form', CardRegistration.submitForm);
       $(document).on('click', '.js-go-back', CardRegistration.triggerBrowserBack);
+      $(document).on('click', '.account-type-other', CardRegistration.accountTypePrompt);
+      $(document).on('submit', '.js-account-type-selection-form', CardRegistration.submitAccountType);
     },
 
     submitForm: function (e) {
@@ -16,7 +18,7 @@
         type: 'POST',
         url: $form.attr('action')
       }).done(function() {
-        CardRegistration.showProgressBar();
+        CardRegistration.showProgressBar($(".institution-authentication-form"));
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       }).fail(function() {
         $('#duplicate').show();
@@ -27,9 +29,9 @@
       return false;
     },
 
-    showProgressBar: function () {
+    showProgressBar: function (selector) {
       var $progress_bar = $("#js-establishing-connection");
-      $(".institution-authentication-form").html($progress_bar.show());
+      selector.html($progress_bar.show());
     },
 
     pollForAccountResponse: function() {
@@ -46,10 +48,6 @@
       }).fail(function() {
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       });
-    },
-
-    redirectToSuccessPath: function(path) {
-      window.location = path;
     },
 
     triggerBrowserBack: function(e) {
@@ -94,6 +92,16 @@
     setActiveStep: function(stepNumber) {
       $('.steps').removeClass('active');
       $('.steps').slice(stepNumber, stepNumber + 1).addClass('active');
+    },
+
+    accountTypePrompt: function (e) {
+      var account = $(this).closest('form').find('#intuit_account_id').clone();
+      $('.js-account-type-selection-form').append(account);
+    },
+
+    submitAccountType: function (e) {
+      $(this).closest('.reveal-modal').foundation('reveal', 'close');
+      CardRegistration.showProgressBar($('.select-account-form'));
     }
   }
 })(window);

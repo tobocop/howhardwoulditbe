@@ -1,0 +1,16 @@
+#account_type_other.reveal-modal.modal.tiny
+  %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+  %h2.font-1p2em.font-w300 What type of account is this?
+  %p.font-p9em.font-w300.font-lightgray.mts.mbm Plink will only work with a credit or a debit account.
+  .account-type-selection-container
+    = form_tag institution_selection_path, class: 'js-account-type-selection-form width-40' do
+      = hidden_field_tag :account_type, 'credit'
+      = submit_tag 'Credit', class: 'button primary-action mrm'
+    = form_tag institution_selection_path, class: 'js-account-type-selection-form width-40' do
+      = hidden_field_tag :account_type, 'debit'
+      = submit_tag 'Debit', class: 'button primary-action'
+  .font-p9em.font-w300.font-lightgray.mtm
+    Need help?
+    %span
+      = link_to 'Contact support.', contact_path, class:'text-link font-w300', target: '_blank'
+.clear

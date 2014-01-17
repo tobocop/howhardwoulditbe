@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Plink::IntuitAccountService do
-
-  describe 'find_by_user_id' do
+  describe '#find_by_user_id' do
     let(:user) { create_user }
 
     before do
@@ -27,7 +26,7 @@ describe Plink::IntuitAccountService do
     end
   end
 
-  describe 'user_has_account?' do
+  describe '#user_has_account?' do
     it 'returns true if the user has an active intuit account' do
       Plink::ActiveIntuitAccountRecord.should_receive(:user_has_account?).with(4).and_return(true)
 

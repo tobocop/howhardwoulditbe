@@ -61,6 +61,12 @@ module Intuit
       log_and_return_response(@aggcat.institution(intuit_institution_id), method_and_params)
     end
 
+    def update_account_type(account_id, account_type)
+      method_and_params = {method: :update_account_type, params: {account_id: account_id, account_type: account_type}}
+
+      log_and_return_response(@aggcat.update_account_type(account_id, account_type), method_and_params)
+    end
+
   private
 
     def log_and_return_response(intuit_response, method_and_params)

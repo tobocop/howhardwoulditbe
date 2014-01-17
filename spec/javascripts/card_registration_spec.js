@@ -2,22 +2,28 @@ describe('CardRegistration', function() {
   beforeEach(function () {
     $('#jasmine_content').html(
       '<div class="reg">' +
-        '<div class="layout-inner">' +
-          '<span class="left-column"><div class="steps first">lets get started</div>' +
-          '  <div class="steps active"></div><div class="steps"></div>' +
-          '</span>' +
-          '<div class="right-column"></div>' +
-          '<a href="#" class="js-go-back">Link Me</a>' +
-          '<div id="duplicate" style="display: none">duplicate</div>' +
-          '<div id="please-login">please-login</div>' +
-          '<div class="institution-authentication-form">' +
-          '  <form id="js-authentication-form" action="/stuff">' +
-          '    <input type="submit" />' +
-          '  </form>' +
-          '  <form id="js-text-based-mfa-form" action="/stuff"></form>' +
-          '</div>' +
-        '</div>' +
+      '  <div class="layout-inner">' +
+      '    <span class="left-column"><div class="steps first">lets get started</div>' +
+      '      <div class="steps active"></div><div class="steps"></div>' +
+      '    </span>' +
+      '    <div class="right-column"></div>' +
+      '    <a href="#" class="js-go-back">Link Me</a>' +
+      '    <div id="duplicate" style="display: none">duplicate</div>' +
+      '    <div id="please-login">please-login</div>' +
+      '    <div class="institution-authentication-form">' +
+      '      <form id="js-authentication-form" class="js-account-type-selection-form" action="/stuff">' +
+      '        <input type="hidden" id="intuit_account_id" value="12345"/>' +
+      '        <input type="submit" />' +
+      '      </form>' +
+      '      <form id="js-text-based-mfa-form" action="/stuff"></form>' +
+      '    </div>' +
+      '  </div>' +
       '</div>' +
+      '<div class="content-replacement"></div>' +
+      '<form>' +
+      '  <p id="intuit_account_id">Cool Story</p>' +
+      '</form>' +
+      '<input type="submit" class="account-type-other"></input>' +
       '<span id="js-establishing-connection">Connecting</span>'
     );
   });
@@ -29,7 +35,6 @@ describe('CardRegistration', function() {
       });
 
       CardRegistration.bindEvents();
-
       $("#js-authentication-form").trigger('submit');
 
       expect(CardRegistration.submitForm).toHaveBeenCalled();
@@ -41,13 +46,34 @@ describe('CardRegistration', function() {
       });
 
       CardRegistration.bindEvents();
-
       $("#js-text-based-mfa-form").trigger('submit');
 
       expect(CardRegistration.submitForm).toHaveBeenCalled();
     });
 
     xit('Triggering a click of the back button causes the spec suite to go back...');
+
+    it('binds on the click of .account-type-other', function () {
+      spyOn(CardRegistration, 'accountTypePrompt').andCallFake(function () {
+        return true;
+      });
+
+      CardRegistration.bindEvents();
+      $(".account-type-other").trigger('click');
+
+      expect(CardRegistration.accountTypePrompt).toHaveBeenCalled();
+    });
+
+    it('binds on the submission .js-account-type-selection-form', function () {
+      spyOn(CardRegistration, 'submitAccountType').andCallFake(function() {
+        return true;
+      });
+
+      CardRegistration.bindEvents();
+      $('.js-account-type-selection-form').submit();
+
+      expect(CardRegistration.submitAccountType).toHaveBeenCalled();
+    });
   });
 
   describe('#submitForm', function() {
@@ -123,10 +149,10 @@ describe('CardRegistration', function() {
   });
 
   describe('#showProgressBar', function() {
-    it('substitutes the contents of the authentication form with #js-establishing-connection', function () {
-      CardRegistration.showProgressBar();
+    it('takes the content of #js-establishing-connection and replaces the given selector with it', function(){
+      CardRegistration.showProgressBar($('.content-replacement'));
 
-      expect($('.institution-authentication-form span')).toEqual($('#js-establishing-connection'));
+      expect($('.content-replacement span')).toEqual($('#js-establishing-connection'));
     });
   });
 
@@ -252,11 +278,29 @@ describe('CardRegistration', function() {
     it('removes the active class from all existing steps', function() {
       CardRegistration.setActiveStep();
       expect($('.active').length).toEqual(0);
-    })
+    });
 
     it('sets the step passed in as the active step', function() {
       CardRegistration.setActiveStep(2);
       expect($('.steps')[2]).toHaveClass('active');
-    })
-  })
+    });
+  });
+
+  describe('#accountTypePrompt', function () {
+    it('appends the intuit_account_id to .js-account-type-selection-form', function () {
+      CardRegistration.accountTypePrompt();
+
+      expect($('.js-account-type-selection-form #intuit_account_id').val()).toEqual('12345');
+    });
+  });
+
+  describe('#submitAccountType', function () {
+    it('shows the progress bar', function () {
+      spyOn(CardRegistration, 'showProgressBar').andCallFake(function () {return true; });
+
+      CardRegistration.submitAccountType();
+
+      expect(CardRegistration.showProgressBar).toHaveBeenCalled();
+    });
+  });
 });

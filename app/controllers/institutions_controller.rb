@@ -72,7 +72,8 @@ class InstitutionsController < ApplicationController
         elsif updating?
           redirect_to institution_login_credentials_updated_path(session[:institution_id])
         else
-          render partial: 'select_account', locals: {accounts: Array(response['value'])}
+          accounts = banking_credit_other(response['value'])
+          render partial: 'select_account', locals: {accounts: accounts}
         end
       else
         institution_form(intuit_institution_data(@institution.intuit_institution_id), @institution)
@@ -97,14 +98,14 @@ class InstitutionsController < ApplicationController
 
   def select
     staged_account = Plink::UsersInstitutionAccountStagingRecord.
-      where('accountID = ?' , params[:intuit_account_id]).
-      where('userID = ?' , current_user.id).
-      first
+      where(accountID: params[:intuit_account_id], userID: current_user.id).first
 
     updated_accounts = Plink::UsersInstitutionAccountRecord.
       where(usersInstitutionID: staged_account.users_institution_id).
       update_all(endDate: Date.current)
-    @selected_account = Plink::UsersInstitutionAccountRecord.create(selected_account_values(staged_account))
+
+    @selected_account = IntuitUpdate.new(current_user.id).
+      select_account!(staged_account, params[:account_type])
     @institution_authenticated_pixel = institution_authenticated(updated_accounts, staged_account.user_id)
 
     render :congratulations
@@ -130,27 +131,6 @@ private
 
   def institution_authenticated(updated_accounts, user_id)
     track_institution_authenticated(user_id).institution_authenticated_pixel if updated_accounts == 0
-  end
-
-  def selected_account_values(staged_account)
-    {
-      account_id: staged_account.account_id,
-      account_number_hash: staged_account.account_number_hash,
-      account_number_last_four: staged_account.account_number_last_four,
-      account_type: staged_account.account_type,
-      account_type_description: staged_account.account_type_description,
-      aggr_attempt_date: staged_account.aggr_attempt_date,
-      aggr_status_code: staged_account.aggr_status_code,
-      aggr_success_date: staged_account.aggr_success_date,
-      begin_date: Date.current,
-      currency_code: staged_account.currency_code,
-      end_date: 100.years.from_now.to_date,
-      in_intuit: staged_account.in_intuit,
-      name: staged_account.name,
-      user_id: staged_account.user_id,
-      users_institution_account_staging_id: staged_account.id,
-      users_institution_id: staged_account.users_institution_id
-    }
   end
 
   def most_popular
@@ -231,5 +211,12 @@ private
 
   def intuit_institution_data(intuit_institution_id)
     IntuitInstitutionRequest.institution_data(current_user.id, intuit_institution_id)
+  end
+
+  def banking_credit_other(response)
+    Array(response).keep_if do |account|
+      account["type"] == 'bankingAccount' || account["type"] == 'creditAccount' ||
+        account["type"].nil?
+    end
   end
 end

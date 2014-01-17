@@ -30,6 +30,10 @@ module Intuit
     end
 
     def recursive_delete(hash, key_to_remove)
+      # When Intuit responds with: JBoss Web/2.1.12.GA-patch-03 - Error report there may
+      # be String keys present...
+      return if hash.is_a?(String)
+
       hash.delete(key_to_remove)
 
       hash.each_value do |value_or_values|
