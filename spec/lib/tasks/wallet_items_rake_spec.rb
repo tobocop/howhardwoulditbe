@@ -50,6 +50,15 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
     previously_unlocked_wallet.open_wallet_items.size.should == 1
     previously_unlocked_wallet.locked_wallet_items.should be_empty
   end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::WalletItemUnlockingService.stub(:unlock_transaction_items_for_eligible_users).
+      and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/unlock_transaction_wallet_item/)
+
+    subject.invoke
+  end
 end
 
 describe 'wallet_items:unlock_transaction_promotion_wallet_items' do
@@ -427,6 +436,54 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     other_users_non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
     non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/remove_expired_offers/)
+
+    subject.invoke
+  end
+
+  it 'includes the offers_virtual_currencies.id in the record-level exception text' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/offers_virtual_currencies\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/remove_expired_offers/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in task-level exceptions' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
+
+    subject.invoke
+  end
+
+  it 'does not include offers_virtual_currencies.id in task-level exceptions' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/offers_virtual_currencies\.id =/)
+
+    subject.invoke
+  end
 end
 
 describe "wallet_items:notify_users_of_expiring_offers" do
@@ -443,7 +500,6 @@ describe "wallet_items:notify_users_of_expiring_offers" do
       offers_virtual_currencies: [valid_offer_offers_virtual_currency]
     )
   }
-
 
   let(:expiring_offer_offers_virtual_currency) { create_offers_virtual_currency(virtual_currency_id: virtual_currency.id) }
   let!(:expiring_offer) {
@@ -498,13 +554,60 @@ describe "wallet_items:notify_users_of_expiring_offers" do
     )
 
     capture_stdout { subject.invoke }
-
   end
+
   it 'sends an email to everyone with an offer in their wallet that expires in 7 days' do
     capture_stdout { subject.invoke }
 
     ActionMailer::Base.deliveries.should_not be_empty
     ActionMailer::Base.deliveries.first.to.should == [user_with_expiring_offer.email]
   end
-end
 
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/notify_users_of_expiring_offers/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the offer.id in the record-level exception text' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/offer\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/notify_users_of_expiring_offers/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'does not include offer.id in the task-level exception text' do
+    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/offer\.id = \d+/)
+
+    subject.invoke
+  end
+end

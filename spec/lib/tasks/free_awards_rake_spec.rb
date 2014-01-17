@@ -87,6 +87,54 @@ describe 'free_awards:award_offer_add_bonuses' do
 
     user_eligible_for_offer_add_bonus.reload.is_awarded.should be_false
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/award_offer_add_bonuses/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the user_eligible_for_offer_add_bonus.id in the record-level exception text' do
+    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user_eligible_for_offer_add_bonus\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/award_offer_add_bonuses/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'does not include user_eligible_for_offer_add_bonus.id in the task-level exception text' do
+    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user_eligible_for_offer_add_bonus\.id = \d+/)
+
+    subject.invoke
+  end
 end
 
 describe 'free_awards:populate_award_types' do

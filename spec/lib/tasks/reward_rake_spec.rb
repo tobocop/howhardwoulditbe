@@ -90,6 +90,38 @@ describe 'reward:send_reward_notifications' do
 
     subject.invoke
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    Plink::UserService.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/send_reward_notifications/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    AutoLoginService.stub(:generate_token).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::AwardRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/send_reward_notifications/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::AwardRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
 end
 
 describe 'reward:insert_khols' do

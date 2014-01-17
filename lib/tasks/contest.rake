@@ -1,42 +1,36 @@
 namespace :contest do
   desc 'Reminder email for contest entrants who entered yesterday but not today'
   task daily_reminder_email: :environment do
-    puts "[#{Time.zone.now}] Beginning daily reminder email:"; stars
+    begin
+      puts "[#{Time.zone.now}] Beginning daily reminder email:"; stars
 
-    users_to_email = users_with_contest_reminders_who_have_not_entered_recently(1.day.ago.to_date)
+      users_to_email = users_with_contest_reminders_who_have_not_entered_recently(1.day.ago.to_date)
 
-    users_to_email.each do |user|
-      reminder_args = {
-        user_id: user.id,
-        first_name: user.first_name,
-        email: user.email
-      }
+      users_to_email.each do |user|
+        send_daily_reminder_email(user)
+      end
 
-      ContestMailer.daily_reminder_email(reminder_args).deliver
-      puts "[#{Time.zone.now}] ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
+      stars ; puts "[#{Time.zone.now}] End of daily reminder email."
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("daily_reminder_email Rake task failed #{$!}")
     end
-
-    stars ; puts "[#{Time.zone.now}] End of daily reminder email."
   end
 
   desc 'Reminder email for contest entrants who entered three days ago, but not since'
   task three_day_reminder_email: :environment do
-    puts "[#{Time.zone.now}] Beginning daily reminder email:"; stars
+    begin
+      puts "[#{Time.zone.now}] Beginning daily reminder email:"; stars
 
-    users_to_email = users_with_contest_reminders_who_have_not_entered_recently(3.days.ago.to_date)
+      users_to_email = users_with_contest_reminders_who_have_not_entered_recently(3.days.ago.to_date)
 
-    users_to_email.each do |user|
-      reminder_args = {
-        user_id: user.id,
-        first_name: user.first_name,
-        email: user.email
-      }
+      users_to_email.each do |user|
+        send_three_day_reminder_email(user)
+      end
 
-      ContestMailer.three_day_reminder_email(reminder_args).deliver
-      puts "[#{Time.zone.now}] Sent 3 day reminder email to ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
+      stars; puts "[#{Time.zone.now}] End of three day reminder email."
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("three_day_reminder_email Rake task failed #{$!}")
     end
-
-    stars; puts "[#{Time.zone.now}] End of three day reminder email."
   end
 
   desc 'Create contest prize levels for a given contest_id'
@@ -167,6 +161,38 @@ namespace :contest do
       else
         puts "[#{Time.zone.now}] ISSUE WITH GIGYA: user_id: #{user.id} LOGGED ERRORS: error_code: #{response.error_code} status_code: #{response.status_code}"
       end
+    end
+  end
+
+private
+
+  def send_daily_reminder_email(user)
+    begin
+      reminder_args = {
+        user_id: user.id,
+        first_name: user.first_name,
+        email: user.email
+      }
+
+      ContestMailer.daily_reminder_email(reminder_args).deliver
+      puts "[#{Time.zone.now}] ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
+    rescue Exception
+      ::Exceptional::Catcher.handle("daily_reminder_email failure for user.id = #{user.id} #{$!}")
+    end
+  end
+
+  def send_three_day_reminder_email(user)
+    begin
+      reminder_args = {
+        user_id: user.id,
+        first_name: user.first_name,
+        email: user.email
+      }
+
+      ContestMailer.three_day_reminder_email(reminder_args).deliver
+      puts "[#{Time.zone.now}] Sent 3 day reminder email to ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
+    rescue Exception
+      ::Exceptional::Catcher.handle("three_day_reminder_email failure for user.id = #{user.id} #{$!}")
     end
   end
 end

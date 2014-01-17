@@ -31,7 +31,7 @@ describe 'reverifications:insert_reverification_notices' do
       )
     }
 
-    it 'immediately queues a reverifciation notice for error code 103' do
+    it 'immediately queues a reverification notice for error code 103' do
       Plink::UserReverificationRecord.should_receive(:create).
         with({
           intuit_error_id: 103,
@@ -43,7 +43,7 @@ describe 'reverifications:insert_reverification_notices' do
       capture_stdout { subject.invoke }
     end
 
-    it 'immediately queues a reverifciation notice for error code 106' do
+    it 'immediately queues a reverification notice for error code 106' do
       user_intuit_error.update_attribute('intuit_error_id', 106)
 
       Plink::UserReverificationRecord.should_receive(:create).
@@ -57,7 +57,7 @@ describe 'reverifications:insert_reverification_notices' do
       capture_stdout { subject.invoke }
     end
 
-    it 'immediately queues a reverifciation notice for error code 108' do
+    it 'immediately queues a reverification notice for error code 108' do
       user_intuit_error.update_attribute('intuit_error_id', 108)
 
       Plink::UserReverificationRecord.should_receive(:create).
@@ -71,7 +71,7 @@ describe 'reverifications:insert_reverification_notices' do
       capture_stdout { subject.invoke }
     end
 
-    it 'immediately queues a reverifciation notice for error code 109' do
+    it 'immediately queues a reverification notice for error code 109' do
       user_intuit_error.update_attribute('intuit_error_id', 109)
 
       Plink::UserReverificationRecord.should_receive(:create).
@@ -93,7 +93,7 @@ describe 'reverifications:insert_reverification_notices' do
       capture_stdout { subject.invoke }
     end
 
-    it 'does not queue duplicate reverifciation notices' do
+    it 'does not queue duplicate reverification notices' do
       user_intuit_error = create_user_intuit_error(
         intuit_error_id: 103,
         user_id: user.id,
@@ -105,20 +105,68 @@ describe 'reverifications:insert_reverification_notices' do
       Plink::UserReverificationRecord.all.length.should == 1
     end
 
-    it 'does not queue reverifciation notices to force deactivated members' do
+    it 'does not queue reverification notices to force deactivated members' do
       user.update_attribute('isForceDeactivated', true)
 
       Plink::UserReverificationRecord.should_not_receive(:create)
       capture_stdout { subject.invoke }
     end
 
-    it 'does not queue reverifciation notices to white label members' do
+    it 'does not queue reverification notices to white label members' do
       swagbucks = create_virtual_currency(subdomain: 'swagbucks')
       user.primary_virtual_currency = swagbucks
       user.save
 
       Plink::UserReverificationRecord.should_not_receive(:create)
       capture_stdout { subject.invoke }
+    end
+
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      Plink::UserReverificationRecord.stub(:create).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/insert_reverification_notices/)
+
+      subject.invoke
+    end
+
+    it 'includes the user.id in the record-level exception text' do
+      Plink::UserReverificationRecord.stub(:create).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+      subject.invoke
+    end
+
+    it 'includes the user_intuit_error.id in the record-level exception text' do
+      Plink::UserReverificationRecord.stub(:create).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/user_intuit_error\.id = \d+/)
+
+      subject.invoke
+    end
+
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::UserIntuitErrorRecord.stub(:errors_that_require_attention).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/insert_reverification_notices/)
+
+      subject.invoke
+    end
+
+    it 'does not include user.id in the task-level exception text' do
+      Plink::UserIntuitErrorRecord.stub(:errors_that_require_attention).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
+
+      subject.invoke
+    end
+
+    it 'does not include user_intuit_error.id in the task-level exception text' do
+      Plink::UserIntuitErrorRecord.stub(:errors_that_require_attention).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user_intuit_error\.id =/)
+
+      subject.invoke
     end
   end
 
@@ -265,6 +313,54 @@ describe 'reverifications:send_reverification_notices' do
       capture_stdout { subject.invoke }
 
       user_reverification.reload.is_notification_successful.should be_true
+    end
+
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      Plink::IntuitAccountService.any_instance.stub(:find_by_user_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/send_reverification_notices/)
+
+      subject.invoke
+    end
+
+    it 'includes the user.id in the record-level exception text' do
+      Plink::IntuitAccountService.any_instance.stub(:find_by_user_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+      subject.invoke
+    end
+
+    it 'includes the reverification_record.id in the record-level exception text' do
+      Plink::IntuitAccountService.any_instance.stub(:find_by_user_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/reverification_record\.id = \d+/)
+
+      subject.invoke
+    end
+
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::UserReverificationRecord.stub(:requiring_notice).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/send_reverification_notices/)
+
+      subject.invoke
+    end
+
+    it 'does not include user.id in the task-level exception text' do
+      Plink::UserReverificationRecord.stub(:requiring_notice).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+      subject.invoke
+    end
+
+    it 'does not include reverification_record.id in the task-level exception text' do
+      Plink::UserReverificationRecord.stub(:requiring_notice).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/reverification_record\.id = \d+/)
+
+      subject.invoke
     end
   end
 
@@ -439,6 +535,54 @@ describe 'reverifications:remove_accounts_with_expired_reverifications' do
 
     capture_stdout { subject.invoke }
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    Intuit::AccountRemovalService.stub(:delay).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/remove_accounts_with_expired_reverifications/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    Intuit::AccountRemovalService.stub(:delay).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the user_reverification_record.id in the record-level exception text' do
+    Intuit::AccountRemovalService.stub(:delay).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user_reverification_record\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::UserReverificationRecord.stub(:incomplete).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/remove_accounts_with_expired_reverifications/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::UserReverificationRecord.stub(:incomplete).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'does not include user_reverification_record.id in the task-level exception text' do
+    Plink::UserReverificationRecord.stub(:incomplete).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user_reverification_record\.id = \d+/)
+
+    subject.invoke
+  end
 end
 
 describe 'reverifications:set_status_code_108_to_completed' do
@@ -516,6 +660,54 @@ describe 'reverifications:set_status_code_108_to_completed' do
     intuit_request.should_receive(:account).with(400010242913).and_return(intuit_response)
 
     capture_stdout { subject.invoke }
+  end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    Plink::IntuitAccountService.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/set_status_code_108_to_completed/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    Plink::IntuitAccountService.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the reverification.id in the record-level exception text' do
+    Plink::IntuitAccountService.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/reverification\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::UserReverificationRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/set_status_code_108_to_completed/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::UserReverificationRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'does not include reverification.id in the task-level exception text' do
+    Plink::UserReverificationRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/reverification\.id = \d+/)
+
+    subject.invoke
   end
 
   context 'for a user who has a non-108 aggr_status_code' do

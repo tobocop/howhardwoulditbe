@@ -182,5 +182,53 @@ describe 'non_qualifying_transactions:send_offer_add_bonus_emails' do
 
     subject.invoke
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    Plink::UserRecord.stub(:find_by_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/send_offer_add_bonus_emails/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    Plink::UserRecord.stub(:find_by_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'includes the offer.id in the record-level exception text' do
+    Plink::UserRecord.stub(:find_by_id).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/offer\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+    Plink::TransactionEligibleForBonusRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/send_offer_add_bonus_emails/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in the task-level exception text' do
+    Plink::TransactionEligibleForBonusRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
+
+    subject.invoke
+  end
+
+  it 'does not include offer.id in the task-level exception text' do
+    Plink::TransactionEligibleForBonusRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/offer\.id =/)
+
+    subject.invoke
+  end
 end
 

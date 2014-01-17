@@ -1,7 +1,11 @@
 namespace :wallet_items do
   desc "Unlock wallet items for users who have a qualifying transaction"
   task unlock_transaction_wallet_item: :environment do
-    Plink::WalletItemUnlockingService.unlock_transaction_items_for_eligible_users
+    begin
+      Plink::WalletItemUnlockingService.unlock_transaction_items_for_eligible_users
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("unlock_transaction_wallet_item Rake task failed #{$!}")
+    end
   end
 
   desc 'Unlocks wallet items during the promotional period'
@@ -38,52 +42,34 @@ namespace :wallet_items do
 
   desc 'Removes all expired offers from users wallets and end dates their associated tiers'
   task remove_expired_offers: :environment do
-    expired_offers = offers_with_end_date_between_given_dates(7.days.ago.to_date, Date.current)
+    begin
+      expired_offers = offers_with_end_date_between_given_dates(7.days.ago.to_date, Date.current)
 
-    ten_thirty = Time.zone.parse("#{Date.current} 10:30:00")
+      run_at = Time.zone.parse("#{Date.current} 10:30:00")
 
-    expired_offers.each do |expired_offer|
-      expired_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
-
-        offers_virtual_currency.live_tiers.each do |tier_record|
-          tier_record.update_attributes(end_date: expired_offer.end_date)
-        end
-
-        user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|
-          Plink::RemoveOfferFromWalletService.new(user_record.id, expired_offer.id).remove_offer
-
-          user_token = AutoLoginService.generate_token(user_record.id)
-          OfferExpirationMailer.delay(run_at: ten_thirty)
-            .offer_removed_email(
-              first_name: user_record.first_name,
-              email:  user_record.email,
-              advertiser_name: expired_offer.advertiser.advertiser_name,
-              user_token: user_token
-            )
-        end
+      expired_offers.each do |expired_offer|
+        remove_expired_offer(expired_offer, run_at)
       end
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("remove_expired_offers Rake task failed #{$!}")
     end
   end
 
   desc 'Notifies users 7 days before an offer in their wallet is going to expire'
   task notify_users_of_expiring_offers: :environment do
-    offers_expiring_in_seven_days = offers_with_end_date_between_given_dates(7.days.from_now.to_date, 8.days.from_now.to_date)
+    begin
+      offers_expiring_in_seven_days = offers_with_end_date_between_given_dates(7.days.from_now.to_date, 8.days.from_now.to_date)
 
-    offers_expiring_in_seven_days.each do |expiring_offer|
-      next unless expiring_offer.send_expiring_soon_reminder
-      expiring_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
-        user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|
-          user_token = AutoLoginService.generate_token(user_record.id)
-          OfferExpirationMailer.delay
-            .offer_expiring_soon_email(
-              first_name: user_record.first_name,
-              email:  user_record.email,
-              end_date: expiring_offer.end_date,
-              advertiser_name: expiring_offer.advertiser.advertiser_name,
-              user_token: user_token
-            )
+      offers_expiring_in_seven_days.each do |expiring_offer|
+        next unless expiring_offer.send_expiring_soon_reminder
+        expiring_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
+          user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|
+            send_expiring_offer_notification(expiring_offer, user_record)
+          end
         end
       end
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("notify_users_of_expiring_offers Rake task failed #{$!}")
     end
   end
 
@@ -123,6 +109,51 @@ private
   def offers_with_end_date_between_given_dates(starting_date, ending_date)
     Plink::OfferRecord.where('endDate >= ? AND endDate < ?', starting_date, ending_date)
       .includes(:advertiser)
+  end
+
+  def remove_expired_offer(expired_offer, run_at)
+    expired_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
+      offers_virtual_currency.live_tiers.each do |tier_record|
+        tier_record.update_attributes(end_date: expired_offer.end_date)
+      end
+
+      user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|
+        begin
+          Plink::RemoveOfferFromWalletService.new(user_record.id, expired_offer.id).remove_offer
+
+          user_token = AutoLoginService.generate_token(user_record.id)
+          OfferExpirationMailer.delay(run_at: run_at)
+            .offer_removed_email(
+              first_name: user_record.first_name,
+              email:  user_record.email,
+              advertiser_name: expired_offer.advertiser.advertiser_name,
+              user_token: user_token
+            )
+        rescue Exception
+          message = "remove_expired_offers failure for user.id = #{user_record.id}, "
+          message << "offers_virtual_currencies.id = #{offers_virtual_currency.id}"
+          ::Exceptional::Catcher.handle("#{message} #{$!}")
+        end
+      end
+    end
+  end
+
+  def send_expiring_offer_notification(expiring_offer, user_record)
+    begin
+      user_token = AutoLoginService.generate_token(user_record.id)
+      OfferExpirationMailer.delay
+        .offer_expiring_soon_email(
+          first_name: user_record.first_name,
+          email:  user_record.email,
+          end_date: expiring_offer.end_date,
+          advertiser_name: expiring_offer.advertiser.advertiser_name,
+          user_token: user_token
+        )
+    rescue Exception
+      message = "notify_users_of_expiring_offers failure for user.id = #{user_record.id}, "
+      message << "offer.id = #{expiring_offer.id}"
+      ::Exceptional::Catcher.handle("#{message} #{$!}")
+    end
   end
 
   def stars

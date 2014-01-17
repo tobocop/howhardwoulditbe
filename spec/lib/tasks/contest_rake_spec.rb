@@ -69,6 +69,40 @@ describe 'contest:daily_reminder_email', skip_in_build: true do
 
     subject.invoke
   end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+    ContestMailer.stub(:daily_reminder_email).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/daily_reminder_email/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+    ContestMailer.stub(:daily_reminder_email).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
+    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/daily_reminder_email/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in task-level exceptions' do
+    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
+
+    subject.invoke
+  end
 end
 
 describe 'contest:three_day_reminder_email', skip_in_build: true do
@@ -118,6 +152,40 @@ describe 'contest:three_day_reminder_email', skip_in_build: true do
     subject.invoke
 
     ActionMailer::Base.deliveries.should be_empty
+  end
+
+  it 'logs record-level exceptions to Exceptional with the Rake task name' do
+    create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
+    ContestMailer.stub(:three_day_reminder_email).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/three_day_reminder_email/)
+
+    subject.invoke
+  end
+
+  it 'includes the user.id in the record-level exception text' do
+    create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
+    ContestMailer.stub(:three_day_reminder_email).and_raise(Exception)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+
+    subject.invoke
+  end
+
+  it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
+    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_receive(:handle).with(/three_day_reminder_email/)
+
+    subject.invoke
+  end
+
+  it 'does not include user.id in task-level exceptions' do
+    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
+
+    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
+
+    subject.invoke
   end
 end
 
