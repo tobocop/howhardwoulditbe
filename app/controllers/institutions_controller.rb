@@ -140,7 +140,7 @@ private
   def authenticate_intuit(user_and_password)
     encrypted_creds = ENCRYPTION.encrypt_and_sign(user_and_password)
 
-    intuit_request.delay(priority: -100).authenticate(encrypted_creds)
+    intuit_request.delay(queue: 'intuit_authentication').authenticate(encrypted_creds)
   end
 
   def parse_answers
@@ -151,7 +151,7 @@ private
   def intuit_mfa(answers)
     encrypted_answers = ENCRYPTION.encrypt_and_sign(answers)
 
-    intuit_request.delay(priority: -100).respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
+    intuit_request.delay(queue: 'intuit_authentication').respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
   end
 
   def intuit_request

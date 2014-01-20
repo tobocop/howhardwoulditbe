@@ -240,7 +240,9 @@ describe InstitutionsController do
 
         IntuitAccountRequest.should_receive(:new).with(1, anything, 14, anything, anything).and_return(intuit_account_request)
 
-        intuit_account_request.should_receive(:delay).and_return(delayed_intuit_account_request)
+        intuit_account_request.should_receive(:delay).
+          with(queue: 'intuit_authentication').
+          and_return(delayed_intuit_account_request)
         delayed_intuit_account_request.should_receive(:authenticate).with(anything)
 
         post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
@@ -254,7 +256,9 @@ describe InstitutionsController do
         delayed_intuit_update_request = double
 
         IntuitUpdateRequest.should_receive(:new).with(1, anything, 14, 4).and_return(intuit_update_request)
-        intuit_update_request.should_receive(:delay).and_return(delayed_intuit_update_request)
+        intuit_update_request.should_receive(:delay).
+          with(queue: 'intuit_authentication').
+          and_return(delayed_intuit_update_request)
         delayed_intuit_update_request.should_receive(:authenticate).with(anything)
 
         post :authenticate, field_labels: ['field_one', 'field_two'], field_one: 'user', field_two: 'password'
