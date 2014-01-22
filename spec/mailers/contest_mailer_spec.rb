@@ -10,7 +10,7 @@ describe ContestMailer do
         day_one_subject: 'enter now enter now',
         day_one_body: 'daily reminder to enter this sweet contest',
         day_one_link_text: 'link to here',
-        day_one_image: 'http://www.baconmockup.com/400/400'
+        day_one_image: 'http://plink-email.s3.amazonaws.com/'
       )
     }
 
@@ -29,12 +29,16 @@ describe ContestMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'enter now enter now'
+      email.html_part.body.should have_content 'sneak peak'
+      email.html_part.body.should have_content 'link to here'
+      email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)
         body.should have_content 'Hey Merlin'
         body.should have_content 'daily reminder to enter this sweet contest'
       end
+
     end
   end
 
@@ -46,8 +50,8 @@ describe ContestMailer do
         three_day_preview: 'sneak peak',
         three_day_subject: 'hurry up and enter sooooooon',
         three_day_body: 'three days time to enter',
-        three_day_link_text: 'link to here',
-        three_day_image: 'http://www.baconmockup.com/400/400'
+        three_day_link_text: 'link to elsewhere',
+        three_day_image: 'http://plink-email.s3.amazonaws.com/'
       )
     }
 
@@ -66,6 +70,9 @@ describe ContestMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'hurry up and enter sooooooon'
+      email.html_part.body.should have_content 'sneak peak'
+      email.html_part.body.should have_content 'link to elsewhere'
+      email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)
@@ -83,7 +90,7 @@ describe ContestMailer do
         winner_subject: 'you won congrats',
         winner_body: 'you won some stuff',
         winner_link_text: 'link to there',
-        winner_image: 'http://www.baconmockup.com/400/400'
+        winner_image: 'http://plink-email.s3.amazonaws.com/'
       )
     }
 
@@ -102,6 +109,9 @@ describe ContestMailer do
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
       email.subject.should == 'you won congrats'
+      email.html_part.body.should have_content 'sneak peak'
+      email.html_part.body.should have_content 'link to there'
+      email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s

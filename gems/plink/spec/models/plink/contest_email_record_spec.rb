@@ -64,4 +64,17 @@ describe Plink::ContestEmailRecord do
   it { should allow_mass_assignment_of(:winner_body) }
   it { should allow_mass_assignment_of(:winner_link_text) }
   it { should allow_mass_assignment_of(:winner_image) }
+
+  describe '.find_by_contest_id' do
+    it 'returns the contest with the given id' do
+      contest = create_contest
+      contest_email = create_contest_email(contest_id: contest.id)
+
+      Plink::ContestEmailRecord.find_by_contest_id(contest.id).should == contest_email
+    end
+
+    it 'returns nil if no user present' do
+      Plink::ContestEmailRecord.find_by_contest_id(333).should == nil
+    end
+  end
 end

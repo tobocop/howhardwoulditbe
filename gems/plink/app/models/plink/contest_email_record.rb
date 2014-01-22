@@ -13,5 +13,9 @@ module Plink
       :day_one_subject, :three_day_body, :three_day_image, :three_day_link_text,
       :three_day_preview, :three_day_subject, :winner_body, :winner_image, :winner_link_text,
       :winner_preview, :winner_subject
+
+    def self.find_by_contest_id(id)
+      where(contest_id: id).first
+    end
   end
 end
