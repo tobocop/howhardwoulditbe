@@ -43,12 +43,15 @@ module TrackingExtensions
   end
 
   def track_institution_authenticated(user_id)
-    event = Plink::EventService.new.create_institution_authenticated(user_id, new_tracking_object_from_session.to_hash)
+    tracking_object = new_tracking_object_from_session
+    event = Plink::EventService.new.create_institution_authenticated(user_id, tracking_object.to_hash)
 
     if current_affiliate.has_incented_card_registration
       Plink::FreeAwardService.new(current_affiliate.card_registration_dollar_award_amount).
         award_user_incented_affiliate(user_id)
     end
+
+    Plink::ReferralService.award_referral(tracking_object.referrer_id, user_id)
 
     PixelPresenterFactory.build_by_event(event)
   end

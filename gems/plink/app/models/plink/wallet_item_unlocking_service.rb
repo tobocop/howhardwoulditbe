@@ -13,6 +13,11 @@ module Plink
       wallet_item_record.save
     end
 
+    def self.unlock_referral_slot(user_id)
+      wallet_record = Plink::UserRecord.find(user_id).wallet
+      self.unlock(wallet_record, Plink::WalletRecord.referral_unlock_reason) unless wallet_record.unlocked_referral_slot?
+    end
+
   private
 
     def self.unlock(wallet_record, reason)

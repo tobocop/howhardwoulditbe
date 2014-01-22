@@ -135,6 +135,7 @@ shared_examples_for(:tracking_extensions) do
       Plink::EventService.stub_chain(:new, :create_institution_authenticated).and_return(event)
       controller.stub(:current_affiliate).and_return(affiliate)
       PixelPresenterFactory.stub(:build_by_event).and_return(pixel_preseneter)
+      Plink::ReferralService.stub(:award_referral)
     end
 
     it 'tracks institution authenticated events' do
@@ -171,6 +172,11 @@ shared_examples_for(:tracking_extensions) do
 
         controller.track_institution_authenticated(34)
       end
+    end
+
+    it 'awards a referral' do
+      Plink::ReferralService.should_receive(:award_referral).with(nil, 34)
+      controller.track_institution_authenticated(34)
     end
   end
 

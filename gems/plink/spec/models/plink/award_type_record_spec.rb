@@ -30,4 +30,16 @@ describe Plink::AwardTypeRecord do
       incented_affiliate_award_type_id.should_not == other_award_type_record.id
     end
   end
+
+  describe '.referral_bonus_award_type_id' do
+    it 'returns the id of the award record with type = friendReferral' do
+      other_award_type_record = create_award_type(award_code: 'something_different')
+      referral_award_type_record = create_award_type(award_code: 'friendReferral')
+
+      referral_bonus_award_type_id = Plink::AwardTypeRecord.referral_bonus_award_type_id
+
+      referral_bonus_award_type_id.should == referral_award_type_record.id
+      referral_bonus_award_type_id.should_not == other_award_type_record.id
+    end
+  end
 end

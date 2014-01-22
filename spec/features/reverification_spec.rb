@@ -8,6 +8,7 @@ describe 'Reverifying', js: true, driver: :selenium do
     create_wallet(user_id: user.id)
     institution = create_institution(name: 'bank of awesome', is_supported: true, intuit_institution_id: 100000)
     create_event_type(name: Plink::EventTypeRecord.card_add_type)
+    create_award_type(award_code: 'incentivizedAffiliateID')
   end
 
   it 'allows a user to reverify login credentials' do

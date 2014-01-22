@@ -68,6 +68,10 @@ module Plink
       wallet_item_records.any? {|wallet_item_record| wallet_item_record.offers_virtual_currency_id == offers_virtual_currency_id}
     end
 
+    def unlocked_referral_slot?
+      wallet_item_records.map(&:unlock_reason).include?(self.class.referral_unlock_reason)
+    end
+
   private
 
     def self.wallets_without_item_unlocked(unlock_reason)

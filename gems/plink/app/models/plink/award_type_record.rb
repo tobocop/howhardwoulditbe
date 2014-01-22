@@ -15,5 +15,9 @@ module Plink
     def self.incented_affiliate_award_type_id
       where(awardCode: 'incentivizedAffiliateID').first.id
     end
+
+    def self.referral_bonus_award_type_id
+      where(awardCode: 'friendReferral').first.id
+    end
   end
 end

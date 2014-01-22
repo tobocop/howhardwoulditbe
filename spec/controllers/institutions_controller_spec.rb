@@ -444,6 +444,7 @@ describe InstitutionsController do
       Plink::UsersInstitutionAccountRecord.stub(:create).and_return(users_institution_account)
       create_event_type(name: Plink::EventTypeRecord.card_add_type)
       IntuitUpdate.stub(:new).and_return(intuit_update)
+      controller.stub(:track_institution_authenticated).and_return(double(institution_authenticated_pixel: 'pixel'))
     end
 
     context 'without previously existing account records' do
@@ -504,7 +505,7 @@ describe InstitutionsController do
       end
 
       it 'does not track an institution authenticated event' do
-        Plink::EventService.any_instance.should_not_receive(:create_institution_authenticated)
+        controller.should_not_receive(:track_institution_authenticated)
 
         post :select, intuit_account_id: users_institution_account_staging.account_id
       end

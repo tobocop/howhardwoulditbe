@@ -10,6 +10,8 @@ describe Plink::WalletRecord do
     }
   }
 
+  let(:wallet) { create_wallet }
+
   subject { Plink::WalletRecord.new(valid_params) }
 
   it_should_behave_like(:legacy_timestamps)
@@ -134,8 +136,6 @@ describe Plink::WalletRecord do
   end
 
   describe '#has_offers_virtual_currency' do
-    let(:wallet) { create_wallet }
-
     before do
       create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 4)
       create_populated_wallet_item(wallet_id: wallet.id, offers_virtual_currency_id: 9)
@@ -148,6 +148,20 @@ describe Plink::WalletRecord do
 
     it 'returns false if the provided offers_virtual_currency_id is not in the wallet' do
       wallet.has_offers_virtual_currency(6).should be_false
+    end
+  end
+
+  describe '#unlocked_referral_slot?' do
+    it 'returns true if the wallet has a wallet item with unlock reason of referral' do
+      create_open_wallet_item(unlock_reason: 'referral', wallet_id: wallet.id)
+
+      wallet.reload.unlocked_referral_slot?.should be_true
+    end
+
+    it 'returns false if the wallet does not have a wallet item with unlock reason of referral' do
+      create_open_wallet_item(unlock_reason: 'join', wallet_id: wallet.id)
+
+      wallet.reload.unlocked_referral_slot?.should be_false
     end
   end
 end

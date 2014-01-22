@@ -19,12 +19,19 @@ describe 'searching for a bank', js: true, driver: :selenium do
     user.primary_virtual_currency = virtual_currency
     user.save!
     create_award_type(award_code: 'incentivizedAffiliateID')
+    create_award_type(award_code: 'friendReferral')
     create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
     create_wallet(user_id: user.id)
   end
 
   it 'allows the user to search' do
-    visit "/tracking/new?aid=#{affiliate.id}"
+    user_two = create_user(email: 'iamreferring@plink.com', password: 'test123', first_name: 'Bobby')
+    create_users_virtual_currency(user_id: user_two.id, virtual_currency_id: virtual_currency.id)
+    wallet = create_wallet(user_id: user_two.id)
+    create_locked_wallet_item(wallet_id: wallet.id)
+
+    visit "/refer/#{user_two.id}/aid/#{affiliate.id}/"
+
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
@@ -119,6 +126,16 @@ describe 'searching for a bank', js: true, driver: :selenium do
     institution_authenticated_event = Plink::EventRecord.order('eventID desc').first
     institution_authenticated_event.event_type_id.should == institution_authenticated_event_type.id
     institution_authenticated_event.user_id.should == user.id
+
+    click_on 'Log Out'
+
+    sign_in('iamreferring@plink.com', 'test123')
+
+    page.should have_content('Welcome, Bobby!')
+    page.should have_content('You have 100 Plink Points.')
+
+    click_on 'Wallet'
+    page.should have_content 'This slot is empty.'
   end
 
   it 'allows users to complete image based MFAs' do
