@@ -14,7 +14,7 @@
     -# See https://github.com/plinkinc/plink-pivotal/commit/848d2f21312d817d3adb7aef1d132a1b270501d3
     -if contest.finalized?
       %h4= 'CONTEST WINNERS'
-      %h2= "#{plink_currency_format(contest_results_service.winners.first[0])} Gift Card:"
+      %h2= "#{contest.prize}:"
       %h2{class: 'cyan margin_bottom'}= contest_results_service.grand_prize_winners_list
       %h2= "#{plink_currency_format(contest_results_service.winners.second[0])} Gift Card:"
       %h2{class: 'cyan margin_bottom'}= contest_results_service.second_prize_winners_list
@@ -34,7 +34,10 @@
         - group_size = groups_for_number_of_winners(prize_level_result[1].length)
 
         %h3.cyan.strong= "#{(index +1).ordinalize} Prize:"
-        %h3.cyan= "#{points} Plink Points (#{dollars})"
+        - if index == 0
+          %h3.cyan= "#{contest.prize}:"
+        - else
+          %h3.cyan= "#{points} Plink Points (#{dollars})"
 
         - prize_level_result[1].each_slice(group_size) do |group|
           .group

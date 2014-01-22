@@ -48,7 +48,7 @@ describe 'Contests' do
           end_time: 2.days.ago.to_date,
           finalized_at: finalized_timestamp,
           image: '/assets/profile.jpg',
-          prize: 'The prize is a slightly used banana hammock.',
+          prize: 'A Banana Hammock',
           start_time: 10.days.ago.to_date,
           terms_and_conditions: 'May not be used as an undergarment. (Seriously, Kris.)'
         )
@@ -77,11 +77,13 @@ describe 'Contests' do
         page.should have_link 'View the complete list of winners'
         page.should_not have_link 'share to enter'
         page.should have_css '.image > .overlay-message'
+        page.should have_content 'A Banana Hammock:'
         page.should have_content 'JOHN M.'
         page.should have_content 'CINDY'
         page.should_not have_content 'BENNETT'
         click_on 'View the complete list of winners'
         page.should have_content 'Bennett'
+        page.should have_content 'A Banana Hammock:', count: 2
       end
     end
 
