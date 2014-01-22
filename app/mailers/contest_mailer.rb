@@ -26,6 +26,7 @@ class ContestMailer < ActionMailer::Base
   end
 
   def winner_email(args)
+    @contest_email = args[:contest_email]
     @contest_id = args[:contest_id]
     @email_address = args[:email]
     @first_name = args[:first_name]
@@ -35,7 +36,7 @@ class ContestMailer < ActionMailer::Base
     mail(
       to: args[:email],
       reply_to: 'support@plink.com',
-      subject: t('application.contests.emails.winner_email.subject')
+      subject: @contest_email.winner_subject
     )
   end
 end

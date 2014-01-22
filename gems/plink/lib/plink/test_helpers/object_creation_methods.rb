@@ -772,7 +772,12 @@ module Plink
         three_day_preview: 'preview three',
         three_day_body: 'you need to keep entering',
         three_day_link_text: 'link to somewhere',
-        three_day_image: 'http://www.picture.com'
+        three_day_image: 'http://www.picture.com',
+        winner_subject: 'you won',
+        winner_preview: 'winner day preview',
+        winner_body: 'you won our amazing contest',
+        winner_link_text: 'link to anywhere',
+        winner_image: 'http://winner.com'
       }
 
       Plink::ContestEmailRecord.new(defaults.merge(options))

@@ -76,12 +76,24 @@ describe ContestMailer do
   end
 
   describe 'winner_email' do
+    let(:contest_email) {
+      create_contest_email(
+        contest_id: 1,
+        winner_preview: 'sneak peak',
+        winner_subject: 'you won congrats',
+        winner_body: 'you won some stuff',
+        winner_link_text: 'link to there',
+        winner_image: 'http://www.baconmockup.com/400/400'
+      )
+    }
+
     it 'sends an email indicating that the person has won the contest' do
       email = ContestMailer.winner_email(
-        first_name: 'Merlin',
-        email: 'user@example.com',
-        user_id: 2,
+        contest_email: contest_email,
         contest_id: 1,
+        email: 'user@example.com',
+        first_name: 'Merlin',
+        user_id: 2,
         user_token: 'abcde12345'
       ).deliver
 
@@ -89,12 +101,11 @@ describe ContestMailer do
 
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
-      email.subject.should == "Plink's Super Bowl Sunday Giveaway Winners Announced!! See if you won!"
+      email.subject.should == 'you won congrats'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s
-        body.should =~ /Plink's Super Bowl Sunday Giveaway has ended\.\.\./
-        body.should =~ /Congratulations - You've won a prize in Plink's Super Bowl Sunday Giveaway! Did you win the grand prize\?/
+        body.should have_content 'you won some stuff'
         body.should =~ /abcde12345/
       end
     end

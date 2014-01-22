@@ -32,6 +32,11 @@ describe 'Contests' do
       page.should have_content "three day body can't be blank"
       page.should have_content "three day link text can't be blank"
       page.should have_content "three day image can't be blank"
+      page.should have_content "winner subject can't be blank"
+      page.should have_content "winner preview can't be blank"
+      page.should have_content "winner body can't be blank"
+      page.should have_content "winner link text can't be blank"
+      page.should have_content "winner image can't be blank"
     end
 
     fill_in 'Description', with: 'Awesome contest'
@@ -56,17 +61,23 @@ describe 'Contests' do
     fill_in 'Winning Post Body', with: 'enter the contest'
     fill_in 'In-App Notification', with: 'enter today, or else...'
 
-    fill_in 'Subject', with: 'hey you'
-    fill_in 'Preview', with: 'preview the email'
-    fill_in 'Body', with: 'first day email reminder body'
-    fill_in 'Link Text', with: 'link to somewhere'
-    fill_in 'S3 Image URL', with: 'http://www.images.com'
+    fill_in 'Subject (Daily)', with: 'hey you'
+    fill_in 'Preview (Daily)', with: 'preview the email'
+    fill_in 'Body (Daily)', with: 'first day email reminder body'
+    fill_in 'Link Text (Daily)', with: 'link to somewhere'
+    fill_in 'S3 Image URL (Daily)', with: 'http://www.images.com'
 
     fill_in 'Subject (3 Day)', with: 'you there'
     fill_in 'Preview (3 Day)', with: 'teaser text'
     fill_in 'Body (3 Day)', with: 'something or other'
     fill_in 'Link Text (3 Day)', with: 'go back to plink'
     fill_in 'S3 Image URL (3 Day)', with: 'http://www.pictures.com'
+
+    fill_in 'Subject (Winner)', with: 'winner winner winner'
+    fill_in 'Preview (Winner)', with: 'you won...'
+    fill_in 'Body (Winner)', with: '...something'
+    fill_in 'Link Text (Winner)', with: 'go back to the contest page'
+    fill_in 'S3 Image URL (Winner)', with: 'http://www.contestwinner.com'
 
     click_on 'Create'
 

@@ -62,9 +62,6 @@ en:
             text_link_message: "Please update your Plink account with your updated %{institution_name} login info by clicking here: %{reverification_link}"
     contests:
       card_linked: Congratulations! You'll now earn 5X the entries. Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases.
-      emails:
-        winner_email:
-          subject: Plink's Super Bowl Sunday Giveaway Winners Announced!! See if you won!
     rewards:
       emails:
         reward_notification_email:

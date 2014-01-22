@@ -53,15 +53,15 @@
   %h3 Email Content
   %h6 1 Day Reminder Email
   = f.fields_for :contest_emails do |email|
-    = email.label :day_one_subject, "Subject"
+    = email.label :day_one_subject, "Subject (Daily)"
     = email.text_field :day_one_subject
-    = email.label :day_one_preview, "Preview"
+    = email.label :day_one_preview, "Preview (Daily)"
     = email.text_field :day_one_preview
-    = email.label :day_one_body, "Body"
+    = email.label :day_one_body, "Body (Daily)"
     = email.text_field :day_one_body
-    = email.label :day_one_link_text, "Link Text"
+    = email.label :day_one_link_text, "Link Text (Daily)"
     = email.text_field :day_one_link_text
-    = email.label :day_one_image, "S3 Image URL"
+    = email.label :day_one_image, "S3 Image URL (Daily)"
     = email.text_field :day_one_image
 
   %h6 3 Day Reminder Email
@@ -76,6 +76,19 @@
     = email.text_field :three_day_link_text
     = email.label :three_day_image, "S3 Image URL (3 Day)"
     = email.text_field :three_day_image
+
+  %h6 Winner Email
+  = f.fields_for :contest_emails do |email|
+    = email.label :winner_subject, "Subject (Winner)"
+    = email.text_field :winner_subject
+    = email.label :winner_preview, "Preview (Winner)"
+    = email.text_field :winner_preview
+    = email.label :winner_body, "Body (Winner)"
+    = email.text_field :winner_body
+    = email.label :winner_link_text, "Link Text (Winner)"
+    = email.text_field :winner_link_text
+    = email.label :winner_image, "S3 Image URL (Winner)"
+    = email.text_field :winner_image
 
   = f.submit button_text, class: 'button small'
 

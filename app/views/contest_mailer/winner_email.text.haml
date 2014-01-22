@@ -1,10 +1,8 @@
 Hey #{@first_name},
 
-Plink's Super Bowl Sunday Giveaway has ended...
+= @contest_email.winner_body
 
-Congratulations - You've won a prize in Plink's Super Bowl Sunday Giveaway! Did you win the grand prize?
-
-Find out what I've won:
+= @contest_email.winner_link_text
 = contest_results_from_email_url(contest_id: @contest_id, user_token: @user_token)
 
 For every friend you refer to Plink, get EXTRA entries everyday. You can invite your friends via Facebook, Twitter, or by sending them your personal referral link:

@@ -8,7 +8,17 @@ describe Plink::ContestEmailRecord do
       day_one_preview: 'first day preview',
       day_one_body: 'enter our amazing contest',
       day_one_link_text: 'link to nowhere',
-      day_one_image: 'http://image.com'
+      day_one_image: 'http://image.com',
+      three_day_subject: 'enter the third day',
+      three_day_preview: 'third day preview',
+      three_day_body: 'enter our sweet contest',
+      three_day_link_text: 'link to somewhere',
+      three_day_image: 'http://picture.com',
+      winner_subject: 'you won',
+      winner_preview: 'winner day preview',
+      winner_body: 'you won our amazing contest',
+      winner_link_text: 'link to anywhere',
+      winner_image: 'http://winner.com'
     }
   }
 
@@ -31,6 +41,11 @@ describe Plink::ContestEmailRecord do
     it { should validate_presence_of(:three_day_body) }
     it { should validate_presence_of(:three_day_link_text) }
     it { should validate_presence_of(:three_day_image) }
+    it { should validate_presence_of(:winner_subject) }
+    it { should validate_presence_of(:winner_preview) }
+    it { should validate_presence_of(:winner_body) }
+    it { should validate_presence_of(:winner_link_text) }
+    it { should validate_presence_of(:winner_image) }
   end
 
   it { should allow_mass_assignment_of(:contest_id) }
@@ -44,4 +59,9 @@ describe Plink::ContestEmailRecord do
   it { should allow_mass_assignment_of(:three_day_body) }
   it { should allow_mass_assignment_of(:three_day_link_text) }
   it { should allow_mass_assignment_of(:three_day_image) }
+  it { should allow_mass_assignment_of(:winner_subject) }
+  it { should allow_mass_assignment_of(:winner_preview) }
+  it { should allow_mass_assignment_of(:winner_body) }
+  it { should allow_mass_assignment_of(:winner_link_text) }
+  it { should allow_mass_assignment_of(:winner_image) }
 end

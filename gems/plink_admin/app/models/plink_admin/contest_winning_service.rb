@@ -123,6 +123,8 @@ class PlinkAdmin::ContestWinningService
       where('finalized_at IS NOT NULL').where('prize_level_id IS NOT NULL').
       where(winner: true, rejected: false)
 
+    contest_email = Plink::ContestEmailRecord.find_by_contest_id(contest_id)
+
     winners.each do |winner|
       user_token = Plink::UserAutoLoginRecord.create(user_id: winner.user.id, expires_at: 2.days.from_now).user_token
 
@@ -131,7 +133,8 @@ class PlinkAdmin::ContestWinningService
         first_name: winner.user.first_name,
         contest_id: contest_id,
         user_id: winner.user.id,
-        user_token: user_token
+        user_token: user_token,
+        contest_email: contest_email
       }
       ContestMailer.delay.winner_email(email_args)
     end

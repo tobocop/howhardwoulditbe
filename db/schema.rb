@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140116193018) do
+ActiveRecord::Schema.define(:version => 20140122165502) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -489,6 +489,11 @@ ActiveRecord::Schema.define(:version => 20140116193018) do
     t.text    "three_day_body"
     t.string  "three_day_link_text"
     t.string  "three_day_image",     :limit => 100
+    t.string  "winner_subject"
+    t.string  "winner_preview"
+    t.text    "winner_body"
+    t.string  "winner_link_text"
+    t.string  "winner_image",        :limit => 100
   end
 
   create_table "contest_prize_levels", :force => true do |t|
