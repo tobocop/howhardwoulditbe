@@ -5,7 +5,7 @@
     },
 
     _cardLinkProcessComplete: function() {
-      window.location.href = window.location.href + '?card_linked=true';
+      window.location = '/contests?card_linked=true';
     }
   }
 })(window);
