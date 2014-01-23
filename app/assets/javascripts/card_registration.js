@@ -21,6 +21,7 @@
         url: $form.attr('action')
       }).done(function() {
         CardRegistration.showProgressBar($(".institution-authentication-form"));
+        CardRegistrationGA.firstCommunicatingScreen();
         setTimeout(CardRegistration.pollForAccountResponse, 3000);
       }).fail(function() {
         $('#duplicate').show();
@@ -119,6 +120,7 @@
 
     submitAccountForm: function (form) {
       $('#account-checking-compatability').foundation('reveal', 'open');
+      CardRegistrationGA.secondCommunicatingScreen();
 
       $.ajax({
         data: form.serialize(),

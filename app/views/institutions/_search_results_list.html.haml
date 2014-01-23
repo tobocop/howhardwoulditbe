@@ -1,4 +1,4 @@
-.spacer-top-24
+.spacer-top-24.js-search-most-common-results
   .result-title Most Common
   .banks
     .result
@@ -6,7 +6,7 @@
     - if results[1].present?
       .result
         - display_institution(results[1])
-.spacer-top-24
+.spacer-top-24.js-search-results
   - if results.size > 2
     .result-title= "All Results (#{pluralize(results.size - 2, 'Match')})"
     %hr
@@ -21,3 +21,6 @@
         %span
           =link_to 'FAQ', faq_static_path, class: 'text-link'
         for more info.
+
+:javascript
+  CardRegistrationGA.searchResults();

@@ -28,28 +28,24 @@ module ApplicationHelper
   end
 
   def google_analytics_script_tag
-    case Rails.env
-    when 'review'
-      "<script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    begin_tag = "<script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');"
+    end_tag = "ga('require', 'linkid', 'linkid.js'); ga('send', 'pageview');</script>"
 
-        ga('create', 'UA-27582334-3', 'plink-qa.com');
-        ga('send', 'pageview');
-      </script>".html_safe
-    when 'production'
-      "<script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    result =
+      case Rails.env
+      when 'production'
+        begin_tag + "ga('create', 'UA-27582334-2', 'plink.com');" + end_tag
+      when 'review'
+        begin_tag + "ga('create', 'UA-27582334-3', 'plink-qa.com');" + end_tag
+      else
+        ''
+      end
 
-        ga('create', 'UA-27582334-2', 'plink.com');
-        ga('send', 'pageview');
-      </script>".html_safe
-    end
+    result.html_safe
   end
 
   def flash_error_icon(message)

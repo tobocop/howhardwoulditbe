@@ -1,11 +1,12 @@
-- total = most_popular.length
-- first_column_size = (total / 2).ceil
-.banks
-  - most_popular[0..first_column_size - 1].each do |institution|
-    .result
-      = authentication_form_link(institution.name.html_safe, institution.institution_id)
-- if total > 1
+.js-most-popular-list
+  - total = most_popular.length
+  - first_column_size = (total / 2).ceil
   .banks
-    - most_popular[first_column_size..-1].each do |institution|
+    - most_popular[0..first_column_size - 1].each do |institution|
       .result
         = authentication_form_link(institution.name.html_safe, institution.institution_id)
+  - if total > 1
+    .banks
+      - most_popular[first_column_size..-1].each do |institution|
+        .result
+          = authentication_form_link(institution.name.html_safe, institution.institution_id)

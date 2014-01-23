@@ -27,6 +27,13 @@ describe('CardRegistration', function() {
       '<input type="submit" class="account-type-selection-form"></input>' +
       '<span id="js-establishing-connection">Connecting</span>'
     );
+
+    spyOn(CardRegistrationGA, 'firstCommunicatingScreen').andCallFake(function () {
+      return;
+    });
+    spyOn(CardRegistrationGA, 'secondCommunicatingScreen').andCallFake(function () {
+      return;
+    });
   });
 
   describe('#bindEvents', function() {
@@ -127,6 +134,19 @@ describe('CardRegistration', function() {
       CardRegistration.submitForm();
 
       expect(CardRegistration.showProgressBar).toHaveBeenCalled();
+    });
+
+    it('logs a GA event that the user is seeing the progress bar', function (){
+      spyOn(CardRegistration, 'requiredFieldsPresent').andCallFake(function() { return true; });
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.resolve();
+        return deferred.promise();
+      });
+
+      CardRegistration.submitForm();
+
+      expect(CardRegistrationGA.firstCommunicatingScreen).toHaveBeenCalled();
     });
 
     it('triggers pollForAccountResponse on a successful ajax response', function() {
@@ -375,6 +395,15 @@ describe('CardRegistration', function() {
       CardRegistration.submitAccountForm($('.js-authentication-form'));
 
       expect(spy).toHaveBeenCalledWith('reveal', 'open');
+    });
+
+    it('logs a GA event that the user is seeing the modal', function (){
+      var def = $.Deferred();
+      spyOn($, "ajax").andCallFake(function() {return def;});
+
+      CardRegistration.submitAccountForm($('.js-authentication-form'));
+
+      expect(CardRegistrationGA.secondCommunicatingScreen).toHaveBeenCalled();
     });
 
     it('makes an AJAX request to submit the form', function () {
