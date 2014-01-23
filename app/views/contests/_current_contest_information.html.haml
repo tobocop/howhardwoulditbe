@@ -4,7 +4,7 @@
     .image
       -show_non_linked = !user_has_linked_card && user.logged_in? && entries[:total] > 0 && !contest.non_linked_image.blank?
       -if show_non_linked
-        = link_to image_tag(contest.non_linked_image), '#', data: { 'reveal-id' => 'card-add-modal', 'non-linked-image' => 'true' }, style: "display: #{show_non_linked ? 'block' : 'none'}"
+        = link_to image_tag(contest.non_linked_image), institution_search_path, data: { 'non-linked-image' => 'true' }, style: "display: #{show_non_linked ? 'block' : 'none'}"
       = image_tag contest.image, data: { 'default-image' => 'true' }, style: "display: #{show_non_linked ? 'none' : 'block'}"
   .details
     %h3.strong= "Prizes drawn on #{contest.end_date}"

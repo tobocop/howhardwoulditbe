@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
     elsif plink_intuit_account_service.user_has_account?(user.id)
       wallet_path
     else
-      link_card_or_institution_search
+      institution_search_path
     end
   end
 

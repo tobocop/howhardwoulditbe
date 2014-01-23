@@ -60,10 +60,6 @@ module TrackingExtensions
     new_tracking_object_from_session.steelhouse_additional_info(current_virtual_currency.id)
   end
 
-  def plink_card_link_url_generator
-    Plink::CardLinkUrlGenerator.new(Plink::Config.instance)
-  end
-
 private
 
   def get_campaign_id(campaign_hash)

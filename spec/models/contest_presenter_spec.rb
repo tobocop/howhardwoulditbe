@@ -21,8 +21,7 @@ describe ContestPresenter do
     {
       contest: contest,
       user_has_linked_card: true,
-      user_is_logged_in: true,
-      card_link_url: 'http://www.herp.derp.com'
+      user_is_logged_in: true
     }
   }
 

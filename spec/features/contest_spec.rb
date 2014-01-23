@@ -108,9 +108,6 @@ describe 'Contests' do
       click_on 'Contest Rules'
       page.should have_content 'These are terms and conditions'
 
-      # TODO: Remove when card reg is cut over from CF
-      Rails.env.stub(:production?).and_return(true)
-
       first('.header-button').click_link('Join')
 
       within '.sign-in-modal' do
@@ -152,9 +149,6 @@ describe 'Contests' do
 
     context 'for an unauthenticated user', js:true do
       it 'only forwards the user to the contest page if the user registers from the contest page', driver: :selenium do
-        # TODO: Remove when card reg is cut over from CF
-        Rails.env.stub(:production?).and_return(true)
-
         visit '/'
 
         page.should have_content "Join"
@@ -175,7 +169,7 @@ describe 'Contests' do
           page.should have_content "Welcome, John!"
         end
 
-        current_path.should == wallet_path
+        current_path.should == institution_search_path
       end
 
       it 'links to the Referral Program section of the FAQ' do
@@ -220,7 +214,7 @@ describe 'Contests' do
         page.should have_link 'share to enter'
         page.should have_image '/assets/profile.jpg'
         page.should have_content 'Get 5x entries per day when you link a credit or debit card.'
-        page.should have_css('[data-reveal-id="card-add-modal"]', text: 'LINK YOUR CARD')
+        page.should have_link 'LINK YOUR CARD'
 
         click_link 'share to enter'
         within 'div[gigid]' do
@@ -233,8 +227,7 @@ describe 'Contests' do
         visit current_path
         page.should have_image '/assets/icon_active.png'
 
-        # This event is triggered via coldfusion:
-        page.execute_script('$(document).trigger("cardLinkProcessComplete");')
+        visit '/contests?card_linked=true'
 
         page.should have_content "Congratulations! You'll now earn 5X the entries.  Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases."
         page.should have_content 'Get up to 20 EXTRA ENTRIES per day for each friend referral'

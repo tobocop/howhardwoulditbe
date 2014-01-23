@@ -22,10 +22,10 @@ var SharePages = {
     $.ajax({
       url: url,
       data: {shared: false}
-    }).done(SharePages.redirectToWalletWithLinkCardModal);
+    }).done(SharePages.redirectToInstitutionSearch);
   },
 
-  redirectToWalletWithLinkCardModal: function() {
-    Plink.redirect('/wallet?link_card=true');
+  redirectToInstitutionSearch: function() {
+    Plink.redirect('/institutions/search');
   }
 }

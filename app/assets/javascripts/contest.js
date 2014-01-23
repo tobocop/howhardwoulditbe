@@ -2,7 +2,6 @@
   Contest = {
     bindEvents: function () {
       $(document).on('click', '#js-toggle-daily-email', Contest.toggleDailyEmailPreference);
-      $(document).on('click', '.js-complete-registration', Contest.showCardAddModal);
       $(document).on('click', '#js-share-from-modal-to-enter', Contest.hideShareModal);
     },
 
@@ -34,12 +33,6 @@
           $('#contest_share_modal').foundation('reveal', 'open');
         }
       );
-    },
-
-    showCardAddModal: function(e) {
-      $('#card-add-modal').foundation('reveal', 'open');
-
-      return false;
     },
 
     hideShareModal: function(e) {

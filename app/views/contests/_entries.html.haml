@@ -6,8 +6,7 @@
       %br
       link a credit or debit card.
       .btn
-        %button.button.nav.sign-in.width-70{data: { 'reveal-id' => 'card-add-modal' }}
-          .font-w300 LINK YOUR CARD
+        =link_to 'LINK YOUR CARD', institution_search_path, {class: 'button nav sign-in width-70', style: 'font-weight: 300'}
 .entries.mts
   - if user.logged_in?
     %h2 You have

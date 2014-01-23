@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-#TODO: Remove when card registration is entirely in Rails
 describe 'Linking a card' do
   before do
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www')
@@ -30,9 +29,6 @@ describe 'Linking a card' do
       click_on 'Link Your Card'
     end
 
-    page.current_path.should == '/account'
-
-    page.should have_css('a[href="/institutions/search"]', text: 'Link Card')
-
+    page.current_path.should == institution_search_path
   end
 end

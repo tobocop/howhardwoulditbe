@@ -60,10 +60,6 @@ describe ContestsController do
         assigns(:user_has_linked_card).should be_false
       end
 
-      it 'generates a card_link_url' do
-        assigns(:card_link_url).should == 'http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution&show_contest_banner=true&subID2=contest_id_' + contest.id.to_s + '&subID3=' + contest.id.to_s
-      end
-
       it 'sets the tracking_params sub_id_two in the session to the contest id' do
         session[:tracking_params][:sub_id_two].should == "contest_id_#{contest.id}"
       end
@@ -178,10 +174,6 @@ describe ContestsController do
 
       it 'responds with false user_has_linked_card' do
         assigns(:user_has_linked_card).should be_false
-      end
-
-      it 'generates a card_link_url' do
-        assigns(:card_link_url).should == 'http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution&show_contest_banner=true&subID2=contest_id_' + contest.id.to_s
       end
     end
 

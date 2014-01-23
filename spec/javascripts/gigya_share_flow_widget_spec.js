@@ -45,9 +45,9 @@ describe('Plink.GigyaShareFlowWidget', function () {
       expect($.ajax).toHaveBeenCalledWith({url: 'status_url', data: {shared: true}});
     });
 
-    it('redirects to the wallet page', function () {
+    it('redirects to the institution search', function () {
       spyOn($, 'ajax').andCallFake(function () { return $.Deferred().resolve(); });
-      spy = spyOn(Plink.GigyaShareFlowWidget, 'redirectToWalletWithLinkCardModal');
+      spy = spyOn(Plink.GigyaShareFlowWidget, 'redirectToInstitutionSearch');
 
       Plink.GigyaShareFlowWidget._onSendDone('status_url');
 

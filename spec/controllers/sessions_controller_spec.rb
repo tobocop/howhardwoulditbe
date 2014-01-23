@@ -40,12 +40,9 @@ describe SessionsController do
         let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new(123 => false) }
 
         it 'sets the redirect url with the link card param' do
-          # TODO: Remove when card reg is cut over from CF
-          Rails.env.stub(:production?).and_return(true)
-
           post :create, {user_session: {email: 'bob@example.com', password: 'test123'}}
 
-          JSON.parse(response.body).should == {"redirect_path" => wallet_path(link_card: true)}
+          JSON.parse(response.body).should == {"redirect_path" => institution_search_path}
         end
       end
 

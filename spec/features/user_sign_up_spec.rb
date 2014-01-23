@@ -27,10 +27,7 @@ describe 'User signup workflow' do
   end
 
   context 'organic registration' do
-    it 'should create an account, email the user, and drop the user on the wallet page', js: true, driver: :selenium do
-      # TODO: Remove when card reg is cut over from CF
-      Rails.env.stub(:production?).and_return(true)
-
+    it 'should create an account, email the user, and drop the user on the instituion search path', js: true, driver: :selenium do
       visit '/'
 
       click_link 'Join'
@@ -62,7 +59,9 @@ describe 'User signup workflow' do
         page.should have_content('Welcome, Joe!')
       end
 
-      current_path.should == wallet_path
+      current_path.should == institution_search_path
+
+      visit wallet_path
 
       page.should_not have_css('img[src="/assets/hero-gallery/7eleven_1.jpg"]')
       page.should have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
@@ -72,9 +71,6 @@ describe 'User signup workflow' do
       within_window page.driver.browser.window_handles.last do
         page.current_path.should == '/faq'
       end
-
-      page.should have_css "iframe[src='http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution']"
-      page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
       email = ActionMailer::Base.deliveries.last
 
@@ -98,9 +94,6 @@ describe 'User signup workflow' do
   end
 
   context 'social registration' do
-    # TODO: Remove when card reg is cut over from CF
-    before { Rails.env.stub(:production?).and_return(true) }
-
     after(:each) do
       delete_users_from_gigya
     end
@@ -127,8 +120,6 @@ describe 'User signup workflow' do
         end
 
         page.should have_content('Welcome, Matt!')
-
-        page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
         current_path.should == wallet_path
 
@@ -168,8 +159,6 @@ describe 'User signup workflow' do
         click_button 'Submit'
 
         page.should have_content('Welcome, Matt!')
-
-        page.execute_script('$("#card-add-modal").foundation("reveal", "close")')
 
         current_path.should == wallet_path
 

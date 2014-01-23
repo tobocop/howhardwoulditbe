@@ -95,7 +95,7 @@ class OfferItemPresenter
                            data: {add_to_wallet: true, offer_dom_selector: "##{dom_id}"})
     elsif signed_in
       view_context.link_to("Link Your Card",
-                           view_context.account_path(link_card: true),
+                           view_context.institution_search_path,
                            class: 'button primary-action narrow')
     else
       view_context.link_to("Join Plink Today",

@@ -1,27 +1,15 @@
 development:
   image_base_url: https://plink-images.s3.amazonaws.com
-  card_add_url: http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: http://www.plink.dev/index.cfm?fuseaction=intuit.changeBank
-  card_reverify_url: http://www.plink.dev/index.cfm?fuseaction=dialog.additionalInformation
   mobile_registration_url: http://www.plink.dev/index.cfm?fuseaction=mobile.register
 
 test:
   image_base_url: ''
-  card_add_url: http://www.plink.dev/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: http://www.plink.dev/index.cfm?fuseaction=intuit.changeBank
-  card_reverify_url: http://www.plink.dev/index.cfm?fuseaction=dialog.additionalInformation
   mobile_registration_url: http://www.plink.dev/index.cfm?fuseaction=mobile.register
 
 review:
   image_base_url: https://plink-images.s3.amazonaws.com/
-  card_add_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: https://www.plink-qa.com/index.cfm?fuseaction=intuit.changeBank
-  card_reverify_url: https://www.plink-qa.com/index.cfm?fuseaction=dialog.additionalInformation
   mobile_registration_url: https://www.plink-qa.com/index.cfm?fuseaction=mobile.register
 
 production:
   image_base_url: https://plink-images.s3.amazonaws.com/
-  card_add_url: https://www.plink.com/index.cfm?fuseaction=intuit.selectInstitution
-  card_change_url: https://www.plink.com/index.cfm?fuseaction=intuit.changeBank
-  card_reverify_url: https://www.plink.com/index.cfm?fuseaction=dialog.additionalInformation
   mobile_registration_url: https://www.plink.com/index.cfm?fuseaction=mobile.register

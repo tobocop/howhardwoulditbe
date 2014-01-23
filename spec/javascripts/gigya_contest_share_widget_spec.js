@@ -165,14 +165,6 @@ describe('Plink.GigyaContestShareWidget', function () {
       expect($("[data-non-linked-image]").css('display')).toBe('block');
       expect($("[data-default-image]").css('display')).toBe('none');
     });
-
-    it('calls Plink.conditionalCallback with the parameters based on the share_modal=true query parameter being present', function() {
-      spyOn(Plink, 'conditionalCallback');
-
-      Plink.GigyaContestShareWidget._onEntrySucess({});
-
-      expect(Plink.conditionalCallback).toHaveBeenCalledWith(null, Contest.showCardAddModal);
-    });
   });
 
   describe('#_onEntryFailure',  function () {

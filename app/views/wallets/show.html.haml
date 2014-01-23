@@ -32,16 +32,3 @@
           = render partial: 'shared/offer_detail_modal', collection: @all_offers, as: :presenter
 
     .clear
-
-#card-add-modal.reveal-modal.cf-modal
-  = render partial: 'shared/card_add_modal', locals: {card_modal_url: @card_link_url}
-
-:javascript
-  $(function() {
-        Plink.conditionalCallback(
-          window.location.search.match(/link_card=true/),
-          function () {
-            $('#card-add-modal').foundation('reveal', 'open');
-          }
-        )
-      });

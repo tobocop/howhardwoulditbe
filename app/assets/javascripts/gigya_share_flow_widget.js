@@ -21,11 +21,11 @@
       $.ajax({
         url: share_status_url,
         data: {shared: true}
-      }).done(Plink.GigyaShareFlowWidget.redirectToWalletWithLinkCardModal);
+      }).done(Plink.GigyaShareFlowWidget.redirectToInstitutionSearch);
     },
 
-    redirectToWalletWithLinkCardModal: function() {
-      Plink.redirect('/wallet?link_card=true');
+    redirectToInstitutionSearch: function() {
+      Plink.redirect('/institutions/search');
     }
   }
 })(window);

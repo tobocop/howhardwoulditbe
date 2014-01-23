@@ -7,4 +7,4 @@
     %h2.font-1p2em.font-w500= contest.interstitial_bold_text
     %p.font-1em.font-w300= contest.interstitial_body_text
     = link_to contest.interstitial_share_button, nil, {data: contest.share_data('facebook,twitter'), id: 'js-share-from-modal-to-enter', class: 'button primary-action mtl'}
-  = link_to contest.interstitial_reg_link, '#', class:'text-link font-w300 js-complete-registration'
+  = link_to contest.interstitial_reg_link, institution_search_path, class:'text-link font-w300'

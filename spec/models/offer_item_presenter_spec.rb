@@ -228,9 +228,9 @@ describe OfferItemPresenter do
     it 'returns the Link Your Card text if user is signed in' do
       presenter.stub(:linked).and_return(false)
       presenter.stub(:signed_in).and_return(true)
-      view_context.should_receive(:account_path).with({link_card: true}).and_return('account/path')
+      view_context.should_receive(:institution_search_path).with().and_return('institution/search/path')
       view_context.should_receive(:link_to).with('Link Your Card',
-                                                 'account/path',
+                                                 'institution/search/path',
                                                  class: 'button primary-action narrow'
       )
 

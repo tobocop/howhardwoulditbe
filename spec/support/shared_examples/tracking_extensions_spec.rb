@@ -187,17 +187,5 @@ shared_examples_for(:tracking_extensions) do
       controller.steelhouse_additional_info.should == '&affiliateid=1,&campaignid=,&landing_page_id=,&subid2=,&subid3=,&subid4=,&subid=,&virtualcurrencyid=1,'
     end
   end
-
-  describe '#plink_card_link_url_generator' do
-    it 'initializes and returns a CardLinkUrlGenerator object with the right credentials' do
-      card_link_url_generator = double
-
-      Plink::CardLinkUrlGenerator.should_receive(:new).
-        with(Plink::Config.instance).
-        and_return(card_link_url_generator)
-
-      controller.plink_card_link_url_generator.should == card_link_url_generator
-    end
-  end
 end
 

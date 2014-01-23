@@ -45,7 +45,6 @@ private
     @contest_results_service.prepare_contest_results if contest.finalized?
 
     @user = current_user
-    @card_link_url = plink_card_link_url_generator.create_url(contest_tracking_params(contest.id))
     @user_has_linked_card = Plink::IntuitAccountService.new.user_has_account?(current_user.id)
 
     current_entries = EntriesPresenter.new(user_entries_today(contest.id))

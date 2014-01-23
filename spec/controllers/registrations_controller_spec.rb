@@ -44,13 +44,11 @@ describe RegistrationsController do
       end
 
       it 'signs the user in upon success' do
-        # TODO: Remove when card reg is cut over from CF
-        Rails.env.stub(:production?).and_return(true)
         controller.should_receive(:sign_in_user).with(@user_stub)
 
         xhr :post, :create
 
-        JSON.parse(response.body).should == {'redirect_path' => wallet_path(link_card: true)}
+        JSON.parse(response.body).should == {'redirect_path' => institution_search_path}
       end
 
       it "notifies Gigya of a new user log in" do

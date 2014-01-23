@@ -46,22 +46,20 @@ PlinkPivotal::Application.routes.draw do
   resource :global_login, only: [:new]
 
   get '/institutions/search', to: 'institutions#search', as: 'institution_search'
-  if !Rails.env.production?
-    post '/institutions/search_results', to: 'institutions#search_results', as: 'institution_search_results'
-    get '/institutions/authentication/:id', to: 'institutions#authentication', as: 'institution_authentication'
-    post '/institutions/authenticate', to: 'institutions#authenticate', as: 'institution_authenticate'
-    get '/institutions/poll', to: 'institutions#poll', as: 'institution_poll'
-    post '/institutions/text_based_mfa', to: 'institutions#text_based_mfa', as: 'institution_text_based_mfa'
-    post '/institutions/select', to: 'institutions#select', as: 'institution_selection'
-    get '/institutions/select_account_poll', to: 'institutions#select_account_poll', as: 'institution_select_account_poll'
-    get '/institutions/congratulations', to: 'institutions#congratulations'
+  post '/institutions/search_results', to: 'institutions#search_results', as: 'institution_search_results'
+  get '/institutions/authentication/:id', to: 'institutions#authentication', as: 'institution_authentication'
+  post '/institutions/authenticate', to: 'institutions#authenticate', as: 'institution_authenticate'
+  get '/institutions/poll', to: 'institutions#poll', as: 'institution_poll'
+  post '/institutions/text_based_mfa', to: 'institutions#text_based_mfa', as: 'institution_text_based_mfa'
+  post '/institutions/select', to: 'institutions#select', as: 'institution_selection'
+  get '/institutions/select_account_poll', to: 'institutions#select_account_poll', as: 'institution_select_account_poll'
+  get '/institutions/congratulations', to: 'institutions#congratulations'
 
-    get '/institution_logins/update_credentials/:id', to: 'institution_logins#update_credentials', as: 'institution_login_update_credentials'
-    get '/institution_logins/credentials_updated/:institution_id', to: 'institution_logins#credentials_updated', as: 'institution_login_credentials_updated'
+  get '/institution_logins/update_credentials/:id', to: 'institution_logins#update_credentials', as: 'institution_login_update_credentials'
+  get '/institution_logins/credentials_updated/:institution_id', to: 'institution_logins#credentials_updated', as: 'institution_login_credentials_updated'
 
-    get '/reverifications/start/:id', to: 'reverifications#start', as: 'reverification_start'
-    get '/reverifications/complete', to: 'reverifications#complete', as: 'reverification_complete'
-  end
+  get '/reverifications/start/:id', to: 'reverifications#start', as: 'reverification_start'
+  get '/reverifications/complete', to: 'reverifications#complete', as: 'reverification_complete'
 
   resource :password_reset_request, only: [:new, :create], controller: :password_reset_request
   resource :password_reset, only: [:new, :create], controller: :password_reset

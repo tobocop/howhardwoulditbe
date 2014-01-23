@@ -63,9 +63,9 @@ describe('SharePages', function () {
       expect($.ajax).toHaveBeenCalledWith({url: url, data: {shared: false}});
     });
 
-    it('makes a call to redirectToWalletWithLinkCardModal', function () {
+    it('makes a call to redirectToInstitutionSearch', function () {
       spyOn($, "ajax").andCallFake(function() {return $.Deferred().resolve();});
-      spy = spyOn(SharePages, 'redirectToWalletWithLinkCardModal');
+      spy = spyOn(SharePages, 'redirectToInstitutionSearch');
 
       SharePages.trackShareDecline(mock_click_event);
 

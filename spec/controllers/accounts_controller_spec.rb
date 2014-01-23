@@ -54,36 +54,6 @@ describe AccountsController do
         assigns(:user_has_account).should == true
       end
 
-      it 'assigns a @card_link_url' do
-        session[:tracking_params] = {
-          referrer_id: 123,
-          affiliate_id: 456
-        }
-
-        Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).with(referrer_id: 123, affiliate_id: 456).and_return { 'http://www.mywebsite.example.com' }
-
-        get :show
-
-        assigns(:card_link_url).should == 'http://www.mywebsite.example.com'
-      end
-
-      it 'assigns a @card_change_url' do
-        Plink::CardLinkUrlGenerator.any_instance.stub(:change_url) { 'http://www.mywebsite.example.com' }
-
-        get :show
-
-        assigns(:card_change_url).should == 'http://www.mywebsite.example.com'
-      end
-
-      it 'assigns a @card_reverify_url' do
-        Plink::CardLinkUrlGenerator.any_instance.stub(:card_reverify_url) { 'http://www.mywebsite.example.com' }
-
-        get :show
-
-        assigns(:card_reverify_url).should == 'http://www.mywebsite.example.com'
-
-      end
-
       it 'assigns an @bank_account' do
         get :show
         assigns(:bank_account).should == intuit_account

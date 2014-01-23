@@ -24,6 +24,3 @@
   .reveal-modal.medium#terms-and-conditions
     = contest.terms_and_conditions.html_safe
     = link_to '&#215;'.html_safe, nil, class: 'close-reveal-modal'
-
-#card-add-modal.reveal-modal.cf-modal
-  = render partial: 'shared/card_add_modal', locals: {card_modal_url: card_link_url}

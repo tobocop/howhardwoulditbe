@@ -49,21 +49,4 @@
           %h1.cyan #{current_virtual_currency.amount_in_currency(current_user.lifetime_balance)}
     .clear
 
-    #card-add-modal.reveal-modal.cf-modal
-      = render partial: 'shared/card_add_modal', locals: {card_modal_url: @card_link_url}
-
-    #card-change-modal.reveal-modal.cf-modal
-      = render partial: 'shared/card_add_modal', locals: {card_modal_url: @card_change_url}
-
-:javascript
-  $(function() {
-    Plink.conditionalCallback(
-      window.location.search.match(/link_card=true/),
-      function () {
-      $('[data-reveal-id="card-add-modal"]').click();
-      $('[data-reveal-id="card-reverify-modal"]').click();
-      }
-    )
-  });
-
 = render partial: 'shared/js/error_templates'

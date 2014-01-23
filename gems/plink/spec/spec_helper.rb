@@ -24,9 +24,6 @@ RSpec.configure do |config|
   config.before(:each) do
     Plink::Config.configure do |c|
       c.image_base_url = 'http://example.com/image_base_url'
-      c.card_add_url = 'http://example.com/card_add'
-      c.card_change_url = 'http://example.com/card_change_url'
-      c.card_reverify_url = 'http://www.example.com/card_reverify_url'
     end
   end
 

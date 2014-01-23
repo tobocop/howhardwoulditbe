@@ -61,21 +61,6 @@ describe WalletsController do
         assigns(:current_tab).should == 'wallet'
       end
 
-      it 'assigns card_link_url' do
-        session[:tracking_params] = {
-          referrer_id: 123,
-          affiliate_id: 456
-        }
-
-        Plink::CardLinkUrlGenerator.any_instance.should_receive(:create_url).
-          with(referrer_id: 123, affiliate_id: 456).
-          and_return { 'http://www.mywebsite.example.com' }
-
-        get :show
-
-        assigns(:card_link_url).should == 'http://www.mywebsite.example.com'
-      end
-
       it 'assigns user_has_account' do
         get :show
 
