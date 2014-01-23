@@ -434,11 +434,12 @@ describe InstitutionsController do
       double(:users_institution_account_staging, {id: 6, users_institution_id: 1234})
     end
     let(:intuit_request_record) { double(id: 345) }
+    let(:active_by_user_id) { double(pluck: [21, 56]) }
 
     before do
       Plink::UsersInstitutionAccountStagingRecord.stub_chain(:select, :where, :first).
         and_return(users_institution_account_staging)
-      Plink::UsersInstitutionAccountRecord.stub_chain(:where, :pluck).and_return([21,56])
+      Plink::UsersInstitutionAccountRecord.stub(:active_by_user_id).and_return(active_by_user_id)
       controller.stub(:select_account)
     end
 
@@ -446,6 +447,14 @@ describe InstitutionsController do
       post :select
 
       response.body.should be_blank
+    end
+
+    it 'gets a list of users institution account ids to end date' do
+      Plink::UsersInstitutionAccountRecord.should_receive(:active_by_user_id).
+        with(1).
+        and_return(active_by_user_id)
+
+      post :select
     end
 
     it 'creates a delayed job for the intuit update' do

@@ -27,5 +27,11 @@ module Plink
       :account_type, :account_type_description, :aggr_attempt_date, :aggr_status_code,
       :aggr_success_date, :begin_date, :currency_code, :end_date, :in_intuit, :is_active,
       :name, :user_id, :users_institution_account_staging_id, :users_institution_id
+
+    scope :active_by_user_id, -> (user_id){
+      where(userID: user_id).
+      where(isActive: true).
+      where('endDate > ?', Time.zone.now)
+    }
   end
 end

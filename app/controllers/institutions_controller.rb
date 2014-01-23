@@ -102,7 +102,7 @@ class InstitutionsController < ApplicationController
       where(accountID: params[:intuit_account_id], userID: current_user.id).first
 
     accounts_to_end_date = Plink::UsersInstitutionAccountRecord.
-      where(usersInstitutionID: staged_account.users_institution_id).
+      active_by_user_id(current_user.id).
       pluck(:usersInstitutionAccountID)
 
     Plink::IntuitRequestRecord.where(user_id: current_user.id).delete_all

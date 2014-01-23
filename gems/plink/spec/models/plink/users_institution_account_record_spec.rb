@@ -52,5 +52,37 @@ describe Plink::UsersInstitutionAccountRecord do
     record.name.should == 'account name'
   end
 
+  context 'named scopes' do
+    describe '.active_by_user_id' do
+      let!(:users_institution_account_record) {
+        create_users_institution_account(
+          end_date: 1.minute.from_now,
+          is_active: true,
+          user_id: 39
+        )
+      }
 
+      it 'returns active records by user_id and end date' do
+        active_records = Plink::UsersInstitutionAccountRecord.active_by_user_id(39)
+        active_records.length.should == 1
+        active_records.first.id.should == users_institution_account_record.id
+      end
+
+      it 'does not return records where the user_id is different' do
+        Plink::UsersInstitutionAccountRecord.active_by_user_id(1).length.should == 0
+      end
+
+      it 'does not return records where the end date is in the past' do
+        users_institution_account_record.update_attribute(:end_date, 1.minute.ago)
+
+        Plink::UsersInstitutionAccountRecord.active_by_user_id(39).length.should == 0
+      end
+
+      it 'does not return inactive records' do
+        users_institution_account_record.update_attribute(:is_active, false)
+
+        Plink::UsersInstitutionAccountRecord.active_by_user_id(39).length.should == 0
+      end
+    end
+  end
 end
