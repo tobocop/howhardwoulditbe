@@ -52,19 +52,29 @@ module Intuit
     def login_accounts(login_id)
       method_and_params = {method: :login_accounts, params: {login_id: login_id}}
 
-      log_and_return_response(@aggcat.login_accounts(login_id), method_and_params)
+      response = @aggcat.login_accounts(login_id)
+      log_and_return_response(response, method_and_params)
     end
 
     def institution_data(intuit_institution_id)
       method_and_params = {method: :institution, params: {intuit_institution_id: intuit_institution_id}}
 
-      log_and_return_response(@aggcat.institution(intuit_institution_id), method_and_params)
+      response = @aggcat.institution(intuit_institution_id)
+      log_and_return_response(response, method_and_params)
     end
 
     def update_account_type(account_id, account_type)
       method_and_params = {method: :update_account_type, params: {account_id: account_id, account_type: account_type}}
 
-      log_and_return_response(@aggcat.update_account_type(account_id, account_type), method_and_params)
+      response = @aggcat.update_account_type(account_id, account_type)
+      log_and_return_response(response, method_and_params)
+    end
+
+    def get_transactions(account_id, start_date, end_date=nil)
+      method_and_params = {method: :account_transactions, params: {account_id: account_id, start_date: start_date, end_date: end_date}}
+
+      response = @aggcat.account_transactions(account_id, start_date, end_date)
+      log_and_return_response(response, method_and_params)
     end
 
   private

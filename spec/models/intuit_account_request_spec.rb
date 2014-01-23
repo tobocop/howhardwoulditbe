@@ -57,6 +57,36 @@ describe IntuitAccountRequest do
     }
   end
 
+  let(:intuit_transaction_response) do
+    {:status_code=>"200",
+     :result=>
+      {:transaction_list=>
+        {:not_refreshed_reason=>"NOT_NECESSARY",
+         :banking_transaction=>
+          [{:id=>"400677837558",
+            :currency_type=>"USD",
+            :institution_transaction_id=>"INTUIT-400677837558",
+            :payee_name=>"CHECKING credit 19",
+            :posted_date=>"2014-01-19T00:00:00-08:00",
+            :user_date=>"2014-01-19T00:00:00-08:00",
+            :amount=>"1.19",
+            :pending=>"false",
+            :categorization=>{:common=>nil}},
+           {:id=>"400677837559",
+            :currency_type=>"USD",
+            :institution_transaction_id=>"INTUIT-400677837559",
+            :payee_name=>"CHECKING credit 15",
+            :posted_date=>"2014-01-15T00:00:00-08:00",
+            :user_date=>"2014-01-15T00:00:00-08:00",
+            :amount=>"1.15",
+            :pending=>"false",
+            :categorization=>{:common=>nil}
+          }]
+        }
+      }
+    }
+  end
+
   let(:intuit_error_response) do
     { :status_code=>"106",
       :result=>{
@@ -74,6 +104,13 @@ describe IntuitAccountRequest do
   let(:request) do
     args = [ params[:user_id], params[:institution_id], params[:intuit_institution_id], params[:request_id], params[:hash_check] ]
     IntuitAccountRequest.new(*args)
+  end
+
+  let(:intuit_account_request_record) { double(Plink::IntuitRequestRecord, update_attributes: true) }
+
+  before do
+    Plink::IntuitRequestRecord.stub(:find).and_return(intuit_account_request_record)
+    Intuit::Request.stub(:new).and_return(intuit_request)
   end
 
   describe 'initialize' do
@@ -99,21 +136,15 @@ describe IntuitAccountRequest do
   end
 
   describe '#authenticate' do
-    let(:intuit_account_request_record) { double(Plink::IntuitRequestRecord, update_attributes: true) }
-
     before do
-      Intuit::Request.stub(:new).and_return(intuit_request)
       intuit_request.stub(:accounts).and_return(intuit_response)
       intuit_request.stub(:login_accounts).and_return(intuit_login_accounts_response)
 
       ENCRYPTION.stub(:decrypt_and_verify).and_return(['default', 'yup'])
       ENCRYPTION.stub(:encrypt_and_sign).and_return('response')
-
-      Plink::IntuitRequestRecord.stub(:find).and_return(intuit_account_request_record)
     end
 
     it "decrypts the credentials" do
-      ENCRYPTION.unstub(:decrypt_and_verify)
       ENCRYPTION.should_receive(:decrypt_and_verify).with('user_and_pw')
 
       request.authenticate('user_and_pw')
@@ -204,13 +235,9 @@ describe IntuitAccountRequest do
   end
 
   describe '#respond_to_mfa' do
-    let(:intuit_account_request_record) { double(Plink::IntuitRequestRecord, update_attributes: true) }
-
     before do
-      Intuit::Request.stub(:new).and_return(intuit_request)
       intuit_request.stub(:respond_to_mfa).and_return(intuit_mfa_response)
       ENCRYPTION.stub(:decrypt_and_verify).and_return('one')
-      Plink::IntuitRequestRecord.stub(:find).and_return(intuit_account_request_record)
     end
 
     it 'updates the request record' do
@@ -282,6 +309,95 @@ describe IntuitAccountRequest do
           with(staging_attrs)
 
         request.respond_to_mfa('user_and_pw', '26b5edd2-2dff-4225-8b39-ac36a19ba789', '10.136.17.82')
+      end
+    end
+  end
+
+  describe '#select_account!' do
+    let(:staged_account) do
+      mock_model(Plink::UsersInstitutionAccountStagingRecord,
+        account_id: '3456',
+        values_for_final_account: { stuff: 'yup' },
+        update_attributes: true
+      )
+    end
+    let(:users_institution_account_record) do
+      mock_model(Plink::UsersInstitutionAccountRecord,
+        account_id: '133713371337',
+        account_number: 2,
+        account_number_last_four: '1234',
+        bank_name: 'rich people bank',
+        incomplete_reverification_id: nil,
+        name: 'Rich people account',
+        requires_reverification?: false,
+        update_attributes: true,
+        users_institution_id: 4657
+      )
+    end
+    let(:parsed_response) do
+      {
+        error: false,
+        value: {
+          account_name: 'Rich people account',
+          updated_accounts: 0
+        }
+      }.to_json
+    end
+    let(:intuit_request) { double(Intuit::Request, update_account_type: nil, get_transactions: intuit_transaction_response) }
+
+    before do
+      Plink::UsersInstitutionAccountStagingRecord.stub(:find).and_return(staged_account)
+      Plink::UsersInstitutionAccountRecord.stub(:create).
+        and_return(users_institution_account_record)
+    end
+
+    subject(:intuit_update) { IntuitAccountRequest.new(109, 342, nil, nil, nil) }
+
+    it 'creates a Plink::UsersInstitutionAccountRecord' do
+      Plink::UsersInstitutionAccountRecord.should_receive(:create).with(stuff: 'yup')
+
+      intuit_update.select_account!(staged_account, nil, [])
+    end
+
+    it 'updates the request record' do
+      ENCRYPTION.stub(:encrypt_and_sign).and_return('so update')
+
+      intuit_account_request_record.should_receive(:update_attributes).
+        with({processed: true, response: 'so update'}).and_return(true)
+
+      intuit_update.select_account!(staged_account, nil, [])
+    end
+
+    context 'with an account type set' do
+      it 'updates the users institution account staging record' do
+        staged_account.should_receive(:update_attributes).with(account_type: 'CREDITCARD')
+
+        intuit_update.select_account!(staged_account, 'credit', [])
+      end
+
+      it 'updates the users institution account record' do
+        users_institution_account_record.should_receive(:update_attributes).
+          with(account_type: 'CHECKING')
+
+        intuit_update.select_account!(staged_account, 'debit', [])
+      end
+
+      it 'calls to intuit to update the account type' do
+        intuit_request.should_receive(:update_account_type).with('133713371337', 'CHECKING')
+
+        intuit_update.select_account!(staged_account, 'debit', [])
+      end
+    end
+
+    context 'with accounts to end date' do
+      let(:staging_records) { double }
+
+      it 'sets the end date for all accounts' do
+        Plink::UsersInstitutionAccountRecord.should_receive(:where).
+          with(usersInstitutionAccountID: [1,2,3]).and_return(staging_records)
+        staging_records.should_receive(:update_all).with(endDate: Date.current)
+
+        intuit_update.select_account!(staged_account, 'debit', [1,2,3])
       end
     end
   end

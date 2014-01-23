@@ -431,90 +431,179 @@ describe InstitutionsController do
 
   describe 'POST select' do
     let(:users_institution_account_staging) do
-      attributes = {id: 6, account_id: 4, user_id: 1, users_institution_id: 1234, values_for_final_account: {}}
-      double(:users_institution_account_staging, attributes)
+      double(:users_institution_account_staging, {id: 6, users_institution_id: 1234})
     end
-    let(:users_institution_account) { mock_model(Plink::UsersInstitutionAccountRecord) }
-    let(:intuit_update) { double(:intuit_update, select_account!: users_institution_account) }
-    let(:users_institution_account_records) { double(update_all: 0) }
+    let(:intuit_request_record) { double(id: 345) }
 
     before do
-      Plink::UsersInstitutionAccountStagingRecord.stub_chain(:where, :first).
-          and_return(users_institution_account_staging)
-      Plink::UsersInstitutionAccountRecord.stub(:create).and_return(users_institution_account)
-      create_event_type(name: Plink::EventTypeRecord.card_add_type)
-      IntuitUpdate.stub(:new).and_return(intuit_update)
-      controller.stub(:track_institution_authenticated).and_return(double(institution_authenticated_pixel: 'pixel'))
+      Plink::UsersInstitutionAccountStagingRecord.stub_chain(:select, :where, :first).
+        and_return(users_institution_account_staging)
+      Plink::UsersInstitutionAccountRecord.stub_chain(:where, :pluck).and_return([21,56])
+      controller.stub(:select_account)
     end
 
-    context 'without previously existing account records' do
-      it 'assigns the selected account' do
-        post :select, intuit_account_id: users_institution_account_staging.account_id
+    it 'renders nothing' do
+      post :select
 
-        assigns(:selected_account).should == users_institution_account
-      end
-
-      it 'returns the institution_authenticated_pixel' do
-        institution_authenticated_pixel = double
-        controller.stub(:institution_authenticated).and_return(institution_authenticated_pixel)
-
-        post :select, intuit_account_id: users_institution_account_staging.account_id
-
-        assigns(:institution_authenticated_pixel).should == institution_authenticated_pixel
-      end
-
-      it 'renders the congratulations view' do
-        Plink::UsersInstitutionAccountRecord.stub_chain(:where, :update_all)
-
-        post :select, intuit_account_id: users_institution_account_staging.account_id
-
-        response.should render_template 'congratulations'
-      end
-
-      it 'tracks an institution authenticated event' do
-        Plink::UsersInstitutionAccountRecord.stub(:where).and_return(users_institution_account_records)
-
-        controller.should_receive(:institution_authenticated).with(0, 1)
-
-        post :select, intuit_account_id: users_institution_account_staging.account_id
-      end
-
-      it 'returns the institution authenticated pixel' do
-        pixel = double
-        controller.stub(:institution_authenticated).and_return(pixel)
-
-        post :select, intuit_account_id: users_institution_account_staging.account_id
-
-        assigns(:institution_authenticated_pixel).should == pixel
-      end
+      response.body.should be_blank
     end
 
-    context 'with previously existing account records' do
-      let!(:existing_account_record) { create_users_institution_account(
-        users_institution_account_staging_id: 8877,
-        users_institution_id: users_institution_account_staging.users_institution_id
-      )}
+    it 'creates a delayed job for the intuit update' do
+      controller.should_receive(:select_account).with(users_institution_account_staging.id, nil, [21,56])
 
-      it 'calls IntuitUpdate#select_account!' do
-        Plink::UsersInstitutionAccountRecord.stub(:where).and_return(users_institution_account_records)
+      post :select
+    end
 
-        intuit_update.should_receive(:select_account!).
-          with(users_institution_account_staging, 'a+')
+    it 'removes previous Plink::IntuitRequestRecords' do
+      request_records = double
 
-        post :select, intuit_account_id: users_institution_account_staging.account_id, account_type: 'a+'
+      Plink::IntuitRequestRecord.should_receive(:where).with(user_id: 1).
+        and_return(request_records)
+      request_records.should_receive(:delete_all)
+
+      post :select
+    end
+
+    it 'creates a new Plink::IntuitRequestRecord' do
+      Plink::IntuitRequestRecord.should_receive(:create!).with(user_id: 1, processed: false).
+        and_return(intuit_request_record)
+
+      post :select
+    end
+
+    it 'sets the request_id in the session' do
+      Plink::IntuitRequestRecord.stub(:create!).and_return(intuit_request_record)
+
+      post :select
+
+      session[:intuit_account_request_id].should == 345
+    end
+  end
+
+  describe 'GET select_account_poll' do
+    let(:intuit_request_record) do
+      double(:intuit_request_record, processed?: true, destroy: true, response: 'encrypted stuff')
+    end
+    let(:decrypted_failure_response) { {'error' => true} }
+
+    before do
+      Plink::IntuitRequestRecord.stub(:find).and_return(intuit_request_record)
+      ENCRYPTION.stub(:decrypt_and_verify).and_return(decrypted_failure_response.to_json)
+    end
+
+    it 'responds with a 422 when the request has not been resolved' do
+      Plink::IntuitRequestRecord.stub(:find).and_return(double(processed?: false))
+
+      get :select_account_poll
+
+      response.status.should == 422
+    end
+
+    context 'with a processed request' do
+      it 'decrypts the response' do
+        ENCRYPTION.should_receive(:decrypt_and_verify).with('encrypted stuff').
+          and_return(decrypted_failure_response.to_json)
+
+        get :select_account_poll
       end
 
-      it 'does not track an institution authenticated event' do
-        controller.should_not_receive(:track_institution_authenticated)
+      it 'parses JSON from the decrypted response' do
+        JSON.should_receive(:parse).with(decrypted_failure_response.to_json).
+          and_return(decrypted_failure_response)
 
-        post :select, intuit_account_id: users_institution_account_staging.account_id
+        get :select_account_poll
       end
 
-      it 'does not set the institution authenticated pixel' do
-        post :select, intuit_account_id: users_institution_account_staging.account_id
+      context 'for a failed request' do
+        it 'renders a JSON response indicating the failure' do
+          get :select_account_poll
 
-        assigns(:institution_authenticated_pixel).should be_nil
+          response.body.should == {failure: true}.to_json
+        end
       end
+
+      context 'for an account request' do
+        let(:decrypted_successful_response) do
+          {
+            'error' => false,
+            'value' => {
+              'updated_accounts' => 1,
+              'account_name' => 'awesome'
+            }
+          }
+        end
+
+        before do
+          ENCRYPTION.stub(:decrypt_and_verify).and_return(decrypted_successful_response.to_json)
+        end
+
+        it 'renders a JSON response indicating the success' do
+          expected = {failure: false, data: {updated_accounts: 1, account_name: 'awesome'}}.to_json
+
+          get :select_account_poll
+
+          response.body.should == expected
+        end
+      end
+
+      context 'for a transaction request' do
+        let(:decrypted_successful_response) do
+          {
+            'error' => false,
+            'value' => {'transactions' => true}
+          }
+        end
+
+        before do
+        end
+
+        it 'renders success if there are transactions' do
+          ENCRYPTION.stub(:decrypt_and_verify).and_return(decrypted_successful_response.to_json)
+
+          get :select_account_poll
+
+          response.body.should == {failure: false}.to_json
+        end
+
+        it 'renders failure if there are not transactions' do
+          decrypted_successful_response['value']['transactions'] = false
+          ENCRYPTION.stub(:decrypt_and_verify).and_return(decrypted_successful_response.to_json)
+
+          get :select_account_poll
+
+          response.body.should == {failure: true}.to_json
+        end
+      end
+    end
+  end
+
+  describe 'GET congratulations' do
+    before do
+      controller.stub(:institution_authenticated).and_return('my pixel')
+    end
+
+    it 'renders the congratulations view' do
+      get :congratulations
+
+      response.should render_template :congratulations
+    end
+
+    it 'returns the institution_authenticated_pixel' do
+      get :congratulations
+
+      assigns(:institution_authenticated_pixel).should == 'my pixel'
+    end
+
+    it 'returns the account_name that is given as a parameter' do
+      get :congratulations, account_name: 'Rich People Account'
+
+      assigns(:account_name).should == 'Rich People Account'
+    end
+
+    it 'checks if an institution_authenticated event should be recorded' do
+      controller.should_receive(:institution_authenticated)
+
+      get :congratulations, updated_accounts: 12234
     end
   end
 

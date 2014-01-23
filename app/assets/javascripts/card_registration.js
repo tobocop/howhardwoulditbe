@@ -4,8 +4,10 @@
       $(document).on('submit', '#js-authentication-form', CardRegistration.submitForm);
       $(document).on('submit', '#js-text-based-mfa-form', CardRegistration.submitForm);
       $(document).on('click', '.js-go-back', CardRegistration.triggerBrowserBack);
-      $(document).on('click', '.account-type-other', CardRegistration.accountTypePrompt);
-      $(document).on('submit', '.js-account-type-selection-form', CardRegistration.submitAccountType);
+      $(document).on('submit', '.js-account-selection', CardRegistration.accountSelection);
+      $(document).on('submit', '.js-account-type-selection-form', CardRegistration.submitAccountTypeSelection);
+      $(document).on('click', '.js-select-a-different-account', CardRegistration.closeModal);
+      $(document).on('click', '.close-btn', CardRegistration.closeModal);
     },
 
     submitForm: function (e) {
@@ -94,14 +96,63 @@
       $('.steps').slice(stepNumber, stepNumber + 1).addClass('active');
     },
 
-    accountTypePrompt: function (e) {
-      var account = $(this).closest('form').find('#intuit_account_id').clone();
+    accountSelection: function (e) {
+      if ($(this).hasClass('account-type-other')) {
+        CardRegistration.forwardAccountIdToTypeSelection($(this));
+        $('#account-type-other').foundation('reveal', 'open');
+      } else {
+        CardRegistration.submitAccountForm($(this));
+      }
+      return false;
+    },
+
+    forwardAccountIdToTypeSelection: function (form) {
+      var account = form.find('#intuit_account_id').clone();
       $('.js-account-type-selection-form').append(account);
     },
 
-    submitAccountType: function (e) {
-      $(this).closest('.reveal-modal').foundation('reveal', 'close');
-      CardRegistration.showProgressBar($('.select-account-form'));
+    submitAccountTypeSelection: function (e) {
+      CardRegistration.submitAccountForm($(this));
+
+      return false;
+    },
+
+    submitAccountForm: function (form) {
+      $('#account-checking-compatability').foundation('reveal', 'open');
+
+      $.ajax({
+        data: form.serialize(),
+        type: 'POST',
+        url: form.attr('action')
+      }).done(function() {
+        setTimeout(CardRegistration.pollForSelectAccountFormResponse, 3000);
+      });
+    },
+
+    pollForSelectAccountFormResponse: function () {
+      $.ajax({
+        url: '/institutions/select_account_poll',
+        type: 'GET'
+      }).done(function(resp){
+        if( resp.failure ) {
+          $('#account-selection-failure').foundation('reveal', 'open');
+        } else {
+          var query_params =  'account_name=' + encodeURIComponent(resp.data.account_name) + '&updated_accounts=' + encodeURIComponent(resp.data.updated_accounts);
+          CardRegistration.setWindowLocation('/institutions/congratulations?' + query_params);
+        }
+      }).fail(function() {
+        setTimeout(CardRegistration.pollForSelectAccountFormResponse, 3000);
+      });
+    },
+
+    closeModal: function (e) {
+      $(document).foundation('reveal', 'close');
+
+      return false;
+    },
+
+    setWindowLocation: function (url) {
+      window.location = url;
     }
   }
 })(window);

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'searching for a bank', js: true, driver: :selenium do
   let!(:tupac_bank) { create_institution(name: 'Bank of Tupac', intuit_institution_id: 100000) }
-  let!(:dmx_bank) { create_institution(name: 'DMX Bank', is_supported: true) }
+  let!(:dmx_bank) { create_institution(name: 'DMX Bank', is_supported: true, intuit_institution_id: 300002) }
   let!(:zz_top_bank) { create_institution(name: 'ZZ Top Bank', is_supported: false) }
   let!(:institution_authenticated_event_type) { create_event_type(name: Plink::EventTypeRecord.card_add_type) }
   let(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
@@ -117,9 +117,9 @@ describe 'searching for a bank', js: true, driver: :selenium do
       click_on 'Select'
     end
 
-    page.current_path.should == institution_selection_path
     page.should have_content 'Congratulations!'
     page.should have_content "my#{user.id}pixel"
+    page.current_path.should == '/institutions/congratulations'
 
     page.should have_content 'You have 234 Plink Points.'
 
@@ -171,6 +171,39 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content 'Communicating with Bank of Tupac.'
 
     page.should have_content "Select the card you'd like to earn rewards with."
+  end
+
+  it 'allows users with an account type of Other to set their account type' do
+    sign_in('test@example.com', 'test123')
+
+    fill_in 'institution_name', with: 'Bank'
+    click_on 'Search'
+
+    page.should have_content 'MOST COMMON'
+
+    click_on 'DMX Bank'
+
+    page.should have_content 'Please login to your DMX Bank account.'
+
+    fill_in 'auth_1', with: 'other_account'
+    fill_in 'auth_2', with: 'go'
+
+    click_on 'Connect'
+
+    page.should have_content 'Communicating with DMX Bank.'
+
+    click_on 'Select'
+
+    page.should have_content 'What type of account is this?'
+    page.should have_content 'Plink will only work with a credit or a debit account.'
+    page.should have_link 'Contact support.'
+
+    click_on 'Credit'
+
+    page.should have_content 'Checking account compatibility...'
+    page.should have_content "We're making sure the account you've selected is eligible for the Plink program. This will only take a few moments."
+
+    page.should have_content "You've successfully linked your My Unknown to your Plink account."
   end
 
   context 'for a user that already has a card registered' do

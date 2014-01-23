@@ -98,17 +98,47 @@ class InstitutionsController < ApplicationController
 
   def select
     staged_account = Plink::UsersInstitutionAccountStagingRecord.
+      select([:usersInstitutionAccountStagingID, :usersInstitutionID]).
       where(accountID: params[:intuit_account_id], userID: current_user.id).first
 
-    updated_accounts = Plink::UsersInstitutionAccountRecord.
+    accounts_to_end_date = Plink::UsersInstitutionAccountRecord.
       where(usersInstitutionID: staged_account.users_institution_id).
-      update_all(endDate: Date.current)
+      pluck(:usersInstitutionAccountID)
 
-    @selected_account = IntuitUpdate.new(current_user.id).
-      select_account!(staged_account, params[:account_type])
-    @institution_authenticated_pixel = institution_authenticated(updated_accounts, staged_account.user_id)
+    Plink::IntuitRequestRecord.where(user_id: current_user.id).delete_all
+    request = Plink::IntuitRequestRecord.create!(user_id: current_user.id, processed: false)
+    session[:intuit_account_request_id] = request.id
 
-    render :congratulations
+    select_account(staged_account.id, params[:account_type], accounts_to_end_date)
+
+    render nothing: true
+  end
+
+  def select_account_poll
+    request = Plink::IntuitRequestRecord.find(session[:intuit_account_request_id])
+    if request.processed?
+      response = JSON.parse(ENCRYPTION.decrypt_and_verify(request.response))
+      request.destroy
+
+      if !response['error'] && response['value'].has_key?('transactions')
+        render json: {failure: !response['value']['transactions']}
+      elsif !response['error']
+        values = {
+          updated_accounts: response['value']['updated_accounts'],
+          account_name: response['value']['account_name']
+        }
+        render json: {failure: false, data: values}
+      else
+        render json: {failure: true}
+      end
+    else
+      render nothing: true, status: :unprocessable_entity
+    end
+  end
+
+  def congratulations
+    @institution_authenticated_pixel = institution_authenticated(params[:updated_accounts].to_i)
+    @account_name = params[:account_name]
   end
 
   def reverifying?
@@ -129,8 +159,8 @@ private
     )
   end
 
-  def institution_authenticated(updated_accounts, user_id)
-    track_institution_authenticated(user_id).institution_authenticated_pixel if updated_accounts == 0
+  def institution_authenticated(updated_accounts)
+    track_institution_authenticated(current_user.id).institution_authenticated_pixel if updated_accounts == 0
   end
 
   def most_popular
@@ -152,6 +182,11 @@ private
     encrypted_answers = ENCRYPTION.encrypt_and_sign(answers)
 
     intuit_request.delay(queue: 'intuit_authentication').respond_to_mfa(encrypted_answers, session[:challenge_session_id], session[:challenge_node_id])
+  end
+
+  def select_account(staged_account_id, account_type, accounts_to_end_date)
+    intuit_request.delay(priority: -100).
+      select_account!(staged_account_id, account_type, accounts_to_end_date)
   end
 
   def intuit_request

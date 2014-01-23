@@ -1,0 +1,12 @@
+.reveal-modal#account-selection-failure.modal.tiny
+  %img{ :class => "close-btn", :src => "/assets/btn_close.png", :alt => "Close" }
+  %p.font-1p2em.font-w300 The account you selected is inelligible.
+  .bg-element
+    %p.font-1em.font-w300.font-gray.font-alignleft
+      Plink will only work with a debit or credit account. Please select a different account.
+    %br
+    %p.font-1em.font-w300.font-gray.font-alignleft
+      If the account you've selected is a debit or credit account, please
+      %span
+        = link_to 'contact support.', contact_path, class:'text-link', target: '_blank'
+  %button.button.primary-action.js-select-a-different-account Select a different account

@@ -191,7 +191,15 @@ describe Intuit::Response do
 
         response = Intuit::Response.new(intuit_response)
 
-        response.parse.should == {error: false}
+        response.parse.should == {error: false, transactions: false}
+      end
+
+      it 'indicates if the request included transactions' do
+        intuit_response = {status_code: '200', result: {transaction_list: {credit_card_transaction: true}}}
+
+        response = Intuit::Response.new(intuit_response)
+
+        response.parse.should == {error: false, transactions: true}
       end
     end
 

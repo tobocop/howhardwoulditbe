@@ -12,6 +12,10 @@
   text-align: center;
   @include round-corners(14px);
 
+  &#contest_share_modal, &#account-type-other, &#account-checking-compatability, &#account-selection-failure {
+    top:100px;
+  }
+
   input[type='text'], input[type='password'] {
     margin-bottom: 15px;
   }

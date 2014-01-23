@@ -29,6 +29,22 @@ class IntuitAccountRequest
     update_request_record(response.parse.to_json)
   end
 
+  def select_account!(staged_account_id, account_type, account_ids_to_be_end_dated)
+    staged_account = Plink::UsersInstitutionAccountStagingRecord.find(staged_account_id)
+    account_record = Plink::UsersInstitutionAccountRecord.create(staged_account.values_for_final_account)
+
+    update_account_type(account_record, staged_account, account_type) if account_type.present?
+    end_date_accounts(account_ids_to_be_end_dated) if account_ids_to_be_end_dated.present?
+
+    intuit_response = Intuit::Request.new(user_id).get_transactions(account_record.account_id, 14.days.ago)
+
+    response = Intuit::Response.new(intuit_response).parse
+    unless response[:error]
+      response[:value] = {account_name: account_record.name, updated_accounts: account_ids_to_be_end_dated.length}
+    end
+    update_request_record(response.to_json)
+  end
+
 private
 
   def populate_staging_records(login_id)
@@ -103,5 +119,27 @@ private
 
       Plink::UsersInstitutionAccountStagingRecord.create(account_attrs)
     end
+  end
+
+  def text_for_account_type(account_type)
+    case account_type
+    when 'credit'
+      'CREDITCARD'
+    when 'debit'
+      'CHECKING'
+    end
+  end
+
+  def end_date_accounts(account_ids)
+    Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountID: account_ids).
+      update_all(endDate: Date.current)
+  end
+
+  def update_account_type(account_record, staged_account, account_type)
+    formatted_account_type = text_for_account_type(account_type)
+
+    staged_account.update_attributes(account_type: formatted_account_type)
+    account_record.update_attributes(account_type: formatted_account_type)
+    Intuit::Request.new(user_id).update_account_type(account_record.account_id, formatted_account_type)
   end
 end

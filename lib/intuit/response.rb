@@ -7,21 +7,20 @@ module Intuit
     end
 
     def parse
+      response = {error: false}
       if successful?
         if accounts?
-          {error: false, value: accounts, aggr_status_codes: parse_status_codes(accounts)}
+          response.merge!(value: accounts, aggr_status_codes: parse_status_codes(accounts))
         else
-          {error: false}
+          response.merge!(transactions: transactions?)
         end
       elsif mfa?
-        challenge_session_id = raw_response[:challenge_session_id]
-        challenge_node_id = raw_response[:challenge_node_id]
-        value = {questions: mfa_questions, challenge_session_id: challenge_session_id, challenge_node_id: challenge_node_id}
-
-        {error: false, mfa: true, value: value}
+        response.merge!(mfa: true, value: questions_and_challenge_ids)
       else
-        {error: true, value: error_message}
+        response = {error: true, value: error_message}
       end
+
+      response
     end
 
     def accounts
@@ -55,12 +54,22 @@ module Intuit
       raw_response[:status_code] == '200' || raw_response[:status_code] == '201'
     end
 
+    def transactions?
+      raw_response[:result].present? && raw_response[:result].has_key?(:transaction_list) &&
+        ( raw_response[:result][:transaction_list].has_key?(:credit_card_transaction) ||
+        raw_response[:result][:transaction_list].has_key?(:banking_transaction) )
+    end
+
     def mfa?
       raw_response[:status_code] == '401'
     end
 
-    def mfa_questions
-      raw_response[:result][:challenges][:challenge]
+    def questions_and_challenge_ids
+      {
+        questions: raw_response[:result][:challenges][:challenge],
+        challenge_session_id: raw_response[:challenge_session_id],
+        challenge_node_id: raw_response[:challenge_node_id]
+      }
     end
 
     def error_message

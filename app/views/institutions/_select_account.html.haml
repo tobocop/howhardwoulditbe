@@ -12,14 +12,12 @@
   .spacer-top-8
     - accounts.each_with_index do |account, index|
       .card-select-container{class: index % 2 == 1 ? 'alt' : nil}
-        = form_tag institution_selection_path do
+        - css_classes = 'js-account-selection'
+        - css_classes << ' account-type-other' if account['type'].nil?
+        = form_tag institution_selection_path, class: css_classes do
           = hidden_field_tag :intuit_account_id, account['id']
           .button-container.no-margin.vert-align-top
-            - options = {class: 'button primary-action'}
-            - if account['type'].nil?
-              - options[:class] << ' account-type-other'
-              - options[:data] = {'reveal-id' => 'account_type_other'}
-            = submit_tag 'Select', options
+            = submit_tag 'Select', class: 'button primary-action'
           .card-info
             .font-1em.font-w500.font-uppercase.font-kern1 #{account['name']}
             .font-p9em.font-w300 #{account['account_number']}
@@ -28,7 +26,7 @@
 
 .clear
 
-= render partial: 'account_type_selection_modal'
+= render partial: 'account_selection_failure_modal'
 
 :javascript
   CardRegistration.setActiveStep(3);

@@ -156,4 +156,23 @@ describe Intuit::Request do
       Intuit::Request.new(1).update_account_type(1234567, 'BEST ACCOUNT TYPE')
     end
   end
+
+  describe '#get_transactions' do
+    let(:current_date) { Date.current }
+
+    it 'calls getAccountTransactions [GET "accounts/#{account_Id}/transactions?txnStartDate=#{start_date}[&txnEndDate=#{end_date}]"]' do
+      aggcat.should_receive(:account_transactions).with(2384, current_date, nil)
+
+      Intuit::Request.new(3).get_transactions(2384, current_date)
+    end
+
+    it 'logs the response' do
+      aggcat.stub(:account_transactions).and_return('so doge')
+
+      method_and_params = {method: :account_transactions, params: {account_id: 2384, start_date: current_date, end_date: nil}}
+      logger.should_receive(:log_and_return_response).with('so doge', 351, method_and_params)
+
+      Intuit::Request.new(351).get_transactions(2384, current_date)
+    end
+  end
 end

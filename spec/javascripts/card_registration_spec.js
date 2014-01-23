@@ -11,19 +11,20 @@ describe('CardRegistration', function() {
       '    <div id="duplicate" style="display: none">duplicate</div>' +
       '    <div id="please-login">please-login</div>' +
       '    <div class="institution-authentication-form">' +
-      '      <form id="js-authentication-form" class="js-account-type-selection-form" action="/stuff">' +
+      '      <form id="js-authentication-form" class="js-account-type-selection-form js-account-selection" action="/stuff">' +
       '        <input type="hidden" id="intuit_account_id" value="12345"/>' +
       '        <input type="submit" />' +
       '      </form>' +
       '      <form id="js-text-based-mfa-form" action="/stuff"></form>' +
       '    </div>' +
+      '    <div class="close-btn js-select-a-different-account"></div>' +
       '  </div>' +
       '</div>' +
       '<div class="content-replacement"></div>' +
       '<form>' +
       '  <p id="intuit_account_id">Cool Story</p>' +
       '</form>' +
-      '<input type="submit" class="account-type-other"></input>' +
+      '<input type="submit" class="account-type-selection-form"></input>' +
       '<span id="js-establishing-connection">Connecting</span>'
     );
   });
@@ -53,26 +54,49 @@ describe('CardRegistration', function() {
 
     xit('Triggering a click of the back button causes the spec suite to go back...');
 
-    it('binds on the click of .account-type-other', function () {
-      spyOn(CardRegistration, 'accountTypePrompt').andCallFake(function () {
+    it('binds on the submit of .js-account-selection', function () {
+      spyOn(CardRegistration, 'accountSelection').andCallFake(function () {
         return true;
       });
 
       CardRegistration.bindEvents();
-      $(".account-type-other").trigger('click');
+      $('.js-account-selection').trigger('submit');
 
-      expect(CardRegistration.accountTypePrompt).toHaveBeenCalled();
+      expect(CardRegistration.accountSelection).toHaveBeenCalled();
     });
 
-    it('binds on the submission .js-account-type-selection-form', function () {
-      spyOn(CardRegistration, 'submitAccountType').andCallFake(function() {
+    it('binds on the submit of .js-account-type-selection-form', function () {
+      spyOn(CardRegistration, 'submitAccountTypeSelection').andCallFake(function () {
         return true;
       });
 
       CardRegistration.bindEvents();
-      $('.js-account-type-selection-form').submit();
+      $(".js-account-type-selection-form").trigger('submit');
 
-      expect(CardRegistration.submitAccountType).toHaveBeenCalled();
+      expect(CardRegistration.submitAccountTypeSelection).toHaveBeenCalled();
+    });
+
+    it('binds on the click of .js-select-a-different-account', function () {
+      spyOn(CardRegistration, 'closeModal').andCallFake(function() {
+        return true;
+      });
+
+      CardRegistration.bindEvents();
+      $('.js-select-a-different-account').trigger('click');
+
+      expect(CardRegistration.closeModal).toHaveBeenCalled();
+    });
+
+
+    it('binds on the click .close-btn', function () {
+      spyOn(CardRegistration, 'closeModal').andCallFake(function() {
+        return true;
+      });
+
+      CardRegistration.bindEvents();
+      $('.close-btn').trigger('click');
+
+      expect(CardRegistration.closeModal).toHaveBeenCalled();
     });
   });
 
@@ -286,21 +310,163 @@ describe('CardRegistration', function() {
     });
   });
 
-  describe('#accountTypePrompt', function () {
+  describe('#accountSelection', function () {
+    it('calls to submitAccountForm', function () {
+      spyOn(CardRegistration, 'submitAccountForm');
+
+      CardRegistration.accountSelection();
+
+      expect(CardRegistration.submitAccountForm).toHaveBeenCalled();
+    });
+
+    it('returns false', function () {
+      expect(CardRegistration.accountSelection()).toBe(false);
+    });
+
+    describe('with an account type of other', function () {
+      beforeEach(function () {
+        spyOn($.fn, 'hasClass').andReturn(true);
+      });
+
+      it('grabs the intuit_account_id', function () {
+        spyOn(CardRegistration, 'forwardAccountIdToTypeSelection');
+
+        CardRegistration.accountSelection();
+
+        expect(CardRegistration.forwardAccountIdToTypeSelection).toHaveBeenCalled();
+      });
+
+      it('calls to foundation to open a modal', function () {
+        var spy = spyOn($.fn, 'foundation');
+
+        CardRegistration.accountSelection();
+
+        expect(spy).toHaveBeenCalledWith('reveal', 'open');
+      });
+    });
+  });
+
+  describe('#forwardAccountIdToTypeSelection', function () {
     it('appends the intuit_account_id to .js-account-type-selection-form', function () {
-      CardRegistration.accountTypePrompt();
+      CardRegistration.forwardAccountIdToTypeSelection($('#js-authentication-form'));
 
       expect($('.js-account-type-selection-form #intuit_account_id').val()).toEqual('12345');
     });
   });
 
-  describe('#submitAccountType', function () {
-    it('shows the progress bar', function () {
-      spyOn(CardRegistration, 'showProgressBar').andCallFake(function () {return true; });
+  describe('#submitAccountTypeSelection', function () {
+    it('calls submitAccountForm', function () {
+      spyOn(CardRegistration, 'submitAccountForm');
 
-      CardRegistration.submitAccountType();
+      CardRegistration.submitAccountTypeSelection();
 
-      expect(CardRegistration.showProgressBar).toHaveBeenCalled();
+      expect(CardRegistration.submitAccountForm).toHaveBeenCalled();
+    });
+
+    it('returns false', function () {
+      expect(CardRegistration.submitAccountTypeSelection()).toBe(false);
+    });
+  });
+
+  describe('#submitAccountForm', function () {
+    it('calls to foundation', function () {
+      var spy = spyOn($.fn, 'foundation');
+
+      CardRegistration.submitAccountForm($('.js-authentication-form'));
+
+      expect(spy).toHaveBeenCalledWith('reveal', 'open');
+    });
+
+    it('makes an AJAX request to submit the form', function () {
+      var def = $.Deferred();
+      spyOn($, "ajax").andCallFake(function() {return def;});
+
+      CardRegistration.submitAccountForm($('#js-authentication-form'));
+
+      expect($.ajax).toHaveBeenCalledWith({data: '', type: 'POST', url: '/stuff'});
+    });
+
+    it('triggers pollForAccountResponse on the resolution of the AJAX request', function() {
+      spyOn($, 'ajax').andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.resolve();
+        return deferred.promise();
+      });
+      spyOn(window, 'setTimeout');
+
+      CardRegistration.submitAccountForm($('#js-authentication-form'));
+
+      expect(window.setTimeout).toHaveBeenCalledWith(CardRegistration.pollForSelectAccountFormResponse, 3000);
+    });
+  });
+
+  describe('#pollForSelectAccountFormResponse', function () {
+    it('calls GET /institutions/select_account_poll via AJAX', function () {
+      var def = $.Deferred();
+      spyOn($, "ajax").andCallFake(function() {return def;});
+
+      CardRegistration.pollForSelectAccountFormResponse();
+
+      expect($.ajax).toHaveBeenCalledWith({url: '/institutions/select_account_poll', type: 'GET'});
+    });
+
+    it('calls itself on a failed AJAX request', function () {
+      spyOn(window, 'setTimeout');
+      spyOn($, "ajax").andCallFake(function() {
+        var deferred = $.Deferred();
+        deferred.reject('awesome');
+        return deferred.promise();
+      });
+
+      CardRegistration.pollForSelectAccountFormResponse();
+
+      expect(window.setTimeout).toHaveBeenCalledWith(CardRegistration.pollForSelectAccountFormResponse, 3000);
+    });
+
+    describe('with a failed response from the server', function () {
+      it('calls to foundation', function () {
+        var spy = spyOn($.fn, 'foundation');
+        spyOn($, "ajax").andCallFake(function() {
+          var deferred = $.Deferred();
+          deferred.resolve({failure: true});
+          return deferred.promise();
+        });
+
+        CardRegistration.pollForSelectAccountFormResponse();
+
+        expect(spy).toHaveBeenCalledWith('reveal', 'open');
+      });
+    });
+
+    describe('with a successful response from the server', function () {
+      it('sets the window location', function () {
+        var spy = spyOn(CardRegistration, 'setWindowLocation');
+        spyOn($, "ajax").andCallFake(function() {
+          var deferred = $.Deferred();
+          deferred.resolve({failure: false, data: {account_name: 'Account', updated_accounts: 2}});
+          return deferred.promise();
+        });
+
+        CardRegistration.pollForSelectAccountFormResponse();
+
+        expect(spy).toHaveBeenCalledWith('/institutions/congratulations?account_name=Account&updated_accounts=2');
+      });
+    });
+  });
+
+  describe('#closeModal', function () {
+    it('calls foundation to close any open modals', function () {
+      var spy = spyOn($.fn, 'foundation');
+
+      expect(CardRegistration.closeModal()).toBe(false);
+    });
+
+    it('returns false', function () {
+      var spy = spyOn($.fn, 'foundation');
+
+      CardRegistration.closeModal();
+
+      expect(spy).toHaveBeenCalledWith('reveal', 'close');
     });
   });
 });
