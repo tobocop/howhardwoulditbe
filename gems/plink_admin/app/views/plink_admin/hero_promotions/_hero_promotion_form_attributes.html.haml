@@ -20,3 +20,9 @@
 = form.check_box :same_tab_two
 %p
   Example link to send a user to the card link with tracking parameters: /tracking/new?redirect_user_to=%2Fwallet%3Flink_card%3Dtrue&[tracking_params_here]
+.dateselect
+  = form.label :start_date, 'Start Date'
+  = form.datetime_select :start_date, start_year: Time.zone.now.year, end_year: Time.zone.now.year + 5
+.dateselect
+  = form.label :end_date, 'End Date'
+  = form.datetime_select :end_date, start_year: Time.zone.now.year

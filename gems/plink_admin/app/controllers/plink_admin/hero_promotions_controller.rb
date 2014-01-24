@@ -54,7 +54,7 @@ module PlinkAdmin
     end
 
     def index_fields
-      [:display_order, :id, :image_url_one, :image_url_two, :is_active, :name, :title]
+      [:display_order, :end_date, :id, :image_url_one, :image_url_two, :is_active, :name, :start_date, :title]
     end
   end
 end

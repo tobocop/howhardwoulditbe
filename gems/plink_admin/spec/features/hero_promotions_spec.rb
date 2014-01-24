@@ -34,6 +34,16 @@ describe 'Hero Promotions' do
     check 'Show to linked members'
     check 'Show to non-linked members'
 
+    valid_start_day = 2.days.from_now.day
+    select 2.days.from_now.year, from: 'hero_promotion[start_date(1i)]'
+    select 2.days.from_now.strftime("%B"), from: 'hero_promotion[start_date(2i)]'
+    select valid_start_day, from: 'hero_promotion[start_date(3i)]'
+
+    valid_end_day = 7.days.from_now.day
+    select 7.days.from_now.year, from: 'hero_promotion[end_date(1i)]'
+    select 7.days.from_now.strftime("%B"), from: 'hero_promotion[end_date(2i)]'
+    select valid_end_day, from: 'hero_promotion[end_date(3i)]'
+
     click_on 'Create'
 
     hero_promotion = Plink::HeroPromotionRecord.last
@@ -48,6 +58,8 @@ describe 'Hero Promotions' do
         page.should have_css "img[src='http://example.com/image-right']"
         page.should have_content '28'
         page.should have_content 'Active'
+        page.should have_content valid_start_day
+        page.should have_content valid_end_day
 
         click_on 'Heroz'
       end
@@ -67,6 +79,11 @@ describe 'Hero Promotions' do
     uncheck 'Open right URL in same tab'
     uncheck 'Show to linked members'
 
+    valid_end_day = 6.days.from_now.day
+    select 6.days.from_now.year, from: 'hero_promotion[end_date(1i)]'
+    select 6.days.from_now.strftime("%B"), from: 'hero_promotion[end_date(2i)]'
+    select valid_end_day, from: 'hero_promotion[end_date(3i)]'
+
     click_on 'Update'
 
     hero_promotion.reload.link_one.should be_blank
@@ -79,6 +96,8 @@ describe 'Hero Promotions' do
         page.should have_css "img[src='http://example.com/new-image']"
         page.should have_css "img[src='http://example.com/new-image-right']"
         page.should have_content 'Inactive'
+        page.should have_content valid_start_day
+        page.should have_content valid_end_day
 
         click_on 'Heroz II'
       end
@@ -104,6 +123,8 @@ describe 'Hero Promotions' do
         page.should have_content '25'
         page.should have_css "img[src='http://example.com/new-image']"
         page.should have_content 'Inactive'
+        page.should have_content valid_start_day
+        page.should have_content valid_end_day
       end
     end
   end

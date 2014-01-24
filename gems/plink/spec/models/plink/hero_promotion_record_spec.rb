@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Plink::HeroPromotionRecord do
   it { should allow_mass_assignment_of(:display_order) }
+  it { should allow_mass_assignment_of(:end_date) }
   it { should allow_mass_assignment_of(:image_url_one) }
   it { should allow_mass_assignment_of(:image_url_two) }
   it { should allow_mass_assignment_of(:is_active) }
@@ -12,6 +13,7 @@ describe Plink::HeroPromotionRecord do
   it { should allow_mass_assignment_of(:same_tab_two) }
   it { should allow_mass_assignment_of(:show_linked_users) }
   it { should allow_mass_assignment_of(:show_non_linked_users) }
+  it { should allow_mass_assignment_of(:start_date) }
   it { should allow_mass_assignment_of(:title) }
   it { should allow_mass_assignment_of(:user_ids_present) }
 
@@ -19,6 +21,7 @@ describe Plink::HeroPromotionRecord do
   let(:valid_attributes) {
     {
       display_order: 1,
+      end_date: 2.days.from_now.to_date,
       image_url_one: '/assets/foo.jpg',
       is_active: true,
       link_one: nil,
@@ -27,6 +30,7 @@ describe Plink::HeroPromotionRecord do
       same_tab_two: true,
       show_linked_users: true,
       show_non_linked_users: true,
+      start_date: 2.days.ago.to_date,
       title: 'Yes'
     }
   }
@@ -42,11 +46,19 @@ describe Plink::HeroPromotionRecord do
     invalid_record.errors.full_messages.should == ["Name can't be blank"]
   end
 
-  it 'requires a title and image_url_one to not be blank to be valid' do
-    promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(image_url_one: '', title:''))
+  it 'requires a title, image_url_one, start_date and end_date to not be blank to be valid' do
+    promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(image_url_one: '', end_date:'', start_date:'', title:''))
 
+    promotion.should have(1).error_on(:end_date)
     promotion.should have(1).error_on(:image_url_one)
+    promotion.should have(1).error_on(:start_date)
     promotion.should have(1).error_on(:title)
+  end
+
+  it 'is invalid if the end_date is less than the start_date' do
+    promotion = Plink::HeroPromotionRecord.new(valid_attributes.merge(start_date: 1.day.from_now.to_date, end_date: 3.days.ago.to_date))
+    promotion.should_not be_valid
+    promotion.should have(1).error_on(:end_date)
   end
 
   it 'validates that an audience is present' do

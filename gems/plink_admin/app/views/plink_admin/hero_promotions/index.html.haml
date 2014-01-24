@@ -8,6 +8,8 @@
     %th Image Right
     %th Order
     %th Active
+    %th Start Date
+    %th End Eate
   %tbody
     - @hero_promotions.each do |hero_promotion|
       %tr.hero-promotion-item
@@ -17,3 +19,5 @@
         %td= image_tag hero_promotion.image_url_two, class: 'hero-promotion-image' if hero_promotion.image_url_two.present?
         %td= hero_promotion.display_order
         %td= hero_promotion.is_active ? 'Active' : 'Inactive'
+        %td= hero_promotion.start_date
+        %td= hero_promotion.end_date

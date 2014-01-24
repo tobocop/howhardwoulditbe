@@ -252,11 +252,13 @@ module Plink
     def new_hero_promotion(options ={})
       defaults = {
         display_order: 1,
+        end_date: 2.days.from_now.to_date,
         image_url_one: '/assets/test_image_tbd.jpg',
         is_active: true,
         name: 'promotion name',
         show_linked_users: true,
         show_non_linked_users: true,
+        start_date: 2.days.ago.to_date,
         title: 'Awesome Title'
       }
       Plink::HeroPromotionRecord.new { |promotion| apply(promotion, defaults, options) }

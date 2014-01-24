@@ -6,14 +6,15 @@ module Plink
 
     has_many :hero_promotion_users, class_name: 'Plink::HeroPromotionUserRecord', foreign_key: 'user_id'
 
-    attr_accessible :display_order, :image_url_one, :image_url_two, :is_active, :link_one,
+    attr_accessible :display_order, :end_date, :image_url_one, :image_url_two, :is_active, :link_one,
       :link_two, :name, :same_tab_one, :same_tab_two, :show_linked_users, :show_non_linked_users,
-      :title, :user_ids_present
+      :start_date, :title, :user_ids_present
 
-    validates_presence_of :title, :image_url_one, :name
+    validates_presence_of :end_date, :image_url_one, :name, :start_date, :title
 
     validate :audience_selected
     validate :audience_by_card_status_or_user_ids
+    validate :end_date_after_start_date
 
     def self.by_display_order
       order(:display_order)
@@ -87,6 +88,13 @@ module Plink
         errors.add(:show_linked_users, error)
         errors.add(:show_non_linked_users, error)
         errors.add(:user_ids_present, error)
+      end
+    end
+
+    def end_date_after_start_date
+      if end_date && start_date
+        error = "End date cannot be before the start date"
+        errors.add(:end_date) if end_date < start_date
       end
     end
   end

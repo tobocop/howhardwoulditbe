@@ -755,6 +755,8 @@ ActiveRecord::Schema.define(:version => 20140110214931) do
     t.string   "image_url_two"
     t.boolean  "same_tab_one"
     t.boolean  "same_tab_two"
+    t.datetime "end_date"
+    t.datetime "start_date"
   end
 
   create_table "institutions", :primary_key => "institutionID", :force => true do |t|
