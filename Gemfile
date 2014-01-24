@@ -20,6 +20,7 @@ gem 'plink_admin', path: 'gems/plink_admin'
 gem 'aggcat', git: 'https://github.com/cloocher/aggcat'
 gem 'tire'
 gem 'exceptional'
+gem 'librato-rails'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

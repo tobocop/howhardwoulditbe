@@ -1,0 +1,4 @@
+# Submission will be disabled in any environment without credentials.
+environment:
+  user: [email]
+  token: [token]

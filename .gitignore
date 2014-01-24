@@ -39,3 +39,4 @@ newrelic.yml
 exceptional.yml
 elasticsearch.yml
 salt.yml
+librato.yml
