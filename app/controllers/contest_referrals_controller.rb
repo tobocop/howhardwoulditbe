@@ -6,10 +6,14 @@ class ContestReferralsController < ApplicationController
 
     set_session_tracking_params(new_tracking_object(trackable_params))
 
-    redirect_to contests_path
+    redirect_to source_is_winning_post? ? contest_path(params[:contest_id]) : contests_path
   end
 
 private
+
+  def source_is_winning_post?
+    params[:source] == 'facebook_winning_entry_post'
+  end
 
   def trackable_params
     params.merge(

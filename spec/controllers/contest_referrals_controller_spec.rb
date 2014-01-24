@@ -7,8 +7,21 @@ describe ContestReferralsController do
     before do
       get :new, {user_id: 123, affiliate_id: 43, contest_id: 23, source: 'my_sweet_source'}
     end
-    it 'redirects to the contest index page' do
-      response.should redirect_to contests_path
+
+    context 'with a source of facebook_winning_entry_post' do
+      before do
+        get :new, {user_id: 123, affiliate_id: 43, contest_id: 23, source: 'facebook_winning_entry_post'}
+      end
+
+      it 'redirects to the individual contest page' do
+        response.should redirect_to contest_path(23)
+      end
+    end
+
+    context 'without a source of facebook_winning_entry_post' do
+      it 'redirects to the contest index page' do
+        response.should redirect_to contests_path
+      end
     end
 
     it 'sets the tracking_params referrer_id in the session to the user_id' do
