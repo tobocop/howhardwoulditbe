@@ -21,7 +21,7 @@ describe 'Contests' do
   end
 
   context 'site navigation' do
-    it 'adds a link to the contests page for logged in users', js: true do
+    it 'adds a link to the contests page for logged in users', :vcr, js: true do
       visit root_path
 
       page.should_not have_link 'Contests'
@@ -72,7 +72,7 @@ describe 'Contests' do
         visit contest_path(expired_contest)
       end
 
-      it 'displays the contest as expired' do
+      it 'displays the contest as expired', :vcr do
         page.should have_content 'THIS CONTEST ENDED ON'
         page.should have_link 'View the complete list of winners'
         page.should_not have_link 'share to enter'
@@ -100,7 +100,7 @@ describe 'Contests' do
       end
     end
 
-    it 'displays the individual contest and allows the user to sign up', driver: :selenium do
+    it 'displays the individual contest and allows the user to sign up', :vcr, driver: :selenium do
       page.should have_content 'This is the best contest ever'.upcase
       page.should have_content 'The car is red'
       page.should have_image '/assets/profile.jpg'
@@ -148,7 +148,7 @@ describe 'Contests' do
     end
 
     context 'for an unauthenticated user', js:true do
-      it 'only forwards the user to the contest page if the user registers from the contest page', driver: :selenium do
+      it 'only forwards the user to the contest page if the user registers from the contest page', :vcr, driver: :selenium do
         visit '/'
 
         page.should have_content "Join"
@@ -209,7 +209,7 @@ describe 'Contests' do
         visit contest_path(contest)
       end
 
-      it 'displays the user entry information and allows them to enter' do
+      it 'displays the user entry information and allows them to enter', :vcr do
         page.should have_content 'You have 0 entries.'
         page.should have_link 'share to enter'
         page.should have_image '/assets/profile.jpg'
@@ -252,7 +252,7 @@ describe 'Contests' do
         create_users_institution_account(user_id: user.id)
       end
 
-     it 'displays the contest with updated multiplier text' do
+     it 'displays the contest with updated multiplier text', :vcr do
         click_on 'Sign In'
 
         within '.sign-in-modal' do

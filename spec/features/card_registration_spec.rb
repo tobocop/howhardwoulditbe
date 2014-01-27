@@ -24,7 +24,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     create_wallet(user_id: user.id)
   end
 
-  it 'allows the user to search' do
+  it 'allows the user to search', :vcr do
     user_two = create_user(email: 'iamreferring@plink.com', password: 'test123', first_name: 'Bobby')
     create_users_virtual_currency(user_id: user_two.id, virtual_currency_id: virtual_currency.id)
     wallet = create_wallet(user_id: user_two.id)
@@ -138,7 +138,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content 'This slot is empty.'
   end
 
-  it 'allows users to complete image based MFAs' do
+  it 'allows users to complete image based MFAs', :vcr do
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
@@ -173,7 +173,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content "Select the card you'd like to earn rewards with."
   end
 
-  it 'allows users with an account type of Other to set their account type' do
+  it 'allows users with an account type of Other to set their account type', :vcr do
     sign_in('test@example.com', 'test123')
 
     fill_in 'institution_name', with: 'Bank'
@@ -214,7 +214,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
       create_wallet(user_id: user.id)
     end
 
-    it 'does not allow another user to register using the same institution and username' do
+    it 'does not allow another user to register using the same institution and username', :vcr do
       sign_in('test@example.com', 'test123')
       page.should have_content "Enter your bank's name."
 
@@ -252,7 +252,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
       page.should have_link 'Plink support.'
     end
 
-    it 'allows a user to update their login credentials' do
+    it 'allows a user to update their login credentials', :vcr do
       sign_in('test@example.com', 'test123')
       page.should have_content "Enter your bank's name."
 

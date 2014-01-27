@@ -20,7 +20,7 @@ describe 'Contest notifications' do
       )
     }
 
-    it 'reminds a user to enter the contest, displays the prize, and links to the contest page.' do
+    it 'reminds a user to enter the contest, displays the prize, and links to the contest page.', :vcr do
       sign_up_user('matt', 'm@p.c', '123123')
       page.should have_content 'enter this contest or else'
 
@@ -49,19 +49,16 @@ describe 'Contest notifications' do
     }
     let!(:grand_prize_winner) { create_user(email: 'matrix@example.com', first_name: 'John', last_name: 'Matrix', password: 'test123') }
     let!(:second_prize_winner) { create_user(email: 'cindy@example.com', first_name: 'Cindy') }
-    let!(:another_winner) { create_user(email: 'bennett@example.com', first_name: 'Bennett') }
 
     let!(:grand_prize) { create_contest_prize_level(contest_id: expired_contest.id) }
     let!(:second_prize) { create_contest_prize_level(contest_id: expired_contest.id, dollar_amount: 50) }
-    let!(:another_prize) { create_contest_prize_level(contest_id: expired_contest.id, dollar_amount: 2) }
 
     let!(:contest_winners) do
       create_contest_winner(user_id: grand_prize_winner.id, contest_id: expired_contest.id, prize_level_id: grand_prize.id, winner: true, finalized_at: finalized_timestamp)
       create_contest_winner(user_id: second_prize_winner.id, contest_id: expired_contest.id, prize_level_id: second_prize.id, winner: true, finalized_at: finalized_timestamp)
-      create_contest_winner(user_id: another_winner.id, contest_id: expired_contest.id, prize_level_id: another_prize.id, winner: true, finalized_at: finalized_timestamp)
     end
 
-    it 'shows to a contest winner, allows them to share, and links to the contest page' do
+    it 'shows to a contest winner, allows them to share, and links to the contest page', :vcr do
       sign_in(grand_prize_winner.email, 'test123')
 
       page.should have_content "You've won 10000 Plink Points. Share with your friends."

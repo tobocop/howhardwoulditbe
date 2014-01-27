@@ -15,7 +15,7 @@ describe 'Linking a card' do
     ])
   end
 
-  it 'allows a user without a linked card to add one from the offer details modal', js: true, driver: :selenium , flaky: true do
+  it 'allows a user without a linked card to add one from the offer details modal', :vcr, js: true, driver: :selenium , flaky: true do
     sign_in('user@example.com', 'pass1word')
 
     click_on 'Wallet'

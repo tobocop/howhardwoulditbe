@@ -37,7 +37,7 @@ describe Lyris::User do
     end
   end
 
-  it 'manages a user on the lyris list' do
+  it 'manages a user on the lyris list', :vcr do
     lyris_add_response = lyris_user.add_to_list
     lyris_add_response.should be_successful
 
@@ -52,4 +52,3 @@ describe Lyris::User do
     lyris_removal_response.should be_successful
   end
 end
-

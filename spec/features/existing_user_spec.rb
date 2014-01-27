@@ -78,7 +78,7 @@ describe 'user signs in' do
     )
   end
 
-  it 'a registered user can have an active session', js: true, driver: :selenium do
+  it 'a registered user can have an active session', :vcr, js: true, driver: :selenium do
     sign_in('test@example.com', 'test123')
 
     page.should have_content('Welcome, Bob!')

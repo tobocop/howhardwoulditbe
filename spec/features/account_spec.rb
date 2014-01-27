@@ -53,7 +53,7 @@ describe 'Managing account' do
     end
 
     context 'active user' do
-      it 'allows a user to manage their account', js: true, driver: :selenium do
+      it 'allows a user to manage their account', :vcr, js: true, driver: :selenium do
         sign_in('user@example.com', 'pass1word')
 
         click_link 'My Account'
@@ -172,7 +172,7 @@ describe 'Managing account' do
         page.should have_content 'Welcome, samwise!'
       end
 
-      it 'displays a maximum of 20 activities', js: true do
+      it 'displays a maximum of 20 activities', :vcr, js: true do
         21.times { award_points_to_user(
           user_id: user.id,
           dollar_award_amount: 6,
@@ -189,7 +189,7 @@ describe 'Managing account' do
       end
     end
 
-    it 'allows a user to change their bank card', js: true, driver: :selenium do
+    it 'allows a user to change their bank card', :vcr, js: true, driver: :selenium do
       sign_in('user@example.com', 'pass1word')
 
       click_link 'My Account'
@@ -206,7 +206,7 @@ describe 'Managing account' do
       create_locked_wallet_item(wallet_id: wallet.id)
     end
 
-    it 'allows the user to link one', js: true do
+    it 'allows the user to link one', :vcr, js: true do
       sign_in('user@example.com', 'pass1word')
 
       page.should have_content "Welcome"
@@ -222,7 +222,7 @@ describe 'Managing account' do
       page.should have_content "Enter your bank's name."
     end
 
-    it 'allows a user to unsubscribe from email notifications' do
+    it 'allows a user to unsubscribe from email notifications', :vcr do
       visit new_password_reset_request_path
 
       fill_in 'Email', with: 'user@example.com'
@@ -242,7 +242,7 @@ describe 'Managing account' do
       page.should have_css '.flash-msg', text: 'Your subscription preferences have been successfully updated.'
     end
 
-    it 'allows a user to mark an email as spam' do
+    it 'allows a user to mark an email as spam', :vcr do
       visit new_password_reset_request_path
 
       fill_in 'Email', with: 'user@example.com'

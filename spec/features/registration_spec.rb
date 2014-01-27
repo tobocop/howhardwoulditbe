@@ -22,7 +22,7 @@ describe 'Registering through a registration link' do
   end
 
   context 'with custom landing pages', js:true do
-    it 'shows the user one of the landing pages' do
+    it 'shows the user one of the landing pages', :vcr do
       visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 
       registration_start_event = Plink::EventRecord.order('eventID desc').first
@@ -72,7 +72,7 @@ describe 'Registering through a registration link' do
       registration_start_event.user_id.should == email_capture_event.user_id
     end
 
-    it 'shows a share page if there is one' do
+    it 'shows a share page if there is one', :vcr do
       share_page = create_share_page(partial_path: 'example')
       registration_link.share_page_records << share_page
 
@@ -113,7 +113,7 @@ describe 'Registering through a registration link' do
       create_registration_link_mapping(affiliate_id: affiliate.id, campaign_id: campaign.id, registration_link_id: registration_link.id)
     end
 
-    it 'forwards to a new registration link' do
+    it 'forwards to a new registration link', :vcr do
       visit deprecated_registration_link_path('aid' => affiliate.id, 'c' => 'willbedeprecated', 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 
       page.should have_content 'An example custom landing page'

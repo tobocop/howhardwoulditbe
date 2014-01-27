@@ -7,7 +7,7 @@ describe 'Admins' do
     page.should have_content 'Sign in'
   end
 
-  it 'lets an admin sign in as another user' do
+  it 'lets an admin sign in as another user', :vcr do
 
     create_app_user(email: 'jumbalaya@example.com')
 

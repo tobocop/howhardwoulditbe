@@ -4,7 +4,7 @@ describe Geoip::LocationLookup do
   describe '#by_ip' do
     let(:ip) { '209.120.212.22' }
 
-    it 'looks up location by ip' do
+    it 'looks up location by ip', :vcr do
       location = Geoip::LocationLookup.by_ip(ip)
       location[:state].should == 'CO'
       location[:city].should == 'Denver'

@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://oauth.intuit.com/oauth/v1/get_access_token_by_saml
+    body:
+      encoding: US-ASCII
+      string: saml_assertion=PHNhbWwyOkFzc2VydGlvbiB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVz%0AOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiIgSUQ9Il83MDhjNGY0NjIxN2U0MTI1%0AOGY5NWI0MTQ3ZmNjNGNjMyIgSXNzdWVJbnN0YW50PSIyMDE0LTAxLTI3VDE5%0AOjEyOjE4LjA1NloiIFZlcnNpb249IjIuMCI%2BPHNhbWwyOklzc3Vlcj5wbGlu%0Aa2RldmFuZHFhZW52aXJvbm1lbnQuMzA1OTkuY2MuZGV2LWludHVpdC5pcHAu%0AcHJvZDwvc2FtbDI6SXNzdWVyPjxkczpTaWduYXR1cmUgeG1sbnM6ZHM9Imh0%0AdHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPjxkczpTaWduZWRJ%0AbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0%0AcDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8%2BPGRzOlNp%0AZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIw%0AMDAvMDkveG1sZHNpZyNyc2Etc2hhMSIvPjxkczpSZWZlcmVuY2UgVVJJPSIj%0AXzcwOGM0ZjQ2MjE3ZTQxMjU4Zjk1YjQxNDdmY2M0Y2MzIj48ZHM6VHJhbnNm%0Ab3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5v%0AcmcvMjAwMC8wOS94bWxkc2lnI2VudmVsb3BlZC1zaWduYXR1cmUiLz48ZHM6%0AVHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8x%0AMC94bWwtZXhjLWMxNG4jIi8%2BPC9kczpUcmFuc2Zvcm1zPjxkczpEaWdlc3RN%0AZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3ht%0AbGRzaWcjc2hhMSIvPjxkczpEaWdlc3RWYWx1ZT5RTHc1L1htRGdMNFlMaFkv%0AUHZqSitPQkpwZGc9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48%0AL2RzOlNpZ25lZEluZm8%2BPGRzOlNpZ25hdHVyZVZhbHVlPlcvMWRlRDh6Vmox%0AbWRPZDJLakNSQlJSc0F5UnVkcDJwK3VHSUFzZ3RFTGJtWG90OWUvT3F4UkRn%0AQnZVbTJqbEMvYzRINVoxaEE4TUd5cmczVlJtUElyUVJla2JYNTdDTStMSFJ4%0AWStJZ2F1U0tiUHNFN3lSRGJ6b2RNSVdlS2JDS2RvNlRrU3R5OUZGbng3NzVj%0AL0VaM1RNS2lzT2pWOTEvVks3MXh0MERpTT08L2RzOlNpZ25hdHVyZVZhbHVl%0APjwvZHM6U2lnbmF0dXJlPjxzYW1sMjpTdWJqZWN0PjxzYW1sMjpOYW1lSUQg%0ARm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoxLjE6bmFtZWlkLWZv%0Acm1hdDp1bnNwZWNpZmllZCI%2BMjU1Mjwvc2FtbDI6TmFtZUlEPjxzYW1sMjpT%0AdWJqZWN0Q29uZmlybWF0aW9uIE1ldGhvZD0idXJuOm9hc2lzOm5hbWVzOnRj%0AOlNBTUw6Mi4wOmNtOmJlYXJlciI%2BPC9zYW1sMjpTdWJqZWN0Q29uZmlybWF0%0AaW9uPjwvc2FtbDI6U3ViamVjdD48c2FtbDI6Q29uZGl0aW9ucyBOb3RCZWZv%0AcmU9IjIwMTQtMDEtMjdUMTk6MDc6MTguMDU2WiIgTm90T25PckFmdGVyPSIy%0AMDE0LTAxLTI3VDE5OjIyOjE4LjA1NloiPjxzYW1sMjpBdWRpZW5jZVJlc3Ry%0AaWN0aW9uPjxzYW1sMjpBdWRpZW5jZT5wbGlua2RldmFuZHFhZW52aXJvbm1l%0AbnQuMzA1OTkuY2MuZGV2LWludHVpdC5pcHAucHJvZDwvc2FtbDI6QXVkaWVu%0AY2U%2BPC9zYW1sMjpBdWRpZW5jZVJlc3RyaWN0aW9uPjwvc2FtbDI6Q29uZGl0%0AaW9ucz48c2FtbDI6QXV0aG5TdGF0ZW1lbnQgQXV0aG5JbnN0YW50PSIyMDE0%0ALTAxLTI3VDE5OjEyOjE4LjA1NloiIFNlc3Npb25JbmRleD0iXzcwOGM0ZjQ2%0AMjE3ZTQxMjU4Zjk1YjQxNDdmY2M0Y2MzIj48c2FtbDI6QXV0aG5Db250ZXh0%0APjxzYW1sMjpBdXRobkNvbnRleHRDbGFzc1JlZj51cm46b2FzaXM6bmFtZXM6%0AdGM6U0FNTDoyLjA6YWM6Y2xhc3Nlczp1bnNwZWNpZmllZDwvc2FtbDI6QXV0%0AaG5Db250ZXh0Q2xhc3NSZWY%2BPC9zYW1sMjpBdXRobkNvbnRleHQ%2BPC9zYW1s%0AMjpBdXRoblN0YXRlbWVudD48L3NhbWwyOkFzc2VydGlvbj4%3D%0A
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - Ruby
+      authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7"
+      content-type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 27 Jan 2014 19:12:18 GMT
+      server:
+      - Apache
+      cache-control:
+      - no-cache, no-store
+      pragma:
+      - no-cache
+      content-length:
+      - '120'
+      connection:
+      - close
+      content-type:
+      - text/plain
+    body:
+      encoding: UTF-8
+      string: oauth_token_secret=eBk3hQHUGvLhb8GaVMgGz2cxygBTg1kOe1kbxe4w&oauth_token=qyprdec3tmpnzcLSXPW001o3LUW1ui6S3VWg4kPZyyE8UtLF
+    http_version: '1.1'
+  recorded_at: Mon, 27 Jan 2014 19:12:19 GMT
+- request:
+    method: delete
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/customers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - OAuth gem v0.4.7
+      authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="aU9wtdOqiuaQQTTSOQyGZZ1c7yswqXOTQtqzzqzXjc",
+        oauth_signature="SNyVVnWukjd6X257Uga%2FECIdRVs%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1390849939", oauth_token="qyprdec3tmpnzcLSXPW001o3LUW1ui6S3VWg4kPZyyE8UtLF",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Mon, 27 Jan 2014 19:12:19 GMT
+      intuit_tid:
+      - gw-4aa9f6f2-8c5a-426b-9c44-28a394843919
+      pragma:
+      - no-cache
+      content-type:
+      - text/plain
+      content-length:
+      - '0'
+      cache-control:
+      - no-cache
+      expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      set-cookie:
+      - JSESSIONID=037A12AD435BF5356F794C94BE855B99.node52; Path=/rest-war
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: '1.1'
+  recorded_at: Mon, 27 Jan 2014 19:12:20 GMT
+recorded_with: VCR 2.8.0

@@ -7,7 +7,7 @@ describe 'Sign In form', js: true do
     wallet = create_wallet(user_id: user.id)
   end
 
-  it 'throws an error if the user submits an invalid form' do
+  it 'throws an error if the user submits an invalid form', :vcr do
     sign_in('fakebullshit@plink.com', 'test123')
     page.should have_text('Sorry, the email and password do not match for this account.')
 
@@ -25,7 +25,7 @@ describe 'Sign In form', js: true do
   end
 
 
-  it 'allows a user to reset their password' do
+  it 'allows a user to reset their password', :vcr do
     visit new_password_reset_request_path
 
     page.should have_content 'Enter the email address associated with your account'

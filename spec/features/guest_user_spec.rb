@@ -57,7 +57,7 @@ describe 'guest behavior' do
 
   end
 
-  it 'user workflow when logged out', js: true do
+  it 'user workflow when logged out', :vcr, js: true do
     visit '/'
 
     page.should have_css '[gigid="showShareBarUI"]'

@@ -27,7 +27,7 @@ describe 'User signup workflow' do
   end
 
   context 'organic registration' do
-    it 'should create an account, email the user, and drop the user on the instituion search path', js: true, driver: :selenium do
+    it 'should create an account, email the user, and drop the user on the instituion search path', :vcr, js: true, driver: :selenium do
       visit '/'
 
       click_link 'Join'
@@ -93,7 +93,7 @@ describe 'User signup workflow' do
     end
   end
 
-  context 'social registration' do
+  pending 'social registration' do
     after(:each) do
       delete_users_from_gigya
     end
@@ -172,7 +172,7 @@ describe 'User signup workflow' do
   end
 
   context 'referral' do
-    it 'lands the user on the homepage after being referred' do
+    it 'lands the user on the homepage after being referred', :vcr do
       referrer = create_user
       visit "/refer/#{referrer.id}/aid/1264"
 
@@ -223,7 +223,7 @@ describe 'User signup workflow' do
         wallet = create_wallet(user_id: user.id)
      end
 
-      it 'tells the user that the email is already registered' do
+      it 'tells the user that the email is already registered', :vcr do
         sign_up_user('Matt', 'test@plink.com', 'test123', 'test123')
         page.should have_text("You've entered an email address that is already registered with Plink.")
         page.should have_link("Having trouble? Contact Us")

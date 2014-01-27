@@ -11,7 +11,7 @@ describe 'Reverifying', js: true, driver: :selenium do
     create_award_type(award_code: 'incentivizedAffiliateID')
   end
 
-  it 'allows a user to reverify login credentials' do
+  it 'allows a user to reverify login credentials', :vcr do
     sign_in('test@example.com', 'test123')
     page.should have_content "Enter your bank's name."
 
@@ -64,7 +64,7 @@ describe 'Reverifying', js: true, driver: :selenium do
     page.should_not have_content 'Reconnect My Account'
   end
 
-  it 'allows a user to reverify mfa questions' do
+  it 'allows a user to reverify mfa questions', :vcr do
     sign_in('test@example.com', 'test123')
     page.should have_content "Enter your bank's name."
 

@@ -18,7 +18,7 @@ describe 'contest referral' do
     create_event_type(name: Plink::EventTypeRecord.card_add_type)
   end
 
-  it 'tracks the referal for a contest', js: true do
+  it 'tracks the referal for a contest', :vcr, js: true do
     visit contest_referral_path(user_id: user.id, affiliate_id: 1432, contest_id: referred_contest.id, source: 'contest_entry_post')
 
     page.current_path.should == contests_path
