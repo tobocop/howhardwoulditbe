@@ -105,13 +105,13 @@ We use a local Windows VM with SQL Server Express in development.
 * `ln -s config/database.yml gems/plink_admin/spec/dummy/config`
 * `ln -s config/gigya_keys.yml gems/gigya/integration_spec/support/`
 
-* Change the following yml files to look like the corresponding yml.example files:
+* Change the following configuration files to look like the corresponding `.example` files:
  - `salt.yml`
  - `lryis.yml`
  - `intuit.yml`
  - `gigya_keys.yml`
  - `elasticsearch.yml`
-
+ - `statsd.js`
 
 * `bundle exec rake db:schema:load`
 
@@ -131,6 +131,7 @@ We use a local Windows VM with SQL Server Express in development.
 * Add the following alaises to your `~/.bash_profile`  Zsh note: Modify your `~/.zshrc` file instead of `~/.bash_profile `
       alias elasticsearch_start="elasticsearch -f -D es.config=config/elasticsearch.yml"
       alias delayed_job_start="RAILS_ENV=development script/delayed_job start"
+      alias statsd_start="node {/your/path/to}/statsd/stats.js ~/Desktop/dev/plink/config/statsd.js"
 
 * `elasticsearch_start`
 * `delayed_job_start`

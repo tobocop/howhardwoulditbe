@@ -21,6 +21,7 @@ gem 'aggcat', git: 'https://github.com/cloocher/aggcat'
 gem 'tire'
 gem 'exceptional'
 gem 'librato-rails'
+gem 'statsd-instrument'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
