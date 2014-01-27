@@ -7,7 +7,6 @@ class InstitutionsController < ApplicationController
   helper_method :updating?, :updating?
 
   def search
-    redirect_to wallet_path(link_card: true) if Rails.env.production?
     session.delete(:intuit_institution_login_id)
     session.delete(:reverification_id)
   end
