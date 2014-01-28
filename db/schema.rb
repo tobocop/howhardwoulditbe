@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140130001246) do
+ActiveRecord::Schema.define(:version => 20140127211103) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1468,6 +1468,7 @@ ActiveRecord::Schema.define(:version => 20140130001246) do
     t.datetime "locked_at"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.boolean  "sales"
   end
 
   add_index "plink_admin_admins", ["email"], :name => "index_plink_admin_admins_on_email", :unique => true

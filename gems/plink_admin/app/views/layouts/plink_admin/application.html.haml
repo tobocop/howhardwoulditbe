@@ -12,31 +12,38 @@
         %section.top-bar-section
           %ul.left
             %li= link_to "&laquo; Visit Site".html_safe, main_app.root_path
-            %li.divider
-            %li= link_to "Dashboard", plink_admin.root_path
-            %li.divider
             - if admin_signed_in?
-              %li= link_to 'Hero Promotions', plink_admin.hero_promotions_path
-            %li.divider
-              %li= link_to 'Find Users', plink_admin.users_path
-            %li.divider
-              %li= link_to 'Contests', plink_admin.contests_path
-            %li.divider
-              %li= link_to 'Affiliates', plink_admin.affiliates_path
-            %li.divider
-              %li= link_to 'Campaigns', plink_admin.campaigns_path
-            %li.divider
-              %li= link_to 'Landing Pages', plink_admin.landing_pages_path
-            %li.divider
-              %li= link_to 'Share Pages', plink_admin.share_pages_path
-            %li.divider
-              %li= link_to 'Registration Links', plink_admin.registration_links_path
-            %li.divider
-              %li= link_to 'Offers', plink_admin.offers_path
-            %li.divider
-              %li= link_to 'Tango', plink_admin.tango_kill_switch_path
-            %li.divider
-              %li= link_to 'Global Login Tokens', plink_admin.global_login_tokens_path
+              - if current_admin.sales?
+                %li.divider
+                  %li= link_to 'Companies', '#'
+                %li.divider
+                  %li= link_to 'Contacts', '#'
+                %li.divider
+                  %li= link_to 'Import', '#'
+              - else
+                %li.divider
+                  %li= link_to 'Hero Promotions', plink_admin.hero_promotions_path
+                %li.divider
+                  %li= link_to 'Find Users', plink_admin.users_path
+                %li.divider
+                  %li= link_to 'Contests', plink_admin.contests_path
+                %li.divider
+                  %li= link_to 'Affiliates', plink_admin.affiliates_path
+                %li.divider
+                  %li= link_to 'Campaigns', plink_admin.campaigns_path
+                %li.divider
+                  %li= link_to 'Landing Pages', plink_admin.landing_pages_path
+                %li.divider
+                  %li= link_to 'Share Pages', plink_admin.share_pages_path
+                %li.divider
+                  %li= link_to 'Registration Links', plink_admin.registration_links_path
+                %li.divider
+                  %li= link_to 'Offers', plink_admin.offers_path
+                %li.divider
+                  %li= link_to 'Tango', plink_admin.tango_kill_switch_path
+                %li.divider
+                  %li= link_to 'Global Login Tokens', plink_admin.global_login_tokens_path
+
 
           %ul.right
             - if admin_signed_in?

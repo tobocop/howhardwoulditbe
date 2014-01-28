@@ -8,7 +8,8 @@ module PlinkAdmin
     def new_admin(options = {})
       defaults = {
         email: 'my_admin@example.com',
-        password: 'password'
+        password: 'password',
+        sales: 0
       }
       PlinkAdmin::Admin.new { |admin| apply(admin, defaults, options) }
     end

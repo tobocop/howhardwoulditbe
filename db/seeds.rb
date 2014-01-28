@@ -90,6 +90,8 @@ PlinkAdmin::Admin.new do |admin|
   admin.password = 'password'
   admin.save
 end
+p 'Creating Admin Sales user'
+PlinkAdmin::Admin.new { |admin| admin.email ='sales@plink.com'; admin.password = 'password'; admin.sales = true; admin.save; }
 
 p 'Creating HeroPromotions'
 Plink::HeroPromotionRecord.create(name: 'Yo-hiness', image_url_one: '/assets/hero-gallery/bk_2.jpg', title: 'Get Double Points at Burger King', display_order: 1)
