@@ -31,11 +31,5 @@ module PlinkPivotal
     config.after_initialize do
       Rails.application.routes.default_url_options = Rails.application.config.action_mailer.default_url_options
     end
-
-    StatsD.server = 'localhost:8125'
-    StatsD.logger = Rails.logger
-    StatsD.mode = Rails.env.to_sym
-    StatsD.prefix = Rails.application.class.parent_name
-    StatsD.default_sample_rate = 0.1 # Sample 10% of events. By default all events are reported.
   end
 end

@@ -2,6 +2,7 @@ namespace :lyris do
   desc "Updates plink point users in lyris who have a modified record of yesterday"
   task update_modified_users: :environment do
     plink_users_modified_yesterday.each do |user|
+      StatsD.increment('rake.lyris.update_modified_users')
       lyris_data = Lyris::UserDataCollector.new(user.id, user.primary_virtual_currency.name)
       lyris_user = Lyris::User.new(Lyris::Config.instance, user.email, lyris_data.to_hash)
 

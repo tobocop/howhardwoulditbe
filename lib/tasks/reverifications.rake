@@ -6,6 +6,7 @@ namespace :reverifications do
 
       intuit_account_service = Plink::IntuitAccountService.new
       Plink::UserIntuitErrorRecord.errors_that_require_attention.each do |user_intuit_error|
+        StatsD.increment('rake.reverifications.insert_reverification_notice')
         create_reverification(user_intuit_error, intuit_account_service)
       end
 
@@ -139,6 +140,7 @@ private
   def remove_intuit_account(user_reverification_record)
     begin
       user_reverification_record.users_institution_record.all_accounts_in_intuit.each do |intuit_account_record|
+        StatsD.increment('rake.reverifications.remove_intuit_account')
         Intuit::AccountRemovalService.delay(queue: 'intuit_account_removals').
           remove(
             intuit_account_record.account_id,
@@ -162,6 +164,7 @@ private
       if intuit_account && !intuit_account.active?
         account = Plink::UsersInstitutionAccountRecord.where(userID: user_id).first
         return if account.blank?
+        StatsD.increment('rake.reverifications.process_reverification')
         intuit_response = Intuit::Request.new(user_id).account(account.account_id)
 
         response = Intuit::Response.new(intuit_response).parse

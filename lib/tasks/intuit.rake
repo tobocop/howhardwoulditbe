@@ -4,6 +4,7 @@ namespace :intuit do
     accounts = Plink::IntuitAccountToRemoveRecord.all
 
     accounts.each do |account|
+      StatsD.increment('rake.intuit.remove_account')
       Intuit::AccountRemovalService.delay(queue: 'intuit_account_removals').remove(account.intuit_account_id, account.user_id, account.users_institution_id)
       Plink::IntuitAccountToRemoveRecord.destroy(account.id)
     end

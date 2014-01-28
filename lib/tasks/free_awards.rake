@@ -62,6 +62,7 @@ private
 
       if free_award.save
         puts "[#{Time.zone.now}] Awarded user_id: #{user.id}";
+        StatsD.increment('rake.free_awards.award_offer_add_bonus')
         user_eligible_for_offer_add_bonus.update_attribute('is_awarded', true)
       end
     rescue Exception
