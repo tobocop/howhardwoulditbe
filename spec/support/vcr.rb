@@ -3,6 +3,9 @@ VCR.configure do |c|
   c.stub_with :fakeweb
   c.ignore_localhost = true
   c.ignore_hosts 'socialize-api.gigya.com'
+  c.default_cassette_options ={
+    match_requests_on: [:method, VCR.request_matchers.uri_without_param(:txnStartDate)]
+  }
 end
 
 RSpec.configure do |c|
