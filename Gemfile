@@ -47,7 +47,7 @@ group :test do
   gem 'database_cleaner', '~> 1.0.1'
   gem 'selenium-webdriver', '2.38.0'
   gem 'rspec-retry'
-  gem 'fakeweb'
+  gem 'faraday'
   gem 'vcr'
 end
 
