@@ -123,23 +123,3 @@ describe 'reward:send_reward_notifications' do
     subject.invoke
   end
 end
-
-describe 'reward:insert_khols' do
-  include_context 'rake'
-
-  it 'inserts khols with the correct amounts' do
-    subject.invoke
-
-    khols = Plink::RewardRecord.last
-    khols.amounts.map(&:dollar_award_amount).map(&:to_i).should == [25, 50, 100]
-    khols.award_code.should == 'kohls-gift-card'
-    khols.description.should == "Expect great things when you shop Kohl's for apparel, shoes, accessories, home products and more!"
-    khols.display_order.should == 2
-    khols.is_active.should be_true
-    khols.is_redeemable.should be_true
-    khols.is_tango.should be_true
-    khols.logo_url.should == 'http://plink-images.s3.amazonaws.com/giftcards/logos/kohls.png'
-    khols.name.should == "Kohl's Gift Card"
-    khols.terms.should == "Kohl's e-Gift Cards are redeemable for merchandise in any Kohl's store or online at Kohls.com. Kohl's e-Gift Cards are issued by and represent an obligation of Kohl's Value Services, Inc. Except where required by law, Kohl's e-Gift Cards are non-refundable, may not be redeemed for cash or for the purchase of Gift Cards and cannot be applied to any Kohl's Charge account balance. Kohl's e-Gift Cards have no expiration date. Purchaser is responsible for providing a deliverable e-mail address. Delivery of all Kohl's e-Gift Cards will be electronic and is subject to payment authorization barring any technical difficulties. A plastic Gift Card will not be sent. The unused value of lost or stolen e-Gift Cards can be replaced with required proof of purchase. E-mail general.help@kohls.com or see store for details. Card balance may be obtained by calling 1-800-655 -0554 or online at Kohls.com. KOHL'S VALUE SERVICES, INC., NOR ANY OF ITS AFFILIATES, MAKES ANY WARRANTIES, EXPRESS OR IMPLIED, WITH RESPECT TO KOHL'S E-GIFT CARDS, INCLUDING, WITHOUT LIMITATION, ANY EXPRESS OR IMPLIED WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. IN THE EVENT OF ANY PROBLEMS WITH AN E-GIFT CARD, INCLUDING BUT NOT LIMITED TO A NONFUNCTIONAL E-GIFT CARD CODE, YOUR SOLE REMEDY, AND KOHL'S SOLE LIABILITY, SHALL BE THE REPLACEMENT OF SUCH E-GIFT CARD. IF ANY PART OF THIS LIMITATION OF LIABILITY IS DETERMINED TO BE UNENFORCEABLE OR INVALID FOR ANY REASON, THE AGGREGATE LIABILITY OF KOHL'S VALUE SERVICES, INC. UNDER SUCH CIRCUMSTANCES FOR LIABILITIES THAT OTHERWISE WOULD HAVE BEEN LIMITED SHALL NOT EXCEED ONE HUNDRED DOLLARS ($100)."
-  end
-end
