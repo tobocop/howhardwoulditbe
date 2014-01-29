@@ -1,7 +1,7 @@
 module Intuit
   class AccountRemovalService
     def self.remove(intuit_account_id, user_id, users_institution_id)
-      delete_response = Aggcat.scope(user_id).delete_account(intuit_account_id)
+      delete_response = Intuit::Request.new(user_id).delete_account(intuit_account_id)
 
       if delete_response[:status_code] == '200' || delete_response[:status_code] == '404'
         Plink::UsersInstitutionAccountRecord.where('accountID = ?', intuit_account_id)

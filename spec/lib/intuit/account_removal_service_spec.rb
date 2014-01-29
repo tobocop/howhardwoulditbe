@@ -18,6 +18,12 @@ describe Intuit::AccountRemovalService do
     }
   }
 
+  let(:intuit_request) { double }
+
+  before do
+    Intuit::Request.stub(:new).and_return(intuit_request)
+  end
+
   it 'removes accounts from intuit that are in intuit_accounts_to_remove' do
     users_institution = create_users_institution(is_active: true)
     create_user_reverification(users_institution_id: users_institution.id, is_active: true)
@@ -27,9 +33,7 @@ describe Intuit::AccountRemovalService do
     create_users_institution_account(users_institution_id: users_institution.id, account_id: 23, is_active: true, in_intuit: true)
     create_users_institution_account_staging(users_institution_id: users_institution.id, account_id: 23, in_intuit: true)
 
-    aggcat_client = double(delete_account: not_found_delete_response)
-    Aggcat.stub(:scope).with(13).and_return(aggcat_client)
-    aggcat_client.should_receive(:delete_account).with(23).and_return(successful_delete_response)
+    intuit_request.should_receive(:delete_account).with(23).and_return(successful_delete_response)
 
     Plink::UserReverificationRecord.where(isActive: true).length.should == 1
     Plink::UserIntuitErrorRecord.all.length.should == 1
@@ -52,14 +56,13 @@ describe Intuit::AccountRemovalService do
     let(:where_return) { double(:update_all) }
 
     before do
-      Aggcat.stub(:scope).and_return(aggcat_client)
       Plink::UsersInstitutionAccountRecord.stub(where: double(update_all: true))
       Plink::UsersInstitutionAccountStagingRecord.stub(where: double(update_all: true))
       Plink::UsersInstitutionRecord.stub(:find).and_return(users_institution)
     end
 
     context 'with a 200' do
-      let(:aggcat_client) { double(delete_account: successful_delete_response) }
+      let(:intuit_request) { double(delete_account: successful_delete_response) }
       let(:users_institution) { double(users_institution_account_records: double(where: ['one thing'])) }
 
       it 'sets the users institution account to is_active = 0 and in_intuit = 0' do

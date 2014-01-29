@@ -77,6 +77,13 @@ module Intuit
       log_and_return_response(response, method_and_params)
     end
 
+    def delete_account(intuit_account_id)
+      method_and_params = {method: :delete_account, params: {intuit_account_id: intuit_account_id}}
+
+      response = @aggcat.delete_account(intuit_account_id)
+      log_and_return_response(response, method_and_params)
+    end
+
   private
 
     def log_and_return_response(intuit_response, method_and_params)

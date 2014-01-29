@@ -175,4 +175,21 @@ describe Intuit::Request do
       Intuit::Request.new(351).get_transactions(2384, current_date)
     end
   end
+
+  describe '#delete_account' do
+    it 'calls deleteAccount [DELETE "/accounts/#{intuit_account_id}"]' do
+      aggcat.should_receive(:delete_account).with(392)
+
+      Intuit::Request.new(123).delete_account(392)
+    end
+
+    it 'logs the response' do
+      aggcat.stub(:delete_account).and_return('so doge')
+
+      method_and_params = {method: :delete_account, params: {intuit_account_id: 392}}
+      logger.should_receive(:log_and_return_response).with('so doge', 123, method_and_params)
+
+      Intuit::Request.new(123).delete_account(392)
+    end
+  end
 end
