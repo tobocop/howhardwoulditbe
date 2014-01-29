@@ -1,0 +1,41 @@
+class AddCmsLandingPageColumns < ActiveRecord::Migration
+  def change
+    add_column :landing_pages, :background_image_url, :string
+    add_column :landing_pages, :button_text_one, :string
+    add_column :landing_pages, :cms, :boolean
+    add_column :landing_pages, :header_text_one, :string
+    add_column :landing_pages, :header_text_one_styles, :string
+    add_column :landing_pages, :header_text_two, :string
+    add_column :landing_pages, :header_text_two_styles, :string
+    add_column :landing_pages, :sub_header_text_one, :string
+    add_column :landing_pages, :sub_header_text_one_styles, :string
+    add_column :landing_pages, :sub_header_text_two, :string
+    add_column :landing_pages, :sub_header_text_two_styles, :string
+    add_column :landing_pages, :detail_text_one, :string
+    add_column :landing_pages, :detail_text_one_styles, :string
+    add_column :landing_pages, :detail_text_two, :string
+    add_column :landing_pages, :detail_text_two_styles, :string
+    add_column :landing_pages, :detail_text_three, :string
+    add_column :landing_pages, :detail_text_three_styles, :string
+    add_column :landing_pages, :detail_text_four, :string
+    add_column :landing_pages, :detail_text_four_styles, :string
+    add_column :landing_pages, :how_plink_works_one_text_one, :string
+    add_column :landing_pages, :how_plink_works_one_text_one_styles, :string
+    add_column :landing_pages, :how_plink_works_one_text_two, :string
+    add_column :landing_pages, :how_plink_works_one_text_two_styles, :string
+    add_column :landing_pages, :how_plink_works_one_text_three, :string
+    add_column :landing_pages, :how_plink_works_one_text_three_styles, :string
+    add_column :landing_pages, :how_plink_works_two_text_one, :string
+    add_column :landing_pages, :how_plink_works_two_text_one_styles, :string
+    add_column :landing_pages, :how_plink_works_two_text_two, :string
+    add_column :landing_pages, :how_plink_works_two_text_two_styles, :string
+    add_column :landing_pages, :how_plink_works_two_text_three, :string
+    add_column :landing_pages, :how_plink_works_two_text_three_styles, :string
+    add_column :landing_pages, :how_plink_works_three_text_one, :string
+    add_column :landing_pages, :how_plink_works_three_text_one_styles, :string
+    add_column :landing_pages, :how_plink_works_three_text_two, :string
+    add_column :landing_pages, :how_plink_works_three_text_two_styles, :string
+    add_column :landing_pages, :how_plink_works_three_text_three, :string
+    add_column :landing_pages, :how_plink_works_three_text_three_styles, :string
+  end
+end

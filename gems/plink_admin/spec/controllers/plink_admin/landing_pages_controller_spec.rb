@@ -36,6 +36,7 @@ describe PlinkAdmin::LandingPagesController do
   describe 'POST create' do
     it 'creates a landing_page record and redirects to the listing when successful' do
       landing_page_params = {
+        cms: false,
         name: 'Here we go',
         partial_path: 'my_page.html.haml'
       }

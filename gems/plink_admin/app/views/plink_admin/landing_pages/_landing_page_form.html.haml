@@ -4,12 +4,121 @@
       %p= message
 
 = form_for(landing_page, url: url, as: 'landing_page') do |f|
-  = f.label :name
-  = f.text_field :name
-  = f.label :partial_path, 'Partial name'
-  = f.text_field :partial_path
+  %p Select a landing page type:
+  .large-1.columns.js-landing-page-type{data: {toggle: '#js-haml-attributes'}}
+    = f.label :cms_false, 'HAML'
+    = f.radio_button :cms, false, checked: true
+  .large-1.columns.js-landing-page-type{data: {toggle: '#js-cms-attributes'}}
+    = f.label :cms_true, 'CMS'
+    = f.radio_button :cms, true
+  .large-12.columns
+    = f.label :name, 'Name (required)'
+    = f.text_field :name
+    #js-haml-attributes.toggle{style: "display: #{landing_page.cms? ? 'none' : 'block'}"}
+      = f.label :partial_path, 'Partial name (required)'
+      = f.text_field :partial_path
+    #js-cms-attributes.toggle{style: "display: #{landing_page.cms? ? 'block' : 'none'}"}
+      .large-12.columns
+        = f.label :background_image_url, 'Background image url (https required)'
+        = f.text_field :background_image_url
 
-  = f.submit button_text, class: 'button small'
+      %h4 Header Text
+      .large-6.columns
+        = f.label :header_text_one, 'Header text one (required)'
+        = f.text_field :header_text_one
+        = f.label :header_text_two
+        = f.text_field :header_text_two
+      .large-6.columns
+        = f.label :header_text_one_styles
+        = f.text_field :header_text_one_styles
+        = f.label :header_text_two_styles
+        = f.text_field :header_text_two_styles
 
-= link_to 'Cancel', landing_pages_path, class: 'button small secondary'
+      %h4 Sub Header Text
+      .large-6.columns
+        = f.label :sub_header_text_one, 'Sub header text one (required)'
+        = f.text_field :sub_header_text_one
+        = f.label :sub_header_text_two
+        = f.text_field :sub_header_text_two
+      .large-6.columns
+        = f.label :sub_header_text_one_styles
+        = f.text_field :sub_header_text_one_styles
+        = f.label :sub_header_text_two_styles
+        = f.text_field :sub_header_text_two_styles
+
+      .large-12.columns
+        = f.label :button_text_one, 'Join button text (required)'
+        = f.text_field :button_text_one
+
+      %h4 Details Text
+      .large-6.columns
+        = f.label :detail_text_one
+        = f.text_field :detail_text_one
+        = f.label :detail_text_two
+        = f.text_field :detail_text_two
+        = f.label :detail_text_three
+        = f.text_field :detail_text_three
+        = f.label :detail_text_four
+        = f.text_field :detail_text_four
+      .large-6.columns
+        = f.label :detail_text_one_styles
+        = f.text_field :detail_text_one_styles
+        = f.label :detail_text_two_styles
+        = f.text_field :detail_text_two_styles
+        = f.label :detail_text_three_styles
+        = f.text_field :detail_text_three_styles
+        = f.label :detail_text_four_styles
+        = f.text_field :detail_text_four_styles
+
+      %h4 How Plink Works Left
+      .large-6.columns
+        = f.label :how_plink_works_one_text_one, 'How plink works left - text one (required)'
+        = f.text_field :how_plink_works_one_text_one
+        = f.label :how_plink_works_one_text_two, 'How plink works left - text two'
+        = f.text_field :how_plink_works_one_text_two
+        = f.label :how_plink_works_one_text_three, 'How plink works left - text three'
+        = f.text_field :how_plink_works_one_text_three
+      .large-6.columns
+        = f.label :how_plink_works_one_text_one_styles, 'How plink works left - text one styles'
+        = f.text_field :how_plink_works_one_text_one_styles
+        = f.label :how_plink_works_one_text_two_styles, 'How plink works left - text two styles'
+        = f.text_field :how_plink_works_one_text_two_styles
+        = f.label :how_plink_works_one_text_three_styles, 'How plink works left - text three styles'
+        = f.text_field :how_plink_works_one_text_three_styles
+
+      %h4 How Plink Works Center
+      .large-6.columns
+        = f.label :how_plink_works_two_text_one, 'How plink works center - text one (required)'
+        = f.text_field :how_plink_works_two_text_one
+        = f.label :how_plink_works_two_text_two, 'How plink works center - text two'
+        = f.text_field :how_plink_works_two_text_two
+        = f.label :how_plink_works_two_text_three, 'How plink works center - text three'
+        = f.text_field :how_plink_works_two_text_three
+      .large-6.columns
+        = f.label :how_plink_works_two_text_one_styles, 'How plink works center - text one styles'
+        = f.text_field :how_plink_works_two_text_one_styles
+        = f.label :how_plink_works_two_text_two_styles, 'How plink works center - text two styles'
+        = f.text_field :how_plink_works_two_text_two_styles
+        = f.label :how_plink_works_two_text_three_styles, 'How plink works center - text three styles'
+        = f.text_field :how_plink_works_two_text_three_styles
+
+      %h4 How Plink Works Right
+      .large-6.columns
+        = f.label :how_plink_works_three_text_one, 'How plink works right - text one (required)'
+        = f.text_field :how_plink_works_three_text_one
+        = f.label :how_plink_works_three_text_two, 'How plink works right - text two'
+        = f.text_field :how_plink_works_three_text_two
+        = f.label :how_plink_works_three_text_three, 'How plink works right - text three'
+        = f.text_field :how_plink_works_three_text_three
+      .large-6.columns
+        = f.label :how_plink_works_three_text_one_styles, 'How plink works right - text one styles'
+        = f.text_field :how_plink_works_three_text_one_styles
+        = f.label :how_plink_works_three_text_two_styles, 'How plink works right - text two styles'
+        = f.text_field :how_plink_works_three_text_two_styles
+        = f.label :how_plink_works_three_text_three_styles, 'How plink works right - text three styles'
+        = f.text_field :how_plink_works_three_text_three_styles
+
+    .large-12.columns
+      = f.submit button_text, class: 'button small'
+      = link_to 'Cancel', landing_pages_path, class: 'button small secondary'
 

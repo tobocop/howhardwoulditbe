@@ -2,10 +2,12 @@
 %table.landing_page-list
   %thead
     %th Name
+    %th Landing Page Type
     %th Partial Path
   %tbody
     - @landing_pages.each do |landing_page|
       %tr.landing_page-item
         %td= link_to landing_page.name, edit_landing_page_path(landing_page)
+        %td= landing_page.cms? ? 'CMS' : 'HAML'
         %td= landing_page.partial_path
 
