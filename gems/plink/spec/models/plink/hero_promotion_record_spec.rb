@@ -66,8 +66,6 @@ describe Plink::HeroPromotionRecord do
     promotion = Plink::HeroPromotionRecord.new(invalid_attrs)
 
     promotion.should have(1).error_on(:show_linked_users)
-    promotion.should have(1).error_on(:show_non_linked_users)
-    promotion.should have(1).error_on(:user_ids_present)
   end
 
   it 'is valid if any audience is selected' do
@@ -84,8 +82,6 @@ describe Plink::HeroPromotionRecord do
     promotion = Plink::HeroPromotionRecord.new(invalid_attrs)
 
     promotion.should have(1).error_on(:show_linked_users)
-    promotion.should have(1).error_on(:show_non_linked_users)
-    promotion.should have(1).error_on(:user_ids_present)
   end
 
   describe '.by_display_order' do

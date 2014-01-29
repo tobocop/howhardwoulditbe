@@ -72,22 +72,22 @@ module Plink
 
   private
 
+    def file_uploaded
+      user_ids_present || user_count > 0
+    end
+
     def audience_selected
-      unless show_linked_users.present? || show_non_linked_users.present? || user_ids_present
-        error = "Must select an audience"
-        errors.add(:show_linked_users)
-        errors.add(:show_non_linked_users)
-        errors.add(:user_ids_present)
+      unless show_linked_users.present? || show_non_linked_users.present? || file_uploaded
+        error = "Must select an audience by linked/non-linked status or by a file upload"
+        errors.add(:show_linked_users, error)
       end
     end
 
     def audience_by_card_status_or_user_ids
       card_status = show_linked_users.present? || show_non_linked_users.present?
-      if card_status && user_ids_present
+      if card_status && file_uploaded
         error = "Cannot select audience by file and by linked card status"
         errors.add(:show_linked_users, error)
-        errors.add(:show_non_linked_users, error)
-        errors.add(:user_ids_present, error)
       end
     end
 
