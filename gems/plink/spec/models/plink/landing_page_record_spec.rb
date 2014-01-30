@@ -56,6 +56,7 @@ describe Plink::LandingPageRecord do
 
   describe 'validations' do
     it{ should validate_presence_of(:name) }
+    it{ should validate_uniqueness_of(:name) }
 
     context 'when the landing page is cms' do
       it 'validates the presence of a secure background_image_url' do

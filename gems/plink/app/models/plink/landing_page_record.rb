@@ -14,7 +14,7 @@ module Plink
       :how_plink_works_two_text_styles, :how_plink_works_two_text_three, :how_plink_works_two_text_two,
       :name, :partial_path, :sub_header_text_one, :sub_header_text_styles, :sub_header_text_two
 
-    validates_presence_of :name
+    validates :name, presence: true, uniqueness: true
     validates_presence_of :partial_path, if: lambda { cms == false }
     validates_presence_of :background_image_url, :button_text_one, :header_text_one,
       :how_plink_works_one_text_one, :how_plink_works_three_text_one,

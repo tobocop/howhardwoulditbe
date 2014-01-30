@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PlinkAdmin::RegistrationLinksController do
   let(:admin) { create_admin }
-  let!(:landing_page) { create_landing_page }
+  let!(:landing_page) { create_landing_page(name: 'page 1') }
 
   before do
     sign_in :admin, admin
@@ -59,8 +59,8 @@ describe PlinkAdmin::RegistrationLinksController do
   end
 
   describe 'POST create' do
-    let(:first_landing_page) { create_landing_page }
-    let(:second_landing_page) { create_landing_page }
+    let(:first_landing_page) { create_landing_page(name: 'page 2') }
+    let(:second_landing_page) { create_landing_page(name: 'page 3') }
     let(:registration_link_params) {
       {
         affiliate_ids: [134, 123],
@@ -201,7 +201,7 @@ describe PlinkAdmin::RegistrationLinksController do
 
   describe 'GET edit' do
     let!(:registration_link) { create_registration_link(landing_page_records: [landing_page]) }
-    let!(:landing_page) { create_landing_page }
+    let!(:landing_page) { create_landing_page(name: 'page 4') }
 
     before { get :edit, {id: registration_link.id} }
 
@@ -220,8 +220,8 @@ describe PlinkAdmin::RegistrationLinksController do
   end
 
   describe 'PUT update' do
-    let(:first_landing_page) { create_landing_page }
-    let(:second_landing_page) { create_landing_page }
+    let(:first_landing_page) { create_landing_page(name: 'page 5') }
+    let(:second_landing_page) { create_landing_page(name: 'page 6') }
     let(:registration_link) {
       create_registration_link(
         affiliate_id: 44,
