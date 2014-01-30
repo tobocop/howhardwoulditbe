@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe Plink::RegistrationFlow do
-  let(:landing_page_one) { create_landing_page(name: 'one') }
-  let(:landing_page_two) { create_landing_page(name: 'two', partial_path: 'myawesome.path.haml') }
+  let(:landing_page_one) { new_landing_page(name: 'one') }
+  let(:landing_page_two) { new_landing_page(name: 'two') }
 
-  let(:share_page_one) { create_share_page(name: 'one') }
-  let(:share_page_two) { create_share_page(name: 'two', partial_path: 'myawesome.path.haml') }
+  let(:share_page_one) { new_share_page(name: 'one') }
+  let(:share_page_two) { new_share_page(name: 'two') }
 
   let(:registration_link) {
-    create_registration_link(
+    new_registration_link(
       affiliate_id: 3,
       campaign_id: 4,
       landing_page_records: [landing_page_one, landing_page_two],
@@ -21,7 +21,7 @@ describe Plink::RegistrationFlow do
       Array.any_instance.should_receive(:sample).and_return(landing_page_two)
 
       registration_flow = Plink::RegistrationFlow.new(registration_link)
-      registration_flow.landing_page_partial.should == 'myawesome.path.haml'
+      registration_flow.landing_page.should == landing_page_two
       registration_flow.landing_page_id.should == landing_page_two.id
       registration_flow.affiliate_id.should == 3
       registration_flow.campaign_id.should == 4
@@ -47,7 +47,7 @@ describe Plink::RegistrationFlow do
 
   describe '#mobile_detection_on?' do
     let(:non_mobile_registration_link) {
-      create_registration_link(
+      new_registration_link(
         affiliate_id: 3,
         campaign_id: 4,
         landing_page_records: [landing_page_one, landing_page_two],

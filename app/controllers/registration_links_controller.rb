@@ -14,6 +14,7 @@ class RegistrationLinksController < ApplicationController
     track_registration_start_event
 
     @steelhouse_additional_info = steelhouse_additional_info
+    @landing_page_presenter = LandingPagePresenter.new(@registration_flow.landing_page)
   end
 
   def deprecated

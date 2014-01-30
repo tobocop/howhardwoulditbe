@@ -7,21 +7,56 @@ describe 'Registering through a registration link' do
 
   let(:affiliate) { create_affiliate }
   let(:campaign) { create_campaign(campaign_hash: 'willbedeprecated') }
-  let(:landing_page) { create_landing_page(partial_path: 'example') }
-
-  let!(:registration_link) {
-    create_registration_link(
-      affiliate_id: affiliate.id,
-      campaign_id: campaign.id,
-      landing_page_records: [landing_page]
-    )
-  }
 
   before do
     create_virtual_currency
   end
 
-  context 'with custom landing pages', js:true do
+  context 'with a CMS landing page', js:true do
+    let(:landing_page) {
+      create_landing_page(
+        background_image_url: 'https://example.com/image.png',
+        button_text_one: 'First button text',
+        cms: true,
+        header_text_one: 'first header text',
+        how_plink_works_one_text_one: 'how plink works left',
+        how_plink_works_three_text_one: 'how plink works right',
+        how_plink_works_two_text_one: 'how plink works center',
+        name: 'derp',
+        sub_header_text_one: 'sub header text'
+      )
+    }
+
+    let!(:registration_link) {
+      create_registration_link(
+        affiliate_id: affiliate.id,
+        campaign_id: campaign.id,
+        landing_page_records: [landing_page]
+      )
+    }
+
+    it 'shows the user the content from the CMS landing page' do
+      visit registration_link_path(registration_link.id)
+      page.should have_content 'First button text'
+      page.should have_content 'first header text'
+      page.should have_content 'how plink works left'
+      page.should have_content 'how plink works right'
+      page.should have_content 'how plink works center'
+      page.should have_content 'sub header text'
+    end
+  end
+
+  context 'with a haml landing page', js:true do
+    let(:landing_page) { create_landing_page(partial_path: 'example') }
+
+    let!(:registration_link) {
+      create_registration_link(
+        affiliate_id: affiliate.id,
+        campaign_id: campaign.id,
+        landing_page_records: [landing_page]
+      )
+    }
+
     it 'shows the user one of the landing pages', :vcr do
       visit registration_link_path(registration_link.id, 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
 

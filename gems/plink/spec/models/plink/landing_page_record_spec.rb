@@ -5,41 +5,30 @@ describe Plink::LandingPageRecord do
   it { should allow_mass_assignment_of(:button_text_one) }
   it { should allow_mass_assignment_of(:cms) }
   it { should allow_mass_assignment_of(:detail_text_four) }
-  it { should allow_mass_assignment_of(:detail_text_four_styles) }
   it { should allow_mass_assignment_of(:detail_text_one) }
-  it { should allow_mass_assignment_of(:detail_text_one_styles) }
+  it { should allow_mass_assignment_of(:detail_text_styles) }
   it { should allow_mass_assignment_of(:detail_text_three) }
-  it { should allow_mass_assignment_of(:detail_text_three_styles) }
   it { should allow_mass_assignment_of(:detail_text_two) }
-  it { should allow_mass_assignment_of(:detail_text_two_styles) }
   it { should allow_mass_assignment_of(:header_text_one) }
-  it { should allow_mass_assignment_of(:header_text_one_styles) }
+  it { should allow_mass_assignment_of(:header_text_styles) }
   it { should allow_mass_assignment_of(:header_text_two) }
-  it { should allow_mass_assignment_of(:header_text_two_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_one_text_one) }
-  it { should allow_mass_assignment_of(:how_plink_works_one_text_one_styles) }
+  it { should allow_mass_assignment_of(:how_plink_works_one_text_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_one_text_three) }
-  it { should allow_mass_assignment_of(:how_plink_works_one_text_three_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_one_text_two) }
-  it { should allow_mass_assignment_of(:how_plink_works_one_text_two_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_three_text_one) }
-  it { should allow_mass_assignment_of(:how_plink_works_three_text_one_styles) }
+  it { should allow_mass_assignment_of(:how_plink_works_three_text_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_three_text_three) }
-  it { should allow_mass_assignment_of(:how_plink_works_three_text_three_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_three_text_two) }
-  it { should allow_mass_assignment_of(:how_plink_works_three_text_two_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_two_text_one) }
-  it { should allow_mass_assignment_of(:how_plink_works_two_text_one_styles) }
+  it { should allow_mass_assignment_of(:how_plink_works_two_text_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_two_text_three) }
-  it { should allow_mass_assignment_of(:how_plink_works_two_text_three_styles) }
   it { should allow_mass_assignment_of(:how_plink_works_two_text_two) }
-  it { should allow_mass_assignment_of(:how_plink_works_two_text_two_styles) }
   it { should allow_mass_assignment_of(:name) }
   it { should allow_mass_assignment_of(:partial_path) }
   it { should allow_mass_assignment_of(:sub_header_text_one) }
-  it { should allow_mass_assignment_of(:sub_header_text_one_styles) }
+  it { should allow_mass_assignment_of(:sub_header_text_styles) }
   it { should allow_mass_assignment_of(:sub_header_text_two) }
-  it { should allow_mass_assignment_of(:sub_header_text_two_styles) }
 
   let(:valid_params) {
     {

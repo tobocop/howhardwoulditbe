@@ -33,6 +33,7 @@ module Plink
 
     def new_landing_page(options = {})
       defaults = {
+        cms: false,
         name: 'My Landing Page',
         partial_path: '/_hereitis.html.haml'
       }

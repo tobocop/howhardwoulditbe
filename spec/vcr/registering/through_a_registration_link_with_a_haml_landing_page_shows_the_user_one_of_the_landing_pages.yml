@@ -1,0 +1,165 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.telize.com/geoip/127.0.0.1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      server:
+      - nginx
+      date:
+      - Wed, 29 Jan 2014 22:00:55 GMT
+      content-type:
+      - application/json; charset=iso-8859-1
+      content-length:
+      - '64'
+      x-cache:
+      - MISS from filter.adperio.com
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: |
+        {"message":"Input string is not a valid IP address","code":401}
+    http_version: '1.0'
+  recorded_at: Wed, 29 Jan 2014 22:00:57 GMT
+- request:
+    method: post
+    uri: https://secure.elabs10.com/API/mailing_list.html?type=record&activity=add
+    body:
+      encoding: US-ASCII
+      string: input=%3CDATASET%3E%0A++++++++%3CSITE_ID%3E2010000797%3C%2FSITE_ID%3E%0A++++++++%3CDATA+type%3D%22extra%22+id%3D%22password%22%3El3tm31n%21%3C%2FDATA%3E%0A++++++++%3CMLID%3E247378%3C%2FMLID%3E%0A++++++++%3CDATA+type%3D%22email%22%3Efurd%40example.com%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22extra%22+id%3D%22state%22%3Eactive%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257722%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257720%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%221%22%3EFrud%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2211%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261623%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261622%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2235743%22%3Eon%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%222%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2264485%22%3E18A04D614F1B830753989D0AC0E6F23C12789A16A1218AFE2F3B22ABC392B9A4%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257721%22%3E1%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257728%22%3E01%2F29%2F2014%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%226%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2235630%22%3E77556%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261695%22%3E6%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2239583%22%3EPlink+points%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%227%22%3E%3C%2FDATA%3E%0A++++++%3C%2FDATASET%3E
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - Ruby
+      content-type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 29 Jan 2014 22:00:56 GMT
+      server:
+      - Apache
+      content-length:
+      - '123'
+      connection:
+      - close
+      content-type:
+      - text/xml
+      set-cookie:
+      - SRV=5|Uul6G; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="iso-8859-1"?>
+        <DATASET><TYPE>error</TYPE><DATA>Email address already exists</DATA></DATASET>
+    http_version: '1.1'
+  recorded_at: Wed, 29 Jan 2014 22:00:57 GMT
+- request:
+    method: post
+    uri: https://oauth.intuit.com/oauth/v1/get_access_token_by_saml
+    body:
+      encoding: US-ASCII
+      string: saml_assertion=PHNhbWwyOkFzc2VydGlvbiB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVz%0AOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiIgSUQ9Il85OGUwZGJhODA3OWY0ZTc5%0AOTNkNjZhMjUzYzBlNDkzNCIgSXNzdWVJbnN0YW50PSIyMDE0LTAxLTI5VDIy%0AOjAwOjU4LjYzNFoiIFZlcnNpb249IjIuMCI%2BPHNhbWwyOklzc3Vlcj5wbGlu%0Aa2RldmFuZHFhZW52aXJvbm1lbnQuMzA1OTkuY2MuZGV2LWludHVpdC5pcHAu%0AcHJvZDwvc2FtbDI6SXNzdWVyPjxkczpTaWduYXR1cmUgeG1sbnM6ZHM9Imh0%0AdHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPjxkczpTaWduZWRJ%0AbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0%0AcDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8%2BPGRzOlNp%0AZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIw%0AMDAvMDkveG1sZHNpZyNyc2Etc2hhMSIvPjxkczpSZWZlcmVuY2UgVVJJPSIj%0AXzk4ZTBkYmE4MDc5ZjRlNzk5M2Q2NmEyNTNjMGU0OTM0Ij48ZHM6VHJhbnNm%0Ab3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5v%0AcmcvMjAwMC8wOS94bWxkc2lnI2VudmVsb3BlZC1zaWduYXR1cmUiLz48ZHM6%0AVHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8x%0AMC94bWwtZXhjLWMxNG4jIi8%2BPC9kczpUcmFuc2Zvcm1zPjxkczpEaWdlc3RN%0AZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3ht%0AbGRzaWcjc2hhMSIvPjxkczpEaWdlc3RWYWx1ZT4rSWZXNW55Zyt3ZXhtZVhm%0AQ1dqTHRPMUJzQm89PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48%0AL2RzOlNpZ25lZEluZm8%2BPGRzOlNpZ25hdHVyZVZhbHVlPkk0V3VSVWJnWnBn%0AWUMwUGp6c2FMMDVJMFNxdm0wamNJT1hhVEFKbExHLzIxZ1RCQk0xOXQ0b3pl%0AejZEQ2lRTXNUQWVGRlpZRDJ0MTIyQmd4cW1yeDE2T21ncVlybHBqNGVCb2Jk%0AWlNGUm5GUkNuUjdjR3gwSmd5MzVYRWwrWDhVNC90cEZ0ZXRHbDQ4Z09vYXlq%0AZFVxZDNZRk5jaG1UTDJkS2xiTjFEOTlzWT08L2RzOlNpZ25hdHVyZVZhbHVl%0APjwvZHM6U2lnbmF0dXJlPjxzYW1sMjpTdWJqZWN0PjxzYW1sMjpOYW1lSUQg%0ARm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoxLjE6bmFtZWlkLWZv%0Acm1hdDp1bnNwZWNpZmllZCI%2BNzc1NTY8L3NhbWwyOk5hbWVJRD48c2FtbDI6%0AU3ViamVjdENvbmZpcm1hdGlvbiBNZXRob2Q9InVybjpvYXNpczpuYW1lczp0%0AYzpTQU1MOjIuMDpjbTpiZWFyZXIiPjwvc2FtbDI6U3ViamVjdENvbmZpcm1h%0AdGlvbj48L3NhbWwyOlN1YmplY3Q%2BPHNhbWwyOkNvbmRpdGlvbnMgTm90QmVm%0Ab3JlPSIyMDE0LTAxLTI5VDIxOjU1OjU4LjYzNFoiIE5vdE9uT3JBZnRlcj0i%0AMjAxNC0wMS0yOVQyMjoxMDo1OC42MzRaIj48c2FtbDI6QXVkaWVuY2VSZXN0%0AcmljdGlvbj48c2FtbDI6QXVkaWVuY2U%2BcGxpbmtkZXZhbmRxYWVudmlyb25t%0AZW50LjMwNTk5LmNjLmRldi1pbnR1aXQuaXBwLnByb2Q8L3NhbWwyOkF1ZGll%0AbmNlPjwvc2FtbDI6QXVkaWVuY2VSZXN0cmljdGlvbj48L3NhbWwyOkNvbmRp%0AdGlvbnM%2BPHNhbWwyOkF1dGhuU3RhdGVtZW50IEF1dGhuSW5zdGFudD0iMjAx%0ANC0wMS0yOVQyMjowMDo1OC42MzRaIiBTZXNzaW9uSW5kZXg9Il85OGUwZGJh%0AODA3OWY0ZTc5OTNkNjZhMjUzYzBlNDkzNCI%2BPHNhbWwyOkF1dGhuQ29udGV4%0AdD48c2FtbDI6QXV0aG5Db250ZXh0Q2xhc3NSZWY%2BdXJuOm9hc2lzOm5hbWVz%0AOnRjOlNBTUw6Mi4wOmFjOmNsYXNzZXM6dW5zcGVjaWZpZWQ8L3NhbWwyOkF1%0AdGhuQ29udGV4dENsYXNzUmVmPjwvc2FtbDI6QXV0aG5Db250ZXh0Pjwvc2Ft%0AbDI6QXV0aG5TdGF0ZW1lbnQ%2BPC9zYW1sMjpBc3NlcnRpb24%2B%0A
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - Ruby
+      authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7"
+      content-type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 29 Jan 2014 22:00:58 GMT
+      server:
+      - Apache
+      cache-control:
+      - no-cache, no-store
+      pragma:
+      - no-cache
+      content-length:
+      - '120'
+      connection:
+      - close
+      content-type:
+      - text/plain
+    body:
+      encoding: UTF-8
+      string: oauth_token_secret=Eyg5eMtHGSt4XXe1i1vxcrTibTydpcNt9FXqXNar&oauth_token=qyprd9cIP7vY9uudP1tnb0FfgXUMAKO91QmOUiJ4pGO5s0AD
+    http_version: '1.1'
+  recorded_at: Wed, 29 Jan 2014 22:01:00 GMT
+- request:
+    method: delete
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/customers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - OAuth gem v0.4.7
+      authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="ld6Ioic149IcttBvB50TcN8756yyYuX8dbSXDfiMki4",
+        oauth_signature="ED89cW5d9mt1gk61jj0KS2vrdJM%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1391032860", oauth_token="qyprd9cIP7vY9uudP1tnb0FfgXUMAKO91QmOUiJ4pGO5s0AD",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Wed, 29 Jan 2014 22:00:58 GMT
+      content-type:
+      - text/plain
+      content-length:
+      - '0'
+      intuit_tid:
+      - gw-b0efd30f-344a-477a-947d-082f2d75d92e
+      pragma:
+      - no-cache
+      cache-control:
+      - no-cache
+      expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      set-cookie:
+      - JSESSIONID=96FE6897DC555FD0756323F5839F9B0A.node52; Path=/rest-war
+      connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: '1.1'
+  recorded_at: Wed, 29 Jan 2014 22:01:00 GMT
+recorded_with: VCR 2.8.0

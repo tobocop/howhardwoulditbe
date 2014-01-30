@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140129174038) do
+ActiveRecord::Schema.define(:version => 20140130001246) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1137,45 +1137,34 @@ ActiveRecord::Schema.define(:version => 20140129174038) do
   create_table "landing_pages", :force => true do |t|
     t.string   "name"
     t.string   "partial_path"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "background_image_url"
     t.string   "button_text_one"
     t.boolean  "cms"
     t.string   "header_text_one"
-    t.string   "header_text_one_styles"
+    t.string   "header_text_styles"
     t.string   "header_text_two"
-    t.string   "header_text_two_styles"
     t.string   "sub_header_text_one"
-    t.string   "sub_header_text_one_styles"
+    t.string   "sub_header_text_styles"
     t.string   "sub_header_text_two"
-    t.string   "sub_header_text_two_styles"
     t.string   "detail_text_one"
-    t.string   "detail_text_one_styles"
+    t.string   "detail_text_styles"
     t.string   "detail_text_two"
-    t.string   "detail_text_two_styles"
     t.string   "detail_text_three"
-    t.string   "detail_text_three_styles"
     t.string   "detail_text_four"
-    t.string   "detail_text_four_styles"
     t.string   "how_plink_works_one_text_one"
-    t.string   "how_plink_works_one_text_one_styles"
+    t.string   "how_plink_works_one_text_styles"
     t.string   "how_plink_works_one_text_two"
-    t.string   "how_plink_works_one_text_two_styles"
     t.string   "how_plink_works_one_text_three"
-    t.string   "how_plink_works_one_text_three_styles"
     t.string   "how_plink_works_two_text_one"
-    t.string   "how_plink_works_two_text_one_styles"
+    t.string   "how_plink_works_two_text_styles"
     t.string   "how_plink_works_two_text_two"
-    t.string   "how_plink_works_two_text_two_styles"
     t.string   "how_plink_works_two_text_three"
-    t.string   "how_plink_works_two_text_three_styles"
     t.string   "how_plink_works_three_text_one"
-    t.string   "how_plink_works_three_text_one_styles"
+    t.string   "how_plink_works_three_text_styles"
     t.string   "how_plink_works_three_text_two"
-    t.string   "how_plink_works_three_text_two_styles"
     t.string   "how_plink_works_three_text_three"
-    t.string   "how_plink_works_three_text_three_styles"
   end
 
   create_table "loot", :primary_key => "lootID", :force => true do |t|

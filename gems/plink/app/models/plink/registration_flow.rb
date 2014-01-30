@@ -1,14 +1,13 @@
 module Plink
   class RegistrationFlow
 
-    attr_reader :registration_link_record, :landing_page_id, :landing_page_partial,
-      :share_flow, :share_page_id, :share_page_partial
+    attr_reader :landing_page, :landing_page_id, :registration_link_record, :share_flow,
+      :share_page_id, :share_page_partial
 
     def initialize(registration_link_record)
       @registration_link_record = registration_link_record
-      landing_page = @registration_link_record.landing_page_records.sample
+      @landing_page = @registration_link_record.landing_page_records.sample
       @landing_page_id = landing_page.id
-      @landing_page_partial = landing_page.partial_path
 
       @share_flow = @registration_link_record.share_flow?
       if @share_flow

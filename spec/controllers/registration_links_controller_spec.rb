@@ -30,6 +30,10 @@ describe RegistrationLinksController do
     let!(:registration_start_event_type) { create_event_type(name: Plink::EventTypeRecord.registration_start_type) }
     let!(:virtual_currency) { create_virtual_currency }
 
+    before do
+      LandingPagePresenter.stub(:new).and_return(double)
+    end
+
     it 'redirects to the homepage if the registration_flow is not live' do
       get :show, id: expired_registration_link.id
 
@@ -40,7 +44,12 @@ describe RegistrationLinksController do
       get :show, id: registration_link.id
 
       assigns(:registration_flow).should be_present
-      assigns(:registration_flow).landing_page_partial.should == 'path.html.haml'
+    end
+
+    it 'assigns landing_page_presenter' do
+      get :show, id: registration_link.id
+
+      assigns(:landing_page_presenter).should be_present
     end
 
     context 'mobile detection' do
