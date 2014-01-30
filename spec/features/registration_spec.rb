@@ -107,32 +107,4 @@ describe 'Registering through a registration link' do
       page.should have_content 'Welcome, Frud!'
     end
   end
-
-  context 'deprecated paths', js:true do
-    before do
-      create_registration_link_mapping(affiliate_id: affiliate.id, campaign_id: campaign.id, registration_link_id: registration_link.id)
-    end
-
-    it 'forwards to a new registration link', :vcr do
-      visit deprecated_registration_link_path('aid' => affiliate.id, 'c' => 'willbedeprecated', 'subID' => 'one', 'subID2' => 'two', 'subID3' => 'three', 'subID4' => 'four')
-
-      page.should have_content 'An example custom landing page'
-
-      page.current_path.should == registration_link_path(registration_link)
-
-      registration_start_event = Plink::EventRecord.order('eventID desc').first
-
-      registration_start_event.event_type_id.should == registration_start_event_type.id
-      registration_start_event.campaign_id.should == campaign.id
-      registration_start_event.affiliate_id.should == affiliate.id
-      registration_start_event.sub_id.should == 'one'
-      registration_start_event.sub_id_two.should == 'two'
-      registration_start_event.sub_id_three.should == 'three'
-      registration_start_event.sub_id_four.should == 'four'
-      registration_start_event.path_id.should == 1
-      registration_start_event.landing_page_id.should == landing_page.id
-      registration_start_event.is_active.should be_true
-
-    end
-  end
 end
