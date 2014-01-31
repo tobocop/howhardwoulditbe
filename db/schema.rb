@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127211103) do
+ActiveRecord::Schema.define(:version => 20140130211911) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -469,6 +469,16 @@ ActiveRecord::Schema.define(:version => 20140127211103) do
     t.integer  "virtual_currency_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "companies", :force => true do |t|
+    t.integer  "advertiser_id"
+    t.string   "name"
+    t.boolean  "prospect"
+    t.integer  "sales_rep_id"
+    t.string   "vanity_url"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "contest_blacklisted_user_ids", :force => true do |t|
@@ -1679,6 +1689,12 @@ ActiveRecord::Schema.define(:version => 20140127211103) do
     t.datetime "postDate",                                                                :null => false
     t.datetime "created",                                                                 :null => false
     t.datetime "modified",                                                                :null => false
+  end
+
+  create_table "sales_reps", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "saved_path_page_attributes", :force => true do |t|

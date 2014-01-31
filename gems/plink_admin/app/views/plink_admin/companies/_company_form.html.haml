@@ -1,0 +1,27 @@
+- if company.errors.any?
+  .alert-box.alert
+    - company.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(company, url: url, as: 'company') do |f|
+  = f.label :name
+  = f.text_field :name
+  - advertiser_select_options = @advertisers.collect {|advertiser| ["#{advertiser.advertiser_name} (#{advertiser.id})", advertiser.id]}
+  = f.label :advertiser_id, 'Advertiser'
+  = f.select :advertiser_id, options_for_select(advertiser_select_options)
+  = f.label :vanity_url
+  = f.text_field :vanity_url
+  - sales_rep_select_options = @sales_reps.collect {|sales_rep| ["#{sales_rep.name} (#{sales_rep.id})", sales_rep.id]}
+  = f.label :sales_rep_id, 'Sales rep'
+  = f.select :sales_rep_id, options_for_select(sales_rep_select_options)
+  = f.label :prospect_true, 'Prospect'
+  = f.radio_button :prospect, true, checked: true
+  = f.label :prospect_false, 'Partner'
+  = f.radio_button :prospect, false
+
+  .clear
+
+  = f.submit button_text, class: 'button small'
+
+  = link_to 'Cancel', companies_path, class: 'button small secondary'
+

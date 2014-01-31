@@ -2,6 +2,34 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_company(options = {})
+      defaults = {
+        advertiser_id: 2,
+        name: 'Taco derp',
+        prospect: false,
+        sales_rep_id: 1,
+        vanity_url: 'TD',
+      }
+
+      Plink::CompanyRecord.new { |company| apply(company, defaults, options) }
+    end
+
+    def create_company(options = {})
+      new_company(options).tap(&:save!)
+    end
+
+    def new_sales_rep(options = {})
+      defaults = {
+        name: 'Master of the universe'
+      }
+
+      Plink::SalesRepRecord.new { |sales_rep| apply(sales_rep, defaults, options) }
+    end
+
+    def create_sales_rep(options = {})
+      new_sales_rep(options).tap(&:save!)
+    end
+
     def new_authentication_token(options = {})
       defaults = {
         token: 'test',

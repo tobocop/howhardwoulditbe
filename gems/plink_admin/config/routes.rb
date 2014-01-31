@@ -8,6 +8,7 @@ PlinkAdmin::Engine.routes.draw do
   end
   resources :affiliates, except: :destroy
   resources :campaigns, except: :destroy
+  resources :companies, except: :destroy
   resources :global_login_tokens, except: :destroy
   resources :landing_pages, except: :destroy
   resources :share_pages, except: :destroy
