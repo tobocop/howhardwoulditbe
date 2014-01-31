@@ -10,7 +10,11 @@
   = f.label :advertiser_id, 'Advertiser'
   = f.select :advertiser_id, options_for_select(advertiser_select_options)
   = f.label :vanity_url
-  = f.text_field :vanity_url
+  %div{style: 'float:left;padding-top:8px;padding-right:5px;'}
+    %span https://analytics.plink.com/
+  %div{style: 'float:left;'}
+    = f.text_field :vanity_url
+  .clear
   - sales_rep_select_options = @sales_reps.collect {|sales_rep| ["#{sales_rep.name} (#{sales_rep.id})", sales_rep.id]}
   = f.label :sales_rep_id, 'Sales rep'
   = f.select :sales_rep_id, options_for_select(sales_rep_select_options)
