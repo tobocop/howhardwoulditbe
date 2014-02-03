@@ -20,13 +20,31 @@ module Plink
     attr_accessible :hash_value, :home_url, :intuit_institution_id, :is_active,
       :is_supported, :logo_url, :name
 
-    mapping do
-      indexes :institutionName, type: 'string', boost: 10
+    settings analysis: {
+      filter: {
+        url_ngram: {
+          type: 'nGram',
+          min_gram: 4,
+          max_gram: 10
+        }
+      },
+      analyzer: {
+        url_analyzer: {
+          type: 'custom',
+          tokenizer: 'lowercase',
+          filter: ['stop', 'url_ngram']
+        }
+      }
+    } do
+      mapping do
+        indexes :homeURL, type: 'string', analyzer: 'url_analyzer'
+        indexes :institutionName, type: 'string'
+      end
     end
 
     def self.search(search_term, limit=100)
       tire.search(load: true, per_page: limit) do
-        query { string search_term, default_operator: "AND" } if search_term.present?
+        query { match [:homeURL, :institutionName], search_term } if search_term.present?
       end
     end
 
