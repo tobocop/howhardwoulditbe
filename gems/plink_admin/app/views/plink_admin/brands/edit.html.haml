@@ -1,0 +1,3 @@
+%h1= "Edit Brand - #{@brand.id}"
+
+= render partial: 'brand_form', locals: {button_text: 'Update', brand: @brand, url: brand_path(@brand)}

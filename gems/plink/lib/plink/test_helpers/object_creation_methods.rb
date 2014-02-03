@@ -2,20 +2,33 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
-    def new_company(options = {})
+    def new_brand(options = {})
       defaults = {
-        advertiser_id: 2,
         name: 'Taco derp',
         prospect: false,
         sales_rep_id: 1,
         vanity_url: 'TD',
       }
 
-      Plink::CompanyRecord.new { |company| apply(company, defaults, options) }
+      Plink::BrandRecord.new { |brand| apply(brand, defaults, options) }
     end
 
-    def create_company(options = {})
-      new_company(options).tap(&:save!)
+    def create_brand(options = {})
+      new_brand(options).tap(&:save!)
+    end
+
+    def new_brand_competitor(options = {})
+      defaults = {
+        brand_id: 1,
+        competitor_id: 2,
+        default: false
+      }
+
+      Plink::BrandCompetitorRecord.new { |brand_competitor| apply(brand_competitor, defaults, options) }
+    end
+
+    def create_brand_competitor(options = {})
+      new_brand_competitor(options).tap(&:save!)
     end
 
     def new_sales_rep(options = {})

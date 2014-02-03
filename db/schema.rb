@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140130211911) do
+ActiveRecord::Schema.define(:version => 20140203175908) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -345,6 +345,23 @@ ActiveRecord::Schema.define(:version => 20140130211911) do
     t.boolean  "isActive",                                                             :default => true,  :null => false
   end
 
+  create_table "brand_competitors", :force => true do |t|
+    t.integer  "brand_id"
+    t.integer  "competitor_id"
+    t.boolean  "default"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "brands", :force => true do |t|
+    t.string   "name"
+    t.boolean  "prospect"
+    t.integer  "sales_rep_id"
+    t.string   "vanity_url"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "business_rule_reasons", :force => true do |t|
     t.string   "name",        :limit => 250,                   :null => false
     t.text     "description",                                  :null => false
@@ -469,16 +486,6 @@ ActiveRecord::Schema.define(:version => 20140130211911) do
     t.integer  "virtual_currency_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-  end
-
-  create_table "companies", :force => true do |t|
-    t.integer  "advertiser_id"
-    t.string   "name"
-    t.boolean  "prospect"
-    t.integer  "sales_rep_id"
-    t.string   "vanity_url"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
   end
 
   create_table "contest_blacklisted_user_ids", :force => true do |t|

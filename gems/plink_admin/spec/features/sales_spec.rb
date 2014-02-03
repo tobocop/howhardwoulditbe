@@ -20,7 +20,7 @@ describe 'Sales' do
     page.should_not have_content 'Tango'
     page.should_not have_content 'Global Login Tokens'
 
-    page.should have_content 'Companies'
+    page.should have_content 'Brands'
     page.should have_content 'Contacts'
     page.should have_content 'Import'
   end

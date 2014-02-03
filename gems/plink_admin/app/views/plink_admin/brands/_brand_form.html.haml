@@ -1,0 +1,48 @@
+- if brand.errors.any?
+  .alert-box.alert
+    - brand.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(brand, url: url, as: 'brand') do |f|
+  .columns.large-6
+    = f.label :name
+    = f.text_field :name
+    = f.label :vanity_url
+    %div{style: 'float:left;padding-top:8px;padding-right:5px;'}
+      %span https://analytics.plink.com/
+    %div{style: 'float:left;'}
+      = f.text_field :vanity_url
+    .clear
+    - sales_rep_select_options = @sales_reps.collect {|sales_rep| ["#{sales_rep.name} (#{sales_rep.id})", sales_rep.id]}
+    = f.label :sales_rep_id, 'Sales rep'
+    = f.select :sales_rep_id, options_for_select(sales_rep_select_options)
+    = f.label :prospect_true, 'Prospect'
+    = f.radio_button :prospect, true, checked: true
+    = f.label :prospect_false, 'Partner'
+    = f.radio_button :prospect, false
+
+  .columns.large-6
+    %h4 Competitors
+    %table{style: 'margin-bottom: 0px;'}
+      %thead
+        %th{style: 'width: 250px;'} Brand Name
+        %th{style: 'width: 80px;'} Available
+        %th{style: 'width: 80px;'} Defaulted
+    %div{style:'overflow-y: scroll; height:300px;'}
+      %table
+        = f.fields_for :brand_competitors do |ff|
+          = ff.hidden_field :competitor_id
+          %tr
+            %td{style: 'padding-top:0px; padding-bottom:0px;width: 250px;'}
+              = ff.label :_destroy, ff.object.competitor.name
+            %td{style: 'padding-top:0px; padding-bottom:0px;width: 80px;'}
+              = ff.check_box :_destroy, {checked: ff.object.persisted?}, '0', '1'
+            %td{style: 'padding-top:0px; padding-bottom:0px;width: 80px;'}
+              = ff.check_box :default, {checked: ff.object.default}
+
+  .clear
+
+  = f.submit button_text, class: 'button small'
+
+  = link_to 'Cancel', brands_path, class: 'button small secondary'
+
