@@ -15,7 +15,7 @@ class InstitutionsController < ApplicationController
     flash.clear
 
     if params[:institution_name].blank?
-      flash[:error] = 'Please provide a bank name or URL'
+      flash.now[:error] = 'Please provide a bank name or URL'
     else
       @results = Plink::InstitutionRecord.search(params[:institution_name])
       @has_unsupported_banks = @results.map(&:is_supported?).include?(false)
@@ -23,6 +23,7 @@ class InstitutionsController < ApplicationController
   end
 
   def authentication
+    flash.clear
     @institution = Plink::InstitutionRecord.where(institutionID: params[:id]).first
 
     if @institution.nil?
