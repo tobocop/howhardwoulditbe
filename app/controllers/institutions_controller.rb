@@ -18,7 +18,7 @@ class InstitutionsController < ApplicationController
       flash.now[:error] = 'Please provide a bank name or URL'
     else
       @results = Plink::InstitutionRecord.search(params[:institution_name])
-      @has_unsupported_banks = @results.map(&:is_supported?).include?(false)
+      @has_unsupported_banks = @results.any?{ |result| !result.is_supported? }
     end
   end
 
