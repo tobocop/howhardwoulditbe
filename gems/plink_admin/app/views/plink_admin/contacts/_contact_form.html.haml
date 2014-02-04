@@ -1,0 +1,23 @@
+- if contact.errors.any?
+  .alert-box.alert
+    - contact.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(contact, url: url, as: 'contact') do |f|
+  = f.label :first_name
+  = f.text_field :first_name
+  = f.label :last_name
+  = f.text_field :last_name
+  = f.label :email
+  = f.text_field :email
+  - brand_select_options = @brands.collect {|brand| ["#{brand.name} - #{brand.id}", brand.id]}
+  = f.label :brand_id, 'Brand'
+  = f.select :brand_id, options_for_select(brand_select_options)
+  = f.label :is_active, 'Active'
+  = f.check_box :is_active
+
+  .clear
+
+  = f.submit button_text, class: 'button small'
+  = link_to 'Cancel', contacts_path, class: 'button small secondary'
+

@@ -45,6 +45,7 @@ describe 'Brands' do
     end
 
     page.should have_content 'Edit Brand'
+    page.should have_content 'Brands contacts'
 
     fill_in 'Name', with: 'The better brand'
 

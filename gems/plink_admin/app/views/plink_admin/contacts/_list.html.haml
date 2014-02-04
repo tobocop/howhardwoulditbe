@@ -1,0 +1,12 @@
+%table.contact-list
+  %thead
+    %th Name
+    %th Email
+    %th Brand
+  %tbody
+    - contacts.each do |contact|
+      %tr.contact-item
+        %td= link_to contact.first_name + ' ' + contact.last_name, edit_contact_path(contact)
+        %td= contact.email
+        %td= contact.brand.name
+

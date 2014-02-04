@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140203175908) do
+ActiveRecord::Schema.define(:version => 20140204163230) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -486,6 +486,16 @@ ActiveRecord::Schema.define(:version => 20140203175908) do
     t.integer  "virtual_currency_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+  end
+
+  create_table "contacts", :force => true do |t|
+    t.integer  "brand_id"
+    t.string   "email"
+    t.string   "first_name"
+    t.boolean  "is_active",  :default => true
+    t.string   "last_name"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "contest_blacklisted_user_ids", :force => true do |t|

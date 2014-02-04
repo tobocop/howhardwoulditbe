@@ -7,8 +7,9 @@ PlinkAdmin::Engine.routes.draw do
     put :update_audience, to: 'hero_promotions#update_audience', on: :member
   end
   resources :affiliates, except: :destroy
-  resources :campaigns, except: :destroy
   resources :brands, except: :destroy
+  resources :campaigns, except: :destroy
+  resources :contacts, except: :destroy
   resources :global_login_tokens, except: :destroy
   resources :landing_pages, except: :destroy
   resources :share_pages, except: :destroy

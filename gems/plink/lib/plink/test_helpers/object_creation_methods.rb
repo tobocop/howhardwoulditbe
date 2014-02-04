@@ -2,6 +2,22 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_contact(options = {})
+      defaults = {
+        brand_id: 2,
+        email: 'test@herewego.com',
+        first_name: 'first',
+        is_active: true,
+        last_name: 'last'
+      }
+
+      Plink::ContactRecord.new { |contact| apply(contact, defaults, options) }
+    end
+
+    def create_contact(options = {})
+      new_contact(options).tap(&:save!)
+    end
+
     def new_brand(options = {})
       defaults = {
         name: 'Taco derp',

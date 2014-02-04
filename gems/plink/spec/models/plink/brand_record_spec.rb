@@ -10,6 +10,7 @@ describe Plink::BrandRecord do
   it { should belong_to(:sales_rep) }
   it { should have_many(:brand_competitors) }
   it { should have_many(:competitors).through(:brand_competitors) }
+  it { should have_many(:contacts) }
 
   it { should accept_nested_attributes_for(:brand_competitors).allow_destroy(true) }
 
