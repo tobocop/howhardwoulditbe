@@ -53,8 +53,11 @@ group :test do
   gem 'vcr'
 end
 
+group :production, :review do
+  gem 'newrelic_rpm'
+end
+
 group :production do
   gem 'unicorn'
-  gem 'newrelic_rpm'
   gem 'execjs'
 end

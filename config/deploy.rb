@@ -1,3 +1,4 @@
+require 'new_relic/recipes'
 require 'bundler/capistrano'
 require 'capistrano/ext/multistage'
 require "delayed/recipes"
@@ -39,6 +40,7 @@ load 'config/deploy/recipes/delayed_job'
 before :deploy, 'deploy:setup'
 # [ optional ] Clean up old releases on each deploy:
 after 'deploy:restart', 'deploy:cleanup'
+after "deploy:update", "newrelic:notice_deployment"
 
 # Ensure that the proper rbenv version is used:
 set :default_environment, {

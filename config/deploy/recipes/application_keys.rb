@@ -34,7 +34,7 @@ set_default :tango_password do
 end
 
 # NEWRELIC:
-set_default :newrelic_license_key do
+set_default :plink_newrelic_license_key do
   Capistrano::CLI.password_prompt 'NewRelic License Key: '
 end
 
