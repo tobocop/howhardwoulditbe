@@ -14,7 +14,12 @@ class IntuitAccountRequest
     intuit_response = Intuit::Request.new(user_id).accounts(intuit_institution_id, decrypted_credentials)
 
     response = Intuit::Response.new(intuit_response)
-    populate_staging_records(response.login_id) if response.accounts?
+    if response.aggregation_error?
+      error_message = error_message_from_status_code(response.first_error_status_code)
+      response = Intuit::AggregationErrorResponse.new(error_message)
+    elsif response.accounts?
+      populate_staging_records(response.login_id)
+    end
 
     update_request_record(response.parse.to_json)
   end
@@ -58,14 +63,7 @@ private
 
   def login_accounts(login_id)
     intuit_response = Intuit::Request.new(user_id).login_accounts(login_id)
-    response = Intuit::Response.new(intuit_response)
-
-    if response.aggregation_error?
-      error_message = error_message_from_status_code(response.first_error_status_code)
-      response = {error: true, value: error_message}
-    end
-
-    response
+    Intuit::Response.new(intuit_response)
   end
 
   def update_request_record(response)

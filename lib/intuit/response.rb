@@ -37,7 +37,7 @@ module Intuit
     end
 
     def aggregation_error?
-      parse_status_codes(accounts) != [0]
+      accounts? && parse_status_codes(accounts) != [0]
     end
 
     def first_error_status_code

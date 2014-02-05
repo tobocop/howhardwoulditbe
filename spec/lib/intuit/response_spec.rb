@@ -77,6 +77,12 @@ describe Intuit::Response do
       response.aggregation_error?.should be_false
     end
 
+    it 'returns false if there are no accounts' do
+      response = Intuit::Response.new(successful_intuit_response[:result].delete(:account_list))
+
+      response.aggregation_error?.should be_false
+    end
+
     it 'returns true if there is a non-zero aggregation status code in the account list' do
       response = Intuit::Response.new(aggregation_error_intuit_response)
 

@@ -225,12 +225,27 @@ describe IntuitAccountRequest do
       request.authenticate('user_and_pw')
     end
 
-    it 'does not call getLoginAccounts if the response is an error' do
-      intuit_request.stub(:accounts).and_return(intuit_error_response)
+    context 'with a failed response from intuit' do
+      let(:login_account_aggregation_error) do
+        intuit_response[:status_code] = '200'
+        intuit_response[:result][:account_list][:credit_account].first[:aggr_status_code] = '1'
+        intuit_response
+      end
+      it 'does not call getLoginAccounts on an account error' do
+        intuit_request.stub(:accounts).and_return(intuit_error_response)
 
-      intuit_request.should_not_receive(:login_accounts)
+        intuit_request.should_not_receive(:login_accounts)
 
-      request.authenticate('user_and_pw')
+        request.authenticate('user_and_pw')
+      end
+
+      context 'for an aggregation error' do
+        it 'returns an error object' do
+          intuit_request.stub(:login_accounts).and_return(login_account_aggregation_error)
+
+          expect { request.authenticate('user_and_pw') }.to_not raise_error
+        end
+      end
     end
   end
 
