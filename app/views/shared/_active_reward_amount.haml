@@ -1,5 +1,7 @@
 %a.denomination.available{data: {'reveal-id' => amount.id}, href: '#'}
   = plink_currency_format(amount.dollar_award_amount)
+  .denom-value
+    %h4 #{current_virtual_currency.amount_in_currency(amount.dollar_award_amount)} Points
 
 .modal.reward-amount-confirmation.reveal-modal{style: 'display: none', id: amount.id }
   = image_tag 'btn_close.png', alt: 'Close', class: 'close-btn close-reveal-modal'

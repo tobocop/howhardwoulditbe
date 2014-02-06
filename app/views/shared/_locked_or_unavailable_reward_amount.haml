@@ -6,3 +6,5 @@
 - else
   .denomination.unavailable
     = plink_currency_format(amount.dollar_award_amount)
+    .denom-value
+      %h4 #{current_virtual_currency.amount_in_currency(amount.dollar_award_amount)} Points
