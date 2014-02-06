@@ -10,6 +10,10 @@ bundle exec rake db:test:prepare
 bundle exec rake db:udfs:create
 bundle exec rake db:views:create
 
+echo "RUNNING PLINK ANALYTICS GEM BUILD"
+cd gems/plink_analytics && bundle exec rspec spec && cd ../..
+STATUS=$((STATUS + $?))
+
 echo "RUNNING PLINK ADMIN GEM BUILD"
 cd gems/plink_admin && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))

@@ -16,6 +16,7 @@ gem 'gigya', path: 'gems/gigya'
 gem 'plink', path: 'gems/plink'
 gem 'tango', path: 'gems/tango'
 gem 'plink_admin', path: 'gems/plink_admin'
+gem 'plink_analytics', path: 'gems/plink_analytics'
 
 gem 'aggcat', git: 'https://github.com/cloocher/aggcat'
 gem 'tire'

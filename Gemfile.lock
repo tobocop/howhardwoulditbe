@@ -37,6 +37,17 @@ PATH
       tire
 
 PATH
+  remote: gems/plink_analytics
+  specs:
+    plink_analytics (0.0.1)
+      activerecord-redshift-adapter
+      activerecord-sqlserver-adapter (= 3.2.10)
+      haml-rails (~> 0.4)
+      rails (= 3.2.16)
+      tiny_tds (= 0.6.1)
+      tire
+
+PATH
   remote: gems/tango
   specs:
     tango (0.0.1)
@@ -330,6 +341,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.0)
   plink!
   plink_admin!
+  plink_analytics!
   pry
   quiet_assets
   rails (= 3.2.16)

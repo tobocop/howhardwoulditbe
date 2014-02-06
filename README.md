@@ -215,9 +215,53 @@ to
 
     require File.expand_path("../dummy/config/environment", __FILE__)
 
+symlink the database.yml to your dummy app:
+`rm spec/dummy/config/database.yml`
+`ln -s ../../config/database.yml spec/dummy/config/database.yml`
+
 add gems/[name] to your gemfile
 
     gem 'admin', path: 'gems/[name]'
+
+Change your dummy routes file to mount your engine to the root
+
+Add enginge controller route fixes to your spec/support:
+
+  module EngineControllerRoutesFix
+    def get(action, parameters = nil, session = nil, flash = nil)
+      process_action(action, parameters, session, flash, "GET")
+    end
+
+    # Executes a request simulating POST HTTP method and set/volley the response
+    def post(action, parameters = nil, session = nil, flash = nil)
+      process_action(action, parameters, session, flash, "POST")
+    end
+
+    # Executes a request simulating PUT HTTP method and set/volley the response
+    def put(action, parameters = nil, session = nil, flash = nil)
+      process_action(action, parameters, session, flash, "PUT")
+    end
+
+    # Executes a request simulating DELETE HTTP method and set/volley the response
+    def delete(action, parameters = nil, session = nil, flash = nil)
+      process_action(action, parameters, session, flash, "DELETE")
+    end
+
+    private
+
+    def process_action(action, parameters = nil, session = nil, flash = nil, method = "GET")
+      parameters ||= {}
+      process(action, parameters.merge!(:use_route => :plink_admin), session, flash, method)
+    end
+  end
+
+If using haml, make sure to add the require to your lib/[engine_name].rb:
+require 'haml-rails'
+
+if your engine is mountable, add it to the routes file in the outer app:
+  mount PlinkAdmin::Engine => '/plink_admin'
+
+Define a new route and write a feature spec to visit that route to make sure everything is setup correctly
 
 add new specs to the build.sh and build_ci.sh
 
