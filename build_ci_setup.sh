@@ -2,6 +2,7 @@ touch config/database.yml
 echo -e "test:\n adapter: $DB_ADAPTER\n database: $CONNECTION_DB_NAME\n host: $DB_HOST\n username: $DB_USERNAME\n password: $DB_PASSWORD\n \nredshift_test:\n adapter: $DB_ADAPTER\n database: $CONNECTION_DB_NAME\n host: $DB_HOST\n username: $DB_USERNAME\n password: $DB_PASSWORD\n \n" > config/database.yml
 cp config/database.yml gems/plink/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
+cp config/database.yml gems/plink_analytics/spec/dummy/config/database.yml
 
 touch config/lyris.yml
 echo -e "test:\n site_id: $LYRIS_SITE_ID\n password: $LYRIS_PASSWORD\n mailing_list_id: $LYRIS_MAILING_LIST_ID" > config/lyris.yml
@@ -36,6 +37,7 @@ bundle exec rake db:create_ms_sql[$THREAD_DB_NAME]
 echo -e "test:\n adapter: $DB_ADAPTER\n database: $THREAD_DB_NAME\n host: $DB_HOST\n username: $DB_USERNAME\n password: $DB_PASSWORD\n \nredshift_test:\n adapter: $DB_ADAPTER\n database: $CONNECTION_DB_NAME\n host: $DB_HOST\n username: $DB_USERNAME\n password: $DB_PASSWORD\n \n" > config/database.yml
 cp config/database.yml gems/plink/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
+cp config/database.yml gems/plink_analytics/spec/dummy/config/database.yml
 
 bundle exec rake db:test:load
 bundle exec rake db:udfs:create

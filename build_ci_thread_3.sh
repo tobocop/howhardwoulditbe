@@ -1,6 +1,6 @@
 export RAILS_ENV=test
 
-cd gems/plink_analytics && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
+cd gems/tango && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
 
 bundle exec rspec spec/controllers --tag ~flaky --tag ~skip_in_build
