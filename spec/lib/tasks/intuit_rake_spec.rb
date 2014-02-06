@@ -109,3 +109,68 @@ describe 'intuit:remove_staged_accounts' do
     end
   end
 end
+
+describe 'intuit:update_account_type' do
+  include_context 'rake'
+
+  let!(:users_institution_account) { create_users_institution_account }
+  let(:intuit_request) { double(update_account_type: nil) }
+  let(:valid_account_type) { 'debit' }
+
+  it 'requires a users_institution_account_id argument' do
+    expect {
+      subject.invoke
+    }.to raise_error ArgumentError
+  end
+
+  it 'requires an account_type argument' do
+    expect {
+      subject.invoke(78)
+    }.to raise_error ArgumentError
+  end
+
+  it 'includes the user.id and users_institution_account_id if the Intuit login scope call fails' do
+    Intuit::Request.stub(:new).and_return(nil)
+
+    expect {
+      subject.invoke(users_institution_account.id, valid_account_type)
+    }.to raise_error(NoMethodError, /Could not set scope.*user\.id = \d+, users_institution_account_id = \d+/)
+  end
+
+  it 'looks up a users_institution_account record from the users_institution_account_id' do
+    Intuit::Request.stub(:new).and_return(intuit_request)
+    Plink::UsersInstitutionAccountRecord.should_receive(:find).with(users_institution_account.id).and_call_original
+
+    subject.invoke(users_institution_account.id, valid_account_type)
+  end
+
+  it 'sets the correct scope in the intuit request' do
+    Intuit::Request.stub(:new).with(users_institution_account.user_id).and_return(intuit_request)
+
+    subject.invoke(users_institution_account.id, valid_account_type)
+  end
+
+  it 'allows the the account_type to be creditcard' do
+    Intuit::Request.stub(:new).with(users_institution_account.user_id).and_return(intuit_request)
+
+    expect {
+      subject.invoke(users_institution_account.id, 'creditcard')
+    }.not_to raise_error
+  end
+
+  it 'allows the the account_type to be debit' do
+    Intuit::Request.stub(:new).with(users_institution_account.user_id).and_return(intuit_request)
+
+    expect {
+      subject.invoke(users_institution_account.id, 'debit')
+    }.not_to raise_error
+  end
+
+  it 'displays an error if the account_type is invalid' do
+    Intuit::Request.stub(:new).with(users_institution_account.user_id).and_return(intuit_request)
+
+    expect {
+      subject.invoke(users_institution_account.id, 'invalid_type')
+    }.to raise_error(ArgumentError, /account_type is invalid/)
+  end
+end

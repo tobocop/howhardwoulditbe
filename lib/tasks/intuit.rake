@@ -33,6 +33,24 @@ namespace :intuit do
     end
   end
 
+  desc 'Update account type'
+  task :update_account_type, [:users_institution_account_id, :account_type] => :environment do |t, args|
+    users_institution_account_id = args[:users_institution_account_id]
+    raise ArgumentError.new('users_institution_account_id is required') unless users_institution_account_id.present?
+
+    account_type = IntuitAccountType.AccountType(args[:account_type])
+    raise ArgumentError.new('account_type is invalid') unless account_type.present?
+
+    account = Plink::UsersInstitutionAccountRecord.find(users_institution_account_id)
+
+    begin
+      Intuit::Request.new(account.user_id).update_account_type(account.account_id, account_type)
+    rescue NoMethodError
+      message = "Could not set scope (check intuit.yml) for user.id = #{account.user_id}, users_institution_account_id = #{users_institution_account_id}"
+      raise $!, "#{message} #{$!}", $!.backtrace
+    end
+  end
+
 private
 
   def staged_accounts_to_remove
@@ -44,8 +62,8 @@ private
       where('usersInstitutionAccountsStaging.inIntuit = ?', true)
   end
 
+
   def stars
     puts '*' * 150
   end
 end
-

@@ -121,22 +121,13 @@ private
     end
   end
 
-  def text_for_account_type(account_type)
-    case account_type
-    when 'credit'
-      'CREDITCARD'
-    when 'debit'
-      'CHECKING'
-    end
-  end
-
   def end_date_accounts(account_ids)
     Plink::UsersInstitutionAccountRecord.where(usersInstitutionAccountID: account_ids).
       update_all(endDate: Date.current)
   end
 
   def update_account_type(account_record, staged_account, account_type)
-    formatted_account_type = text_for_account_type(account_type)
+    formatted_account_type = IntuitAccountType.AccountType(account_type)
 
     staged_account.update_attributes(account_type: formatted_account_type)
     account_record.update_attributes(account_type: formatted_account_type)
