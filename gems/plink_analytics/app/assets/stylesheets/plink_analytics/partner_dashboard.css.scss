@@ -1,0 +1,838 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+$state-range:10%;
+
+.partner-dashboard {
+  -webkit-text-stroke: 0px;
+
+  .header {
+    background:$ink;
+    height:70px;
+    position:fixed;
+    width:100%;
+    z-index:99;
+
+    .logo {
+      background: url('/assets/plink_analytics/sprites_header.png');
+      background-repeat: none;
+      background-position: 0px 0px;
+      display:inline-block;
+      height:47px;
+      margin:11px 20px;
+      width:96px;
+    }
+
+    .user-info {
+      color:#FFFFFF;
+      display:inline-block;
+      font-size:.875em;
+      font-weight:400;
+      margin:13px 0 0 20px;
+      vertical-align:top;
+    }
+
+    .nav {
+      height:70px;
+      float:right;
+      margin:-2px 2.5% 0 0;
+    }
+     .mobile-menu {
+      color:$gray;
+      float:right;
+      display:none;
+
+      .icon{
+        background-position: -167px 75px;
+      }
+    }
+
+    .settings {
+      color:$gray;
+      display:none;
+      margin:-2px 0 0 2.5%;
+
+      .icon{
+        background-position: -197px 69px;
+      }
+    }
+
+    .icon {
+      background: url('/assets/plink_analytics/sprites_header.png');
+      background-repeat: none;
+      display:block;
+      height:27px;
+      margin:11px auto 9px auto;
+      width:28px;
+    }
+    .nav-btn{
+      display:inline-block;
+    }
+
+    .nav-btn, .mobile-menu, .settings {
+      background:#2d2d38;
+      color:$darkgray;
+      cursor:pointer;
+      font-size:.875em;
+      font-weight:400;
+      height:70px;
+      margin:2px -3px 0px 0px;
+      position:relative;
+      text-align:center;
+      width:80px;
+
+      &.market {
+        &.active {
+          background:$red;
+          .indicator{display:block; border-top: 15px solid $red;}
+
+          .icon{
+            background-position: -106px -27px;
+          }
+        }
+        .indicator{display:none;}
+
+        .icon{
+          background-position: -106px 0px;
+        }
+
+        &:hover .icon{
+          background-position: -106px -27px;
+        }
+      }
+
+      &.sales {
+        &.active {
+          background:$yellow;
+          .indicator{display:block; border-top: 15px solid $yellow;}
+
+          .icon{
+            background-position: -136px -26px;
+          }
+        }
+        .indicator{display:none;}
+
+        .icon{
+          background-position: -136px 1px;
+        }
+
+        &:hover .icon{
+          background-position: -136px -26px;
+        }
+      }
+
+      &.social {
+        &.active {
+          background:$green;
+          .indicator{display:block; border-top: 15px solid $green;}
+
+          .icon{
+            background-position: -167px -26px;
+          }
+        }
+        .indicator{display:none;}
+
+        .icon{
+          background-position: -167px 1px;
+        }
+
+        &:hover .icon{
+          background-position: -167px -26px;
+        }
+      }
+
+      &.budget {
+        &.active {
+          background:$navy;
+          .indicator{display:block; border-top: 15px solid $navy;}
+
+          .icon{
+            background-position: -197px -27px;
+          }
+        }
+        .indicator{display:none;}
+
+        .icon{
+          background-position: -197px 0px;
+        }
+
+        &:hover .icon{
+          background-position: -197px -27px;
+        }
+      }
+
+      &.active {
+        color:#FFFFFF;
+      }
+
+      &.hover, &:hover{
+        color:#FFFFFF;
+      }
+
+      .indicator {
+        border-left: 22.5px solid transparent;
+        border-right: 22.5px solid transparent;
+        border-top: 15px solid $red;
+        height: 0;
+        left:17.5px;
+        position:absolute;
+        top:67px;
+        width: 0;
+        z-index: 100;
+      }
+    }
+
+    .mobile-page-title {
+      color:#FFFFFF;
+      display:none;
+      font-size:1em;
+      font-weight:200;
+      left:calc(50% - 75px);
+      letter-spacing: 1.5px;
+      height:40px;
+      margin:14px auto;
+      position:absolute;
+      text-align: center;
+      width:150px;
+    }
+  }
+
+  .controls-container {
+    background:#eeeeee;
+    /*border-right:1px solid #dddddd;*/
+    height:100%;
+    min-width:202px;
+    padding:110px 20px 0px 20px;
+    position:fixed;
+    top:0;
+    width:20%;
+
+    .control {
+      margin:0px auto 40px auto;
+
+      &.hide {display:inline-block;}
+
+      select {
+        background:$red;
+        color:#FFFFFF;
+        height:46px;
+        font-size:1em;
+        letter-spacing: .5px;
+        overflow:hidden;
+        padding:15px 18px 15px 11px;
+        position:relative;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+
+      .title {
+        color:$gray;
+        letter-spacing: .5px;
+        margin:0px 0px 10px 0px;
+        text-transform: uppercase;
+      }
+
+      .dropdown {
+        color:#FFFFFF;
+        cursor:pointer;
+        height:46px;
+        letter-spacing: .5px;
+        overflow:hidden;
+        padding:15px 18px 15px 11px;
+        position:relative;
+        text-overflow:ellipsis;
+        width:100%;
+        white-space: nowrap;
+
+        @include transition(background);
+
+        &.time {
+          background:#FFFFFF;
+          color:$darkgray;
+          .triangle{border-color: $darkgray transparent transparent transparent;}
+
+          &:hover{
+            background: darken(#FFFFFF, 2%);
+          }
+        }
+
+        &.one {
+          background:$blue;
+
+          &:hover{
+            background: darken($blue, 7%);
+          }
+        }
+
+        &.two {
+          background:$red;
+
+          &:hover{
+            background: darken($red, 7%);
+          }
+        }
+
+        &.three {
+          background:$yellow;
+
+          &:hover{
+            background: darken($yellow, 12%);
+          }
+        }
+
+        &.four {
+          background:$green;
+
+          &:hover{
+            background: darken($green, 5%);
+          }
+        }
+
+        &.five {
+          background:$navy;
+
+          &:hover{
+            background: darken($navy, 5%);
+          }
+        }
+
+        .triangle {
+          position:absolute;
+          right:10px;
+          top:22px;
+
+          width: 0px;
+          height: 0px;
+          border-style: solid;
+          border-width: 5px 5px 0 5px;
+          border-color: #FFFFFF transparent transparent transparent;
+        }
+      }
+
+      .data-point-scrollto {
+        color:$gray;
+        cursor:pointer;
+        margin:0 0 10px 0;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        width:100%;
+        white-space:nowrap;
+
+        @include transition(color);
+
+        &:hover{
+          color: darken($gray, $state-range);
+          .circle {border:2px solid $gray;}
+        }
+
+        &.overview-active {
+          color:$blue;
+          .circle {background:$blue; border:1px solid $blue;}
+        }
+        &.market-active {
+          color:$red;
+          .circle {background:$red; border:1px solid $red;}
+        }
+        &.sales-active {
+          color:$yellow;
+          .circle {background:$yellow; border:1px solid $yellow;}
+        }
+        &.social-active {
+          color:$green;
+          .circle {background:$green; border:1px solid $green;}
+        }
+        &.budget-active {
+          color:$navy;
+          .circle {background:$navy; border:1px solid $navy;}
+        }
+
+        .circle {
+          border:1px solid $gray;
+          float:left;
+          height:15px;
+          margin-right:10px;
+          text-align:center;
+          width:15px;
+          @include round-corners(50%);
+        }
+      }
+    }
+  }
+
+  .data-container {
+    display:inline-block;
+    margin:110px 0 0 0;
+    min-width:765px;
+    width:75%;
+
+    hr {
+      padding:20px 0px;
+      width:100%;
+    }
+
+    .call-to-action {
+      margin:-27px auto 50px auto;
+      width:190px
+    }
+  }
+
+  .left-margin {
+    display:inline-block;
+    height:100%;
+    min-width:195px;
+    width:22.5%;
+  }
+
+  .right-margin {
+    display:inline-block;
+    min-width:15px;
+    width:2.5%;
+  }
+
+  .dashboard-title {
+    font-color:$ink;
+    font-size:2em;
+    font-weight:600;
+    margin:0 0 -20px 0;
+  }
+
+  .data-point {
+    margin:20px 0px 60px 0px;
+
+    .description {
+      color:$gray;
+      display:inline-block;
+      line-height:1.3em;
+      margin-right:1%;
+      vertical-align: top;
+      width:24%;
+
+      .title{
+        color:$darkgray;
+        font-size:2em;
+        line-height:1em;
+        margin:0 0 5px 0;
+      }
+    }
+
+    .graph {
+      display:inline-block;
+      height:480px;
+      width:74%;
+
+      .full {
+        background:$lightgray;
+        display:inline-block;
+        height:400px;
+        width:100%;
+      }
+
+      .half {
+        display:inline-block;
+        height:300px;
+        width:49.5%;
+      }
+
+      .third {
+        display:inline-block;
+        font-size:3em;
+        font-weight:400;
+        margin:0 -1.5px 20px 0;
+        text-align:center;
+        vertical-align: text-top;
+        width:33%;
+      }
+
+      .label {
+        color:$gray;
+        font-size:.33em;
+        font-weight:200;
+      }
+
+      ul {
+        list-style-type: none;
+        margin: 0 auto;
+        max-width:360px;
+        padding: 0;
+        width:75%;
+        vertical-align: middle;
+      }
+
+      li {
+        font-size:1.25em;
+        padding:.5em 0;
+        border-bottom: 1px solid $lightgray;
+      }
+
+      li:last-child {
+        border: none;
+      }
+    }
+  }
+
+  /* iPad landscape */
+  @media only screen and (min-width : 769px) and (max-width : 1024px){
+    .header{
+      .nav { margin:-2px 0 0 0;}
+      .nav-btn { width:70px;
+        .indicator { left:13px;}
+      }
+    }
+
+    .data-container {
+      margin:90px 10px 0 217px;
+      min-width:0;
+      text-align: center;
+      width: calc(100% - 227px);
+
+      .description {
+        display:block;
+        margin:10px auto 20px auto;
+        width:65%;
+
+        .title{font-size:1.8em;}
+      }
+
+      .graph {
+        height:100px;
+        width:100%;
+
+        .half {
+          width:100%;
+        }
+      }
+    }
+
+    .controls-container {
+      display:inline;
+      font-size:.875em;
+      padding:90px 20px 0px 20px;
+
+      .control {
+        margin:0px auto 20px auto;
+      }
+    }
+
+   .left-margin{
+      display:none;
+    }
+
+    .right-margin{
+      display:none;
+    }
+  }
+
+  /* iPad portrait */
+  @media only screen and (min-width : 641px) and (max-width : 768px){
+    .header{
+      .mobile-menu {
+        display:inline-block;
+        margin:0 0 0 0;
+
+        .icon {
+          margin:20px auto 0 auto;
+        }
+      }
+
+      .nav {
+        display:none;
+        margin:0;
+        position:absolute;
+        right:0;
+        top:72px;
+        width:40%;
+      }
+
+      .indicator {
+        display:none !important;
+      }
+
+      .nav-btn {
+        background:#373740;
+        border-top:2px solid #2d2d38;
+        color:#84848d;
+        font-size:1.1em;
+        height:64px;
+        margin:0;
+        padding-left: 20px;
+        width:100%;
+        margin-top:-2px;
+
+        .icon {
+          display:inline-block;
+          float:left;
+          margin:18px 0 0 0;
+        }
+
+        .nav-text {
+          float:left;
+          padding: 23px 0 0 15px;
+        }
+      }
+    }
+
+    .data-container {
+      margin:90px 10px 0 217px;
+      min-width:0;
+      text-align:center;
+      width: calc(100% - 227px);
+
+      .description {
+        margin:10px auto 20px auto;
+        width:90%;
+
+        .title{font-size:1.8em;}
+      }
+
+      .graph {
+        height:100px;
+        width:100%;
+
+        .half {width:100%;}
+        .third{font-size:2.2em;}
+        .label{font-size:.4em;}
+        ul { text-align: left; width:90%;}
+      }
+    }
+
+    .controls-container {
+      font-size:.875em;
+      padding:90px 20px 0px 20px;
+
+      .control {
+        margin:0px auto 20px auto;
+      }
+    }
+
+    .left-margin{
+      display:none;
+    }
+
+    .right-margin{
+      display:none;
+    }
+  }
+
+  /* Mobile landscape */
+  @media only screen and (min-width : 451px) and (max-width : 640px){
+    .header{
+      height:46px;
+
+      .logo {display:none;}
+      .user-info {display:none;}
+      .mobile-page-title {display:inline-block;}
+
+      .mobile-menu, .settings {
+        display:inline-block;
+        margin:0 0 0 0;
+        height:46px;
+
+        .icon {
+          margin:10px auto 0 auto;
+        }
+      }
+
+      .nav {
+        display:none;
+        margin:0;
+        position:absolute;
+        right:0;
+        top:48px;
+        width:50%;
+      }
+
+      .indicator {
+        display:none !important;
+      }
+
+      .nav-btn {
+        background:#373740;
+        border-top:2px solid #2d2d38;
+        color:#FFFFFF;
+        height:64px;
+        margin:0;
+        padding-left: 20px;
+        width:100%;
+        margin-top:-2px;
+
+        .icon {
+          display:inline-block;
+          float:left;
+          margin:15px 0 0 0;
+        }
+
+        .nav-text {
+          float:left;
+          padding: 23px 0 0 15px;
+        }
+      }
+    }
+
+
+    .data-container {
+      margin:-30px 2.5% 0 2.5%;
+      min-width:0;
+      text-align:center;
+      width: 95%;
+
+      .description {
+        line-height: 1.5em;
+        margin:10px auto 20px auto;
+        width:90%;
+
+        .title{font-size:1.8em;}
+      }
+
+      .graph {
+        height:100px;
+        width:100%;
+
+        .half { width:100%;}
+        .third{font-size:2.2em;}
+        .label{font-size:.4em;}
+        ul { text-align: left; width:90%;}
+      }
+    }
+
+    .controls-container {
+      display:none;
+      overflow-y:scroll;
+      padding:60px 20px 0px 20px;
+
+      width:100%;
+
+      .control {
+        margin:0px auto 40px auto;
+
+        .dropdown {margin:20px 0; height:44px;}
+        &.hide {display:none;}
+        .title {text-align: center; margin:5px 0;}
+      }
+    }
+
+    .left-margin{
+      display:none;
+    }
+
+    .right-margin{
+      display:none;
+    }
+  }
+
+  /* Mobile portrait */
+  @media only screen and (min-width : 0px) and (max-width : 450px){
+    .pd-button { height:45px;}
+
+    .header{
+      height:46px;
+
+      .user-info, .logo{display:none;}
+      .mobile-page-title {display:inline-block;}
+
+      .mobile-menu, .settings {
+        display:inline-block;
+        margin:0 0 0 0;
+        height:46px;
+
+        .icon {
+          margin:10px auto 0 auto;
+        }
+      }
+
+      .nav {
+        display:none;
+        margin:0;
+        position:absolute;
+        right:0;
+        top:48px;
+        width:100%;
+      }
+
+      .indicator {
+        display:none !important;
+      }
+
+      .nav-btn {
+        background:#373740;
+        border-top:2px solid #2d2d38;
+        color:#FFFFFF;
+        height:64px;
+        margin:0;
+        padding-left: 20px;
+        width:100%;
+        margin-top:-2px;
+
+        .icon {
+          display:inline-block;
+          float:left;
+          margin:15px 0 0 0;
+        }
+
+        .nav-text {
+          float:left;
+          padding: 23px 0 0 15px;
+        }
+      }
+    }
+
+    .data-container {
+      margin:-15px 2.5% 0 2.5%;
+      min-width:0;
+      text-align:center;
+      width: 95%;
+
+      .dashboard-title {
+        display:none;
+      }
+
+      .description {
+        line-height: 1.5em;
+        margin:10px auto 20px auto;
+        width:90%;
+
+        .title{font-size:1.8em;}
+      }
+
+      .graph {
+        height:100px;
+        width:100%;
+
+        .half { width:100%;}
+        .third{font-size:2.5em; width:100%;}
+        .label{font-size:.4em;}
+        ul { text-align: left; width:90%;}
+      }
+    }
+
+    .controls-container {
+      display:none;
+      overflow-y:scroll;
+      padding:60px 20px 0px 20px;
+
+      width:100%;
+
+      .control {
+        margin:0px auto 40px auto;
+
+        .dropdown {margin:20px 0; height:44px; padding-top:14px;}
+        &.hide {display:none;}
+        .nav {display:none;}
+        .title {text-align: center; margin:5px 0;}
+      }
+    }
+
+    .left-margin{
+      display:none;
+    }
+
+    .right-margin{
+      display:none;
+    }
+  }
+}

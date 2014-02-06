@@ -11,6 +11,7 @@
  *= require reset
  *= require foundation
  *= require roboto
+ *= require space
  *= require_tree ./app
  *= require_self
  *= require app/hero_gallery

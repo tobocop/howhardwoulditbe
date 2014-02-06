@@ -1,0 +1,77 @@
+@import "colors.css.scss";
+@import "mixins.css.scss";
+
+$state-range:10%;
+
+.pd-button {
+
+  border:none;
+  cursor:pointer;
+  display:inline-block;
+  text-decoration: none;
+  width:100%;
+
+  color:#FFFFFF;
+  font-size: 1em;
+  height: 37px;
+  letter-spacing: 1.5px;
+  line-height: 32px;
+  overflow:hidden;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include transition(background);
+
+  &.disabled, &:disabled{
+    background: $lightgray;
+    color:$darkgray;
+  }
+
+  &.teal {
+    background:$teal;
+
+    &:hover{
+      background: darken($teal, $state-range);
+    }
+
+    &:active{
+      background: lighten($teal, $state-range);
+    }
+  }
+
+  &.red {
+    background:$red;
+
+    &:hover{
+      background: darken($red, 6%);
+    }
+
+    &:active{
+      background: lighten($red, $state-range);
+    }
+  }
+
+  &.darkgray {
+    background:$darkgray;
+
+    &:hover{
+      background: darken($darkgray, 6%);
+    }
+
+    &:active{
+      background: lighten($darkgray, $state-range);
+    }
+  }
+
+  &.ink {
+    background:$ink;
+
+    &:hover{
+      background: darken($ink, 6%);
+    }
+
+    &:active{
+      background: lighten($ink, $state-range);
+    }
+  }
+}

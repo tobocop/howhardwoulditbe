@@ -1,0 +1,117 @@
+@import "colors.css.scss";
+
+.partner-dashboard {
+  body, input, button{
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height:1.5em;
+  }
+}
+
+/* ******  SIZE  ****** */
+
+.font-p6em {
+  font-size:.6em;
+}
+
+.font-p875em {
+  font-size:.875em;
+}
+
+.font-1em {
+  font-size:1em;
+}
+
+.font-1p25em {
+  font-size:1.25em;
+}
+
+.font-1p5em {
+  font-size:1.5em;
+}
+
+.font-2em {
+  font-size:2em;
+}
+
+.font-3em {
+  font-size:3em;
+}
+
+/* ******  COLOR  ****** */
+
+.font-gray {
+  color:$gray;
+}
+
+.font-lightgray {
+  color:$lightgray;
+}
+
+.font-darkgray {
+  color:$darkgray;
+}
+
+.font-white {
+  color:#FFFFFF;
+}
+
+.font-ink {
+  color:$ink;
+}
+
+.font-blue {
+  color:$blue;
+}
+
+.font-red {
+  color:$red;
+}
+
+.font-yellow {
+  color:$yellow;
+}
+
+.font-pdgreen {
+  color:$green;
+}
+
+.font-navy {
+  color:$navy;
+}
+
+.font-teal {
+  color:$teal;
+}
+
+/* ******  WEIGHT  ****** */
+
+.font-w200 {
+  font-weight:200;
+}
+
+.font-w400 {
+  font-weight:400;
+}
+
+.font-w600 {
+  font-weight:600;
+}
+
+.font-w800 {
+  font-weight:800;
+}
+
+/* ******  STYLE  ****** */
+
+.font-center {
+  text-align: center;
+}
+
+.font-italic {
+  font-style: italic;
+}
+
+.font-uppercase {
+  text-transform: uppercase;
+}
+

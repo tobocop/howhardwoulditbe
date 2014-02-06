@@ -1,0 +1,47 @@
+@import "colors.css.scss";
+
+.login-background{
+  background:$midnight;
+  height:100vh;
+  position:fixed;
+  width:100vw;
+  z-index:-100;
+}
+
+.login-wrapper {
+  background:$midnight;
+  display:block;
+  margin:0 auto;
+  padding:150px 0;
+  width:250px;
+}
+
+.logo {
+  background: url('/assets/plink_analytics/sprites_header.png');
+  background-repeat: none;
+  background-position: 0px 75px;
+  height:74px;
+  margin:20px auto;
+  width:148px;
+}
+
+.login-error {
+  color:$red;
+  font-weight:400;
+  margin:10px auto 0 auto;
+  padding:0 0 10px 0;
+  width:250px;
+}
+
+@media only screen and (min-width : 0px) and (max-width : 640px){
+  .login-wrapper {padding:5px 0;}
+  .logo {margin:5px auto 10px auto;}
+  .pd-checkbox{
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    margin:0 15px 32px 3px;
+    padding: 10px 0;
+  }
+}

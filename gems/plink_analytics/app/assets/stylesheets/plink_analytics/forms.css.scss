@@ -1,0 +1,49 @@
+@import "colors.css.scss";
+
+.pd-form-field {
+  margin:0 auto 20px auto;
+  width:100%;
+  outline:none;
+
+  &.input{
+    font-size:1em;
+    font-weight:200;
+    letter-spacing: 1px;
+    height:38px;
+    padding: 0 11px;
+    color:$gray;
+
+    &.focus, &:focus{
+      border: 2px solid $teal;
+      color: $teal;
+      font-weight:400;
+    }
+
+    &.error{
+      border: 1px solid $red;
+      color: $red;
+      font-weight: 700;
+
+      &.focus,&:focus{
+        color: $teal;
+      }
+    }
+  }
+}
+
+.pd-field-with-errors {
+  display: inline;
+}
+
+.pd-checkbox{
+  float:left;
+  margin:1px 7px 32px 0;
+}
+
+.pd-label{
+  color:#FFFFFF;
+  display:block;
+  font-size:.875em;
+  font-weight:200;
+  letter-spacing: 1px;
+}

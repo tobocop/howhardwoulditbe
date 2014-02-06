@@ -1,0 +1,47 @@
+.partner-dashboard
+  .header
+    .logo
+    .mobile-page-title
+      .font-pdgreen Social
+    .user-info
+      Thomas Anderson
+      .font-lightgray Burger King
+      %a.font-gray.font-underline Logout
+    .nav
+      .nav-btn.market.active
+        .indicator
+        .icon
+        .nav-text Market
+      .nav-btn.sales
+        .indicator
+        .icon
+        .nav-text Sales
+      .nav-btn.social
+        .indicator
+        .icon.social
+        .nav-text Social
+      .nav-btn.budget
+        .indicator
+        .icon.budget
+        .nav-text Budget
+    .settings
+      .icon
+    .mobile-menu
+      .icon
+
+  / $(".nav-btn.settings").click(function(){
+  /   $("controls-container").toggle();
+  / });
+:javascript
+  $(document).on('click', '.settings', function(e) {
+    $(".controls-container").toggle();
+
+    return false;
+  });
+
+  $(document).on('click', '.mobile-menu', function(e) {
+    $(".nav").toggle();
+
+    return false;
+  });
+
