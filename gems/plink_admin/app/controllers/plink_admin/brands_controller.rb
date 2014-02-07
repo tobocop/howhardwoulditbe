@@ -15,7 +15,7 @@ module PlinkAdmin
 
       if @brand.persisted?
         flash[:notice] = 'Brand created successfully'
-        redirect_to brands_path
+        redirect_to plink_admin.brands_path
       else
         brand_data
         flash.now[:notice] = 'Brand could not be created'
@@ -33,7 +33,7 @@ module PlinkAdmin
 
       if @brand.update_attributes(params[:brand])
         flash[:notice] = 'Brand updated'
-        redirect_to brands_path
+        redirect_to plink_admin.brands_path
       else
         brand_data
         flash.now[:notice] = 'Brand could not be updated'

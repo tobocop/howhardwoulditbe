@@ -14,7 +14,7 @@ module PlinkAdmin
 
       if @landing_page.persisted?
         flash[:notice] = 'Landing page created successfully'
-        redirect_to landing_pages_path
+        redirect_to plink_admin.landing_pages_path
       else
         flash.now[:notice] = 'Landing page could not be created'
         render 'new'
@@ -30,7 +30,7 @@ module PlinkAdmin
 
       if @landing_page.update_attributes(params[:landing_page])
         flash[:notice] = 'Landing page updated'
-        redirect_to landing_pages_path
+        redirect_to plink_admin.landing_pages_path
       else
         flash.now[:notice] = 'Landing page could not be updated'
         render 'edit'

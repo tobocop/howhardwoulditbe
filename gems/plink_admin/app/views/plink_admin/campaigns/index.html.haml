@@ -1,4 +1,4 @@
-= link_to 'Create New Campaign', new_campaign_path, class: 'button small'
+= link_to 'Create New Campaign', plink_admin.new_campaign_path, class: 'button small'
 
 %table.campaign-list
   %thead
@@ -14,7 +14,7 @@
     - @campaigns.each do |campaign|
       %tr.campaign-item
         %td= campaign.id
-        %td= link_to campaign.name, edit_campaign_path(campaign)
+        %td= link_to campaign.name, plink_admin.edit_campaign_path(campaign)
         %td= campaign.media_type
         %td= campaign.creative
         %td= campaign.is_incent

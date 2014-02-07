@@ -14,7 +14,7 @@ module PlinkAdmin
 
       if @share_page.persisted?
         flash[:notice] = 'Share page created successfully'
-        redirect_to share_pages_path
+        redirect_to plink_admin.share_pages_path
       else
         flash.now[:notice] = 'Share page could not be created'
         render 'new'
@@ -30,7 +30,7 @@ module PlinkAdmin
 
       if @share_page.update_attributes(params[:share_page])
         flash[:notice] = 'Share page updated'
-        redirect_to share_pages_path
+        redirect_to plink_admin.share_pages_path
       else
         flash.now[:notice] = 'Share page could not be updated'
         render 'edit'

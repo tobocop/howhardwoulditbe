@@ -1,4 +1,4 @@
-= link_to 'Create New Brand', new_brand_path, class: 'button small'
+= link_to 'Create New Brand', plink_admin.new_brand_path, class: 'button small'
 %table.brand-list
   %thead
     %th Name
@@ -8,7 +8,7 @@
   %tbody
     - @brands.each do |brand|
       %tr.brand-item
-        %td= link_to brand.name, edit_brand_path(brand)
+        %td= link_to brand.name, plink_admin.edit_brand_path(brand)
         %td= brand.prospect? ? 'Yes' : 'No'
         %td= brand.sales_rep.name
         %td= "https://analytics.plink.com/#{brand.vanity_url}"

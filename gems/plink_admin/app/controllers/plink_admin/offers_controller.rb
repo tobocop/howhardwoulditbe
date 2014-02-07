@@ -23,7 +23,7 @@ module PlinkAdmin
 
         if @offer.update_attributes(update_params)
           flash[:notice] = 'Offer updated'
-          redirect_to offers_path
+          redirect_to plink_admin.offers_path
         else
           flash.now[:notice] = 'Offer could not be updated'
           render 'edit'

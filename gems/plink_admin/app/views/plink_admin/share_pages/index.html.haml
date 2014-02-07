@@ -1,4 +1,4 @@
-= link_to 'Create New Share Page', new_share_page_path, class: 'button small'
+= link_to 'Create New Share Page', plink_admin.new_share_page_path, class: 'button small'
 %table.share_page-list
   %thead
     %th Name
@@ -6,6 +6,5 @@
   %tbody
     - @share_pages.each do |share_page|
       %tr.share_page-item
-        %td= link_to share_page.name, edit_share_page_path(share_page)
+        %td= link_to share_page.name, plink_admin.edit_share_page_path(share_page)
         %td= share_page.partial_path
-

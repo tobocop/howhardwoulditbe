@@ -1,4 +1,4 @@
-= link_to 'Create New Global Login Token', new_global_login_token_path, class: 'button small'
+= link_to 'Create New Global Login Token', plink_admin.new_global_login_token_path, class: 'button small'
 
 %table.global_login_tokens-list
   %thead
@@ -10,7 +10,7 @@
   %tbody
     - @global_login_tokens.each do |global_login_token|
       %tr.global_login_token-item{class: global_login_token.expires_at < Time.zone.now ? 'expiring' : ''}
-        %td= link_to 'Edit', edit_global_login_token_path(global_login_token)
+        %td= link_to 'Edit', plink_admin.edit_global_login_token_path(global_login_token)
         %td= global_login_token.expires_at
         %td= global_login_token.redirect_url
         %td= global_login_token.token

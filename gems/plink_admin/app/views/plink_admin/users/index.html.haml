@@ -1,5 +1,5 @@
 .row.collapse
-  = render partial: 'search_form', locals: {path: search_users_path}
+  = render partial: 'search_form', locals: {path: plink_admin.search_users_path}
 
 .row.collapse.search-results
   - if @users.present?
@@ -23,5 +23,5 @@
             %td= user.lifetime_balance
             %td= user.primary_virtual_currency_id
             %td
-              = link_to 'Edit User &raquo;'.html_safe, edit_user_path(id: user.id)
-              = link_to 'Impersonate &raquo;'.html_safe, impersonate_user_path(id: user.id), method: :post
+              = link_to 'Edit User &raquo;'.html_safe, plink_admin.edit_user_path(id: user.id)
+              = link_to 'Impersonate &raquo;'.html_safe, plink_admin.impersonate_user_path(id: user.id), method: :post

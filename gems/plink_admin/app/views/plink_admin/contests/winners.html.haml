@@ -2,7 +2,7 @@
 
 %hr
 
-= form_tag contest_accept_winners_path do
+= form_tag plink_admin.contest_accept_winners_path do
   - @prize_levels.each do |prize_level|
     %h5= "Prize Level: $#{prize_level.dollar_amount} [#{@winners[prize_level.id].length}]"
     .contest-user-list

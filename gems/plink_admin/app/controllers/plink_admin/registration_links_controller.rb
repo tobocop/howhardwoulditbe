@@ -34,7 +34,7 @@ module PlinkAdmin
           render :new
         else
           flash[:notice] = "Successfully created #{registration_links.size} registration link(s)"
-          redirect_to registration_links_path
+          redirect_to plink_admin.registration_links_path
         end
       else
         registration_link_data
@@ -64,7 +64,7 @@ module PlinkAdmin
 
       if @registration_link.update_attributes(update_params)
         flash[:notice] = 'Registration link updated'
-        redirect_to registration_links_path
+        redirect_to plink_admin.registration_links_path
       else
         registration_link_data
         @error = extract_errors(Array(@registration_link))

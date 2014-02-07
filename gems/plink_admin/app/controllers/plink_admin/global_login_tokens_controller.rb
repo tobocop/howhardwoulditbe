@@ -13,7 +13,7 @@ module PlinkAdmin
 
       if @global_login_token.persisted?
         flash[:notice] = 'Global login token created successfully'
-        redirect_to global_login_tokens_path
+        redirect_to plink_admin.global_login_tokens_path
       else
         flash.now[:notice] = 'Global login token could not be created'
         render 'new'
@@ -29,7 +29,7 @@ module PlinkAdmin
 
       if @global_login_token.update_attribute('redirect_url', params[:global_login_token][:redirect_url])
         flash[:notice] = 'Global login token updated'
-        redirect_to global_login_tokens_path
+        redirect_to plink_admin.global_login_tokens_path
       else
         flash.now[:notice] = 'Global login token could not be updated'
         render 'edit'

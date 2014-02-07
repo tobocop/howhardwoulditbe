@@ -1,17 +1,17 @@
 .normal{class: registration_link.share_flow? ? 'hidden' : nil}
-  = form_tag registration_link_path(registration_link), method: :put do
+  = form_tag plink_admin.registration_link_path(registration_link), method: :put do
     = hidden_field_tag :share_flow, false
     .row.extra-margin-top
       .columns.large-4
         Affiliate
         %br
         = registration_link.affiliate_record.name
-        = link_to '- edit', edit_affiliate_path(registration_link.affiliate_record)
+        = link_to '- edit', plink_admin.edit_affiliate_path(registration_link.affiliate_record)
       .columns.large-4
         Campaign
         %br
         = registration_link.campaign_record.name
-        = link_to '- edit', edit_campaign_path(registration_link.campaign_record)
+        = link_to '- edit', plink_admin.edit_campaign_path(registration_link.campaign_record)
       .columns.large-4
         - landing_page_select_options = @landing_pages.collect {|landing_page| ["#{landing_page.id} - #{landing_page.name}", landing_page.id]}
         - landing_page_selected_options = registration_link.landing_page_records.collect {|landing_page| landing_page.id}

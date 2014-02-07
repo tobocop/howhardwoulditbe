@@ -14,7 +14,7 @@ module PlinkAdmin
 
       if @affiliate.persisted?
         flash[:notice] = 'Affiliate created successfully'
-        redirect_to affiliates_path
+        redirect_to plink_admin.affiliates_path
       else
         flash.now[:notice] = 'Affiliate could not be created'
         render 'new'
@@ -30,7 +30,7 @@ module PlinkAdmin
 
       if @affiliate.update_attributes(affiliate_params)
         flash[:notice] = 'Affiliate updated'
-        redirect_to affiliates_path
+        redirect_to plink_admin.affiliates_path
       else
         flash.now[:notice] = 'Affiliate could not be updated'
         render 'edit'
@@ -38,7 +38,7 @@ module PlinkAdmin
     end
 
   private
-    
+
     def affiliate_params
       params[:affiliate].merge!(has_incented_card_registration: true) if valid_card_registration_dollar_award_amount
       params[:affiliate].merge!(has_incented_join: true) if valid_join_dollar_award_amount

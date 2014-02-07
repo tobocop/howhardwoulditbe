@@ -2,9 +2,29 @@ require 'spec_helper'
 
 describe PlinkAdmin::RegistrationLinkHelper do
   describe '#generate_registration_link_url' do
+    let(:plink_admin) { double(registration_link_url: registration_link_url) }
+    let(:registration_link_url) { double(gsub: 'stuff/other_stuff') }
+
+    before do
+      helper.stub(:plink_admin).and_return(plink_admin)
+    end
+
+    it 'it scopes the route to plink_admin' do
+      helper.should_receive(:plink_admin).and_return(plink_admin)
+
+      helper.generate_registration_link_url(1).should == 'stuff/other_stuff'
+    end
+
+    it 'uses the registration link url route' do
+      plink_admin.should_receive(:registration_link_url).with(1)
+        .and_return(registration_link_url)
+
+      helper.generate_registration_link_url(1).should == 'stuff/other_stuff'
+    end
+
     it 'removes plink_admin and replaces it with nothing' do
-      helper.should_receive(:registration_link_url).with(1).
-        and_return('stuff/plink_admin/other_stuff')
+      registration_link_url.should_receive(:gsub).with(/plink_admin\//, '')
+        .and_return('stuff/other_stuff')
 
       helper.generate_registration_link_url(1).should == 'stuff/other_stuff'
     end

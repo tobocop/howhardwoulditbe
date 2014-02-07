@@ -1,6 +1,6 @@
 %h1= "Edit Affiliate - #{@affiliate.id}"
 
-= render partial: 'affiliate_form', locals: {button_text: 'Update', affiliate: @affiliate, url: affiliate_path(@affiliate)}
+= render partial: 'affiliate_form', locals: {button_text: 'Update', affiliate: @affiliate, url: plink_admin.affiliate_path(@affiliate)}
 
 %h2 Associated Links
 

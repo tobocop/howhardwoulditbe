@@ -1,3 +1,3 @@
 %h1= "Edit Share Page - #{@share_page.id}"
 
-= render partial: 'share_page_form', locals: {button_text: 'Update', share_page: @share_page, url: share_page_path(@share_page)}
+= render partial: 'share_page_form', locals: {button_text: 'Update', share_page: @share_page, url: plink_admin.share_page_path(@share_page)}

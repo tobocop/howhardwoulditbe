@@ -10,7 +10,7 @@
   = @offer.advertiser.advertiser_name
 %br
 
-= form_for(@offer, url: offer_path(@offer), as: 'offer') do |f|
+= form_for(@offer, url: plink_admin.offer_path(@offer), as: 'offer') do |f|
   .dateselect
     = f.label :end_date, 'End Date'
     = f.date_select :end_date, start_year: Time.zone.now.year, end_year: Time.zone.now.year + 5
@@ -23,6 +23,6 @@
 
   = f.submit 'Update', class: 'button small'
 
-= link_to 'Cancel', offers_path, class: 'button small secondary'
+= link_to 'Cancel', plink_admin.offers_path, class: 'button small secondary'
 
 

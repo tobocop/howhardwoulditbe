@@ -1,4 +1,4 @@
-= link_to 'Create New Landing Page', new_landing_page_path, class: 'button small'
+= link_to 'Create New Landing Page', plink_admin.new_landing_page_path, class: 'button small'
 %table.landing_page-list
   %thead
     %th Name
@@ -7,7 +7,6 @@
   %tbody
     - @landing_pages.each do |landing_page|
       %tr.landing_page-item
-        %td= link_to landing_page.name, edit_landing_page_path(landing_page)
+        %td= link_to landing_page.name, plink_admin.edit_landing_page_path(landing_page)
         %td= landing_page.cms? ? 'CMS' : 'HAML'
         %td= landing_page.partial_path
-

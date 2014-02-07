@@ -1,5 +1,5 @@
 .row.collapse
-  = render partial: 'plink_admin/users/search_form', locals: {path: search_contests_path}
+  = render partial: 'plink_admin/users/search_form', locals: {path: plink_admin.search_contests_path}
 
 %table.contest-list
   %thead
@@ -18,7 +18,7 @@
         - if contest.ended?
           %td N/A
         - else
-          %td= link_to 'Edit', edit_contest_path(contest)
+          %td= link_to 'Edit', plink_admin.edit_contest_path(contest)
         %td= contest.description
         %td= image_tag contest.image
         - if contest.non_linked_image.blank?

@@ -15,7 +15,7 @@ module PlinkAdmin
 
       if @contact.persisted?
         flash[:notice] = 'Contact created successfully'
-        redirect_to contacts_path
+        redirect_to plink_admin.contacts_path
       else
         contact_data
         flash.now[:notice] = 'Contact could not be created'
@@ -33,7 +33,7 @@ module PlinkAdmin
 
       if @contact.update_attributes(params[:contact])
         flash[:notice] = 'Contact updated'
-        redirect_to contacts_path
+        redirect_to plink_admin.contacts_path
       else
         contact_data
         flash.now[:notice] = 'Contact could not be updated'

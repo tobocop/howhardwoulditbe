@@ -16,6 +16,6 @@
         %td= offer.end_date
         %td= offer.show_end_date ? 'showing date' : 'not showing'
         %td= offer.send_expiring_soon_reminder ? 'sending email' : 'not sending'
-        %td= link_to 'Edit', edit_offer_path(offer)
+        %td= link_to 'Edit', plink_admin.edit_offer_path(offer)
 
 

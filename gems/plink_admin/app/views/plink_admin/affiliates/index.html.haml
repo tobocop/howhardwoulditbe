@@ -1,4 +1,4 @@
-= link_to 'Create New Affiliate', new_affiliate_path, class: 'button small'
+= link_to 'Create New Affiliate', plink_admin.new_affiliate_path, class: 'button small'
 
 %table.affiliate-list
   %thead
@@ -10,6 +10,6 @@
     - @affiliates.each do |affiliate|
       %tr.affiliate-item
         %td= affiliate.id
-        %td= link_to affiliate.name, edit_affiliate_path(affiliate)
+        %td= link_to affiliate.name, plink_admin.edit_affiliate_path(affiliate)
         %td= number_to_currency(affiliate.card_registration_dollar_award_amount)
         %td= number_to_currency(affiliate.join_dollar_award_amount)

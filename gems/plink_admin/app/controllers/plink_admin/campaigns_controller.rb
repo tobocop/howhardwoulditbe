@@ -15,7 +15,7 @@ module PlinkAdmin
 
       if @campaign.persisted?
         flash[:notice] = 'Campaign created successfully'
-        redirect_to campaigns_path
+        redirect_to plink_admin.campaigns_path
       else
         flash.now[:notice] = 'Campaign could not be created'
         render 'new'
@@ -31,7 +31,7 @@ module PlinkAdmin
 
       if @campaign.update_attributes(params[:campaign])
         flash[:notice] = 'Campaign updated'
-        redirect_to campaigns_path
+        redirect_to plink_admin.campaigns_path
       else
         flash.now[:notice] = 'Campaign could not be updated'
         render 'edit'

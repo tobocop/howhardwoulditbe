@@ -1,4 +1,4 @@
-= link_to 'Create New Hero Promotion', new_hero_promotion_path, class: 'button small'
+= link_to 'Create New Hero Promotion', plink_admin.new_hero_promotion_path, class: 'button small'
 
 %table.hero-promotions-list
   %thead
@@ -13,7 +13,7 @@
   %tbody
     - @hero_promotions.each do |hero_promotion|
       %tr.hero-promotion-item
-        %td= link_to hero_promotion.name, edit_hero_promotion_path(hero_promotion)
+        %td= link_to hero_promotion.name, plink_admin.edit_hero_promotion_path(hero_promotion)
         %td= hero_promotion.title
         %td= image_tag hero_promotion.image_url_one, class: 'hero-promotion-image'
         %td= image_tag hero_promotion.image_url_two, class: 'hero-promotion-image' if hero_promotion.image_url_two.present?

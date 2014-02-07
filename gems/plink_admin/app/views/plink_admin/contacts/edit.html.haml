@@ -1,3 +1,3 @@
 %h1= "Edit Contact - #{@contact.id}"
 
-= render partial: 'contact_form', locals: {button_text: 'Update', contact: @contact, url: contact_path(@contact)}
+= render partial: 'contact_form', locals: {button_text: 'Update', contact: @contact, url: plink_admin.contact_path(@contact)}

@@ -40,5 +40,5 @@
         %td= "mobile detection #{registration_link.mobile_detection_on? ? 'on' : 'off'}"
         %td= registration_link.is_active
         %td= link_to generate_registration_link_url(registration_link.id), generate_registration_link_url(registration_link.id), target: '_blank'
-        %td= link_to 'Edit', edit_registration_link_path(registration_link)
+        %td= link_to 'Edit', plink_admin.edit_registration_link_path(registration_link)
 
