@@ -8,7 +8,9 @@ module Plink
         email: 'test@herewego.com',
         first_name: 'first',
         is_active: true,
-        last_name: 'last'
+        last_name: 'last',
+        password: 'password',
+        password_confirmation: 'password'
       }
 
       Plink::ContactRecord.new { |contact| apply(contact, defaults, options) }

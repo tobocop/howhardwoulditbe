@@ -3,6 +3,7 @@ PATH
   specs:
     plink (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
+      bcrypt-ruby (= 3.0.0)
       exceptional
       rails (= 3.2.16)
       tango
@@ -49,6 +50,7 @@ GEM
       multi_json (~> 1.0)
     ansi (1.4.3)
     arel (3.0.3)
+    bcrypt-ruby (3.0.0)
     builder (3.0.4)
     coderay (1.0.9)
     diff-lcs (1.2.4)

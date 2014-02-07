@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
   s.add_dependency 'tango'
   s.add_dependency 'exceptional'
+  s.add_dependency 'bcrypt-ruby', '3.0.0'
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'shoulda-matchers'

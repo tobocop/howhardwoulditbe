@@ -1,0 +1,17 @@
+.login-background
+.login-wrapper
+  .logo
+  - if @login_form.errors.any?
+    .login-error Your email or password was entered incorrectly.
+  = form_for(@login_form, url: sessions_path, as: 'login_attempt') do |f|
+    = f.text_field :email,  class: 'pd-form-field input', placeholder: 'Email'
+    = f.password_field :password, class: 'pd-form-field input', placeholder: 'Password'
+    = check_box_tag :accept_terms, true, false, {class: 'pd-checkbox'}
+    %label.pd-label
+      Accept
+      %a.font-teal.font-underline Terms & Conditions
+    = submit_tag 'Login', class: 'pd-button teal'
+  .mtl.font-p875em.font-w200.font-gray.font-center
+    Forgot your username or password?
+    .mts
+      %a.font-teal.font-underline Contact your sales rep.

@@ -18,9 +18,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml-rails', '~> 0.4'
   s.add_dependency 'activerecord-redshift-adapter'
   s.add_dependency 'tire'
+  s.add_dependency 'jasmine', '~> 1.3.2'
 
   s.add_development_dependency 'rspec-rails', '2.13.2'
   s.add_development_dependency 'capybara', '2.1.0'
   s.add_development_dependency 'capybara-webkit', '~> 1.0.0'
+  s.add_development_dependency 'shoulda-matchers'
   s.add_development_dependency 'pry'
 end

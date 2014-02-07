@@ -19,20 +19,20 @@
       font-weight:400;
     }
 
-    &.error{
-      border: 1px solid $red;
-      color: $red;
-      font-weight: 700;
-
-      &.focus,&:focus{
-        color: $teal;
-      }
-    }
   }
 }
 
-.pd-field-with-errors {
+.field_with_errors {
   display: inline;
+  .input{
+    border: 1px solid $red;
+    color: $red;
+    font-weight: 700;
+
+    &.focus,&:focus{
+      color: $teal;
+    }
+  }
 }
 
 .pd-checkbox{
