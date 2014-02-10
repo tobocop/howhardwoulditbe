@@ -61,4 +61,23 @@ describe PlinkAnalytics::SessionsController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    before do
+      session[:contact_id] = 1
+      delete :destroy
+    end
+
+    it 'removes the current_user' do
+      session[:contact_id].should be_nil
+    end
+
+    it 'renders a flash notice' do
+      flash[:notice].should == 'You have been successfully logged out.'
+    end
+
+    it 'redirects the user to the root' do
+      response.should redirect_to '/'
+    end
+  end
 end

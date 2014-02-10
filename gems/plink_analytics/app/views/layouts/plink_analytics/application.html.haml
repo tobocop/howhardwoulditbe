@@ -6,4 +6,12 @@
     = javascript_include_tag 'plink_analytics/application'
 
   %body
+    .flash-container
+      - if flash.notice
+        .flash-msg= flash.notice
+      - elsif flash[:error].present?
+        .flash-msg
+          = flash_error_icon(flash[:error])
+          = flash[:error]
+
     = yield

@@ -14,5 +14,13 @@ module PlinkAnalytics
         render 'new'
       end
     end
+
+    def destroy
+      session.delete(:contact_id)
+      flash[:notice] = 'You have been successfully logged out.'
+
+      redirect_to root_path
+    end
+
   end
 end
