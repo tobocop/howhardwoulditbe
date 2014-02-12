@@ -1,0 +1,690 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://oauth.intuit.com/oauth/v1/get_access_token_by_saml
+    body:
+      encoding: US-ASCII
+      string: saml_assertion=PHNhbWwyOkFzc2VydGlvbiB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVz%0AOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiIgSUQ9Il8wNDFlNzI2MjhjZTE0ZTA4%0AYjBmMzI2OGM2YzhlNjI4MyIgSXNzdWVJbnN0YW50PSIyMDE0LTAyLTEyVDIw%0AOjM2OjUxLjQ0MloiIFZlcnNpb249IjIuMCI%2BPHNhbWwyOklzc3Vlcj5wbGlu%0Aa2RldmFuZHFhZW52aXJvbm1lbnQuMzA1OTkuY2MuZGV2LWludHVpdC5pcHAu%0AcHJvZDwvc2FtbDI6SXNzdWVyPjxkczpTaWduYXR1cmUgeG1sbnM6ZHM9Imh0%0AdHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiPjxkczpTaWduZWRJ%0AbmZvPjxkczpDYW5vbmljYWxpemF0aW9uTWV0aG9kIEFsZ29yaXRobT0iaHR0%0AcDovL3d3dy53My5vcmcvMjAwMS8xMC94bWwtZXhjLWMxNG4jIi8%2BPGRzOlNp%0AZ25hdHVyZU1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIw%0AMDAvMDkveG1sZHNpZyNyc2Etc2hhMSIvPjxkczpSZWZlcmVuY2UgVVJJPSIj%0AXzA0MWU3MjYyOGNlMTRlMDhiMGYzMjY4YzZjOGU2MjgzIj48ZHM6VHJhbnNm%0Ab3Jtcz48ZHM6VHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5v%0AcmcvMjAwMC8wOS94bWxkc2lnI2VudmVsb3BlZC1zaWduYXR1cmUiLz48ZHM6%0AVHJhbnNmb3JtIEFsZ29yaXRobT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS8x%0AMC94bWwtZXhjLWMxNG4jIi8%2BPC9kczpUcmFuc2Zvcm1zPjxkczpEaWdlc3RN%0AZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3ht%0AbGRzaWcjc2hhMSIvPjxkczpEaWdlc3RWYWx1ZT5xYlFLeDhkdjdCZWJQeW56%0AQmYzdXp4VWxHL1k9PC9kczpEaWdlc3RWYWx1ZT48L2RzOlJlZmVyZW5jZT48%0AL2RzOlNpZ25lZEluZm8%2BPGRzOlNpZ25hdHVyZVZhbHVlPloxUFppWUFiRTR5%0ATUdMVGZSdmsxWHR3TFRydjg4SFhybWQvVDk0THVTNi84UTdIMUpub1NwRElq%0ASCtkeHRiZm03Nys4ZlBQZTdaNjBPakNSaGFiQXJFdTZiaDE1YVVzVmJkSG1q%0AK1hIMjBqZ29OQ1g0Z0JmT3A5YnJCNXRJOW1DbVlLYjJGTVl3dEluOWJaajNs%0AWVllOVVsRTFOdkVzYVN4bmhOc25xQ2RQUT08L2RzOlNpZ25hdHVyZVZhbHVl%0APjwvZHM6U2lnbmF0dXJlPjxzYW1sMjpTdWJqZWN0PjxzYW1sMjpOYW1lSUQg%0ARm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoxLjE6bmFtZWlkLWZv%0Acm1hdDp1bnNwZWNpZmllZCI%2BNTY0MDQ8L3NhbWwyOk5hbWVJRD48c2FtbDI6%0AU3ViamVjdENvbmZpcm1hdGlvbiBNZXRob2Q9InVybjpvYXNpczpuYW1lczp0%0AYzpTQU1MOjIuMDpjbTpiZWFyZXIiPjwvc2FtbDI6U3ViamVjdENvbmZpcm1h%0AdGlvbj48L3NhbWwyOlN1YmplY3Q%2BPHNhbWwyOkNvbmRpdGlvbnMgTm90QmVm%0Ab3JlPSIyMDE0LTAyLTEyVDIwOjMxOjUxLjQ0MloiIE5vdE9uT3JBZnRlcj0i%0AMjAxNC0wMi0xMlQyMDo0Njo1MS40NDJaIj48c2FtbDI6QXVkaWVuY2VSZXN0%0AcmljdGlvbj48c2FtbDI6QXVkaWVuY2U%2BcGxpbmtkZXZhbmRxYWVudmlyb25t%0AZW50LjMwNTk5LmNjLmRldi1pbnR1aXQuaXBwLnByb2Q8L3NhbWwyOkF1ZGll%0AbmNlPjwvc2FtbDI6QXVkaWVuY2VSZXN0cmljdGlvbj48L3NhbWwyOkNvbmRp%0AdGlvbnM%2BPHNhbWwyOkF1dGhuU3RhdGVtZW50IEF1dGhuSW5zdGFudD0iMjAx%0ANC0wMi0xMlQyMDozNjo1MS40NDJaIiBTZXNzaW9uSW5kZXg9Il8wNDFlNzI2%0AMjhjZTE0ZTA4YjBmMzI2OGM2YzhlNjI4MyI%2BPHNhbWwyOkF1dGhuQ29udGV4%0AdD48c2FtbDI6QXV0aG5Db250ZXh0Q2xhc3NSZWY%2BdXJuOm9hc2lzOm5hbWVz%0AOnRjOlNBTUw6Mi4wOmFjOmNsYXNzZXM6dW5zcGVjaWZpZWQ8L3NhbWwyOkF1%0AdGhuQ29udGV4dENsYXNzUmVmPjwvc2FtbDI6QXV0aG5Db250ZXh0Pjwvc2Ft%0AbDI6QXV0aG5TdGF0ZW1lbnQ%2BPC9zYW1sMjpBc3NlcnRpb24%2B%0A
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7"
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:36:52 GMT
+      Server:
+      - Apache
+      Cache-Control:
+      - no-cache, no-store
+      Pragma:
+      - no-cache
+      Content-Length:
+      - '120'
+      Connection:
+      - close
+      Content-Type:
+      - text/plain
+    body:
+      encoding: UTF-8
+      string: oauth_token_secret=y3UJymVFNZHGm9g6wAyLaEmMjYL4BVFq5UQhmdWf&oauth_token=qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:36:52 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="93y7kwEGLtjvZJd62l6tE5O2vXwA0m2o344jrCKOM",
+        oauth_signature="8aGInLEB73mfJ1D84VBgUjEMgbo%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237412", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:36:53 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Intuit-Tid:
+      - gw-ac4dec67-a790-4167-be3f-e8f37cdb15a8
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=6313A5F7924321FFC470B9333C4B509D.node51; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><InstitutionDetail
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/institution/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/common/v1\"><institutionId>100000</institutionId><institutionName>CC
+        Bank</institutionName><homeUrl>http://www.intuit.com</homeUrl><address><ns2:country>USA</ns2:country></address><emailAddress>CustomerCentralBank@intuit.com</emailAddress><specialText>Welcome
+        to  Bank of Intuit</specialText><currencyCode>USD</currencyCode><keys><key><name>Banking
+        Password</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>2</displayOrder><mask>true</mask><instructions>Enter
+        banking password (go)</instructions><description>Banking Password</description></key><key><name>Banking
+        Userid</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>1</displayOrder><mask>false</mask><instructions>Enter
+        banking userid (demo)</instructions><description>Banking Userid</description></key></keys></InstitutionDetail>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:36:53 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="jWFAek3J6yxiwNJn7QMvKSXDs7sdSEivYBofbqAR8",
+        oauth_signature="GDomZ41lZNZ532AbAS19IJZUUoA%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237413", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:36:54 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Intuit-Tid:
+      - gw-208f9d07-08f1-4477-8916-ede5b26bd8e9
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=904B85A52A088AF0C7DCE51189ED9207.node49; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><InstitutionDetail
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/institution/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/common/v1\"><institutionId>100000</institutionId><institutionName>CC
+        Bank</institutionName><homeUrl>http://www.intuit.com</homeUrl><address><ns2:country>USA</ns2:country></address><emailAddress>CustomerCentralBank@intuit.com</emailAddress><specialText>Welcome
+        to  Bank of Intuit</specialText><currencyCode>USD</currencyCode><keys><key><name>Banking
+        Userid</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>1</displayOrder><mask>false</mask><instructions>Enter
+        banking userid (demo)</instructions><description>Banking Userid</description></key><key><name>Banking
+        Password</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>2</displayOrder><mask>true</mask><instructions>Enter
+        banking password (go)</instructions><description>Banking Password</description></key></keys></InstitutionDetail>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:36:54 GMT
+- request:
+    method: post
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000/logins
+    body:
+      encoding: UTF-8
+      string: "<InstitutionLogin xmlns=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><credentials
+        xmlns:ns1=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns1:credential
+        xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns2:name>Banking
+        Userid</ns2:name><ns2:value>bobloblaw</ns2:value></ns1:credential><ns1:credential
+        xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns2:name>Banking
+        Password</ns2:name><ns2:value>nohablaespanol</ns2:value></ns1:credential></credentials></InstitutionLogin>"
+    headers:
+      Content-Type:
+      - application/xml
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Content-Length:
+      - '571'
+      Authorization:
+      - OAuth oauth_body_hash="pnYsDPXSSeKB3F2p1dgooyfgfGI%3D", oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7",
+        oauth_nonce="9YqPSFM6eJZnLQ0hdDtbLyPCFvtNrPUtOuGxYgeDY2w", oauth_signature="As67n1t0Yy%2BK2XDleni65HuNeUk%3D",
+        oauth_signature_method="HMAC-SHA1", oauth_timestamp="1392237414", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:36:55 GMT
+      Content-Type:
+      - application/xml
+      Intuit-Tid:
+      - gw-bd223440-5e63-43e0-8006-2c682553cd59
+      Location:
+      - http://qynprdccoreap51.data.ie.intuit.net:8080/rest-war/v1/logins/216850192/accounts
+      Set-Cookie:
+      - JSESSIONID=3A8CB7295A5762771E756510C2BD3EC8.node51; Path=/rest-war
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns8:AccountList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/account/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bankingaccount/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/creditaccount/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/loanaccount/v1\" xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/investmentaccount/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/rewardsaccount/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/otheraccount/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/accountlist/v1\"><ns5:InvestmentAccount><accountId>400012173140</accountId><status>ACTIVE</status><accountNumber>0000000001</accountNumber><accountNickname>My
+        Retirement</accountNickname><displayPosition>10</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>401K</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns5:InvestmentAccount><accountId>400012173141</accountId><status>ACTIVE</status><accountNumber>2000004444</accountNumber><accountNickname>My
+        Roth IRA</accountNickname><displayPosition>3</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns3:CreditAccount><accountId>400012173142</accountId><status>ACTIVE</status><accountNumber>4100007777</accountNumber><accountNickname>My
+        Visa</accountNickname><displayPosition>2</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns3:creditAccountType>CREDITCARD</ns3:creditAccountType><ns3:currentBalance>-212.36</ns3:currentBalance><ns3:paymentMinAmount>15</ns3:paymentMinAmount><ns3:paymentDueDate>2020-04-01T00:00:00-07:00</ns3:paymentDueDate><ns3:statementEndDate>2020-03-01T00:00:00-08:00</ns3:statementEndDate><ns3:statementCloseBalance>-212.36</ns3:statementCloseBalance></ns3:CreditAccount><ns5:InvestmentAccount><accountId>400012173143</accountId><status>ACTIVE</status><accountNumber>0000000000</accountNumber><accountNickname>My
+        Brokerage</accountNickname><displayPosition>9</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns2:BankingAccount><accountId>400012173144</accountId><status>ACTIVE</status><accountNumber>2000005555</accountNumber><accountNickname>My
+        CD</accountNickname><displayPosition>8</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>CD</ns2:bankingAccountType></ns2:BankingAccount><ns3:CreditAccount><accountId>400012173145</accountId><status>ACTIVE</status><accountNumber>8000006666</accountNumber><accountNickname>My
+        Line of Credit</accountNickname><displayPosition>4</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns3:creditAccountType>LINEOFCREDIT</ns3:creditAccountType><ns3:currentBalance>-212.36</ns3:currentBalance></ns3:CreditAccount><ns4:LoanAccount><accountId>400012173146</accountId><status>ACTIVE</status><accountNumber>1000000001</accountNumber><accountNickname>My
+        Mortgage</accountNickname><displayPosition>5</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216850192</institutionLoginId><ns4:loanType>MORTGAGE</ns4:loanType><ns4:nextPayment>212.36</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.36</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.36</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.36</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns2:BankingAccount><accountId>400012173147</accountId><status>ACTIVE</status><accountNumber>1000001111</accountNumber><accountNickname>My
+        Checking</accountNickname><displayPosition>6</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>CHECKING</ns2:bankingAccountType></ns2:BankingAccount><ns4:LoanAccount><accountId>400012173148</accountId><status>ACTIVE</status><accountNumber>8000008888</accountNumber><accountNickname>My
+        Auto Loan</accountNickname><displayPosition>1</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns4:loanType>LOAN</ns4:loanType><ns4:nextPayment>212.36</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.36</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.36</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.36</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns2:BankingAccount><accountId>400012173149</accountId><status>ACTIVE</status><accountNumber>1000002222</accountNumber><accountNickname>My
+        Savings</accountNickname><displayPosition>7</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:36:55.134-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:55.134-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>SAVINGS</ns2:bankingAccountType></ns2:BankingAccount></ns8:AccountList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:36:55 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/logins/216850192/accounts
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="YYNmyjec6VoJTsV7tu8OdlnT8x2DscaL9Mr13GLnOdo",
+        oauth_signature="PXoQP%2BaKn1Ix3rXdIMDmopTowKc%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237415", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:00 GMT
+      Content-Type:
+      - application/xml
+      Intuit-Tid:
+      - gw-7512f4b6-bc1d-4c22-90a1-31e20db449fd
+      Cache-Control:
+      - no-cache
+      Pragma:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=984CB51A798E3D896FE78FA886B17BFD.node49; Path=/rest-war
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns8:AccountList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/account/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bankingaccount/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/creditaccount/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/loanaccount/v1\" xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/investmentaccount/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/rewardsaccount/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/otheraccount/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/accountlist/v1\"><ns2:BankingAccount><accountId>400012173144</accountId><status>ACTIVE</status><accountNumber>2000005555</accountNumber><accountNickname>My
+        CD</accountNickname><displayPosition>8</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>CD</ns2:bankingAccountType></ns2:BankingAccount><ns2:BankingAccount><accountId>400012173149</accountId><status>ACTIVE</status><accountNumber>1000002222</accountNumber><accountNickname>My
+        Savings</accountNickname><displayPosition>7</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>SAVINGS</ns2:bankingAccountType></ns2:BankingAccount><ns5:InvestmentAccount><accountId>400012173141</accountId><status>ACTIVE</status><accountNumber>2000004444</accountNumber><accountNickname>My
+        Roth IRA</accountNickname><displayPosition>3</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns3:CreditAccount><accountId>400012173142</accountId><status>ACTIVE</status><accountNumber>4100007777</accountNumber><accountNickname>My
+        Visa</accountNickname><displayPosition>2</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns3:creditAccountType>CREDITCARD</ns3:creditAccountType><ns3:currentBalance>-212.36</ns3:currentBalance><ns3:paymentMinAmount>15</ns3:paymentMinAmount><ns3:paymentDueDate>2020-04-01T00:00:00-07:00</ns3:paymentDueDate><ns3:statementEndDate>2020-03-01T00:00:00-08:00</ns3:statementEndDate><ns3:statementCloseBalance>-212.36</ns3:statementCloseBalance></ns3:CreditAccount><ns3:CreditAccount><accountId>400012173145</accountId><status>ACTIVE</status><accountNumber>8000006666</accountNumber><accountNickname>My
+        Line of Credit</accountNickname><displayPosition>4</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns3:creditAccountType>LINEOFCREDIT</ns3:creditAccountType><ns3:currentBalance>-212.36</ns3:currentBalance></ns3:CreditAccount><ns5:InvestmentAccount><accountId>400012173140</accountId><status>ACTIVE</status><accountNumber>0000000001</accountNumber><accountNickname>My
+        Retirement</accountNickname><displayPosition>10</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-12T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>401K</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns4:LoanAccount><accountId>400012173146</accountId><status>ACTIVE</status><accountNumber>1000000001</accountNumber><accountNickname>My
+        Mortgage</accountNickname><displayPosition>5</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216850192</institutionLoginId><ns4:loanType>MORTGAGE</ns4:loanType><ns4:nextPayment>212.36</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.36</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.36</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.36</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns2:BankingAccount><accountId>400012173147</accountId><status>ACTIVE</status><accountNumber>1000001111</accountNumber><accountNickname>My
+        Checking</accountNickname><displayPosition>6</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216850192</institutionLoginId><ns2:bankingAccountType>CHECKING</ns2:bankingAccountType></ns2:BankingAccount><ns5:InvestmentAccount><accountId>400012173143</accountId><status>ACTIVE</status><accountNumber>0000000000</accountNumber><accountNickname>My
+        Brokerage</accountNickname><displayPosition>9</displayPosition><institutionId>100000</institutionId><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-12T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216850192</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.36</ns5:currentBalance></ns5:InvestmentAccount><ns4:LoanAccount><accountId>400012173148</accountId><status>ACTIVE</status><accountNumber>8000008888</accountNumber><accountNickname>My
+        Auto Loan</accountNickname><displayPosition>1</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.36</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:36:56.621-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:36:56.621-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216850192</institutionLoginId><ns4:loanType>LOAN</ns4:loanType><ns4:nextPayment>212.36</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.36</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.36</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.36</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount></ns8:AccountList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:00 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/accounts/400012173142/transactions?txnStartDate=2014-01-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="1mnw1T03V3Bl2wfKbB7o7ieOfsomZgDXu50QYF9gKpc",
+        oauth_signature="IrZm10Yh9c46AT%2FHQULDQvAFne4%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237424", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:04 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '6072'
+      Intuit-Tid:
+      - gw-d20dbeca-247e-40ac-bc83-c26991b128f3
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=9EE5F93BCDEF71C2B57C7FAAE9D0998E.node49; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns9:TransactionList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/transaction/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bnktransaction/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/cctransaction/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/ibnktransaction/v1\"
+        xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/loantransaction/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/invtransaction/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/securityinfo/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/rewardstransaction/v1\"
+        xmlns:ns9=\"http://schema.intuit.com/platform/fdatafeed/transactionlist/v1\"
+        notRefreshedReason=\"NOT_NECESSARY\"><ns3:CreditCardTransaction><id>400793944256</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944256</institutionTransactionId><payeeName>CREDITCARD
+        debit 32</payeeName><postedDate>2014-02-01T00:00:00-08:00</postedDate><userDate>2014-02-01T00:00:00-08:00</userDate><amount>-2.01</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944258</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944258</institutionTransactionId><payeeName>CREDITCARD
+        credit 31</payeeName><postedDate>2014-01-31T00:00:00-08:00</postedDate><userDate>2014-01-31T00:00:00-08:00</userDate><amount>1.31</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944259</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944259</institutionTransactionId><payeeName>CREDITCARD
+        debit 36</payeeName><postedDate>2014-02-05T00:00:00-08:00</postedDate><userDate>2014-02-05T00:00:00-08:00</userDate><amount>-2.05</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944260</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944260</institutionTransactionId><payeeName>CREDITCARD
+        credit 39</payeeName><postedDate>2014-02-08T00:00:00-08:00</postedDate><userDate>2014-02-08T00:00:00-08:00</userDate><amount>2.08</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944261</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944261</institutionTransactionId><payeeName>CREDITCARD
+        credit 35</payeeName><postedDate>2014-02-04T00:00:00-08:00</postedDate><userDate>2014-02-04T00:00:00-08:00</userDate><amount>2.04</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944264</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944264</institutionTransactionId><payeeName>CREDITCARD
+        debit 40</payeeName><postedDate>2014-02-09T00:00:00-08:00</postedDate><userDate>2014-02-09T00:00:00-08:00</userDate><amount>-2.09</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944265</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944265</institutionTransactionId><payeeName>CREDITCARD
+        credit 29</payeeName><postedDate>2014-01-29T00:00:00-08:00</postedDate><userDate>2014-01-29T00:00:00-08:00</userDate><amount>1.29</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944272</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944272</institutionTransactionId><payeeName>CREDITCARD
+        credit 33</payeeName><postedDate>2014-02-02T00:00:00-08:00</postedDate><userDate>2014-02-02T00:00:00-08:00</userDate><amount>2.02</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944273</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944273</institutionTransactionId><payeeName>CREDITCARD
+        debit 38</payeeName><postedDate>2014-02-07T00:00:00-08:00</postedDate><userDate>2014-02-07T00:00:00-08:00</userDate><amount>-2.07</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944274</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944274</institutionTransactionId><payeeName>CREDITCARD
+        credit 41</payeeName><postedDate>2014-02-10T00:00:00-08:00</postedDate><userDate>2014-02-10T00:00:00-08:00</userDate><amount>2.1</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944278</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944278</institutionTransactionId><payeeName>CREDITCARD
+        debit 34</payeeName><postedDate>2014-02-03T00:00:00-08:00</postedDate><userDate>2014-02-03T00:00:00-08:00</userDate><amount>-2.03</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944279</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944279</institutionTransactionId><payeeName>CREDITCARD
+        credit 37</payeeName><postedDate>2014-02-06T00:00:00-08:00</postedDate><userDate>2014-02-06T00:00:00-08:00</userDate><amount>2.06</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction><ns3:CreditCardTransaction><id>400793944283</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793944283</institutionTransactionId><payeeName>CREDITCARD
+        debit 30</payeeName><postedDate>2014-01-30T00:00:00-08:00</postedDate><userDate>2014-01-30T00:00:00-08:00</userDate><amount>-1.3</amount><pending>false</pending><categorization><common/></categorization></ns3:CreditCardTransaction></ns9:TransactionList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:04 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="sahyerfMHPN2iHNKIrOoHipWPUs8faht01VXwccRetg",
+        oauth_signature="k7yI1WSUBmjihmTwalYNnBgKlEU%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237430", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:10 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Intuit-Tid:
+      - gw-fa7cb149-1b20-4d94-b498-8f5da4435555
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=0A844C0A6DEE6C7FDE9D2C3C841C13E3.node49; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><InstitutionDetail
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/institution/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/common/v1\"><institutionId>100000</institutionId><institutionName>CC
+        Bank</institutionName><homeUrl>http://www.intuit.com</homeUrl><address><ns2:country>USA</ns2:country></address><emailAddress>CustomerCentralBank@intuit.com</emailAddress><specialText>Welcome
+        to  Bank of Intuit</specialText><currencyCode>USD</currencyCode><keys><key><name>Banking
+        Password</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>2</displayOrder><mask>true</mask><instructions>Enter
+        banking password (go)</instructions><description>Banking Password</description></key><key><name>Banking
+        Userid</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>1</displayOrder><mask>false</mask><instructions>Enter
+        banking userid (demo)</instructions><description>Banking Userid</description></key></keys></InstitutionDetail>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:10 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="GIrxUEzRHSqSMpw3uQqCQqEUXHpKn7mCcV1qsuKBU",
+        oauth_signature="nTqGszq6rS%2FDlJnVtuJ6nI4RVlw%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237431", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:12 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Intuit-Tid:
+      - gw-5a05c1c0-0203-4248-997b-930aec8a603c
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=5167409171A0BE069169B3B64E3A1223.node49; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><InstitutionDetail
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/institution/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/common/v1\"><institutionId>100000</institutionId><institutionName>CC
+        Bank</institutionName><homeUrl>http://www.intuit.com</homeUrl><address><ns2:country>USA</ns2:country></address><emailAddress>CustomerCentralBank@intuit.com</emailAddress><specialText>Welcome
+        to  Bank of Intuit</specialText><currencyCode>USD</currencyCode><keys><key><name>Banking
+        Userid</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>1</displayOrder><mask>false</mask><instructions>Enter
+        banking userid (demo)</instructions><description>Banking Userid</description></key><key><name>Banking
+        Password</name><status>Active</status><valueLengthMin>1</valueLengthMin><valueLengthMax>20</valueLengthMax><displayFlag>true</displayFlag><displayOrder>2</displayOrder><mask>true</mask><instructions>Enter
+        banking password (go)</instructions><description>Banking Password</description></key></keys></InstitutionDetail>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:12 GMT
+- request:
+    method: post
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/institutions/100000/logins
+    body:
+      encoding: UTF-8
+      string: "<InstitutionLogin xmlns=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><credentials
+        xmlns:ns1=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns1:credential
+        xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns2:name>Banking
+        Userid</ns2:name><ns2:value>my_account</ns2:value></ns1:credential><ns1:credential
+        xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/institutionlogin/v1\"><ns2:name>Banking
+        Password</ns2:name><ns2:value>willworknow</ns2:value></ns1:credential></credentials></InstitutionLogin>"
+    headers:
+      Content-Type:
+      - application/xml
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Content-Length:
+      - '569'
+      Authorization:
+      - OAuth oauth_body_hash="pZgnFE2OGcfItYfiPGE7DG1Di7U%3D", oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7",
+        oauth_nonce="6WHfNrQR9Dmt81jZrGAar1WYrGEcbv6Pqr9eACFZTs", oauth_signature="akNkMOriuSJveoU3dJkcZZGrTi8%3D",
+        oauth_signature_method="HMAC-SHA1", oauth_timestamp="1392237432", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:12 GMT
+      Content-Type:
+      - application/xml
+      Intuit-Tid:
+      - gw-2200ba75-60f2-46d5-b9a3-38ba7f0519ef
+      Location:
+      - http://qynprdccoreap52.data.ie.intuit.net:8080/rest-war/v1/logins/216860102/accounts
+      Set-Cookie:
+      - JSESSIONID=0749E44B92D49B8531C8053E87A329BD.node52; Path=/rest-war
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns8:AccountList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/account/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bankingaccount/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/creditaccount/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/loanaccount/v1\" xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/investmentaccount/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/rewardsaccount/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/otheraccount/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/accountlist/v1\"><ns5:InvestmentAccount><accountId>400012173063</accountId><status>ACTIVE</status><accountNumber>0000000000</accountNumber><accountNickname>My
+        Brokerage</accountNickname><displayPosition>9</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns2:BankingAccount><accountId>400012173064</accountId><status>ACTIVE</status><accountNumber>1000001111</accountNumber><accountNickname>My
+        Checking</accountNickname><displayPosition>6</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>CHECKING</ns2:bankingAccountType></ns2:BankingAccount><ns2:BankingAccount><accountId>400012173065</accountId><status>ACTIVE</status><accountNumber>2000005555</accountNumber><accountNickname>My
+        CD</accountNickname><displayPosition>8</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>CD</ns2:bankingAccountType></ns2:BankingAccount><ns2:BankingAccount><accountId>400012173066</accountId><status>ACTIVE</status><accountNumber>1000002222</accountNumber><accountNickname>My
+        Savings</accountNickname><displayPosition>7</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>SAVINGS</ns2:bankingAccountType></ns2:BankingAccount><ns4:LoanAccount><accountId>400012173067</accountId><status>ACTIVE</status><accountNumber>8000008888</accountNumber><accountNickname>My
+        Auto Loan</accountNickname><displayPosition>1</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns4:loanType>LOAN</ns4:loanType><ns4:nextPayment>212.37</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.37</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.37</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.37</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns5:InvestmentAccount><accountId>400012173068</accountId><status>ACTIVE</status><accountNumber>0000000001</accountNumber><accountNickname>My
+        Retirement</accountNickname><displayPosition>10</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>401K</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns5:InvestmentAccount><accountId>400012173069</accountId><status>ACTIVE</status><accountNumber>2000004444</accountNumber><accountNickname>My
+        Roth IRA</accountNickname><displayPosition>3</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns4:LoanAccount><accountId>400012173070</accountId><status>ACTIVE</status><accountNumber>1000000001</accountNumber><accountNickname>My
+        Mortgage</accountNickname><displayPosition>5</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216860102</institutionLoginId><ns4:loanType>MORTGAGE</ns4:loanType><ns4:nextPayment>212.37</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.37</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.37</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.37</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns3:CreditAccount><accountId>400012173071</accountId><status>ACTIVE</status><accountNumber>4100007777</accountNumber><accountNickname>My
+        Visa</accountNickname><displayPosition>2</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>106</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns3:creditAccountType>CREDITCARD</ns3:creditAccountType><ns3:currentBalance>-212.37</ns3:currentBalance><ns3:paymentMinAmount>15</ns3:paymentMinAmount><ns3:paymentDueDate>2020-04-01T00:00:00-07:00</ns3:paymentDueDate><ns3:statementEndDate>2020-03-01T00:00:00-08:00</ns3:statementEndDate><ns3:statementCloseBalance>-212.37</ns3:statementCloseBalance></ns3:CreditAccount><ns3:CreditAccount><accountId>400012173072</accountId><status>ACTIVE</status><accountNumber>8000006666</accountNumber><accountNickname>My
+        Line of Credit</accountNickname><displayPosition>4</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><aggrSuccessDate>2014-02-12T12:37:13.037-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:13.037-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns3:creditAccountType>LINEOFCREDIT</ns3:creditAccountType><ns3:currentBalance>-212.37</ns3:currentBalance></ns3:CreditAccount></ns8:AccountList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:13 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/logins/216860102/accounts
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="r4xwP9lQObd1cl9tib3t3xYdexLJCSAipnmoGwHXg",
+        oauth_signature="TfDeWAOjTYYgSAYVr7hPgVQmsyg%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237433", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:18 GMT
+      Content-Type:
+      - application/xml
+      Intuit-Tid:
+      - gw-58df3683-8feb-4a5d-9e02-e44840a55052
+      Cache-Control:
+      - no-cache
+      Pragma:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=7126D9D85DF8DF53BF410A3D748C24BF.node50; Path=/rest-war
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns8:AccountList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/account/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bankingaccount/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/creditaccount/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/loanaccount/v1\" xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/investmentaccount/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/rewardsaccount/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/otheraccount/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/accountlist/v1\"><ns2:BankingAccount><accountId>400012173065</accountId><status>ACTIVE</status><accountNumber>2000005555</accountNumber><accountNickname>My
+        CD</accountNickname><displayPosition>8</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>CD</ns2:bankingAccountType></ns2:BankingAccount><ns2:BankingAccount><accountId>400012173066</accountId><status>ACTIVE</status><accountNumber>1000002222</accountNumber><accountNickname>My
+        Savings</accountNickname><displayPosition>7</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>SAVINGS</ns2:bankingAccountType></ns2:BankingAccount><ns5:InvestmentAccount><accountId>400012173068</accountId><status>ACTIVE</status><accountNumber>0000000001</accountNumber><accountNickname>My
+        Retirement</accountNickname><displayPosition>10</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-12T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>401K</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns5:InvestmentAccount><accountId>400012173069</accountId><status>ACTIVE</status><accountNumber>2000004444</accountNumber><accountNickname>My
+        Roth IRA</accountNickname><displayPosition>3</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns4:LoanAccount><accountId>400012173070</accountId><status>ACTIVE</status><accountNumber>1000000001</accountNumber><accountNickname>My
+        Mortgage</accountNickname><displayPosition>5</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216860102</institutionLoginId><ns4:loanType>MORTGAGE</ns4:loanType><ns4:nextPayment>212.37</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.37</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.37</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.37</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount><ns3:CreditAccount><accountId>400012173071</accountId><status>ACTIVE</status><accountNumber>4100007777</accountNumber><accountNickname>My
+        Visa</accountNickname><displayPosition>2</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns3:creditAccountType>CREDITCARD</ns3:creditAccountType><ns3:currentBalance>-212.37</ns3:currentBalance><ns3:paymentMinAmount>15</ns3:paymentMinAmount><ns3:paymentDueDate>2020-04-01T00:00:00-07:00</ns3:paymentDueDate><ns3:statementEndDate>2020-03-01T00:00:00-08:00</ns3:statementEndDate><ns3:statementCloseBalance>-212.37</ns3:statementCloseBalance></ns3:CreditAccount><ns3:CreditAccount><accountId>400012173072</accountId><status>ACTIVE</status><accountNumber>8000006666</accountNumber><accountNickname>My
+        Line of Credit</accountNickname><displayPosition>4</displayPosition><institutionId>100000</institutionId><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns3:creditAccountType>LINEOFCREDIT</ns3:creditAccountType><ns3:currentBalance>-212.37</ns3:currentBalance></ns3:CreditAccount><ns5:InvestmentAccount><accountId>400012173063</accountId><status>ACTIVE</status><accountNumber>0000000000</accountNumber><accountNickname>My
+        Brokerage</accountNickname><displayPosition>9</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-12T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>INR</currencyCode><institutionLoginId>216860102</institutionLoginId><ns5:investmentAccountType>TAXABLE</ns5:investmentAccountType><ns5:currentBalance>212.37</ns5:currentBalance></ns5:InvestmentAccount><ns2:BankingAccount><accountId>400012173064</accountId><status>ACTIVE</status><accountNumber>1000001111</accountNumber><accountNickname>My
+        Checking</accountNickname><displayPosition>6</displayPosition><institutionId>100000</institutionId><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>BND</currencyCode><institutionLoginId>216860102</institutionLoginId><ns2:bankingAccountType>CHECKING</ns2:bankingAccountType></ns2:BankingAccount><ns4:LoanAccount><accountId>400012173067</accountId><status>ACTIVE</status><accountNumber>8000008888</accountNumber><accountNickname>My
+        Auto Loan</accountNickname><displayPosition>1</displayPosition><institutionId>100000</institutionId><description>Description</description><balanceAmount>212.37</balanceAmount><balanceDate>2014-02-12T00:00:00-08:00</balanceDate><lastTxnDate>2014-02-10T00:00:00-08:00</lastTxnDate><aggrSuccessDate>2014-02-12T12:37:14.519-08:00</aggrSuccessDate><aggrAttemptDate>2014-02-12T12:37:14.519-08:00</aggrAttemptDate><aggrStatusCode>0</aggrStatusCode><currencyCode>USD</currencyCode><institutionLoginId>216860102</institutionLoginId><ns4:loanType>LOAN</ns4:loanType><ns4:nextPayment>212.37</ns4:nextPayment><ns4:nextPaymentDate>2020-04-01T00:00:00-07:00</ns4:nextPaymentDate><ns4:autopayEnrolled>true</ns4:autopayEnrolled><ns4:collateral>212.37</ns4:collateral><ns4:currentSchool>Cur
+        School</ns4:currentSchool><ns4:firstPaymentDate>2020-04-01T00:00:00-07:00</ns4:firstPaymentDate><ns4:guarantor>Guarantor</ns4:guarantor><ns4:firstMortgage>false</ns4:firstMortgage><ns4:loanPaymentFreq>MONTHLY</ns4:loanPaymentFreq><ns4:paymentMinAmount>212.37</ns4:paymentMinAmount><ns4:originalSchool>Orig
+        School</ns4:originalSchool><ns4:recurringPaymentAmount>212.37</ns4:recurringPaymentAmount><ns4:lender>Lender</ns4:lender></ns4:LoanAccount></ns8:AccountList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:18 GMT
+- request:
+    method: get
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/accounts/400012173064/transactions?txnStartDate=2014-01-29
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="6jDOAYm1PvJeZUtyq1k8vcrA8JjTgBKtccB9V2lGU",
+        oauth_signature="feSdmYcLBidpevGFMphkqmhuTMk%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237442", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:22 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '5968'
+      Intuit-Tid:
+      - gw-8c89fd9e-81d9-4713-862c-cefc91532cff
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=A780DD6D5342BEC005538A5B11E8646A.node52; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><ns9:TransactionList
+        xmlns=\"http://schema.intuit.com/platform/fdatafeed/transaction/v1\" xmlns:ns2=\"http://schema.intuit.com/platform/fdatafeed/bnktransaction/v1\"
+        xmlns:ns3=\"http://schema.intuit.com/platform/fdatafeed/cctransaction/v1\"
+        xmlns:ns4=\"http://schema.intuit.com/platform/fdatafeed/ibnktransaction/v1\"
+        xmlns:ns5=\"http://schema.intuit.com/platform/fdatafeed/loantransaction/v1\"
+        xmlns:ns6=\"http://schema.intuit.com/platform/fdatafeed/invtransaction/v1\"
+        xmlns:ns7=\"http://schema.intuit.com/platform/fdatafeed/securityinfo/v1\"
+        xmlns:ns8=\"http://schema.intuit.com/platform/fdatafeed/rewardstransaction/v1\"
+        xmlns:ns9=\"http://schema.intuit.com/platform/fdatafeed/transactionlist/v1\"
+        notRefreshedReason=\"NOT_NECESSARY\"><ns2:BankingTransaction><id>400793954248</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954248</institutionTransactionId><payeeName>CHECKING
+        debit 32</payeeName><postedDate>2014-02-01T00:00:00-08:00</postedDate><userDate>2014-02-01T00:00:00-08:00</userDate><amount>-2.01</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954257</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954257</institutionTransactionId><payeeName>CHECKING
+        credit 31</payeeName><postedDate>2014-01-31T00:00:00-08:00</postedDate><userDate>2014-01-31T00:00:00-08:00</userDate><amount>1.31</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954258</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954258</institutionTransactionId><payeeName>CHECKING
+        debit 34</payeeName><postedDate>2014-02-03T00:00:00-08:00</postedDate><userDate>2014-02-03T00:00:00-08:00</userDate><amount>-2.03</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954260</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954260</institutionTransactionId><payeeName>CHECKING
+        credit 41</payeeName><postedDate>2014-02-10T00:00:00-08:00</postedDate><userDate>2014-02-10T00:00:00-08:00</userDate><amount>2.1</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954263</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954263</institutionTransactionId><payeeName>CHECKING
+        credit 35</payeeName><postedDate>2014-02-04T00:00:00-08:00</postedDate><userDate>2014-02-04T00:00:00-08:00</userDate><amount>2.04</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954266</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954266</institutionTransactionId><payeeName>CHECKING
+        credit 29</payeeName><postedDate>2014-01-29T00:00:00-08:00</postedDate><userDate>2014-01-29T00:00:00-08:00</userDate><amount>1.29</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954268</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954268</institutionTransactionId><payeeName>CHECKING
+        debit 36</payeeName><postedDate>2014-02-05T00:00:00-08:00</postedDate><userDate>2014-02-05T00:00:00-08:00</userDate><amount>-2.05</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954269</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954269</institutionTransactionId><payeeName>CHECKING
+        credit 39</payeeName><postedDate>2014-02-08T00:00:00-08:00</postedDate><userDate>2014-02-08T00:00:00-08:00</userDate><amount>2.08</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954270</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954270</institutionTransactionId><payeeName>CHECKING
+        credit 37</payeeName><postedDate>2014-02-06T00:00:00-08:00</postedDate><userDate>2014-02-06T00:00:00-08:00</userDate><amount>2.06</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954271</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954271</institutionTransactionId><payeeName>CHECKING
+        debit 30</payeeName><postedDate>2014-01-30T00:00:00-08:00</postedDate><userDate>2014-01-30T00:00:00-08:00</userDate><amount>-1.3</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954272</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954272</institutionTransactionId><payeeName>CHECKING
+        debit 40</payeeName><postedDate>2014-02-09T00:00:00-08:00</postedDate><userDate>2014-02-09T00:00:00-08:00</userDate><amount>-2.09</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954273</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954273</institutionTransactionId><payeeName>CHECKING
+        credit 33</payeeName><postedDate>2014-02-02T00:00:00-08:00</postedDate><userDate>2014-02-02T00:00:00-08:00</userDate><amount>2.02</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction><ns2:BankingTransaction><id>400793954276</id><currencyType>USD</currencyType><institutionTransactionId>INTUIT-400793954276</institutionTransactionId><payeeName>CHECKING
+        debit 38</payeeName><postedDate>2014-02-07T00:00:00-08:00</postedDate><userDate>2014-02-07T00:00:00-08:00</userDate><amount>-2.07</amount><pending>false</pending><categorization><common/></categorization></ns2:BankingTransaction></ns9:TransactionList>"
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:23 GMT
+- request:
+    method: delete
+    uri: https://financialdatafeed.platform.intuit.com/rest-war/v1/customers
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - OAuth gem v0.4.7
+      Authorization:
+      - OAuth oauth_consumer_key="qyprd9826q2GbgHDWGtG6mU0agp9S7", oauth_nonce="nkJb4mMWcm8r6FlxfBXTlUVNWlFbYjWIJKFygv5y7CE",
+        oauth_signature="jbIFpMG9Eg58OpwL6NM56L5a%2B28%3D", oauth_signature_method="HMAC-SHA1",
+        oauth_timestamp="1392237449", oauth_token="qyprdGOh69DHphKvL1eASrS0lNFLvveLcmx3UnJE1QQnQhY1",
+        oauth_version="1.0"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 20:37:30 GMT
+      Content-Type:
+      - text/plain
+      Content-Length:
+      - '0'
+      Intuit-Tid:
+      - gw-accbc2ed-c6c1-4dc6-b6b0-948c96969847
+      Cache-Control:
+      - no-cache
+      Pragma:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 16:00:00 PST
+      Set-Cookie:
+      - JSESSIONID=365252CC40D498106FF2D90D89A50D5B.node51; Path=/rest-war
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Wed, 12 Feb 2014 20:37:30 GMT
+recorded_with: VCR 2.8.0

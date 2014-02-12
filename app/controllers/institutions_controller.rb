@@ -67,10 +67,8 @@ class InstitutionsController < ApplicationController
 
         render partial: 'institutions/authentication/mfa', locals: {questions: questions}
       elsif !response['error']
-        if reverifying?
-          redirect_to reverification_complete_path
-        elsif updating?
-          redirect_to institution_login_credentials_updated_path(session[:institution_id])
+        if updating?
+          redirect_to update_complete
         else
           accounts = banking_credit_other(response['value'])
           render partial: 'select_account', locals: {accounts: accounts}
@@ -137,8 +135,12 @@ class InstitutionsController < ApplicationController
   end
 
   def congratulations
-    @institution_authenticated_pixel = institution_authenticated(params[:updated_accounts].to_i)
-    @account_name = params[:account_name]
+    if reverifying?
+      redirect_to reverification_complete_path(full_page: true)
+    else
+      @institution_authenticated_pixel = institution_authenticated(params[:updated_accounts].to_i)
+      @account_name = params[:account_name]
+    end
   end
 
   def reverifying?
@@ -150,6 +152,10 @@ class InstitutionsController < ApplicationController
   end
 
 private
+
+  def update_complete
+    reverifying? ? reverification_complete_path : institution_login_credentials_updated_path(session[:institution_id])
+  end
 
   def users_institution_registered?
     Plink::UsersInstitutionService.users_institution_registered?(
@@ -250,8 +256,8 @@ private
 
   def banking_credit_other(response)
     Array(response).keep_if do |account|
-      account["type"] == 'bankingAccount' || account["type"] == 'creditAccount' ||
-        account["type"].nil?
+      (account["type"] == 'bankingAccount' || account["type"] == 'creditAccount' ||
+        account["type"].nil?) && account['aggr_status_code'].to_i == 0
     end
   end
 end

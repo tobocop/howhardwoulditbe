@@ -20,7 +20,20 @@ describe Intuit::Response do
       result: {
         account_list: {
           banking_account: [
-            {institution_login_id: 123, account_number: '1233412345', aggr_status_code: 0},
+            {institution_login_id: 123, account_number: '1233412345', aggr_status_code: 3},
+            {institution_login_id: 456, account_number: '1233412345', aggr_status_code: 0}
+          ]
+        }
+      }
+    }
+  }
+  let(:all_accounts_aggregation_error_intuit_response) {
+    {
+      status_code: '201',
+      result: {
+        account_list: {
+          banking_account: [
+            {institution_login_id: 123, account_number: '1233412345', aggr_status_code: 4},
             {institution_login_id: 456, account_number: '1233412345', aggr_status_code: 3}
           ]
         }
@@ -71,8 +84,8 @@ describe Intuit::Response do
   end
 
   describe '#aggregation_error?' do
-    it 'returns false if all aggregation status codes in the account list are 0' do
-      response = Intuit::Response.new(successful_intuit_response)
+    it 'returns false if at least one of the aggregation status codes in the account list are 0' do
+      response = Intuit::Response.new(aggregation_error_intuit_response)
 
       response.aggregation_error?.should be_false
     end
@@ -83,8 +96,8 @@ describe Intuit::Response do
       response.aggregation_error?.should be_false
     end
 
-    it 'returns true if there is a non-zero aggregation status code in the account list' do
-      response = Intuit::Response.new(aggregation_error_intuit_response)
+    it 'returns true if there are only non-zero aggregation status code in the account list' do
+      response = Intuit::Response.new(all_accounts_aggregation_error_intuit_response)
 
       response.aggregation_error?.should be_true
     end

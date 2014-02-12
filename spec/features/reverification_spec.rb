@@ -64,6 +64,68 @@ describe 'Reverifying', js: true, driver: :selenium do
     page.should_not have_content 'Reconnect My Account'
   end
 
+  it 'allows a user to reverify when an account is missing', :vcr do
+    sign_in('test@example.com', 'test123')
+    page.should have_content "Enter your bank's name."
+
+    fill_in 'institution_name', with: 'bank'
+    click_on 'Search'
+
+    page.should have_content 'MOST COMMON'
+    click_on 'bank of awesome'
+    fill_in 'auth_1', with: 'bobloblaw'
+    fill_in 'auth_2', with: 'nohablaespanol'
+
+    click_on 'Connect'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
+
+    within '.card-select-container:nth-of-type(1)' do
+      click_on 'Select'
+    end
+
+    page.should have_content 'Congratulations!'
+
+    create_user_reverification(
+      completed_on: nil,
+      is_notification_successful: false,
+      intuit_error_id: 106,
+      user_id: user.id,
+      users_institution_id: Plink::UsersInstitutionRecord.last.id
+    )
+
+    visit '/account'
+
+    page.should have_content 'Inactive'
+    page.should have_image 'icon_alert_pink.png'
+
+    within '.content:nth-of-type(4)' do
+      click_link 'Reconnect My Account'
+    end
+
+    page.should have_content 'Reconnect your bank or credit card to Plink.'
+
+    fill_in 'auth_1', with: 'my_account'
+    fill_in 'auth_2', with: 'willworknow'
+
+    click_on 'Connect'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
+    page.should_not have_content 'MY VISA'
+
+    within '.card-select-container:nth-of-type(1)' do
+      click_on 'Select'
+    end
+
+    page.should have_content 'Congratulations!'
+
+    page.should have_content "Next Steps"
+    page.should have_content "You've successfully reconnected your bank of awesome account to your Plink account."
+
+    visit '/account'
+    page.should_not have_content 'Reconnect My Account'
+  end
+
   it 'allows a user to reverify mfa questions', :vcr do
     sign_in('test@example.com', 'test123')
     page.should have_content "Enter your bank's name."

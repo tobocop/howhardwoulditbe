@@ -37,7 +37,7 @@ module Intuit
     end
 
     def aggregation_error?
-      accounts? && parse_status_codes(accounts) != [0]
+      accounts? && parse_status_codes(accounts).first != 0
     end
 
     def first_error_status_code
@@ -47,7 +47,7 @@ module Intuit
   private
 
     def parse_status_codes(accounts)
-      accounts.map {|account| account[:aggr_status_code].to_i }.uniq
+      accounts.map {|account| account[:aggr_status_code].to_i }.uniq.sort
     end
 
     def successful?

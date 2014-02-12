@@ -316,27 +316,36 @@ describe InstitutionsController do
         ENCRYPTION.stub(:decrypt_and_verify).and_return({'error' => false}.to_json)
       end
 
-      it 'renders the account list' do
-        get :poll
+      context 'when the user is updating' do
+        before { controller.stub(:updating?).and_return(true) }
 
-        response.should render_template partial: 'institutions/_select_account'
+        it 'redirects to update credentials complete' do
+          session[:institution_id] = 234
+
+          get :poll
+
+          response.should redirect_to(institution_login_credentials_updated_path(234))
+        end
+
+        context 'when the user is also reverifying' do
+          before { controller.stub(:reverifying?).and_return(true) }
+
+          it 'redirects to the reverifcation complete path' do
+            get :poll
+
+            response.should redirect_to(reverification_complete_path)
+          end
+        end
       end
 
-      it 'redirects to reverification complete if reverifying is true' do
-        controller.stub(:reverifying?).and_return(true)
+      context 'when the user is not updating' do
+        before { controller.stub(:updating?).and_return(false) }
 
-        get :poll
+        it 'renders the account list' do
+          get :poll
 
-        response.should redirect_to(reverification_complete_path)
-      end
-
-      it 'redirects to update credentials complete if updating is true' do
-        controller.stub(:updating?).and_return(true)
-        session[:institution_id] = 234
-
-        get :poll
-
-        response.should redirect_to(institution_login_credentials_updated_path(234))
+          response.should render_template partial: 'institutions/_select_account'
+        end
       end
     end
 
@@ -591,28 +600,42 @@ describe InstitutionsController do
       controller.stub(:institution_authenticated).and_return('my pixel')
     end
 
-    it 'renders the congratulations view' do
-      get :congratulations
+    context 'when the user is reverifying' do
+      before { controller.stub(:reverifying?).and_return(true) }
 
-      response.should render_template :congratulations
+      it 'redirects to the reverifcation complete path' do
+        get :congratulations
+
+        response.should redirect_to(reverification_complete_path(full_page: true))
+      end
     end
 
-    it 'returns the institution_authenticated_pixel' do
-      get :congratulations
+    context 'when the user is not reverifying' do
+      before { controller.stub(:reverifying?).and_return(false) }
 
-      assigns(:institution_authenticated_pixel).should == 'my pixel'
-    end
+      it 'renders the congratulations view' do
+        get :congratulations
 
-    it 'returns the account_name that is given as a parameter' do
-      get :congratulations, account_name: 'Rich People Account'
+        response.should render_template :congratulations
+      end
 
-      assigns(:account_name).should == 'Rich People Account'
-    end
+      it 'returns the institution_authenticated_pixel' do
+        get :congratulations
 
-    it 'checks if an institution_authenticated event should be recorded' do
-      controller.should_receive(:institution_authenticated)
+        assigns(:institution_authenticated_pixel).should == 'my pixel'
+      end
 
-      get :congratulations, updated_accounts: 12234
+      it 'returns the account_name that is given as a parameter' do
+        get :congratulations, account_name: 'Rich People Account'
+
+        assigns(:account_name).should == 'Rich People Account'
+      end
+
+      it 'checks if an institution_authenticated event should be recorded' do
+        controller.should_receive(:institution_authenticated)
+
+        get :congratulations, updated_accounts: 12234
+      end
     end
   end
 

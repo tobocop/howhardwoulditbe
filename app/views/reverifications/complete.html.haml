@@ -1,0 +1,25 @@
+.reg
+  .column-container
+    .layout-wrapper
+      .layout-inner.height-min-550
+        .left-column.no-float
+          = render partial: 'institutions/complete_next_steps'
+
+        .right-column.pad-left-86
+          .font-p9em.font-lightgray.font-w300.font-italic You're all set.
+          .spacer-top-24
+            .font-1p5em.font-cyan Congratulations!
+          .spacer-top-8
+            .font-1p1em.font-w300= "You've successfully reconnected your #{@account_name} account to your Plink account."
+          .spacer-top-32
+            .button-container.no-margin.width-170
+              = link_to 'Go To My Wallet', wallet_path, class: 'button primary-action'
+          .spacer-top-96
+            %hr
+          .spacer-top-24
+            .font-1p1em.font-w500.font-gray.font-uppercase.font-kern1 Let's Be Friends
+          .spacer-top-8
+            .font-1p1em.font-w300.font-lightgray Connect your Facebook or Twitter account and be the first to find out about reward bonuses and special offers.
+          .spacer-top-24
+            #social-link-widget.gig-btn{style: 'float: left'}
+        .clear
