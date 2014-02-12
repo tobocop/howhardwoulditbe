@@ -162,4 +162,43 @@ http_interactions:
       string: ''
     http_version: '1.1'
   recorded_at: Wed, 29 Jan 2014 22:01:00 GMT
+- request:
+    method: post
+    uri: https://secure.elabs10.com/API/mailing_list.html?activity=add&type=record
+    body:
+      encoding: US-ASCII
+      string: input=%3CDATASET%3E%0A++++++++%3CSITE_ID%3E2010000797%3C%2FSITE_ID%3E%0A++++++++%3CDATA+type%3D%22extra%22+id%3D%22password%22%3El3tm31n%21%3C%2FDATA%3E%0A++++++++%3CMLID%3E247378%3C%2FMLID%3E%0A++++++++%3CDATA+type%3D%22email%22%3Efurd%40example.com%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22extra%22+id%3D%22state%22%3Eactive%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257722%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257720%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%221%22%3EFrud%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2211%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261623%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261622%22%3Eoff%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2235743%22%3Eon%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%222%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2264485%22%3EF41929CE3CF1316C184CE6FE303503C231BC329C577EF7F03DB961228404249A%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257721%22%3E1%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2257728%22%3E02%2F12%2F2014%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%226%22%3E%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2235630%22%3E23760%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2261695%22%3E0%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%2239583%22%3EPlink+points%3C%2FDATA%3E%0A++++++++%3CDATA+type%3D%22demographic%22+id%3D%227%22%3E%3C%2FDATA%3E%0A++++++%3C%2FDATASET%3E
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 12 Feb 2014 21:27:11 GMT
+      Server:
+      - Apache
+      Content-Length:
+      - '123'
+      Connection:
+      - close
+      Content-Type:
+      - text/xml
+      Set-Cookie:
+      - SRV=4|UvvnM; path=/
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="iso-8859-1"?>
+        <DATASET><TYPE>error</TYPE><DATA>Email address already exists</DATA></DATASET>
+    http_version: 
+  recorded_at: Wed, 12 Feb 2014 21:27:11 GMT
 recorded_with: VCR 2.8.0
