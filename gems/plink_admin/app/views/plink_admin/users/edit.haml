@@ -28,3 +28,27 @@
 %ol
   - @user.wallet_item_records.populated_records.each do |wallet_item|
     %li.open-wallet-items= wallet_item.unlock_reason
+
+%h3 Users Intuit Account Information:
+%table
+  %thead
+    %th ID
+    %th Institution Name
+    %th Account Name
+    %th Start Date
+    %th End Date
+    %th In Intuit
+    %th
+  %tbody
+    - @users_institutions.each do |users_institution|
+      - users_institution.users_institution_account_records.order('endDate desc').each do |users_institution_account|
+        %tr
+          %td= users_institution.id
+          %td= users_institution.institution_record.name
+          %td= users_institution_account.name + ' ' + users_institution_account.account_number_last_four
+          %td= users_institution_account.begin_date.to_date
+          %td= users_institution_account.end_date.to_date
+          %td= users_institution_account.in_intuit
+          %td
+            -if users_institution_account.in_intuit
+              = button_to 'remove account', {controller: 'users_institution_accounts', action: 'destroy', id: users_institution_account.id }, :confirm => "Are you sure?", :method => :delete

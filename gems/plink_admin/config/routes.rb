@@ -16,6 +16,7 @@ PlinkAdmin::Engine.routes.draw do
   resources :registration_links, except: [:destroy] do
     get :share_statistics, on: :member
   end
+  resources :users_institution_accounts, only: :destroy
   resources :offers, only: [:index, :edit, :update]
 
   resources :users, only: [:index] do

@@ -9,10 +9,15 @@ describe PlinkAdmin::UsersController do
 
   describe 'GET edit' do
     let(:user) { create_user }
+    let(:users_institutions) { [double] }
+    let(:find_by_user_id) { double(order: users_institutions) }
     let!(:wallet) { create_wallet(user_id: user.id) }
     let(:unlock_reasons) { {'app_install_promotion'=>'app_install_promotion', 'join'=>'join', 'promotion'=>'promotion', 'referral'=>'referral', 'transaction'=>'transaction'} }
 
-    before { get :edit, id: user.id }
+    before do
+      Plink::UsersInstitutionRecord.stub(:find_by_user_id).and_return(find_by_user_id)
+      get :edit, id: user.id
+    end
 
     it 'assigns user to the user whose :id is passed as a parameter' do
       assigns(:user).should == user
@@ -24,6 +29,10 @@ describe PlinkAdmin::UsersController do
 
     it 'assigns wallet_id to the users wallet.id' do
       assigns(:wallet_id).should == user.wallet.id
+    end
+
+    it 'assigns the users institutions' do
+      assigns(:users_institutions).should == users_institutions
     end
   end
 

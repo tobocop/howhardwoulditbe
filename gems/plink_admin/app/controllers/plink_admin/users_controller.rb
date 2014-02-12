@@ -9,6 +9,7 @@ module PlinkAdmin
       @user = Plink::UserRecord.find(params[:id])
       @unlock_reasons = Plink::WalletRecord::UNLOCK_REASONS
       @wallet_id = @user.wallet.id
+      @users_institutions = Plink::UsersInstitutionRecord.find_by_user_id(@user.id).order('usersInstitutionID desc')
     end
 
     def search

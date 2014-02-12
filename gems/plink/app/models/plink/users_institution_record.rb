@@ -28,6 +28,10 @@ module Plink
       where(isActive: true)
     }
 
+    scope :find_by_user_id, ->(user_id) {
+      where('userID = ?', user_id)
+    }
+
     def all_accounts_in_intuit
       users_institution_account_records.where(inIntuit: true) +
       users_institution_account_staging_records.where(inIntuit: true)

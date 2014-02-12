@@ -74,27 +74,43 @@ describe Plink::UsersInstitutionRecord do
     users_institution.institution_record.should be
   end
 
-  describe '#all_accounts_in_intuit' do
-    let(:users_institution) { create_users_institution }
-    let!(:users_institution_account) { create_users_institution_account(users_institution_id: users_institution.id) }
-    let!(:users_institution_account_staging) { create_users_institution_account_staging(users_institution_id: users_institution.id) }
+  describe 'named scopes' do
+    describe '#all_accounts_in_intuit' do
+      let(:users_institution) { create_users_institution }
+      let!(:users_institution_account) { create_users_institution_account(users_institution_id: users_institution.id) }
+      let!(:users_institution_account_staging) { create_users_institution_account_staging(users_institution_id: users_institution.id) }
 
-    it 'returns all users_institution_accounts and users_institution_accounts_staging_records that still exist in intuit' do
-      users_institution.all_accounts_in_intuit.should include(users_institution_account, users_institution_account_staging)
+      it 'returns all users_institution_accounts and users_institution_accounts_staging_records that still exist in intuit' do
+        users_institution.all_accounts_in_intuit.should include(users_institution_account, users_institution_account_staging)
+      end
+
+      it 'does not return account records not in intuit' do
+        users_institution_account.update_attribute('inIntuit', false)
+        intuit_accounts = users_institution.all_accounts_in_intuit
+        intuit_accounts.length.should == 1
+        intuit_accounts.first.should == users_institution_account_staging
+      end
+
+      it 'does not return staged account records not in intuit' do
+        users_institution_account_staging.update_attribute('inIntuit', false)
+        intuit_accounts = users_institution.all_accounts_in_intuit
+        intuit_accounts.length.should == 1
+        intuit_accounts.first.should == users_institution_account
+      end
     end
 
-    it 'does not return account records not in intuit' do
-      users_institution_account.update_attribute('inIntuit', false)
-      intuit_accounts = users_institution.all_accounts_in_intuit
-      intuit_accounts.length.should == 1
-      intuit_accounts.first.should == users_institution_account_staging
-    end
+    describe '.find_by_user_id' do
+      let!(:users_institution_record) { create_users_institution(user_id: 3) }
 
-    it 'does not return staged account records not in intuit' do
-      users_institution_account_staging.update_attribute('inIntuit', false)
-      intuit_accounts = users_institution.all_accounts_in_intuit
-      intuit_accounts.length.should == 1
-      intuit_accounts.first.should == users_institution_account
+      subject(:users_institution) { Plink::UsersInstitutionRecord }
+
+      it 'returns records by user_id' do
+        users_institution.find_by_user_id(3).first.id.should == users_institution_record.id
+      end
+
+      it 'does not return records where the user_id does not match' do
+        users_institution.find_by_user_id(4).should == []
+      end
     end
   end
 end
