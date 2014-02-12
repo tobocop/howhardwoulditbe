@@ -126,6 +126,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     daemons (1.1.9)
     database_cleaner (1.0.1)
     delayed_job (4.0.0)
@@ -262,6 +264,7 @@ GEM
     rspec-retry (0.2.1)
       rspec
     rubyzip (1.1.0)
+    safe_yaml (1.0.1)
     sass (3.2.14)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -308,6 +311,9 @@ GEM
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
+    webmock (1.15.2)
+      addressable (>= 2.2.7)
+      crack (>= 0.3.2)
     websocket (1.0.7)
     xmlhasher (0.0.6)
       escape_utils (>= 0.3.2)
@@ -332,7 +338,6 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.0.0)
   exceptional
   execjs
-  faraday
   foreman
   gigya!
   haml-rails (~> 0.4)
@@ -359,4 +364,5 @@ DEPENDENCIES
   tire
   uglifier (>= 1.0.3)
   unicorn
-  vcr
+  vcr (~> 2.8.0)
+  webmock (= 1.15.2)

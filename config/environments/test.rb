@@ -52,4 +52,6 @@ PlinkPivotal::Application.configure do
   ENV['TANGO_BASE_URL'] = tango_keys['base_url']
   ENV['TANGO_USERNAME'] = tango_keys['username']
   ENV['TANGO_PASSWORD'] = tango_keys['password']
+
+  WebMock.disable_net_connect!(allow_localhost: true)
 end

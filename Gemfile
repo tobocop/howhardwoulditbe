@@ -50,8 +50,8 @@ group :test do
   gem 'database_cleaner', '~> 1.0.1'
   gem 'selenium-webdriver', '2.38.0'
   gem 'rspec-retry'
-  gem 'faraday'
-  gem 'vcr'
+  gem 'webmock', '= 1.15.2'
+  gem 'vcr', '~> 2.8.0'
 end
 
 group :production, :review do
