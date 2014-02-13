@@ -13,11 +13,19 @@ describe PlinkAdmin::UsersInstitutionAccountsController do
   end
 
   describe 'DELETE #destory' do
-    let(:users_institution_account) { double(Plink::UsersInstitutionAccountRecord, account_id: 213987, user_id: 3, users_institution_id: 29)}
+    let(:delay) { double(remove: true) }
+    let(:users_institution_account) {
+      double(
+        Plink::UsersInstitutionAccountRecord,
+        account_id: 213987,
+        user_id: 3,
+        users_institution_id: 29
+      )
+    }
 
     before do
       Plink::UsersInstitutionAccountRecord.stub(:find).and_return(users_institution_account)
-      Intuit::AccountRemovalService.stub(:remove)
+      Intuit::AccountRemovalService.stub(:delay).and_return(delay)
     end
 
     it 'looks up the users institution account by id' do
@@ -26,8 +34,14 @@ describe PlinkAdmin::UsersInstitutionAccountsController do
       delete :destroy, id: 59
     end
 
+    it 'calls the account removal with a delayed job' do
+      Intuit::AccountRemovalService.should_receive(:delay).with(queue: 'intuit_account_removals').and_return(delay)
+
+      delete :destroy, id: 59
+    end
+
     it 'calls the intuit account removal service to remove it' do
-      Intuit::AccountRemovalService.should_receive(:remove).with(213987, 3, 29)
+      delay.should_receive(:remove).with(213987, 3, 29)
 
       delete :destroy, id: 59
     end
@@ -35,7 +49,7 @@ describe PlinkAdmin::UsersInstitutionAccountsController do
     it 'sets a flash notice notifying the admin the request was successful' do
       delete :destroy, id: 59
 
-      flash[:notice].should == 'Account successfully removed'
+      flash[:notice].should == 'Account staged for removal'
     end
 
     it 'redirects the admin back to the user management page' do
