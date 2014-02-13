@@ -8,12 +8,6 @@ describe Plink::UsersInstitutionRecord do
   it { should allow_mass_assignment_of(:user_id) }
   it { should allow_mass_assignment_of(:hash_check) }
 
-  it { should validate_presence_of(:hash_check) }
-  it { should validate_presence_of(:institution_id) }
-  it { should validate_presence_of(:intuit_institution_login_id) }
-  it { should validate_presence_of(:is_active) }
-  it { should validate_presence_of(:user_id) }
-
   let(:valid_params) {
     {
       institution_id: 3,
@@ -34,6 +28,37 @@ describe Plink::UsersInstitutionRecord do
 
   it 'can be persisted' do
     create_users_institution(valid_params).should be_persisted
+  end
+
+  context 'validations' do
+    it { should validate_presence_of(:hash_check) }
+    it { should validate_presence_of(:institution_id) }
+    it { should validate_presence_of(:intuit_institution_login_id) }
+    it { should validate_presence_of(:user_id) }
+    it { should ensure_inclusion_of(:is_active).in_array([true, false]) }
+
+    # describe 'is_active' do
+    #   let(:users_institution_record) { Plink::UsersInstitutionRecord.new(valid_params.except(:is_active)) }
+
+    #   it 'should be valid if active is true' do
+    #     users_institution_record.is_active = true
+
+    #     users_institution_record.should be_valid
+    #   end
+
+    #   it 'should be valid if active is false' do
+    #     users_institution_record.is_active = false
+
+    #     users_institution_record.should be_valid
+    #   end
+
+    #   it 'should not be valid if is active is nil' do
+    #     users_institution_record.is_active = nil
+
+    #     users_institution_record.should_not be_valid
+    #     users_institution_record.should have(1).error_on(:is_active)
+    #   end
+    # end
   end
 
   context 'named scopes' do

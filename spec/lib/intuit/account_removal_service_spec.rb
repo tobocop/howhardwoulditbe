@@ -35,6 +35,7 @@ describe Intuit::AccountRemovalService do
 
     intuit_request.should_receive(:delete_account).with(23).and_return(successful_delete_response)
 
+    Plink::UsersInstitutionRecord.where(isActive: true).length.should == 1
     Plink::UserReverificationRecord.where(isActive: true).length.should == 1
     Plink::UserIntuitErrorRecord.all.length.should == 1
     Plink::IntuitFishyTransactionRecord.where(is_active: true).length.should == 1
@@ -44,6 +45,7 @@ describe Intuit::AccountRemovalService do
 
     Intuit::AccountRemovalService.remove(23, 13, users_institution.id)
 
+    Plink::UsersInstitutionRecord.where(isActive: true).length.should == 0
     Plink::UserReverificationRecord.where(isActive: true).length.should == 0
     Plink::UserIntuitErrorRecord.all.length.should == 0
     Plink::IntuitFishyTransactionRecord.where(is_active: true).length.should == 0

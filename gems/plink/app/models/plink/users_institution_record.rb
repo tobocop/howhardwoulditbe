@@ -18,8 +18,8 @@ module Plink
     attr_accessible :hash_check, :institution_id, :intuit_institution_login_id, :is_active,
       :user_id
 
-    validates_presence_of :hash_check, :institution_id, :intuit_institution_login_id,
-      :is_active, :user_id
+    validates_presence_of :hash_check, :institution_id, :intuit_institution_login_id, :user_id
+    validates_inclusion_of :is_active, in: [true, false]
 
     scope :duplicates, ->(hash_check, institution_id, user_id) {
       where(hashCheck: hash_check).
