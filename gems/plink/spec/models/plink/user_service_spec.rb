@@ -29,6 +29,7 @@ describe Plink::UserService do
       user = create_user(email: 'someuser@example.com')
       user = create_user(email: 'auser@example.com')
       user = create_user(email: 'someguy@example.com')
+      user = create_user(email: 'user@excellent.com')
 
       results = subject.search_by_email('user@ex', 2)
       results.count.should == 2
@@ -37,6 +38,15 @@ describe Plink::UserService do
 
     it 'returns empty array if the user cannot be found' do
       subject.search_by_email(33).should == []
+    end
+
+    it 'should return only records that begin with the search term' do
+      user = create_user(email: 'user@example.com')
+      user = create_user(email: 'someuser@example.com')
+
+      results = subject.search_by_email('user@ex', 2)
+      results.count.should == 1
+      results.map(&:class).uniq.should == [Plink::User]
     end
   end
 

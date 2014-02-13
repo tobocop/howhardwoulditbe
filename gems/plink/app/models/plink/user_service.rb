@@ -9,7 +9,7 @@ module Plink
     end
 
     def search_by_email(email, max_results = 25)
-      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "%#{email}%").limit(max_results))
+      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "#{email}%").limit(max_results))
     end
 
     def find_by_password_hash(password_hash)
