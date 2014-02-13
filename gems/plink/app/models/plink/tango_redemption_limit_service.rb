@@ -9,11 +9,10 @@ module Plink
     end
 
     def user_over_redemption_limit?
-
       case
         when redemption_limit_record.nil?
           false
-        when redemption_limit_record.hold_redemptions == 1
+        when redemption_limit_record.hold_redemptions
           true
         when redemption_limit_record.redeemed_in_past_24_hours.nil?
           false
@@ -23,7 +22,6 @@ module Plink
         else
           false
       end
-
     end
 
     def user_under_redemption_limit?
