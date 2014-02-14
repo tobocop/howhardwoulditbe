@@ -20,7 +20,7 @@
             = submit_tag 'Select', class: 'button primary-action'
           .card-info
             .font-1em.font-w500.font-uppercase.font-kern1 #{account['name']}
-            .font-p9em.font-w300 #{account['account_number']}
+            .font-p9em.font-w300 #{account['number_last_four']}
   %hr.mtl.mbm
     = render partial: 'security_logos'
 

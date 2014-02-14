@@ -111,6 +111,8 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content 'Communicating with Bank of Tupac.'
 
     page.should have_content "Select the card you'd like to earn rewards with."
+    page.should have_content 'MY VISA'
+    page.should have_content '7777'
     page.should have_xpath('//img[@src="/assets/home_security_truste.png"]')
 
     within '.card-select-container:nth-of-type(1)' do
