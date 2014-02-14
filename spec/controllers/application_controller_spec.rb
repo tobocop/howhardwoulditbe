@@ -43,44 +43,59 @@ describe ApplicationController do
     end
   end
 
-  describe '#sign_in_user' do
-    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
+  context 'authentication' do
+    let(:social_profile_service) { double(get_users_social_profile: true) }
 
-    it 'sets current_user_id in the session' do
-      controller.sign_in_user(user)
-      session[:current_user_id].should == 123
+    before do
+      SocialProfileService.stub(:delay).and_return(social_profile_service)
     end
 
-    it 'sets the plinkUID cookie for coldfusion to the base64 encoded version of the hashed password' do
-      controller.sign_in_user(user)
-      cookies[:PLINKUID].should == "aGFzaHlwYXNzeQ==\n"
-    end
-  end
+    describe '#sign_in_user' do
+      let(:user) { double(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
 
-  describe '#sign_out_user' do
-    let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
+      it 'sets current_user_id in the session' do
+        controller.sign_in_user(user)
+        session[:current_user_id].should == 123
+      end
 
-    before :each do
-      controller.sign_in_user(user)
-    end
+      it 'sets the plinkUID cookie for coldfusion to the base64 encoded version of the hashed password' do
+        controller.sign_in_user(user)
+        cookies[:PLINKUID].should == "aGFzaHlwYXNzeQ==\n"
+      end
 
-    it 'sets the current_user_id in the session to nil' do
-      controller.sign_out_user
-      session[:current_user_id].should be_nil
-    end
+      it 'queues a delayed job to get the users social profile' do
+        SocialProfileService.should_receive(:delay).and_return(social_profile_service)
+        social_profile_service.should_receive(:get_users_social_profile).with(123)
 
-    it 'destroys the PLINKUID cookie' do
-      controller.sign_out_user
-      cookies[:PLINKUID].should be_nil
+        controller.sign_in_user(user)
+      end
     end
 
-    it 'destroys the CFID and CFTOKEN if present' do
-      cookies[:CFID] = {value: '1234', domain: :all, path: '/'}
-      cookies[:CFTOKEN] = {value: '1234', domain: :all, path: '/'}
+    describe '#sign_out_user' do
+      let(:user) { mock_model(Plink::UserRecord, id: 123, password_hash: 'hashypassy') }
 
-      controller.sign_out_user
-      cookies[:CFID].should be_nil
-      cookies[:CFTOKEN].should be_nil
+      before :each do
+        controller.sign_in_user(user)
+      end
+
+      it 'sets the current_user_id in the session to nil' do
+        controller.sign_out_user
+        session[:current_user_id].should be_nil
+      end
+
+      it 'destroys the PLINKUID cookie' do
+        controller.sign_out_user
+        cookies[:PLINKUID].should be_nil
+      end
+
+      it 'destroys the CFID and CFTOKEN if present' do
+        cookies[:CFID] = {value: '1234', domain: :all, path: '/'}
+        cookies[:CFTOKEN] = {value: '1234', domain: :all, path: '/'}
+
+        controller.sign_out_user
+        cookies[:CFID].should be_nil
+        cookies[:CFTOKEN].should be_nil
+      end
     end
   end
 
@@ -209,6 +224,7 @@ describe ApplicationController do
       let!(:valid_cookie) { set_auto_login_cookie(valid_user.password_hash) }
 
       it 'auto logs in the user if a valid cookie is found' do
+        SocialProfileService.stub(:delay).and_return(double(get_users_social_profile: true))
         controller.stub(:redirect_white_label_members).and_return(false)
         controller.stub(:contest_notification_for_user).and_return(false)
 

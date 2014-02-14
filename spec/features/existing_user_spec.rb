@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'user signs in' do
+  let!(:user) { create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png') }
+
   before do
     Tango::CardService.stub(:new).and_return(double(:fake_card_service, purchase: double(successful?: true)))
 
@@ -8,7 +10,6 @@ describe 'user signs in' do
     create_hero_promotion(image_url_one: '/assets/hero-gallery/bk2.jpg', display_order: 1, title: 'You really want this.', show_linked_users: true )
     create_hero_promotion(image_url_one: '/assets/hero-gallery/7eleven_1.jpg',image_url_two: '/assets/hero-gallery/bk1.jpg', display_order: 2, title: 'You want this.', show_linked_users: true )
     virtual_currency = create_virtual_currency(name: 'Plink Points', subdomain: 'www', exchange_rate: 100)
-    user = create_user(email: 'test@example.com', password: 'test123', first_name: 'Bob', avatar_thumbnail_url: 'http://www.example.com/test.png')
     wallet = create_wallet(user_id: user.id)
     create_open_wallet_item(wallet_id: wallet.id)
     create_locked_wallet_item(wallet_id: wallet.id)
@@ -83,6 +84,8 @@ describe 'user signs in' do
 
     page.should have_content('Welcome, Bob!')
     page.should have_content('You have 10000 Plink Points.')
+
+    Plink::UsersSocialProfileRecord.last.user_id.should == user.id
 
     page.should_not have_css('img[src="/assets/hero-gallery/TacoBell_1.jpg"]')
     page.should have_css('img[src="/assets/hero-gallery/bk2.jpg"]')

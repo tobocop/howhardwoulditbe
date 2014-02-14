@@ -99,4 +99,42 @@ describe Gigya do
       response.should == response_stub
     end
   end
+
+  describe '#get_user_info' do
+    let(:params) { {site_user_id: 123} }
+    let(:request) { double(body: 'some stuff') }
+    let(:http) { double(perform_request: request) }
+
+    before do
+      Gigya::Http.stub(:new).and_return(http)
+      Gigya::UserInfoResponse.stub(:from_json).and_return('another thing')
+    end
+
+    it 'gets a new gigya http object with the correct params' do
+      http_params = {
+        api_method: 'socialize.getUserInfo' ,
+        url_params: {
+          format: 'json',
+          extraFields: 'languages, address, phones, education, honors, publications, patents, certifications, professionalHeadline, bio, industry, specialties, work, skills, religion, politicalView, interestedIn, relationshipStatus, hometown, favorites, likes, followersCount, followingCount, username, locale, verified, irank, timezone',
+          uid: 234
+        }
+      }
+
+      Gigya::Http.should_receive(:new).with(gigya.config, http_params).and_return(http)
+
+      gigya.get_user_info(234)
+    end
+
+    it 'calls perform_request on the gigya http object' do
+      http.should_receive(:perform_request).and_return(request)
+
+      gigya.get_user_info(234)
+    end
+
+    it 'returns a new gigya user info response' do
+      Gigya::UserInfoResponse.should_receive(:from_json).with('some stuff').and_return('some other stuff')
+
+      gigya.get_user_info(234).should == 'some other stuff'
+    end
+  end
 end

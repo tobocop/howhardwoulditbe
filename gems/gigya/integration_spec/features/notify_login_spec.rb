@@ -10,7 +10,10 @@ describe Gigya do
 
     response.should be_successful
 
-    # Test that the user actually wound up in Gigya's DB
-    # Make sure the e-mail address is populated when returned. We saw it not populate once, no idea how.
+    get_user_info = gigya.get_user_info(uuid)
+
+    get_user_info.should be_successful
+    parsed_json = JSON.parse(get_user_info.json)
+    parsed_json['email'].should == "#{uuid}@example.com"
   end
 end

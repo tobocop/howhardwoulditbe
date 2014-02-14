@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140206213550) do
+ActiveRecord::Schema.define(:version => 20140214151123) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -2341,6 +2341,13 @@ ActiveRecord::Schema.define(:version => 20140206213550) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.boolean  "is_active",               :default => true, :null => false
+  end
+
+  create_table "users_social_profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "profile"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "virtualCurrencies", :primary_key => "virtualCurrencyID", :force => true do |t|

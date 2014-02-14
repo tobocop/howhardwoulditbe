@@ -7,10 +7,11 @@ require 'openssl'
 
 # internal requires
 require 'gigya/config'
-require 'gigya/http'
 require 'gigya/gigya_response'
+require 'gigya/http'
 require 'gigya/notify_login_response'
 require 'gigya/signature'
+require 'gigya/user_info_response'
 require 'gigya/version'
 
 class Gigya
@@ -65,5 +66,17 @@ class Gigya
     response = Gigya::Http.new(config, api_method: 'socialize.setStatus', url_params: params).perform_request
 
     Gigya::GigyaResponse.from_json(response.body)
+  end
+
+  def get_user_info(site_user_id)
+    params = {
+      format: 'json',
+      extraFields: 'languages, address, phones, education, honors, publications, patents, certifications, professionalHeadline, bio, industry, specialties, work, skills, religion, politicalView, interestedIn, relationshipStatus, hometown, favorites, likes, followersCount, followingCount, username, locale, verified, irank, timezone',
+      uid: site_user_id
+    }
+
+    response = Gigya::Http.new(config, api_method: 'socialize.getUserInfo', url_params: params).perform_request
+
+    Gigya::UserInfoResponse.from_json(response.body)
   end
 end

@@ -4,6 +4,7 @@ shared_examples_for(:auto_login_extensions) do
 
   before do
     controller.stub(:redirect_to)
+    controller.stub(:sign_in_user)
   end
 
   it 'looks up the auto login token for a user' do

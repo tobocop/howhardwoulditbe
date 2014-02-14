@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
   def sign_in_user(user)
     set_user_session(user.id)
     set_auto_login_cookie(user.password_hash)
+    SocialProfileService.delay.get_users_social_profile(user.id)
   end
 
   def sign_out_user
