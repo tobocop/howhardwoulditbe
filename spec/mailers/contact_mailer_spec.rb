@@ -18,6 +18,7 @@ describe ContactMailer do
       email.to.should == [Rails.application.config.contact_email_address]
       email.from.should == ['bob@example.com']
       email.subject.should == 'Contact Form: [sorcery]'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["ContactMailer.contact_email"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)

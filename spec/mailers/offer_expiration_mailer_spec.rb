@@ -15,6 +15,7 @@ describe OfferExpirationMailer do
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
       email.subject.should == 'wally world has expired'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["OfferExpirationMailer.offer_removed_email"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s
@@ -25,7 +26,7 @@ describe OfferExpirationMailer do
       end
     end
   end
-  describe 'offer_removed_email' do
+  describe 'offer_expiring_soon_email' do
     it 'sends an email indicating that an offer has been automatically removed from a users wallet' do
       email = OfferExpirationMailer.offer_expiring_soon_email(
         first_name: 'Merlin',
@@ -43,6 +44,7 @@ describe OfferExpirationMailer do
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
       email.subject.should == 'wally world has expired'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["OfferExpirationMailer.offer_expiring_soon_email"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s

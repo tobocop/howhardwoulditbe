@@ -12,6 +12,7 @@ end
 module PlinkPivotal
   class Application < Rails::Application
     config.encoding = "utf-8"
+    config.i18n.enforce_available_locales = true
     config.filter_parameters += [:password, :password_confirmation, :mfa_question, :auth]
     config.active_support.escape_html_entities_in_json = true
     config.active_record.whitelist_attributes = true

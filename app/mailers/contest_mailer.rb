@@ -1,4 +1,4 @@
-class ContestMailer < ActionMailer::Base
+class ContestMailer < PlinkMailer
   default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def daily_reminder_email(args)

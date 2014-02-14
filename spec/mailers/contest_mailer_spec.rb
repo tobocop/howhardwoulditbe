@@ -29,6 +29,7 @@ describe ContestMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'enter now enter now'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["ContestMailer.daily_reminder_email"]}'
       email.html_part.body.should have_content 'sneak peak'
       email.html_part.body.should have_content 'link to here'
       email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'
@@ -70,6 +71,7 @@ describe ContestMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'hurry up and enter sooooooon'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["ContestMailer.three_day_reminder_email"]}'
       email.html_part.body.should have_content 'sneak peak'
       email.html_part.body.should have_content 'link to elsewhere'
       email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'
@@ -109,6 +111,7 @@ describe ContestMailer do
       email.to.should == ['user@example.com']
       email.from.should == ['info@plink.com']
       email.subject.should == 'you won congrats'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["ContestMailer.winner_email"]}'
       email.html_part.body.should have_content 'sneak peak'
       email.html_part.body.should have_content 'link to there'
       email.html_part.body.should have_content 'http://plink-email.s3.amazonaws.com/'

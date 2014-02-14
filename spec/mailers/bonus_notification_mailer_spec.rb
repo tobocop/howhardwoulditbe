@@ -18,6 +18,7 @@ describe BonusNotificationMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'Get an easy 25 bonus points'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["BonusNotificationMailer.out_of_wallet_transaction_email"]}'
 
       [email.text_part, email.html_part].each do |part|
         body = part.body.to_s
@@ -50,6 +51,7 @@ describe BonusNotificationMailer do
       email.reply_to.should == ['support@plink.com']
       email.return_path.should == 'bounces@plink.com'
       email.subject.should == 'You missed out on Plink Points'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["BonusNotificationMailer.out_of_wallet_transaction_reminder_email"]}'
 
       [email.text_part, email.html_part].each do |part|
         body = part.body.to_s

@@ -8,6 +8,7 @@ describe UserRegistrationMailer do
       email.to.should == ['jobo@example.com']
       email.header['From'].to_s.should == 'Plink <info@plink.com>'
       email.subject.should == 'Welcome to Plink'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["UserRegistrationMailer.welcome"]}'
 
       [email.html_part, email.text_part].each do |email_part|
         email_string = Capybara.string(email_part.body.to_s)
@@ -26,6 +27,7 @@ describe UserRegistrationMailer do
       email.to.should == ['jobo@example.com']
       email.header['From'].to_s.should == 'Plink <info@plink.com>'
       email.subject.should == 'Important Account Information - Your registration is incomplete'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["UserRegistrationMailer.complete_registration"]}'
 
       [email.html_part, email.text_part].each do |email_part|
         email_string = Capybara.string(email_part.body.to_s)

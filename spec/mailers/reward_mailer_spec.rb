@@ -20,6 +20,7 @@ describe RewardMailer do
       email.to.should == ['spelling@joesspellingacademy.com']
       email.from.should == ['info@plink.com']
       email.subject.should == "You've just earned Plink Points!"
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["RewardMailer.reward_notification_email"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s

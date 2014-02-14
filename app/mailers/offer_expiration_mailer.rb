@@ -1,4 +1,4 @@
-class OfferExpirationMailer < ActionMailer::Base
+class OfferExpirationMailer < PlinkMailer
   default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def offer_removed_email(args)

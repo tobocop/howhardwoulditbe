@@ -1,4 +1,4 @@
-class RewardMailer < ActionMailer::Base
+class RewardMailer < PlinkMailer
   default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def reward_notification_email(args)

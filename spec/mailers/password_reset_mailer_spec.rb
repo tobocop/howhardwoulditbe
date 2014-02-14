@@ -11,6 +11,7 @@ describe PasswordResetMailer do
       email.header['From'].to_s.should == 'Plink <info@plink.com>'
 
       email.subject.should == 'Plink: Password Reset Instructions'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["PasswordResetMailer.instructions"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = Capybara.string(part.body.to_s)

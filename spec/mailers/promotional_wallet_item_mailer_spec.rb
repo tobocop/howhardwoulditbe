@@ -14,6 +14,7 @@ describe PromotionalWalletItemMailer do
       email.to.should == ['archie.leach@example.com']
       email.from.should == ['info@plink.com']
       email.subject.should == "You've unlocked an extra wallet slot"
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["PromotionalWalletItemMailer.unlock_promotional_wallet_item_email"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s

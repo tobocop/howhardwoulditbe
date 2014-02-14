@@ -1,4 +1,4 @@
-class BonusNotificationMailer < ActionMailer::Base
+class BonusNotificationMailer < PlinkMailer
   default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def out_of_wallet_transaction_email(args)

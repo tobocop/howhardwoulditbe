@@ -1,4 +1,4 @@
-class PromotionalWalletItemMailer < ActionMailer::Base
+class PromotionalWalletItemMailer < PlinkMailer
   default from: 'Plink <info@plink.com>', return_path: 'bounces@plink.com'
 
   def unlock_promotional_wallet_item_email(args)

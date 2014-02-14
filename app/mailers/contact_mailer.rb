@@ -1,4 +1,4 @@
-class ContactMailer < ActionMailer::Base
+class ContactMailer < PlinkMailer
 
   default to: Rails.application.config.contact_email_address
 
