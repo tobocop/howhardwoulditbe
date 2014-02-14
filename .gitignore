@@ -42,4 +42,5 @@ exceptional.yml
 elasticsearch.yml
 salt.yml
 librato.yml
+aws.yml
 statsd.js
