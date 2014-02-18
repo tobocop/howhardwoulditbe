@@ -25,6 +25,9 @@ echo -e "test:\n base_url: $TANGO_BASE_URL\n username: $TANGO_USERNAME\n passwor
 touch config/salt.yml
 echo -e "test:\n salt: stuff\n" > config/salt.yml
 
+touch config/aws.yml
+echo -e "test:\n access_key_id: key\n secret_access_key: secret" > config/aws.yml
+
 sudo sh -c "echo '127.0.0.1 plink.test' >> /etc/hosts"
 export RAILS_ENV=test
 
