@@ -81,6 +81,7 @@ namespace :application_keys do
     run "ln -nfs #{shared_path}/config/intuit.yml #{release_path}/config/intuit.yml"
     run "ln -nfs #{shared_path}/config/salt.yml #{release_path}/config/salt.yml"
     run "ln -nfs #{shared_path}/config/librato.yml #{release_path}/config/librato.yml"
+    run "ln -nfs #{shared_path}/config/aws.yml #{release_path}/config/aws.yml"
   end
   after "deploy:finalize_update", "application_keys:symlink"
 
@@ -117,5 +118,17 @@ namespace :application_keys do
 
     template "intuit.yml.erb", "#{shared_path}/config/intuit.yml"
   end
-  after "application_keys:setup", "application_keys:setup_lyris"
+  after "application_keys:setup", "application_keys:setup_intuit"
+
+  task :setup_aws, roles: :app do
+    set_default :aws_access_key_id do
+      Capistrano::CLI.password_prompt 'AWS Access Key ID: '
+    end
+    set_default :aws_secret_access_key do
+      Capistrano::CLI.password_prompt 'AWS Secret Access Key: '
+    end
+
+    template "intuit.yml.erb", "#{shared_path}/config/aws.yml"
+  end
+  after "application_keys:setup", "application_keys:setup_aws"
 end

@@ -23,6 +23,7 @@ gem 'tire'
 gem 'exceptional'
 gem 'librato-rails'
 gem 'statsd-instrument'
+gem 'aws-sdk', '~> 1.34.0'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

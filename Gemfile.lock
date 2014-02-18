@@ -97,6 +97,10 @@ GEM
     aggregate (0.2.2)
     ansi (1.4.3)
     arel (3.0.3)
+    aws-sdk (1.34.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     bcrypt-ruby (3.0.0)
     builder (3.0.4)
     capistrano (2.15.5)
@@ -308,6 +312,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uuidtools (2.1.4)
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
@@ -328,6 +333,7 @@ DEPENDENCIES
   activerecord-redshift-adapter
   activerecord-sqlserver-adapter (= 3.2.10)
   aggcat!
+  aws-sdk (~> 1.34.0)
   capistrano (~> 2.15.5)
   capistrano-ext
   capybara (~> 2.1.0)
