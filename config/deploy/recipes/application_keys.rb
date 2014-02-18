@@ -128,7 +128,7 @@ namespace :application_keys do
       Capistrano::CLI.password_prompt 'AWS Secret Access Key: '
     end
 
-    template "intuit.yml.erb", "#{shared_path}/config/aws.yml"
+    template "aws.yml.erb", "#{shared_path}/config/aws.yml"
   end
   after "application_keys:setup", "application_keys:setup_aws"
 end
