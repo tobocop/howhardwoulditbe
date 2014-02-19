@@ -446,7 +446,7 @@ describe InstitutionsController do
     let(:active_by_user_id) { double(pluck: [21, 56]) }
 
     before do
-      Plink::UsersInstitutionAccountStagingRecord.stub_chain(:select, :where, :first).
+      Plink::UsersInstitutionAccountStagingRecord.stub_chain(:select, :where, :last).
         and_return(users_institution_account_staging)
       Plink::UsersInstitutionAccountRecord.stub(:active_by_user_id).and_return(active_by_user_id)
       controller.stub(:select_account)
@@ -456,6 +456,19 @@ describe InstitutionsController do
       post :select
 
       response.body.should be_blank
+    end
+
+    it 'returns the most recently created staged account by intuit account id' do
+      select = double
+      where = double
+
+      Plink::UsersInstitutionAccountStagingRecord.should_receive(:select).
+        with([:usersInstitutionAccountStagingID, :usersInstitutionID]).
+        and_return(select)
+      select.should_receive(:where).with(accountID: '23', userID: 1).and_return(where)
+      where.should_receive(:last).and_return(users_institution_account_staging)
+
+      post :select, intuit_account_id: 23
     end
 
     it 'gets a list of users institution account ids to end date' do

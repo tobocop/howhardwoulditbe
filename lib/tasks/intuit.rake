@@ -57,12 +57,11 @@ private
   def staged_accounts_to_remove
     Plink::UsersInstitutionAccountStagingRecord.
       joins('LEFT OUTER JOIN usersInstitutionAccounts ON
-        usersInstitutionAccounts.usersInstitutionAccountStagingID = usersInstitutionAccountsStaging.usersInstitutionAccountStagingID').
+        usersInstitutionAccounts.accountID = usersInstitutionAccountsStaging.accountID').
       where('usersInstitutionAccounts.usersInstitutionAccountStagingID IS NULL').
       where('usersInstitutionAccountsStaging.created < ?', 2.days.ago).
       where('usersInstitutionAccountsStaging.inIntuit = ?', true)
   end
-
 
   def stars
     puts '*' * 150

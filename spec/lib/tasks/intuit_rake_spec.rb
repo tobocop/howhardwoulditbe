@@ -74,6 +74,13 @@ describe 'intuit:remove_staged_accounts' do
 
     it 'does not remove accounts that have been chosen' do
       Plink::UsersInstitutionAccountRecord.create(account_to_remove.values_for_final_account)
+      create_users_institution_account_staging(
+        account_id: 2,
+        created: 3.days.ago,
+        in_intuit: true,
+        user_id: 4,
+        users_institution_id: 3
+      )
 
       intuit_account_removal_service.should_not_receive(:remove)
 

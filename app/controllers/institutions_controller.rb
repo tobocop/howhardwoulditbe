@@ -97,7 +97,7 @@ class InstitutionsController < ApplicationController
   def select
     staged_account = Plink::UsersInstitutionAccountStagingRecord.
       select([:usersInstitutionAccountStagingID, :usersInstitutionID]).
-      where(accountID: params[:intuit_account_id], userID: current_user.id).first
+      where(accountID: params[:intuit_account_id], userID: current_user.id).last
 
     accounts_to_end_date = Plink::UsersInstitutionAccountRecord.
       active_by_user_id(current_user.id).
