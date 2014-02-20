@@ -115,6 +115,7 @@ private
 
       if reverification_presenter.can_be_sent?
         mail_params = {
+          additional_category_information: reverification_presenter.intuit_error_id,
           email: user.email,
           explanation_message: reverification_presenter.explanation_message,
           first_name: user.first_name,

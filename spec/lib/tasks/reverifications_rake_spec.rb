@@ -296,6 +296,7 @@ describe 'reverifications:send_reverification_notices' do
     it 'emails users who have an unsent notification' do
       mailer.should_receive(:notice_email).
         with({
+        additional_category_information: 103,
         email: 'myshitisbroken@intuit.com',
         explanation_message: "We're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
         first_name: 'bobby',
@@ -373,6 +374,7 @@ describe 'reverifications:send_reverification_notices' do
     it 'emails users who have a reverification record from three days ago' do
       mailer.should_receive(:notice_email).
         with({
+        additional_category_information: 103,
         email: 'myshitisbroken@intuit.com',
         explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
         first_name: 'bobby',
@@ -394,6 +396,7 @@ describe 'reverifications:send_reverification_notices' do
     it 'emails users who have a reverification record from seven days ago' do
       mailer.should_receive(:notice_email).
         with({
+        additional_category_information: 103,
         email: 'myshitisbroken@intuit.com',
         explanation_message: "Just a reminder: we're unable to access your Plink account's transaction history - it looks like the username or password for your online bank account has changed.",
         first_name: 'bobby',

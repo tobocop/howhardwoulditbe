@@ -2,9 +2,10 @@ require 'spec_helper'
 
 describe ReverificationMailer do
   describe 'notice_email' do
-    it 'sends a reward notification email to the user' do
+    it 'sends a reverification notice email to the user' do
       email = ReverificationMailer.notice_email(
         {
+          additional_category_information: 103,
           email: 'myshitisbroken@intuit.com',
           explanation_message: 'Explain yourself!',
           first_name: 'bobby',
@@ -19,7 +20,7 @@ describe ReverificationMailer do
       email.to.should == ['myshitisbroken@intuit.com']
       email.from.should == ['info@plink.com']
       email.subject.should == "Update Your Plink Account"
-      email.header['X-SMTPAPI'].to_s.should == '{"category":["ReverificationMailer.notice_email"]}'
+      email.header['X-SMTPAPI'].to_s.should == '{"category":["ReverificationMailer.notice_email.103"]}'
 
       [email.html_part, email.text_part].each do |part|
         body = part.body.to_s
