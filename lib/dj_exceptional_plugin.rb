@@ -6,7 +6,7 @@ class DJExceptionalPlugin < Delayed::Plugin
       begin
         block.call(job, *args)
       rescue Exception => error
-        ::Exceptional::Catcher.handle("DJ Error: #{$!}")
+        ::Exceptional::Catcher.handle(error)
         raise error
       end
     end
