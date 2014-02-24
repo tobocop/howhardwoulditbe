@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 describe Plink::UserService do
+  describe '#initialize' do
+    it 'can be initialized to use an unscoped record' do
+      user_service = Plink::UserService.new(true)
+      user_service.unscoped.should be_true
+    end
+
+    it 'defaults unscoped to false if not provided' do
+      user_service = Plink::UserService.new
+      user_service.unscoped.should be_false
+    end
+  end
+
   describe '#find_by_id' do
     it 'returns the user with the given id' do
       user = create_user
@@ -123,6 +135,12 @@ describe Plink::UserService do
       subject.find_by_id(user.id).is_subscribed.should == false
     end
 
+    it 'updates the unsubscribe date if you pass in is_subscribed = 0' do
+      subject.update_subscription_preferences(user.id, is_subscribed: '0')
+
+      subject.find_by_id(user.id).unsubscribe_date.should_not be_nil
+    end
+
     it 'does not raise if you don\'t pass in a is_subscribed value' do
       expect {
         subject.update_subscription_preferences(user.id, is_subscribed: nil)
@@ -143,6 +161,41 @@ describe Plink::UserService do
       expect {
         subject.update_subscription_preferences(user.id, daily_contest_reminder: nil)
       }.to_not raise_exception
+    end
+  end
+
+  context 'unscoped' do
+    let!(:deactivated_user) {
+      create_user(
+        email: 'someuser@example.com',
+        is_force_deactivated: true,
+        password_hash: 'HASH'
+      )
+    }
+    let(:user_service) { Plink::UserService.new(true) }
+
+    describe '#find_by_id' do
+      it 'returns a force deactivated user when unscoped' do
+        user_service.find_by_id(deactivated_user.id).should be_instance_of Plink::User
+      end
+    end
+
+    describe '#find_by_email' do
+      it 'returns a force deactivated user when unscoped' do
+        user_service.find_by_email('someuser@example.com').should be_instance_of Plink::User
+      end
+    end
+
+    describe '#search_by_email' do
+      it 'returns a force deactivated users when unscoped' do
+        user_service.search_by_email('someuser@').count.should == 1
+      end
+    end
+
+    describe '#find_by_password_hash' do
+      it 'returns a force deactivated users when unscoped' do
+        user_service.find_by_password_hash('HASH').should be_instance_of Plink::User
+      end
     end
   end
 end

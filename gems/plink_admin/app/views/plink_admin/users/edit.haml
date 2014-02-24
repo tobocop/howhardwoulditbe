@@ -1,5 +1,8 @@
 %h3 Unlock Locked Wallet Items
 
+%h4= "User Account"
+= render partial: 'user_form', locals: {button_text: 'Save', user: @user, url: plink_admin.user_path(@user)}
+
 %h4= "Locked Wallet Items: #{@user.wallet_item_records.locked_records.count}"
 %ol
   - @user.wallet_item_records.locked_records.each do |wallet_item|

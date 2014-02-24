@@ -1,0 +1,22 @@
+- if user.errors.any?
+  .alert-box.alert
+    - user.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(user, url: url, as: 'user') do |f|
+  .columns.large-6
+    = f.label :email
+    = f.text_field :email
+    = f.label :hold_redemptions
+    = f.check_box :hold_redemptions
+    = f.label :deactivated
+    = f.check_box :is_force_deactivated
+
+  .clear
+
+  = f.submit button_text, class: 'button small'
+
+  = link_to 'Cancel', plink_admin.users_path, class: 'button small secondary'
+
+  %hr
+

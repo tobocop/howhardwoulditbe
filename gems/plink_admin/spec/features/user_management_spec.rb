@@ -34,6 +34,34 @@ describe 'User Management' do
     page.should have_content 'Bank of representin'
     page.should have_content 'representing checks 4321'
 
+    fill_in 'user_email', with: 'gumbo@example.com'
+    check 'user_hold_redemptions'
+    click_on 'Save'
+
+    page.should have_content 'User successfully updated'
+    find_field('user_email').value.should == 'gumbo@example.com'
+    find_field('user_hold_redemptions').should be_checked
+
+    check 'user_is_force_deactivated'
+    click_on 'Save'
+
+    page.should have_content 'User successfully updated'
+    find_field('user_is_force_deactivated').should be_checked
+
+    click_on 'Find Users'
+    fill_in 'email', with: 'resetByAdmin_gumbo@example.com'
+    click_on 'Search'
+
+    within '.search-results' do
+      page.should have_content 'gumbo'
+      click_on 'Edit User'
+    end
+
+    uncheck 'user_is_force_deactivated'
+    click_on 'Save'
+
+    page.should have_content 'User successfully updated'
+
     click_on 'Find Users'
 
     fill_in 'user_id', with: user.id
@@ -41,7 +69,7 @@ describe 'User Management' do
 
     within '.search-results' do
       page.should have_content 'oldmanjumbo'
-      within 'tr', text: 'jumbalaya@example.com' do
+      within 'tr', text: 'gumbo@example.com' do
         click_on "Impersonate"
       end
     end

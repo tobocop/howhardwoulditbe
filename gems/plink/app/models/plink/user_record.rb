@@ -16,13 +16,15 @@ module Plink
 
     include Plink::LegacyTimestamps
 
-    attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder, :email,
-      :first_name, :hold_redemptions, :ip, :is_force_deactivated, :is_male, :login_token,
-      :last_name, :password_hash, :provider, :salt, :state, :username, :user_agent, :zip
+    attr_accessible :avatar_thumbnail_url, :birthday, :city, :daily_contest_reminder,
+      :deactivation_date, :email, :first_name, :hold_redemptions, :ip, :is_force_deactivated,
+      :is_male, :login_token, :last_name, :password_hash, :provider, :salt, :state,
+      :unsubscribe_date, :username, :user_agent, :zip
 
     has_many :hero_promotion_users, class_name: 'Plink::HeroPromotionUserRecord', foreign_key: 'hero_promotion_id'
     has_many :hero_promotions, through: :hero_promotion_users, foreign_key: 'hero_promotion_id'
 
+    alias_attribute :deactivation_date, :deactivationDate
     alias_attribute :email, :emailAddress
     alias_attribute :first_name, :firstName
     alias_attribute :hold_redemptions, :holdRedemptions
@@ -34,6 +36,7 @@ module Plink
     alias_attribute :password_hash, :password
     alias_attribute :primary_virtual_currency_id, :primaryVirtualCurrencyID
     alias_attribute :salt, :passwordSalt
+    alias_attribute :unsubscribe_date, :unsubscribeDate
     alias_attribute :user_agent, :userAgent
     alias_attribute :zip, :homeZipCode
 

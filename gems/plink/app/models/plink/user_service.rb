@@ -1,19 +1,25 @@
 module Plink
   class UserService
+    attr_accessor :unscoped
+
+    def initialize(unscoped = false)
+      @unscoped = unscoped
+    end
+
     def find_by_id(id)
       create_user(find_user_record(id))
     end
 
     def find_by_email(email)
-      create_user(Plink::UserRecord.where(emailAddress: email).first)
+      create_user(plink_user_record.where(emailAddress: email).first)
     end
 
     def search_by_email(email, max_results = 25)
-      create_users(Plink::UserRecord.where("emailAddress LIKE ?", "#{email}%").limit(max_results))
+      create_users(plink_user_record.where("emailAddress LIKE ?", "#{email}%").limit(max_results))
     end
 
     def find_by_password_hash(password_hash)
-      create_user(Plink::UserRecord.where(password: password_hash.chomp).first)
+      create_user(plink_user_record.where(password: password_hash.chomp).first)
     end
 
     def update(id, attributes={})
@@ -46,9 +52,9 @@ module Plink
 
     def update_subscription_preferences(user_id, attributes)
       user_record = find_user_record(user_id)
-
       is_subscribed = attributes[:is_subscribed]
       user_record.update_attribute(:is_subscribed, is_subscribed) if is_subscribed.present?
+      user_record.update_attribute(:unsubscribe_date, Time.zone.now) if is_subscribed == '0'
 
       daily_contest_reminder = attributes[:daily_contest_reminder]
       user_record.update_attribute(:daily_contest_reminder, daily_contest_reminder) if daily_contest_reminder.present?
@@ -59,7 +65,11 @@ module Plink
     private
 
     def find_user_record(id)
-      Plink::UserRecord.find_by_id(id)
+      plink_user_record.find_by_id(id)
+    end
+
+    def plink_user_record
+      @plink_user_record ||= @unscoped ? Plink::UserRecord.unscoped : Plink::UserRecord
     end
 
     def create_users(user_records)

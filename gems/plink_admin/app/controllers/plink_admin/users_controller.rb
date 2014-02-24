@@ -6,10 +6,8 @@ module PlinkAdmin
     end
 
     def edit
-      @user = Plink::UserRecord.find(params[:id])
-      @unlock_reasons = Plink::WalletRecord::UNLOCK_REASONS
-      @wallet_id = @user.wallet.id
-      @users_institutions = Plink::UsersInstitutionRecord.find_by_user_id(@user.id).order('usersInstitutionID desc')
+      @user = plink_user_record.find(params[:id])
+      user_data
     end
 
     def search
@@ -20,6 +18,20 @@ module PlinkAdmin
         Array(plink_user_service.find_by_id(@search_term))
 
       render :index
+    end
+
+    def update
+      @user = plink_user_record.find(params[:id])
+      user_state = PlinkAdmin::UserUpdateWithActiveStateManager.new(@user)
+
+      if user_state.update_attributes(params[:user])
+        flash[:notice] = 'User successfully updated'
+      else
+        flash[:notice] = 'User could not be updated'
+      end
+
+      user_data
+      render :edit
     end
 
     def impersonate
@@ -35,7 +47,17 @@ module PlinkAdmin
     private
 
     def plink_user_service
-      @plink_user_service ||= Plink::UserService.new
+      @plink_user_service ||= Plink::UserService.new(true)
+    end
+
+    def plink_user_record
+      @plink_user_record ||= Plink::UserRecord.unscoped
+    end
+
+    def user_data
+      @unlock_reasons = Plink::WalletRecord::UNLOCK_REASONS
+      @wallet_id = @user.wallet.id
+      @users_institutions = Plink::UsersInstitutionRecord.find_by_user_id(@user.id).order('usersInstitutionID desc')
     end
   end
 end

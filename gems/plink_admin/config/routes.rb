@@ -19,7 +19,7 @@ PlinkAdmin::Engine.routes.draw do
   resources :users_institution_accounts, only: :destroy
   resources :offers, only: [:index, :edit, :update]
 
-  resources :users, only: [:index] do
+  resources :users, only: [:index, :update] do
     get :search, on: :collection
     get :edit, on: :member
     post :impersonate, on: :member

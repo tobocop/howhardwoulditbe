@@ -1,5 +1,5 @@
 module PlinkAdmin
-  class ApplicationController < ActionController::Base
+  class PlinkAdmin::ApplicationController < ActionController::Base
 
     layout 'plink_admin/application'
 

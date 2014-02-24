@@ -7,6 +7,7 @@ describe Plink::UserRecord do
   it { should allow_mass_assignment_of(:birthday) }
   it { should allow_mass_assignment_of(:city) }
   it { should allow_mass_assignment_of(:daily_contest_reminder) }
+  it { should allow_mass_assignment_of(:deactivation_date) }
   it { should allow_mass_assignment_of(:email) }
   it { should allow_mass_assignment_of(:first_name) }
   it { should allow_mass_assignment_of(:hold_redemptions) }
@@ -18,6 +19,7 @@ describe Plink::UserRecord do
   it { should allow_mass_assignment_of(:provider) }
   it { should allow_mass_assignment_of(:salt) }
   it { should allow_mass_assignment_of(:state) }
+  it { should allow_mass_assignment_of(:unsubscribe_date) }
   it { should allow_mass_assignment_of(:user_agent) }
   it { should allow_mass_assignment_of(:username) }
   it { should allow_mass_assignment_of(:zip) }

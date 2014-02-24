@@ -61,6 +61,7 @@ describe Plink::User do
     user.provider.should == 'twitter'
     user.salt.should == 'angelinajolie'
     user.state.should == 'Derp'
+    user.unsubscribe_date.should be_nil
     user.wallet.id.should == wallet.id
     user.wallet.open_wallet_items.size.should == 1
     user.zip.should == 80204

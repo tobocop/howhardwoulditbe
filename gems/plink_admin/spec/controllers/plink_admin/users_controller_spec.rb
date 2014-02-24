@@ -8,30 +8,41 @@ describe PlinkAdmin::UsersController do
   end
 
   describe 'GET edit' do
-    let(:user) { create_user }
+    let(:wallet) { double(:wallet, id: 30) }
+    let(:user) { double(Plink::UserRecord, id: 200, wallet: wallet) }
     let(:users_institutions) { [double] }
-    let(:find_by_user_id) { double(order: users_institutions) }
-    let!(:wallet) { create_wallet(user_id: user.id) }
     let(:unlock_reasons) { {'app_install_promotion'=>'app_install_promotion', 'join'=>'join', 'promotion'=>'promotion', 'referral'=>'referral', 'transaction'=>'transaction'} }
+    let(:plink_user_record) { double(Plink::UserRecord, scoped: true, find: user) }
 
     before do
-      Plink::UsersInstitutionRecord.stub(:find_by_user_id).and_return(find_by_user_id)
-      get :edit, id: user.id
+      controller.stub(:plink_user_record).and_return(plink_user_record)
+      Plink::UsersInstitutionRecord.stub_chain(:find_by_user_id, :order).
+        and_return(users_institutions)
     end
 
     it 'assigns user to the user whose :id is passed as a parameter' do
+      plink_user_record.should_receive(:find).with('200').and_return(user)
+
+      get :edit, id: 200
+
       assigns(:user).should == user
     end
 
     it 'assigns unlock_reasons' do
+      get :edit, id: 200
+
       assigns(:unlock_reasons).should == unlock_reasons
     end
 
     it 'assigns wallet_id to the users wallet.id' do
+      get :edit, id: 200
+
       assigns(:wallet_id).should == user.wallet.id
     end
 
     it 'assigns the users institutions' do
+      get :edit, id: 200
+
       assigns(:users_institutions).should == users_institutions
     end
   end
@@ -40,9 +51,7 @@ describe PlinkAdmin::UsersController do
     let(:user_mock) { mock(:user) }
     let(:mock_user_service) { mock(:user_service, search_by_email: [user_mock]) }
 
-    before do
-      controller.stub(plink_user_service: mock_user_service)
-    end
+    before { controller.stub(plink_user_service: mock_user_service) }
 
     it 'searches by the email param' do
       get :search, email: 'user@example.com'
@@ -68,6 +77,66 @@ describe PlinkAdmin::UsersController do
       get :search, email: 'user@example.com'
 
       response.should render_template :index
+    end
+  end
+
+  describe 'PUT update' do
+    let(:user) { double(Plink::UserRecord) }
+    let(:plink_user_record) { double(Plink::UserRecord, scoped: true, find: user) }
+    let(:update_manager) { double(PlinkAdmin::UserUpdateWithActiveStateManager, update_attributes: true) }
+    before do
+      controller.stub(:plink_user_record).and_return(plink_user_record)
+      controller.stub(:user_data)
+      PlinkAdmin::UserUpdateWithActiveStateManager.stub(:new).and_return(update_manager)
+    end
+
+    it 'assigns user to the user whose :id was passed as a parameter' do
+      plink_user_record.should_receive(:find).with('200').and_return(user)
+
+      put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+
+      assigns(:user).should == user
+    end
+
+    it 'creates the update decorator with the user that was found' do
+      PlinkAdmin::UserUpdateWithActiveStateManager.should_receive(:new).
+        with(user).
+        and_return(update_manager)
+
+      put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+    end
+
+    it 'calls the update with the passed in id and params' do
+      update_manager.should_receive(:update_attributes).
+        with({'email' => 'updated@email_address.com'}).
+        and_return(true)
+
+      put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+    end
+
+    it 'renders the edit form' do
+      put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+
+      response.should render_template :edit
+    end
+
+    context 'when the update is successful' do
+      it 'sets the flash message to success' do
+        put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+
+        flash[:notice].should == 'User successfully updated'
+
+      end
+    end
+
+    context 'when the update is not successful' do
+      before { update_manager.stub(:update_attributes).and_return(false) }
+
+      it 'sets the flash message to a failure message' do
+        put :update, {id: 200, user: {email: 'updated@email_address.com'}}
+
+        flash[:notice].should == 'User could not be updated'
+      end
     end
   end
 
