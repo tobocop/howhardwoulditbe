@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'plink/test_helpers/fake_services/fake_intuit_account_service'
 
 describe RedemptionController do
   before do
@@ -26,11 +25,11 @@ describe RedemptionController do
 
   describe 'POST create' do
     let(:fake_reward_redemption_service) { double(redeem: true) }
-    let(:fake_intuit_account_service) { Plink::FakeIntuitAccountService.new({134 => true}) }
+    let(:user_redemption_attempt) { double(UserRedemptionAttempt, valid?: true, error_messages: 'my reason') }
 
     before do
       controller.stub(plink_redemption_service: fake_reward_redemption_service)
-      controller.stub(plink_intuit_account_service: fake_intuit_account_service)
+      UserRedemptionAttempt.stub(:new).and_return(user_redemption_attempt)
     end
 
     it 'should require the user to be signed in' do
@@ -42,13 +41,13 @@ describe RedemptionController do
       post :create
     end
 
-    it 'redirect to the rewards page and also sets a flash error message when a user does not have a card linked' do
-      controller.stub(plink_intuit_account_service: Plink::FakeIntuitAccountService.new({134 => false}))
+    it 'redirect to the rewards page and also sets a flash error message when a user cannot redeem' do
+      user_redemption_attempt.stub(:valid?).and_return(false)
 
       post :create
 
       response.should redirect_to rewards_path
-      flash[:error].should == 'You must have a linked card to redeem an award.'
+      flash[:error].should == 'my reason'
     end
 
     it 'redirect to the rewards page and also sets a flash error message when a redemption can not be created' do

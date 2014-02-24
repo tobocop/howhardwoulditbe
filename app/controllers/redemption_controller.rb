@@ -7,7 +7,8 @@ class RedemptionController < ApplicationController
   end
 
   def create
-    if plink_intuit_account_service.user_has_account?(current_user.id)
+    user_redemption_attempt = UserRedemptionAttempt.new(current_user.id)
+    if user_redemption_attempt.valid?
       if redemption
         redirect_to redemption_path(reward_amount_id: params[:reward_amount_id])
       else
@@ -15,7 +16,7 @@ class RedemptionController < ApplicationController
         redirect_to rewards_path
       end
     else
-      flash[:error] = 'You must have a linked card to redeem an award.'
+      flash[:error] = user_redemption_attempt.error_messages
       redirect_to rewards_path
     end
   end
@@ -34,10 +35,6 @@ class RedemptionController < ApplicationController
         first_name: current_user.first_name,
         email: current_user.email
     )
-  end
-
-  def plink_intuit_account_service
-    Plink::IntuitAccountService.new
   end
 
   def redemption

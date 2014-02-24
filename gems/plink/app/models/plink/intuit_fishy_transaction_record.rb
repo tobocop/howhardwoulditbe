@@ -8,5 +8,10 @@ module Plink
       :is_search_pattern_pending, :job_id, :offer_id, :offers_virtual_currency_id, :payee_name,
       :post_date, :search_pattern_id, :task_id, :tier_id, :uia_account_id, :user_id,
       :users_institution_id, :users_virtual_currency_id, :virtual_currency_id
+
+    scope :active_by_user_id, -> (user_id) {
+      where(user_id: user_id).
+      where(is_active: true)
+    }
   end
 end

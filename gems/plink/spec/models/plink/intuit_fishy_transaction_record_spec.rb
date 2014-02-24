@@ -65,4 +65,32 @@ describe Plink::IntuitFishyTransactionRecord do
   it 'can be persisted' do
     Plink::IntuitFishyTransactionRecord.create(valid_params).should be_persisted
   end
+
+  context 'scopes' do
+    describe '.active_by_user_id' do
+      let!(:intuit_fishy_transaction_record) { create_intuit_fishy_transaction(user_id: 34, is_active: true) }
+      let(:active_by_user_id) { Plink::IntuitFishyTransactionRecord.active_by_user_id(34) }
+
+      before do
+        create_intuit_fishy_transaction(user_id: 24, is_active: true)
+      end
+
+      it 'returns records that are active where the user_id matches' do
+        active_by_user_id.length.should == 1
+        active_by_user_id.first.id.should == intuit_fishy_transaction_record.id
+      end
+
+      it 'does not return inactive records' do
+        intuit_fishy_transaction_record.update_attribute('is_active', false)
+
+        active_by_user_id.length.should == 0
+      end
+
+      it 'does not return records where the user_id doesn\'t match' do
+        intuit_fishy_transaction_record.update_attribute('user_id', 198367)
+
+        active_by_user_id.length.should == 0
+      end
+    end
+  end
 end
