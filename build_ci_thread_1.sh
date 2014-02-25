@@ -5,6 +5,9 @@ STATUS=$((STATUS + $?))
 cd gems/plink_analytics && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
+cd gems/plink_api && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
+STATUS=$((STATUS + $?))
+
 cd gems/plink_admin && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 

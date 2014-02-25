@@ -3,6 +3,7 @@ echo -e "test:\n adapter: $DB_ADAPTER\n database: $CONNECTION_DB_NAME\n host: $D
 cp config/database.yml gems/plink/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_analytics/spec/dummy/config/database.yml
+cp config/database.yml gems/plink_api/spec/dummy/config/database.yml
 
 touch config/lyris.yml
 echo -e "test:\n site_id: $LYRIS_SITE_ID\n password: $LYRIS_PASSWORD\n mailing_list_id: $LYRIS_MAILING_LIST_ID" > config/lyris.yml
@@ -41,6 +42,7 @@ echo -e "test:\n adapter: $DB_ADAPTER\n database: $THREAD_DB_NAME\n host: $DB_HO
 cp config/database.yml gems/plink/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_admin/spec/dummy/config/database.yml
 cp config/database.yml gems/plink_analytics/spec/dummy/config/database.yml
+cp config/database.yml gems/plink_api/spec/dummy/config/database.yml
 
 bundle exec rake db:test:load
 bundle exec rake db:udfs:create

@@ -86,6 +86,7 @@ PlinkPivotal::Application.routes.draw do
     match "/404", to: "errors#not_found"
 
     mount PlinkAdmin::Engine => '/plink_admin'
+    mount PlinkApi::Engine => '/api'
   end
 
   constraints(AnalyticsSubdomain) do
