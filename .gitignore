@@ -16,6 +16,8 @@ capybara-*.html
 /gems/gigya/.bundle
 /gems/plink_analytics/vendor/bundle
 /gems/plink_analytics/.bundle
+/gems/plink_api/vendor/bundle
+/gems/plink_api/.bundle
 /log/*
 *.log
 /tmp/*
