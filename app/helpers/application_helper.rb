@@ -48,6 +48,11 @@ module ApplicationHelper
     result.html_safe
   end
 
+  def gigya_analytics_script_tag
+    tag = '<script type="text/javascript" src="http://cdn.gigya.com/js/gigyaGAIntegration.js"></script>'
+    tag.html_safe
+  end
+
   def flash_error_icon(message)
     haml = "%img{src: '/assets/icon_alert_pink.png', alt: '#{message}', "\
       "class: 'status-img'}"

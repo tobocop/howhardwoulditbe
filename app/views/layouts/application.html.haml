@@ -6,6 +6,7 @@
     = javascript_include_tag 'application'
     = javascript_include_tag "https://cdns.gigya.com/JS/socialize.js?apikey=#{Gigya::Config.instance.api_key}"
     = google_analytics_script_tag
+    = gigya_analytics_script_tag
     = favicon_link_tag
     = csrf_meta_tags
 
