@@ -1,5 +1,5 @@
 module PlinkAdmin
-  class AdminController < ApplicationController
+  class AdminController < PlinkAdmin::ApplicationController
     def home
 
     end
