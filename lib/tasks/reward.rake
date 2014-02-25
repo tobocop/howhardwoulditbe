@@ -8,8 +8,8 @@ namespace :reward do
       award_records.each do |award_record|
         send_reward_notification(award_record)
       end
-    rescue Exception => e
-      ::Exceptional::Catcher.handle("send_reward_notifications Rake task failed #{$!}")
+    rescue Exception
+      ::Exceptional::Catcher.handle($!, "send_reward_notifications Rake task failed")
     end
   end
 
@@ -59,7 +59,7 @@ private
       end
     rescue Exception
       message = "send_reward_notifications failure for user.id = #{award_record.user_id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 end

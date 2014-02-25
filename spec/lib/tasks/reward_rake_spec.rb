@@ -41,85 +41,84 @@ describe 'reward:send_reward_notifications' do
     )
   }
 
-  it 'send a delayed email to users with an auto login token who have pending rewards' do
-    reward_mail = double(deliver: true)
-    delay = double(reward_notification_email: reward_mail)
 
-    AutoLoginService.should_receive(:generate_token)
-      .with(user_with_three_awards.id)
-      .and_return('my_token')
-
-    RewardMailer.should_receive(:delay).and_return(delay)
-
-    delay.should_receive(:reward_notification_email) do |args|
-      args[:email].should == 'spelling@joesspellingacademy.com'
-      args[:rewards].map(&:award_display_name).should =~ ['Bananas are awesome', 'visiting angry birds', 'visiting angry birds']
-      args[:rewards].map(&:currency_award_amount).should =~ ['100', '200', '300']
-      args[:user_currency_balance].should == '600'
-      args[:user_token].should == 'my_token'
-      reward_mail
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
     end
 
-    subject.invoke
+    it 'send a delayed email to users with an auto login token who have pending rewards' do
+      reward_mail = double(deliver: true)
+      delay = double(reward_notification_email: reward_mail)
+
+      AutoLoginService.should_receive(:generate_token)
+        .with(user_with_three_awards.id)
+        .and_return('my_token')
+
+      RewardMailer.should_receive(:delay).and_return(delay)
+
+      delay.should_receive(:reward_notification_email) do |args|
+        args[:email].should == 'spelling@joesspellingacademy.com'
+        args[:rewards].map(&:award_display_name).should =~ ['Bananas are awesome', 'visiting angry birds', 'visiting angry birds']
+        args[:rewards].map(&:currency_award_amount).should =~ ['100', '200', '300']
+        args[:user_currency_balance].should == '600'
+        args[:user_token].should == 'my_token'
+        reward_mail
+      end
+
+      subject.invoke
+    end
+
+    it 'updates rewards to set is_notification_successful to true that were processed' do
+      Plink::AwardRecord.where('isNotificationSuccessful = ?', 0).length.should == 3
+
+      Plink::FreeAwardRecord.any_instance.should_receive(:update_attributes)
+        .with(is_notification_successful: true)
+        .and_call_original
+      Plink::QualifyingAwardRecord.any_instance.should_receive(:update_attributes)
+        .with(is_notification_successful: true)
+        .and_call_original
+      Plink::NonQualifyingAwardRecord.any_instance.should_receive(:update_attributes)
+        .with(is_notification_successful: true)
+        .and_call_original
+
+      subject.invoke
+
+      Plink::AwardRecord.where('isNotificationSuccessful = ?', 0).length.should == 0
+    end
+
+    it "gets distinct user id's  with awards pending notification" do
+      award_select = double(:plink_point_awards_pending_notification)
+      Plink::AwardRecord.should_receive('select').with('distinct userID')
+        .and_return(award_select)
+      award_select.should_receive(:plink_point_awards_pending_notification)
+        .and_return([])
+
+      subject.invoke
+    end
   end
 
-  it 'updates rewards to set is_notification_successful to true that were processed' do
-    Plink::AwardRecord.where('isNotificationSuccessful = ?', 0).length.should == 3
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      Plink::UserService.stub(:new).and_raise
 
-    Plink::FreeAwardRecord.any_instance.should_receive(:update_attributes)
-      .with(is_notification_successful: true)
-      .and_call_original
-    Plink::QualifyingAwardRecord.any_instance.should_receive(:update_attributes)
-      .with(is_notification_successful: true)
-      .and_call_original
-    Plink::NonQualifyingAwardRecord.any_instance.should_receive(:update_attributes)
-      .with(is_notification_successful: true)
-      .and_call_original
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /send_reward_notifications failure for user\.id = \d+/
+      end
 
-    subject.invoke
+      subject.invoke
+    end
 
-    Plink::AwardRecord.where('isNotificationSuccessful = ?', 0).length.should == 0
-  end
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::AwardRecord.stub(:select).and_raise
 
-  it "gets distinct user id's  with awards pending notification" do
-    award_select = double(:plink_point_awards_pending_notification)
-    Plink::AwardRecord.should_receive('select').with('distinct userID')
-      .and_return(award_select)
-    award_select.should_receive(:plink_point_awards_pending_notification)
-      .and_return([])
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should == 'send_reward_notifications Rake task failed'
+      end
 
-    subject.invoke
-  end
-
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    Plink::UserService.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/send_reward_notifications/)
-
-    subject.invoke
-  end
-
-  it 'includes the user.id in the record-level exception text' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-    Plink::AwardRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/send_reward_notifications/)
-
-    subject.invoke
-  end
-
-  it 'does not include user.id in the task-level exception text' do
-    Plink::AwardRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
