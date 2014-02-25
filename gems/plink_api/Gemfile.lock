@@ -3,6 +3,7 @@ PATH
   specs:
     plink_api (0.0.1)
       activerecord-sqlserver-adapter (= 3.2.10)
+      griddler (~> 0.6.3)
       rails (= 3.2.16)
       tiny_tds (= 0.6.1)
 
@@ -56,7 +57,11 @@ GEM
     erubis (2.7.0)
     exceptional (2.0.33)
       rack
+    griddler (0.6.3)
+      htmlentities
+      rails (>= 3.2.0)
     hike (1.2.3)
+    htmlentities (4.3.1)
     i18n (0.6.9)
     journey (1.0.4)
     json (1.8.1)
