@@ -3,7 +3,6 @@
     .layout-inner
       .left-column
         .flag.profile
-          = image_tag current_user.avatar_thumbnail_url, alt: current_user.first_name, class: 'profile-img'
           %h2.bold= current_user.first_name
           #social-link-widget.gig-btn{style: 'float: left'}
         .content

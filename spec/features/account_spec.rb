@@ -60,7 +60,6 @@ describe 'Managing account' do
 
         within '.profile' do
           page.should have_content 'FRODO'
-          page.should have_css "img[src='http://example.com/image']"
         end
 
         page.should have_image 'icon_active.png'
