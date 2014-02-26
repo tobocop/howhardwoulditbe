@@ -46,3 +46,4 @@ salt.yml
 librato.yml
 aws.yml
 statsd.js
+aws.yml
