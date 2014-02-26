@@ -28,6 +28,7 @@ echo -e "test:\n salt: stuff\n" > config/salt.yml
 
 touch config/aws.yml
 echo -e "test:\n access_key_id: key\n secret_access_key: secret" > config/aws.yml
+cp config/aws.yml gems/plink_api/spec/dummy/config/aws.yml
 
 sudo sh -c "echo '127.0.0.1 plink.test' >> /etc/hosts"
 export RAILS_ENV=test
