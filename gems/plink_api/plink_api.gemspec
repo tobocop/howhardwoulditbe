@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'tiny_tds', '0.6.1'
   s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
   s.add_dependency 'griddler', '~> 0.6.3'
+  s.add_dependency 'aws-sdk', '~> 1.34.0'
+  s.add_dependency 'tire'
 
-
+  s.add_development_dependency 'pry'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'shoulda-matchers'
 end

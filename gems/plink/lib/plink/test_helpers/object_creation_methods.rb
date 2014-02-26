@@ -2,6 +2,39 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_receipt_submission_attachment(options = {})
+      defaults = {
+        receipt_submission_id: 3,
+        url: 'anything'
+      }
+
+      Plink::ReceiptSubmissionAttachmentRecord.new { |receipt_submission_attachment| apply(receipt_submission_attachment, defaults, options) }
+    end
+
+    def create_receipt_submission_attachment(options = {})
+      new_receipt_submission_attachment(options).tap(&:save!)
+    end
+
+    def new_receipt_submission(options = {})
+      defaults = {
+        body: 'some body',
+        from: 'testing@example.com',
+        headers: '{"some":"json"}',
+        raw_body: 'some raw body',
+        raw_html: 'some raw html',
+        raw_text: 'some raw text',
+        subject: 'pepsi promotion',
+        to: '{"some":"json"}',
+        user_id: 23
+      }
+
+      Plink::ReceiptSubmissionRecord.new { |receipt_submission| apply(receipt_submission, defaults, options) }
+    end
+
+    def create_receipt_submission(options = {})
+      new_receipt_submission(options).tap(&:save!)
+    end
+
     def new_contact(options = {})
       defaults = {
         brand_id: 2,

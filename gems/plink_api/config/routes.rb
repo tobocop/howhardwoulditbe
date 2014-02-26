@@ -1,3 +1,5 @@
 PlinkApi::Engine.routes.draw do
-  root to: 'api#home'
+  namespace :v1 do
+    root to: 'api#home'
+  end
 end
