@@ -27,6 +27,7 @@ describe 'User Management' do
       click_on 'Edit User'
     end
 
+    page.should have_link 'Impersonate User'
     page.should have_content 'Unlock Locked Wallet Items'
     page.should have_content 'Locked Wallet Items: 1'
     page.should have_content 'Open Wallet Items: 1'
