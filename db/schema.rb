@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140226184632) do
+ActiveRecord::Schema.define(:version => 20140227160957) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1619,9 +1619,6 @@ ActiveRecord::Schema.define(:version => 20140226184632) do
     t.text     "body"
     t.string   "from"
     t.string   "headers"
-    t.text     "raw_body"
-    t.text     "raw_html"
-    t.text     "raw_text"
     t.string   "subject"
     t.string   "to"
     t.integer  "user_id"

@@ -21,9 +21,6 @@ describe PlinkApi::V1::EmailProcessor do
         body: 'some body',
         from: 'testing@example.com',
         headers: headers,
-        raw_body: 'some raw body',
-        raw_html: 'some raw html',
-        raw_text: 'some raw text',
         subject: 'pepsi promotion',
         to: email_to,
         attachments: attachments
@@ -34,9 +31,6 @@ describe PlinkApi::V1::EmailProcessor do
         body: 'some body',
         from: 'testing@example.com',
         headers: headers.to_json,
-        raw_body: 'some raw body',
-        raw_html: 'some raw html',
-        raw_text: 'some raw text',
         subject: 'pepsi promotion',
         to: email_to.to_json
       }

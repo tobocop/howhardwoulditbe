@@ -6,9 +6,6 @@ module PlinkApi
           body: email.body,
           from: email.from,
           headers: email.headers.to_json,
-          raw_body: email.raw_body,
-          raw_html: email.raw_html,
-          raw_text: email.raw_text,
           subject: email.subject,
           to: email.to.to_json
         }

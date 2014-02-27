@@ -20,9 +20,6 @@ module Plink
         body: 'some body',
         from: 'testing@example.com',
         headers: '{"some":"json"}',
-        raw_body: 'some raw body',
-        raw_html: 'some raw html',
-        raw_text: 'some raw text',
         subject: 'pepsi promotion',
         to: '{"some":"json"}',
         user_id: 23
