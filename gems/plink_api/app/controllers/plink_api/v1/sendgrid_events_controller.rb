@@ -1,7 +1,5 @@
 module PlinkApi::V1
   class SendgridEventsController < PlinkApi::ApplicationController
-    EVENTS_TO_PROCESS = ['dropped', 'bounce', 'spamreport']
-
     respond_to :json
 
     def create
@@ -16,18 +14,9 @@ module PlinkApi::V1
 
     def process_events(events)
       begin
-        events_json = JSON.parse(events, symbolize_names: true)
-        preferences = {is_subscribed: '0', daily_contest_reminder: '0'}
-        user_service = Plink::UserService.new(true)
+        event_processor = PlinkApi::V1::SendgridEventsProcessingService.new(events)
 
-        events_json.each do |event|
-          if EVENTS_TO_PROCESS.include? event[:event]
-            user = user_service.find_by_email(event[:email])
-            user_service.update_subscription_preferences(user.id, preferences)
-          end
-        end
-
-        true
+        event_processor.process
       rescue
         ::Exceptional::Catcher.handle($!, 'Sendgrid Event Processing Failed')
 
