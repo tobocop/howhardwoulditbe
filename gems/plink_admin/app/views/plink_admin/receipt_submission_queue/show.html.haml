@@ -1,0 +1,51 @@
+-if @receipt_submission_record.present?
+  .row.extra-margin-top
+    .columns.large-6
+      %h4 Email Information
+      %table
+        %thead
+          %th User Id
+          %th Email
+          %th From Address
+          %th Subject Line
+          %th Email Body
+        %tbody
+          %tr
+            %td
+              - if @receipt_submission_record.user_id.present?
+                = link_to @receipt_submission_record.user_id, plink_admin.edit_user_path(id: @receipt_submission_record.user_id)
+              -else
+                Could not locate user
+            %td= @receipt_submission_record.from
+            %td= @receipt_submission_record.subject
+            %td= @receipt_submission_record.body
+      = form_for(@receipt_submission_record, url:plink_admin.receipt_submission_path(@receipt_submission_record, queue: params[:id]) , as: 'receipt_submission') do |f|
+        .columns.large-12
+          .columns.large-6
+            = f.label :approved, 'Approve'
+            = f.check_box :approved
+          .columns.large-6
+            = f.label :needs_additional_information
+            = f.check_box :needs_additional_information
+          - receipt_promotion_select_options = @receipt_promotions.collect {|receipt_promotion| ["#{receipt_promotion.name} (#{receipt_promotion.id})", receipt_promotion.id]}
+          = f.label :receipt_promotion_id, 'Receipt Promotion'
+          = f.select :receipt_promotion_id, options_for_select(receipt_promotion_select_options)
+          = f.label :date_of_purchase
+          .dateselect
+            = f.date_select :date_of_purchase
+          = f.label :dollar_amount, 'Dollar amount (1.23 without $)'
+          = f.text_field :dollar_amount
+          %br
+          = f.submit 'Process', class: 'button small'
+    .columns.large-6
+      %h4 Email Attachments
+      - @receipt_submission_record.receipt_submission_attachment_records.each do |attachment|
+        -if attachment.image?
+          = link_to "View original image", attachment.url, target: 'attachment'
+          %br
+          = image_tag attachment.url, style: 'width: 485px;'
+        -else
+          = link_to "View #{attachment.url.split('-').last}", attachment.url, target: 'attachment'
+        %br
+-else
+  Queue Complete

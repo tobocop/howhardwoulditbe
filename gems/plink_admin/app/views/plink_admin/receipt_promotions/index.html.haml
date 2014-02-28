@@ -1,0 +1,14 @@
+= link_to 'Create New Receipt Promotion', plink_admin.new_receipt_promotion_path, class: 'button small'
+%table.receipt_promotion-list
+  %thead
+    %th Name
+    %th Description
+    %th Start Date
+    %th End Date
+  %tbody
+    - @receipt_promotions.each do |receipt_promotion|
+      %tr.receipt_promotion-item
+        %td= link_to receipt_promotion.name, plink_admin.edit_receipt_promotion_path(receipt_promotion)
+        %td= receipt_promotion.description
+        %td= receipt_promotion.start_date
+        %td= receipt_promotion.end_date

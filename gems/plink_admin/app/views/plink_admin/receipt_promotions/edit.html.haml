@@ -1,0 +1,3 @@
+%h1= "Edit Receipt Promotion - #{@receipt_promotion.id}"
+
+= render partial: 'receipt_promotion_form', locals: {button_text: 'Update', receipt_promotion: @receipt_promotion, url: plink_admin.receipt_promotion_path(@receipt_promotion)}

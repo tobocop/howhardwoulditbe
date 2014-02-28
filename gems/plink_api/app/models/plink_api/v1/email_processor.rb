@@ -6,6 +6,7 @@ module PlinkApi
           body: email.body,
           from: email.from,
           headers: email.headers.to_json,
+          queue: Random.rand(1..2),
           subject: email.subject,
           to: email.to.to_json
         }

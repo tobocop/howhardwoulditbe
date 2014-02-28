@@ -16,5 +16,9 @@ module Plink
 
     attr_accessible :award_type_id, :currency_award_amount, :dollar_award_amount, :user_id, :is_active, :users_virtual_currency_id, :virtual_currency_id, :is_successful, :is_notification_successful
 
+    scope :awards_by_type_and_by_user_id, -> (award_type_id, user_id) {
+      where(isActive: true, awardTypeID: award_type_id, userID: user_id)
+    }
+
   end
 end

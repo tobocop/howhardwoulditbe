@@ -31,6 +31,7 @@ describe PlinkApi::V1::EmailProcessor do
         body: 'some body',
         from: 'testing@example.com',
         headers: headers.to_json,
+        queue: 2,
         subject: 'pepsi promotion',
         to: email_to.to_json
       }
@@ -44,6 +45,7 @@ describe PlinkApi::V1::EmailProcessor do
       Plink::UserService.stub(:new).and_return(plink_user_service)
       Plink::ReceiptSubmissionRecord.stub(:create).and_return(receipt_submission_record)
       PlinkApi::V1::AttachmentService.stub(:new).and_return(attachment_service)
+      Random.stub(:rand).and_return(2)
     end
 
     it 'looks up the user by email address' do

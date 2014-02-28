@@ -1,0 +1,23 @@
+- if receipt_promotion.errors.any?
+  .alert-box.alert
+    - receipt_promotion.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(receipt_promotion, url: url, as: 'receipt_promotion') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :description
+  = f.text_field :description
+  - award_type_select_options = @award_types.collect {|award_type| ["#{award_type.award_code} (#{award_type.id})", award_type.id]}
+  = f.label :award_type_id, 'Award'
+  = f.select :award_type_id, options_for_select(award_type_select_options, receipt_promotion.award_type_id)
+  = f.label :start_date
+  .dateselect
+    = f.date_select :start_date
+  = f.label :end_date
+  .dateselect
+    = f.date_select :end_date
+
+  = f.submit button_text, class: 'button small'
+  = link_to 'Cancel', plink_admin.receipt_promotions_path, class: 'button small secondary'
+

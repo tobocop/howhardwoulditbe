@@ -14,8 +14,6 @@ module Plink
       award(user_id, Plink::AwardTypeRecord.referral_bonus_award_type_id)
     end
 
-  private
-
     def award(user_id, award_type_id)
       user = Plink::UserService.new.find_by_id(user_id)
       users_virtual_currency = get_users_virtual_currency(user.id, user.primary_virtual_currency_id)
@@ -33,6 +31,8 @@ module Plink
 
       Plink::FreeAwardRecord.create(create_params)
     end
+
+  private
 
     def get_users_virtual_currency(user_id, virtual_currency_id)
       Plink::UsersVirtualCurrencyRecord.where(userID: user_id, virtualCurrencyID: virtual_currency_id).first

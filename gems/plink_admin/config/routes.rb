@@ -12,6 +12,11 @@ PlinkAdmin::Engine.routes.draw do
   resources :contacts, except: :destroy
   resources :global_login_tokens, except: :destroy
   resources :landing_pages, except: :destroy
+  resources :receipt_promotions, except: :destroy
+  resources :receipt_submissions, only: [:index, :update]
+
+  resources :receipt_submission_queue, only: [:show]
+
   resources :share_pages, except: :destroy
   resources :registration_links, except: [:destroy] do
     get :share_statistics, on: :member
