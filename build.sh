@@ -18,6 +18,10 @@ echo "RUNNING PLINK ADMIN GEM BUILD"
 cd gems/plink_admin && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
+echo "RUNNING PLINK API GEM BUILD"
+cd gems/plink_api && bundle exec rspec spec && cd ../..
+STATUS=$((STATUS + $?))
+
 echo "RUNNING GIGYA GEM BUILD"
 cd gems/gigya && bundle exec rspec spec && bundle exec rspec integration_spec && cd ../..
 STATUS=$((STATUS + $?))
