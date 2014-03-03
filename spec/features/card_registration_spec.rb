@@ -175,6 +175,37 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content "Select the card you'd like to earn rewards with."
   end
 
+  it 'verifies that a users account has transactions', :vcr, record: :new_episodes do
+    sign_in('test@example.com', 'test123')
+
+    page.should have_content "Enter your bank's name."
+
+    page.current_path.should == institution_search_path
+
+    fill_in 'institution_name', with: 'bank'
+    click_on 'Search'
+
+    page.current_path.should == institution_search_results_path
+    page.should have_content 'MOST COMMON'
+
+    click_on 'Bank of Tupac'
+
+    page.should have_content 'Please login to your Bank of Tupac account.'
+
+    fill_in 'auth_1', with: 'anything'
+    fill_in 'auth_2', with: "stuff#{rand(10**7)}"
+
+    click_on 'Connect'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
+
+    within '.card-select-container:nth-of-type(1)' do
+      click_on 'Select'
+    end
+
+    page.should have_content 'The account you selected is inelligible.'
+  end
+
   it 'allows users with an account type of Other to set their account type', :vcr do
     sign_in('test@example.com', 'test123')
 

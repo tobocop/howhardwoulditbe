@@ -220,6 +220,14 @@ describe Intuit::Response do
 
         response.parse.should == {error: false, transactions: true}
       end
+
+      it 'indicates an error if transactions are included and the list is blank' do
+        intuit_response = {:status_code => '200', :result => {:transaction_list=>{:not_refreshed_reason=>'NOT_NECESSARY'}}}
+
+        response = Intuit::Response.new(intuit_response)
+
+        response.parse.should == {error: true, value: 'Account has no transactions.'}
+      end
     end
 
     context 'with a 401 status code' do

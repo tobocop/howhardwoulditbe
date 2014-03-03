@@ -17,7 +17,7 @@ module Intuit
       elsif mfa?
         response.merge!(mfa: true, value: questions_and_challenge_ids)
       else
-        response = {error: true, value: error_message}
+        response = {error: true, value: error_message}              # START HERE
       end
 
       response
