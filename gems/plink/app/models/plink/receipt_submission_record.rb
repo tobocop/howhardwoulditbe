@@ -2,6 +2,8 @@ module Plink
   class ReceiptSubmissionRecord < ActiveRecord::Base
     self.table_name = 'receipt_submissions'
 
+    QUEUE_RANGE = 1..10
+
     attr_accessible :approved, :body, :date_of_purchase, :dollar_amount, :from, :headers,
       :needs_additional_information, :receipt_image_url, :receipt_promotion_id, :subject,
       :to, :user_id, :queue

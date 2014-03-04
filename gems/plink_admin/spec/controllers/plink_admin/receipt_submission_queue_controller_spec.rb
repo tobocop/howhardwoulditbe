@@ -23,14 +23,21 @@ describe PlinkAdmin::ReceiptSubmissionQueueController do
       response.status.should == 200
     end
 
-    it 'looks up the first pending submission by queue id' do
+    it 'looks up the pendings submissions by queue' do
       Plink::ReceiptSubmissionRecord.should_receive(:pending_by_queue).with('1').and_return(receipt_submission_records)
-      receipt_submission_records.should_receive(:first).and_return(receipt_submission_record)
 
       get :show, {id: 1}
     end
 
+    it 'assigns a count of submissions left to process' do
+      get :show, {id: 1}
+
+      assigns(:receipt_submissions_left).should == 1
+    end
+
     it 'assigns a receipt_submission_record' do
+      receipt_submission_records.should_receive(:first).and_return(receipt_submission_record)
+
       get :show, {id: 1}
 
       assigns(:receipt_submission_record).should == receipt_submission_record

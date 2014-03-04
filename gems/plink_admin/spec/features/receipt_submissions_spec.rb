@@ -27,8 +27,9 @@ describe 'Affiliates' do
 
     click_link 'Receipt Submissions'
 
-    click_on 'Process Queue 1'
+    click_on 'Process Queue 1 (1 submissions)'
 
+    page.should have_content '1 submissions to process'
     page.should have_content 'some body'
     page.should have_content 'testing@example.com'
     page.should have_content '23'

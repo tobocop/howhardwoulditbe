@@ -1,25 +1,23 @@
+%h4= "#{@receipt_submissions_left} submissions to process"
 -if @receipt_submission_record.present?
   .row.extra-margin-top
     .columns.large-6
       %h4 Email Information
-      %table
-        %thead
-          %th User Id
-          %th Email
-          %th From Address
-          %th Subject Line
-          %th Email Body
-        %tbody
-          %tr
-            %td
-              - if @receipt_submission_record.user_id.present?
-                = link_to @receipt_submission_record.user_id, plink_admin.edit_user_path(id: @receipt_submission_record.user_id)
-              -else
-                Could not locate user
-            %td= @receipt_submission_record.from
-            %td= @receipt_submission_record.subject
-            %td= @receipt_submission_record.body
       = form_for(@receipt_submission_record, url:plink_admin.receipt_submission_path(@receipt_submission_record, queue: params[:id]) , as: 'receipt_submission') do |f|
+        %table
+          %thead
+            %th User Id
+            %th From Address
+            %th Subject Line
+            %th Email Body
+          %tbody
+            %tr
+              %td
+                = f.label :user_id
+                = f.text_field :user_id
+              %td= @receipt_submission_record.from
+              %td= @receipt_submission_record.subject
+              %td= @receipt_submission_record.body
         .columns.large-12
           .columns.large-6
             = f.label :approved, 'Approve'

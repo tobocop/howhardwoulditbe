@@ -48,6 +48,12 @@ describe PlinkApi::V1::EmailProcessor do
       Random.stub(:rand).and_return(2)
     end
 
+    it 'assigns a random queue' do
+      Random.should_receive(:rand).with(Plink::ReceiptSubmissionRecord::QUEUE_RANGE).and_return(2)
+
+      PlinkApi::V1::EmailProcessor.process(email)
+    end
+
     it 'looks up the user by email address' do
       plink_user_service.should_receive(:find_by_email).with('testing@example.com').and_return(user)
 

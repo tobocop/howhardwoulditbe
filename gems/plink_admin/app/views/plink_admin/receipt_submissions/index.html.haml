@@ -1,6 +1,7 @@
 %h1 Queues
 %p please choose a queue to process submissions for
-=link_to 'Process Queue 1', plink_admin.receipt_submission_queue_path(1)
-%br
-%br
-=link_to 'Process Queue 2', plink_admin.receipt_submission_queue_path(2)
+- Plink::ReceiptSubmissionRecord::QUEUE_RANGE.each do |i|
+  - count = Plink::ReceiptSubmissionRecord.pending_by_queue(i).length
+  = link_to "Process Queue #{i} (#{count} submissions)", plink_admin.receipt_submission_queue_path(i)
+  %br
+  %br
