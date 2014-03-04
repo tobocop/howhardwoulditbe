@@ -14,7 +14,7 @@ namespace :social_data do
           profiles_to_upload.puts "#{users_social_profile.user_id}|#{users_social_profile.profile.gsub(/\r\n/,'')}"
           puts "[#{Time.zone.now}] Uploading profile id: #{users_social_profile.id} with user_id = #{users_social_profile.user_id}"
         rescue Exception => e
-          ::Exceptional::Catcher.handle("social_data:upload_to_s3 Rake task failed on users_social_profile.id = #{users_social_profile.id} with #{$!}")
+          ::Exceptional::Catcher.handle($!, "social_data:upload_to_s3 Rake task failed on users_social_profile.id = #{users_social_profile.id}")
         end
       end
 
@@ -24,7 +24,7 @@ namespace :social_data do
 
       puts "[#{Time.zone.now}] Ending social_data:upload_to_s3"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("social_data:upload_to_s3 Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "social_data:upload_to_s3 Rake task failed")
     end
   end
 

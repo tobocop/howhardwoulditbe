@@ -15,125 +15,145 @@ describe 'free_awards:award_offer_add_bonuses' do
 
   let!(:offer_add_bonus_award_type) { create_award_type(award_code: 'offer_add_bonus') }
 
-  it 'awards users that have received a bonus notification and have added the offer within 72 hours' do
-    Plink::FreeAwardRecord.should_receive(:new).with(
-      {
-        award_type_id: offer_add_bonus_award_type.id,
-        currency_award_amount: 25,
-        dollar_award_amount: 0.25,
-        is_active: true,
-        is_notification_successful: false,
-        is_successful: true,
-        user_id: user.id,
-        users_virtual_currency_id: users_virtual_currency.id,
-        virtual_currency_id: virtual_currency.id
-      }
-    ).and_call_original
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
+    end
 
-    capture_stdout { subject.invoke }
+    it 'awards users that have received a bonus notification and have added the offer within 72 hours' do
+      Plink::FreeAwardRecord.should_receive(:new).with(
+        {
+          award_type_id: offer_add_bonus_award_type.id,
+          currency_award_amount: 25,
+          dollar_award_amount: 0.25,
+          is_active: true,
+          is_notification_successful: false,
+          is_successful: true,
+          user_id: user.id,
+          users_virtual_currency_id: users_virtual_currency.id,
+          virtual_currency_id: virtual_currency.id
+        }
+      ).and_call_original
 
-    user.reload.currency_balance.should == 25
+      capture_stdout { subject.invoke }
+
+      user.reload.currency_balance.should == 25
+    end
+
+    it 'does not award users that have received a bonus notification and have not added the offer' do
+      populated_wallet_item.unassign_offer
+      Plink::FreeAwardRecord.should_not_receive(:new)
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'does not award users that have received a bonus notification and have added the offer after 72 hours' do
+      user_eligible_for_offer_add_bonus.update_attribute('created_at', 3.days.ago - 1.second)
+      Plink::FreeAwardRecord.should_not_receive(:new)
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'does not award users that did not receive a bonus notification' do
+      user_eligible_for_offer_add_bonus.update_attribute('user_id', user_not_eligible.id)
+      Plink::FreeAwardRecord.should_not_receive(:new)
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'does not award users that have already been awarded' do
+      user_eligible_for_offer_add_bonus.update_attribute('is_awarded', true)
+      Plink::FreeAwardRecord.should_not_receive(:new)
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'does not award users twice that received the bonus notification and added the offer twice' do
+      populated_wallet_item.unassign_offer
+      open_wallet_item = Plink::WalletItemRecord.find(populated_wallet_item.id)
+      open_wallet_item.assign_offer(double(id: 6), double(id: 1))
+      Plink::FreeAwardRecord.should_receive(:new)
+        .exactly(1).times
+        .and_return(double(save: true))
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'indicates that the user has been awarded for the bonus opportunity' do
+      capture_stdout { subject.invoke }
+
+      user_eligible_for_offer_add_bonus.reload.is_awarded.should be_true
+    end
+
+    it 'does not indicate that the user has been awarded for the bonus opportunity if the free award save fails' do
+      Plink::FreeAwardRecord.any_instance.should_receive(:save).and_return(false)
+
+      capture_stdout { subject.invoke }
+
+      user_eligible_for_offer_add_bonus.reload.is_awarded.should be_false
+    end
   end
 
-  it 'does not award users that have received a bonus notification and have not added the offer' do
-    populated_wallet_item.unassign_offer
-    Plink::FreeAwardRecord.should_not_receive(:new)
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      Plink::FreeAwardRecord.stub(:new).and_raise
 
-    capture_stdout { subject.invoke }
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /award_offer_add_bonuses/
+      end
 
-  it 'does not award users that have received a bonus notification and have added the offer after 72 hours' do
-    user_eligible_for_offer_add_bonus.update_attribute('created_at', 3.days.ago - 1.second)
-    Plink::FreeAwardRecord.should_not_receive(:new)
+      subject.invoke
+    end
 
-    capture_stdout { subject.invoke }
-  end
+    it 'includes the user.id in the record-level exception text' do
+      Plink::FreeAwardRecord.stub(:new).and_raise
 
-  it 'does not award users that did not receive a bonus notification' do
-    user_eligible_for_offer_add_bonus.update_attribute('user_id', user_not_eligible.id)
-    Plink::FreeAwardRecord.should_not_receive(:new)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user\.id = \d+/
+      end
 
-    capture_stdout { subject.invoke }
-  end
+      subject.invoke
+    end
 
-  it 'does not award users that have already been awarded' do
-    user_eligible_for_offer_add_bonus.update_attribute('is_awarded', true)
-    Plink::FreeAwardRecord.should_not_receive(:new)
+    it 'includes the user_eligible_for_offer_add_bonus.id in the record-level exception text' do
+      Plink::FreeAwardRecord.stub(:new).and_raise
 
-    capture_stdout { subject.invoke }
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user_eligible_for_offer_add_bonus\.id = \d+/
+      end
 
-  it 'does not award users twice that received the bonus notification and added the offer twice' do
-    populated_wallet_item.unassign_offer
-    open_wallet_item = Plink::WalletItemRecord.find(populated_wallet_item.id)
-    open_wallet_item.assign_offer(double(id: 6), double(id: 1))
-    Plink::FreeAwardRecord.should_receive(:new)
-      .exactly(1).times
-      .and_return(double(save: true))
+      subject.invoke
+    end
 
-    capture_stdout { subject.invoke }
-  end
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise
 
-  it 'indicates that the user has been awarded for the bonus opportunity' do
-    capture_stdout { subject.invoke }
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /award_offer_add_bonuses/
+      end
 
-    user_eligible_for_offer_add_bonus.reload.is_awarded.should be_true
-  end
+      subject.invoke
+    end
 
-  it 'does not indicate that the user has been awarded for the bonus opportunity if the free award save fails' do
-    Plink::FreeAwardRecord.any_instance.should_receive(:save).and_return(false)
+    it 'does not include user.id in the task-level exception text' do
+      Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise
 
-    capture_stdout { subject.invoke }
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
 
-    user_eligible_for_offer_add_bonus.reload.is_awarded.should be_false
-  end
+      subject.invoke
+    end
 
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
+    it 'does not include user_eligible_for_offer_add_bonus.id in the task-level exception text' do
+      Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise
 
-    ::Exceptional::Catcher.should_receive(:handle).with(/award_offer_add_bonuses/)
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user_eligible_for_offer_add_bonus\.id = \d+/)
 
-    subject.invoke
-  end
-
-  it 'includes the user.id in the record-level exception text' do
-    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'includes the user_eligible_for_offer_add_bonus.id in the record-level exception text' do
-    Plink::FreeAwardRecord.stub(:new).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/user_eligible_for_offer_add_bonus\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/award_offer_add_bonuses/)
-
-    subject.invoke
-  end
-
-  it 'does not include user.id in the task-level exception text' do
-    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'does not include user_eligible_for_offer_add_bonus.id in the task-level exception text' do
-    Plink::UserEligibleForOfferAddBonusRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user_eligible_for_offer_add_bonus\.id = \d+/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
 

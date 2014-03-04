@@ -24,13 +24,13 @@ namespace :intuit do
             )
           puts "[#{Time.zone.now}] Removing account with users_institution_account_staging.id = #{staged_account.id}"
         rescue Exception => e
-          ::Exceptional::Catcher.handle("intuit:remove_staged_accounts Rake task failed on users_institution_account_staging.id = #{staged_account.id} with #{$!}")
+          ::Exceptional::Catcher.handle($!, "intuit:remove_staged_accounts Rake task failed on users_institution_account_staging.id = #{staged_account.id}")
         end
       end
 
       puts "[#{Time.zone.now}] Ending intuit:remove_staged_accounts"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("intuit:remove_staged_accounts Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "intuit:remove_staged_accounts Rake task failed")
     end
   end
 

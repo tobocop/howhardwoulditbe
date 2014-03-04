@@ -12,7 +12,7 @@ namespace :reverifications do
 
       puts "#{Time.zone.now}] Ending reverifications:insert_reverification_notices"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("insert_reverification_notices Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "insert_reverification_notices Rake task failed")
     end
   end
 
@@ -28,7 +28,7 @@ namespace :reverifications do
       end
       puts "[#{Time.zone.now}] Ending reverifications:send_reverification_notices"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("send_reverification_notices Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "send_reverification_notices Rake task failed")
     end
   end
 
@@ -45,7 +45,7 @@ namespace :reverifications do
         end
       puts "[#{Time.zone.now}] Ending reverifications:remove_accounts_with_expired_reverifications"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("remove_accounts_with_expired_reverifications Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "remove_accounts_with_expired_reverifications Rake task failed")
     end
   end
 
@@ -68,7 +68,7 @@ namespace :reverifications do
       puts "[#{Time.zone.now}] Task finished setting completed_on for 108 status codes"
       stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("set_status_code_108_to_completed Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "set_status_code_108_to_completed Rake task failed")
     end
   end
 
@@ -103,7 +103,7 @@ private
     rescue Exception
       message = "insert_reverification_notices failure for user.id = #{user_intuit_error.user_id}, "
       message << "user_intuit_error.id = #{user_intuit_error.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 
@@ -134,7 +134,7 @@ private
     rescue Exception
       message = "send_reverification_notices failure for user.id = #{reverification_record.user_id}, "
       message << "reverification_record.id = #{reverification_record.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 
@@ -153,7 +153,7 @@ private
     rescue Exception
       message = "remove_accounts_with_expired_reverifications failure for user.id = #{user_reverification_record.user_id}, "
       message << "user_reverification_record.id = #{user_reverification_record.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 
@@ -182,7 +182,7 @@ private
     rescue Exception
       message = "set_status_code_108_to_completed failure for user.id = #{reverification.user_id}, "
       message << "reverification.id = #{reverification.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 

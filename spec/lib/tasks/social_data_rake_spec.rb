@@ -65,18 +65,23 @@ describe 'social_data:upload_to_s3' do
 
   context 'when there are exceptions' do
     it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-      ::Exceptional::Catcher.should_receive(:handle).with(/social_data:upload_to_s3/)
+      Plink::UsersSocialProfileRecord.stub(:all).and_raise
 
-      Plink::UsersSocialProfileRecord.stub(:all).
-        and_raise(ActiveRecord::ConnectionNotEstablished)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /social_data:upload_to_s3/
+      end
 
       subject.invoke
     end
 
     it 'logs record-level exceptions to Exceptional with the Rake task name' do
-      users_social_profile.stub(:profile).and_raise(Exception)
+      users_social_profile.stub(:profile).and_raise
 
-      ::Exceptional::Catcher.should_receive(:handle).with(/social_data:upload_to_s3 Rake task failed on users_social_profile\.id =/)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /social_data:upload_to_s3 Rake task failed on users_social_profile\.id =/
+      end
 
       subject.invoke
     end

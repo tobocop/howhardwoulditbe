@@ -4,7 +4,7 @@ namespace :wallet_items do
     begin
       Plink::WalletItemUnlockingService.unlock_transaction_items_for_eligible_users
     rescue Exception => e
-      ::Exceptional::Catcher.handle("unlock_transaction_wallet_item Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "unlock_transaction_wallet_item Rake task failed")
     end
   end
 
@@ -51,7 +51,7 @@ namespace :wallet_items do
         remove_expired_offer(expired_offer, run_at)
       end
     rescue Exception => e
-      ::Exceptional::Catcher.handle("remove_expired_offers Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "remove_expired_offers Rake task failed")
     end
   end
 
@@ -69,7 +69,7 @@ namespace :wallet_items do
         end
       end
     rescue Exception => e
-      ::Exceptional::Catcher.handle("notify_users_of_expiring_offers Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "notify_users_of_expiring_offers Rake task failed")
     end
   end
 
@@ -132,7 +132,7 @@ private
         rescue Exception
           message = "remove_expired_offers failure for user.id = #{user_record.id}, "
           message << "offers_virtual_currencies.id = #{offers_virtual_currency.id}"
-          ::Exceptional::Catcher.handle("#{message} #{$!}")
+          ::Exceptional::Catcher.handle($!, "#{message}")
         end
       end
     end
@@ -152,7 +152,7 @@ private
     rescue Exception
       message = "notify_users_of_expiring_offers failure for user.id = #{user_record.id}, "
       message << "offer.id = #{expiring_offer.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 

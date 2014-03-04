@@ -13,7 +13,7 @@ namespace :contest do
 
       stars ; puts "[#{Time.zone.now}] End of daily reminder email."
     rescue Exception => e
-      ::Exceptional::Catcher.handle("daily_reminder_email Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "daily_reminder_email Rake task failed")
     end
   end
 
@@ -31,7 +31,7 @@ namespace :contest do
 
       stars; puts "[#{Time.zone.now}] End of three day reminder email."
     rescue Exception => e
-      ::Exceptional::Catcher.handle("three_day_reminder_email Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "three_day_reminder_email Rake task failed")
     end
   end
 
@@ -189,7 +189,7 @@ private
       ContestMailer.daily_reminder_email(reminder_args).deliver
       puts "[#{Time.zone.now}] ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
     rescue Exception
-      ::Exceptional::Catcher.handle("daily_reminder_email failure for user.id = #{user.id} #{$!}")
+      ::Exceptional::Catcher.handle($!, "daily_reminder_email failure for user.id = #{user.id}")
     end
   end
 
@@ -205,7 +205,7 @@ private
       ContestMailer.three_day_reminder_email(reminder_args).deliver
       puts "[#{Time.zone.now}] Sent 3 day reminder email to ID: #{user.id} EMAIL: #{user.email} FIRST NAME: #{user.first_name}"
     rescue Exception
-      ::Exceptional::Catcher.handle("three_day_reminder_email failure for user.id = #{user.id} #{$!}")
+      ::Exceptional::Catcher.handle($!, "three_day_reminder_email failure for user.id = #{user.id}")
     end
   end
 end

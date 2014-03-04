@@ -18,46 +18,55 @@ describe 'wallet_items:unlock_transaction_wallet_item', skip_in_build: true do
   let!(:previously_unlocked_award) { create_qualifying_award(user_id: user_previously_unlocked.id) }
   let!(:previously_unlocked_item) { create_open_wallet_item(wallet_id: previously_unlocked_wallet.id, unlock_reason: 'transaction') }
 
-  it 'does not unlock wallet items for users without qualifying transactions' do
-    no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
-    no_qualified_transactions_wallet.open_wallet_items.should be_empty
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
+    end
+    it 'does not unlock wallet items for users without qualifying transactions' do
+      no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+      no_qualified_transactions_wallet.open_wallet_items.should be_empty
 
-    capture_stdout { subject.invoke }
+      capture_stdout { subject.invoke }
 
-    no_qualified_transactions_wallet.reload
-    no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
-    no_qualified_transactions_wallet.open_wallet_items.should be_empty
+      no_qualified_transactions_wallet.reload
+      no_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+      no_qualified_transactions_wallet.open_wallet_items.should be_empty
+    end
+
+    it 'unlocks wallet items for eligible users' do
+      pending_qualified_transactions_wallet.open_wallet_items.size.should == 1
+      pending_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+
+      capture_stdout { subject.invoke }
+
+      pending_qualified_transactions_wallet.reload
+      pending_qualified_transactions_wallet.open_wallet_items.size.should == 2
+      pending_qualified_transactions_wallet.locked_wallet_items.size.should == 0
+    end
+
+    it 'does not unlock wallet items for users who had previously unlocked' do
+      previously_unlocked_wallet.open_wallet_items.size.should == 1
+      previously_unlocked_wallet.locked_wallet_items.should be_empty
+
+      capture_stdout { subject.invoke }
+
+      previously_unlocked_wallet.reload
+      previously_unlocked_wallet.open_wallet_items.size.should == 1
+      previously_unlocked_wallet.locked_wallet_items.should be_empty
+    end
   end
 
-  it 'unlocks wallet items for eligible users' do
-    pending_qualified_transactions_wallet.open_wallet_items.size.should == 1
-    pending_qualified_transactions_wallet.locked_wallet_items.size.should == 1
+  context 'when there are exceptions' do
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::WalletItemUnlockingService.stub(:unlock_transaction_items_for_eligible_users).and_raise
 
-    capture_stdout { subject.invoke }
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+          exception.should be_a(RuntimeError)
+          message.should =~ /unlock_transaction_wallet_item/
+      end
 
-    pending_qualified_transactions_wallet.reload
-    pending_qualified_transactions_wallet.open_wallet_items.size.should == 2
-    pending_qualified_transactions_wallet.locked_wallet_items.size.should == 0
-  end
-
-  it 'does not unlock wallet items for users who had previously unlocked' do
-    previously_unlocked_wallet.open_wallet_items.size.should == 1
-    previously_unlocked_wallet.locked_wallet_items.should be_empty
-
-    capture_stdout { subject.invoke }
-
-    previously_unlocked_wallet.reload
-    previously_unlocked_wallet.open_wallet_items.size.should == 1
-    previously_unlocked_wallet.locked_wallet_items.should be_empty
-  end
-
-  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-    Plink::WalletItemUnlockingService.stub(:unlock_transaction_items_for_eligible_users).
-      and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/unlock_transaction_wallet_item/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
 
@@ -345,144 +354,164 @@ describe "wallet_items:remove_expired_offers", skip_in_build: true do
     Plink::AddOfferToWalletService.new(user: user_with_expired_tier, offer: non_expired_offer_with_mixed_tiers).add_offer
   end
 
-  it 'removes offers that have expired from every wallet' do
-    Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(4).times.and_call_original
-
-    capture_stdout { subject.invoke }
-
-    grouped_items = user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
-    grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
-    grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
-
-    grouped_items = other_user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
-    grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
-    grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
-
-    grouped_items = user_without_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
-    grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
-    grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
-
-    grouped_items = user_with_expired_tier.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
-    grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
-    grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
-  end
-
-  it 'emails the users that have the expired offer in their wallet' do
-    delay = double(offer_removed_email: true)
-
-    Plink::UserAutoLoginRecord.should_receive(:create).exactly(4).times.
-      and_return(double(user_token:'asd'))
-
-    OfferExpirationMailer.should_receive(:delay).exactly(4).times.
-      with(run_at: Time.zone.parse("#{Date.current} 10:30:00")).
-      and_return(delay)
-
-    delay.should_receive(:offer_removed_email) do |args|
-      args.length.should == 4
-      ['jerry', 'kramer', 'george', 'elaine'].should include(args[:first_name])
-      ['foo@example.com', 'ichabod@example.com', 'loser@example.com', 'frizzy@example.com'].should include(args[:email])
-      args[:advertiser_name].should == 'bk'
-      args[:user_token].should == 'asd'
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
     end
 
-    capture_stdout { subject.invoke }
+    it 'removes offers that have expired from every wallet' do
+      Plink::RemoveOfferFromWalletService.should_receive(:new).exactly(4).times.and_call_original
+
+      capture_stdout { subject.invoke }
+
+      grouped_items = user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+      grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
+      grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
+
+      grouped_items = other_user_with_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+      grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
+      grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
+
+      grouped_items = user_without_expired_offer.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+      grouped_items['Plink::OpenWalletItemRecord'].length.should == 1
+      grouped_items['Plink::PopulatedWalletItemRecord'].length.should == 1
+
+      grouped_items = user_with_expired_tier.wallet.wallet_item_records.map(&:type).group_by { |elem| elem }
+      grouped_items['Plink::OpenWalletItemRecord'].length.should == 2
+      grouped_items['Plink::PopulatedWalletItemRecord'].should be_nil
+    end
+
+    it 'emails the users that have the expired offer in their wallet' do
+      delay = double(offer_removed_email: true)
+
+      Plink::UserAutoLoginRecord.should_receive(:create).exactly(4).times.
+        and_return(double(user_token:'asd'))
+
+      OfferExpirationMailer.should_receive(:delay).exactly(4).times.
+        with(run_at: Time.zone.parse("#{Date.current} 10:30:00")).
+        and_return(delay)
+
+      delay.should_receive(:offer_removed_email) do |args|
+        args.length.should == 4
+        ['jerry', 'kramer', 'george', 'elaine'].should include(args[:first_name])
+        ['foo@example.com', 'ichabod@example.com', 'loser@example.com', 'frizzy@example.com'].should include(args[:email])
+        args[:advertiser_name].should == 'bk'
+        args[:user_token].should == 'asd'
+      end
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'end dates all tiers associated to the offer through its offers virtual currencies' do
+      expired_offer_tier_one.end_date.should_not == expired_offer.end_date
+      expired_offer_tier_two.end_date.should_not == expired_offer.end_date
+      another_expired_offer_tier_one.end_date.should_not == another_expired_offer.end_date
+      another_expired_offer_tier_two.end_date.should_not == another_expired_offer.end_date
+      valid_offer_tier_one.end_date.should_not == valid_offer.end_date
+      valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+
+      capture_stdout { subject.invoke }
+
+      expired_offer_tier_one.reload.end_date.should == expired_offer.end_date
+      expired_offer_tier_two.reload.end_date.should == expired_offer.end_date
+      another_expired_offer_tier_one.reload.end_date.should == another_expired_offer.end_date
+      another_expired_offer_tier_two.reload.end_date.should == another_expired_offer.end_date
+      valid_offer_tier_one.end_date.should_not == valid_offer.end_date
+      valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+    end
+
+    it 'does not change the end date of inactive tiers' do
+      non_expired_offer_expired_tier.end_date.should == Time.zone.parse('2001-01-01')
+
+      capture_stdout { subject.invoke }
+
+      non_expired_offer_expired_tier.reload.end_date.should == Time.zone.parse('2001-01-01')
+      non_expired_offer_non_expired_tier.reload.end_date.should == non_expired_offer_with_mixed_tiers.end_date
+    end
+
+    it 'end dates the users_award_period' do
+      expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
+      another_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, another_expired_offer_offers_virtual_currency.id).first
+      other_users_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
+      other_users_non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, valid_offer_offers_virtual_currency.id).first
+      non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_without_expired_offer.id, valid_offer_offers_virtual_currency.id).first
+
+      expiring_users_award_period.end_date.should > Date.current.midnight
+      another_expiring_users_award_period.end_date.should > Date.current.midnight
+      other_users_expiring_users_award_period.end_date.should > Date.current.midnight
+      other_users_non_expiring_users_award_period.end_date.should > Date.current.midnight
+      non_expiring_users_award_period.end_date.should > Date.current.midnight
+
+      capture_stdout { subject.invoke }
+
+      expiring_users_award_period.reload.end_date.should == Date.current.midnight
+      another_expiring_users_award_period.reload.end_date.should == Date.current.midnight
+      other_users_expiring_users_award_period.reload.end_date.should == Date.current.midnight
+      other_users_non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
+      non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
+    end
   end
 
-  it 'end dates all tiers associated to the offer through its offers virtual currencies' do
-    expired_offer_tier_one.end_date.should_not == expired_offer.end_date
-    expired_offer_tier_two.end_date.should_not == expired_offer.end_date
-    another_expired_offer_tier_one.end_date.should_not == another_expired_offer.end_date
-    another_expired_offer_tier_two.end_date.should_not == another_expired_offer.end_date
-    valid_offer_tier_one.end_date.should_not == valid_offer.end_date
-    valid_offer_tier_two.end_date.should_not == valid_offer.end_date
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    capture_stdout { subject.invoke }
+      ::Exceptional::Catcher.should_receive(:handle).exactly(4).times do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /remove_expired_offers/
+      end
 
-    expired_offer_tier_one.reload.end_date.should == expired_offer.end_date
-    expired_offer_tier_two.reload.end_date.should == expired_offer.end_date
-    another_expired_offer_tier_one.reload.end_date.should == another_expired_offer.end_date
-    another_expired_offer_tier_two.reload.end_date.should == another_expired_offer.end_date
-    valid_offer_tier_one.end_date.should_not == valid_offer.end_date
-    valid_offer_tier_two.end_date.should_not == valid_offer.end_date
-  end
+      subject.invoke
+    end
 
-  it 'does not change the end date of inactive tiers' do
-    non_expired_offer_expired_tier.end_date.should == Time.zone.parse('2001-01-01')
+    it 'includes the offers_virtual_currencies.id in the record-level exception text' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    capture_stdout { subject.invoke }
+      ::Exceptional::Catcher.should_receive(:handle).exactly(4).times do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /offers_virtual_currencies\.id = \d+/
+      end
 
-    non_expired_offer_expired_tier.reload.end_date.should == Time.zone.parse('2001-01-01')
-    non_expired_offer_non_expired_tier.reload.end_date.should == non_expired_offer_with_mixed_tiers.end_date
-  end
+      subject.invoke
+    end
 
-  it 'end dates the users_award_period' do
-    expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
-    another_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_with_expired_offer.id, another_expired_offer_offers_virtual_currency.id).first
-    other_users_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, expired_offer_offers_virtual_currency.id).first
-    other_users_non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', other_user_with_expired_offer.id, valid_offer_offers_virtual_currency.id).first
-    non_expiring_users_award_period = Plink::UsersAwardPeriodRecord.where('userID = ? AND offers_virtual_currency_id = ?', user_without_expired_offer.id, valid_offer_offers_virtual_currency.id).first
+    it 'includes the user.id in the record-level exception text' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    expiring_users_award_period.end_date.should > Date.current.midnight
-    another_expiring_users_award_period.end_date.should > Date.current.midnight
-    other_users_expiring_users_award_period.end_date.should > Date.current.midnight
-    other_users_non_expiring_users_award_period.end_date.should > Date.current.midnight
-    non_expiring_users_award_period.end_date.should > Date.current.midnight
+      ::Exceptional::Catcher.should_receive(:handle).exactly(4).times do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user\.id = \d+/
+      end
 
-    capture_stdout { subject.invoke }
+      subject.invoke
+    end
 
-    expiring_users_award_period.reload.end_date.should == Date.current.midnight
-    another_expiring_users_award_period.reload.end_date.should == Date.current.midnight
-    other_users_expiring_users_award_period.reload.end_date.should == Date.current.midnight
-    other_users_non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
-    non_expiring_users_award_period.reload.end_date.should > Date.current.midnight
-  end
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /remove_expired_offers/
+      end
 
-    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/remove_expired_offers/)
+      subject.invoke
+    end
 
-    subject.invoke
-  end
+    it 'does not include user.id in task-level exceptions' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-  it 'includes the offers_virtual_currencies.id in the record-level exception text' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
 
-    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/offers_virtual_currencies\.id = \d+/)
+      subject.invoke
+    end
 
-    subject.invoke
-  end
+    it 'does not include offers_virtual_currencies.id in task-level exceptions' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-  it 'includes the user.id in the record-level exception text' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/offers_virtual_currencies\.id =/)
 
-    ::Exceptional::Catcher.should_receive(:handle).exactly(4).times.with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/remove_expired_offers/)
-
-    subject.invoke
-  end
-
-  it 'does not include user.id in task-level exceptions' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
-
-    subject.invoke
-  end
-
-  it 'does not include offers_virtual_currencies.id in task-level exceptions' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/offers_virtual_currencies\.id =/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
 
@@ -538,76 +567,96 @@ describe "wallet_items:notify_users_of_expiring_offers" do
     Plink::AddOfferToWalletService.new(user: user_without_expiring_offer, offer: valid_offer).add_offer
   end
 
-  it 'sends an email to everyone with an offer in their wallet that expires in 7 days as a delayed job' do
-    delay_double = double(offer_expiring_soon_email: true)
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
+    end
 
-    Plink::UserAutoLoginRecord.should_receive(:create).and_return(double(user_token:'asd'))
+    it 'sends an email to everyone with an offer in their wallet that expires in 7 days as a delayed job' do
+      delay_double = double(offer_expiring_soon_email: true)
 
-    OfferExpirationMailer.should_receive(:delay).and_return(delay_double)
+      Plink::UserAutoLoginRecord.should_receive(:create).and_return(double(user_token:'asd'))
 
-    delay_double.should_receive(:offer_expiring_soon_email).with(
-      first_name: 'kramer',
-      email:  'foo@example.com',
-      end_date: instance_of(ActiveSupport::TimeWithZone),
-      advertiser_name: 'bk',
-      user_token: 'asd'
-    )
+      OfferExpirationMailer.should_receive(:delay).and_return(delay_double)
 
-    capture_stdout { subject.invoke }
+      delay_double.should_receive(:offer_expiring_soon_email).with(
+        first_name: 'kramer',
+        email:  'foo@example.com',
+        end_date: instance_of(ActiveSupport::TimeWithZone),
+        advertiser_name: 'bk',
+        user_token: 'asd'
+      )
+
+      capture_stdout { subject.invoke }
+    end
+
+    it 'sends an email to everyone with an offer in their wallet that expires in 7 days' do
+      capture_stdout { subject.invoke }
+
+      ActionMailer::Base.deliveries.should_not be_empty
+      ActionMailer::Base.deliveries.first.to.should == [user_with_expiring_offer.email]
+    end
   end
 
-  it 'sends an email to everyone with an offer in their wallet that expires in 7 days' do
-    capture_stdout { subject.invoke }
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    ActionMailer::Base.deliveries.should_not be_empty
-    ActionMailer::Base.deliveries.first.to.should == [user_with_expiring_offer.email]
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /notify_users_of_expiring_offers/
+      end
 
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      subject.invoke
+    end
 
-    ::Exceptional::Catcher.should_receive(:handle).with(/notify_users_of_expiring_offers/)
+    it 'includes the user.id in the record-level exception text' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    subject.invoke
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user\.id = \d+/
+      end
 
-  it 'includes the user.id in the record-level exception text' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      subject.invoke
+    end
 
-    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
+    it 'includes the offer.id in the record-level exception text' do
+      AutoLoginService.stub(:generate_token).and_raise
 
-    subject.invoke
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /offer\.id = \d+/
+      end
 
-  it 'includes the offer.id in the record-level exception text' do
-    AutoLoginService.stub(:generate_token).and_raise(Exception)
+      subject.invoke
+    end
 
-    ::Exceptional::Catcher.should_receive(:handle).with(/offer\.id = \d+/)
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-    subject.invoke
-  end
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /notify_users_of_expiring_offers/
+      end
 
-  it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+      subject.invoke
+    end
 
-    ::Exceptional::Catcher.should_receive(:handle).with(/notify_users_of_expiring_offers/)
+    it 'does not include user.id in the task-level exception text' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-    subject.invoke
-  end
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
 
-  it 'does not include user.id in the task-level exception text' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
+      subject.invoke
+    end
 
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id = \d+/)
+    it 'does not include offer.id in the task-level exception text' do
+      Plink::OfferRecord.stub(:where).and_raise
 
-    subject.invoke
-  end
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/offer\.id = \d+/)
 
-  it 'does not include offer.id in the task-level exception text' do
-    Plink::OfferRecord.stub(:where).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/offer\.id = \d+/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end

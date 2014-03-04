@@ -31,87 +31,104 @@ describe 'contest:daily_reminder_email', skip_in_build: true do
     user
   end
 
-  it 'emails users who have their latest entry as yesterday' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
+    end
 
-    subject.invoke
+    it 'emails users who have their latest entry as yesterday' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
 
-    ActionMailer::Base.deliveries.should_not be_empty
-    ActionMailer::Base.deliveries.first.to.should == [user.email]
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should_not be_empty
+      ActionMailer::Base.deliveries.first.to.should == [user.email]
+    end
+
+    it 'does not email users who have opted out of the emails' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+      user.update_attribute(:daily_contest_reminder, false)
+
+      ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+
+      subject.invoke
+    end
+
+    it 'does not email users who have not yet entered or selected to receive emails' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+      user.update_attribute(:daily_contest_reminder, nil)
+
+      ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+
+      subject.invoke
+    end
+
+    it 'does not email users who have not entered yesterday but entered before then' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 2.days.ago)
+
+      ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+
+      subject.invoke
+    end
+
+    it 'does not email users who have already entered today' do
+      create_entry(contest_id: contest.id, user_id: user.id)
+
+      reminder_args = {
+        user_id: user.id,
+        first_name: user.first_name,
+        email: user.email
+      }
+
+      ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+
+      subject.invoke
+    end
   end
 
-  it 'does not email users who have opted out of the emails' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
-    user.update_attribute(:daily_contest_reminder, false)
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+      ContestMailer.stub(:daily_reminder_email).and_raise
 
-    ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /daily_reminder_email/
+      end
 
-    subject.invoke
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who have not yet entered or selected to receive emails' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
-    user.update_attribute(:daily_contest_reminder, nil)
+    it 'includes the user.id in the record-level exception text' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+      ContestMailer.stub(:daily_reminder_email).and_raise
 
-    ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user\.id = \d+/
+      end
 
-    subject.invoke
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who have not entered yesterday but entered before then' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 2.days.ago)
+    it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
+      Plink::UserRecord.stub(:select).and_raise
 
-    ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /daily_reminder_email/
+      end
 
-    subject.invoke
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who have already entered today' do
-    create_entry(contest_id: contest.id, user_id: user.id)
+    it 'does not include user.id in task-level exceptions' do
+      Plink::UserRecord.stub(:select).and_raise
 
-    reminder_args = {
-      user_id: user.id,
-      first_name: user.first_name,
-      email: user.email
-    }
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
 
-    ContestMailer.should_not_receive(:daily_reminder_email).with(reminder_args)
-
-    subject.invoke
-  end
-
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
-    ContestMailer.stub(:daily_reminder_email).and_raise(Exception)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/daily_reminder_email/)
-
-    subject.invoke
-  end
-
-  it 'includes the user.id in the record-level exception text' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
-    ContestMailer.stub(:daily_reminder_email).and_raise(Exception)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
-    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/daily_reminder_email/)
-
-    subject.invoke
-  end
-
-  it 'does not include user.id in task-level exceptions' do
-    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
 
@@ -133,79 +150,96 @@ describe 'contest:three_day_reminder_email', skip_in_build: true do
   let!(:opted_out_user) { create_user(email: 'opt-out@plink.com', daily_contest_reminder: false) }
   let!(:user_without_preference) { create_user(email: 'nopref@plink.com', daily_contest_reminder: nil) }
 
-  it 'emails users that entered three days ago and receive daily reminder emails' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
+  context 'when there are no exceptions' do
+    before do
+      ::Exceptional::Catcher.should_not_receive(:handle)
+    end
 
-    subject.invoke
+    it 'emails users that entered three days ago and receive daily reminder emails' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
 
-    ActionMailer::Base.deliveries.should_not be_empty
-    ActionMailer::Base.deliveries.first.to.should == [user.email]
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should_not be_empty
+      ActionMailer::Base.deliveries.first.to.should == [user.email]
+    end
+
+    it 'does not email users who entered more than three days ago but not since' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 4.days.ago)
+
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should be_empty
+    end
+
+    it 'does not email users who entered yesterday' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should be_empty
+    end
+
+    it 'does not email users who have opted out even if they entered 3 days ago' do
+      create_entry(contest_id: contest.id, user_id: opted_out_user.id, created_at: 3.days.ago)
+
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should be_empty
+    end
+
+    it 'does not email users who have not set a preference' do
+      create_entry(contest_id: contest.id, user_id: user_without_preference.id, created_at: 3.days.ago)
+
+      subject.invoke
+
+      ActionMailer::Base.deliveries.should be_empty
+    end
   end
 
-  it 'does not email users who entered more than three days ago but not since' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 4.days.ago)
+  context 'when there are exceptions' do
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
+      ContestMailer.stub(:three_day_reminder_email).and_raise
 
-    subject.invoke
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /three_day_reminder_email/
+      end
 
-    ActionMailer::Base.deliveries.should be_empty
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who entered yesterday' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 1.day.ago)
+    it 'includes the user.id in the record-level exception text' do
+      create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
+      ContestMailer.stub(:three_day_reminder_email).and_raise
 
-    subject.invoke
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /user\.id = \d+/
+      end
 
-    ActionMailer::Base.deliveries.should be_empty
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who have opted out even if they entered 3 days ago' do
-    create_entry(contest_id: contest.id, user_id: opted_out_user.id, created_at: 3.days.ago)
+    it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
+      Plink::UserRecord.stub(:select).and_raise
 
-    subject.invoke
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /three_day_reminder_email/
+      end
 
-    ActionMailer::Base.deliveries.should be_empty
-  end
+      subject.invoke
+    end
 
-  it 'does not email users who have not set a preference' do
-    create_entry(contest_id: contest.id, user_id: user_without_preference.id, created_at: 3.days.ago)
+    it 'does not include user.id in task-level exceptions' do
+      Plink::UserRecord.stub(:select).and_raise
 
-    subject.invoke
+      ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
 
-    ActionMailer::Base.deliveries.should be_empty
-  end
-
-  it 'logs record-level exceptions to Exceptional with the Rake task name' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
-    ContestMailer.stub(:three_day_reminder_email).and_raise(Exception)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/three_day_reminder_email/)
-
-    subject.invoke
-  end
-
-  it 'includes the user.id in the record-level exception text' do
-    create_entry(contest_id: contest.id, user_id: user.id, created_at: 3.days.ago)
-    ContestMailer.stub(:three_day_reminder_email).and_raise(Exception)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/user\.id = \d+/)
-
-    subject.invoke
-  end
-
-  it 'logs Rake task-level exceptions to Exceptional with the Rake task name' do
-    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_receive(:handle).with(/three_day_reminder_email/)
-
-    subject.invoke
-  end
-
-  it 'does not include user.id in task-level exceptions' do
-    Plink::UserRecord.stub(:select).and_raise(ActiveRecord::ConnectionNotEstablished)
-
-    ::Exceptional::Catcher.should_not_receive(:handle).with(/user\.id =/)
-
-    subject.invoke
+      subject.invoke
+    end
   end
 end
 

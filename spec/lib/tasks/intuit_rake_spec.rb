@@ -98,19 +98,23 @@ describe 'intuit:remove_staged_accounts' do
 
   context 'when there are exceptions' do
     it 'logs Rake task-level failures to Exceptional with the Rake task name' do
-      ::Exceptional::Catcher.should_receive(:handle).with(/intuit:remove_staged_accounts/)
+      Plink::UsersInstitutionAccountStagingRecord.stub(:joins).and_raise
 
-      Plink::UsersInstitutionAccountStagingRecord.stub(:joins).
-        and_raise(ActiveRecord::ConnectionNotEstablished)
-
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /intuit:remove_staged_accounts/
+      end
 
       subject.invoke
     end
 
     it 'logs record-level exceptions to Exceptional with the Rake task name' do
-      Intuit::AccountRemovalService.stub(:delay).and_raise(Exception)
+      Intuit::AccountRemovalService.stub(:delay).and_raise
 
-      ::Exceptional::Catcher.should_receive(:handle).with(/intuit:remove_staged_accounts Rake task failed on users_institution_account_staging\.id =/)
+      ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
+        exception.should be_a(RuntimeError)
+        message.should =~ /intuit:remove_staged_accounts Rake task failed on users_institution_account_staging\.id =/
+      end
 
       subject.invoke
     end

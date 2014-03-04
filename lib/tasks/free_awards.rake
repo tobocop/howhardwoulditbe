@@ -8,7 +8,7 @@ namespace :free_awards do
       end
       puts "[#{Time.zone.now}] End of award_offer_add_bonuses"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle("award_offer_add_bonuses Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "award_offer_add_bonuses Rake task failed")
     end
   end
 
@@ -68,7 +68,7 @@ private
     rescue Exception
       message = "award_offer_add_bonuses failure for user.id = #{user.id}, "
       message << "user_eligible_for_offer_add_bonus.id = #{user_eligible_for_offer_add_bonus.id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 

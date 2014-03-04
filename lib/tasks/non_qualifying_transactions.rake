@@ -8,7 +8,7 @@ namespace :non_qualifying_transactions do
         send_bonus(eligible_user, virtual_currency_presenter)
       end
     rescue Exception => e
-      ::Exceptional::Catcher.handle("send_offer_add_bonus_emails Rake task failed #{$!}")
+      ::Exceptional::Catcher.handle($!, "send_offer_add_bonus_emails Rake task failed")
     end
   end
 
@@ -78,7 +78,7 @@ private
     rescue Exception
       message = "send_offer_add_bonus_emails failure for user.id = #{eligible_user.user_id}, "
       message << "offer.id = #{eligible_user.offer_id}"
-      ::Exceptional::Catcher.handle("#{message} #{$!}")
+      ::Exceptional::Catcher.handle($!, "#{message}")
     end
   end
 end
