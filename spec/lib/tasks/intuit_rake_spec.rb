@@ -38,6 +38,31 @@ describe 'intuit:remove_accounts' do
   end
 end
 
+describe 'intuit:remove_force_deactivated_accounts' do
+  include_context 'rake'
+
+  let(:force_deactivated_user) { create_user(is_force_deactivated: true) }
+  let!(:account_to_remove) {
+    create_users_institution_account(
+      user_id: force_deactivated_user.id,
+      users_institution_id: 1
+    )
+  }
+
+  it 'gets all accounts for a force deactivated user' do
+    subject.invoke
+  end
+
+  it 'queues the account removals to a named DJ queue' do
+    subject.invoke
+  end
+
+  it 'only removes accounts from a user who has been force deactivated' do
+    subject.invoke
+  end
+end
+
+
 describe 'intuit:remove_staged_accounts' do
   include_context 'rake'
 

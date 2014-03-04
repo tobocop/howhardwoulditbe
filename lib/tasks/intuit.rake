@@ -10,6 +10,10 @@ namespace :intuit do
     end
   end
 
+  desc 'Removes accounts from intuit for users that have been force-deactivated'
+  task remove_force_deactivated_accounts: :environment do
+  end
+
   desc 'Removes accounts from intuit that are staged and have not been chosen'
   task remove_staged_accounts: :environment do
     begin
