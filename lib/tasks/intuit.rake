@@ -12,6 +12,26 @@ namespace :intuit do
 
   desc 'Removes accounts from intuit for users that have been force-deactivated'
   task remove_force_deactivated_accounts: :environment do
+    begin
+      stars; puts "[#{Time.zone.now}] Beginning intuit:remove_force_deactivated_accounts"
+
+      force_deactivated_accounts_to_remove.each do |fd_account|
+        begin
+          Intuit::AccountRemovalService.delay(queue: 'force_deactivated_intuit_account_removals').remove(
+            fd_account.account_id,
+            fd_account.user_id,
+            fd_account.users_institution_id
+          )
+          puts "[#{Time.zone.now}] Removing account with users_institution_account.id = #{account.id}"
+        rescue Exception => e
+          ::Exceptional::Catcher.handle("intuit:remove_force_deactivated_accounts Rake task failed on users_institution_account.id = #{fd_account.id} with #{$!}")
+        end
+      end
+
+      puts "[#{Time.zone.now}] Ending intuit:remove_force_deactivated_accounts"; stars
+    rescue Exception => e
+      ::Exceptional::Catcher.handle("intuit:remove_force_deactivated_accounts Rake task failed #{$!}")
+    end
   end
 
   desc 'Removes accounts from intuit that are staged and have not been chosen'
@@ -22,10 +42,10 @@ namespace :intuit do
       staged_accounts_to_remove.each do |staged_account|
         begin
           Intuit::AccountRemovalService.delay(queue: 'intuit_account_removals').remove(
-              staged_account.account_id,
-              staged_account.user_id,
-              staged_account.users_institution_id
-            )
+            staged_account.account_id,
+            staged_account.user_id,
+            staged_account.users_institution_id
+          )
           puts "[#{Time.zone.now}] Removing account with users_institution_account_staging.id = #{staged_account.id}"
         rescue Exception => e
           ::Exceptional::Catcher.handle($!, "intuit:remove_staged_accounts Rake task failed on users_institution_account_staging.id = #{staged_account.id}")
@@ -57,6 +77,12 @@ namespace :intuit do
   end
 
 private
+
+  def force_deactivated_accounts_to_remove
+    Plink::UsersInstitutionAccountRecord.
+      joins('INNER JOIN users ON users.userID=usersInstitutionAccounts.userID').
+      where('users.isForceDeactivated = ?', true)
+  end
 
   def staged_accounts_to_remove
     Plink::UsersInstitutionAccountStagingRecord.

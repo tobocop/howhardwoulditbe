@@ -41,27 +41,70 @@ end
 describe 'intuit:remove_force_deactivated_accounts' do
   include_context 'rake'
 
-  let(:force_deactivated_user) { create_user(is_force_deactivated: true) }
+  let!(:intuit_account_removal_service) { double(remove: true) }
+  let!(:force_deactivated_user) {
+    create_user(
+      is_force_deactivated: true,
+      id: 1
+    )
+  }
   let!(:account_to_remove) {
     create_users_institution_account(
-      user_id: force_deactivated_user.id,
-      users_institution_id: 1
+      account_id: 1,
+      user_id: 1,
+      users_institution_id: 11
     )
   }
 
-  it 'gets all accounts for a force deactivated user' do
-    subject.invoke
+  context 'when there are no exceptions' do
+    it 'removes all accounts for a user who has been force deactivated' do
+      Intuit::AccountRemovalService.should_receive(:remove).with(1, 1, 11)
+
+      subject.invoke
+    end
+
+    it 'queues the account removals to a named DJ queue' do
+      delay_double = double(remove: true)
+
+      Intuit::AccountRemovalService.should_receive(:delay)
+        .with(queue: 'force_deactivated_intuit_account_removals')
+        .and_return(delay_double)
+      delay_double.should_receive(:remove).with(1, 1, 11)
+
+      subject.invoke
+    end
+
+    context 'for an active user' do
+      let(:active_user) { create_user }
+      let(:active_account) { create_users_institution_account(user_id: active_user.id) }
+
+      it 'does not remove the user\'s accounts' do
+        Intuit::AccountRemovalService.should_not_receive(:remove)
+        subject.invoke
+      end
+    end
   end
 
-  it 'queues the account removals to a named DJ queue' do
-    subject.invoke
-  end
 
-  it 'only removes accounts from a user who has been force deactivated' do
-    subject.invoke
+  context 'when there are exceptions' do
+    it 'logs Rake task-level failures to Exceptional with the Rake task name' do
+      ::Exceptional::Catcher.should_receive(:handle).with(/intuit:remove_force_deactivated_accounts/)
+
+      Plink::UsersInstitutionAccountRecord.stub(:joins).
+        and_raise(ActiveRecord::ConnectionNotEstablished)
+
+      subject.invoke
+    end
+
+    it 'logs record-level exceptions to Exceptional with the Rake task name' do
+      Intuit::AccountRemovalService.stub(:delay).and_raise(Exception)
+
+      ::Exceptional::Catcher.should_receive(:handle).with(/intuit:remove_force_deactivated_accounts Rake task failed on users_institution_account\.id =/)
+
+      subject.invoke
+    end
   end
 end
-
 
 describe 'intuit:remove_staged_accounts' do
   include_context 'rake'
