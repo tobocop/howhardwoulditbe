@@ -50,6 +50,69 @@ describe Plink::UsersInstitutionAccountStagingRecord do
     record.name.should == 'account name'
   end
 
+  describe 'scopes' do
+    describe '.unchosen_accounts_in_intuit' do
+      let!(:unchosen_account) { create_users_institution_account_staging(
+          account_id: 123,
+          created: 3.days.ago,
+          in_intuit: true
+        )
+      }
+
+      subject(:unchosen_accounts_in_intuit) { Plink::UsersInstitutionAccountStagingRecord.unchosen_accounts_in_intuit }
+
+      it 'returns unchosen accounts' do
+        unchosen_accounts_in_intuit.should == [unchosen_account]
+      end
+
+      it 'does not return chosen accounts' do
+        create_users_institution_account(account_id: unchosen_account.account_id)
+
+        unchosen_accounts_in_intuit.should == []
+      end
+
+      it 'does not return accounts unless they are 2 days old' do
+        unchosen_account.update_attribute('created', 1.day.ago)
+
+        unchosen_accounts_in_intuit.should == []
+      end
+
+      it 'does not return accounts that are not in intuit' do
+        unchosen_account.update_attribute('inIntuit', false)
+
+        unchosen_accounts_in_intuit.should == []
+      end
+    end
+
+    describe '.accounts_of_force_deactivated_users' do
+      let!(:force_deactivated_user) { create_user(isForceDeactivated: true) }
+      let!(:account_to_remove) { create_users_institution_account_staging(user_id: force_deactivated_user.id) }
+
+      subject(:accounts_of_force_deactivated_users) { Plink::UsersInstitutionAccountStagingRecord.accounts_of_force_deactivated_users }
+
+      it 'returns all accounts that are associated to force deactivated users' do
+        accounts_of_force_deactivated_users.should == [account_to_remove]
+      end
+
+      it 'does not return accounts for active users' do
+        force_deactivated_user.update_attribute('isForceDeactivated', false)
+
+        accounts_of_force_deactivated_users.should == []
+      end
+    end
+  end
+
+  describe '.inactive_intuit_accounts' do
+    it 'combines unchosen_accounts_in_intuit and accounts_of_force_deactivated_users' do
+      record = double(Plink::UsersInstitutionAccountStagingRecord)
+
+      Plink::UsersInstitutionAccountStagingRecord.should_receive(:unchosen_accounts_in_intuit).and_return([record])
+      Plink::UsersInstitutionAccountStagingRecord.should_receive(:accounts_of_force_deactivated_users).and_return([record])
+
+      Plink::UsersInstitutionAccountStagingRecord.inactive_intuit_accounts.should == [record, record]
+    end
+  end
+
   describe '#values_for_final_account' do
     before { users_institution_account_staging.save! }
 

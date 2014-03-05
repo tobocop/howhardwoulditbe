@@ -27,6 +27,23 @@ module Plink
 
     validates_presence_of :account_id, :user_id, :users_institution_id
 
+    scope :unchosen_accounts_in_intuit, -> {
+      joins('LEFT OUTER JOIN usersInstitutionAccounts ON
+        usersInstitutionAccountsStaging.accountID = usersInstitutionAccounts.accountID').
+      where('usersInstitutionAccounts.accountID IS NULL').
+      where('usersInstitutionAccountsStaging.created < ?', 2.days.ago).
+      where('usersInstitutionAccountsStaging.inIntuit = ?', true)
+    }
+
+    scope :accounts_of_force_deactivated_users, -> {
+      joins('INNER JOIN users ON users.userID = usersInstitutionAccountsStaging.userID').
+      where('users.isForceDeactivated = ?', true)
+    }
+
+    def self.inactive_intuit_accounts
+      unchosen_accounts_in_intuit + accounts_of_force_deactivated_users
+    end
+
     def values_for_final_account
       {
         account_id: account_id,

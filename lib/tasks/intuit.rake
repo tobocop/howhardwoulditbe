@@ -10,51 +10,27 @@ namespace :intuit do
     end
   end
 
-  desc 'Removes accounts from intuit for users that have been force-deactivated'
-  task remove_force_deactivated_accounts: :environment do
-    begin
-      stars; puts "[#{Time.zone.now}] Beginning intuit:remove_force_deactivated_accounts"
-
-      force_deactivated_accounts_to_remove.each do |fd_account|
-        begin
-          Intuit::AccountRemovalService.delay(queue: 'force_deactivated_intuit_account_removals').remove(
-            fd_account.account_id,
-            fd_account.user_id,
-            fd_account.users_institution_id
-          )
-          puts "[#{Time.zone.now}] Removing account with users_institution_account.id = #{account.id}"
-        rescue Exception => e
-          ::Exceptional::Catcher.handle("intuit:remove_force_deactivated_accounts Rake task failed on users_institution_account.id = #{fd_account.id} with #{$!}")
-        end
-      end
-
-      puts "[#{Time.zone.now}] Ending intuit:remove_force_deactivated_accounts"; stars
-    rescue Exception => e
-      ::Exceptional::Catcher.handle("intuit:remove_force_deactivated_accounts Rake task failed #{$!}")
-    end
-  end
-
   desc 'Removes accounts from intuit that are staged and have not been chosen'
-  task remove_staged_accounts: :environment do
+  task remove_inactive_accounts: :environment do
     begin
-      stars; puts "[#{Time.zone.now}] Beginning intuit:remove_staged_accounts"
+      stars; puts "[#{Time.zone.now}] Beginning intuit:remove_inactive_accounts"
 
-      staged_accounts_to_remove.each do |staged_account|
+      inactive_intuit_accounts.each do |inactive_account|
         begin
           Intuit::AccountRemovalService.delay(queue: 'intuit_account_removals').remove(
-            staged_account.account_id,
-            staged_account.user_id,
-            staged_account.users_institution_id
+            inactive_account.account_id,
+            inactive_account.user_id,
+            inactive_account.users_institution_id
           )
-          puts "[#{Time.zone.now}] Removing account with users_institution_account_staging.id = #{staged_account.id}"
+          puts "[#{Time.zone.now}] Removing account with users_institution_account_staging.id = #{inactive_account.id}"
         rescue Exception => e
-          ::Exceptional::Catcher.handle($!, "intuit:remove_staged_accounts Rake task failed on users_institution_account_staging.id = #{staged_account.id}")
+          ::Exceptional::Catcher.handle($!, "intuit:remove_inactive_accounts Rake task failed on users_institution_account_staging.id = #{inactive_account.id}")
         end
       end
 
-      puts "[#{Time.zone.now}] Ending intuit:remove_staged_accounts"; stars
+      puts "[#{Time.zone.now}] Ending intuit:remove_inactive_accounts"; stars
     rescue Exception => e
-      ::Exceptional::Catcher.handle($!, "intuit:remove_staged_accounts Rake task failed")
+      ::Exceptional::Catcher.handle($!, "intuit:remove_inactive_accounts Rake task failed")
     end
   end
 
@@ -78,19 +54,8 @@ namespace :intuit do
 
 private
 
-  def force_deactivated_accounts_to_remove
-    Plink::UsersInstitutionAccountRecord.
-      joins('INNER JOIN users ON users.userID=usersInstitutionAccounts.userID').
-      where('users.isForceDeactivated = ?', true)
-  end
-
-  def staged_accounts_to_remove
-    Plink::UsersInstitutionAccountStagingRecord.
-      joins('LEFT OUTER JOIN usersInstitutionAccounts ON
-        usersInstitutionAccounts.accountID = usersInstitutionAccountsStaging.accountID').
-      where('usersInstitutionAccounts.usersInstitutionAccountStagingID IS NULL').
-      where('usersInstitutionAccountsStaging.created < ?', 2.days.ago).
-      where('usersInstitutionAccountsStaging.inIntuit = ?', true)
+  def inactive_intuit_accounts
+    Plink::UsersInstitutionAccountStagingRecord.inactive_intuit_accounts
   end
 
   def stars
