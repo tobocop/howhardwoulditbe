@@ -205,15 +205,15 @@ describe Intuit::Response do
         response[:value].should == [account_hash]
       end
 
-      it 'does not return an error when accounts are not present' do
+      it 'does not return an error when the response is successful, but has no account list and does not need to have transactions' do
         intuit_response = {status_code: '200', result: ''}
 
         response = Intuit::Response.new(intuit_response)
 
-        response.parse.should == {error: false, transactions: false}
+        response.parse.should == {error: false}
       end
 
-      it 'indicates if the request included transactions' do
+      it 'indicates if the request included transactions if it did not have an account list' do
         intuit_response = {status_code: '200', result: {transaction_list: {credit_card_transaction: true}}}
 
         response = Intuit::Response.new(intuit_response)

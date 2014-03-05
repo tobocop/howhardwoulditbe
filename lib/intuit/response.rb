@@ -11,13 +11,13 @@ module Intuit
       if successful?
         if accounts?
           response.merge!(value: accounts, aggr_status_codes: parse_status_codes(accounts))
-        else
-          response.merge!(transactions: transactions?)
+        elsif transaction_response?
+          response = Intuit::TransactionResponse.new(raw_response).to_h
         end
       elsif mfa?
         response.merge!(mfa: true, value: questions_and_challenge_ids)
       else
-        response = {error: true, value: error_message}              # START HERE
+        response = {error: true, value: error_message}
       end
 
       response
@@ -54,10 +54,8 @@ module Intuit
       raw_response[:status_code] == '200' || raw_response[:status_code] == '201'
     end
 
-    def transactions?
-      raw_response[:result].present? && raw_response[:result].has_key?(:transaction_list) &&
-        ( raw_response[:result][:transaction_list].has_key?(:credit_card_transaction) ||
-        raw_response[:result][:transaction_list].has_key?(:banking_transaction) )
+    def transaction_response?
+      raw_response[:result].present? && raw_response[:result].has_key?(:transaction_list)
     end
 
     def mfa?
