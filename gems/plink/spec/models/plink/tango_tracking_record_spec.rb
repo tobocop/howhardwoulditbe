@@ -41,4 +41,21 @@ describe Plink::TangoTrackingRecord do
     Plink::TangoTrackingRecord.create(valid_params).should be_persisted
   end
 
+  context 'scopes' do
+    describe '.from_past_day' do
+      let!(:tango_tracking_record) { create_tango_tracking(sent_to_tango_on: Time.zone.now) }
+
+      subject(:from_past_day) { Plink::TangoTrackingRecord.from_past_day }
+
+      it 'returns records that have been sent to tango within the past day' do
+        from_past_day.should == [tango_tracking_record]
+      end
+
+      it 'does not return records sent to tango earlier then the past day' do
+        tango_tracking_record.update_attribute('sentToTangoOn', 2.days.ago)
+
+        from_past_day.should == []
+      end
+    end
+  end
 end

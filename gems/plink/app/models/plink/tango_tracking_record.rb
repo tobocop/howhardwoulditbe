@@ -26,5 +26,8 @@ module Plink
     alias_attribute :tango_tracking_id, :tangoTrackingID
     alias_attribute :user_id, :userID
 
+    scope :from_past_day, -> {
+      where('sentToTangoOn > ?', 1.day.ago)
+    }
   end
 end
