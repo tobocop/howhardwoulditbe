@@ -2,9 +2,6 @@ export RAILS_ENV=test
 bundle exec rake jasmine:ci
 STATUS=$((STATUS + $?))
 
-cd gems/plink_analytics && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
-STATUS=$((STATUS + $?))
-
 cd gems/plink_api && bundle install --deployment --path vendor/bundle && bundle exec rspec spec && cd ../..
 STATUS=$((STATUS + $?))
 
