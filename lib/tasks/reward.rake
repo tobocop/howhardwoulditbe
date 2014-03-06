@@ -17,13 +17,13 @@ namespace :reward do
   task add_new_tango_rewards: :environment do
     Plink::RewardRecord.create(
       award_code: 'flowers-gift-card',
-      description: "Gift-giving has never been easier with the 1-800-FLOWERS.COM Gift Card! Browse a wide selection of fresh flowers, delicious gourmet treats and desserts, beautiful plants, stunning gift baskets and more – and then choose exactly what you want!",
-      name: "1-800-FLOWERS.COM® Gift Card",
+      description: "Gift-giving has never been easier with the 1-800-FLOWERS.COM&reg; Gift Card! Browse a wide selection of fresh flowers, delicious gourmet treats and desserts, beautiful plants, stunning gift baskets and more – and then choose exactly what you want!",
+      name: "1-800-FLOWERS.COM&reg; Gift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/1800Flowers.png',
-      terms: "1-800-FLOWERS.COM is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions.   Your Gift Card is redeemable at 1-800-FLOWERS.COM®, 1-800-BASKETS.COM®, Fannie May®, Cheryl's® and The Popcorn Factory®--online, by phone where available, and at certain participating stores.  Please allow 7 days from purchase date for UPS Ground delivery.  No expiration date and no service fee!   This offer cannot be combined with Promotion Codes.",
+      terms: "1-800-FLOWERS.COM is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions.   Your Gift Card is redeemable at 1-800-FLOWERS.COM&reg;, 1-800-BASKETS.COM&reg;, Fannie May&reg;, Cheryl's&reg; and The Popcorn Factory&reg;--online, by phone where available, and at certain participating stores.  Please allow 7 days from purchase date for UPS Ground delivery.  No expiration date and no service fee!   This offer cannot be combined with Promotion Codes.",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 25, is_active: true)
@@ -32,13 +32,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'barnes-gift-card',
-      description: "The Barnes & Noble eGift Card can be redeemed at any Barnes & Noble store and online at BN.com (www.bn.com) – where you’ll find an amazing selection of books, NOOK Books™, (eBooks), CDs, DVDs, toys, games, and more. It can also be redeemed for NOOK eReader devices.",
-      name: "Barnes & Noble eGift Card",
+      description: "The Barnes &amp; Noble eGift Card can be redeemed at any Barnes &amp; Noble store and online at BN.com (www.bn.com) – where you'll find an amazing selection of books, NOOK Books&trade;, (eBooks), CDs, DVDs, toys, games, and more. It can also be redeemed for NOOK eReader devices.",
+      name: "Barnes &amp; Noble eGift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/barnesandnoble.png',
-      terms: "* Barnes & Noble is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. A Barnes & Noble eGift Card may be used to purchase annual memberships in the Barnes & Noble Membership program (continuous billing memberships require a valid credit card). Dormancy fees do not apply to balances on Barnes & Noble eGift Cards. The Barnes & Noble eGift Card will not be exchangeable for cash, except where required by law. Barnes & Noble will not be responsible for lost or stolen Barnes & Noble eGift Cards. If you have any additional Barnes & Noble eGift Card questions, get Barnes & Noble eGift Card Help at http://www.barnesandnoble.com/gc/gc_about_card.asp?cds2Pid=17599&linkid=1035340.",
+      terms: "* Barnes &amp; Noble is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. A Barnes &amp; Noble eGift Card may be used to purchase annual memberships in the Barnes &amp; Noble Membership program (continuous billing memberships require a valid credit card). Dormancy fees do not apply to balances on Barnes &amp; Noble eGift Cards. The Barnes &amp; Noble eGift Card will not be exchangeable for cash, except where required by law. Barnes &amp; Noble will not be responsible for lost or stolen Barnes &amp; Noble eGift Cards. If you have any additional Barnes &amp; Noble eGift Card questions, get Barnes &amp; Noble eGift Card Help at http://www.barnesandnoble.com/gc/gc_about_card.asp?cds2Pid=17599&linkid=1035340.",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 25, is_active: true),
@@ -48,13 +48,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'home-gift-card',
-      description: "The Home Depot® is the world's largest home improvement specialty retailer and they have something for everybody, from the novice painter to the gardening master.  With The Home Depot® eGift Card you can shop at more than 2,200 retail locations throughout the U.S., Canada, and Mexico and online at www.homedepot.com.  The Home Depot® – revolutionizing the home improvement industry by bringing the know-how and the tools to the consumer. More saving.",
-      name: "The Home Depot® eGift Card",
+      description: "The Home Depot&reg; is the world's largest home improvement specialty retailer and they have something for everybody, from the novice painter to the gardening master.  With The Home Depot&reg; eGift Card you can shop at more than 2,200 retail locations throughout the U.S., Canada, and Mexico and online at www.homedepot.com.  The Home Depot&reg; – revolutionizing the home improvement industry by bringing the know-how and the tools to the consumer. More saving.",
+      name: "The Home Depot&reg; eGift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/HomeDepot.png',
-      terms: "* Plink is not affiliated with The Home Depot®. The Home Depot® is not a sponsor of this promotion. The Home Depot® is a registered trademark of Homer TLC, Inc. Valid toward purchase of merchandise/services at any The Home Depot® store in the U.S., Canada and online at HomeDepot.com. Gift Card carries no implied warranties and is not a credit/debit card. Not redeemable for cash (unless required by law) and cannot be applied to any credit or loan balance, Tool Rental deposits, or for in-home/phone purchases.  Gift Cards will not be cancelled and replaced without proof of purchase. Except as required by law, Gift Cards purchased with cash will not be replaced and any Gift Card may be deactivated or rejected in connection with fraudulent actions. Check your balance at any The Home Depot store or online. Reload card value at any The Home Depot store.  © 2013. HOMER TLC, Inc. All rights reserved.  Redeemable in local funds at Home Depot’s then applicable exchange rate.",
+      terms: "* Plink is not affiliated with The Home Depot&reg;. The Home Depot&reg; is not a sponsor of this promotion. The Home Depot&reg; is a registered trademark of Homer TLC, Inc. Valid toward purchase of merchandise/services at any The Home Depot&reg; store in the U.S., Canada and online at HomeDepot.com. Gift Card carries no implied warranties and is not a credit/debit card. Not redeemable for cash (unless required by law) and cannot be applied to any credit or loan balance, Tool Rental deposits, or for in-home/phone purchases.  Gift Cards will not be cancelled and replaced without proof of purchase. Except as required by law, Gift Cards purchased with cash will not be replaced and any Gift Card may be deactivated or rejected in connection with fraudulent actions. Check your balance at any The Home Depot store or online. Reload card value at any The Home Depot store.  &copy; 2013. HOMER TLC, Inc. All rights reserved.  Redeemable in local funds at Home Depot's then applicable exchange rate.",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 15, is_active: true),
@@ -64,7 +64,7 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'starbucks-gift-card',
-      description: "A Starbucks Card can bring a little goodness into everyone’s day. Whether you use it for  your favorite flavored ice tea or give one to a friend who loves her morning mocha, it’s a great way for you or a loved one to enjoy a slice of happiness.",
+      description: "A Starbucks Card can bring a little goodness into everyone's day. Whether you use it for  your favorite flavored ice tea or give one to a friend who loves her morning mocha, it's a great way for you or a loved one to enjoy a slice of happiness.",
       name: "Starbucks eGift Card",
       is_active: true,
       is_redeemable: true,
@@ -81,7 +81,7 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'target-gift-card',
-      description: "A Target eGiftCard is your opportunity to shop for thousands of items at more than 1,700 Target and SuperTarget® stores in the U.S., as well as Target.com. From home decor, small appliances and electronics to fashion, accessories and music, find exactly what you're looking for at Target. No fees. No expiration. No kidding.®",
+      description: "A Target eGiftCard is your opportunity to shop for thousands of items at more than 1,700 Target and SuperTarget&reg; stores in the U.S., as well as Target.com. From home decor, small appliances and electronics to fashion, accessories and music, find exactly what you're looking for at Target. No fees. No expiration. No kidding.&reg;",
       name: "Target eGift Card",
       is_active: true,
       is_redeemable: true,
@@ -104,7 +104,7 @@ namespace :reward do
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/Staples.png',
-      terms: "*Staples is not a sponsor of the rewards or promotion or otherwise affiliated with [company name]. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. © 2013 Staples International, Inc. The Staples logo is a registered trademark and copyrighted work of Staples International, Inc. PROTECT THIS CARD LIKE CASH! Instructions: This card may be used just like cash toward the purchase of merchandise and services at any Staples U.S. retail store; your receipt will show the remaining balance on the card. For balance, or if you have questions, call 1-888-609-6963 or visit staples.com/giftcards. Value can be added to this card at any Staples U.S. retail store. Terms and Conditions: Valid only if purchased from a Staples U.S. retail store, at staples.com® or from an authorized reseller or distributor, or received from an authorized distributor; Staples reserves the right to not honor cards obtained from unauthorized sellers, including Internet auction sites. Card has no value until activated. Lost, stolen or damaged cards replaced only with valid proof of purchase to extent of remaining card balance. May be used only in Staples U.S. retail stores. Cannot be used for credit card payments or to purchase other gift cards (including Staples Gift Cards) or wireless cards. Not redeemable for cash or credit except where required by law. No more than five cards may be used for any single purchase. Cards may not be consolidated. Card issued by Staples Value, LLC. ",
+      terms: "*Staples is not a sponsor of the rewards or promotion or otherwise affiliated with [company name]. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. &copy; 2013 Staples International, Inc. The Staples logo is a registered trademark and copyrighted work of Staples International, Inc. PROTECT THIS CARD LIKE CASH! Instructions: This card may be used just like cash toward the purchase of merchandise and services at any Staples U.S. retail store; your receipt will show the remaining balance on the card. For balance, or if you have questions, call 1-888-609-6963 or visit staples.com/giftcards. Value can be added to this card at any Staples U.S. retail store. Terms and Conditions: Valid only if purchased from a Staples U.S. retail store, at staples.com&reg; or from an authorized reseller or distributor, or received from an authorized distributor; Staples reserves the right to not honor cards obtained from unauthorized sellers, including Internet auction sites. Card has no value until activated. Lost, stolen or damaged cards replaced only with valid proof of purchase to extent of remaining card balance. May be used only in Staples U.S. retail stores. Cannot be used for credit card payments or to purchase other gift cards (including Staples Gift Cards) or wireless cards. Not redeemable for cash or credit except where required by law. No more than five cards may be used for any single purchase. Cards may not be consolidated. Card issued by Staples Value, LLC. ",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 5, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
@@ -115,13 +115,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'sears-gift-card',
-      description: "The Sears Gift Card offers endless smiles and amazing possibilities.  With no expiration, get the brands and products you want at Sears, Kmart, and Lands’ End, both online and in store when you want.  It’s the perfect card for home, apparel, jewelry, electronics, automotive, lawn & garden and much more.",
+      description: "The Sears Gift Card offers endless smiles and amazing possibilities.  With no expiration, get the brands and products you want at Sears, Kmart, and Lands' End, both online and in store when you want.  It's the perfect card for home, apparel, jewelry, electronics, automotive, lawn &amp; garden and much more.",
       name: "Sears Gift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/Sears.png',
-      terms: "* Sears is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. This card is issued by SHC Promotions LLC and is redeemable for goods and services at participating Sears, Roebuck and Co., Lands' End, The Great Indoors, and Kmart store locations in the U.S., P.R., Guam and U.S.V.I., and at sears.com, kmart.com, landsend.com and Lands' End catalogs. Not valid for purchase of third party debit or prepaid cards. Not redeemable for restaurant, Olan Mills Portrait Studio transactions or for cash, except where required by law. Cannot be applied to credit accounts. Lost, stolen or damaged gift cards may only be cancelled and replaced with proof of purchase. © 2013 SHC Promotions LLC. ",
+      terms: "* Sears is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. This card is issued by SHC Promotions LLC and is redeemable for goods and services at participating Sears, Roebuck and Co., Lands' End, The Great Indoors, and Kmart store locations in the U.S., P.R., Guam and U.S.V.I., and at sears.com, kmart.com, landsend.com and Lands' End catalogs. Not valid for purchase of third party debit or prepaid cards. Not redeemable for restaurant, Olan Mills Portrait Studio transactions or for cash, except where required by law. Cannot be applied to credit accounts. Lost, stolen or damaged gift cards may only be cancelled and replaced with proof of purchase. &copy; 2013 SHC Promotions LLC. ",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 15, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 25, is_active: true),
@@ -130,13 +130,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'papa-gift-card',
-      description: "Papa John’s has a gift card that really delivers, because we’re committed to quality. We use only the finest ingredients, from fresh-sliced vegetables to our fresh, never-frozen, hand-tossed dough. It’s quality that you can taste. We believe that Better Ingredients make a Better Tasting Pizza. Gift card is redeemable by phone, in restaurants and online. There are more than 2,800 restaurants in the U.S., including Alaska and Hawaii. No expiration date and no service fees.",
+      description: "Papa John's has a gift card that really delivers, because we're committed to quality. We use only the finest ingredients, from fresh-sliced vegetables to our fresh, never-frozen, hand-tossed dough. It's quality that you can taste. We believe that Better Ingredients make a Better Tasting Pizza. Gift card is redeemable by phone, in restaurants and online. There are more than 2,800 restaurants in the U.S., including Alaska and Hawaii. No expiration date and no service fees.",
       name: "Papa John's Gift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/PapaJohns.png',
-      terms: "* Papa John’s is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. Redeemable for the purchase of food, beverage, and gratuity at participating Papa John’s. Verification may be required if the card is used other than by physical presentation (such as telephone ordering or online ordering). If the card is lost, stolen, damaged or destroyed, it will not be replaced or replenished and you will lose any remaining value on the card. To inquire about the card balance, call 1-800-325-1119. For a location near you visit their website at www.papajohns.com. Please treat this eGift Card like cash and safeguard it accordingly.",
+      terms: "* Papa John's is not a sponsor of the rewards or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. Redeemable for the purchase of food, beverage, and gratuity at participating Papa John's. Verification may be required if the card is used other than by physical presentation (such as telephone ordering or online ordering). If the card is lost, stolen, damaged or destroyed, it will not be replaced or replenished and you will lose any remaining value on the card. To inquire about the card balance, call 1-800-325-1119. For a location near you visit their website at www.papajohns.com. Please treat this eGift Card like cash and safeguard it accordingly.",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
       ]
@@ -150,7 +150,7 @@ namespace :reward do
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/Kmart.png',
-      terms: "*Kmart is not a sponsor of the rewards or promotion or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. This card is issued by SHC Promotions, LLC and is redeemable for merchandise and services purchased in conjunction with merchandise at participating Kmart, Sears, Lands' End, and The Great Indoors store locations, except restaurant or Portrait Studio transactions, in the U.S., Puerto Rico, Guam and the U.S. Virgin Islands, and at kmart.com, sears.com, landsend.com and Lands' End consumer catalogs. It cannot be redeemed for cash or applied to your Kmart, Sears, Lands' End, or The Great Indoors credit accounts, except where required by law. Lost, stolen or damaged gift cards may only be cancelled and replaced with the required proof of purchase. © Kmart Corporation. For your balance inquiry call 1-800-922-5511. Visit our website at www.kmart.com. ",
+      terms: "*Kmart is not a sponsor of the rewards or promotion or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates.  Please visit each company's website for additional terms and conditions. This card is issued by SHC Promotions, LLC and is redeemable for merchandise and services purchased in conjunction with merchandise at participating Kmart, Sears, Lands' End, and The Great Indoors store locations, except restaurant or Portrait Studio transactions, in the U.S., Puerto Rico, Guam and the U.S. Virgin Islands, and at kmart.com, sears.com, landsend.com and Lands' End consumer catalogs. It cannot be redeemed for cash or applied to your Kmart, Sears, Lands' End, or The Great Indoors credit accounts, except where required by law. Lost, stolen or damaged gift cards may only be cancelled and replaced with the required proof of purchase. &copy; Kmart Corporation. For your balance inquiry call 1-800-922-5511. Visit our website at www.kmart.com. ",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 25, is_active: true),
       ]
@@ -158,13 +158,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'dominos-gift-card',
-      description: "Domino's is more than pizza! Try one of three varieties of stuffed cheesy bread, a delicious variety of Domino's Artisan™  specialty pizzas, Oven Baked Sandwiches, Parmesan Bread Bites, or Chocolate Lava Crunch Cakes. Order online at www.dominos.com for lunch, dinner, or your next occasion.",
+      description: "Domino's is more than pizza! Try one of three varieties of stuffed cheesy bread, a delicious variety of Domino's Artisan&trade;  specialty pizzas, Oven Baked Sandwiches, Parmesan Bread Bites, or Chocolate Lava Crunch Cakes. Order online at www.dominos.com for lunch, dinner, or your next occasion.",
       name: "Domino's Pizza eGift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/Dominos.png',
-      terms: "Participation by Domino’s Pizza in the program is not intended as, and shall not constitute, a promotion or marketing of the program by Domino’s Pizza. Prices, participation, delivery area and charges may vary, including AK and HI. Returned checks, along with the state's maximum allowable returned check fee, may be electronically presented to your bank. ©2013 Dominos IP Holder LLC. Dominos®, Domino's Pizza® and the modular logo are trademarks of Domino's IP Holder LLC Usable up to balance only to buy goods or services at participating Domino’s Pizza stores in the U.S. Not redeemable to purchase gift cards. Not redeemable for cash except as required by law. Not a credit or debit card. Safeguard the card. It will not be replaced or replenished if lost, stolen or used without authorization. CARDCO CXXV, Inc. is the card issuer and sole obligor to card owner. CARDCO may delegate its issuer obligations to an assignee, without recourse. If delegated, the assignee, and not CARDCO, will be sole obligor to card owner. Resale by any unlicensed vendor or through any unauthorized channels such as online auctions is prohibited. Purchase, use or acceptance of card constitutes acceptance of these terms. For balance inquiries go to www.dominos.com or call 877-250-2278 and for other inquiries visit www.dominos.com. Dominos IP Holder LLC. Dominos®, Domino’s Pizza® and the modular logo are trademarks of Domino’s IP Holder LLC. ",
+      terms: "Participation by Domino's Pizza in the program is not intended as, and shall not constitute, a promotion or marketing of the program by Domino's Pizza. Prices, participation, delivery area and charges may vary, including AK and HI. Returned checks, along with the state's maximum allowable returned check fee, may be electronically presented to your bank. &copy;2013 Dominos IP Holder LLC. Dominos&reg;, Domino's Pizza&reg; and the modular logo are trademarks of Domino's IP Holder LLC Usable up to balance only to buy goods or services at participating Domino's Pizza stores in the U.S. Not redeemable to purchase gift cards. Not redeemable for cash except as required by law. Not a credit or debit card. Safeguard the card. It will not be replaced or replenished if lost, stolen or used without authorization. CARDCO CXXV, Inc. is the card issuer and sole obligor to card owner. CARDCO may delegate its issuer obligations to an assignee, without recourse. If delegated, the assignee, and not CARDCO, will be sole obligor to card owner. Resale by any unlicensed vendor or through any unauthorized channels such as online auctions is prohibited. Purchase, use or acceptance of card constitutes acceptance of these terms. For balance inquiries go to www.dominos.com or call 877-250-2278 and for other inquiries visit www.dominos.com. Dominos IP Holder LLC. Dominos&reg;, Domino's Pizza&reg; and the modular logo are trademarks of Domino's IP Holder LLC. ",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 5, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
@@ -175,13 +175,13 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'bk-gift-card',
-      description: "The original HOME OF THE WHOPPER®, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.",
-      name: "BK® eGift Card",
+      description: "The original HOME OF THE WHOPPER&reg;, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.",
+      name: "BK&reg; eGift Card",
       is_active: true,
       is_redeemable: true,
       is_tango: true,
       logo_url: 'https://plink-images.s3.amazonaws.com/rewardImages/BurgerKing.png',
-      terms: "*BURGER KING® is not a sponsor of the rewards or promotion or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. Prices, participation, delivery area and charges may vary, including AK and HI. Returned checks, along with the state's maximum allowable returned check fee, may be electronically presented to your bank. ©2013 Dominos IP Holder LLC. Dominos®, Domino's Pizza® and the modular logo are trademarks of Domino's IP Holder LLC When you buy or receive a BK® eGift, the following additional terms and conditions shall apply. A BK® eGift is an electronic version of the BK Crown Card that may be purchased online where available or received and/or awarded as a prize in connection with certain BKC online and social media promotional activities. BK® eGifts are not re-loadable and are delivered to the recipient in the form of a sixteen (16) digit code via e-mail or on the recipient's designated social media web page, including a Facebook page. BK® eGifts can only be redeemed by presenting the sixteen (16) digit code at Participating Restaurants by showing a crew member the code on your smartphone or in printed format. The value of your BK® eGift, monetary or otherwise, will not be replaced by BKC if your BK® eGift is lost, stolen or damaged. You should protect your BK® eGift account number. If you share your account number, others may redeem the gift resulting in a depletion or total loss of the value of your BK® eGift ",
+      terms: "*BURGER KING&reg; is not a sponsor of the rewards or promotion or otherwise affiliated with Plink. The logos and other identifying marks attached are trademarks of and owned by each represented company and/or its affiliates. Prices, participation, delivery area and charges may vary, including AK and HI. Returned checks, along with the state's maximum allowable returned check fee, may be electronically presented to your bank. &copy;2013 Dominos IP Holder LLC. Dominos&reg;, Domino's Pizza&reg; and the modular logo are trademarks of Domino's IP Holder LLC When you buy or receive a BK&reg; eGift, the following additional terms and conditions shall apply. A BK&reg; eGift is an electronic version of the BK Crown Card that may be purchased online where available or received and/or awarded as a prize in connection with certain BKC online and social media promotional activities. BK&reg; eGifts are not re-loadable and are delivered to the recipient in the form of a sixteen (16) digit code via e-mail or on the recipient's designated social media web page, including a Facebook page. BK&reg; eGifts can only be redeemed by presenting the sixteen (16) digit code at Participating Restaurants by showing a crew member the code on your smartphone or in printed format. The value of your BK&reg; eGift, monetary or otherwise, will not be replaced by BKC if your BK&reg; eGift is lost, stolen or damaged. You should protect your BK&reg; eGift account number. If you share your account number, others may redeem the gift resulting in a depletion or total loss of the value of your BK&reg; eGift ",
       amounts: [
         Plink::RewardAmountRecord.new(dollar_award_amount: 5, is_active: true),
         Plink::RewardAmountRecord.new(dollar_award_amount: 10, is_active: true),
@@ -192,7 +192,7 @@ namespace :reward do
 
     Plink::RewardRecord.create(
       award_code: 'bestbuy-gift-card',
-      description: "The original HOME OF THE WHOPPER®, our commitment to premium ingredients, signature recipes, and family-friendly dining experiences is what has defined our brand for more than 50 successful years.",
+      description: "Best Buy is the global leader in consumer electronics, offering the latest devices and services all in one place. And at BestBuy.com, you can shop when and where you want.",
       name: "Best Buy eGift Card",
       is_active: true,
       is_redeemable: true,
