@@ -13,6 +13,12 @@
           %ul.left
             %li= link_to "&laquo; Visit Site".html_safe, main_app.root_path
             - if admin_signed_in?
+              %li.divider
+              %li= link_to 'Sign Out', plink_admin.destroy_admin_session_path, method: 'delete'
+            - else
+              %li.divider
+              %li= link_to 'Sign In', plink_admin.new_admin_session_path
+            - if admin_signed_in?
               - if current_admin.sales?
                 %li.divider
                   %li= link_to 'Brands', plink_admin.brands_path
@@ -47,15 +53,6 @@
                   %li= link_to 'Receipt Submissions', plink_admin.receipt_submissions_path
                 %li.divider
                   %li= link_to 'Receipt Promotions', plink_admin.receipt_promotions_path
-
-
-          %ul.right.auth
-            - if admin_signed_in?
-              %li.divider
-              %li= link_to 'Sign Out', plink_admin.destroy_admin_session_path, method: 'delete'
-            - else
-              %li.divider
-              %li= link_to 'Sign In', plink_admin.new_admin_session_path
 
     %p.notice= notice
     %p.alert= alert
