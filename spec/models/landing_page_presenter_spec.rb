@@ -3,12 +3,13 @@ require 'spec_helper'
 describe LandingPagePresenter do
   let(:landing_page_record) { double(Plink::LandingPageRecord) }
 
-  subject(:landing_page_presenter) { LandingPagePresenter.new(landing_page_record) }
+  subject(:landing_page_presenter) { LandingPagePresenter.new(landing_page_record, false) }
 
   describe 'initialize' do
-    it 'initializes with a landing page record' do
-      landing_page_presenter = LandingPagePresenter.new(landing_page_record)
+    it 'initializes with a landing page record, and if the user is linked' do
+      landing_page_presenter = LandingPagePresenter.new(landing_page_record, false)
       landing_page_presenter.landing_page.should == landing_page_record
+      landing_page_presenter.user_has_account.should be_false
     end
   end
 
@@ -35,6 +36,30 @@ describe LandingPagePresenter do
 
     it 'returns the value of background_image_url on the landing_page_record' do
       landing_page_presenter.background_image_url.should == 'https://herp.derp'
+    end
+  end
+
+  describe '#logged_in_action_button' do
+    context 'when a user has not linked a card' do
+      it 'returns a link my card button with styles' do
+        landing_page_presenter.logged_in_action_button.should == "<a href='/institutions/search' class='button primary-action large'>Link my card</a>"
+      end
+    end
+
+    context 'when a user has linked a card'do
+      subject(:landing_page_presenter) { LandingPagePresenter.new(landing_page_record, true) }
+
+      it 'returns a go to wallet button with styles' do
+        landing_page_presenter.logged_in_action_button.should == "<a href='/wallet' class='button primary-action large'>Go to my wallet</a>"
+      end
+    end
+  end
+
+  describe '#logged_out_action_button' do
+    let(:landing_page_record) { double(Plink::LandingPageRecord, button_text_one: 'my button!') }
+
+    it 'returns the join button with styles' do
+      landing_page_presenter.logged_out_action_button.should == "<a href='#' class='button primary-action large' data-reveal-id='registration-form'>my button!</a>"
     end
   end
 
@@ -89,14 +114,6 @@ describe LandingPagePresenter do
       it 'returns an h2 tag with styles and a line break between the content' do
         landing_page_presenter.sub_header.should == "<h2 class='light' style='color:red; height:100px;'>one<br />two</h2>"
       end
-    end
-  end
-
-  describe '#join_button_text' do
-    let(:landing_page_record) { double(Plink::LandingPageRecord, button_text_one: 'my button!') }
-
-    it 'returns the value of button_text_one on the landing_page_record' do
-      landing_page_presenter.join_button_text.should == 'my button!'
     end
   end
 

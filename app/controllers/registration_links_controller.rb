@@ -14,7 +14,10 @@ class RegistrationLinksController < ApplicationController
     track_registration_start_event
 
     @steelhouse_additional_info = steelhouse_additional_info
-    @landing_page_presenter = LandingPagePresenter.new(@registration_flow.landing_page)
+    @landing_page_presenter = LandingPagePresenter.new(
+      @registration_flow.landing_page,
+      Plink::IntuitAccountService.new.user_has_account?(current_user.id)
+    )
   end
 
   def deprecated

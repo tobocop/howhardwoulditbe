@@ -3,7 +3,10 @@
     =landing_page.header
     =landing_page.sub_header
     .join-btn
-      = link_to landing_page.join_button_text, '#', data: {'reveal-id' => 'registration-form'}, class: 'button primary-action large'
+      -if user_logged_in?
+        = landing_page.logged_in_action_button
+      -else
+        = landing_page.logged_out_action_button
     =landing_page.details
 
   .how

@@ -1,11 +1,24 @@
 class LandingPagePresenter
-  attr_reader :landing_page
+  attr_reader :landing_page, :user_has_account
 
-  def initialize(landing_page)
+  def initialize(landing_page, user_has_account)
     @landing_page = landing_page
+    @user_has_account = user_has_account
   end
 
   delegate :background_image_url, to: :landing_page
+
+  def logged_in_action_button
+    if user_has_account
+      "<a href='#{Rails.application.routes.url_helpers.wallet_path}' class='button primary-action large'>Go to my wallet</a>".html_safe
+    else
+      "<a href='#{Rails.application.routes.url_helpers.institution_search_path}' class='button primary-action large'>Link my card</a>".html_safe
+    end
+  end
+
+  def logged_out_action_button
+    "<a href='#' class='button primary-action large' data-reveal-id='registration-form'>#{landing_page.button_text_one}</a>".html_safe
+  end
 
   def partial
     landing_page.cms? ? 'cms' : landing_page.partial_path
@@ -29,10 +42,6 @@ class LandingPagePresenter
       ]
     )
     "<h2 class='light' style='#{landing_page.sub_header_text_styles}'>#{inner_text}</h2>".html_safe
-  end
-
-  def join_button_text
-    landing_page.button_text_one
   end
 
   def details
