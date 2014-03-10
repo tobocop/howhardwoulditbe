@@ -13,11 +13,10 @@ describe Plink::ReceiptAwardService do
   end
 
   describe '#award' do
-    let(:free_award_service) { double(Plink::FreeAwardService, award: true) }
+    let(:free_award_service) { double(Plink::FreeAwardService, award_unique: true) }
 
     before do
       receipt_submission_record.stub(:valid_for_award?).and_return(true)
-      receipt_award_service.stub(:user_is_eligible?).and_return(true)
       Plink::FreeAwardService.stub(:new).and_return(free_award_service)
     end
 
@@ -29,7 +28,7 @@ describe Plink::ReceiptAwardService do
     context 'when the receipt_submission_record can be awarded' do
       it 'awards the user' do
         Plink::FreeAwardService.should_receive(:new).with(1).and_return(free_award_service)
-        free_award_service.should_receive(:award).with(6, 4)
+        free_award_service.should_receive(:award_unique).with(6, 4)
 
         receipt_award_service.award
       end
@@ -43,24 +42,6 @@ describe Plink::ReceiptAwardService do
 
         receipt_award_service.award
       end
-    end
-  end
-
-  describe '#user_is_eligible?' do
-    it 'returns true if the user has not earned the free award type associaed to the submission' do
-      Plink::FreeAwardRecord.should_receive(:awards_by_type_and_by_user_id).
-        with(4, 6).
-        and_return([])
-
-      receipt_award_service.user_is_eligible?.should be_true
-    end
-
-    it 'returns false if the user has earned the free award type associaed to the submission' do
-      Plink::FreeAwardRecord.should_receive(:awards_by_type_and_by_user_id).
-        with(4, 6).
-        and_return([double])
-
-      receipt_award_service.user_is_eligible?.should be_false
     end
   end
 end
