@@ -728,6 +728,68 @@ describe 'reverifications:set_status_code_108_to_completed' do
 
       capture_stdout { subject.invoke }
     end
+
+    context 'for a user who has a non-108 aggr_status_code' do
+      it 'sets the completed_on time for the reverification' do
+        intuit_request.should_receive(:account).and_return(intuit_response)
+        reverification.completed_on.should be_nil
+
+        capture_stdout { subject.invoke }
+
+        reverification.reload.completed_on.to_date.should == Date.current
+      end
+
+      it 'logs a success message' do
+        intuit_request.stub(:account).and_return(intuit_response)
+        output = capture_stdout { subject.invoke }
+
+        output.should =~ /SUCCESS: Updated reverification_id: /
+      end
+    end
+
+    context 'for a user who still has a 108 status code' do
+      before do
+        intuit_response[:result][:account_list][:credit_account][:aggr_status_code] = "108"
+      end
+
+      it 'does not update the reverification' do
+        intuit_request.should_receive(:account).and_return(intuit_response)
+
+        capture_stdout { subject.invoke }
+
+        reverification.reload.completed_on.should be_nil
+      end
+
+      it 'logs a warning message that the user still has that status code' do
+        intuit_request.stub(:account).and_return(intuit_response)
+        output = capture_stdout { subject.invoke }
+
+        output.should =~ /WARNING: Status code 108 still exists for user_id: /
+      end
+    end
+
+    context 'when intuit responds with a 404' do
+      it 'does not update the reverification'
+    end
+
+    context 'with an error response from intuit' do
+      it 'logs that an error occurred' do
+        failure_response = {
+          :status_code=>"203",
+          :result=>{
+            :status=>{
+              :error_info=>{
+                :error_message=>"This is an error"
+              }
+            }
+          }
+        }
+        intuit_request.stub(:account).and_return(failure_response)
+
+        output = capture_stdout { subject.invoke }
+        output.should =~ /ERROR: Could not retrieve data from Intuit/
+      end
+    end
   end
 
   context 'when there are exceptions' do
@@ -789,64 +851,6 @@ describe 'reverifications:set_status_code_108_to_completed' do
       ::Exceptional::Catcher.should_not_receive(:handle).with(/reverification\.id = \d+/)
 
       subject.invoke
-    end
-  end
-
-  context 'for a user who has a non-108 aggr_status_code' do
-    it 'sets the completed_on time for the reverification' do
-      intuit_request.should_receive(:account).and_return(intuit_response)
-      reverification.completed_on.should be_nil
-
-      capture_stdout { subject.invoke }
-
-      reverification.reload.completed_on.to_date.should == Date.current
-    end
-
-    it 'logs a success message' do
-      intuit_request.stub(:account).and_return(intuit_response)
-      output = capture_stdout { subject.invoke }
-
-      output.should =~ /SUCCESS: Updated reverification_id: /
-    end
-  end
-
-  context 'for a user who still has a 108 status code' do
-    before do
-      intuit_response[:result][:account_list][:credit_account][:aggr_status_code] = "108"
-    end
-
-    it 'does not update the reverification' do
-      intuit_request.should_receive(:account).and_return(intuit_response)
-
-      capture_stdout { subject.invoke }
-
-      reverification.reload.completed_on.should be_nil
-    end
-
-    it 'logs a warning message that the user still has that status code' do
-      intuit_request.stub(:account).and_return(intuit_response)
-      output = capture_stdout { subject.invoke }
-
-      output.should =~ /WARNING: Status code 108 still exists for user_id: /
-    end
-  end
-
-  context 'with an error response from intuit' do
-    it 'logs that an error occurred' do
-      failure_response = {
-        :status_code=>"203",
-        :result=>{
-          :status=>{
-            :error_info=>{
-              :error_message=>"This is an error"
-            }
-          }
-        }
-      }
-      intuit_request.stub(:account).and_return(failure_response)
-
-      output = capture_stdout { subject.invoke }
-      output.should =~ /ERROR: Could not retrieve data from Intuit/
     end
   end
 end

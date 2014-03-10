@@ -57,6 +57,7 @@ namespace :reverifications do
 
       reverifications = Plink::UserReverificationRecord.
         select('usersReverifications.*').
+        incomplete.
         joins('INNER JOIN usersIntuitErrors ON usersReverifications.usersIntuitErrorID = usersIntuitErrors.usersIntuitErrorID').
         joins('INNER JOIN intuitErrors ON usersIntuitErrors.intuitErrorID = intuitErrors.intuitErrorID').
         where('intuitErrors.intuitErrorID = 108')
@@ -163,10 +164,8 @@ private
       intuit_account = Plink::IntuitAccountService.new.find_by_user_id(user_id)
 
       if intuit_account && !intuit_account.active?
-        account = Plink::UsersInstitutionAccountRecord.where(userID: user_id).first
-        return if account.blank?
         StatsD.increment('rake.reverifications.process_reverification')
-        intuit_response = Intuit::Request.new(user_id).account(account.account_id)
+        intuit_response = Intuit::Request.new(user_id).account(intuit_account.account_id)
 
         response = Intuit::Response.new(intuit_response).parse
 

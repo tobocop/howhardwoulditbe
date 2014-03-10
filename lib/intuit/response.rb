@@ -71,7 +71,16 @@ module Intuit
     end
 
     def error_message
-      raw_response[:result][:status][:error_info][:error_message]
+      if hash_has_nested_key?(raw_response, [:result, :status, :error_info, :error_message])
+        raw_response[:result][:status][:error_info][:error_message]
+      else
+        'We could not determine the nature of the error.'
+      end
+    end
+
+    def hash_has_nested_key?(hash, keys)
+      return true if keys == []
+      hash.has_key?(keys.first) ? hash_has_nested_key?(hash[keys.shift], keys) : false
     end
   end
 end

@@ -15,6 +15,7 @@ module Plink
 
     def create_intuit_account(account_record)
       Plink::IntuitAccount.new(
+        account_id: account_record.uia_account_id,
         account_name: account_record.account_name,
         account_number_last_four: account_record.account_number_last_four,
         bank_name: account_record.bank_name,

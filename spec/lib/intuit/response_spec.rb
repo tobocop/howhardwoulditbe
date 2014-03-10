@@ -264,5 +264,18 @@ describe Intuit::Response do
         response[:value].should == "It's broken"
       end
     end
+
+    context 'with an error that does not have error info' do
+      let(:intuit_response) do
+        {status_code: '404', result:{}}
+      end
+
+      it 'returns an error with a generic message' do
+        response = Intuit::Response.new(intuit_response).parse
+
+        response[:error].should be_true
+        response[:value].should == 'We could not determine the nature of the error.'
+      end
+    end
   end
 end

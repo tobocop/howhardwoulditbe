@@ -1,10 +1,11 @@
 module Plink
   class IntuitAccount
 
-    attr_reader :account_name, :bank_name, :requires_reverification, :reverification_id,
+    attr_reader :account_id, :account_name, :bank_name, :requires_reverification, :reverification_id,
       :users_institution_id
 
     def initialize(attributes)
+      @account_id = attributes.fetch(:account_id)
       @account_name = "#{attributes.fetch(:account_name)} #{attributes.fetch(:account_number_last_four)}"
       @bank_name = attributes.fetch(:bank_name)
       @requires_reverification = attributes.fetch(:requires_reverification)
