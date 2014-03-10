@@ -49,6 +49,36 @@ describe Plink::FreeAwardService do
     end
   end
 
+  describe '#award_unique' do
+    before do
+      Plink::FreeAwardRecord.stub(:awards_by_type_and_by_user_id).and_return([double])
+    end
+
+    it 'looks up previous awards for the user' do
+      Plink::FreeAwardRecord.should_receive(:awards_by_type_and_by_user_id).with(3, 98).and_return([])
+
+      free_award_service.award_unique(98, 3)
+    end
+
+    context 'when the user has previous awards' do
+      it 'does not award the user' do
+        free_award_service.should_not_receive(:award)
+
+        free_award_service.award_unique(98, 3)
+      end
+    end
+
+    context 'when the user does not have previous awards' do
+      before { Plink::FreeAwardRecord.stub(:awards_by_type_and_by_user_id).and_return([]) }
+
+      it 'awards the user' do
+        free_award_service.should_receive(:award).with(98, 3)
+
+        free_award_service.award_unique(98, 3)
+      end
+    end
+  end
+
   describe '#award' do
     before do
       Plink::AwardTypeRecord.stub(:referral_bonus_award_type_id).and_return(19)

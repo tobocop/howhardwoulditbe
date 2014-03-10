@@ -82,6 +82,8 @@ PlinkPivotal::Application.routes.draw do
     match '/home/plink_video', to: 'home#plink_video', via: :get
     match '/survey_complete', to: 'survey#complete', via: :get, as: :survey_complete
 
+    match '/ta/:user_id/:award_link_url_value', to: 'track_award_links#create', as: :track_award_links, via: :get
+
     match "/500", to: "errors#general_error"
     match "/404", to: "errors#not_found"
 

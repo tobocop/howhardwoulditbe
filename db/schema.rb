@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140228001150) do
+ActiveRecord::Schema.define(:version => 20140310204455) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -297,6 +297,25 @@ ActiveRecord::Schema.define(:version => 20140228001150) do
     t.boolean  "isActive",                                                         :default => true,  :null => false
     t.boolean  "isAcquisitionCost",                                                :default => false, :null => false
     t.string   "mobileMessage",     :limit => 500
+  end
+
+  create_table "award_link_clicks", :force => true do |t|
+    t.integer  "award_link_id"
+    t.integer  "user_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "award_links", :force => true do |t|
+    t.integer  "award_type_id"
+    t.decimal  "dollar_award_amount", :precision => 8, :scale => 2
+    t.date     "end_date"
+    t.boolean  "is_active"
+    t.string   "redirect_url"
+    t.date     "start_date"
+    t.string   "url_value"
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
   end
 
   create_table "bankProducts", :primary_key => "bankProductID", :force => true do |t|

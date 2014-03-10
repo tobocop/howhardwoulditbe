@@ -14,6 +14,10 @@ module Plink
       award(user_id, Plink::AwardTypeRecord.referral_bonus_award_type_id)
     end
 
+    def award_unique(user_id, award_type_id)
+      award(user_id, award_type_id) unless Plink::FreeAwardRecord.awards_by_type_and_by_user_id(award_type_id, user_id).present?
+    end
+
     def award(user_id, award_type_id)
       user = Plink::UserService.new.find_by_id(user_id)
       users_virtual_currency = get_users_virtual_currency(user.id, user.primary_virtual_currency_id)

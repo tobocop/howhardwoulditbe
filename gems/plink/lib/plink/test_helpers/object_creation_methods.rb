@@ -2,6 +2,37 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_award_link_click(options = {})
+      defaults = {
+        award_link_id: 2,
+        user_id: 4
+      }
+
+      Plink::AwardLinkClickRecord.new { |award_link_click| apply(award_link_click, defaults, options) }
+    end
+
+    def create_award_link_click(options = {})
+      new_award_link_click(options).tap(&:save!)
+    end
+
+    def new_award_link(options = {})
+      defaults = {
+        award_type_id: 2,
+        dollar_award_amount: 2.34,
+        end_date: 1.day.from_now,
+        is_active: true,
+        redirect_url: 'http://google.com',
+        start_date: 1.day.ago,
+        url_value: 'something'
+      }
+
+      Plink::AwardLinkRecord.new { |award_link| apply(award_link, defaults, options) }
+    end
+
+    def create_award_link(options = {})
+      new_award_link(options).tap(&:save!)
+    end
+
     def new_receipt_promotion(options = {})
       defaults = {
         award_type_id: 12,
