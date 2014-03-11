@@ -2729,10 +2729,9 @@ form.custom .custom.disabled {
     display: block;
     width: 100%;
     color: white;
-    padding: 12px 0 12px 0;
+    padding: 10px 0 10px 0;
     padding-left: 15px;
-    font-size: 0.8125em;
-    font-weight: bold;
+    font-size: 0.75em;
     background: #222222; }
 .top-bar-section ul li > a.button {
     background: #2ba6cb;
@@ -2856,8 +2855,8 @@ form.custom .custom.disabled {
     .top-bar-section ul li .js-generated {
         display: none; }
     .top-bar-section li a:not(.button) {
-        padding: 0 15px;
-        line-height: 45px;
+        padding: 0 10px;
+        line-height: 25px;
         background: #111111; }
     .top-bar-section li a:not(.button).hover {
         background: black; }
@@ -2907,7 +2906,7 @@ form.custom .custom.disabled {
         border-right: solid 1px #2b2b2b;
         border-left: solid 1px black;
         clear: none;
-        height: 45px;
+        height: 25px;
         width: 0px; }
     .top-bar-section .has-form {
         background: #111111;

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140310204455) do
+ActiveRecord::Schema.define(:version => 20140311154313) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -316,6 +316,7 @@ ActiveRecord::Schema.define(:version => 20140310204455) do
     t.string   "url_value"
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
+    t.string   "name"
   end
 
   create_table "bankProducts", :primary_key => "bankProductID", :force => true do |t|

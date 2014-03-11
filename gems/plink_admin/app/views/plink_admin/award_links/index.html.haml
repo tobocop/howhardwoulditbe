@@ -1,0 +1,19 @@
+= link_to 'Create New Award Link', plink_admin.new_award_link_path, class: 'button small'
+%table.award_link-list
+  %thead
+    %th Name
+    %th Start Date
+    %th End Date
+    %th Active
+    %th Dollar Award
+    %th Url
+  %tbody
+    - @award_links.each do |award_link|
+      %tr.award_link-item
+        %td= link_to award_link.name, plink_admin.edit_award_link_path(award_link)
+        %td= award_link.start_date
+        %td= award_link.end_date
+        %td= award_link.is_active
+        %td= award_link.dollar_award_amount
+        -if main_app.respond_to?(:track_award_links_url)
+          %td= link_to main_app.track_award_links_url(user_id: '$user_id$', award_link_url_value: award_link.url_value) if main_app

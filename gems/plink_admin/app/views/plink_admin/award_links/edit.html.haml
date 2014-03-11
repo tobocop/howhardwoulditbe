@@ -1,0 +1,3 @@
+%h1= "Edit Award Link - #{@award_link.id}"
+
+= render partial: 'award_link_form', locals: {button_text: 'Update', award_link: @award_link, url: plink_admin.award_link_path(@award_link)}

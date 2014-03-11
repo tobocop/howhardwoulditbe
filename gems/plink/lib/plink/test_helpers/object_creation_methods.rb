@@ -21,6 +21,7 @@ module Plink
         dollar_award_amount: 2.34,
         end_date: 1.day.from_now,
         is_active: true,
+        name: 'asd',
         redirect_url: 'http://google.com',
         start_date: 1.day.ago,
         url_value: 'something'

@@ -14,6 +14,7 @@ PlinkAdmin::Engine.routes.draw do
   resources :landing_pages, except: :destroy
   resources :receipt_promotions, except: :destroy
   resources :receipt_submissions, only: [:index, :update]
+  resources :award_links, except: :destroy
 
   resources :receipt_submission_queue, only: [:show]
 

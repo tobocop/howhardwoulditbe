@@ -1,0 +1,28 @@
+- if award_link.errors.any?
+  .alert-box.alert
+    - award_link.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(award_link, url: url, as: 'award_link') do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.label :redirect_url
+  = f.text_field :redirect_url
+  = f.label :dollar_award_amount
+  = f.text_field :dollar_award_amount
+  - award_type_select_options = @award_types.collect {|award_type| ["#{award_type.award_code} (#{award_type.id})", award_type.id]}
+  = f.label :award_type_id, 'Award'
+  = f.select :award_type_id, options_for_select(award_type_select_options, award_link.award_type_id)
+  = f.label :start_date
+  .dateselect
+    = f.date_select :start_date
+  = f.label :end_date
+  .dateselect
+    = f.date_select :end_date
+  = f.label :is_active
+  = f.check_box :is_active
+  %br
+
+  = f.submit button_text, class: 'button small'
+  = link_to 'Cancel', plink_admin.award_links_path, class: 'button small secondary'
+
