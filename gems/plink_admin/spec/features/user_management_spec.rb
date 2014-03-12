@@ -11,7 +11,7 @@ describe 'User Management' do
     create_admin(email: 'admin@example.com', password: 'pazzword')
     institution = create_institution(name: 'Bank of representin')
     users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
-    create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: 4321)
+    create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: nil)
   end
 
   it 'lets an admin manage users' do
@@ -33,7 +33,7 @@ describe 'User Management' do
     page.should have_content 'Open Wallet Items: 1'
     page.should have_content 'Populated Wallet Items: 1'
     page.should have_content 'Bank of representin'
-    page.should have_content 'representing checks 4321'
+    page.should have_content 'representing checks'
 
     fill_in 'user_email', with: 'gumbo@example.com'
     check 'user_hold_redemptions'

@@ -40,6 +40,7 @@
     %th ID
     %th Institution Name
     %th Account Name
+    %th Last 4
     %th Start Date
     %th End Date
     %th In Intuit
@@ -50,7 +51,8 @@
         %tr
           %td= users_institution.id
           %td= users_institution.institution_record.name
-          %td= users_institution_account.name + ' ' + users_institution_account.account_number_last_four
+          %td= users_institution_account.name
+          %td= users_institution_account.account_number_last_four
           %td= users_institution_account.begin_date.to_date
           %td= users_institution_account.end_date.to_date
           %td= users_institution_account.in_intuit
