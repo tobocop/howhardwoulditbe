@@ -9,6 +9,7 @@ class InstitutionsController < ApplicationController
   def search
     session.delete(:intuit_institution_login_id)
     session.delete(:reverification_id)
+    session[:return_to_path] = get_return_to_path
   end
 
   def search_results
@@ -140,6 +141,7 @@ class InstitutionsController < ApplicationController
     else
       @institution_authenticated_pixel = institution_authenticated(params[:updated_accounts].to_i)
       @account_name = params[:account_name]
+      @return_to_presenter = session[:return_to_path].nil? ? NullReturnToPresenter.new : ReturnToPresenter.new(session[:return_to_path])
     end
   end
 

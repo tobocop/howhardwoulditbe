@@ -175,7 +175,7 @@ describe 'searching for a bank', js: true, driver: :selenium do
     page.should have_content "Select the card you'd like to earn rewards with."
   end
 
-  it 'verifies that a users account has transactions', :vcr, record: :new_episodes do
+  it 'verifies that a users account has transactions', :vcr do
     sign_in('test@example.com', 'test123')
 
     page.should have_content "Enter your bank's name."
@@ -204,6 +204,60 @@ describe 'searching for a bank', js: true, driver: :selenium do
     end
 
     page.should have_content 'The account you selected is inelligible.'
+  end
+
+  it 'changes the congratulations link if a user came from a contest', :vcr do
+    contest = create_contest(
+      description: 'This is the best contest ever',
+      end_time: 1.day.from_now.to_date,
+      image: '/assets/profile.jpg',
+      non_linked_image: '/assets/icon_active.png',
+      prize: 'The prize is a new car',
+      start_time: 1.day.ago.to_date,
+      terms_and_conditions: 'These are terms and conditions'
+    )
+
+    sign_in('test@example.com', 'test123')
+
+    page.should have_content "Enter your bank's name."
+
+    visit contests_path
+
+    click_link 'LINK YOUR CARD'
+
+    page.should have_content "Enter your bank's name."
+
+    page.current_path.should == institution_search_path
+
+    fill_in 'institution_name', with: 'bank'
+    click_on 'Search'
+
+    page.current_path.should == institution_search_results_path
+    page.should have_content 'MOST COMMON'
+
+    click_on 'Bank of Tupac'
+
+    page.should have_content 'Please login to your Bank of Tupac account.'
+
+    fill_in 'auth_1', with: 'anything'
+    fill_in 'auth_2', with: "stuff#{rand(10**7)}"
+
+    click_on 'Connect'
+
+    page.should have_content "Select the card you'd like to earn rewards with."
+
+    within '.card-select-container:nth-of-type(1)' do
+      click_on 'Select'
+    end
+
+    page.should have_content "We're making sure the account you've selected is eligible for the Plink program. This will only take a few moments."
+
+    page.should have_content "You've successfully linked your"
+
+    page.should have_content "You'll now earn 5X entries every time you enter a contest."
+    click_link 'Go to This is the best contest ever'
+
+    page.should have_content "Congratulations! You'll now earn 5X the entries.  Don't forget to add your favorite stores and restaurants to your Wallet and earn rewards for all your purchases."
   end
 
   it 'allows users with an account type of Other to set their account type', :vcr do

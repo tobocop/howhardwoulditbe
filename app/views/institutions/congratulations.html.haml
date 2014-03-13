@@ -10,10 +10,15 @@
             .font-1p5em.font-cyan Congratulations!
           .spacer-top-8
             .font-1p1em.font-w300 You've successfully linked your #{@account_name} to your Plink account.
+          -if @return_to_presenter.show?
+            .spacer-top-24
+              .font-1p1em.font-w300= @return_to_presenter.description
+            .spacer-top-8
+              = link_to @return_to_presenter.link_text, @return_to_presenter.path, {class: 'button primary-action', style: 'width: inherit; padding:0 15px'}
           .spacer-top-32
             .font-1p1em.font-w500.font-uppercase.font-kern1 What's next?
           .spacer-top-8
-            .font-1p1em.font-w300 First thing's first - add offers to your Wallet to start earning Plink Points.
+            .font-1p1em.font-w300 Now that you've linked your #{@account_name} you can earn rewards at more than 75,000 locations nationwide.  Add offers to your Wallet to start earning Plink Points.
           .spacer-top-24
             .button-container.no-margin.width-170
               = link_to 'Go To My Wallet', wallet_path, {class:'button primary-action'}

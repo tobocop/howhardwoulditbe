@@ -21,6 +21,10 @@ describe InstitutionsController do
   end
 
   describe 'GET search' do
+    before do
+      controller.stub(:get_return_to_path).and_return('some link')
+    end
+
     it 'is successful' do
       get :search
 
@@ -55,6 +59,14 @@ describe InstitutionsController do
       get :search
 
       session[:reverification_id].should be_nil
+    end
+
+    it 'sets the return to path in the session' do
+      controller.should_receive(:get_return_to_path).with().and_return('something relevant')
+
+      get :search
+
+      session[:return_to_path].should == 'something relevant'
     end
   end
 
@@ -624,7 +636,9 @@ describe InstitutionsController do
     end
 
     context 'when the user is not reverifying' do
-      before { controller.stub(:reverifying?).and_return(false) }
+      before do
+        controller.stub(:reverifying?).and_return(false)
+      end
 
       it 'renders the congratulations view' do
         get :congratulations
@@ -648,6 +662,30 @@ describe InstitutionsController do
         controller.should_receive(:institution_authenticated)
 
         get :congratulations, updated_accounts: 12234
+      end
+
+      context 'when the return to path is not nil' do
+        before { session[:return_to_path] = 'a path' }
+
+        it 'assigns a return_to_presenter to a return to presenter' do
+          presenter = double(ReturnToPresenter)
+          ReturnToPresenter.should_receive(:new).with('a path').and_return(presenter)
+
+          get :congratulations, updated_accounts: 12234
+
+          assigns(:return_to_presenter).should == presenter
+        end
+      end
+
+      context 'when the return to path is nil' do
+        it 'assigns a return_to_presenter to a null return to presenter' do
+          presenter = double(NullReturnToPresenter)
+          NullReturnToPresenter.should_receive(:new).with().and_return(presenter)
+
+          get :congratulations, updated_accounts: 12234
+
+          assigns(:return_to_presenter).should == presenter
+        end
       end
     end
   end
