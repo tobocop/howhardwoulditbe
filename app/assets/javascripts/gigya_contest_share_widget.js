@@ -90,6 +90,7 @@
 
       if (resp.disable_submission) Plink.GigyaContestShareWidget._disableShareButton();
       if (resp.set_checkbox) Contest.setDailyEmailCheckBox(true);
+      if (!resp.user_linked_card) Plink.redirect('/institutions/search');
     },
 
     _onEntryFailure: function (xhr) {

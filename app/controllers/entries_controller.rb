@@ -27,7 +27,8 @@ class EntriesController < ApplicationController
         providers: presenter.providers,
         set_checkbox: set_daily_reminders_for_current_user,
         sub_text: view_context.entries_subtext(presenter.share_state, entries),
-        total_entries: total_entries
+        total_entries: total_entries,
+        user_linked_card: user_linked_card
       }
     else
       result = {errors: extract_errors(new_entries), disable_submission: disable_submission}
@@ -69,7 +70,7 @@ private
   end
 
   def user_linked_card
-    Plink::IntuitAccountService.new.user_has_account?(current_user.id)
+    @_linked ||= Plink::IntuitAccountService.new.user_has_account?(current_user.id)
   end
 
   def set_daily_reminders_for_current_user

@@ -68,6 +68,10 @@ describe EntriesController do
           post :create, contest_id: non_linked_contest.id, providers: 'facebook'
           JSON.parse(response.body)['show_non_linked_image'].should be_false
         end
+
+        it 'indicates if the user is linked or not' do
+          JSON.parse(response.body)['user_linked_card'].should be_false
+        end
       end
 
       context 'with a successful request on facebook and twitter' do

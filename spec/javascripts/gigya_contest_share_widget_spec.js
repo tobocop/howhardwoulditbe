@@ -21,6 +21,7 @@ describe('Plink.GigyaContestShareWidget', function () {
       '<a href="/dummy" data-contest-winner-share-widget="true" class="white-txt">Share to Enter As a Winner</a>' +
       '<form id="js-contest-entry" style="display:none;"><input type="hidden" value="1234" name="contest_id" id="contest_id"><input name="authenticity_token" type="hidden" value="abcde"></form>'
       );
+    spyOn(Plink, "redirect");
   });
 
   describe('#setup', function () {
@@ -164,6 +165,18 @@ describe('Plink.GigyaContestShareWidget', function () {
 
       expect($("[data-non-linked-image]").css('display')).toBe('block');
       expect($("[data-default-image]").css('display')).toBe('none');
+    });
+
+    it('redirects the user if user_linked_card is false', function() {
+      Plink.GigyaContestShareWidget._onEntrySucess({user_linked_card: false});
+
+      expect(Plink.redirect).toHaveBeenCalledWith('/institutions/search');
+    });
+
+    it('does not redirect the user if user_linked_card is true', function() {
+      Plink.GigyaContestShareWidget._onEntrySucess({user_linked_card: true});
+
+      expect(Plink.redirect).not.toHaveBeenCalled();
     });
   });
 
