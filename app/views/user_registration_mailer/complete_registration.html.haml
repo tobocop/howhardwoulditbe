@@ -29,18 +29,22 @@
                 %table{width: "100%", border: "0", cellspacing: "0", cellpadding: "0"}
                   %tr
                     %td.headercell
-                      =link_to image_tag('http://plink-email.s3.amazonaws.com/marketing/welcome/welcome_nonlinked.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), new_tracking_url(aid: 1436)
+                      =link_to image_tag('https://plink-images.s3.amazonaws.com/welcome_email/welcome_barclay.jpg', {border: "0", alt: "Plink on the go with our new mobile app!", style: "display:block; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #00ADEE; font-style: italic; font-size: 30px; text-align:center;", label: "Hero image", editable: "true", width: "600", height: "253", id: "screenshot"}), track_award_links_url(user_id: @user_id, award_link_url_value: 'ODFlNWU4Y2M0NGJjYmZmMTc4MGZiZWRkMzE3OWQxOTEyMjEwNjRjMw==')
 
                 %table.promotable{width: "600", cellpadding: "25", cellspacing: "0", border: "0"}
                   %tr
                     %td.promocell{bgcolor: "#404041", width: "600"}
                       %multiline{label: "Main feature intro"}
                         %p{style: "color:#FFFFFF; font-size:16px;"} Hey #{@first_name}
-                        %p{style: "color:#FFFFFF; font-size:16px;"} Thanks for signing up for Plink! You just need to link a credit or debit card to your Plink account to finish registration.
-                        %p{style: "color:#FFFFFF; font-size:15px;"}Once you link a credit/debit card you can start earning Plink Points which can be redeemed for gift cards from places like Amazon.com, Starbucks, Walmart, Target, Subway, and more.
-                        %p{style: "color:#FFFFFF; font-size:15px;"}What are you waiting for? Be a smarter shopper and get the rewards you deserve for dining and shopping at over 75,000 locations!
+                        %p{style: "color:#FFFFFF; font-size:16px;"} Thanks for signing up for Plink! You just need to link a credit or debit card to your Plink account to start earning rewards.
+                        %p{style: "color:#FFFFFF; font-size:16px;"} All Plink members who link a Barclaycard Arrival World MasterCard&reg; to their Plink account, get *DOUBLE PLINK POINTS now through May 31, 2014!
 
-                        =link_to "Complete My Registration >", new_tracking_url(aid: 1436), style: "font-family:Helvetica,Arial,sans-serif;"
+                        %p{style: 'text-align:center;padding-bottom:0px;font-size:20px;font-weight:bold;'}
+                          =link_to "Activate your DOUBLE PLINK POINTS offer >", track_award_links_url(user_id: @user_id, award_link_url_value: 'ODFlNWU4Y2M0NGJjYmZmMTc4MGZiZWRkMzE3OWQxOTEyMjEwNjRjMw=='), style: "font-family:Helvetica,Arial,sans-serif;"
+                        %p{style: "color:#FFFFFF; font-size:16px; text-align:center;font-size:20px;font-weight:bold;"} Link a Barclaycard Arrival World MasterCard&reg; Today!
+                        %p{style: "color:#FFFFFF; font-size:16px;"} When you link a Barclaycard Arrival World MasterCard&reg; to your Plink account we'll give you *DOUBLE PLINK POINTS through May 31, 2014! That's up to $15.00 in Plink Points for a single visit at some of our participating locations.
+                        %p{style: "color:#FFFFFF; font-size:11px;line-height:12px;"} *Double Plink Points are only awarded by clicking through this email and linking a Barclaycard Arrival World MasterCard&reg; to your Plink account between 3/12/14 and 5/31/14.  Double Plink Points are only awarded on the base point value for ^qualifying Plink purchases. Double Plink Points will not be awarded for bonus point promotions. Plink Points may take up to 5 business days to appear in your Plink account.
+                        %p{style: "color:#FFFFFF; font-size:11px;line-height:12px;"} ^A purchase is considered qualified when the merchant is in your Plink Wallet and meets the minimum purchase price.
 
           =image_tag 'http://plink-email.s3.amazonaws.com/marketing/v3/global/spacer.gif', {class:"divider", border: "0", style: "display:block;", width: "1", height: "10"}
 

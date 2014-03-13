@@ -13,10 +13,11 @@ class UserRegistrationMailer < PlinkMailer
   def complete_registration(args)
     @first_name = args.fetch(:first_name)
     @email_address = args.fetch(:email)
+    @user_id = args.fetch(:user_id)
 
     mail(
       to: @email_address,
-      subject: 'Important Account Information - Your registration is incomplete'
+      subject: 'Get Double Plink Points Through May 31, 2014'
     )
   end
 end
