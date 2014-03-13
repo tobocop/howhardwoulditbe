@@ -84,6 +84,7 @@ namespace :db do
     task :create => :environment do
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_prc_getUsersWalletByWalletID.sql')))
       ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'create_prc_enforce_transaction_limits.sql')))
+      ActiveRecord::Base.connection.execute(File.read(Rails.root.join('db', 'scripts', 'add_office_depot_to_enforce_transaction_limits.sql')))
     end
 
     desc 'drop the stored procedures in the db'
