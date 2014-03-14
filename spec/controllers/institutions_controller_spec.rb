@@ -713,4 +713,22 @@ describe InstitutionsController do
       controller.updating?.should be_false
     end
   end
+
+  describe 'from_contest?' do
+    it 'returns true if the session has a return_to_path key that is not nil' do
+      session[:return_to_path] = 'asd'
+
+      controller.from_contest?.should be_true
+    end
+
+    it 'returns false if the session does not not have a return_to_path key' do
+      controller.from_contest?.should be_false
+    end
+
+    it 'returns false if the session has return_to_path key of nil' do
+      session[:return_to_path] = nil
+
+      controller.from_contest?.should be_false
+    end
+  end
 end

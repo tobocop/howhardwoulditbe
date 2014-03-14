@@ -3,8 +3,7 @@ class InstitutionsController < ApplicationController
   before_filter :require_authentication
   before_filter :most_popular, only: [:search, :search_results]
 
-  helper_method :reverifying?, :reverifying?
-  helper_method :updating?, :updating?
+  helper_method :reverifying?, :updating?, :from_contest?
 
   def search
     session.delete(:intuit_institution_login_id)
@@ -141,7 +140,7 @@ class InstitutionsController < ApplicationController
     else
       @institution_authenticated_pixel = institution_authenticated(params[:updated_accounts].to_i)
       @account_name = params[:account_name]
-      @return_to_presenter = session[:return_to_path].nil? ? NullReturnToPresenter.new : ReturnToPresenter.new(session[:return_to_path])
+      @return_to_presenter = from_contest? ? ReturnToPresenter.new(session[:return_to_path]) : NullReturnToPresenter.new
     end
   end
 
@@ -151,6 +150,10 @@ class InstitutionsController < ApplicationController
 
   def updating?
     session.has_key?(:intuit_institution_login_id)
+  end
+
+  def from_contest?
+    !session[:return_to_path].nil?
   end
 
 private

@@ -225,9 +225,11 @@ describe 'searching for a bank', js: true, driver: :selenium do
 
     click_link 'LINK YOUR CARD'
 
-    page.should have_content "Enter your bank's name."
-
     page.current_path.should == institution_search_path
+
+    page.should have_content "Enter your bank's name."
+    page.should have_css 'img[src="/assets/contest_5x_banner.jpg"]'
+
 
     fill_in 'institution_name', with: 'bank'
     click_on 'Search'
