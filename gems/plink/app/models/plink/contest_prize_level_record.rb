@@ -4,6 +4,6 @@ module Plink
 
     attr_accessible :award_count, :contest_id, :dollar_amount
 
-    validates_presence_of :award_count, :contest_id, :dollar_amount
+    validates_presence_of :award_count, :dollar_amount
   end
 end

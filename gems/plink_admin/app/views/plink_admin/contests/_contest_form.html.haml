@@ -26,6 +26,22 @@
     = f.label :end_time, 'End Time'
     = f.datetime_select :end_time
 
+
+  #prize_levels
+    %h3
+      Prize Levels
+      %span#js-add-prize-level= image_tag 'plus.png'
+    = f.fields_for :contest_prize_levels do |ff|
+      .prize_level.on_one_line
+        = ff.label :award_count
+        = ff.text_field :award_count
+        = ff.label :dollar_amount
+        = ff.text_field :dollar_amount
+        -if ff.object.persisted?
+          = ff.label :_destory, 'Delete'
+          = ff.check_box :_destroy, {style:'margin-top:10.5px;'}
+        %br{clear: 'left'}
+
   %h3 Interstitial Modal
   = f.label :interstitial_title, "Header Text"
   = f.text_field :interstitial_title
@@ -64,8 +80,7 @@
     = email.label :day_one_image, "S3 Image URL (Daily)"
     = email.text_field :day_one_image
 
-  %h6 3 Day Reminder Email
-  = f.fields_for :contest_emails do |email|
+    %h6 3 Day Reminder Email
     = email.label :three_day_subject, "Subject (3 Day)"
     = email.text_field :three_day_subject
     = email.label :three_day_preview, "Preview (3 Day)"
@@ -77,8 +92,7 @@
     = email.label :three_day_image, "S3 Image URL (3 Day)"
     = email.text_field :three_day_image
 
-  %h6 Winner Email
-  = f.fields_for :contest_emails do |email|
+    %h6 Winner Email
     = email.label :winner_subject, "Subject (Winner)"
     = email.text_field :winner_subject
     = email.label :winner_preview, "Preview (Winner)"

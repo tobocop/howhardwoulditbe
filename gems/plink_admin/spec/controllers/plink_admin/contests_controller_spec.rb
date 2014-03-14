@@ -61,6 +61,8 @@ describe PlinkAdmin::ContestsController do
     end
 
     it 're-renders the new form when the record cannot be persisted' do
+      controller.stub(:setup_contest)
+
       Plink::ContestRecord.should_receive(:create).with({ 'description' => 'created description' }).and_return(double(persisted?: false))
 
       post :create, {contest: {description: 'created description'}}

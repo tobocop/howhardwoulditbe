@@ -7,7 +7,7 @@ module PlinkAdmin
 
     def new
       @contest = Plink::ContestRecord.new
-      @contest.build_contest_emails
+      setup_contest
     end
 
     def create
@@ -16,12 +16,14 @@ module PlinkAdmin
       if @contest.persisted?
         redirect_to plink_admin.contests_path
       else
+        setup_contest
         render 'new'
       end
     end
 
     def edit
       @contest = Plink::ContestRecord.find(params[:id])
+      setup_contest
     end
 
     def update
@@ -30,6 +32,7 @@ module PlinkAdmin
       if @contest.update_attributes(params[:contest])
         redirect_to plink_admin.contests_path
       else
+        setup_contest
         render 'edit'
       end
     end
@@ -102,6 +105,11 @@ module PlinkAdmin
     end
 
   private
+
+    def setup_contest
+      @contest.build_contest_emails if @contest.contest_emails.blank?
+      @contest.contest_prize_levels.build if @contest.contest_prize_levels.blank?
+    end
 
     def plink_user_service
       @plink_user_service ||= Plink::UserService.new

@@ -26,8 +26,24 @@
   width:100px;
 }
 
+.on_one_line input {
+  width:100px;
+  float:left;
+  margin-right:10px;
+  line-height:32px;
+}
+
+.on_one_line label  {
+  float:left;
+  line-height:32px;
+  padding-right:10px;
+}
+
 .hidden {
   display: none;
+}
+.js-remove-prize-level {
+  padding-top:3px;
 }
 
 //

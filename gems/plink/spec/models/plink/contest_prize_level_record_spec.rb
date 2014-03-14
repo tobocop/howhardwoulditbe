@@ -19,7 +19,6 @@ describe Plink::ContestPrizeLevelRecord do
   it { should allow_mass_assignment_of(:award_count)}
   it { should allow_mass_assignment_of(:dollar_amount)}
 
-  it { should validate_presence_of(:contest_id) }
   it { should validate_presence_of(:award_count) }
   it { should validate_presence_of(:dollar_amount) }
 end

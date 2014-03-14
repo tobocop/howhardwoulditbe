@@ -3,11 +3,13 @@ module Plink
     self.table_name = 'contests'
 
     has_many :entry_records, class_name: 'Plink::EntryRecord', foreign_key: 'contest_id'
+    has_many :contest_prize_levels, class_name: 'Plink::ContestPrizeLevelRecord', foreign_key: 'contest_id'
     has_one :contest_emails, class_name: 'Plink::ContestEmailRecord', foreign_key: 'contest_id'
 
     accepts_nested_attributes_for :contest_emails
+    accepts_nested_attributes_for :contest_prize_levels, allow_destroy: true, reject_if: :all_blank
 
-    attr_accessible :contest_emails_attributes, :description, :disclaimer_text, :end_time, :entry_method,
+    attr_accessible :contest_emails_attributes, :contest_prize_levels_attributes, :description, :disclaimer_text, :end_time, :entry_method,
       :entry_notification, :entry_post_body, :entry_post_title, :finalized_at, :image,
       :interstitial_body_text, :interstitial_bold_text, :interstitial_share_button,
       :interstitial_reg_link, :interstitial_title, :non_linked_image, :prize, :prize_description,

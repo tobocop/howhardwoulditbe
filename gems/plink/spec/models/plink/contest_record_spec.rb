@@ -68,6 +68,7 @@ describe Plink::ContestRecord do
   end
 
   it { should accept_nested_attributes_for(:contest_emails) }
+  it { should accept_nested_attributes_for(:contest_prize_levels) }
 
   it { should allow_mass_assignment_of(:description) }
   it { should allow_mass_assignment_of(:end_time) }
@@ -91,6 +92,11 @@ describe Plink::ContestRecord do
   it { should allow_mass_assignment_of(:interstitial_title) }
   it { should allow_mass_assignment_of(:entry_notification) }
   it { should allow_mass_assignment_of(:contest_emails_attributes) }
+  it { should allow_mass_assignment_of(:contest_prize_levels_attributes) }
+
+  it { should have_many(:entry_records) }
+  it { should have_many(:contest_prize_levels) }
+  it { should have_one(:contest_emails) }
 
   context 'named scopes' do
     describe '.other_contests_within_time' do
@@ -134,8 +140,6 @@ describe Plink::ContestRecord do
       Plink::ContestRecord.current.should == contest
     end
   end
-
-  it { should have_many(:entry_records) }
 
   describe '#ended?' do
     it 'returns true if the end time is before now' do

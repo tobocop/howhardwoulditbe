@@ -49,6 +49,9 @@ describe 'Contests' do
 
     select(1.year.from_now.year.to_s, :from => 'contest_end_time_1i')
 
+    fill_in 'Award count', with: '10'
+    fill_in 'Dollar amount', with: '10.00'
+
     fill_in 'Header Text', with: 'im bigger than the rest of the text'
     fill_in 'Bold Text', with: 'im bolder than the rest of the text'
     fill_in 'Body Text', with: 'im smaller than the rest of the text'
