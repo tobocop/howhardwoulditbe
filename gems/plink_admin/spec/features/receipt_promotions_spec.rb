@@ -5,6 +5,11 @@ describe 'Receipt promotions' do
   before do
     create_award_type
     create_admin(email: 'admin@example.com', password: 'pazzword')
+    create_registration_link(
+      landing_page_records: [new_landing_page],
+      affiliate_record: new_affiliate,
+      campaign_record: new_campaign
+    )
   end
 
   it 'can be created by an admins' do
@@ -24,6 +29,7 @@ describe 'Receipt promotions' do
 
     fill_in 'Name', with: 'My receipt promotion'
     fill_in 'Description', with: 'desc'
+    fill_in 'Postback url', with: 'https://pixels.plink.com'
 
     click_on 'Create'
 

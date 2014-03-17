@@ -2,6 +2,20 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_receipt_promotion_postback_url(options = {})
+      defaults = {
+        postback_url: 'ewofih',
+        receipt_promotion_id: 2,
+        registration_link_id: 3
+      }
+
+      Plink::ReceiptPromotionPostbackUrlRecord.new { |receipt_promotion_postback_url| apply(receipt_promotion_postback_url, defaults, options) }
+    end
+
+    def create_receipt_promotion_postback_url(options = {})
+      new_receipt_promotion_postback_url(options).tap(&:save!)
+    end
+
     def new_award_link_click(options = {})
       defaults = {
         award_link_id: 2,

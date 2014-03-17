@@ -6,6 +6,12 @@ describe Plink::ReceiptPromotionRecord do
   it {should allow_mass_assignment_of(:end_date) }
   it {should allow_mass_assignment_of(:name) }
   it {should allow_mass_assignment_of(:start_date) }
+  it { should allow_mass_assignment_of(:receipt_promotion_postback_urls_attributes) }
+
+  it { should accept_nested_attributes_for(:receipt_promotion_postback_urls) }
+
+  it { should have_many(:receipt_promotion_postback_urls) }
+
 
   let(:valid_params) {
     {

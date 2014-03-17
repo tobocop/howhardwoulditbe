@@ -45,6 +45,8 @@ module PlinkAdmin
 
     def get_data
       @award_types = Plink::AwardTypeRecord.all
+      @receipt_promotion.receipt_promotion_postback_urls.build
+      @registration_links = Plink::RegistrationLinkRecord.all
     end
   end
 end

@@ -18,6 +18,25 @@
   .dateselect
     = f.date_select :end_date
 
+  %h3
+    Convesion Urls
+    %span#js-add-conversion-url= image_tag 'plus.png'
+  %table#conversion_urls
+    = f.fields_for :receipt_promotion_postback_urls do |ff|
+      %tr.conversion_url
+        %td
+          - registration_link_select_options = @registration_links.collect {|registration_link| ["#{registration_link.id} - #{registration_link.affiliate_record.name} - #{registration_link.campaign_record.name}", registration_link.id]}
+          = ff.label :registration_link_id, 'Registration Link (id - affiliate - campaign)'
+          = ff.select :registration_link_id, options_for_select(registration_link_select_options, ff.object.registration_link_id)
+        %td{width:'500'}
+          = ff.label :postback_url
+          = ff.text_field :postback_url
+        %td
+          -if ff.object.persisted?
+            = ff.label :_destory, 'Delete'
+            = ff.check_box :_destroy, {style:'margin-top:10.5px;'}
+    %br{clear: 'left'}
+
   = f.submit button_text, class: 'button small'
   = link_to 'Cancel', plink_admin.receipt_promotions_path, class: 'button small secondary'
 
