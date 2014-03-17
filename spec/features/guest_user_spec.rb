@@ -113,8 +113,6 @@ describe 'guest behavior' do
 
     page.should have_image('icon_lock')
 
-    page.should have_text "Planning on having enough points for a larger gift card?"
-
     page.should have_content 'Walmart Gift Card'
     page.should have_content '$5'
     page.should have_content '$10'

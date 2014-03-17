@@ -41,8 +41,7 @@ describe 'redeeming' do
     click_on 'Rewards'
 
     page.should have_content "You have enough Plink Points to redeem for a Gift card."
-    page.should have_content "Planning on having enough points for a larger gift card?"
-    page.should have_content "Hold on to your points... We're updating our rewards system to provide discounts at the $50 & $100 levels!"
+    page.should have_content "Having trouble redeeming your points?"
     within '.reward', text: 'Walmart Gift Card' do
       page.should have_css('.denomination.locked')
       page.should have_css('.flag-locked')
