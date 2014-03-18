@@ -55,7 +55,13 @@ describe PlinkAdmin::ReceiptPromotionsController do
     end
 
     it 're-renders the new form when the record cannot be persisted' do
-      Plink::ReceiptPromotionRecord.should_receive(:create).with({ 'name' => 'created name', 'partial_path' => 'path.html.haml' }).and_return(double(persisted?: false))
+      controller.stub(:get_data)
+      Plink::ReceiptPromotionRecord.should_receive(:create).with(
+        {
+          'name' => 'created name',
+          'partial_path' => 'path.html.haml'
+        }
+      ).and_return(double(persisted?: false))
 
       post :create, {receipt_promotion: {name: 'created name', partial_path: 'path.html.haml'}}
 

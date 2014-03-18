@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140311154313) do
+ActiveRecord::Schema.define(:version => 20140317214505) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1628,6 +1628,15 @@ ActiveRecord::Schema.define(:version => 20140311154313) do
     t.integer  "fishy_user_id",         :limit => 8
   end
 
+  create_table "receipt_postbacks", :force => true do |t|
+    t.boolean  "processed",                         :default => false
+    t.integer  "event_id"
+    t.integer  "receipt_promotion_postback_url_id"
+    t.string   "posted_url"
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+  end
+
   create_table "receipt_promotions", :force => true do |t|
     t.string   "name"
     t.string   "description"
@@ -1636,6 +1645,14 @@ ActiveRecord::Schema.define(:version => 20140311154313) do
     t.integer  "award_type_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+  end
+
+  create_table "receipt_promotions_postback_urls", :force => true do |t|
+    t.string   "postback_url"
+    t.integer  "receipt_promotion_id"
+    t.integer  "registration_link_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "receipt_submission_attachments", :force => true do |t|

@@ -2,6 +2,21 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_receipt_postback(options = {})
+      defaults = {
+        processed: false,
+        event_id: 3,
+        receipt_promotion_postback_url_id: 3,
+        posted_url: 'something'
+      }
+
+      Plink::ReceiptPostbackRecord.new { |receipt_postback| apply(receipt_postback, defaults, options) }
+    end
+
+    def create_receipt_postback(options = {})
+      new_receipt_postback(options).tap(&:save!)
+    end
+
     def new_receipt_promotion_postback_url(options = {})
       defaults = {
         postback_url: 'ewofih',

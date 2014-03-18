@@ -21,6 +21,7 @@
   %h3
     Convesion Urls
     %span#js-add-conversion-url= image_tag 'plus.png'
+  %p Replacement variables are: $affiliate_id$, $campaign_id$, $sub_id$, $sub_id_two$, $sub_id_three$, $sub_id_four$, $user_id$,
   %table#conversion_urls
     = f.fields_for :receipt_promotion_postback_urls do |ff|
       %tr.conversion_url

@@ -17,6 +17,31 @@ module Plink
       where(queue: queue, approved: false, needs_additional_information: false)
     }
 
+    scope :postback_data, -> {
+      select('receipt_submissions.id, receipt_promotions_postback_urls.id as receipt_promotion_postback_url_id, events.eventID as event_id').
+      joins('INNER JOIN receipt_promotions_postback_urls ON receipt_promotions_postback_urls.receipt_promotion_id = receipt_submissions.receipt_promotion_id').
+      joins('INNER JOIN registration_links ON receipt_promotions_postback_urls.registration_link_id = registration_links.id').
+      joins('INNER JOIN events ON receipt_submissions.user_id = events.userID').
+      joins('INNER JOIN eventTypes ON events.eventTypeID = eventTypes.eventTypeID').
+      where(approved: true).
+      where('events.affiliateID = registration_links.affiliate_id').
+      where('events.campaignID = registration_links.campaign_id').
+      where('eventTypes.name = ?', Plink::EventTypeRecord.email_capture_type).
+      where(%q{NOT EXISTS (
+        SELECT 1
+        FROM receipt_postbacks
+        WHERE receipt_postbacks.event_id = events.eventID
+          AND receipt_postbacks.receipt_promotion_postback_url_id = receipt_promotions_postback_urls.id
+      )})
+
+    }
+
+    def self.map_postback_data
+      postback_data.map do |record|
+        {event_id: record.event_id, receipt_promotion_postback_url_id: record.receipt_promotion_postback_url_id}
+      end
+    end
+
     def valid_for_award?
       approved && receipt_promotion_id.present?
     end
