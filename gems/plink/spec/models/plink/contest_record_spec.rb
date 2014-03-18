@@ -96,6 +96,7 @@ describe Plink::ContestRecord do
 
   it { should have_many(:entry_records) }
   it { should have_many(:contest_prize_levels) }
+  it { should have_many(:contest_winners) }
   it { should have_one(:contest_emails) }
 
   context 'named scopes' do

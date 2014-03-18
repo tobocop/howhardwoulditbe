@@ -3,6 +3,7 @@ module PlinkAdmin
 
     def index
       @contests = Plink::ContestRecord.all
+      @delayed_jobs = Delayed::Job.where("handler LIKE '%PlinkAdmin::SelectContestWinnersService%'").order('id DESC')
     end
 
     def new
@@ -77,6 +78,12 @@ module PlinkAdmin
       @contest = Plink::ContestRecord.select(contest_select).find(contest_id)
       @contests ||= Plink::ContestRecord.select(contest_select).all
       @statistics = PlinkAdmin::ContestQueryService.get_statistics(contest_id)
+    end
+
+    def select_winners
+      PlinkAdmin::SelectContestWinnersService.delay.process!(params[:contest_id])
+      flash[:notice] = 'Winner selection is running. Please check back to see when they have been selected.'
+      redirect_to plink_admin.contests_path
     end
 
     def winners

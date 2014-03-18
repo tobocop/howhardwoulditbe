@@ -42,6 +42,7 @@ PlinkAdmin::Engine.routes.draw do
     get :user_entry_stats
     post :entries
     get :statistics
+    get :select_winners
     get :winners
     get :remove_winner
     post :accept_winners

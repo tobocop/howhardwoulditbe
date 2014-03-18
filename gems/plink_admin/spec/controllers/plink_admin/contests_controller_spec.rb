@@ -12,7 +12,13 @@ describe PlinkAdmin::ContestsController do
   end
 
   describe 'GET index' do
-    before { get :index }
+    let(:delayed_jobs) { [double, double] }
+
+    before do
+      Delayed::Job.stub_chain(:where, :order).and_return(delayed_jobs)
+
+      get :index
+    end
 
     it 'responds with a 200' do
       response.status.should == 200
@@ -20,6 +26,10 @@ describe PlinkAdmin::ContestsController do
 
     it 'gets all contests in the database' do
       assigns(:contests).should == [contest]
+    end
+
+    it 'gets all currently running delayed jobs for the winners service' do
+      assigns(:delayed_jobs).should == delayed_jobs
     end
   end
 
@@ -254,6 +264,33 @@ describe PlinkAdmin::ContestsController do
       get :statistics
 
       assigns(:contest).should == contest
+    end
+  end
+
+  describe 'GET select_winners' do
+    let(:select_contest_winners_service) { double(PlinkAdmin::SelectContestWinnersService, process!: true) }
+
+    before do
+      PlinkAdmin::SelectContestWinnersService.stub(:delay).and_return(select_contest_winners_service)
+    end
+
+    it 'queues a delayed job to process winners' do
+      PlinkAdmin::SelectContestWinnersService.should_receive(:delay).and_return(select_contest_winners_service)
+      select_contest_winners_service.should_receive(:process!).with('3')
+
+      get :select_winners, contest_id: 3
+    end
+
+    it 'notifies the user that the winners are being processed' do
+      get :select_winners, contest_id: 3
+
+      flash[:notice].should == 'Winner selection is running. Please check back to see when they have been selected.'
+    end
+
+    it 'redirects the user to the contests index page' do
+      get :select_winners, contest_id: 3
+
+      page.should redirect_to '/contests'
     end
   end
 

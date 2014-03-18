@@ -4,6 +4,7 @@ module Plink
 
     has_many :entry_records, class_name: 'Plink::EntryRecord', foreign_key: 'contest_id'
     has_many :contest_prize_levels, class_name: 'Plink::ContestPrizeLevelRecord', foreign_key: 'contest_id'
+    has_many :contest_winners, class_name: 'Plink::ContestWinnerRecord', foreign_key: 'contest_id'
     has_one :contest_emails, class_name: 'Plink::ContestEmailRecord', foreign_key: 'contest_id'
 
     accepts_nested_attributes_for :contest_emails

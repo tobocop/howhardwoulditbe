@@ -32,10 +32,31 @@
         - if contest.finalized_at.present?
           %td Winners Selected
         - elsif contest.ended?
-          %td= link_to 'Accept', plink_admin.contest_winners_path(contest.id)
+          - if contest.contest_winners.blank?
+            %td= link_to 'Select Winners', plink_admin.contest_select_winners_path(contest.id)
+          -else
+            %td= link_to 'Accept', plink_admin.contest_winners_path(contest.id)
         - else
           %td Contest in Progress
 
 %hr
 
 = link_to 'Create New Contest', plink_admin.new_contest_path, class: 'button small'
+- if @delayed_jobs.present?
+  %h4 Currently running jobs
+  %table.contest-list
+    %thead
+      %th Attempts
+      %th Last error
+      %th Run at
+      %th Locked at
+      %th Handler
+    %tbody
+      - @delayed_jobs.each do |job|
+        %tr
+          %td= job.attempts
+          %td= job.last_error.to_s[0..300] + '...'
+          %td= job.run_at
+          %td= job.locked_at
+          %td= job.handler
+
