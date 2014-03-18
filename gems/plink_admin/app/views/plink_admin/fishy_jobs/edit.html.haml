@@ -1,0 +1,3 @@
+%h1= "Edit Fishy Job - #{@pending_job.id}"
+
+= render partial: 'fishy_jobs_form', locals: {button_text: 'Update', fishy_job: @pending_job, url: plink_admin.fishy_job_path(@pending_job)}

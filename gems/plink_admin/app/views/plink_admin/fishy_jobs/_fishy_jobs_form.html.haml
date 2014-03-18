@@ -1,0 +1,12 @@
+- if fishy_job.errors.any?
+  .alert-box.alert
+    - fishy_job.errors.full_messages.each do |message|
+      %p= message
+
+= form_for(fishy_job, url: url, as: 'fishy_job') do |f|
+  = f.label :begin_user_id, 'Primary user id'
+  = f.text_field :begin_user_id
+  = f.label :fishy_user_id, 'Fishy user id'
+  = f.text_field :fishy_user_id
+  = f.submit button_text, class: 'button small'
+  = link_to 'Cancel', plink_admin.fishy_jobs_path, class: 'button small secondary'

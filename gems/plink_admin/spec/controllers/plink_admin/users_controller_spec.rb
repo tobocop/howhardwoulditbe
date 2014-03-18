@@ -4,6 +4,7 @@ describe PlinkAdmin::UsersController do
   let(:admin) { create_admin }
 
   before do
+    Plink::FishyService.stub(:fishy_with).and_return([])
     sign_in :admin, admin
   end
 
@@ -44,6 +45,22 @@ describe PlinkAdmin::UsersController do
       get :edit, id: 200
 
       assigns(:users_institutions).should == users_institutions
+    end
+
+    it 'assigns the users fishy status' do
+      Plink::FishyService.stub(:fishy_with).and_return([1234, 6789])
+
+      get :edit, id: 200
+
+      assigns(:fishy_status).should == 'Fishy'
+    end
+
+    it 'assigns fishy users' do
+      Plink::FishyService.should_receive(:fishy_with).with(user.id).and_return([1234, 6789])
+
+      get :edit, id: 200
+
+      assigns(:fishy_user_ids).should == [1234, 6789]
     end
   end
 

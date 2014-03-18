@@ -80,6 +80,13 @@ describe Plink::IntuitFishyTransactionRecord do
         active_by_user_id.first.id.should == intuit_fishy_transaction_record.id
       end
 
+      it 'returns records that are active where the other_fishy_user_id matches' do
+        intuit_fishy_transaction_record.update_attribute('user_id', 3)
+        intuit_fishy_transaction_record.update_attribute('other_fishy_user_id', 34)
+        active_by_user_id.length.should == 1
+        active_by_user_id.first.id.should == intuit_fishy_transaction_record.id
+      end
+
       it 'does not return inactive records' do
         intuit_fishy_transaction_record.update_attribute('is_active', false)
 

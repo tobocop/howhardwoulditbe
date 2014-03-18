@@ -31,6 +31,26 @@ module Plink
       new_receipt_promotion_postback_url(options).tap(&:save!)
     end
 
+    def new_pending_job(options = {})
+      defaults = {
+        begin_date: nil,
+        begin_user_id: 2,
+        command_template: 'something',
+        end_date: nil,
+        end_user_id: 2,
+        fishy_user_id: 9 ,
+        is_blocking: false,
+        is_serial: false,
+        notification_list: nil
+      }
+
+      Plink::PendingJobRecord.new { |pending_job| apply(pending_job, defaults, options) }
+    end
+
+    def create_pending_job(options = {})
+      new_pending_job(options).tap(&:save!)
+    end
+
     def new_award_link_click(options = {})
       defaults = {
         award_link_id: 2,

@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'User Management' do
   let!(:user) { create_user(first_name: 'oldmanjumbo', email: 'jumbalaya@example.com') }
+  let!(:fishy_user) { create_user(first_name: 'sea bass', email: 'redsnapper@redlobster.melvin') }
   let!(:wallet) { create_wallet(user_id: user.id) }
   let!(:open_wallet_item) { create_open_wallet_item(wallet_id: wallet.id) }
   let!(:locked_wallet_item) { create_locked_wallet_item(wallet_id: wallet.id) }
@@ -12,6 +13,7 @@ describe 'User Management' do
     institution = create_institution(name: 'Bank of representin')
     users_institution = create_users_institution(user_id: user.id, institution_id: institution.id)
     create_users_institution_account(user_id: user.id, name: 'representing checks', users_institution_id: users_institution.id, account_number_last_four: nil)
+    create_intuit_fishy_transaction(user_id: user.id, other_fishy_user_id: fishy_user.id)
   end
 
   it 'lets an admin manage users' do
@@ -28,12 +30,19 @@ describe 'User Management' do
     end
 
     page.should have_link 'Impersonate User'
-    page.should have_content 'Unlock Locked Wallet Items'
     page.should have_content 'Locked Wallet Items: 1'
     page.should have_content 'Open Wallet Items: 1'
     page.should have_content 'Populated Wallet Items: 1'
     page.should have_content 'Bank of representin'
     page.should have_content 'representing checks'
+
+    within '.fishy-status' do
+      page.should have_content 'Fishy Status - Fishy'
+      page.should have_content user.id
+      page.should have_content fishy_user.id
+      page.should have_link '( New Admin )'
+      page.should have_link '( Old Admin )'
+    end
 
     fill_in 'user_email', with: 'gumbo@example.com'
     check 'user_hold_redemptions'

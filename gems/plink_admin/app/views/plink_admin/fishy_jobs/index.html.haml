@@ -1,0 +1,18 @@
+= link_to 'Queue Fishy Fix', plink_admin.new_fishy_job_path, class: 'button small'
+%table.fishy-list
+  %thead
+    %th begin user id
+    %th end user id
+    %th fishy user id
+    %th job status
+  %tbody
+    - @pending_jobs.each do |pending_job|
+      %tr.fishy-item
+        %td= pending_job.begin_user_id
+        %td= pending_job.end_user_id
+        %td= pending_job.fishy_user_id
+        %td
+          - if pending_job.pending?
+            Pending
+          -else
+            Completed

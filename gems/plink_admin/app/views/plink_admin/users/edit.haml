@@ -1,8 +1,7 @@
 = link_to 'Impersonate User &raquo;'.html_safe, plink_admin.impersonate_user_path(id: @user.id), method: :post
 
-%h3 Unlock Locked Wallet Items
 
-%h4= "User Account"
+%h4= "User Account - #{@user.id}"
 = render partial: 'user_form', locals: {button_text: 'Save', user: @user, url: plink_admin.user_path(@user)}
 
 %h4= "Locked Wallet Items: #{@user.wallet_item_records.locked_records.count}"
@@ -34,7 +33,20 @@
   - @user.wallet_item_records.populated_records.each do |wallet_item|
     %li.open-wallet-items= wallet_item.unlock_reason
 
-%h3 Users Intuit Account Information:
+%hr
+
+.fishy-status
+  %h4= 'Fishy Status - ' + @fishy_status.to_s
+  %ul
+    - @fishy_user_ids.each do |fishy_user_id|
+      %li
+        = fishy_user_id
+        = link_to '( New Admin )', plink_admin.edit_user_path(fishy_user_id), {target: 'fishy_new_admin'}
+        = link_to '( Old Admin )', "https://admin.plink.com/?event=devTools.userInfo&userID=#{fishy_user_id}&emailAddress=&numberOfRecords=10&submit=Filter", {target: 'fishy_old_admin'}
+
+%hr
+
+%h4 Users Intuit Account Information:
 %table
   %thead
     %th ID

@@ -58,6 +58,16 @@ module PlinkAdmin
       @unlock_reasons = Plink::WalletRecord::UNLOCK_REASONS
       @wallet_id = @user.wallet.id
       @users_institutions = Plink::UsersInstitutionRecord.find_by_user_id(@user.id).order('usersInstitutionID desc')
+      @fishy_user_ids = Plink::FishyService.fishy_with(@user.id)
+      @fishy_status = fishy_status(@fishy_user_ids)
+    end
+
+    def fishy_status(fishy_user_ids)
+      case fishy_user_ids.length
+        when 0 then 'Not Fishy'
+        when 1 then 'Fishy with themselves'
+        else 'Fishy'
+      end
     end
   end
 end

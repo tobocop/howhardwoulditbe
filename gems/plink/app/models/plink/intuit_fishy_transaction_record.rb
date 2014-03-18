@@ -10,7 +10,7 @@ module Plink
       :users_institution_id, :users_virtual_currency_id, :virtual_currency_id
 
     scope :active_by_user_id, -> (user_id) {
-      where(user_id: user_id).
+      where('user_id = ? OR other_fishy_user_id = ?', user_id, user_id).
       where(is_active: true)
     }
   end

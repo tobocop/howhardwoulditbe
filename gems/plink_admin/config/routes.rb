@@ -6,17 +6,18 @@ PlinkAdmin::Engine.routes.draw do
     get :edit_audience, to: 'hero_promotions#edit_audience', on: :member
     put :update_audience, to: 'hero_promotions#update_audience', on: :member
   end
+
   resources :affiliates, except: :destroy
+  resources :award_links, except: :destroy
   resources :brands, except: :destroy
   resources :campaigns, except: :destroy
   resources :contacts, except: :destroy
+  resources :fishy_jobs
   resources :global_login_tokens, except: :destroy
   resources :landing_pages, except: :destroy
   resources :receipt_promotions, except: :destroy
-  resources :receipt_submissions, only: [:index, :update]
-  resources :award_links, except: :destroy
-
   resources :receipt_submission_queue, only: [:show]
+  resources :receipt_submissions, only: [:index, :update]
 
   resources :share_pages, except: :destroy
   resources :registration_links, except: [:destroy] do
