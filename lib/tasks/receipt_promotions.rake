@@ -10,7 +10,9 @@ namespace :receipt_promotions do
         )
       end
 
-      Plink::ReceiptPostbackRecord.where(processed: false).each do |receipt_postback|
+      Plink::ReceiptPostbackRecord.
+        where(processed: false).
+        where('created_at > ?', 1.day.ago).each do |receipt_postback|
         begin
           puts "[#{Time.zone.now}] Processing postback for receipt_postback_id #{receipt_postback.id}"
 
@@ -20,6 +22,7 @@ namespace :receipt_promotions do
           ::Exceptional::Catcher.handle($!, "receipt_promotions:process_postback failed on postback")
         end
       end
+      puts "[#{Time.zone.now}] Ending receipt_promotions:process_postback"; stars
     rescue Exception => e
       ::Exceptional::Catcher.handle($!, "receipt_promotions:process_postback Rake task failed")
     end
