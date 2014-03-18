@@ -31,19 +31,19 @@ Tracker story ID as the last statement in the commit message, like so:
 
     `git push origin feature_name`
 
-8. MATT: Manually change config/deploy.rb:
+8. Manually change config/deploy.rb:
 
     `set :branch, 'feature_name'`
 
-9. MATT: Deploy the code to the review server (check with Matt first!):
+9. Deploy the code to the review server:
 
     `bundle exec cap review deploy:update`
 
-10. MATT: Restart unicorn:
+10. Restart unicorn:
 
     `bundle exec cap review unicorn:restart`
 
-11. MATT: Mark the story as Delivered.
+11. Mark the story as Delivered.
 
 12. Repeat 2-10 as needed to address defects found during testing.
 
