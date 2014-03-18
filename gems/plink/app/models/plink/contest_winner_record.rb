@@ -20,5 +20,12 @@ module Plink
       joins('LEFT OUTER JOIN contest_prize_levels ON contest_winners.prize_level_id = contest_prize_levels.id').
       where('contests.id = ?', contest_id)
     }
+
+    scope :to_notify_by_contest_id, ->(contest_id) {
+      where(contest_id: contest_id).
+      where(winner: true).
+      where('finalized_at IS NOT NULL').
+      where('prize_level_id IS NOT NULL')
+    }
   end
 end

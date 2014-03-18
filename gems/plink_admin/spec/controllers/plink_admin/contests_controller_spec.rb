@@ -294,6 +294,41 @@ describe PlinkAdmin::ContestsController do
     end
   end
 
+  describe 'GET notify_winners' do
+    it 'is successful' do
+      get :notify_winners
+
+      response.should be_successful
+    end
+  end
+
+  describe 'POST send_winner_notifications' do
+    let(:notify_contest_winners_service) { double(PlinkAdmin::NotifyContestWinnersService, notify!: true) }
+
+    before do
+      PlinkAdmin::NotifyContestWinnersService.stub(:delay).and_return(notify_contest_winners_service)
+    end
+
+    it 'calls notify on the notify service for the contest and message' do
+      PlinkAdmin::NotifyContestWinnersService.should_receive(:delay).with().and_return(notify_contest_winners_service)
+      notify_contest_winners_service.should_receive(:notify!).with('3', 'message')
+
+      post :send_winner_notifications, contest_id: 3, facebook_message: 'message'
+    end
+
+    it 'notifies the user the job is running' do
+      post :send_winner_notifications, contest_id: 3, facebook_message: 'message'
+
+      flash[:notice].should == 'Posting facebook notifications. Please check back to see when it completes.'
+    end
+
+    it 'redirects the user to the contests index page' do
+      post :send_winner_notifications, contest_id: 3, facebook_message: 'message'
+
+      page.should redirect_to '/contests'
+    end
+  end
+
   describe 'GET winners' do
     it 'returns an empty collection if not provided a contest_id' do
       get :winners

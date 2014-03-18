@@ -1,0 +1,6 @@
+%h3 Notify winners for contest #{params[:contest_id]}
+= form_tag plink_admin.contest_send_winner_notifications_path, method: :post do
+  = label_tag :facebook_message, 'Enter the message to post to facebook'
+  = text_field_tag :facebook_message
+  = submit_tag 'Notify Winners', class: 'button small'
+

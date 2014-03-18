@@ -56,5 +56,39 @@ describe Plink::ContestWinnerRecord do
         results.pluck(:contest_id).should_not include(other_contest.id)
       end
     end
+
+    describe '.to_notify_by_contest_id' do
+      let!(:winner) { create_contest_winner(contest_id: 3, winner: true, finalized_at: 1.day.ago, prize_level: new_contest_prize_level) }
+
+      subject(:to_notify_by_contest_id) { Plink::ContestWinnerRecord.to_notify_by_contest_id(3) }
+
+      it 'returns winners of a finalized contest by id' do
+        to_notify_by_contest_id.first.should == winner
+      end
+
+      it 'does not return records where the contest_id does not match' do
+        winner.update_attribute('contest_id', 12)
+
+        to_notify_by_contest_id.length.should == 0
+      end
+
+      it 'does not return records that did not win' do
+        winner.update_attribute('winner', false)
+
+        to_notify_by_contest_id.length.should == 0
+      end
+
+      it 'does not return records that were not finalized' do
+        winner.update_attribute('finalized_at', nil)
+
+        to_notify_by_contest_id.length.should == 0
+      end
+
+      it 'does not return records that do not have a prize' do
+        winner.update_attribute('prize_level_id', nil)
+
+        to_notify_by_contest_id.length.should == 0
+      end
+    end
   end
 end

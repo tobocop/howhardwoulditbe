@@ -12,6 +12,11 @@ PATH
       tire
 
 PATH
+  remote: ../gigya
+  specs:
+    gigya (0.0.1)
+
+PATH
   remote: ../plink
   specs:
     plink (0.0.1)
@@ -192,6 +197,7 @@ PLATFORMS
 DEPENDENCIES
   capybara (= 2.1.0)
   capybara-webkit (~> 1.0.0)
+  gigya!
   jquery-rails
   launchy (= 2.3.0)
   plink!

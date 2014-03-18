@@ -30,12 +30,16 @@
         %td= present_as_date(contest.end_time)
         %td= link_to 'Statistics', plink_admin.contest_statistics_path(contest.id)
         - if contest.finalized_at.present?
-          %td Winners Selected
+          %td
+            Winners Selected
+            %br
+            %br
+            = link_to 'Notify Winners', plink_admin.contest_notify_winners_path(contest.id)
         - elsif contest.ended?
           - if contest.contest_winners.blank?
-            %td= link_to 'Select Winners', plink_admin.contest_select_winners_path(contest.id)
+            %td= link_to 'Choose Winners', plink_admin.contest_select_winners_path(contest.id)
           -else
-            %td= link_to 'Accept', plink_admin.contest_winners_path(contest.id)
+            %td= link_to 'Accept Winners', plink_admin.contest_winners_path(contest.id)
         - else
           %td Contest in Progress
 

@@ -9,6 +9,7 @@ gemspec
 gem "jquery-rails"
 
 gem 'plink', path: '../plink'
+gem 'gigya', path: '../gigya'
 
 gem 'pry'
 

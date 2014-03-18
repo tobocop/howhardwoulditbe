@@ -1,9 +1,9 @@
 module PlinkAdmin
-  class ContestsController < ApplicationController
+  class ContestsController < PlinkAdmin::ApplicationController
 
     def index
       @contests = Plink::ContestRecord.all
-      @delayed_jobs = Delayed::Job.where("handler LIKE '%PlinkAdmin::SelectContestWinnersService%'").order('id DESC')
+      @delayed_jobs = Delayed::Job.where("handler LIKE '%ContestWinnersService%'").order('id DESC')
     end
 
     def new
@@ -83,6 +83,15 @@ module PlinkAdmin
     def select_winners
       PlinkAdmin::SelectContestWinnersService.delay.process!(params[:contest_id])
       flash[:notice] = 'Winner selection is running. Please check back to see when they have been selected.'
+      redirect_to plink_admin.contests_path
+    end
+
+    def notify_winners
+    end
+
+    def send_winner_notifications
+      PlinkAdmin::NotifyContestWinnersService.delay.notify!(params[:contest_id], params[:facebook_message])
+      flash[:notice] = 'Posting facebook notifications. Please check back to see when it completes.'
       redirect_to plink_admin.contests_path
     end
 

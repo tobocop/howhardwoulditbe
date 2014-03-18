@@ -133,29 +133,7 @@ namespace :contest do
     automated_post = args[:automated_post]
     raise ArgumentError.new('automated_post is required') unless automated_post.present?
 
-    default_affiliate_id = Rails.application.config.default_contest_affiliate_id
-    gigya = Gigya.new(Gigya::Config.instance)
-
-    users_to_post_for = Plink::UserRecord.select([:userID]).
-      joins('INNER JOIN contest_winners ON users.userID = contest_winners.user_id AND contest_winners.prize_level_id IS NOT NULL').
-      where('contest_winners.contest_id = ?', contest_id).
-      where('contest_winners.finalized_at IS NOT NULL AND contest_winners.winner = ?', true).
-      group(:userID)
-
-    users_to_post_for.each do |user|
-      puts "[#{Time.zone.now}] POSTING TO GIGYA: user_id: #{user.userID}"
-      url = Rails.application.routes.url_helpers.contest_referral_url(user_id: user.userID, affiliate_id: default_affiliate_id, contest_id: contest_id)
-      url = url + '/facebook_winning_entry_post'
-      facebook_status = "#{automated_post} #Plink #{url}"
-
-      response = gigya.set_facebook_status(user.userID, facebook_status)
-
-      if response.error_code == 0 && response.status_code == 200
-        puts "[#{Time.zone.now}] SUCCESSFUL POST TO GIGYA: user_id: #{user.id}"
-      else
-        puts "[#{Time.zone.now}] ISSUE WITH GIGYA: user_id: #{user.id} LOGGED ERRORS: error_code: #{response.error_code} status_code: #{response.status_code}"
-      end
-    end
+    PlinkAdmin::NotifyContestWinnersService.notify!(contest_id, automated_post)
   end
 
 private

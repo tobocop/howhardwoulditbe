@@ -556,14 +556,9 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true do
   include_context 'rake'
 
   let!(:contest) { create_contest }
-  let!(:user) { create_user }
-  let(:gigya) { double }
-  let(:gigya_success) { double(error_code: 0, status_code: 200) }
-  let(:gigya_failure) { double(error_code: 1, status_code: 400) }
 
   before do
-    Gigya.stub(:new).and_return(gigya)
-    create_contest_winner(user_id: user.id, contest_id: contest.id, winner: true, finalized_at: 1.minute.ago, prize_level_id: 2)
+    PlinkAdmin::NotifyContestWinnersService.stub(:notify!)
   end
 
   it 'requires a contest_id argument' do
@@ -578,33 +573,9 @@ describe 'contest:post_on_winners_behalf', skip_in_build: true do
     }.to raise_error ArgumentError
   end
 
-  it 'uses the correct automated post message & share link' do
-    url = "http://plink.test:58891/contest/refer/#{user.id}/aid/1431/contest/#{contest.id}/facebook_winning_entry_post"
-    facebook_status = "winner auto post #Plink #{url}"
-
-    gigya.should_receive(:set_facebook_status).with(user.id, facebook_status).
-      and_return(gigya_success)
+  it 'posts the notices to facebook' do
+    PlinkAdmin::NotifyContestWinnersService.should_receive(:notify!).with(contest.id, 'winner auto post')
 
     subject.invoke(contest.id, 'winner auto post')
-  end
-
-  context 'with a successful social share via Gigya' do
-    it 'logs the success' do
-      gigya.stub(:set_facebook_status).and_return(gigya_success)
-
-      output = capture_stdout { subject.invoke(contest.id, 'winner auto post') }
-      output.should =~ /POSTING TO GIGYA: user_id: /
-      output.should =~ /SUCCESSFUL POST TO GIGYA:/
-    end
-  end
-
-  context 'with a failed social share via Gigya' do
-    it 'logs the status code and error code' do
-      gigya.stub(:set_facebook_status).and_return(gigya_failure)
-
-      output = capture_stdout { subject.invoke(contest.id, 'winner auto post') }
-      output.should =~ /POSTING TO GIGYA:/
-      output.should =~ /LOGGED ERRORS: error_code: 1 status_code: 400/
-    end
   end
 end
