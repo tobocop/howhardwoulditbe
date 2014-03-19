@@ -19,15 +19,28 @@
               %td= @receipt_submission_record.subject
               %td= @receipt_submission_record.body
         .columns.large-12
-          .columns.large-6
-            = f.label :approved, 'Approve'
-            = f.check_box :approved
-          .columns.large-6
-            = f.label :needs_additional_information
-            = f.check_box :needs_additional_information
+          .on_one_line
+            = f.radio_button :status, 'approved'
+            = f.label :status_approved, 'Approve'
+          .on_one_line
+            = f.radio_button :status, 'non plink registered email'
+            = f.label :status_non_plink_registered_email, 'Non plink registered email'
+          .on_one_line
+            = f.radio_button :status, 'ignored'
+            = f.label :status_ignored, 'Ignore'
+          .on_one_line
+            = f.radio_button :status, 'denied'
+            = f.label :status_denied, 'Deny'
+          .on_one_line
+            = f.radio_button :status, 'other'
+            = f.label :status_other, 'Other'
+          %br{clear: 'left'}
+          = f.label :status_reason, 'Reason'
+          = f.text_field :status_reason
+          %br
           - receipt_promotion_select_options = @receipt_promotions.collect {|receipt_promotion| ["#{receipt_promotion.name} (#{receipt_promotion.id})", receipt_promotion.id]}
           = f.label :receipt_promotion_id, 'Receipt Promotion'
-          = f.select :receipt_promotion_id, options_for_select(receipt_promotion_select_options)
+          = f.select :receipt_promotion_id, options_for_select(receipt_promotion_select_options), {prompt: 'Choose one...'}
           = f.label :date_of_purchase
           .dateselect
             = f.date_select :date_of_purchase

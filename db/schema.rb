@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140317214505) do
+ActiveRecord::Schema.define(:version => 20140319183009) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1669,14 +1669,16 @@ ActiveRecord::Schema.define(:version => 20140317214505) do
     t.string   "subject"
     t.string   "to"
     t.integer  "user_id"
-    t.datetime "created_at",                                                                    :null => false
-    t.datetime "updated_at",                                                                    :null => false
+    t.datetime "created_at",                                                                        :null => false
+    t.datetime "updated_at",                                                                        :null => false
     t.integer  "queue"
     t.boolean  "approved",                                                   :default => false
     t.boolean  "needs_additional_information",                               :default => false
     t.date     "date_of_purchase"
     t.decimal  "dollar_amount",                :precision => 8, :scale => 2
     t.integer  "receipt_promotion_id"
+    t.string   "status",                                                     :default => "pending"
+    t.string   "status_reason"
   end
 
   create_table "redemptionRequests", :primary_key => "redemptionRequestID", :force => true do |t|

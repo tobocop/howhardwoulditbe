@@ -26,6 +26,13 @@
   width:100px;
 }
 
+.on_one_line {
+  clear:left;
+}
+.on_one_line input[type='radio'] {
+  width:20px;
+}
+
 .on_one_line input {
   width:100px;
   float:left;
@@ -35,7 +42,6 @@
 
 .on_one_line label  {
   float:left;
-  line-height:32px;
   padding-right:10px;
 }
 

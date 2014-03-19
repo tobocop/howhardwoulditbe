@@ -10,6 +10,8 @@ describe Plink::ReceiptSubmissionRecord do
   it { should allow_mass_assignment_of(:needs_additional_information) }
   it { should allow_mass_assignment_of(:queue) }
   it { should allow_mass_assignment_of(:receipt_promotion_id) }
+  it { should allow_mass_assignment_of(:status) }
+  it { should allow_mass_assignment_of(:status_reason) }
   it { should allow_mass_assignment_of(:subject) }
   it { should allow_mass_assignment_of(:to) }
   it { should allow_mass_assignment_of(:user_id) }
@@ -24,11 +26,13 @@ describe Plink::ReceiptSubmissionRecord do
       dollar_amount: 2.34,
       from: 'testing@example.com',
       headers: '{"some":"json"}',
+      queue: 1,
       receipt_promotion_id: 1,
+      status: 'pending',
+      status_reason:  nil,
       subject: 'pepsi promotion',
       to: '{"some":"json"}',
-      user_id: 23,
-      queue: 1
+      user_id: 23
     }
   }
 
@@ -42,10 +46,10 @@ describe Plink::ReceiptSubmissionRecord do
 
   describe 'named scopes' do
     describe '.pending_by_queue' do
-      let!(:receipt_submission) { create_receipt_submission(queue: 1, approved: false, needs_additional_information: false) }
+      let!(:receipt_submission) { create_receipt_submission(queue: 1, status: 'pending') }
       subject(:pending_by_queue) { Plink::ReceiptSubmissionRecord.pending_by_queue(1) }
 
-      it 'returns submissions that match the queue that have not been approved and do not need more information' do
+      it 'returns submissions that match the queue that are pending' do
         pending_by_queue.length.should == 1
         pending_by_queue.first.id.should == receipt_submission.id
       end
@@ -56,14 +60,8 @@ describe Plink::ReceiptSubmissionRecord do
         pending_by_queue.length.should == 0
       end
 
-      it 'does not return approved records' do
-        receipt_submission.update_attribute('approved', true)
-
-        pending_by_queue.length.should == 0
-      end
-
-      it 'does not return records that need more information ' do
-        receipt_submission.update_attribute('needs_additional_information', true)
+      it 'does not return records where the status is not pending' do
+        receipt_submission.update_attribute('status', 'derp')
 
         pending_by_queue.length.should == 0
       end
@@ -110,16 +108,16 @@ describe Plink::ReceiptSubmissionRecord do
   end
 
   describe '#valid_for_award?' do
-    it 'returns true when the award is approved and has a receipt_promotion_id' do
-      new_receipt_submission(approved: true, receipt_promotion_id: 3).valid_for_award?.should be_true
+    it 'returns true when the status is approved and has a receipt_promotion_id' do
+      new_receipt_submission(status: 'approved', receipt_promotion_id: 3).valid_for_award?.should be_true
     end
 
-    it 'returns false when the award is not approved' do
-      new_receipt_submission(approved: false, receipt_promotion_id: 3).valid_for_award?.should be_false
+    it 'returns false when the submission is not approved' do
+      new_receipt_submission(status: 'denied', receipt_promotion_id: 3).valid_for_award?.should be_false
     end
 
-    it 'returns false when the award doest not have a receipt_promotion_id' do
-      new_receipt_submission(approved: true, receipt_promotion_id: nil).valid_for_award?.should be_false
+    it 'returns false when the submission does not have a receipt_promotion_id' do
+      new_receipt_submission(status: 'approved', receipt_promotion_id: nil).valid_for_award?.should be_false
     end
   end
 

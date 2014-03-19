@@ -37,7 +37,7 @@ describe 'Affiliates' do
     page.should have_css "img[src='http://example.com/image-one.jpg']"
     page.should have_css "a[href='http://example.com/pdf.pdf']"
 
-    check 'Approve'
+    choose 'Approve'
     click_on 'Process'
 
     page.should have_content 'Submission updated and user awarded'

@@ -117,11 +117,13 @@ module Plink
         body: 'some body',
         from: 'testing@example.com',
         headers: '{"some":"json"}',
+        queue: 1,
         receipt_promotion_id: 2,
+        status: 'pending',
+        status_reason: 'derps',
         subject: 'pepsi promotion',
         to: '{"some":"json"}',
-        user_id: 23,
-        queue: 1
+        user_id: 23
       }
 
       Plink::ReceiptSubmissionRecord.new { |receipt_submission| apply(receipt_submission, defaults, options) }
