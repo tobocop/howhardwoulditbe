@@ -203,7 +203,8 @@ describe 'searching for a bank', js: true, driver: :selenium do
       click_on 'Select'
     end
 
-    page.should have_content 'The account you selected is inelligible.'
+    page.should have_content 'Plink is unable to connect with the selected account. Please choose another account.'
+    page.should have_content "If you believe the account you've selected should be compatible, please"
   end
 
   it 'changes the congratulations link if a user came from a contest', :vcr do
