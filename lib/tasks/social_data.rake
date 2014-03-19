@@ -4,14 +4,16 @@ namespace :social_data do
     begin
       stars; puts "[#{Time.zone.now}] Beginning social_data:upload_to_s3"
 
-      users_social_profiles = Plink::UsersSocialProfileRecord.all
+      users_social_profiles = Plink::UsersSocialProfileRecord.limit(10)
 
       profiles_to_upload = Tempfile.open('profiles_to_upload')
-      profiles_to_upload.puts 'user_id|gigya_profile'
+      profiles_to_upload.puts "'user_id','like_name','category','like_date'"
 
       users_social_profiles.each do |users_social_profile|
         begin
-          profiles_to_upload.puts "#{users_social_profile.user_id}|#{users_social_profile.profile.gsub(/\r\n/,'')}"
+          users_social_profile.likes.each do |like|
+            profiles_to_upload.puts "'#{users_social_profile.user_id}','#{like['name']}','#{like['category']}','#{like['time']}'"
+          end
           puts "[#{Time.zone.now}] Uploading profile id: #{users_social_profile.id} with user_id = #{users_social_profile.user_id}"
         rescue Exception => e
           ::Exceptional::Catcher.handle($!, "social_data:upload_to_s3 Rake task failed on users_social_profile.id = #{users_social_profile.id}")
