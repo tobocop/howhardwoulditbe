@@ -61,8 +61,16 @@ describe Plink::UsersInstitutionAccountStagingRecord do
 
       subject(:unchosen_accounts_in_intuit) { Plink::UsersInstitutionAccountStagingRecord.unchosen_accounts_in_intuit }
 
-      it 'returns unchosen accounts' do
+      it 'returns unchosen accounts that are not end dated' do
+        create_users_institution_account(account_id: unchosen_account.account_id, end_date: 4.days.ago)
+
         unchosen_accounts_in_intuit.should == [unchosen_account]
+      end
+
+      it 'does not return chosen accounts that were end dated less than 3 days ago' do
+        create_users_institution_account(account_id: unchosen_account.account_id, end_date: 2.days.ago)
+
+        unchosen_accounts_in_intuit.should == []
       end
 
       it 'does not return chosen accounts' do

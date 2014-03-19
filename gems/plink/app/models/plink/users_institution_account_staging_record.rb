@@ -28,8 +28,9 @@ module Plink
     validates_presence_of :account_id, :user_id, :users_institution_id
 
     scope :unchosen_accounts_in_intuit, -> {
-      joins('LEFT OUTER JOIN usersInstitutionAccounts ON
-        usersInstitutionAccountsStaging.accountID = usersInstitutionAccounts.accountID').
+      joins(%q{LEFT OUTER JOIN usersInstitutionAccounts
+        ON usersInstitutionAccountsStaging.accountID = usersInstitutionAccounts.accountID
+        AND usersInstitutionAccounts.endDate + 3 > getDate()}).
       where('usersInstitutionAccounts.accountID IS NULL').
       where('usersInstitutionAccountsStaging.created < ?', 2.days.ago).
       where('usersInstitutionAccountsStaging.inIntuit = ?', true)
