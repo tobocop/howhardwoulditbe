@@ -8,6 +8,7 @@ module PlinkApi
           headers: email.headers.to_json,
           queue: Random.rand(Plink::ReceiptSubmissionRecord::QUEUE_RANGE),
           subject: email.subject,
+          status: 'pending',
           to_address: email.to.to_json
         }
         user = Plink::UserService.new.find_by_email(email.from)

@@ -33,7 +33,8 @@ describe PlinkApi::V1::EmailProcessor do
         headers: headers.to_json,
         queue: 2,
         subject: 'pepsi promotion',
-        to_address: email_to.to_json
+        to_address: email_to.to_json,
+        status: 'pending'
       }
     }
     let(:user) { double(Plink::User, id: 23) }
