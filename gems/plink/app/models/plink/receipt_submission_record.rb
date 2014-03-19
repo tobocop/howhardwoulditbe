@@ -49,5 +49,9 @@ module Plink
     def award_type_id
       receipt_promotion_record.award_type_id
     end
+
+    def dollar_award_amount
+      receipt_promotion_record.dollar_award_amount
+    end
   end
 end

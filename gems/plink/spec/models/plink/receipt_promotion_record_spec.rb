@@ -11,6 +11,7 @@ describe Plink::ReceiptPromotionRecord do
   it { should accept_nested_attributes_for(:receipt_promotion_postback_urls) }
 
   it { should have_many(:receipt_promotion_postback_urls) }
+  it { should belong_to(:award_type_record) }
 
 
   let(:valid_params) {
@@ -30,5 +31,12 @@ describe Plink::ReceiptPromotionRecord do
   describe 'validations' do
     it { should validate_presence_of(:award_type_id) }
     it { should validate_presence_of(:name) }
+  end
+
+  describe '#dollar_award_amount' do
+    it 'returns the dollar_amount of the award_type record' do
+      receipt_promotion = new_receipt_promotion(award_type_record: new_award_type(dollar_amount: 3.23))
+      receipt_promotion.dollar_award_amount.should == 3.23
+    end
   end
 end

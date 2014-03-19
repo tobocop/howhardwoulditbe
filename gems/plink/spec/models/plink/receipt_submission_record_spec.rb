@@ -121,10 +121,19 @@ describe Plink::ReceiptSubmissionRecord do
     end
   end
 
-  describe '.award_type_id' do
+  describe '#award_type_id' do
     it 'returns the award_type_id from the associated promotion' do
       receipt_submission = new_receipt_submission(receipt_promotion_record: new_receipt_promotion(award_type_id: 4))
       receipt_submission.award_type_id.should == 4
+    end
+  end
+
+  describe '#dollar_award_amount' do
+    it 'returns the dollar_award_amount from the associated promotion' do
+      receipt_promotion = new_receipt_promotion
+      receipt_promotion.stub(:dollar_award_amount).and_return(5)
+      receipt_submission = new_receipt_submission(receipt_promotion_record: receipt_promotion)
+      receipt_submission.dollar_award_amount.should == 5
     end
   end
 end

@@ -1,7 +1,14 @@
 require 'spec_helper'
 
 describe Plink::ReceiptAwardService do
-  let(:receipt_submission_record) { double(Plink::ReceiptSubmissionRecord, award_type_id: 4, user_id: 6) }
+  let(:receipt_submission_record) {
+    double(
+      Plink::ReceiptSubmissionRecord,
+      award_type_id: 4,
+      dollar_award_amount: 3,
+      user_id: 6
+    )
+  }
 
   subject(:receipt_award_service) { Plink::ReceiptAwardService.new(receipt_submission_record) }
 
@@ -27,7 +34,7 @@ describe Plink::ReceiptAwardService do
 
     context 'when the receipt_submission_record can be awarded' do
       it 'awards the user' do
-        Plink::FreeAwardService.should_receive(:new).with(1).and_return(free_award_service)
+        Plink::FreeAwardService.should_receive(:new).with(3).and_return(free_award_service)
         free_award_service.should_receive(:award_unique).with(6, 4)
 
         receipt_award_service.award

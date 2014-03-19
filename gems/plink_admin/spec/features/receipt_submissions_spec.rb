@@ -1,19 +1,19 @@
 require 'spec_helper'
 
 describe 'Affiliates' do
+  let(:user) { create_user }
+  let(:award_type) { create_award_type(dollar_amount: 3.12) }
+  let!(:receipt_promotion) { create_receipt_promotion(award_type_id: award_type.id, name: 'best promo') }
 
   before do
     virtual_currency = create_virtual_currency
-    user = create_user
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
-    award_type = create_award_type
     receipt_submission = create_receipt_submission(
       body: 'some body',
       from_address: 'testing@example.com',
       subject: 'pepsi promotion',
       user_id: user.id,
-      queue: 1,
-      receipt_promotion_record: create_receipt_promotion(award_type_id: award_type.id)
+      queue: 1
     )
 
     create_receipt_submission_attachment(receipt_submission_id: receipt_submission.id, url: 'http://example.com/image-one.jpg')
@@ -38,9 +38,15 @@ describe 'Affiliates' do
     page.should have_css "a[href='http://example.com/pdf.pdf']"
 
     choose 'Approve'
+
+    select "best promo - $3.12 (#{receipt_promotion.id})"
+
     click_on 'Process'
 
     page.should have_content 'Submission updated and user awarded'
     page.should have_content 'Queue Complete'
+
+    user.reload.current_balance.should == 3.12
+
   end
 end
