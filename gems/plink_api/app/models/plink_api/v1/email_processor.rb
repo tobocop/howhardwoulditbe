@@ -4,11 +4,11 @@ module PlinkApi
       def self.process(email)
         create_params = {
           body: email.body,
-          from: email.from,
+          from_address: email.from,
           headers: email.headers.to_json,
           queue: Random.rand(Plink::ReceiptSubmissionRecord::QUEUE_RANGE),
           subject: email.subject,
-          to: email.to.to_json
+          to_address: email.to.to_json
         }
         user = Plink::UserService.new.find_by_email(email.from)
         create_params.merge!(user_id: user.id) if user

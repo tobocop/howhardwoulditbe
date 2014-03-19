@@ -115,14 +115,14 @@ module Plink
     def new_receipt_submission(options = {})
       defaults = {
         body: 'some body',
-        from: 'testing@example.com',
+        from_address: 'testing@example.com',
         headers: '{"some":"json"}',
         queue: 1,
         receipt_promotion_id: 2,
         status: 'pending',
         status_reason: 'derps',
         subject: 'pepsi promotion',
-        to: '{"some":"json"}',
+        to_address: '{"some":"json"}',
         user_id: 23
       }
 

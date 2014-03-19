@@ -9,7 +9,7 @@ describe 'Affiliates' do
     award_type = create_award_type
     receipt_submission = create_receipt_submission(
       body: 'some body',
-      from: 'testing@example.com',
+      from_address: 'testing@example.com',
       subject: 'pepsi promotion',
       user_id: user.id,
       queue: 1,

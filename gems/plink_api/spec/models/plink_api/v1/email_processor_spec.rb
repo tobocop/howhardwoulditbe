@@ -29,11 +29,11 @@ describe PlinkApi::V1::EmailProcessor do
     let(:submission_create_params) {
       {
         body: 'some body',
-        from: 'testing@example.com',
+        from_address: 'testing@example.com',
         headers: headers.to_json,
         queue: 2,
         subject: 'pepsi promotion',
-        to: email_to.to_json
+        to_address: email_to.to_json
       }
     }
     let(:user) { double(Plink::User, id: 23) }

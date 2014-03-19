@@ -4,11 +4,11 @@ module Plink
 
     QUEUE_RANGE = 1..10
 
-    attr_accessible :approved, :body, :date_of_purchase, :dollar_amount, :from, :headers,
+    attr_accessible :approved, :body, :date_of_purchase, :dollar_amount, :from_address, :headers,
       :needs_additional_information, :receipt_image_url, :receipt_promotion_id,
-      :status, :status_reason, :subject, :to, :user_id, :queue
+      :status, :status_reason, :subject, :to_address, :user_id, :queue
 
-    validates_presence_of :from
+    validates_presence_of :from_address
 
     belongs_to :receipt_promotion_record, class_name: 'Plink::ReceiptPromotionRecord', foreign_key: 'receipt_promotion_id'
     has_many :receipt_submission_attachment_records, class_name: 'Plink::ReceiptSubmissionAttachmentRecord', foreign_key: 'receipt_submission_id'

@@ -5,7 +5,7 @@ describe Plink::ReceiptSubmissionRecord do
   it { should allow_mass_assignment_of(:body) }
   it { should allow_mass_assignment_of(:date_of_purchase) }
   it { should allow_mass_assignment_of(:dollar_amount) }
-  it { should allow_mass_assignment_of(:from) }
+  it { should allow_mass_assignment_of(:from_address) }
   it { should allow_mass_assignment_of(:headers) }
   it { should allow_mass_assignment_of(:needs_additional_information) }
   it { should allow_mass_assignment_of(:queue) }
@@ -13,7 +13,7 @@ describe Plink::ReceiptSubmissionRecord do
   it { should allow_mass_assignment_of(:status) }
   it { should allow_mass_assignment_of(:status_reason) }
   it { should allow_mass_assignment_of(:subject) }
-  it { should allow_mass_assignment_of(:to) }
+  it { should allow_mass_assignment_of(:to_address) }
   it { should allow_mass_assignment_of(:user_id) }
 
   it { should have_many(:receipt_submission_attachment_records) }
@@ -24,14 +24,14 @@ describe Plink::ReceiptSubmissionRecord do
       body: 'some body',
       date_of_purchase: Date.today,
       dollar_amount: 2.34,
-      from: 'testing@example.com',
+      from_address: 'testing@example.com',
       headers: '{"some":"json"}',
       queue: 1,
       receipt_promotion_id: 1,
       status: 'pending',
       status_reason:  nil,
       subject: 'pepsi promotion',
-      to: '{"some":"json"}',
+      to_address: 'something@test.com',
       user_id: 23
     }
   }
@@ -41,7 +41,7 @@ describe Plink::ReceiptSubmissionRecord do
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:from) }
+    it { should validate_presence_of(:from_address) }
   end
 
   describe 'named scopes' do
