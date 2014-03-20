@@ -10,7 +10,7 @@ module PlinkApi
       def upload_receipt_submission_attachments_to_s3(receipt_submission_record)
         bucket_name = 'plink-receipt-images'
         attachments.each_with_index do |attachment, index|
-          file_name = "#{Rails.env}/#{receipt_submission_record.from}/#{receipt_submission_record.id}-#{index}-#{attachment.original_filename}"
+          file_name = "#{Rails.env}/#{receipt_submission_record.from_address}/#{receipt_submission_record.id}-#{index}-#{attachment.original_filename}"
           Plink::ReceiptSubmissionAttachmentRecord.create(
             receipt_submission_id: receipt_submission_record.id,
             url: "https://s3.amazonaws.com/#{bucket_name}/#{file_name}"

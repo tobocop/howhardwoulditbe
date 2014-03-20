@@ -30,7 +30,7 @@ describe PlinkApi::V1::AttachmentService do
   end
 
   describe '#upload_receipt_submission_attachments_to_s3' do
-    let(:receipt_submission_record) { double(Plink::ReceiptSubmissionRecord, id: 3, from: 'testing@example.com') }
+    let(:receipt_submission_record) { double(Plink::ReceiptSubmissionRecord, id: 3, from_address: 'testing@example.com') }
 
     subject(:api_attachment_service) { PlinkApi::V1::AttachmentService.new(attachments) }
 
