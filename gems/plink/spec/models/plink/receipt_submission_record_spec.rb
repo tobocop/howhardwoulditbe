@@ -77,8 +77,8 @@ describe Plink::ReceiptSubmissionRecord do
       let!(:event_five) { create_event(user_id: 7, affiliate_id: 8, campaign_id: 5, event_type_id: event_type.id) }
       let!(:registration_link) { create_registration_link(affiliate_id: 8, campaign_id: 5, landing_page_records: [new_landing_page]) }
       let!(:receipt_promotion_postback_url) { create_receipt_promotion_postback_url(receipt_promotion_id: 3, registration_link_id: registration_link.id) }
-      let!(:first_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 4, approved: true) }
-      let!(:second_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 7, approved: true) }
+      let!(:first_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 4, status: 'approved') }
+      let!(:second_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 7, status: 'approved') }
 
       subject(:postback_data) { Plink::ReceiptSubmissionRecord.postback_data }
 

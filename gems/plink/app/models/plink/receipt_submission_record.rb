@@ -24,7 +24,7 @@ module Plink
       joins('INNER JOIN registration_links ON receipt_promotions_postback_urls.registration_link_id = registration_links.id').
       joins('INNER JOIN events ON receipt_submissions.user_id = events.userID').
       joins('INNER JOIN eventTypes ON events.eventTypeID = eventTypes.eventTypeID').
-      where(approved: true).
+      where(status: 'approved').
       where('events.affiliateID = registration_links.affiliate_id').
       where('events.campaignID = registration_links.campaign_id').
       where('eventTypes.name = ?', Plink::EventTypeRecord.email_capture_type).

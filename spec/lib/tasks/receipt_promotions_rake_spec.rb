@@ -13,7 +13,7 @@ describe 'receipt_promotions:process_postback' do
       registration_link_id: registration_link.id
     )
   }
-  let!(:first_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 4, approved: true) }
+  let!(:first_receipt_submission) { create_receipt_submission(receipt_promotion_id: 3, user_id: 4, status: 'approved') }
 
   context 'when there are no exceptions' do
     before do
