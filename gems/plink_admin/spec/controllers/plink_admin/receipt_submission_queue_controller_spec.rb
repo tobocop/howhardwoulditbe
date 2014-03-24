@@ -8,13 +8,15 @@ describe PlinkAdmin::ReceiptSubmissionQueueController do
   end
 
   describe 'GET show' do
-    let(:receipt_submission_record) { double(Plink::ReceiptSubmissionRecord) }
+    let(:receipt_submission_record) { double(Plink::ReceiptSubmissionRecord, user_id: 38) }
     let(:receipt_submission_records) { [receipt_submission_record] }
     let(:receipt_promotion_record) { double(Plink::ReceiptPromotionRecord) }
+    let(:join_event) { double(Plink::EventRecord) }
 
     before do
       Plink::ReceiptSubmissionRecord.stub(:pending_by_queue).and_return(receipt_submission_records)
       Plink::ReceiptPromotionRecord.stub(:all).and_return([receipt_promotion_record])
+      Plink::EventService.stub(:get_email_capture_event).and_return(join_event)
     end
 
     it 'responds with a 200' do
@@ -41,6 +43,14 @@ describe PlinkAdmin::ReceiptSubmissionQueueController do
       get :show, {id: 1}
 
       assigns(:receipt_submission_record).should == receipt_submission_record
+    end
+
+    it 'assigns the users join event' do
+      Plink::EventService.should_receive(:get_email_capture_event).with(38).and_return(join_event)
+
+      get :show, {id: 1}
+
+      assigns(:users_join_event).should == join_event
     end
 
     it 'assigns all the receipt promotions' do

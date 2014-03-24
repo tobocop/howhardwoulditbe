@@ -18,6 +18,7 @@ describe Plink::ReceiptSubmissionRecord do
 
   it { should have_many(:receipt_submission_attachment_records) }
   it { should belong_to(:receipt_promotion_record) }
+  it { should belong_to(:user_record) }
 
   let(:valid_params) {
     {

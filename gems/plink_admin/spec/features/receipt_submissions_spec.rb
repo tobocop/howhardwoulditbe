@@ -6,6 +6,7 @@ describe 'Affiliates' do
   let!(:receipt_promotion) { create_receipt_promotion(award_type_id: award_type.id, name: 'best promo') }
 
   before do
+    create_event_type(name: Plink::EventTypeRecord.email_capture_type)
     virtual_currency = create_virtual_currency
     users_virtual_currency = create_users_virtual_currency(user_id: user.id, virtual_currency_id: virtual_currency.id)
     receipt_submission = create_receipt_submission(

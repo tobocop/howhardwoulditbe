@@ -15,6 +15,11 @@
               %td
                 = f.label :user_id
                 = f.text_field :user_id
+                - if @users_join_event.present?
+                  = "Join affiliate: #{@users_join_event.affiliate_id}"
+                  %br
+                  = "Join campaign: #{@users_join_event.campaign_id}"
+
               %td= @receipt_submission_record.from_address
               %td= @receipt_submission_record.subject
               %td= @receipt_submission_record.body

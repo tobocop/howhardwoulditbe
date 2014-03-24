@@ -11,6 +11,7 @@ module Plink
     validates_presence_of :from_address
 
     belongs_to :receipt_promotion_record, class_name: 'Plink::ReceiptPromotionRecord', foreign_key: 'receipt_promotion_id'
+    belongs_to :user_record, class_name: 'Plink::UserRecord', foreign_key: 'user_id'
     has_many :receipt_submission_attachment_records, class_name: 'Plink::ReceiptSubmissionAttachmentRecord', foreign_key: 'receipt_submission_id'
 
     scope :pending_by_queue, ->(queue){
