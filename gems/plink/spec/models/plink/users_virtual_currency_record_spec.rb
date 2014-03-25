@@ -4,6 +4,7 @@ describe Plink::UsersVirtualCurrencyRecord do
 
   let (:valid_params) {
     {
+      end_date: '2300-01-01',
       start_date: '1900-01-01',
       user_id: 1,
       virtual_currency_id: 2

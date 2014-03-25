@@ -18,6 +18,6 @@
       .description
         %h3= activity.award_display_name.try(:html_safe)
       .amount
-        %h3.bold{class: activity.amount_css_class}= "#{activity.currency_award_amount} #{activity.display_currency_name}"
+        %h3.bold{class: activity.amount_css_class}= "#{activity.currency_award_amount} #{activity.display_currency_name}".html_safe
       .icon
         =image_tag activity.icon_path, alt: activity.icon_description
