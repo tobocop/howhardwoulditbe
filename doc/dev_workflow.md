@@ -49,11 +49,19 @@ Tracker story ID as the last statement in the commit message, like so:
 
 
 
-CI
+Deployment
 ---
 
-1. Switch to master.
+1. Do a git fetch from your feature branch
+    `git fetch`
 
+2. Make sure you have the most recent changes from master in your branch
+    `git rebase origin/master`
+
+3. If anything was added to your branch, Run the build
+    `./build.sh`
+
+4. Once you have a green build, checkout master
     `git checkout master`
 
 2. Merge your branch using one of the following methods, making sure to
@@ -63,8 +71,8 @@ of the commit if it's not already there:
     * `git merge --squash feature_name`
     Use this method if you'd like all your commits to be condensed to one
 
-    * `git rebase -i feature_name`
-    Use this if you'd like more then 1 commit message represented in the masters log
+    * `git merge`
+    Use this if you'd like all the commit messages from the branch
 
 3. Push to github.
 

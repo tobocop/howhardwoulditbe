@@ -1,0 +1,15 @@
+development:
+  access_key_id: 'key'
+  secret_access_key: 'secret'
+
+test:
+  access_key_id: 'nope'
+  secret_access_key: 'nope'
+
+review:
+  access_key_id: 'key'
+  secret_access_key: 'secret'
+
+production:
+  access_key_id: 'key'
+  secret_access_key: 'secret'
