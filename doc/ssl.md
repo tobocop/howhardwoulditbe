@@ -1,6 +1,9 @@
 Security Cert Overview
 =============
 
+CSR's, and private keys can be found on production-cf /home/ubuntu/plink_inc_certs/goodsearch.plink.com
+The CRT files can be downloaded from godaddy
+
 On a high level, all security certs are setup as follows:
 	1. An amazon ELB is configured to forward http and https traffic to the same port (443 or others in the CF white label setup)
 	2. The security cert is installed to amazon with a chain file
@@ -17,7 +20,7 @@ Configuring an amazon ELB to forward traffic to 443
 	3. Paste the contents of the .crt file in the cert field
 	4. Paste the contents of the gd_bundle.crt file into the chain field
 4. If you receive errors of improperly coded files while uploading, make sure your private key is in pem format
-5. If you receive errors that the limit for ssl certs has been reached, use the IAM command line tools from amazon to remove older certs 
+5. If you receive errors that the limit for ssl certs has been reached, use the IAM command line tools from amazon to remove older certs
 	found at: (http://aws.amazon.com/developertools/AWS-Identity-and-Access-Management/4143)
 	Relevant commands:
 		`iam-servercertlistbypath`
