@@ -30,7 +30,7 @@ describe PlinkAdmin::ContestWinningService do
       contest_winning_service.cumulative_non_plink_entries_by_user(contest.id).should be_empty
     end
 
-    it 'returns a list of users and their entries as well as cumulative entries' do
+    it 'returns a list of users and their entries' do
       user_1 = create_user
       create_entry(contest_id: contest.id, user_id: user_1.id, provider: 'admin', computed_entries: 3)
       user_2 = create_user(email: 'test_2@example.com')
@@ -39,11 +39,9 @@ describe PlinkAdmin::ContestWinningService do
       cumulative_by_user = contest_winning_service.cumulative_non_plink_entries_by_user(contest.id)
       cumulative_by_user.first.user_id.should == user_1.id
       cumulative_by_user.first.entries.should == 3
-      cumulative_by_user.first.cumulative_entries.should == 3
 
       cumulative_by_user.last.user_id.should == user_2.id
       cumulative_by_user.last.entries.should == 13
-      cumulative_by_user.last.cumulative_entries.should == 16
     end
   end
 
