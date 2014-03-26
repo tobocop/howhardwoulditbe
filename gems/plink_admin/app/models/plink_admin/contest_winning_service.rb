@@ -14,10 +14,7 @@ class PlinkAdmin::ContestWinningService
   end
 
   def self.cumulative_non_plink_entries_by_user(contest_id)
-    query = Plink::EntryRecord.select("entries.user_id, SUM(computed_entries) AS 'entries',
-      (SELECT SUM(computed_entries) FROM entries e
-        LEFT JOIN contest_blacklisted_user_ids cbui ON e.user_id = cbui.user_id
-        WHERE cbui.user_id IS NULL AND e.user_id <= entries.user_id) AS 'cumulative_entries'").
+     query = Plink::EntryRecord.select("entries.user_id, SUM(computed_entries) AS 'entries'").
       where(contest_id: contest_id).
       group('entries.user_id').
       order('entries.user_id ASC')
