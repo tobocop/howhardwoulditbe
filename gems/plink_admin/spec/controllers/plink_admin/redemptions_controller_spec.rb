@@ -88,7 +88,7 @@ describe PlinkAdmin::RedemptionsController do
       end
 
       it 'sets the flash notice to notify the admin' do
-        flash[:notice].should == 'Redemption not sent'
+        flash[:notice].should == 'Redemption not sent. User does not have enough points or Tango is down.'
       end
     end
   end
