@@ -29,13 +29,13 @@ describe 'offers' do
       end
     end
 
-    select 7.days.from_now.year, from: 'offer[end_date(1i)]'
-    select 7.days.from_now.strftime("%B"), from: 'offer[end_date(2i)]'
-    select 7.days.from_now.day, from: 'offer[end_date(3i)]'
+    select 2.days.from_now.year, from: 'offer[end_date(1i)]'
+    select 2.days.from_now.strftime("%B"), from: 'offer[end_date(2i)]'
+    select 2.days.from_now.day, from: 'offer[end_date(3i)]'
 
     click_on 'Update'
 
-    page.should have_content 'Offer could not be updated. The end date for the offer needs to be at least 8 days from today.'
+    page.should have_content 'Offer could not be updated. The end date for the offer needs to be at least 3 days from today.'
 
     valid_year = 1.year.from_now.year
     select valid_year, from: 'offer[end_date(1i)]'

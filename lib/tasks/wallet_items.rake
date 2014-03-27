@@ -58,9 +58,9 @@ namespace :wallet_items do
   desc 'Notifies users 7 days before an offer in their wallet is going to expire'
   task notify_users_of_expiring_offers: :environment do
     begin
-      offers_expiring_in_seven_days = offers_with_end_date_between_given_dates(7.days.from_now.to_date, 8.days.from_now.to_date)
+      offers_expiring_soon = offers_with_end_date_between_given_dates(3.days.from_now.to_date, 4.days.from_now.to_date)
 
-      offers_expiring_in_seven_days.each do |expiring_offer|
+      offers_expiring_soon.each do |expiring_offer|
         next unless expiring_offer.send_expiring_soon_reminder
         expiring_offer.active_offers_virtual_currencies.each do |offers_virtual_currency|
           user_with_offer_in_wallet(offers_virtual_currency.id).each do |user_record|

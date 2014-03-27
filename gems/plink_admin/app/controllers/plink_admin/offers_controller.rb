@@ -13,7 +13,7 @@ module PlinkAdmin
       end_date = parse_date('end_date')
       @offer = Plink::OfferRecord.find(params[:id])
 
-      if end_date >= 8.days.from_now.to_date
+      if end_date >= 3.days.from_now.to_date
         update_params = {
           detail_text: params[:offer][:detail_text],
           end_date: end_date,
@@ -29,7 +29,7 @@ module PlinkAdmin
           render 'edit'
         end
       else
-        flash.now[:notice] = 'Offer could not be updated. The end date for the offer needs to be at least 8 days from today.'
+        flash.now[:notice] = 'Offer could not be updated. The end date for the offer needs to be at least 3 days from today.'
         render 'edit'
       end
     end

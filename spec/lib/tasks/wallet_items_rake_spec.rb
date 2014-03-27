@@ -525,7 +525,7 @@ describe "wallet_items:notify_users_of_expiring_offers" do
   let!(:valid_offer) {
     create_offer(
       advertiser_id: advertiser.id,
-      end_date: 8.days.from_now,
+      end_date: 4.days.from_now,
       offers_virtual_currencies: [valid_offer_offers_virtual_currency]
     )
   }
@@ -534,7 +534,7 @@ describe "wallet_items:notify_users_of_expiring_offers" do
   let!(:expiring_offer) {
     create_offer(
       advertiser_id: advertiser.id,
-      end_date: 7.days.from_now.to_date,
+      end_date: 3.days.from_now.to_date,
       send_expiring_soon_reminder: true,
       offers_virtual_currencies: [expiring_offer_offers_virtual_currency]
     )
@@ -544,7 +544,7 @@ describe "wallet_items:notify_users_of_expiring_offers" do
   let!(:expiring_offer_without_notice) {
     create_offer(
       advertiser_id: advertiser.id,
-      end_date: 7.days.from_now,
+      end_date: 3.days.from_now,
       send_expiring_soon_reminder: false,
       offers_virtual_currencies: [expiring_offer_without_notice_offers_virtual_currency]
     )
@@ -572,7 +572,7 @@ describe "wallet_items:notify_users_of_expiring_offers" do
       ::Exceptional::Catcher.should_not_receive(:handle)
     end
 
-    it 'sends an email to everyone with an offer in their wallet that expires in 7 days as a delayed job' do
+    it 'sends an email to everyone with an offer in their wallet that expires in 3 days as a delayed job' do
       delay_double = double(offer_expiring_soon_email: true)
 
       Plink::UserAutoLoginRecord.should_receive(:create).and_return(double(user_token:'asd'))
@@ -590,7 +590,7 @@ describe "wallet_items:notify_users_of_expiring_offers" do
       capture_stdout { subject.invoke }
     end
 
-    it 'sends an email to everyone with an offer in their wallet that expires in 7 days' do
+    it 'sends an email to everyone with an offer in their wallet that expires in 3 days' do
       capture_stdout { subject.invoke }
 
       ActionMailer::Base.deliveries.should_not be_empty

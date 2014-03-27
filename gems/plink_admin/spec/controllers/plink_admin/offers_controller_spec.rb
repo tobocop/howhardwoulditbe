@@ -35,9 +35,9 @@ describe PlinkAdmin::OffersController do
   describe 'PUT update' do
     let(:offer_params) {
       {
-        'end_date(1i)'=>"#{8.days.from_now.year}",
-        'end_date(2i)'=>"#{8.days.from_now.month}",
-        'end_date(3i)'=>"#{8.days.from_now.day}",
+        'end_date(1i)'=>"#{3.days.from_now.year}",
+        'end_date(2i)'=>"#{3.days.from_now.month}",
+        'end_date(3i)'=>"#{3.days.from_now.day}",
         detail_text: 'herp a derp',
         send_expiring_soon_reminder: true,
         show_end_date: true
@@ -47,7 +47,7 @@ describe PlinkAdmin::OffersController do
     it 'updates the record and redirects to the listing when successful' do
       put :update, {id: offer.id, offer: offer_params}
 
-      offer.reload.end_date.should == Time.zone.local(8.days.from_now.year, 8.days.from_now.month, 8.days.from_now.day)
+      offer.reload.end_date.should == Time.zone.local(3.days.from_now.year, 3.days.from_now.month, 3.days.from_now.day)
       offer.show_end_date.should be_true
       offer.send_expiring_soon_reminder.should be_true
       offer.detail_text.should == 'herp a derp'
@@ -55,16 +55,16 @@ describe PlinkAdmin::OffersController do
       response.should redirect_to '/offers'
     end
 
-    it 'does not update the record if the end date is earlier then 8 days from now' do
+    it 'does not update the record if the end date is earlier then 3 days from now' do
       date_params = {
-        'end_date(1i)'=>"#{7.days.from_now.year}",
-        'end_date(2i)'=>"#{7.days.from_now.month}",
-        'end_date(3i)'=>"#{7.days.from_now.day}"
+        'end_date(1i)'=>"#{2.days.from_now.year}",
+        'end_date(2i)'=>"#{2.days.from_now.month}",
+        'end_date(3i)'=>"#{2.days.from_now.day}"
       }
 
       put :update, {id: offer.id, offer: date_params}
 
-      flash[:notice].should == 'Offer could not be updated. The end date for the offer needs to be at least 8 days from today.'
+      flash[:notice].should == 'Offer could not be updated. The end date for the offer needs to be at least 3 days from today.'
       response.should render_template 'edit'
     end
 
