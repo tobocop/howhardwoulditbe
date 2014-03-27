@@ -13,6 +13,7 @@ PlinkAdmin::Engine.routes.draw do
   resources :campaigns, except: :destroy
   resources :contacts, except: :destroy
   resources :fishy_jobs
+  resources :redemptions, only: :create
   resources :global_login_tokens, except: :destroy
   resources :landing_pages, except: :destroy
   resources :receipt_promotions, except: :destroy

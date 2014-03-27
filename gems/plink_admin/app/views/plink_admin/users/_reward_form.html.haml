@@ -1,0 +1,8 @@
+%h4 Send Reward
+= form_tag plink_admin.redemptions_path, method: :post do
+  = hidden_field_tag :user_id, user.id
+  - reward_amounts = rewards.collect {|reward| reward.live_amounts.map {|amount| {name: reward.name, dollar_award_amount: amount.dollar_award_amount, id: amount.id} }}.flatten
+  - reward_select_options = reward_amounts.collect {|reward_amount| ["#{reward_amount[:name]} - $#{reward_amount[:dollar_award_amount]}".html_safe, reward_amount[:id]]}
+  = select_tag 'reward_amount_id', options_for_select(reward_select_options)
+  = submit_tag 'Reward User', class: 'button small'
+

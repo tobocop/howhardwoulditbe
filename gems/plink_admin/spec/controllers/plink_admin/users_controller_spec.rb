@@ -14,11 +14,13 @@ describe PlinkAdmin::UsersController do
     let(:users_institutions) { [double] }
     let(:unlock_reasons) { {'app_install_promotion'=>'app_install_promotion', 'join'=>'join', 'promotion'=>'promotion', 'referral'=>'referral', 'transaction'=>'transaction'} }
     let(:plink_user_record) { double(Plink::UserRecord, scoped: true, find: user) }
+    let(:reward_record) { double(Plink::RewardRecord) }
 
     before do
       controller.stub(:plink_user_record).and_return(plink_user_record)
       Plink::UsersInstitutionRecord.stub_chain(:find_by_user_id, :order).
         and_return(users_institutions)
+      Plink::RewardRecord.stub_chain(:live, :order).and_return([reward_record])
     end
 
     it 'assigns user to the user whose :id is passed as a parameter' do
@@ -61,6 +63,16 @@ describe PlinkAdmin::UsersController do
       get :edit, id: 200
 
       assigns(:fishy_user_ids).should == [1234, 6789]
+    end
+
+    it 'assigns all available rewards' do
+      where = double
+      Plink::RewardRecord.should_receive(:live).with().and_return(where)
+      where.should_receive(:order).with('name').and_return([reward_record])
+
+      get :edit, id: 200
+
+      assigns(:rewards).should == [reward_record]
     end
   end
 

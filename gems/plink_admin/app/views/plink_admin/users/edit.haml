@@ -71,3 +71,5 @@
           %td
             -if users_institution_account.in_intuit
               = button_to 'remove account', {controller: 'users_institution_accounts', action: 'destroy', id: users_institution_account.id }, :confirm => "Are you sure?", :method => :delete
+
+= render partial: 'reward_form', locals: {user: @user, rewards: @rewards}

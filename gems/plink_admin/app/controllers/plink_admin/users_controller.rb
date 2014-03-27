@@ -1,5 +1,5 @@
 module PlinkAdmin
-  class UsersController < ApplicationController
+  class UsersController < PlinkAdmin::ApplicationController
 
     def index
       @users = []
@@ -60,6 +60,7 @@ module PlinkAdmin
       @users_institutions = Plink::UsersInstitutionRecord.find_by_user_id(@user.id).order('usersInstitutionID desc')
       @fishy_user_ids = Plink::FishyService.fishy_with(@user.id)
       @fishy_status = fishy_status(@fishy_user_ids)
+      @rewards = Plink::RewardRecord.live.order('name')
     end
 
     def fishy_status(fishy_user_ids)
