@@ -61,6 +61,7 @@ module PlinkAdmin
       @fishy_user_ids = Plink::FishyService.fishy_with(@user.id)
       @fishy_status = fishy_status(@fishy_user_ids)
       @rewards = Plink::RewardRecord.live.order('name')
+      @duplicate_registrations = Plink::DuplicateRegistrationAttemptRecord.duplicates_by_user_id(@user.id)
     end
 
     def fishy_status(fishy_user_ids)

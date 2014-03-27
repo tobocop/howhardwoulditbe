@@ -1,0 +1,23 @@
+.duplicate-registration
+  %h4 Duplicate registration attempts
+  %table
+    %thead
+      %th Attempted at
+      %th Institution Attempted
+      %th Duplicate with user id
+      %th Duplicate with first_name
+      %th Duplicate with email
+    %tbody
+      - duplicate_registrations.each do |duplicate_registration|
+        %tr
+          %td= duplicate_registration.created_at
+          %td= duplicate_registration.institution_name
+          %td
+            = duplicate_registration.duplicate_user_id
+            = link_to '( New Admin )', plink_admin.edit_user_path(duplicate_registration.duplicate_user_id), {target: 'duplicate_new_admin'}
+            = link_to '( Old Admin )', "https://admin.plink.com/?event=devTools.userInfo&userID=#{duplicate_registration.duplicate_user_id}&emailAddress=&numberOfRecords=10&submit=Filter", {target: 'duplicate_old_admin'}
+          %td= duplicate_registration.duplicate_user_first_name
+          %td= duplicate_registration.duplicate_user_email
+
+
+

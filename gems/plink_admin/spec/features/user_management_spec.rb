@@ -25,6 +25,9 @@ describe 'User Management' do
           new_reward_amount(dollar_award_amount: 15, is_active: false)
         ]
     )
+
+    fishy_users_institution = create_users_institution(user_id: fishy_user.id, institution_id: institution.id)
+    create_duplicate_registration_attempt(existing_users_institution_id: fishy_users_institution.id, user_id: user.id)
   end
 
   it 'lets an admin manage users' do
@@ -53,6 +56,13 @@ describe 'User Management' do
       page.should have_content fishy_user.id
       page.should have_link '( New Admin )'
       page.should have_link '( Old Admin )'
+    end
+
+    within '.duplicate-registration' do
+      page.should have_content 'Duplicate registration attempts'
+      page.should have_content 'Bank of representin'
+      page.should have_content 'sea bass'
+      page.should have_content 'redsnapper@redlobster.melvin'
     end
 
     page.should have_content 'Send Reward'

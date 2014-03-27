@@ -2,6 +2,19 @@ module Plink
   module ObjectCreationMethods
     require 'ostruct'
 
+    def new_duplicate_registration_attempt(options = {})
+      defaults = {
+        existing_users_institution_id: 5,
+        user_id: 4
+      }
+
+      Plink::DuplicateRegistrationAttemptRecord.new { |duplicate_registration_attempt| apply(duplicate_registration_attempt, defaults, options) }
+    end
+
+    def create_duplicate_registration_attempt(options = {})
+      new_duplicate_registration_attempt(options).tap(&:save!)
+    end
+
     def new_receipt_postback(options = {})
       defaults = {
         processed: false,
