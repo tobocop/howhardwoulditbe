@@ -2,7 +2,7 @@
 -if @receipt_submission_record.present?
   .row.extra-margin-top
     .columns.large-6
-      %h4 Email Information
+      %h4= "Submitted at #{@receipt_submission_record.created_at}"
       = form_for(@receipt_submission_record, url:plink_admin.receipt_submission_path(@receipt_submission_record, queue: params[:id]) , as: 'receipt_submission') do |f|
         %table
           %thead
@@ -23,6 +23,8 @@
               %td= @receipt_submission_record.from_address
               %td= @receipt_submission_record.subject
               %td= @receipt_submission_record.body
+        .columns.large-12
+
         .columns.large-12
           .on_one_line
             = f.radio_button :status, 'approved'
