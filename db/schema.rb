@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140319194327) do
+ActiveRecord::Schema.define(:version => 20140331161830) do
 
   create_table "account_information", :force => true do |t|
     t.integer  "user_id",                       :limit => 8,                                                     :null => false
@@ -1662,6 +1662,14 @@ ActiveRecord::Schema.define(:version => 20140319194327) do
     t.datetime "updated_at",            :null => false
   end
 
+  create_table "receipt_submission_line_items", :force => true do |t|
+    t.decimal  "dollar_amount",         :precision => 8, :scale => 2
+    t.string   "description"
+    t.integer  "receipt_submission_id"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+  end
+
   create_table "receipt_submissions", :force => true do |t|
     t.text     "body"
     t.string   "from_address"
@@ -1679,6 +1687,8 @@ ActiveRecord::Schema.define(:version => 20140319194327) do
     t.integer  "receipt_promotion_id"
     t.string   "status",                                                     :default => "pending"
     t.string   "status_reason"
+    t.string   "store_number"
+    t.time     "time_of_purchase"
   end
 
   create_table "redemptionRequests", :primary_key => "redemptionRequestID", :force => true do |t|

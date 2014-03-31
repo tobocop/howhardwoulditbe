@@ -17,6 +17,7 @@ describe PlinkAdmin::ReceiptSubmissionQueueController do
       Plink::ReceiptSubmissionRecord.stub(:pending_by_queue).and_return(receipt_submission_records)
       Plink::ReceiptPromotionRecord.stub(:all).and_return([receipt_promotion_record])
       Plink::EventService.stub(:get_email_capture_event).and_return(join_event)
+      receipt_submission_record.stub_chain(:receipt_submission_line_items, :build)
     end
 
     it 'responds with a 200' do
@@ -43,6 +44,14 @@ describe PlinkAdmin::ReceiptSubmissionQueueController do
       get :show, {id: 1}
 
       assigns(:receipt_submission_record).should == receipt_submission_record
+    end
+
+    it 'builds receipt promotion line items' do
+      line_items = double
+      receipt_submission_record.should_receive(:receipt_submission_line_items).and_return(line_items)
+      line_items.should_receive(:build)
+
+      get :show, {id: 1}
     end
 
     it 'assigns the users join event' do

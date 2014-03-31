@@ -48,11 +48,27 @@
           - receipt_promotion_select_options = @receipt_promotions.collect {|receipt_promotion| ["#{receipt_promotion.name} - $#{receipt_promotion.dollar_award_amount} (#{receipt_promotion.id})", receipt_promotion.id]}
           = f.label :receipt_promotion_id, 'Receipt Promotion'
           = f.select :receipt_promotion_id, options_for_select(receipt_promotion_select_options), {prompt: 'Choose one...'}
+          = f.label :store_number
+          = f.text_field :store_number
           = f.label :date_of_purchase
           .dateselect
-            = f.date_select :date_of_purchase
+            = f.date_select :date_of_purchase, prompt: true
+          = f.label :time_of_purchase
+          .dateselect
+            = f.time_select :time_of_purchase, {ampm: true, prompt: true}
           = f.label :dollar_amount, 'Dollar amount (1.23 without $)'
           = f.text_field :dollar_amount
+          #line-items
+            %h5
+              Line Items
+              %span#js-add-line-item= image_tag 'plus.png'
+            = f.fields_for :receipt_submission_line_items do |ff|
+              .line-item.on_one_line
+                = ff.label :description
+                = ff.text_field :description, {style: 'width:150px;'}
+                = ff.label :dollar_amount
+                = ff.text_field :dollar_amount
+                %br{clear: 'left'}
           %br
           = f.submit 'Process', class: 'button small'
     .columns.large-6

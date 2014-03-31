@@ -4,15 +4,19 @@ module Plink
 
     QUEUE_RANGE = 1..10
 
-    attr_accessible :approved, :body, :date_of_purchase, :dollar_amount, :from_address, :headers,
-      :needs_additional_information, :receipt_image_url, :receipt_promotion_id,
-      :status, :status_reason, :subject, :to_address, :user_id, :queue
-
-    validates_presence_of :from_address
-
     belongs_to :receipt_promotion_record, class_name: 'Plink::ReceiptPromotionRecord', foreign_key: 'receipt_promotion_id'
     belongs_to :user_record, class_name: 'Plink::UserRecord', foreign_key: 'user_id'
     has_many :receipt_submission_attachment_records, class_name: 'Plink::ReceiptSubmissionAttachmentRecord', foreign_key: 'receipt_submission_id'
+    has_many :receipt_submission_line_items, class_name: 'Plink::ReceiptSubmissionLineItemRecord', foreign_key: 'receipt_submission_id'
+
+    accepts_nested_attributes_for :receipt_submission_line_items, reject_if: :all_blank
+
+    attr_accessible :approved, :body, :date_of_purchase, :dollar_amount, :from_address, :headers,
+      :needs_additional_information, :receipt_image_url, :receipt_promotion_id, :receipt_submission_line_items_attributes,
+      :status, :status_reason, :store_number, :subject, :to_address, :time_of_purchase, :user_id,
+      :queue
+
+    validates_presence_of :from_address
 
     scope :pending_by_queue, ->(queue){
       where(queue: queue, status: 'pending')

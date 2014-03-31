@@ -12,13 +12,19 @@ describe Plink::ReceiptSubmissionRecord do
   it { should allow_mass_assignment_of(:receipt_promotion_id) }
   it { should allow_mass_assignment_of(:status) }
   it { should allow_mass_assignment_of(:status_reason) }
+  it { should allow_mass_assignment_of(:store_number) }
   it { should allow_mass_assignment_of(:subject) }
   it { should allow_mass_assignment_of(:to_address) }
+  it { should allow_mass_assignment_of(:time_of_purchase) }
   it { should allow_mass_assignment_of(:user_id) }
 
-  it { should have_many(:receipt_submission_attachment_records) }
   it { should belong_to(:receipt_promotion_record) }
   it { should belong_to(:user_record) }
+  it { should have_many(:receipt_submission_attachment_records) }
+  it { should have_many(:receipt_submission_line_items) }
+
+  it { should accept_nested_attributes_for(:receipt_submission_line_items) }
+  it { should allow_mass_assignment_of(:receipt_submission_line_items_attributes) }
 
   let(:valid_params) {
     {
@@ -31,8 +37,10 @@ describe Plink::ReceiptSubmissionRecord do
       receipt_promotion_id: 1,
       status: 'pending',
       status_reason:  nil,
+      store_number:  '398',
       subject: 'pepsi promotion',
       to_address: 'something@test.com',
+      time_of_purchase:  Time.parse(Time.zone.now.to_s),
       user_id: 23
     }
   }

@@ -41,6 +41,9 @@ describe 'Affiliates' do
     choose 'Approve'
 
     select "best promo - $3.12 (#{receipt_promotion.id})"
+    fill_in 'Store number', with: '0123'
+    fill_in 'receipt_submission[receipt_submission_line_items_attributes][0][description]', with: 'something awesome'
+    fill_in 'receipt_submission[receipt_submission_line_items_attributes][0][dollar_amount]', with: '2.34'
 
     click_on 'Process'
 
