@@ -8,9 +8,12 @@
   = f.text_field :name
   = f.label :description
   = f.text_field :description
+  - advertiser_select_options = @advertisers.collect {|advertiser| ["#{advertiser.advertiser_name} (#{advertiser.id})", advertiser.id]}
+  = f.label :advertiser_id, 'Advertiser'
+  = f.select :advertiser_id, options_for_select(advertiser_select_options, receipt_promotion.advertiser_id), prompt: true
   - award_type_select_options = @award_types.collect {|award_type| ["#{award_type.award_code} - $#{award_type.dollar_amount} (#{award_type.id})", award_type.id]}
   = f.label :award_type_id, 'Award'
-  = f.select :award_type_id, options_for_select(award_type_select_options, receipt_promotion.award_type_id)
+  = f.select :award_type_id, options_for_select(award_type_select_options, receipt_promotion.award_type_id), prompt: true
   = f.label :start_date
   .dateselect
     = f.date_select :start_date

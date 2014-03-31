@@ -47,6 +47,7 @@ module PlinkAdmin
       @award_types = Plink::AwardTypeRecord.all
       @receipt_promotion.receipt_promotion_postback_urls.build
       @registration_links = Plink::RegistrationLinkRecord.all
+      @advertisers = Plink::AdvertiserRecord.order('advertiserName ASC').all
     end
   end
 end

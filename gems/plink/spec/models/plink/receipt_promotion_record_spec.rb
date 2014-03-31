@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Plink::ReceiptPromotionRecord do
+  it {should allow_mass_assignment_of(:advertiser_id) }
   it {should allow_mass_assignment_of(:award_type_id) }
   it {should allow_mass_assignment_of(:description) }
   it {should allow_mass_assignment_of(:end_date) }
@@ -12,10 +13,12 @@ describe Plink::ReceiptPromotionRecord do
 
   it { should have_many(:receipt_promotion_postback_urls) }
   it { should belong_to(:award_type_record) }
+  it { should belong_to(:advertiser_record) }
 
 
   let(:valid_params) {
     {
+      advertiser_id: 83,
       award_type_id: 2,
       description: 'desc',
       end_date: 2.days.from_now,

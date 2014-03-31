@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe 'Receipt promotions' do
+  let!(:advertiser) { create_advertiser(advertiser_name: 'Taco Derp') }
+  let!(:award_type) { create_award_type(award_code: 'code', dollar_amount: '2.33') }
 
   before do
-    create_award_type
     create_admin(email: 'admin@example.com', password: 'pazzword')
     create_registration_link(
       landing_page_records: [new_landing_page],
@@ -30,6 +31,8 @@ describe 'Receipt promotions' do
     fill_in 'Name', with: 'My receipt promotion'
     fill_in 'Description', with: 'desc'
     fill_in 'Postback url', with: 'https://pixels.plink.com'
+    select "Taco Derp (#{advertiser.id})", from: 'receipt_promotion[advertiser_id]'
+    select "code - $2.33 (#{award_type.id})", from: 'receipt_promotion[award_type_id]'
 
     click_on 'Create'
 

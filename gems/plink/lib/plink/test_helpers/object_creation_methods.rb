@@ -98,6 +98,7 @@ module Plink
 
     def new_receipt_promotion(options = {})
       defaults = {
+        advertiser_id: 3,
         award_type_id: 12,
         description: 'desc',
         end_date: 2.days.from_now,
