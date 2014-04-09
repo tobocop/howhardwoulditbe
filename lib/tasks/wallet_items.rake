@@ -121,14 +121,14 @@ private
         begin
           Plink::RemoveOfferFromWalletService.new(user_record.id, expired_offer.id).remove_offer
 
-          user_token = AutoLoginService.generate_token(user_record.id)
-          OfferExpirationMailer.delay(run_at: run_at)
-            .offer_removed_email(
-              first_name: user_record.first_name,
-              email:  user_record.email,
-              advertiser_name: expired_offer.advertiser.advertiser_name,
-              user_token: user_token
-            )
+          # user_token = AutoLoginService.generate_token(user_record.id)
+          # OfferExpirationMailer.delay(run_at: run_at)
+            # .offer_removed_email(
+              # first_name: user_record.first_name,
+              # email:  user_record.email,
+              # advertiser_name: expired_offer.advertiser.advertiser_name,
+              # user_token: user_token
+            # )
         rescue Exception
           message = "remove_expired_offers failure for user.id = #{user_record.id}, "
           message << "offers_virtual_currencies.id = #{offers_virtual_currency.id}"
