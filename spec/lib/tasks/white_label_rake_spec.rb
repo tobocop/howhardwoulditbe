@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'bestbuy:convert_users_to_plink_points', skip_in_build: true do
+describe 'white_label:convert_partner', skip_in_build: true do
   include_context 'rake'
 
   let!(:plink_points) { create_virtual_currency(subdomain: 'www', name: 'plink points') }
@@ -25,19 +25,19 @@ describe 'bestbuy:convert_users_to_plink_points', skip_in_build: true do
     end
 
     it 'sets the users primary virtual currency to plink points' do
-      subject.invoke
+      subject.invoke('bestbuy')
 
       user.reload.primary_virtual_currency.should == plink_points
     end
 
     it 'end dates the old users virtual currency' do
-      subject.invoke
+      subject.invoke('bestbuy')
 
       users_virtual_currency.reload.end_date.to_date.should == Date.current
     end
 
     it 'creates a new users virtual currency record for the user with plink points' do
-      subject.invoke
+      subject.invoke('bestbuy')
 
       new_users_virtual_currency = Plink::UsersVirtualCurrencyRecord.last
       new_users_virtual_currency.user_id.should == user.id
@@ -48,15 +48,21 @@ describe 'bestbuy:convert_users_to_plink_points', skip_in_build: true do
   end
 
   context 'when there are exceptions' do
+    it 'requires a subdomain to be passed in' do
+      expect {
+        subject.invoke
+      }.to raise_error ArgumentError
+    end
+
     it 'logs record level exceptions' do
-      Plink::UsersVirtualCurrencyRecord.stub(:create).and_raise
+      Plink::UsersVirtualCurrencyRecord.stub(:create!).and_raise
 
       ::Exceptional::Catcher.should_receive(:handle) do |exception, message|
         exception.should be_a(RuntimeError)
-        message.should =~ /convert_users_to_plink_points/
+        message.should =~ /convert_whitelabel/
       end
 
-      subject.invoke
+      subject.invoke('bestbuy')
     end
   end
 end
