@@ -38,7 +38,8 @@ module Plink
 
     scope :accounts_of_force_deactivated_users, -> {
       joins('INNER JOIN users ON users.userID = usersInstitutionAccountsStaging.userID').
-      where('users.isForceDeactivated = ?', true)
+      where('users.isForceDeactivated = ?', true).
+      where('inIntuit = ?', true)
     }
 
     def self.inactive_intuit_accounts

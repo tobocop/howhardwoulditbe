@@ -94,7 +94,7 @@ describe Plink::UsersInstitutionAccountStagingRecord do
 
     describe '.accounts_of_force_deactivated_users' do
       let!(:force_deactivated_user) { create_user(isForceDeactivated: true) }
-      let!(:account_to_remove) { create_users_institution_account_staging(user_id: force_deactivated_user.id) }
+      let!(:account_to_remove) { create_users_institution_account_staging(user_id: force_deactivated_user.id, in_intuit: true) }
 
       subject(:accounts_of_force_deactivated_users) { Plink::UsersInstitutionAccountStagingRecord.accounts_of_force_deactivated_users }
 
@@ -104,6 +104,12 @@ describe Plink::UsersInstitutionAccountStagingRecord do
 
       it 'does not return accounts for active users' do
         force_deactivated_user.update_attribute('isForceDeactivated', false)
+
+        accounts_of_force_deactivated_users.should == []
+      end
+
+      it 'does not return accounts that are no longer in intuit' do
+        account_to_remove.update_attribute('inIntuit', false)
 
         accounts_of_force_deactivated_users.should == []
       end
