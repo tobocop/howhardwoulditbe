@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency 'rails', '3.2.16'
-  s.add_dependency 'tiny_tds', '0.6.1'
-  s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
+  s.add_dependency 'tiny_tds', '0.7.0'
+  s.add_dependency 'activerecord-sqlserver-adapter', '3.2.13'
   s.add_dependency 'haml-rails', '~> 0.4'
   s.add_dependency 'activerecord-redshift-adapter'
   s.add_dependency 'tire'

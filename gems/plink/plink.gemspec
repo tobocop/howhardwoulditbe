@@ -14,8 +14,9 @@ Gem::Specification.new do |s|
   s.test_files = Dir['test/**/*']
 
   s.add_dependency 'rails', '3.2.16'
-  s.add_dependency 'tiny_tds', '0.6.1'
-  s.add_dependency 'activerecord-sqlserver-adapter', '3.2.10'
+  s.add_dependency 'tiny_tds', '0.7.0'
+  s.add_dependency 'activerecord-sqlserver-adapter', '3.2.13'
+
   s.add_dependency 'tango'
   s.add_dependency 'exceptional'
   s.add_dependency 'bcrypt-ruby', '3.0.0'

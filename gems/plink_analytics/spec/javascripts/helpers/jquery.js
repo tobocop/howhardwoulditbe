@@ -1,1 +1,5 @@
+XSym
+0050
+ad9b714b2949649648c4ccd2e251a64b
 ../../../../../vendor/assets/javascripts/jquery.js
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

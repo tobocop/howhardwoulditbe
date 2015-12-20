@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
-gem 'tiny_tds', '0.6.1'
-gem 'activerecord-sqlserver-adapter', '3.2.10'
+gem 'tiny_tds', '0.7.0'
+gem 'activerecord-sqlserver-adapter', '3.2.13'
 gem 'activerecord-redshift-adapter'
 gem 'haml-rails', '~> 0.4'
 

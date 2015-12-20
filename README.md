@@ -82,7 +82,7 @@ We use a local Windows VM with SQL Server Express in development.
 * install qt on host for capybara webkit
     `brew install qt`
 
-* install elasticsearch
+* install elasticsearch - requires java
     `brew install elasticsearch`
 
 
@@ -97,6 +97,11 @@ We use a local Windows VM with SQL Server Express in development.
 * add 127.0.0.1 plink.test to /etc/hosts
 
 * `bundle`
+> pg, nokogiri, and tiny_tds may have issues on El Cap. Prefix the
+> following to the gem install command:
+> `env ARCHFLAGS="-arch x86_64"`
+> eventmachine may fail. If so, try:
+> `gem install eventmachine -v '1.0.8' -- --with-cppflags=-I/usr/local/opt/openssl/include`
 
 * Get yml files (tango, gigya, and sendgrid). They should be in Keepass.
 
@@ -118,6 +123,9 @@ We use a local Windows VM with SQL Server Express in development.
 * `bundle exec rake db:udfs:create`
 
 * `bundle exec rake db:views:create`
+
+* start elastic search in another process:
+` elasticsearch` 
 
 * `bundle exec rake db:seed`
 
@@ -292,11 +300,6 @@ You can now access the application at:
   * `apt-get install make curl nodejs libapache2-mod-xsendfile`
   * `apt-get install freetds-dev unixodbc-dev unixodbc-bin unixodbc`
 
-### Accident Insurance
-
-- Setup root terminal coloring, as root:
-  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
-  * `source /home/deployer/.bashrc`
 
 #### Creating deployer
 
@@ -324,6 +327,12 @@ You can now access the application at:
   * `sudo ls`
   * the above command also shouldn't prompt for a password
   * `exit` to get back to `deployer` user prompt that is not using `SSH`
+
+### Accident Insurance
+
+- Setup root terminal coloring, as root:
+  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
+  * `source /home/deployer/.bashrc`
 
 ### Enabling Users to Deploy
 

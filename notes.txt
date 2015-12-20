@@ -1,0 +1,28 @@
+RISKS:
+  could not get the test suite to work. Tried for 20 min or so but moved on
+  new version of SQL adapters. New version of SQL server
+  lots of pieces need to be running:
+    * delayed job, elasticsearch - unknowns?
+  Production setup will take a few hours, not sure about monitoring
+
+took 1:30:00 min to get to loading the DB. Mostly around new OS with old gems. Had to upgrade our sql adapters for MS SQL 2014
+
+30 min to get intuit working with CC bank
+hour to get chase working and download transactions with real account
+
+
+Tasks needed for working Beta:
+  Deploy to production and make sure it 'works'
+    * we made a readme, no idea what mileage we'll get out of it. It may be not to bad since the app setup readme was not bad
+  Make a new flow and design for registration
+  Write a process to load up all the institutions
+  Write a process to rip down transactions for users
+
+
+
+
+
+
+
+
+
