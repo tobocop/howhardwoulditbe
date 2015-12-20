@@ -16,7 +16,7 @@ set :deploy_to, "/var/www/#{application}"
 
 # Git:
 set :scm, :git
-set :repository, 'git@github.com:plinkinc/plink-pivotal.git'
+set :repository, 'git@github.com:tobocop/howhardwoulditbe.git'
 set :branch, 'master'
 # Used as an alternative to :git_shallow_clone (which doesn't work with :branch):
 # keep a local copy of the repo on the server:

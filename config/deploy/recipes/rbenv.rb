@@ -1,4 +1,5 @@
-set_default :ruby_version, '1.9.3-p392'
+#set_default :ruby_version, '1.9.3-p392'
+set_default :ruby_version, '2.0.0-p645'
 
 namespace :rbenv do
   desc 'Install rbenv, Ruby, and Bundler'
@@ -8,8 +9,8 @@ namespace :rbenv do
     run 'rm rbenv-installer'
     bashrc = <<-BASHRC
 if [ -d $HOME/.rbenv ]; then
-  export PATH='$HOME/.rbenv/bin:$PATH'
-  eval '$(rbenv init -)'
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
 fi
 BASHRC
     put bashrc, '/tmp/rbenvrc'
@@ -17,7 +18,7 @@ BASHRC
     run 'rm /tmp/rbenvrc'
     run 'mv ~/.bashrc.tmp ~/.bashrc'
     run %q{export PATH='$HOME/.rbenv/bin:$PATH'}
-    run %q{eval '$(rbenv init -)'}
+    run %q{eval "$(rbenv init -)"}
     run 'rbenv bootstrap-ubuntu-12-04'
     run "rbenv install #{ruby_version}"
     run "rbenv global #{ruby_version}"
