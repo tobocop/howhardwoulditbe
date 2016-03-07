@@ -297,8 +297,8 @@ You can now access the application at:
 
 - As the `root` user on the server issue the following:
   * `apt-get update`
-  * `apt-get install make curl nodejs libapache2-mod-xsendfile libpq-dev`
-  * `apt-get install freetds-dev unixodbc-dev unixodbc-bin unixodbc`
+  * `apt-get install -y make curl nodejs libapache2-mod-xsendfile libpq-dev libreadline-dev`
+  * `apt-get install -y freetds-dev unixodbc-dev unixodbc-bin unixodbc g++`
 
 ### Accident Insurance
 
@@ -351,6 +351,16 @@ You can now access the application at:
   * `cat ~/.ssh/id_rsa.pub`
   * Open github.com preferences for the repository that the remote will use and add the public key, this can be found in the "Deploy Keys" section
 
+### Installing ruby
+
+`SSH` into the remote as the `deployer` user. Then;
+
+* `git clone https://github.com/sstephenson/rbenv.git ~/.rbenv`
+* `git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build`
+* `echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc`
+* `echo 'eval "$(rbenv init -)"' >> ~/.bashrc`
+
+
 ### Installing nginx
 
 `SSH` into the remote as the `deployer` user. Then;
@@ -359,6 +369,7 @@ You can now access the application at:
   * `apt-get install nginx`
   * `useradd -s /sbin/nologin -r nginx`
   * `usermod -a -G nginx nginx`
+  * `mkdir /var/www`
   * `chgrp -R nginx /var/www`
   * `chmod -R 775 /var/www`
   * `usermod -a -G nginx root`
@@ -385,6 +396,13 @@ You can now access the application at:
 
 - Make sure that `nginx` is running:
   * `cap nginx:start`
+
+- File system tasks before setup:
+  * run a cold deploy before setup `cap deploy:cold`
+  * it may fail due to ruby not being installed. Go to the cached-copy
+    it created and run: `rbenv install`
+  * set the installed version as the global: `rbenv global 2.0.0-p645`
+  * Install bundler `gem install bundler`
 
 - Cap tasks for first-time setup:
    * `cap deploy:setup`

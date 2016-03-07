@@ -47,14 +47,19 @@ set_default :exceptional_api_key do
   Capistrano::CLI.password_prompt 'Exceptional Application Key: '
 end
 
-# LIBRATO:
-set_default :librato_user do
-  Capistrano::CLI.password_prompt 'Librato user: '
+# SALT:
+set_default :plink_salt do
+  Capistrano::CLI.password_prompt 'Encryption Salt: '
 end
 
-set_default :librato_token do
-  Capistrano::CLI.password_prompt 'Librato token: '
-end
+# LIBRATO:
+#set_default :librato_user do
+#  Capistrano::CLI.password_prompt 'Librato user: '
+#end
+
+#set_default :librato_token do
+#  Capistrano::CLI.password_prompt 'Librato token: '
+#end
 
 namespace :application_keys do
   desc "Generate the application *.yml configuration files"
@@ -65,7 +70,8 @@ namespace :application_keys do
     template "tango.yml.erb", "#{shared_path}/config/tango.yml"
     template "newrelic.yml.erb", "#{shared_path}/config/newrelic.yml"
     template "exceptional.yml.erb", "#{shared_path}/config/exceptional.yml"
-    template "librato.yml.erb", "#{shared_path}/config/librato.yml"
+    template "salt.yml.erb", "#{shared_path}/config/salt.yml"
+    # template "librato.yml.erb", "#{shared_path}/config/librato.yml"
   end
   after "deploy:setup", "application_keys:setup"
 

@@ -29,12 +29,12 @@ PlinkPivotal::Application.configure do
 
   sendgrid_keys = YAML.load_file(Rails.root.join('config', 'sendgrid.yml'))[Rails.env]
   config.action_mailer.smtp_settings = {
-      :address        => 'smtp.sendgrid.net',
-      :port           => 25,
-      :domain         => 'plink.com',
-      :authentication => :plain,
-      :user_name      => sendgrid_keys['username'],
-      :password       => sendgrid_keys['password']
+    :address        => 'smtp.sendgrid.net',
+    :port           => 25,
+    :domain         => 'plink.com',
+    :authentication => :plain,
+    :user_name      => sendgrid_keys['username'],
+    :password       => sendgrid_keys['password']
   }
 
   config.contact_email_address = 'support@plink.com'

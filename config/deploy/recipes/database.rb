@@ -28,11 +28,11 @@ namespace :db do
   task :schema_load, roles: :app do
     raise "DO NOT RUN cap deploy:setup with RAILS_ENV=production!!!!" if rails_env == 'production'
 
-    run "cd #{current_path}; bundle exec rake db:schema:load RAILS_ENV=#{rails_env}"
-    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
-    run "cd #{current_path}; bundle exec rake db:udfs:create RAILS_ENV=#{rails_env}"
-    run "cd #{current_path}; bundle exec rake db:views:create RAILS_ENV=#{rails_env}"
-    run "cd #{current_path}; bundle exec rake db:stored_procs:create RAILS_ENV=#{rails_env}"
+   run "cd #{current_path}; bundle exec rake db:schema:load RAILS_ENV=#{rails_env}"
+   run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
+   run "cd #{current_path}; bundle exec rake db:udfs:create RAILS_ENV=#{rails_env}"
+   run "cd #{current_path}; bundle exec rake db:views:create RAILS_ENV=#{rails_env}"
+   run "cd #{current_path}; bundle exec rake db:stored_procs:create RAILS_ENV=#{rails_env}"
   end
   after 'db:setup', 'db:schema_load'
 
