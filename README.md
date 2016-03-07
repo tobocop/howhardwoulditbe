@@ -297,9 +297,14 @@ You can now access the application at:
 
 - As the `root` user on the server issue the following:
   * `apt-get update`
-  * `apt-get install make curl nodejs libapache2-mod-xsendfile`
+  * `apt-get install make curl nodejs libapache2-mod-xsendfile libpq-dev`
   * `apt-get install freetds-dev unixodbc-dev unixodbc-bin unixodbc`
 
+### Accident Insurance
+
+- Setup root terminal coloring, as root:
+  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
+  * `source /home/deployer/.bashrc`
 
 #### Creating deployer
 
@@ -327,12 +332,6 @@ You can now access the application at:
   * `sudo ls`
   * the above command also shouldn't prompt for a password
   * `exit` to get back to `deployer` user prompt that is not using `SSH`
-
-### Accident Insurance
-
-- Setup root terminal coloring, as root:
-  * `vim /home/deployer/.bashrc` and add `PS1='\e[41;1m\u@\h: \W \e[m \$ '`
-  * `source /home/deployer/.bashrc`
 
 ### Enabling Users to Deploy
 
@@ -393,6 +392,7 @@ You can now access the application at:
    * `cap deploy:check`
    * The above command should return `You appear to have all necessary dependencies installed`
    * `cap deploy:cold` (you will not want to use this command unless this is a first deployment, use `cap deploy` instead)
+   * `cap deploy:create_symlink` (you will not want to use this command unless this is a first deployment, use `cap deploy` instead)
    * `cap unicorn:restart` (you may need to issue `cap unicorn:start`)
 
 - **_DISCLAIMER_** about `unicorn`s and `rubygems` : Whenever a release incldues a gem installation, you will want to keep an eye on `current/log/unicorn_access.log` and the  `unicorn_error.log` as well. Sometimes gem installations can cause the unicorns to spin into a `kill/spawn` (infinite) loop. To remedy this, issue:
