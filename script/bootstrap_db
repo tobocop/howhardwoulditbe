@@ -1,0 +1,7 @@
+#!/bin/bash
+#bundle exec rake db:schema:load
+bundle exec rake db:seed
+bundle exec rake db:udfs:create
+bundle exec rake db:views:create
+bundle exec rake db:stored_procs:create
+

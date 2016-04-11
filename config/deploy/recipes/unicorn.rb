@@ -8,6 +8,7 @@ set_default :unicorn_config, "#{current_path}/config/unicorn.rb"
 namespace :unicorn do
   desc "Setup Unicorn initializer and app configuration"
   task :setup, roles: :app do
+    run "mkdir -p #{shared_path}/sockets"
     run "mkdir -p #{shared_path}/config"
     template "unicorn.rb.erb", unicorn_config
     template "unicorn_init.erb", "/tmp/unicorn_init"

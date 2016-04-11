@@ -20,5 +20,5 @@ namespace :delayed_job do
     end
 
   end
-  after 'deploy:update', 'delayed_job:restart_named_queues'
+  #after 'deploy:update', 'delayed_job:restart_named_queues'
 end
