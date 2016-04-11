@@ -1,0 +1,10 @@
+development:
+  issuer_id: 'ecopromise_test.344271.cc.dev-intuit.ipp.prod'
+  consumer_key: 'qyprddmSzZ7uzU5XOMVJZlAsAxWHT4'
+  consumer_secret: 'nUZ4oVcfOFXknjrUc6p0spOMUnh86ZAWTeQTMmIn'
+  certificate_path: '/Users/tobyrumans/plink_code/testapp1.key'
+test:
+  issuer_id: 'ecopromise_test.344271.cc.dev-intuit.ipp.prod'
+  consumer_key: 'qyprddmSzZ7uzU5XOMVJZlAsAxWHT4'
+  consumer_secret: 'nUZ4oVcfOFXknjrUc6p0spOMUnh86ZAWTeQTMmIn'
+  certificate_path: '/Users/tobyrumans/plink_code/testapp1.key'

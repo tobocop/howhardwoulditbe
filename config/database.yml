@@ -1,0 +1,17 @@
+development:
+  adapter: sqlserver
+  dsn: Provider=SQLOLEDB;Data Source=SCADA\SQLEXPRESS;UID=tobocop;password;Initial Catalog=plink;
+  database: retrobean_dev
+  host: retrobean.cuuxszjinlld.us-west-2.rds.amazonaws.com
+  port: 1433
+  username: retro
+  password: jWDwwdTWhx79bQWHJiNk
+
+test:
+  adapter: sqlserver
+  dsn: Provider=SQLOLEDB;Data Source=SCADA\SQLEXPRESS;UID=tobocop;password;Initial Catalog=plink;
+  database: retrobean_test
+  host: retrobean.cuuxszjinlld.us-west-2.rds.amazonaws.com
+  port: 1433
+  username: retro
+  password: jWDwwdTWhx79bQWHJiNk

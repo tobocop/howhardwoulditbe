@@ -1,0 +1,8 @@
+development:
+  base_url: https://int.tangocard.com
+  username: username
+  password: password
+
+test:
+
+review:

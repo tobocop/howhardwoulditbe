@@ -1,0 +1,8 @@
+development:
+  site_id: number
+  password: pass
+  mailing_list_id: mlidfromlyris
+
+test:
+
+
